@@ -2,43 +2,46 @@
 <html lang="en-US">
 
 <head>
-  <link rel="stylesheet" href="/css/styles.css">
-        <title>Guide for the domain</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Guide for the domain</title>
 </head>
 
 <body>
     <h1>READ ME</h1>
-<ul>
-    <li><b>Check if apache is running/active:</b></li>
-    <li>sudo systemctl status apache2</li>
-    <hr>
-    <li><b>If apache not running:</b></li>
-    <li>sudo systemctl start apache2</li>
-    <hr>
-    <li><b>Check firewall, look for "Apache Full":</b></li>
-    <li>sudo ufw status</li>
-    <br>
-    <li><b>If not there:</b></li>
-    <li>sudo ufw allow "Apache Full"</li>
-    <hr>
-    <li><b>Make sure namecheap.com has</b></li>
-    <li>Host: @ Value: <small>check original file for ip</small> TTL: automatic</li>
-    <br>
-    <li><b>Value can be found by:</b></li>
-    <li>curl -4 ifconfig.me</li>
-    <hr>
-    <li><b>On the Xfinity app, make sure ports are forwarded for port 80 and 443 to key-To-Be-Filled-By-O-E-M</b></li>
-    <hr>
-    <li><b>ip for key-To-Be-Filled-By-O-E-M can be found by:</b></li>
-    <li>hostname -I</li>
-    <li>It should be the first ip, something like 10.0.0.154</li>
-    <hr>
-    <li><b>TO FIND HTML FILE:</b></li>
-    <li>cd /var/www/html/</li>
-    <hr>
-    <li><b>TO EDIT HTML FILE:</b></li>
-    <li>sudo nano index.html</li>
-</ul>
-</body> 
+    <ul>
+        <li><b>Check if apache is running/active:</b></li>
+        <li>sudo systemctl status apache2</li>
+        <hr>
+        <li><b>If apache not running:</b></li>
+        <li>sudo systemctl start apache2</li>
+        <hr>
+        <li><b>Check firewall, look for "Apache Full":</b></li>
+        <li>sudo ufw status</li>
+        <br>
+        <li><b>If not there:</b></li>
+        <li>sudo ufw allow "Apache Full"</li>
+        <hr>
+        <li><b>Make sure namecheap.com has</b></li>
+        <li>Host: @ Value: <small>check original file for ip</small> TTL: automatic</li>
+        <br>
+        <li><b>Value can be found by:</b></li>
+        <li>curl -4 ifconfig.me</li>
+        <hr>
+        <li><b>On the Xfinity app, make sure ports are forwarded for port 80 and 443 to key-To-Be-Filled-By-O-E-M</b>
+        </li>
+        <hr>
+        <li><b>ip for key-To-Be-Filled-By-O-E-M can be found by:</b></li>
+        <li>hostname -I</li>
+        <li>It should be the first ip, something like 10.0.0.154</li>
+        <hr>
+        <li><b>TO FIND HTML FILE:</b></li>
+        <li>cd /var/www/html/</li>
+        <hr>
+        <li><b>TO EDIT HTML FILE:</b></li>
+        <li>sudo nano index.html</li>
+    </ul>
+</body>
 
 </html>
