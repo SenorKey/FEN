@@ -74,6 +74,9 @@ git stash pop                # Re-apply stashed changes
 git branch                   # List branches
 git checkout -b new-branch   # Create and switch to a new branch
 git merge branch-name        # Merge a branch into current branch
+git remote -v                # Checks which repo you're in and pointed at
+git status                   # Will either show you your branch and file status, 
+                             # or tell you you're not in a repo.
 ```
 
 ---
