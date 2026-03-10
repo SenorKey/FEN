@@ -48,6 +48,21 @@ cd /var/www/html/
 git pull origin main
 ```
 
+### Making a New Repo
+```bash
+Step 1: create new repo on GitHub first and get the URL for it
+Step 2: Navigate to the local project folder on your machine
+git init                    #Creates a hidden .git folder in your project folder.
+git add .
+git commit -m "your initial commit comment/description"
+git remote add origin https://github.com/yourusername/your-repo.git
+git branch -M main
+git push -u origin main
+
+#if the URL is wrong fix it with:
+git remote set-url origin https://github.com/yourusername/your-repo.git
+```
+
 ### Useful Git Commands
 ```bash
 git log --oneline            # See recent commit history
