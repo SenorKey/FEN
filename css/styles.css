@@ -141,14 +141,14 @@ body {
   color: var(--ink);
 }
 
-h3.sub {
+h2.sub, h3.sub {
   font-family: 'Playfair Display', serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 6px;
 }
 
-p.body-text + h3.sub {
+p.body-text + h2.sub, p.body-text + h3.sub {
   margin-top: 20px;
 }
 
