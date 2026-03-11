@@ -1,9 +1,182 @@
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-display-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fonts/playfair-display-latin-700-italic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-300-normal.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:       #f7eff2;
+  --ink:      #1a1a1a;
+  --muted:    #6b5c62;
+  --accent:   #c0687a;
+  --rule:     rgba(26, 26, 26, 0.12);
+  --phi-major: 61.8%;
+  --phi-minor: 38.2%;
+}
+
 body {
-    background-color: #f7eff2;
-  }
-  h1 {
-    color: #1A1A1A;
-  }
-  P {
-    color: #1A1A1A;
-  }
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Golden ratio layout shell ── */
+
+.gr-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gr-top {
+  flex: 0 0 var(--phi-major);
+  border-bottom: 1px solid var(--rule);
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.gr-bottom {
+  flex: 0 0 var(--phi-minor);
+  display: flex;
+  overflow: hidden;
+}
+
+.gr-left {
+  flex: 0 0 var(--phi-major);
+  border-right: 1px solid var(--rule);
+  padding: 32px 56px;
+  overflow-y: auto;
+}
+
+.gr-right {
+  flex: 0 0 var(--phi-minor);
+  padding: 32px 36px;
+  overflow-y: auto;
+}
+
+/* ── Typography ── */
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-top: 10px;
+  font-weight: 300;
+  max-width: 480px;
+}
+
+.accent-bar {
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+  margin-bottom: 20px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.body-text {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+h3.sub {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+p.body-text + h3.sub {
+  margin-top: 20px;
+}
+
+/* ── Links ── */
+
+.nav-links {
+  list-style: none;
+}
+
+.nav-links li {
+  margin-bottom: 10px;
+}
+
+.nav-links a {
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: gap 0.2s;
+}
+
+.nav-links a:hover {
+  gap: 10px;
+}
+
+.nav-links a::before {
+  content: '→';
+}
