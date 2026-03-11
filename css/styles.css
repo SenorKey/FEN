@@ -80,6 +80,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  position: relative;
+}
+
+.gr-top-art {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  object-position: right center;
+  pointer-events: none;
 }
 
 .gr-bottom {
