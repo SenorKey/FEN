@@ -90,7 +90,7 @@ body {
   height: 100%;
   width: auto;
   object-fit: cover;
-  object-position: left center;
+  object-position: right center;
   pointer-events: none;
 }
 
