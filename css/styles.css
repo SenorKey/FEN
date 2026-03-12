@@ -76,7 +76,7 @@ body {
 }
 
 .gr-top {
-  background: linear-gradient(to left, var(--bg), #ead9e0 25%);
+  background: linear-gradient(to left, var(--bg), #ead9e0 80%);
   flex: 0 0 var(--phi-major);
   border-bottom: 1px solid var(--rule);
   padding: 48px 56px;
