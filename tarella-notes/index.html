@@ -191,6 +191,21 @@
         </div>
 
     </div>
+
+    <script>
+        function cyclePhone() {
+            const imgs = document.querySelectorAll('.phone-img');
+            const dots = document.querySelectorAll('.phone-dot');
+            let current = Array.from(imgs).findIndex(img => img.classList.contains('active'));
+            let next = (current + 1) % imgs.length;
+
+            imgs[current].classList.remove('active');
+            imgs[next].classList.add('active');
+
+            dots[current].classList.remove('active');
+            dots[next].classList.add('active');
+        }
+    </script>
 </body>
 
 </html>
