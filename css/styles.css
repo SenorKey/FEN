@@ -112,6 +112,7 @@ body {
 }
 
 .gr-right {
+  background: linear-gradient(to right, var(--bg) 45%, #ead9e0);
   flex: 0 0 var(--phi-minor);
   padding: 32px 36px;
   overflow-y: auto;
