@@ -159,3 +159,12 @@ find /path -name "filename"       # Find a file by name
 grep -r "search term" /path/      # Search inside files recursively
 which command-name                # Find where a command lives
 ```
+
+---
+
+## Misc
+
+### Original Accent Color
+```bash
+--accent: #c0687a;
+```
