@@ -133,7 +133,7 @@ body {
   color: var(--muted);
   margin-top: 10px;
   font-weight: 300;
-  max-width: 10%;
+  max-width: 25%;
 }
 
 .accent-bar {
