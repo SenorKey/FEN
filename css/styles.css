@@ -2,7 +2,7 @@
    styles.css — Shared base for all pages
    frontendneeded.com
    ═══════════════════════════════════════════════ */
- 
+
 /* ── Fonts ── */
 
 @font-face {
@@ -61,7 +61,8 @@
   --bg: #f7eff2;
   --ink: #1a1a1a;
   --muted: #6b5c62;
-  --accent: #cb1a3d;  /*original is #c0687a*/
+  --accent: #cb1a3d;
+  /*original is #c0687a*/
   --rule: rgba(26, 26, 26, 0.12);
   --phi-major: 61.8%;
   --phi-minor: 38.2%;
@@ -247,4 +248,53 @@ p.body-text+h3.sub {
 
 .site-nav .nav-home:hover {
   color: #d47f8f;
+}
+
+/* ── Nav dropdown ── */
+
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-dropdown>a::after {
+  content: ' ›';
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--ink);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 160px;
+  padding: 6px 0;
+  z-index: 100;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 9px 18px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a.active {
+  color: #ffffff;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  display: block;
 }
