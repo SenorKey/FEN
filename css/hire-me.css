@@ -2,3 +2,45 @@
    hire-me.css — Styles specific to /hire-me
    frontendneeded.com
    ═══════════════════════════════════════════════ */
+
+/* ── Resume entries ── */
+
+.resume-entry {
+    margin-bottom: 22px;
+  }
+  
+  .resume-entry:last-child {
+    margin-bottom: 0;
+  }
+  
+  .job-meta {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+  
+  /* ── Resume bullet list ── */
+  
+  .resume-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .resume-list li.body-text {
+    padding-left: 14px;
+    position: relative;
+  }
+  
+  .resume-list li.body-text::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 500;
+  }
