@@ -2,3 +2,7 @@
    privacy.css — Styles specific to /tarella-privacy-policy
    frontendneeded.com
    ═══════════════════════════════════════════════ */
+
+:root {
+   --accent: #8f3160;
+}

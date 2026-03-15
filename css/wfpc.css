@@ -2,3 +2,7 @@
    wfpc.css — Styles specific to /wfpc
    frontendneeded.com
    ═══════════════════════════════════════════════ */
+
+:root {
+   --accent: #3867be;
+}
