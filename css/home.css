@@ -92,6 +92,7 @@ body.egg-dragging .egg-slot {
 /* ── Easter egg: color picker ───────────────────────────────── */
 
 #egg-color-picker {
+   visibility: hidden;  /* hides it but keeps its space/position */
    display: none;
    margin-top: 16px;
    width: 36px;
