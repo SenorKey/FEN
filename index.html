@@ -219,48 +219,42 @@
 
       });
 
-      // ── Drop zone setup ─────────────────────────────────────
+      // ── Drop zone: entire gr-right ──────────────────────────
+      // Drop anywhere in gr-right — we find the correct slot by
+      // letter and place it automatically. No pixel precision needed.
 
-      slots.forEach(function (slot) {
+      var grRight = document.querySelector('.gr-right');
 
-        slot.addEventListener('dragover', function (e) {
-          if (currentDragLetter === slot.dataset.target && !slot.classList.contains('egg-filled')) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-            slot.classList.add('egg-drag-over');
-          }
-        });
-
-        slot.addEventListener('dragleave', function () {
-          slot.classList.remove('egg-drag-over');
-        });
-
-        slot.addEventListener('drop', function (e) {
+      grRight.addEventListener('dragover', function (e) {
+        if (currentDragLetter && !placed[currentDragLetter]) {
           e.preventDefault();
-          slot.classList.remove('egg-drag-over');
+          e.dataTransfer.dropEffect = 'move';
+        }
+      });
 
-          var letter = e.dataTransfer.getData('text/plain');
+      grRight.addEventListener('drop', function (e) {
+        e.preventDefault();
+        var letter = currentDragLetter;
+        if (!letter || placed[letter]) return;
 
-          if (letter === slot.dataset.target && !slot.classList.contains('egg-filled')) {
-            slot.textContent = letter;
-            slot.classList.add('egg-filled');
-            // Filled slots stay visible permanently — clear inline style so
-            // the .egg-filled CSS rule takes over cleanly
-            slot.style.opacity = '';
-            slot.style.pointerEvents = '';
-            placed[letter] = true;
+        // Find this letter's slot and fill it
+        var targetSlot = document.querySelector('.egg-slot[data-target="' + letter + '"]');
+        if (!targetSlot) return;
 
-            if (currentDragSource) {
-              currentDragSource.classList.add('egg-used');
-              currentDragSource.classList.remove('egg-invisible');
-            }
+        targetSlot.textContent = letter;
+        targetSlot.classList.add('egg-filled');
+        targetSlot.style.opacity = '';
+        targetSlot.style.pointerEvents = '';
+        placed[letter] = true;
 
-            if (allLetters.every(function (l) { return placed[l]; })) {
-              onVolumeComplete();
-            }
-          }
-        });
+        if (currentDragSource) {
+          currentDragSource.classList.add('egg-used');
+          currentDragSource.classList.remove('egg-invisible');
+        }
 
+        if (allLetters.every(function (l) { return placed[l]; })) {
+          onVolumeComplete();
+        }
       });
 
       // ── Completion handler (phase 2 will go here) ───────────
