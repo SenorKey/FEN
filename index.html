@@ -199,7 +199,7 @@
           e.dataTransfer.setDragImage(ghost, 14, 18);
           setTimeout(function () { document.body.removeChild(ghost); }, 0);
 
-          // Hide original letter and reveal slots — both via setTimeout so
+          // Hide original letter and reveal slots. Both via setTimeout so
           // the browser has already captured the drag image before we mutate
           setTimeout(function () {
             span.classList.add('egg-invisible');
@@ -259,7 +259,9 @@
       // ── Completion handler (phase 2 will go here) ───────────
 
       function onVolumeComplete() {
-        console.log('🔊 volume spelled — phase 2 incoming');
+        var sound = new Audio('/audio/igorrrTPM.mp3');
+        sound.volume = .6;
+        sound.play();
       }
 
     })();
