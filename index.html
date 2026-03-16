@@ -273,9 +273,14 @@
 
         var picker = document.getElementById('egg-color-picker');
         picker.style.visibility = 'visible';
-        
+
         picker.addEventListener('input', function () {
           sound.volume = getBrightness(picker.value);
+
+          var color = picker.value;
+          document.querySelector('.gr-top').style.background = color;
+          document.querySelector('.gr-left').style.background = color;
+          document.querySelector('.gr-right').style.background = color;
         });
       }
 
