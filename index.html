@@ -62,7 +62,7 @@
         <p class="section-label">Hey, I'm Key!</p>
 
         <h2 class="sub">Who</h2>
-        <p class="body-text">I'm a 30y/o CompSci grad that loves to play video games, think about philosophy, and build
+        <p class="body-text">I'm a 30y/o CompSci grad that loves to play video games, think about philosophy/<span class="egg-letter" data-letter="e" draggable="true">e</span>thics, and build
           things with software and hardware. I love watching NFL, UFC, boxing, anime, and various youtube channels. 
           As much as I was an athletic outdoors kid, I grew up on the internet and have always loved being online to 
           talk to friends, play games, and see what's going on in the real world as it happens.
@@ -70,25 +70,25 @@
 
         <h2 class="sub">What</h2>
         <p class="body-text">This is my own personal website I've hosted for over a year 24/7. I've only recently felt
-          the need to update it and make it more than just a place for my iOS app's privacy policy. As I build onto it,
-          this will be a place to show off random projects, test SEO practices, learn new things, and share my more
+          the need to update it and make it more than just a place for my iOS app's privacy policy. As I build <span class="egg-letter" data-letter="u" draggable="true">u</span>pon it,
+          this will be an <span class="egg-letter" data-letter="o" draggable="true">o</span>pportunity to show off random projects, test SEO practices, learn new things, and share my more
           creative thoughts and ideas.
         </p>
 
         <h2 class="sub">When</h2>
         <p class="body-text">I first registered this domain early in 2025. I don't even really remember why, but I do remember that
-          I thought the name would be funny. Mostly because I always thought myself more of a mathematical, backend kind of guy and
+          I thought the name would be funny. Mostly because I always thought myself more of a <span class="egg-letter" data-letter="v" draggable="true">v</span>irtuous, backend kind of guy and
           felt if I ever built out this website it'd have absolutely no frontend and would look awful forever. I'd like to
           think I'm proving myself wrong in that regard but I'm still new to this so maybe it's still guppy-tier.
         </p>
 
         <h2 class="sub">Where</h2>
         <p class="body-text">I was born and raised in Florida. Went to UNF in Jacksonville for my degree. I'm currently
-          living near the school in the 32246 area. I try to visit my beautiful girfriend in the Philippines as often as I can.
+          living near the school in the 32246 area. I try to visit my beautiful girfriend who <span class="egg-letter" data-letter="l" draggable="true">l</span>ives in the Philippines as often as I can.
         </p>
 
         <h2 class="sub">Why</h2>
-        <p class="body-text">After being laid off from my most recent job, I've had a lot of time to decide what things
+        <p class="body-text">After being laid off from <span class="egg-letter" data-letter="m" draggable="true">m</span>y most recent job, I've had a lot of time to decide what things
           I want to spend my time learning and improving at.
           I feel like my past self has almost laid out the pieces for me all along; getting my CS degree, working as a
           maintenance man and learning how to tinker safely and ambitiously, building my third PC, setting up my old PC
@@ -109,9 +109,143 @@
           <li><a href="mailto:kijananyc@gmail.com">Email Me Suggestions</a></li>
         </ul>
       </div>
+
+      <div class="egg-drop-column" id="eggDropColumn">
+        <div class="egg-slot" data-target="v"></div>
+        <div class="egg-slot" data-target="o"></div>
+        <div class="egg-slot" data-target="l"></div>
+        <div class="egg-slot" data-target="u"></div>
+        <div class="egg-slot" data-target="m"></div>
+        <div class="egg-slot" data-target="e"></div>
+      </div>
+
     </div>
 
   </div>
+
+  <script>
+    (function () {
+ 
+      const allLetters = ['v', 'o', 'l', 'u', 'm', 'e'];
+      const placed = {};
+      let currentDragLetter = null;
+      let currentDragSource = null;
+ 
+      // ── Draggable letter setup ──────────────────────────────
+ 
+      document.querySelectorAll('.egg-letter').forEach(function (span) {
+ 
+        span.addEventListener('dragstart', function (e) {
+          // Don't allow re-dragging a letter that's already been placed
+          if (span.classList.contains('egg-used')) {
+            e.preventDefault();
+            return;
+          }
+ 
+          currentDragLetter = span.dataset.letter;
+          currentDragSource = span;
+          e.dataTransfer.setData('text/plain', span.dataset.letter);
+          e.dataTransfer.effectAllowed = 'move';
+ 
+          // Create a more visible drag ghost than a lone tiny character
+          var ghost = document.createElement('div');
+          ghost.textContent = span.dataset.letter;
+          ghost.setAttribute('style', [
+            'position:fixed',
+            'top:-200px',
+            'left:-200px',
+            'font-family:DM Sans,sans-serif',
+            'font-size:1.1rem',
+            'font-weight:500',
+            'color:#1a1a1a',
+            'background:#f7eff2',
+            'border:1px solid rgba(26,26,26,0.15)',
+            'border-radius:4px',
+            'padding:4px 10px',
+            'box-shadow:0 2px 8px rgba(0,0,0,0.12)',
+            'pointer-events:none'
+          ].join(';'));
+          document.body.appendChild(ghost);
+          e.dataTransfer.setDragImage(ghost, 14, 18);
+          // Remove ghost element after browser captures it
+          setTimeout(function () {
+            document.body.removeChild(ghost);
+          }, 0);
+ 
+          // Show the drop column, hide the original letter
+          document.body.classList.add('egg-dragging');
+          setTimeout(function () {
+            span.classList.add('egg-invisible');
+          }, 0);
+        });
+ 
+        span.addEventListener('dragend', function () {
+          document.body.classList.remove('egg-dragging');
+          // If the letter wasn't successfully placed, make it visible again
+          if (currentDragSource && !currentDragSource.classList.contains('egg-used')) {
+            currentDragSource.classList.remove('egg-invisible');
+          }
+          currentDragLetter = null;
+          currentDragSource = null;
+        });
+ 
+      });
+ 
+      // ── Drop zone setup ─────────────────────────────────────
+ 
+      document.querySelectorAll('.egg-slot').forEach(function (slot) {
+ 
+        slot.addEventListener('dragover', function (e) {
+          // Only accept the correct letter for this slot
+          if (currentDragLetter === slot.dataset.target && !slot.classList.contains('egg-filled')) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            slot.classList.add('egg-drag-over');
+          }
+        });
+ 
+        slot.addEventListener('dragleave', function () {
+          slot.classList.remove('egg-drag-over');
+        });
+ 
+        slot.addEventListener('drop', function (e) {
+          e.preventDefault();
+          slot.classList.remove('egg-drag-over');
+ 
+          var letter = e.dataTransfer.getData('text/plain');
+ 
+          if (letter === slot.dataset.target && !slot.classList.contains('egg-filled')) {
+            // Place the letter
+            slot.textContent = letter;
+            slot.classList.add('egg-filled');
+            placed[letter] = true;
+ 
+            // Permanently hide the source letter (space remains)
+            if (currentDragSource) {
+              currentDragSource.classList.add('egg-used');
+              currentDragSource.classList.remove('egg-invisible');
+            }
+ 
+            // Check if all six are placed
+            if (allLetters.every(function (l) { return placed[l]; })) {
+              onVolumeComplete();
+            }
+          }
+        });
+ 
+      });
+ 
+      // ── Completion handler (phase 2 will go here) ───────────
+ 
+      function onVolumeComplete() {
+        // Phase 2: audio + color picker + visualizer
+        // This will be filled in during the next build step.
+        console.log('🔊 volume spelled — phase 2 incoming');
+      }
+ 
+    })();
+  </script>
+
 </body>
 
 </html>
