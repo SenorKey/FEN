@@ -88,3 +88,17 @@ body.egg-dragging .egg-slot {
    color: var(--accent);
    border-color: var(--accent);
 }
+
+/* ── Easter egg: color picker ───────────────────────────────── */
+
+#egg-color-picker {
+   display: none;
+   margin-top: 16px;
+   width: 36px;
+   height: 36px;
+   border: none;
+   border-radius: 50%;
+   padding: 0;
+   cursor: pointer;
+   background: none;
+ }
