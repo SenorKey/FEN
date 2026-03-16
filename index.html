@@ -325,7 +325,7 @@
           var rgb = hexToRgb(pickerColor);
 
           // Gradient radius: 15% at silence → up to 120% on a hard beat
-          var radius = 2 + energy * 500;
+          var radius = 2 + energy * 100;
 
           // Opacity: subtle at low energy, vivid at peak
           var alpha = 0.08 + energy * 0.80;
