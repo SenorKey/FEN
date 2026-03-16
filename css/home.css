@@ -39,36 +39,33 @@
   
  /* ── Easter egg: gr-right layout ───────────────────────────── */
   
- /* Splits gr-right into links (left) and drop column (right) */
- .egg-right-layout {
+/* Stacks links on top, drop row below */
+.egg-right-layout {
    display: flex;
-   justify-content: space-between;
+   flex-direction: column;
    align-items: flex-start;
+   gap: 24px;
    width: 100%;
-   height: 100%;
  }
   
  .egg-right-links {
-   /* Takes up natural width, leaves room for drop column */
-   flex: 1;
+   width: 100%;
  }
   
   
- /* ── Easter egg: drop column ────────────────────────────────── */
+ /* ── Easter egg: drop row ────────────────────────────────── */
   
- .egg-drop-column {
+ /* Horizontal row spelling v-o-l-u-m-e, sits below links */
+.egg-drop-column {
    display: flex;
-   flex-direction: column;
-   gap: 6px;
-   flex-shrink: 0;
-   /* Nudge to align nicely with the section-label top of links */
-   padding-top: 2px;
+   flex-direction: row;
+   gap: 8px;
  }
   
  /* Individual slot — each one is a single letter's drop target */
  .egg-slot {
-   width: 22px;
-   height: 30px;
+   width: 28px;
+   height: 34px;
    /* Underline style hint */
    border-bottom: 2px solid var(--rule);
    display: flex;
