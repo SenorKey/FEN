@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════ */
 
 /* ── Easter egg: draggable letters ─────────────────────────── */
- 
+
 .egg-letter {
    cursor: grab;
    transition: color 0.2s;
@@ -13,32 +13,32 @@
    -webkit-user-select: none;
    /* Ensure Safari treats the span as draggable */
    -webkit-user-drag: element;
- }
-  
- .egg-letter:hover {
+}
+
+.egg-letter:hover {
    color: var(--accent);
- }
-  
- .egg-letter:active {
+}
+
+.egg-letter:active {
    cursor: grabbing;
- }
-  
- /* While dragging: original character becomes invisible,
+}
+
+/* While dragging: original character becomes invisible,
     but the space it occupied stays — text doesn't reflow */
- .egg-letter.egg-invisible {
+.egg-letter.egg-invisible {
    color: var(--bg);
- }
-  
- /* After successfully placed: permanently invisible, no longer interactive */
- .egg-letter.egg-used {
+}
+
+/* After successfully placed: permanently invisible, no longer interactive */
+.egg-letter.egg-used {
    color: var(--bg);
    cursor: default;
    pointer-events: none;
- }
-  
-  
- /* ── Easter egg: gr-right layout ───────────────────────────── */
-  
+}
+
+
+/* ── Easter egg: gr-right layout ───────────────────────────── */
+
 /* Stacks links on top, drop row below */
 .egg-right-layout {
    display: flex;
@@ -46,24 +46,24 @@
    align-items: flex-start;
    gap: 24px;
    width: 100%;
- }
-  
- .egg-right-links {
+}
+
+.egg-right-links {
    width: 100%;
- }
-  
-  
- /* ── Easter egg: drop row ────────────────────────────────── */
-  
- /* Horizontal row spelling v-o-l-u-m-e, sits below links */
+}
+
+
+/* ── Easter egg: drop row ────────────────────────────────── */
+
+/* Horizontal row spelling v-o-l-u-m-e, sits below links */
 .egg-drop-column {
    display: flex;
    flex-direction: row;
    gap: 8px;
- }
-  
- /* Individual slot — each one is a single letter's drop target */
- .egg-slot {
+}
+
+/* Individual slot — each one is a single letter's drop target */
+.egg-slot {
    width: 28px;
    height: 34px;
    /* Underline style hint */
@@ -80,25 +80,25 @@
    opacity: 0;
    pointer-events: none;
    transition: opacity 0.2s, border-color 0.2s, background 0.2s;
- }
-  
- /* Reveal all empty slots only while a letter is being dragged */
- body.egg-dragging .egg-slot {
+}
+
+/* Reveal all empty slots only while a letter is being dragged */
+body.egg-dragging .egg-slot {
    opacity: 1;
    pointer-events: all;
- }
-  
- /* Correct letter hovering over its slot */
- .egg-slot.egg-drag-over {
+}
+
+/* Correct letter hovering over its slot */
+.egg-slot.egg-drag-over {
    border-color: var(--accent);
    background: rgba(145, 103, 35, 0.07);
    border-radius: 2px 2px 0 0;
- }
-  
- /* Filled slot: always visible, styled in accent color */
- .egg-slot.egg-filled {
+}
+
+/* Filled slot: always visible, styled in accent color */
+.egg-slot.egg-filled {
    opacity: 1;
    pointer-events: none;
    color: var(--accent);
    border-color: var(--accent);
- }
+}
