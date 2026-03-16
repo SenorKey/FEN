@@ -273,7 +273,6 @@
 
         var picker = document.getElementById('egg-color-picker');
         picker.style.visibility = 'visible';
-        setTimeout(function() { picker.click(); }, 0);
         
         picker.addEventListener('input', function () {
           sound.volume = getBrightness(picker.value);
