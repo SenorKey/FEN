@@ -3,6 +3,7 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
+
 /* ── Easter egg: draggable letters ─────────────────────────── */
 
 .egg-letter {
@@ -37,29 +38,14 @@
 }
 
 
-/* ── Easter egg: gr-right layout ───────────────────────────── */
+/* ── Easter egg: drop row ───────────────────────────────────── */
 
-/* Stacks links on top, drop row below */
-.egg-right-layout {
-   display: flex;
-   flex-direction: column;
-   align-items: flex-start;
-   gap: 24px;
-   width: 100%;
-}
-
-.egg-right-links {
-   width: 100%;
-}
-
-
-/* ── Easter egg: drop row ────────────────────────────────── */
-
-/* Horizontal row spelling v-o-l-u-m-e, sits below links */
+/* Sits below the links, no wrapper needed */
 .egg-drop-column {
    display: flex;
    flex-direction: row;
    gap: 8px;
+   margin-top: 24px;
 }
 
 /* Individual slot — each one is a single letter's drop target */
