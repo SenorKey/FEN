@@ -87,7 +87,7 @@
 
 .chat-ai {
     align-self: flex-start;
-    background: rgba(26, 26, 26, 0.06);
+    background: rgba(50, 58, 167, 0.06); /*editing this one first*/
     border: 1px solid var(--rule);
 }
 
