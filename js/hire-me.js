@@ -41,6 +41,7 @@
         setEnabled(false);
 
         history.push({ role: 'user', content: text });
+        history = history.slice(-20);
 
         var typing = addTyping();
 
@@ -63,6 +64,7 @@
                 : 'Sorry, something went wrong. Try again.';
 
             history.push({ role: 'assistant', content: reply });
+            history = history.slice(-20);
 
             typing.remove();
             addMessage(reply, 'assistant');
