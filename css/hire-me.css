@@ -93,7 +93,7 @@
 
 .chat-user {
     align-self: flex-end;
-    background: var(--ink);
+    background: #2F80ED;
     color: #fff;
 }
 
@@ -163,7 +163,7 @@
     height: 38px;
     border: none;
     border-radius: 6px;
-    background: rgba(50, 58, 167, 0.06); /*editing this one first*/
+    background: var(--ink);
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
