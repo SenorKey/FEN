@@ -48,3 +48,137 @@
     color: var(--accent);
     font-weight: 500;
 }
+
+/* ── Chat panel layout ── */
+
+.chat-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+}
+
+.chat-panel .section-label {
+    flex-shrink: 0;
+}
+
+/* ── Message area ── */
+
+.chat-scroll {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 12px 0;
+}
+
+.chat-msg {
+    max-width: 92%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.chat-msg .body-text {
+    font-size: 0.85rem;
+}
+
+.chat-ai {
+    align-self: flex-start;
+    background: rgba(26, 26, 26, 0.06);
+    border: 1px solid var(--rule);
+}
+
+.chat-user {
+    align-self: flex-end;
+    background: var(--ink);
+    color: #fff;
+}
+
+/* ── Typing indicator ── */
+
+.chat-typing {
+    align-self: flex-start;
+    padding: 10px 18px;
+    background: rgba(26, 26, 26, 0.06);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.chat-typing span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: typingDot 1.2s infinite;
+}
+
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingDot {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* ── Input row ── */
+
+.chat-input-row {
+    flex-shrink: 0;
+    display: flex;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+}
+
+.chat-input {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 9px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.chat-input::placeholder {
+    color: var(--muted);
+    font-weight: 300;
+}
+
+.chat-input:focus {
+    border-color: var(--ink);
+}
+
+.chat-send {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 6px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.chat-send:hover {
+    opacity: 0.8;
+}
+
+.chat-send:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
