@@ -87,7 +87,7 @@
 
 .chat-ai {
     align-self: flex-start;
-    background: rgba(50, 58, 167, 0.06); /*editing this one first*/
+    background: rgba(103, 103, 103, 0.06);
     border: 1px solid var(--rule);
 }
 
@@ -163,7 +163,7 @@
     height: 38px;
     border: none;
     border-radius: 6px;
-    background: var(--ink);
+    background: rgba(50, 58, 167, 0.06); /*editing this one first*/
     color: #fff;
     font-size: 1rem;
     cursor: pointer;
