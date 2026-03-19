@@ -139,7 +139,7 @@
         sound.volume = 0.6;
 
         // ── Web Audio API setup ──
-        // AudioContext must be created from a user gesture. The drop counts.
+        // AudioContext must be created from a user gesture — the drop counts.
         var AudioCtx = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioCtx();
 
@@ -175,47 +175,29 @@
 
         var dataArray = new Uint8Array(analyser.frequencyBinCount); // 128 values, 0-255
 
-        // ── Read energy from a slice of the frequency spectrum ──
-        // Called once per frame at the top of pulse() so all three reads
-        // share the same snapshot. startBin is inclusive, endBin is exclusive.
-        //
-        // Bin → frequency mapping (approx, at 44.1kHz sample rate, fftSize 256):
-        //   Each bin ≈ 172 Hz wide
-        //   Bins  0–7  : sub-bass / kick (~0–1.4kHz)
-        //   Bins  8–19 : low-mids / bass vocals (~1.4–3.4kHz)
-        //   Bins 20–49 : mids / vocal presence (~3.4–8.6kHz)
-        //   Bins 50–89 : highs / hi-hats / cymbals (~8.6–15.5kHz)
-        //
-        // Note: vocals can't be cleanly isolated from instruments because the
-        // analyser works on frequencies, not sources. Targeting the mids band
-        // (20–49) will feel vocal-driven during singing sections.
-        function getEnergy(startBin, endBin) {
+        // ── Read bass energy ──
+        // Bins 0-7 map to the lowest frequencies (~0-344 Hz at 44.1kHz sample rate).
+        // Averaging them gives a number from 0.0 to 1.0 that punches with kick/bass.
+        function getBassEnergy() {
+            analyser.getByteFrequencyData(dataArray);
             var sum = 0;
-            for (var i = startBin; i < endBin; i++) { sum += dataArray[i]; }
-            return sum / ((endBin - startBin) * 255);
+            var bassEnd = 8;
+            for (var i = 0; i < bassEnd; i++) { sum += dataArray[i]; }
+            return sum / (bassEnd * 255);
         }
 
         // ── Animation loop ──
         function pulse() {
-            // Snapshot the frequency data once — all three getEnergy calls read from this.
-            analyser.getByteFrequencyData(dataArray);
-
+            var energy = getBassEnergy();
             var rgb = hexToRgb(pickerColor);
 
-            // gr-top  → mids / vocal range (bins 20–49)
-            // gr-left → sub-bass / kick (bins 0–7)
-            // gr-right → highs / presence (bins 50–89)
-            var energies = [
-                getEnergy(20, 49),  // gr-top
-                getEnergy(0, 8),    // gr-left
-                getEnergy(50, 89)   // gr-right
-            ];
+            // Gradient radius: 15% at silence → up to 120% on a hard beat
+            var radius = 2 + energy * 100;
 
-            panels.forEach(function (panel, i) {
-                var energy = energies[i];
-                var radius = 2 + energy * 100;
-                var alpha  = 0.08 + energy * 1.20;
+            // Opacity: subtle at low energy, vivid at peak
+            var alpha = 0.08 + energy * 1.20;
 
+            panels.forEach(function (panel) {
                 panel.el.style.background =
                     'radial-gradient(circle at ' + panel.origin + ', ' +
                     'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ') ' +
