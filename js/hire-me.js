@@ -1,5 +1,24 @@
 (function () {
 
+    // ── Photo gallery ───────────────────────────────────────
+
+    var galleryBtn = document.querySelector('.photo-cycle-btn');
+    if (galleryBtn) {
+        galleryBtn.addEventListener('click', function () {
+            var imgs = document.querySelectorAll('.photo-img');
+            var dots = document.querySelectorAll('.photo-dot');
+            var current = Array.from(imgs).findIndex(function (img) {
+                return img.classList.contains('active');
+            });
+            var next = (current + 1) % imgs.length;
+
+            imgs[current].classList.remove('active');
+            imgs[next].classList.add('active');
+            dots[current].classList.remove('active');
+            dots[next].classList.add('active');
+        });
+    }
+
     var input = document.getElementById('chatInput');
     var btn = document.getElementById('chatSend');
     var scroll = document.getElementById('chatScroll');
