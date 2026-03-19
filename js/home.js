@@ -144,8 +144,8 @@
         var soundInst = new Audio('/audio/igorrrTPM-inst.mp3');
 
         soundFull.volume = 0.6;  // audible
-        soundVox.volume = 0;    // silent — analyser still reads it
-        soundInst.volume = 0;    // silent — analyser still reads it
+        //soundVox.volume = 0;    // silent — analyser still reads it
+        //soundInst.volume = 0;    // silent — analyser still reads it
 
         // ── Build source → analyser → gain → destination for each track ──
         function buildChain(sound, muted) {
