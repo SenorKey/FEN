@@ -7,6 +7,21 @@
     --accent: #ffffff;
 }
 
+.gr-top {
+    background: linear-gradient(to right, #b0b0b0bd, var(--bg) 45%);
+    /*ead9e0*/
+}
+
+.gr-left {
+    background: linear-gradient(to right, var(--bg) 45%, #b0b0b0);
+    /*ead9e0*/
+}
+
+.gr-right {
+    background: linear-gradient(to right, var(--bg) 45%, #b0b0b0);
+    /*ead9e0*/
+}
+
 /* ── Resume entries ── */
 
 .resume-entry {
