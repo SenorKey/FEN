@@ -61,7 +61,7 @@
   --bg: #f7eff2;
   --ink: #1a1a1a;
   --muted: #6b5c62;
-  --accent: #916723;
+  --accent: #c0687a;
   /*original is #c0687a*/
   --rule: rgba(26, 26, 26, 0.12);
   --phi-major: 61.8%;
@@ -90,7 +90,7 @@ body {
 }
 
 .gr-top {
-  background: linear-gradient(to right, #ead9e0, var(--bg) 45%);
+  background: linear-gradient(to right, #dbd1c2, var(--bg) 45%); /*ead9e0*/
   flex: 0 0 var(--phi-major);
   border-bottom: 1px solid var(--rule);
   padding: 48px 56px;
@@ -118,7 +118,7 @@ body {
 }
 
 .gr-left {
-  background: linear-gradient(to right, var(--bg) 45%, #ead9e0);
+  background: linear-gradient(to right, var(--bg) 45%, #dbd1c2); /*ead9e0*/
   flex: 0 0 var(--phi-major);
   border-right: 1px solid var(--rule);
   padding: 32px 56px;
@@ -126,7 +126,7 @@ body {
 }
 
 .gr-right {
-  background: linear-gradient(to right, var(--bg) 45%, #ead9e0);
+  background: linear-gradient(to right, var(--bg) 45%, #dbd1c2); /*ead9e0*/
   flex: 0 0 var(--phi-minor);
   padding: 32px 36px;
   overflow-y: auto;
@@ -247,7 +247,7 @@ p.body-text+h3.sub {
 }
 
 .site-nav .nav-home:hover {
-  color: #d47f8f;
+  color: #ffffff; /*d47f8f*/
 }
 
 /* ── Nav dropdown ── */

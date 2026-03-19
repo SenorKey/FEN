@@ -6,3 +6,14 @@
 :root {
    --accent: #3867be;
 }
+.gr-top {
+   background: linear-gradient(to right, #d0d7e6, var(--bg) 45%);
+   /*ead9e0*/
+ }
+ .gr-left {
+   background: linear-gradient(to right, var(--bg) 45%, #d0d7e6); /*ead9e0*/
+ }
+ 
+ .gr-right {
+   background: linear-gradient(to right, var(--bg) 45%, #d0d7e6); /*ead9e0*/
+ }

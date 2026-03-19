@@ -7,6 +7,21 @@
     --accent: #ffffff;
 }
 
+.gr-top {
+    background: linear-gradient(to right, #b0b0b0bd, var(--bg) 45%);
+    /*ead9e0*/
+}
+
+.gr-left {
+    background: linear-gradient(to right, var(--bg) 45%, #b0b0b0);
+    /*ead9e0*/
+}
+
+.gr-right {
+    background: linear-gradient(to right, var(--bg) 45%, #b0b0b0);
+    /*ead9e0*/
+}
+
 /* ── Resume entries ── */
 
 .resume-entry {
@@ -93,7 +108,8 @@
 
 .chat-user {
     align-self: flex-end;
-    background: #2F80ED;  /*user chat bubble color*/
+    background: #2F80ED;
+    /*user chat bubble color*/
     color: #fff;
 }
 
@@ -118,12 +134,27 @@
     animation: typingDot 1.2s infinite;
 }
 
-.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+.chat-typing span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.chat-typing span:nth-child(3) {
+    animation-delay: 0.4s;
+}
 
 @keyframes typingDot {
-    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
-    30% { opacity: 1; transform: translateY(-3px); }
+
+    0%,
+    60%,
+    100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
 }
 
 /* ── Input row ── */
@@ -181,4 +212,93 @@
 .chat-send:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+/* ── Photo gallery ──────────────────────────────────────────── */
+
+.photo-gallery {
+    position: absolute;
+    right: 6%;
+    bottom: 8%;
+    width: 40%;
+    height: 70%;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.photo-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.08),
+        0 0 0 1px var(--rule);
+}
+
+.photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.photo-img.active {
+    opacity: 1;
+}
+
+/* ── Gallery controls ── */
+
+.photo-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.photo-cycle-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(#000000);
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.18s, background 0.18s;
+}
+
+.photo-cycle-btn:hover {
+    transform: scale(1.1);
+    background: #a87830;
+}
+
+.photo-dot-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+.photo-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(145, 103, 35, 0.25);
+    transition: background 0.3s;
+}
+
+.photo-dot.active {
+    background: var(--accent);
 }
