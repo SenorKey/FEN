@@ -37,4 +37,13 @@ Changes are pushed to GitHub from either machine, then pulled on the server:
 git pull origin main
 ```
 
+## Local Development
+
+To preview the site locally, run this from the project root:
+```bash
+python3 -m http.server 8080
+```
+
+Then open `http://localhost:8080`. Note: the `/api/chat` endpoint on the hire-me page requires the Ollama instance running on the live server and won't work locally.
+
 from `/var/www/frontendneeded.com/` on the Fedora machine.
