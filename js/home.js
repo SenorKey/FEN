@@ -177,6 +177,7 @@
         // ── Picker setup ──
         var picker = document.getElementById('egg-color-picker');
         picker.style.visibility = 'visible';
+        document.getElementById('egg-picker-label').style.visibility = 'visible';
 
         var pickerColor = picker.value;
 
