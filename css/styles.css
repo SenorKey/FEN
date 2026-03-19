@@ -60,6 +60,7 @@
 :root {
   --bg: #f7eff2;
   --ink: #1a1a1a;
+  --tint: #dbd1c2;
   --muted: #6b5c62;
   --accent: #c0687a;
   /*original is #c0687a*/
@@ -90,7 +91,7 @@ body {
 }
 
 .gr-top {
-  background: linear-gradient(to right, #dbd1c2, var(--bg) 45%); /*ead9e0*/
+  background: linear-gradient(to right, var(--tint), var(--bg) 45%); /*ead9e0*/
   flex: 0 0 var(--phi-major);
   border-bottom: 1px solid var(--rule);
   padding: 48px 56px;
@@ -118,7 +119,7 @@ body {
 }
 
 .gr-left {
-  background: linear-gradient(to right, var(--bg) 45%, #dbd1c2); /*ead9e0*/
+  background: linear-gradient(to right, var(--bg) 45%, var(--tint)); /*ead9e0*/
   flex: 0 0 var(--phi-major);
   border-right: 1px solid var(--rule);
   padding: 32px 56px;
@@ -126,7 +127,7 @@ body {
 }
 
 .gr-right {
-  background: linear-gradient(to right, var(--bg) 45%, #dbd1c2); /*ead9e0*/
+  background: linear-gradient(to right, var(--bg) 45%, var(--tint)); /*ead9e0*/
   flex: 0 0 var(--phi-minor);
   padding: 32px 36px;
   overflow-y: auto;

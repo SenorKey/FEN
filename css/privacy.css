@@ -5,15 +5,5 @@
 
 :root {
    --accent: #8f3160;
+   --tint: #dbc2d8;
 }
-
-.gr-top {
-   background: linear-gradient(to right, #dbc2d8, var(--bg) 45%); /*ead9e0*/
-}
-.gr-left {
-   background: linear-gradient(to right, var(--bg) 45%, #dbc2d8); /*ead9e0*/
- }
- 
- .gr-right {
-   background: linear-gradient(to right, var(--bg) 45%, #dbc2d8); /*ead9e0*/
- }

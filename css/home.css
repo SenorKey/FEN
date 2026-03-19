@@ -5,17 +5,8 @@
 
    :root {
       --accent: #916723;
+      --tint: #dfc7a743;
    }
-   .gr-top {
-      background: linear-gradient(to right, #dfc7a743, var(--bg) 45%); /*ead9e0*/
-   }
-   .gr-left {
-      background: linear-gradient(to right, var(--bg) 45%, #dfc7a743); /*ead9e0*/
-    }
-    
-    .gr-right {
-      background: linear-gradient(to right, var(--bg) 45%, #dfc7a743); /*ead9e0*/
-    }
 
 /* ── Easter egg: draggable letters ─────────────────────────── */
 

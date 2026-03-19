@@ -16,17 +16,7 @@
 
 :root {
   --accent: #c0687a;
-}
-.gr-top {
-  background: linear-gradient(to right, #e6d0d9, var(--bg) 45%);
-  /*ead9e0*/
-}
-.gr-left {
-  background: linear-gradient(to right, var(--bg) 45%, #e6d0d9); /*ead9e0*/
-}
-
-.gr-right {
-  background: linear-gradient(to right, var(--bg) 45%, #e6d0d9); /*ead9e0*/
+  --tint: #e6d0d9;
 }
 
 
