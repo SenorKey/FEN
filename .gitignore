@@ -142,3 +142,5 @@ vite.config.ts.timestamp-*
 readmesite.html
 
 .DS_Store.DS_Store
+
+.DS_Store
