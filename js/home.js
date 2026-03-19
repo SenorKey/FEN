@@ -135,50 +135,68 @@
         document.querySelector('.nav-home').textContent = 'FE!N';
         document.querySelector('.page-title').innerHTML = 'Front End<br>!nsertion Needed';
 
-        var sound = new Audio('/audio/igorrrTPM.mp3');
-        sound.volume = 0.6;
-
-        // ── Web Audio API setup ──
-        // AudioContext must be created from a user gesture — the drop counts.
         var AudioCtx = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioCtx();
 
-        var source = audioCtx.createMediaElementSource(sound);
+        // ── Three audio elements ──
+        var soundFull = new Audio('/audio/igorrrTPM.mp3');
+        var soundVox = new Audio('/audio/igorrrTPM-vocals.mp3');
+        var soundInst = new Audio('/audio/igorrrTPM-inst.mp3');
 
-        var analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 256;           // 128 frequency bins
-        analyser.smoothingTimeConstant = 0.75; // 0=instant, 1=never changes; 0.75 feels punchy but not jittery
+        soundFull.volume = 0.6;  // audible
+        //soundVox.volume = 0;    // silent — analyser still reads it
+        //soundInst.volume = 0;    // silent — analyser still reads it
 
-        source.connect(analyser);
-        analyser.connect(audioCtx.destination);
+        // ── Build source → analyser → gain → destination for each track ──
+        function buildChain(sound, muted) {
+            var source = audioCtx.createMediaElementSource(sound);
+            var analyser = audioCtx.createAnalyser();
+            var gain = audioCtx.createGain();
 
-        sound.play();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.75;
+
+            gain.gain.value = muted ? 0 : 1;
+
+            source.connect(analyser);
+            analyser.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            return { analyser: analyser, gain: gain };
+        }
+
+        var chainFull = buildChain(soundFull, false);
+        var chainVox = buildChain(soundVox, true);
+        var chainInst = buildChain(soundInst, true);
+
+        // ── Start all three as close together as possible ──
+        soundFull.play();
+        soundVox.play();
+        soundInst.play();
 
         // ── Picker setup ──
         var picker = document.getElementById('egg-color-picker');
         picker.style.visibility = 'visible';
+        document.getElementById('egg-picker-label').style.visibility = 'visible';
 
-        var pickerColor = picker.value; // #808080 default
+        var pickerColor = picker.value;
 
         picker.addEventListener('input', function () {
             pickerColor = picker.value;
-            sound.volume = getBrightness(picker.value);
+            // brightness drives the audible track's volume only
+            chainFull.gain.gain.value = getBrightness(picker.value);
         });
 
-        // ── Panels + their radial gradient focal points ──
-        // Each panel gets a unique origin so they feel distinct when they pulse.
+        // ── Panels mapped to their respective analysers ──
         var panels = [
-            { el: document.querySelector('.gr-top'), origin: '50% 50%' },
-            { el: document.querySelector('.gr-left'), origin: '50% 50%' },
-            { el: document.querySelector('.gr-right'), origin: '50% 50%' }
+            { el: document.querySelector('.gr-top'), analyser: chainFull.analyser, origin: '50% 50%' },
+            { el: document.querySelector('.gr-left'), analyser: chainVox.analyser, origin: '50% 50%' },
+            { el: document.querySelector('.gr-right'), analyser: chainInst.analyser, origin: '50% 50%' }
         ];
 
-        var dataArray = new Uint8Array(analyser.frequencyBinCount); // 128 values, 0-255
-
-        // ── Read bass energy ──
-        // Bins 0-7 map to the lowest frequencies (~0-344 Hz at 44.1kHz sample rate).
-        // Averaging them gives a number from 0.0 to 1.0 that punches with kick/bass.
-        function getBassEnergy() {
+        // ── Bass energy helper (reusable per analyser) ──
+        function getBassEnergy(analyser) {
+            var dataArray = new Uint8Array(analyser.frequencyBinCount);
             analyser.getByteFrequencyData(dataArray);
             var sum = 0;
             var bassEnd = 8;
@@ -188,16 +206,13 @@
 
         // ── Animation loop ──
         function pulse() {
-            var energy = getBassEnergy();
             var rgb = hexToRgb(pickerColor);
 
-            // Gradient radius: 15% at silence → up to 120% on a hard beat
-            var radius = 2 + energy * 100;
-
-            // Opacity: subtle at low energy, vivid at peak
-            var alpha = 0.08 + energy * 1.20;
-
             panels.forEach(function (panel) {
+                var energy = getBassEnergy(panel.analyser);
+                var radius = 2 + energy * 100;
+                var alpha = 0.08 + energy * 1.20;
+
                 panel.el.style.background =
                     'radial-gradient(circle at ' + panel.origin + ', ' +
                     'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ') ' +
@@ -209,8 +224,8 @@
 
         pulse();
 
-        // ── Cleanup on song end: fade panels back to their CSS defaults ──
-        sound.addEventListener('ended', function () {
+        // ── Cleanup on song end ──
+        soundFull.addEventListener('ended', function () {
             panels.forEach(function (panel) {
                 panel.el.style.background = '';
             });
