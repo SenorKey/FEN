@@ -141,4 +141,4 @@ vite.config.ts.timestamp-*
 # Read me page that may contain personal info
 readmesite.html
 
-.DS_Store
+.DS_Store.DS_Store
