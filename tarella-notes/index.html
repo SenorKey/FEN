@@ -67,7 +67,7 @@
                         alt="Tarella Notes home screen">
                     <img class="phone-img" src="/images/tarella-note-list-preview.webp" alt="Tarella Notes note list">
                 </div>
-                <button class="phone-cycle-btn" onclick="cyclePhone()" aria-label="Next screenshot">›</button>
+                <button class="phone-cycle-btn" aria-label="Next screenshot">›</button>
                 <div class="phone-dot-row">
                     <div class="phone-dot active"></div>
                     <div class="phone-dot"></div>
@@ -106,8 +106,10 @@
             <div class="gr-right app-showcase">
                 <p class="section-label">Available on iOS</p>
                 <div class="app-card">
-                    <img class="app-card-img" src="/images/tarella-notes-card.webp" alt="Tarella Notes on the App Store">
-                    <a href="https://apps.apple.com/app/id6747132386" target="_blank" rel="noopener" class="app-store-link">
+                    <img class="app-card-img" src="/images/tarella-notes-card.webp"
+                        alt="Tarella Notes on the App Store">
+                    <a href="https://apps.apple.com/app/id6747132386" target="_blank" rel="noopener"
+                        class="app-store-link">
                         <img class="app-store-badge" src="/images/app-store-badge.svg" alt="Download on the App Store">
                     </a>
                 </div>
@@ -117,20 +119,7 @@
 
     </div>
 
-    <script>
-        function cyclePhone() {
-            const imgs = document.querySelectorAll('.phone-img');
-            const dots = document.querySelectorAll('.phone-dot');
-            let current = Array.from(imgs).findIndex(img => img.classList.contains('active'));
-            let next = (current + 1) % imgs.length;
-
-            imgs[current].classList.remove('active');
-            imgs[next].classList.add('active');
-
-            dots[current].classList.remove('active');
-            dots[next].classList.add('active');
-        }
-    </script>
+    <script src="/js/tarella-notes.js"></script>
 </body>
 
 </html>
