@@ -266,7 +266,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: var(#000000);
+    background: var(--ink);
     color: #fff;
     border: none;
     font-size: 1.2rem;
@@ -281,7 +281,8 @@
 
 .photo-cycle-btn:hover {
     transform: scale(1.1);
-    background: #a87830;
+    background: var(--accent);
+    color: var(--ink);
 }
 
 .photo-dot-row {
