@@ -147,7 +147,7 @@ body {
   color: var(--muted);
   margin-top: 10px;
   font-weight: 300;
-  max-width: 25%;
+  max-width: 32ch;
 }
 
 .accent-bar {
