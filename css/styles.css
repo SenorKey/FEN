@@ -395,6 +395,7 @@ p.body-text+h3.sub {
    
     .page-subtitle {
       font-size: 0.88rem;
+      max-width: 50%;
     }
    
     .body-text {
