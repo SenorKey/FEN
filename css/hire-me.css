@@ -220,8 +220,8 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow:
-        0 2px 12px rgba(0, 0, 0, 0.08),
-        0 0 0 1px var(--rule);
+        0 4px 20px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(26, 26, 26, 0.10);
 }
 
 .photo-img {

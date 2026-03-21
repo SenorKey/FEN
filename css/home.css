@@ -3,10 +3,10 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-   :root {
-      --accent: #916723;
-      --tint: #dfc7a743;
-   }
+:root {
+   --accent: #916723;
+   --tint: #dfc7a743;
+}
 
 /* ── Easter egg: draggable letters ─────────────────────────── */
 
@@ -119,20 +119,20 @@ body.egg-dragging .egg-slot {
    display: flex;
    align-items: flex-end;
    gap: 12px;
- }
- 
- .photo-frame {
+}
+
+.photo-frame {
    position: relative;
    width: 100%;
    height: 100%;
    border-radius: 8px;
    overflow: hidden;
    box-shadow:
-      0 2px 12px rgba(0, 0, 0, 0.08),
-      0 0 0 1px var(--rule);
- }
- 
- .photo-img {
+      0 4px 20px rgba(0, 0, 0, 0.18),
+      0 0 0 1px rgba(26, 26, 26, 0.10);
+}
+
+.photo-img {
    position: absolute;
    inset: 0;
    width: 100%;
@@ -141,22 +141,22 @@ body.egg-dragging .egg-slot {
    opacity: 0;
    transition: opacity 0.5s ease;
    pointer-events: none;
- }
- 
- .photo-img.active {
+}
+
+.photo-img.active {
    opacity: 1;
- }
- 
- /* ── Gallery controls ── */
- 
- .photo-nav {
+}
+
+/* ── Gallery controls ── */
+
+.photo-nav {
    display: flex;
    flex-direction: column;
    align-items: center;
    gap: 10px;
- }
- 
- .photo-cycle-btn {
+}
+
+.photo-cycle-btn {
    width: 32px;
    height: 32px;
    border-radius: 50%;
@@ -171,28 +171,28 @@ body.egg-dragging .egg-slot {
    justify-content: center;
    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
    transition: transform 0.18s, background 0.18s;
- }
- 
- .photo-cycle-btn:hover {
+}
+
+.photo-cycle-btn:hover {
    transform: scale(1.1);
    background: #a87830;
- }
- 
- .photo-dot-row {
+}
+
+.photo-dot-row {
    display: flex;
    flex-direction: column;
    gap: 5px;
    align-items: center;
- }
- 
- .photo-dot {
+}
+
+.photo-dot {
    width: 5px;
    height: 5px;
    border-radius: 50%;
    background: rgba(145, 103, 35, 0.25);
    transition: background 0.3s;
- }
- 
- .photo-dot.active {
+}
+
+.photo-dot.active {
    background: var(--accent);
- }
+}
