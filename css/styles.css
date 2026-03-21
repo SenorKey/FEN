@@ -320,3 +320,84 @@ p.body-text+h3.sub {
 .skip-link:focus {
   top: 0;
 }
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile-first overrides
+   ═══════════════════════════════════════════════ */
+ 
+   @media (max-width: 768px) {
+ 
+    /* ── Release the viewport lock ── */
+   
+    body {
+      height: auto;
+      overflow: auto;
+    }
+   
+    .gr-shell {
+      flex: none;
+      overflow: visible;
+    }
+   
+    /* ── Hero / top panel ── */
+   
+    .gr-top {
+      flex: none;
+      min-height: 260px;
+      padding: 32px 24px;
+    }
+   
+    .gr-top-art {
+      height: 60%;
+      opacity: 0.35;
+    }
+   
+    /* ── Bottom panels → stacked ── */
+   
+    .gr-bottom {
+      flex: none;
+      flex-direction: column;
+      overflow: visible;
+    }
+   
+    .gr-left {
+      flex: none;
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 28px 24px;
+    }
+   
+    .gr-right {
+      flex: none;
+      padding: 28px 24px;
+    }
+   
+    /* ── Nav ── */
+   
+    .site-nav {
+      padding: 0 16px;
+      gap: 14px;
+      height: 40px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+   
+    .site-nav a {
+      font-size: 0.7rem;
+      white-space: nowrap;
+    }
+   
+    /* ── Typography tweaks ── */
+   
+    .page-title {
+      font-size: clamp(1.6rem, 8vw, 2.4rem);
+    }
+   
+    .page-subtitle {
+      font-size: 0.88rem;
+    }
+   
+    .body-text {
+      font-size: 0.88rem;
+    }
+  }
