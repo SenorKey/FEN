@@ -196,3 +196,55 @@ body.egg-dragging .egg-slot {
 .photo-dot.active {
    background: var(--accent);
 }
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile overrides
+   ═══════════════════════════════════════════════ */
+ 
+   @media (max-width: 768px) {
+ 
+      /* ── Gallery: absolute → static, centered ── */
+     
+      .photo-gallery {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 24px;
+      }
+     
+      .photo-frame {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+      }
+     
+      .photo-nav {
+        flex-direction: row;
+        gap: 8px;
+      }
+     
+      .photo-dot-row {
+        flex-direction: row;
+      }
+     
+      /* ── Easter egg: hide drag slots on touch devices ── */
+      /* HTML5 drag-and-drop doesn't work on mobile,
+         so we hide the slots and let letters stay styled normally */
+     
+      .egg-drop-column {
+        display: none;
+      }
+     
+      .egg-letter {
+        cursor: default;
+        -webkit-user-drag: none;
+      }
+     
+      #egg-color-picker,
+      #egg-picker-label {
+        display: none;
+      }
+    }

@@ -151,3 +151,46 @@
 .phone-dot.active {
   background: var(--accent);
 }
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile overrides
+   ═══════════════════════════════════════════════ */
+ 
+   @media (max-width: 768px) {
+ 
+    /* ── Phone mockup: absolute → static, centered ── */
+   
+    .phone-mockup {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      height: auto;
+      width: 55%;
+      max-width: 240px;
+      margin: 24px auto 0;
+      aspect-ratio: 393 / 852;
+    }
+   
+    .phone-cycle-btn {
+      right: -10px;
+      bottom: 36px;
+      width: 30px;
+      height: 30px;
+      font-size: 1.1rem;
+    }
+   
+    .phone-dot-row {
+      right: -10px;
+      bottom: 14px;
+    }
+   
+    /* ── App showcase ── */
+   
+    .app-card {
+      width: 70%;
+    }
+   
+    .app-showcase {
+      align-items: center;
+    }
+  }

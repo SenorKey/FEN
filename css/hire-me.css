@@ -290,3 +290,55 @@
 .photo-dot.active {
     background: var(--accent);
 }
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile overrides
+   ═══════════════════════════════════════════════ */
+ 
+   @media (max-width: 768px) {
+ 
+    /* ── Gallery: absolute → static, centered ── */
+ 
+    .photo-gallery {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-top: 24px;
+    }
+ 
+    .photo-frame {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+    }
+ 
+    .photo-nav {
+        flex-direction: row;
+        gap: 8px;
+    }
+ 
+    .photo-dot-row {
+        flex-direction: row;
+    }
+ 
+    /* ── Chat panel: give it a usable height ── */
+ 
+    .chat-panel {
+        min-height: 360px;
+        height: 50vh;
+        max-height: 480px;
+    }
+ 
+    .chat-msg {
+        max-width: 88%;
+    }
+ 
+    /* ── Resume tweaks ── */
+ 
+    .job-meta {
+        font-size: 0.72rem;
+    }
+}
