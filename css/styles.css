@@ -270,7 +270,8 @@ p.body-text+h3.sub {
   transition: color 0.2s;
 }
  
-.nav-dropdown:hover .nav-dropdown-toggle {
+.nav-dropdown:hover .nav-dropdown-toggle,
+.nav-dropdown:focus-within .nav-dropdown-toggle {
   color: #ffffff;
 }
 
@@ -304,7 +305,8 @@ p.body-text+h3.sub {
   color: #ffffff;
 }
 
-.nav-dropdown:hover .nav-dropdown-menu {
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
   display: block;
 }
 
@@ -386,13 +388,23 @@ p.body-text+h3.sub {
       padding: 0 16px;
       gap: 14px;
       height: 40px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
     }
    
     .site-nav a {
       font-size: 0.7rem;
       white-space: nowrap;
+    }
+
+    .nav-dropdown-toggle {
+      font-size: 0.7rem;
+    }
+
+    .nav-dropdown-menu {
+      position: fixed;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      min-width: unset;
     }
    
     /* ── Typography tweaks ── */
