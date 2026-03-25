@@ -260,10 +260,18 @@ p.body-text+h3.sub {
   height: 100%;
 }
 
-.nav-dropdown>a::after {
-  content: ' ›';
-  font-size: 0.7rem;
-  opacity: 0.6;
+.nav-dropdown-toggle {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: default;
+  transition: color 0.2s;
+}
+ 
+.nav-dropdown:hover .nav-dropdown-toggle {
+  color: #ffffff;
 }
 
 .nav-dropdown-menu {
