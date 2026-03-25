@@ -133,6 +133,28 @@
         };
     }
 
+    function hueToHex(h) {
+        // h is 0–360, full saturation, full brightness
+        var s = 1, v = 1;
+        var c = v * s;
+        var x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        var r, g, b;
+    
+        if      (h < 60)  { r = c; g = x; b = 0; }
+        else if (h < 120) { r = x; g = c; b = 0; }
+        else if (h < 180) { r = 0; g = c; b = x; }
+        else if (h < 240) { r = 0; g = x; b = c; }
+        else if (h < 300) { r = x; g = 0; b = c; }
+        else              { r = c; g = 0; b = x; }
+    
+        var toHex = function (n) {
+            var hex = Math.round(n * 255).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+    
+        return '#' + toHex(r) + toHex(g) + toHex(b);
+    }
+
     // ── Completion handler ───────────────────────────────────
 
     function onVolumeComplete() {
@@ -146,9 +168,11 @@
         var audioCtx = new AudioCtx();
 
         // ── Three audio elements ──
-        var soundFull = new Audio('/audio/igorrrTPM.mp3');
-        var soundVox = new Audio('/audio/igorrrTPM-vocals.mp3');
-        var soundInst = new Audio('/audio/igorrrTPM-inst.mp3');
+        var soundFull = new Audio('/audio/durag.mp3');
+        var soundVocals = new Audio('/audio/durag-vocals.mp3');
+        var soundBass = new Audio('/audio/durag-bass.mp3');
+        var soundDrums = new Audio('/audio/durag-drums.mp3');
+
 
         soundFull.volume = 0.6;  // audible
 
@@ -171,13 +195,15 @@
         }
 
         var chainFull = buildChain(soundFull, false);
-        var chainVox = buildChain(soundVox, true);
-        var chainInst = buildChain(soundInst, true);
+        var chainVocals = buildChain(soundVocals, true);
+        var chainBass = buildChain(soundBass, true);
+        var chainDrums = buildChain(soundDrums, true);
 
         // ── Start all three as close together as possible ──
         soundFull.play();
-        soundVox.play();
-        soundInst.play();
+        soundVocals.play();
+        soundBass.play();
+        soundDrums.play();
 
         // ── Picker setup ──
         var picker = document.getElementById('egg-color-picker');
@@ -185,18 +211,19 @@
         document.getElementById('egg-picker-label').style.visibility = 'visible';
 
         var pickerColor = picker.value;
-
+        var autoCycle = true;
+        var hue = 0;
         picker.addEventListener('input', function () {
+            autoCycle = false;
             pickerColor = picker.value;
-            // brightness drives the audible track's volume only
             chainFull.gain.gain.value = getBrightness(picker.value);
         });
 
         // ── Panels mapped to their respective analysers ──
         var panels = [
-            { el: document.querySelector('.gr-top'), analyser: chainFull.analyser, origin: '50% 50%' },
-            { el: document.querySelector('.gr-left'), analyser: chainVox.analyser, origin: '50% 50%' },
-            { el: document.querySelector('.gr-right'), analyser: chainInst.analyser, origin: '50% 50%' }
+            { el: document.querySelector('.gr-top'), analyser: chainVocals.analyser, origin: '50% 50%' },
+            { el: document.querySelector('.gr-left'), analyser: chainBass.analyser, origin: '50% 50%' },
+            { el: document.querySelector('.gr-right'), analyser: chainDrums.analyser, origin: '50% 50%' }
         ];
 
         // ── Bass energy helper (reusable per analyser) ──
@@ -211,19 +238,27 @@
 
         // ── Animation loop ──
         function pulse() {
+            if (autoCycle) {
+                hue = (hue + 0.3) % 360;
+                var hex = hueToHex(hue);
+                picker.value = hex;
+                pickerColor = hex;
+                chainFull.gain.gain.value = getBrightness(hex);
+            }
+        
             var rgb = hexToRgb(pickerColor);
-
+        
             panels.forEach(function (panel) {
                 var energy = getBassEnergy(panel.analyser);
                 var radius = 2 + energy * 100;
                 var alpha = 0.08 + energy * 1.20;
-
+        
                 panel.el.style.background =
                     'radial-gradient(circle at ' + panel.origin + ', ' +
                     'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + alpha + ') ' +
                     radius + '%, transparent 100%)';
             });
-
+        
             requestAnimationFrame(pulse);
         }
 
