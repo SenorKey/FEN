@@ -8,6 +8,16 @@
    --tint: #dfc7a743;
 }
 
+/* ── Easter egg: hidden nav link ──────────────────────────── */
+ 
+.nav-etc {
+   display: none;
+}
+ 
+.nav-etc.egg-revealed {
+   display: inline;
+}
+
 /* ── Easter egg: draggable letters ─────────────────────────── */
 
 .egg-letter {

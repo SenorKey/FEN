@@ -160,6 +160,7 @@
     function onVolumeComplete() {
         document.querySelector('.nav-home').textContent = 'FE!N';
         document.querySelector('.page-title').innerHTML = 'Front End<br>!nsertion Needed';
+        document.querySelector('.nav-etc').classList.add('egg-revealed');
         var frame = document.querySelector('.photo-frame');
         frame.innerHTML = '<img class="photo-img active" src="/images/gallery/durag.webp" alt="me">';
         
