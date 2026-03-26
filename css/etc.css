@@ -5,9 +5,15 @@
    Vertical golden ratio layout with stack mechanic.
    ═══════════════════════════════════════════════ */
 
-   :root {
+:root {
     --accent: #7a6e5d;
     --tint: #d6cfc5;
+}
+
+/* ── Override the default forced caps from styles.css for navbar links*/
+.site-nav .nav-etc {
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
 }
 
 /* ── Override the default gr-shell for this page ──
@@ -131,6 +137,7 @@
         transform: scale(1);
         filter: blur(0);
     }
+
     100% {
         opacity: 0;
         transform: scale(1.06);
@@ -150,6 +157,7 @@
         opacity: 1;
         transform: translateX(0);
     }
+
     100% {
         opacity: 0;
         transform: translateX(-40px);
@@ -168,6 +176,7 @@
         opacity: 1;
         transform: translateY(0);
     }
+
     100% {
         opacity: 0;
         transform: translateY(-30px);
@@ -189,6 +198,7 @@
         opacity: 0;
         transform: translateY(6px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -206,6 +216,7 @@
         opacity: 0;
         transform: translateX(20px);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0);
@@ -223,6 +234,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

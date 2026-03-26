@@ -18,6 +18,11 @@
    display: inline;
 }
 
+.site-nav .nav-etc {
+   text-transform: lowercase;
+   letter-spacing: 0.02em;
+ }
+
 /* ── Easter egg: draggable letters ─────────────────────────── */
 
 .egg-letter {
@@ -108,7 +113,7 @@ body.egg-dragging .egg-slot {
 #egg-color-picker {
    visibility: hidden;
    /* hides it but keeps its space/position */
-   margin-top: 16px;
+   /*margin-top: 16px;*/
    width: 36px;
    height: 36px;
    border: none;
