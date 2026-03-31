@@ -213,15 +213,38 @@
     gap: 12px;
 }
 
+.photo-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    align-self: stretch;
+    /* ← override parent's flex-end */
+}
+
 .photo-frame {
     position: relative;
     width: 100%;
-    height: 100%;
     border-radius: 8px;
     overflow: hidden;
     box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.18),
         0 0 0 1px rgba(26, 26, 26, 0.10);
+
+    flex: 1;
+    min-height: 0;
+    /* prevents the frame from refusing to shrink */
+}
+
+.photo-caption {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    margin: 0;
+    flex-shrink: 0;
+    /* caption never gets squished */
 }
 
 .photo-img {
@@ -294,11 +317,11 @@
 /* ═══════════════════════════════════════════════
    Responsive — mobile overrides
    ═══════════════════════════════════════════════ */
- 
-   @media (max-width: 768px) {
- 
+
+@media (max-width: 768px) {
+
     /* ── Gallery: absolute → static, centered ── */
- 
+
     .photo-gallery {
         position: static;
         width: 100%;
@@ -308,36 +331,39 @@
         gap: 10px;
         margin-top: 24px;
     }
- 
+
     .photo-frame {
         width: 100%;
         height: auto;
         aspect-ratio: 4 / 3;
+        flex: none;
+        /* override flex: 1 so aspect-ratio controls height */
+
     }
- 
+
     .photo-nav {
         flex-direction: row;
         gap: 8px;
     }
- 
+
     .photo-dot-row {
         flex-direction: row;
     }
- 
+
     /* ── Chat panel: give it a usable height ── */
- 
+
     .chat-panel {
         min-height: 360px;
         height: 50vh;
         max-height: 480px;
     }
- 
+
     .chat-msg {
         max-width: 88%;
     }
- 
+
     /* ── Resume tweaks ── */
- 
+
     .job-meta {
         font-size: 0.72rem;
     }
