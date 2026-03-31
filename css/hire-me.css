@@ -270,6 +270,9 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    margin-bottom: 28px;
+    /* roughly caption line-height + 8px gap */
+
 }
 
 .photo-cycle-btn {
