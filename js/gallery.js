@@ -4,6 +4,25 @@
 
     var imgs = document.querySelectorAll('.photo-img');
     var dots = document.querySelectorAll('.photo-dot');
+    var frame = document.querySelector('.photo-frame');
+
+    function updateFrameRatio(img) {
+        if (img.naturalWidth && img.naturalHeight) {
+            frame.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+        }
+    }
+
+    // Set initial ratio from the active image
+    var activeImg = document.querySelector('.photo-img.active');
+    if (activeImg) {
+        if (activeImg.complete) {
+            updateFrameRatio(activeImg);
+        } else {
+            activeImg.addEventListener('load', function () {
+                updateFrameRatio(activeImg);
+            });
+        }
+    }
 
     galleryBtn.addEventListener('click', function () {
         var current = Array.from(imgs).findIndex(function (img) {
@@ -15,5 +34,14 @@
         imgs[next].classList.add('active');
         dots[current].classList.remove('active');
         dots[next].classList.add('active');
+
+        // Adapt frame to new image's natural shape
+        if (imgs[next].complete) {
+            updateFrameRatio(imgs[next]);
+        } else {
+            imgs[next].addEventListener('load', function () {
+                updateFrameRatio(imgs[next]);
+            });
+        }
     });
 })();
