@@ -58,21 +58,23 @@
     <div class="gr-bottom">
       <div class="gr-left">
         <h2 class="sub">The quick, in-game price checker for Warframe relic rewards.</h2>
-        <p class="body-text">WFPC is a lightweight desktop tool that reads what's on your screen and tells you what it's
-          worth. No alt-tabbing, no manual searching, no guesswork.</p>
-        <p class="body-text">When you're staring at a relic reward screen, WFPC captures a slice of your screen, reads
-          the item names using OCR, and instantly pulls the current best buy price from warframe.market. You get real
-          numbers in seconds so you can make smarter picks and better trades before you're sent back to your orbiter.
+        <p class="body-text">WFPC is a desktop overlay that sits on top of your game, reads the relic reward screen, and
+          tells you what everything is worth. No alt-tabbing, no manual searching, no guesswork.</p>
+        <p class="body-text">Position the transparent window over your reward choices, hit Capture, and WFV74 does the
+          rest. It reads the item names using OCR, matches them against every known prime item on warframe.market, and
+          lays out the current best buy prices right there in the overlay. Individual part prices, full set prices, and
+          which option puts the most platinum in your pocket — all visible before you have to pick.
         </p>
 
         <h2 class="sub">How it works</h2>
-        <p class="body-text">Hit the start button, and WFPC handles the rest. It actively looks for the item text on screen,
-          matches it against every known prime item on the market, and shows you what buyers are currently paying. No
-          copy-pasting item names, no keeping a browser tab open on the side.</p>
+        <p class="body-text">WFPC stays pinned above your game with a see-through capture region. When rewards appear,
+          it grabs a screenshot of what's behind the overlay, processes the text with OCR, and pulls live pricing data
+          from warframe.market. Results show up in card-style panels — one per reward — with part breakdowns and set
+          comparisons highlighted so the best pick stands out.</p>
 
         <h2 class="sub">Built with</h2>
-        <p class="body-text">Tesseract OCR for reading item names, OpenCV for image processing, and the warframe.market
-          API for live pricing data. Runs locally on your machine.</p>
+        <p class="body-text">Tesseract OCR and OpenCV for screen reading and image processing. The warframe.market API
+          for live pricing. Tkinter for the overlay UI. Runs locally on Windows.</p>
         <p class="body-text">WFPC was made for the moments in Warframe where you need a price and you need it now,
           without leaving the game to go find it.</p>
       </div>
