@@ -3,7 +3,7 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-:root {
-   --accent: #8f3160;
-   --tint: #dbc2d8;
-}
+   :root {
+      --accent: #8f3160;
+      --accent-rgb: 143, 49, 96;
+   }
