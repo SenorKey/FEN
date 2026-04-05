@@ -3,7 +3,80 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-   :root {
-      --accent: #8f3160;
-      --accent-rgb: 143, 49, 96;
+/* ── Restore light theme for this page ── */
+
+:root {
+   --bg: #f7eff2;
+   --ink: #1a1a1a;
+   --accent: #8f3160;
+   --tint: #dbc2d8;
+   --muted: #6b5c62;
+   --rule: rgba(26, 26, 26, 0.12);
+}
+
+/* ── Override dark-theme shared styles ── */
+
+.site-nav {
+   background: var(--ink);
+   border-image: none;
+   border-bottom: none;
+   box-shadow: none;
+}
+
+.nav-dropdown-menu {
+   background: var(--ink);
+   border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gr-top {
+   background: linear-gradient(to right, var(--tint), var(--bg) 45%);
+   border-image: none;
+   border-bottom: 1px solid var(--rule);
+   box-shadow: none;
+}
+
+.gr-left {
+   background: linear-gradient(to right, var(--bg) 45%, var(--tint));
+   border-image: none;
+   border-right: 1px solid var(--rule);
+   box-shadow: none;
+}
+
+.gr-right {
+   background: linear-gradient(to right, var(--bg) 45%, var(--tint));
+}
+
+.page-title {
+   color: var(--ink);
+   text-shadow: none;
+}
+
+h2.sub,
+h3.sub {
+   color: var(--ink);
+}
+
+.gr-left h2.sub,
+.gr-left h3.sub {
+   color: var(--ink);
+}
+
+.skip-link {
+   background: var(--ink);
+   color: #fff;
+}
+
+.accent-bar {
+   box-shadow: none;
+}
+
+/* ── Mobile light-theme border fix ── */
+
+@media (max-width: 768px) {
+   .gr-left {
+      border-right: none;
+      border-image: none;
+      border-bottom: 1px solid var(--rule);
+      box-shadow: none;
    }
+}

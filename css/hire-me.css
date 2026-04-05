@@ -6,6 +6,15 @@
    :root {
     --accent: #ffffff;
     --accent-rgb: 255, 255, 255;
+    --bg: #0e0e0e;
+}
+
+.site-nav {
+    background: #080808;
+}
+
+.nav-dropdown-menu {
+    background: #080808;
 }
 
 /* ── Resume entries ── */
@@ -95,7 +104,6 @@
 .chat-user {
     align-self: flex-end;
     background: #2F80ED;
-    /*user chat bubble color*/
     color: #fff;
 }
 
@@ -180,7 +188,7 @@
     height: 38px;
     border: none;
     border-radius: 6px;
-    background: var(--gold);
+    background: var(--ink);
     color: var(--bg);
     font-size: 1rem;
     cursor: pointer;
@@ -220,7 +228,6 @@
     gap: 8px;
     min-height: 0;
     align-self: stretch;
-    /* ← override parent's flex-end */
 }
 
 .photo-frame {
@@ -228,13 +235,14 @@
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
+    border: 1px solid rgba(196, 181, 253, 0.15);
     box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(var(--accent-rgb), 0.1);
+        0 0 20px rgba(45, 212, 191, 0.08),
+        0 0 50px rgba(139, 92, 246, 0.05),
+        0 4px 20px rgba(0, 0, 0, 0.3);
 
     flex: 1;
     min-height: 0;
-    /* prevents the frame from refusing to shrink */
 }
 
 .photo-caption {
@@ -244,7 +252,6 @@
     text-align: center;
     margin: 0;
     flex-shrink: 0;
-    /* caption never gets squished */
 }
 
 .photo-img {
@@ -271,8 +278,6 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 28px;
-    /* roughly caption line-height + 8px gap */
-
 }
 
 .photo-cycle-btn {
@@ -322,8 +327,6 @@
 
 @media (max-width: 768px) {
 
-    /* ── Gallery: absolute → static, centered ── */
-
     .photo-gallery {
         position: static;
         width: 100%;
@@ -339,8 +342,6 @@
         height: auto;
         aspect-ratio: 4 / 3;
         flex: none;
-        /* override flex: 1 so aspect-ratio controls height */
-
     }
 
     .photo-nav {
@@ -352,8 +353,6 @@
         flex-direction: row;
     }
 
-    /* ── Chat panel: give it a usable height ── */
-
     .chat-panel {
         min-height: 360px;
         height: 50vh;
@@ -363,8 +362,6 @@
     .chat-msg {
         max-width: 88%;
     }
-
-    /* ── Resume tweaks ── */
 
     .job-meta {
         font-size: 0.72rem;

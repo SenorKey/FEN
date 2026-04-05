@@ -1,9 +1,380 @@
 /* ═══════════════════════════════════════════════
    etc.css — Styles specific to /etc
    frontendneeded.com
+
+   Vertical golden ratio layout with stack mechanic.
    ═══════════════════════════════════════════════ */
 
    :root {
     --accent: #7a6e5d;
     --accent-rgb: 122, 110, 93;
- }
+    --etc-top-bg: #0a1021;
+    --etc-bottom-bg: #080c18;
+}
+
+/* ── Override the default forced caps from styles.css for navbar links */
+.site-nav .nav-etc {
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+}
+
+/* ── Override the default gr-shell for this page ──
+   We use a horizontal (row) flex instead of column,
+   so the main panel is the tall panel on the left. */
+
+.etc-shell {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+/* ── Main panel (left, 61.8% width) ── */
+
+.etc-main {
+    flex: 0 0 var(--phi-major);
+    border-right: 1px solid transparent;
+    border-image: linear-gradient(
+        180deg,
+        transparent,
+        rgba(45, 212, 191, 0.5),
+        rgba(196, 181, 253, 0.4),
+        rgba(45, 212, 191, 0.5),
+        transparent
+    ) 1;
+    box-shadow: 1px 0 30px rgba(45, 212, 191, 0.08),
+                1px 0 60px rgba(139, 92, 246, 0.05);
+    padding: 48px 56px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--bg);
+}
+
+/* Shadow-only h1 — intentionally hard to read.
+   Dark shadows on dark bg create barely-visible letterforms.
+   A very faint wide haze hints that something is there. */
+.etc-page-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 3.9vw, 5rem);
+    color: transparent;
+    text-shadow:
+        0 0 2px rgba(9, 13, 31, 0.6),
+        0 0 10px rgba(8, 10, 45, 0.3),
+        0 0 24px rgba(12, 13, 57, 0.12),
+        0 0 60px rgba(45, 76, 212, 0.03);
+    margin-bottom: 100px;
+    flex-shrink: 0;
+}
+
+.etc-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ── Sidebar (right, 38.2% width) ── */
+
+.etc-sidebar {
+    flex: 0 0 var(--phi-minor);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Top sidebar panel (61.8% of sidebar height) ── */
+
+.etc-top {
+    flex: 0 0 var(--phi-major);
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(
+        90deg,
+        transparent,
+        rgba(45, 212, 191, 0.5),
+        rgba(196, 181, 253, 0.4),
+        rgba(45, 212, 191, 0.5),
+        transparent
+    ) 1;
+    box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
+                0 1px 60px rgba(139, 92, 246, 0.05);
+    padding: 32px 36px;
+    overflow-y: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--etc-top-bg);
+    transition: background 0.2s;
+}
+
+.etc-top:hover {
+    background: #0b1020;
+}
+
+/* ── Bottom sidebar panel (38.2% of sidebar height) ── */
+
+.etc-bottom {
+    flex: 0 0 var(--phi-minor);
+    padding: 32px 36px;
+    overflow-y: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--etc-bottom-bg);
+    transition: background 0.2s;
+}
+
+.etc-bottom:hover {
+    background: #0a0e1c;
+}
+
+.etc-top::before,
+.etc-bottom::before {
+    content: '';
+    flex: 0 0 10%;
+}
+
+.etc-top .etc-panel-header,
+.etc-bottom .etc-panel-header {
+    flex-shrink: 0;
+}
+
+.etc-top .etc-panel-body,
+.etc-bottom .etc-panel-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 8px;
+    margin: -8px;
+}
+
+/* ── Click hint on sidebar panels ── */
+
+.etc-top::after,
+.etc-bottom::after {
+    content: '↑ click to promote';
+    display: block;
+    margin-top: 16px;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.etc-top:hover::after,
+.etc-bottom:hover::after {
+    opacity: 0.6;
+}
+
+/* ── Panel hidden state (when stack has < 3 items) ── */
+
+.etc-top.etc-hidden,
+.etc-bottom.etc-hidden {
+    display: none;
+}
+
+/* blur the body content in the panels that aren't the main panel */
+.etc-top .body-text,
+.etc-bottom .body-text {
+    filter: blur(4px);
+    user-select: none;
+}
+
+/* ── Disable clicks during animation ── */
+
+.etc-animating {
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   Exit animations — phase 1 (content leaving)
+   ═══════════════════════════════════════════════ */
+
+/* Poof: scale up slightly, blur, and dissolve. */
+
+.etc-exit-poof {
+    animation: etcPoof 280ms ease-out forwards;
+}
+
+@keyframes etcPoof {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.06);
+        filter: blur(5px);
+    }
+}
+
+/* Slide left: gr-top content departing toward main. */
+
+.etc-exit-slide-left {
+    animation: etcSlideLeft 280ms ease-in forwards;
+}
+
+@keyframes etcSlideLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+}
+
+/* Slide up: gr-bottom content vacating upward. */
+
+.etc-exit-slide-up {
+    animation: etcSlideUp 280ms ease-in forwards;
+}
+
+@keyframes etcSlideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   Entrance animations — phase 2 (content arriving)
+   ═══════════════════════════════════════════════ */
+
+/* Gentle fade in for the new main content. */
+
+.etc-enter-main {
+    animation: etcEnterMain 320ms ease-out forwards;
+}
+
+@keyframes etcEnterMain {
+    0% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in from the right for new gr-top content. */
+
+.etc-enter-top {
+    animation: etcEnterTop 300ms ease-out forwards;
+}
+
+@keyframes etcEnterTop {
+    0% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade in from below for new gr-bottom content. */
+
+.etc-enter-bottom {
+    animation: etcEnterBottom 300ms ease-out forwards;
+}
+
+@keyframes etcEnterBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   Content styling inside panels
+   ═══════════════════════════════════════════════ */
+
+.etc-main .section-label {
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+.etc-main .page-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.etc-exhausted {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 300;
+    padding: 20px 0;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile overrides
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+    .etc-shell {
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .etc-main {
+        flex: none;
+        border-right: none;
+        border-bottom: 1px solid transparent;
+        border-image: linear-gradient(
+            90deg,
+            transparent,
+            rgba(45, 212, 191, 0.5),
+            rgba(196, 181, 253, 0.4),
+            rgba(45, 212, 191, 0.5),
+            transparent
+        ) 1;
+        box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
+                    0 1px 60px rgba(139, 92, 246, 0.05);
+        padding: 32px 24px;
+        min-height: 40vh;
+    }
+
+    .etc-sidebar {
+        flex: none;
+        flex-direction: column;
+    }
+
+    .etc-top {
+        flex: none;
+        min-height: 30vh;
+        padding: 28px 24px;
+    }
+
+    .etc-bottom {
+        flex: none;
+        min-height: 20vh;
+        padding: 28px 24px;
+    }
+}

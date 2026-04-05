@@ -4,6 +4,15 @@
    ═══════════════════════════════════════════════ */
 
    :root {
-      --accent: #004d06;
-      --accent-rgb: 0, 77, 6;
+      --accent: #34d399;
+      --accent-rgb: 52, 211, 153;
+      --bg: #0a1610;
+  }
+  
+  .site-nav {
+      background: #071210;
+  }
+  
+  .nav-dropdown-menu {
+      background: #071210;
   }

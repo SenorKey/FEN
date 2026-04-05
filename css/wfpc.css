@@ -6,6 +6,15 @@
    :root {
       --accent: #d4a520;
       --accent-rgb: 212, 165, 32;
+      --bg: #1a1d23;
+   }
+   
+   .site-nav {
+      background: #14161b;
+   }
+   
+   .nav-dropdown-menu {
+      background: #14161b;
    }
    
    /* ── Photo gallery ──────────────────────────────────────────── */
@@ -24,12 +33,13 @@
       position: relative;
       width: 100%;
       aspect-ratio: 4 / 3;
-      /* fallback — JS overrides per image */
       border-radius: 8px;
       overflow: hidden;
+      border: 1px solid rgba(196, 181, 253, 0.15);
       box-shadow:
-         0 4px 20px rgba(0, 0, 0, 0.4),
-         0 0 0 1px rgba(var(--accent-rgb), 0.15);
+         0 0 20px rgba(45, 212, 191, 0.08),
+         0 0 50px rgba(139, 92, 246, 0.05),
+         0 4px 20px rgba(0, 0, 0, 0.3);
    }
    
    .photo-img {
@@ -102,8 +112,6 @@
          ═══════════════════════════════════════════════ */
    
    @media (max-width: 768px) {
-   
-      /* ── Gallery: absolute → static, centered ── */
    
       .photo-gallery {
          position: static;
