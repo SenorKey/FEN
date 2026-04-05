@@ -5,12 +5,14 @@
    Vertical golden ratio layout with stack mechanic.
    ═══════════════════════════════════════════════ */
 
-:root {
+   :root {
     --accent: #7a6e5d;
-    --tint: #d6cfc5;
+    --accent-rgb: 122, 110, 93;
+    --etc-top-bg: #0a1021;
+    --etc-bottom-bg: #080c18;
 }
 
-/* ── Override the default forced caps from styles.css for navbar links*/
+/* ── Override the default forced caps from styles.css for navbar links */
 .site-nav .nav-etc {
     text-transform: lowercase;
     letter-spacing: 0.02em;
@@ -31,24 +33,38 @@
 
 .etc-main {
     flex: 0 0 var(--phi-major);
-    border-right: 1px solid var(--rule);
+    border-right: 1px solid transparent;
+    border-image: linear-gradient(
+        180deg,
+        transparent,
+        rgba(45, 212, 191, 0.5),
+        rgba(196, 181, 253, 0.4),
+        rgba(45, 212, 191, 0.5),
+        transparent
+    ) 1;
+    box-shadow: 1px 0 30px rgba(45, 212, 191, 0.08),
+                1px 0 60px rgba(139, 92, 246, 0.05);
     padding: 48px 56px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: linear-gradient(to bottom, var(--bg), var(--tint) 100%);
+    background: var(--bg);
 }
 
+/* Shadow-only h1 — intentionally hard to read.
+   Dark shadows on dark bg create barely-visible letterforms.
+   A very faint wide haze hints that something is there. */
 .etc-page-title {
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: clamp(1.4rem, 3.9vw, 5rem);
     color: transparent;
     text-shadow:
-        /*0 0 2px rgba(122, 110, 93, 0.6),     /* tight — defines the letter edges */
-        0 0 10px rgba(122, 110, 93, 0.3),     /* mid — fills in the body */
-        0 0 24px rgba(122, 110, 93, 0.12);    /* wide — atmospheric halo */
+        0 0 2px rgba(9, 13, 31, 0.6),
+        0 0 10px rgba(8, 10, 45, 0.3),
+        0 0 24px rgba(12, 13, 57, 0.12),
+        0 0 60px rgba(45, 76, 212, 0.03);
     margin-bottom: 100px;
     flex-shrink: 0;
 }
@@ -57,7 +73,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* center the cycling content in remaining space */
+    justify-content: center;
 }
 
 /* ── Sidebar (right, 38.2% width) ── */
@@ -73,19 +89,29 @@
 
 .etc-top {
     flex: 0 0 var(--phi-major);
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(
+        90deg,
+        transparent,
+        rgba(45, 212, 191, 0.5),
+        rgba(196, 181, 253, 0.4),
+        rgba(45, 212, 191, 0.5),
+        transparent
+    ) 1;
+    box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
+                0 1px 60px rgba(139, 92, 246, 0.05);
     padding: 32px 36px;
     overflow-y: hidden;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: linear-gradient(to bottom, var(--tint), var(--bg) 60%);
+    background: var(--etc-top-bg);
     transition: background 0.2s;
 }
 
 .etc-top:hover {
-    background: linear-gradient(to bottom, var(--tint), rgba(122, 110, 93, 0.06) 60%);
+    background: #0b1020;
 }
 
 /* ── Bottom sidebar panel (38.2% of sidebar height) ── */
@@ -98,12 +124,12 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: linear-gradient(to bottom, var(--bg) 40%, var(--tint));
+    background: var(--etc-bottom-bg);
     transition: background 0.2s;
 }
 
 .etc-bottom:hover {
-    background: linear-gradient(to bottom, rgba(122, 110, 93, 0.06) 40%, var(--tint));
+    background: #0a0e1c;
 }
 
 .etc-top::before,
@@ -116,7 +142,7 @@
 .etc-bottom .etc-panel-header {
     flex-shrink: 0;
 }
- 
+
 .etc-top .etc-panel-body,
 .etc-bottom .etc-panel-body {
     flex: 1;
@@ -154,14 +180,12 @@
     display: none;
 }
 
-/*blur the body content in the panels that aren't the main panel*/
+/* blur the body content in the panels that aren't the main panel */
 .etc-top .body-text,
 .etc-bottom .body-text {
     filter: blur(4px);
     user-select: none;
 }
-
-
 
 /* ── Disable clicks during animation ── */
 
@@ -173,9 +197,7 @@
    Exit animations — phase 1 (content leaving)
    ═══════════════════════════════════════════════ */
 
-/* Poof: scale up slightly, blur, and dissolve.
-   Applied to main panel (always ejected) and
-   to gr-top when gr-bottom is clicked (pop 2). */
+/* Poof: scale up slightly, blur, and dissolve. */
 
 .etc-exit-poof {
     animation: etcPoof 280ms ease-out forwards;
@@ -195,8 +217,7 @@
     }
 }
 
-/* Slide left: gr-top content departing toward main.
-   Applied to gr-top when gr-top is clicked (pop 1). */
+/* Slide left: gr-top content departing toward main. */
 
 .etc-exit-slide-left {
     animation: etcSlideLeft 280ms ease-in forwards;
@@ -214,8 +235,7 @@
     }
 }
 
-/* Slide up: gr-bottom content vacating upward.
-   Applied to gr-bottom during either click. */
+/* Slide up: gr-bottom content vacating upward. */
 
 .etc-exit-slide-up {
     animation: etcSlideUp 280ms ease-in forwards;
@@ -326,7 +346,17 @@
     .etc-main {
         flex: none;
         border-right: none;
-        border-bottom: 1px solid var(--rule);
+        border-bottom: 1px solid transparent;
+        border-image: linear-gradient(
+            90deg,
+            transparent,
+            rgba(45, 212, 191, 0.5),
+            rgba(196, 181, 253, 0.4),
+            rgba(45, 212, 191, 0.5),
+            transparent
+        ) 1;
+        box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
+                    0 1px 60px rgba(139, 92, 246, 0.05);
         padding: 32px 24px;
         min-height: 40vh;
     }

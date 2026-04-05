@@ -3,9 +3,18 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-:root {
+   :root {
     --accent: #ffffff;
-    --tint: #b0b0b0bd;
+    --accent-rgb: 255, 255, 255;
+    --bg: #0e0e0e;
+}
+
+.site-nav {
+    background: #080808;
+}
+
+.nav-dropdown-menu {
+    background: #080808;
 }
 
 /* ── Resume entries ── */
@@ -88,14 +97,13 @@
 
 .chat-ai {
     align-self: flex-start;
-    background: rgba(103, 103, 103, 0.06);
-    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .chat-user {
     align-self: flex-end;
     background: #2F80ED;
-    /*user chat bubble color*/
     color: #fff;
 }
 
@@ -104,8 +112,8 @@
 .chat-typing {
     align-self: flex-start;
     padding: 10px 18px;
-    background: rgba(26, 26, 26, 0.06);
-    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 10px;
     display: flex;
     gap: 5px;
@@ -150,7 +158,7 @@
     display: flex;
     gap: 8px;
     padding-top: 10px;
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .chat-input {
@@ -158,9 +166,9 @@
     font-family: 'DM Sans', sans-serif;
     font-size: 0.85rem;
     padding: 9px 12px;
-    border: 1px solid var(--rule);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--ink);
     outline: none;
     transition: border-color 0.2s;
@@ -172,7 +180,7 @@
 }
 
 .chat-input:focus {
-    border-color: var(--ink);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .chat-send {
@@ -181,7 +189,7 @@
     border: none;
     border-radius: 6px;
     background: var(--ink);
-    color: #fff;
+    color: var(--bg);
     font-size: 1rem;
     cursor: pointer;
     display: flex;
@@ -220,7 +228,6 @@
     gap: 8px;
     min-height: 0;
     align-self: stretch;
-    /* ← override parent's flex-end */
 }
 
 .photo-frame {
@@ -228,13 +235,14 @@
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
+    border: 1px solid rgba(196, 181, 253, 0.15);
     box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.18),
-        0 0 0 1px rgba(26, 26, 26, 0.10);
+        0 0 20px rgba(45, 212, 191, 0.08),
+        0 0 50px rgba(139, 92, 246, 0.05),
+        0 4px 20px rgba(0, 0, 0, 0.3);
 
     flex: 1;
     min-height: 0;
-    /* prevents the frame from refusing to shrink */
 }
 
 .photo-caption {
@@ -244,7 +252,6 @@
     text-align: center;
     margin: 0;
     flex-shrink: 0;
-    /* caption never gets squished */
 }
 
 .photo-img {
@@ -271,31 +278,28 @@
     align-items: center;
     gap: 10px;
     margin-bottom: 28px;
-    /* roughly caption line-height + 8px gap */
-
 }
 
 .photo-cycle-btn {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: var(--ink);
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     font-size: 1.2rem;
     line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.18s, background 0.18s;
 }
 
 .photo-cycle-btn:hover {
     transform: scale(1.1);
-    background: var(--accent);
-    color: var(--ink);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .photo-dot-row {
@@ -309,7 +313,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: rgba(145, 103, 35, 0.25);
+    background: rgba(var(--accent-rgb), 0.2);
     transition: background 0.3s;
 }
 
@@ -322,8 +326,6 @@
    ═══════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-
-    /* ── Gallery: absolute → static, centered ── */
 
     .photo-gallery {
         position: static;
@@ -340,8 +342,6 @@
         height: auto;
         aspect-ratio: 4 / 3;
         flex: none;
-        /* override flex: 1 so aspect-ratio controls height */
-
     }
 
     .photo-nav {
@@ -353,8 +353,6 @@
         flex-direction: row;
     }
 
-    /* ── Chat panel: give it a usable height ── */
-
     .chat-panel {
         min-height: 360px;
         height: 50vh;
@@ -364,8 +362,6 @@
     .chat-msg {
         max-width: 88%;
     }
-
-    /* ── Resume tweaks ── */
 
     .job-meta {
         font-size: 0.72rem;
