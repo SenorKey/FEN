@@ -5,7 +5,7 @@
     var imgs = document.querySelectorAll('.photo-img');
     var dots = document.querySelectorAll('.photo-dot');
     var frame = document.querySelector('.photo-frame');
-    var autoDelay = 3000;
+    var autoDelay = 3500;
     var autoTimer = null;
 
     function updateFrameRatio(img) {
