@@ -3,7 +3,7 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-   :root {
+:root {
     --accent: #ffffff;
     --accent-rgb: 255, 255, 255;
     --bg: #0e0e0e;
@@ -208,117 +208,35 @@
     cursor: not-allowed;
 }
 
-/* ── Photo gallery ──────────────────────────────────────────── */
+/* ── Gallery — page-specific sizing & theming ── */
 
 .photo-gallery {
-    position: absolute;
-    right: 6%;
-    bottom: 8%;
     width: 45%;
     height: 85%;
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
-}
-
-.photo-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-height: 0;
-    align-self: stretch;
 }
 
 .photo-frame {
-    position: relative;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(196, 181, 253, 0.15);
-    box-shadow:
-        0 0 20px rgba(45, 212, 191, 0.08),
-        0 0 50px rgba(139, 92, 246, 0.05),
-        0 4px 20px rgba(0, 0, 0, 0.3);
-
     flex: 1;
     min-height: 0;
-}
-
-.photo-caption {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-align: center;
-    margin: 0;
-    flex-shrink: 0;
+    height: auto;
 }
 
 .photo-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     object-position: center top;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
 }
-
-.photo-img.active {
-    opacity: 1;
-}
-
-/* ── Gallery controls ── */
 
 .photo-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
     margin-bottom: 28px;
 }
 
 .photo-cycle-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    font-size: 1.2rem;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.18s, background 0.18s;
 }
 
 .photo-cycle-btn:hover {
-    transform: scale(1.1);
     background: rgba(255, 255, 255, 0.3);
-}
-
-.photo-dot-row {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: center;
-}
-
-.photo-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: rgba(var(--accent-rgb), 0.2);
-    transition: background 0.3s;
-}
-
-.photo-dot.active {
-    background: var(--accent);
 }
 
 /* ═══════════════════════════════════════════════
@@ -327,30 +245,8 @@
 
 @media (max-width: 768px) {
 
-    .photo-gallery {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        margin-top: 24px;
-    }
-
     .photo-frame {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 4 / 3;
         flex: none;
-    }
-
-    .photo-nav {
-        flex-direction: row;
-        gap: 8px;
-    }
-
-    .photo-dot-row {
-        flex-direction: row;
     }
 
     .chat-panel {

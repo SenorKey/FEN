@@ -5,6 +5,8 @@
     var imgs = document.querySelectorAll('.photo-img');
     var dots = document.querySelectorAll('.photo-dot');
     var frame = document.querySelector('.photo-frame');
+    var autoDelay = 3000;
+    var autoTimer = null;
 
     function updateFrameRatio(img) {
         if (img.naturalWidth && img.naturalHeight) {
@@ -24,7 +26,7 @@
         }
     }
 
-    galleryBtn.addEventListener('click', function () {
+    function advance() {
         var current = Array.from(imgs).findIndex(function (img) {
             return img.classList.contains('active');
         });
@@ -43,5 +45,17 @@
                 updateFrameRatio(imgs[next]);
             });
         }
+    }
+
+    function startAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(advance, autoDelay);
+    }
+
+    galleryBtn.addEventListener('click', function () {
+        advance();
+        clearInterval(autoTimer); // user took control, stop auto-cycling
     });
+
+    startAuto();
 })();

@@ -93,16 +93,14 @@ body {
   background: var(--bg);
   flex: 0 0 var(--phi-major);
   border-bottom: 1px solid transparent;
-  border-image: linear-gradient(
-    90deg,
-    transparent,
-    rgba(45, 212, 191, 0.5),
-    rgba(196, 181, 253, 0.4),
-    rgba(45, 212, 191, 0.5),
-    transparent
-  ) 1;
+  border-image: linear-gradient(90deg,
+      transparent,
+      rgba(45, 212, 191, 0.5),
+      rgba(196, 181, 253, 0.4),
+      rgba(45, 212, 191, 0.5),
+      transparent) 1;
   box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
-              0 1px 60px rgba(139, 92, 246, 0.05);
+    0 1px 60px rgba(139, 92, 246, 0.05);
   padding: 48px 56px;
   display: flex;
   flex-direction: column;
@@ -131,16 +129,14 @@ body {
   background: var(--bg);
   flex: 0 0 var(--phi-major);
   border-right: 1px solid transparent;
-  border-image: linear-gradient(
-    180deg,
-    transparent,
-    rgba(45, 212, 191, 0.5),
-    rgba(196, 181, 253, 0.4),
-    rgba(45, 212, 191, 0.5),
-    transparent
-  ) 1;
+  border-image: linear-gradient(180deg,
+      transparent,
+      rgba(45, 212, 191, 0.5),
+      rgba(196, 181, 253, 0.4),
+      rgba(45, 212, 191, 0.5),
+      transparent) 1;
   box-shadow: 1px 0 30px rgba(45, 212, 191, 0.08),
-              1px 0 60px rgba(139, 92, 246, 0.05);
+    1px 0 60px rgba(139, 92, 246, 0.05);
   padding: 32px 56px;
   overflow-y: auto;
 }
@@ -250,14 +246,12 @@ p.body-text+h3.sub {
 .site-nav {
   background: #0a0e1a;
   border-bottom: 1px solid transparent;
-  border-image: linear-gradient(
-    90deg,
-    transparent,
-    rgba(45, 212, 191, 0.25),
-    rgba(196, 181, 253, 0.2),
-    rgba(45, 212, 191, 0.25),
-    transparent
-  ) 1;
+  border-image: linear-gradient(90deg,
+      transparent,
+      rgba(45, 212, 191, 0.25),
+      rgba(196, 181, 253, 0.2),
+      rgba(45, 212, 191, 0.25),
+      transparent) 1;
   box-shadow: 0 1px 12px rgba(45, 212, 191, 0.05);
   padding: 0 56px;
   display: flex;
@@ -309,7 +303,7 @@ p.body-text+h3.sub {
   cursor: default;
   transition: color 0.2s;
 }
- 
+
 .nav-dropdown:hover .nav-dropdown-toggle,
 .nav-dropdown:focus-within .nav-dropdown-toggle {
   color: #ffffff;
@@ -371,104 +365,238 @@ p.body-text+h3.sub {
   top: 0;
 }
 
+/* ── Photo gallery ──────────────────────────────────────────── */
+
+.photo-gallery {
+  position: absolute;
+  right: 6%;
+  bottom: 8%;
+  width: 40%;
+  height: 70%;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.photo-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  align-self: stretch;
+}
+
+.photo-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(196, 181, 253, 0.15);
+  box-shadow:
+    0 0 20px rgba(45, 212, 191, 0.08),
+    0 0 50px rgba(139, 92, 246, 0.05),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.photo-caption {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.photo-img.active {
+  opacity: 1;
+}
+
+/* ── Gallery controls ── */
+
+.photo-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.photo-cycle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.18s, background 0.18s;
+}
+
+.photo-cycle-btn:hover {
+  transform: scale(1.1);
+}
+
+.photo-dot-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.photo-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.25);
+  transition: background 0.3s;
+}
+
+.photo-dot.active {
+  background: var(--accent);
+}
+
 /* ═══════════════════════════════════════════════
    Responsive — mobile-first overrides
    ═══════════════════════════════════════════════ */
- 
-   @media (max-width: 768px) {
- 
-    /* ── Release the viewport lock ── */
-   
-    body {
-      height: auto;
-      overflow: auto;
-    }
-   
-    .gr-shell {
-      flex: none;
-      overflow: visible;
-    }
-   
-    /* ── Hero / top panel ── */
-   
-    .gr-top {
-      flex: none;
-      min-height: 260px;
-      padding: 32px 24px;
-    }
-   
-    .gr-top-art {
-      height: 60%;
-      opacity: 0.35;
-    }
-   
-    /* ── Bottom panels → stacked ── */
-   
-    .gr-bottom {
-      flex: none;
-      flex-direction: column;
-      overflow: visible;
-    }
-   
-    .gr-left {
-      flex: none;
-      border-right: none;
-      border-bottom: 1px solid transparent;
-      border-image: linear-gradient(
-        90deg,
+
+@media (max-width: 768px) {
+
+  /* ── Release the viewport lock ── */
+
+  body {
+    height: auto;
+    overflow: auto;
+  }
+
+  .gr-shell {
+    flex: none;
+    overflow: visible;
+  }
+
+  /* ── Hero / top panel ── */
+
+  .gr-top {
+    flex: none;
+    min-height: 260px;
+    padding: 32px 24px;
+  }
+
+  .gr-top-art {
+    height: 60%;
+    opacity: 0.35;
+  }
+
+  /* ── Bottom panels → stacked ── */
+
+  .gr-bottom {
+    flex: none;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .gr-left {
+    flex: none;
+    border-right: none;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(90deg,
         transparent,
         rgba(45, 212, 191, 0.5),
         rgba(196, 181, 253, 0.4),
         rgba(45, 212, 191, 0.5),
-        transparent
-      ) 1;
-      box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
-                  0 1px 60px rgba(139, 92, 246, 0.05);
-      padding: 28px 24px;
-    }
-   
-    .gr-right {
-      flex: none;
-      padding: 28px 24px;
-    }
-   
-    /* ── Nav ── */
-   
-    .site-nav {
-      padding: 0 16px;
-      gap: 14px;
-      height: 40px;
-    }
-   
-    .site-nav a {
-      font-size: 0.7rem;
-      white-space: nowrap;
-    }
-
-    .nav-dropdown-toggle {
-      font-size: 0.7rem;
-    }
-
-    .nav-dropdown-menu {
-      position: fixed;
-      top: 40px;
-      left: 0;
-      width: 100%;
-      min-width: unset;
-    }
-   
-    /* ── Typography tweaks ── */
-   
-    .page-title {
-      font-size: clamp(1.6rem, 8vw, 2.4rem);
-    }
-   
-    .page-subtitle {
-      font-size: 0.88rem;
-      max-width: 50%;
-    }
-   
-    .body-text {
-      font-size: 0.88rem;
-    }
+        transparent) 1;
+    box-shadow: 0 1px 30px rgba(45, 212, 191, 0.08),
+      0 1px 60px rgba(139, 92, 246, 0.05);
+    padding: 28px 24px;
   }
+
+  .gr-right {
+    flex: none;
+    padding: 28px 24px;
+  }
+
+  /* ── Nav ── */
+
+  .site-nav {
+    padding: 0 16px;
+    gap: 14px;
+    height: 40px;
+  }
+
+  .site-nav a {
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown-toggle {
+    font-size: 0.7rem;
+  }
+
+  .nav-dropdown-menu {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* ── Typography tweaks ── */
+
+  .page-title {
+    font-size: clamp(1.6rem, 8vw, 2.4rem);
+  }
+
+  .page-subtitle {
+    font-size: 0.88rem;
+    max-width: 50%;
+  }
+
+  .body-text {
+    font-size: 0.88rem;
+  }
+
+  /* ── Photo gallery (mobile) ── */
+
+  .photo-gallery {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .photo-frame {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    flex: none;
+  }
+
+  .photo-nav {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .photo-dot-row {
+    flex-direction: row;
+  }
+}
