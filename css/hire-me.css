@@ -208,25 +208,10 @@
     cursor: not-allowed;
 }
 
-/* ── Gallery — page-specific sizing & theming ── */
-
-.photo-gallery {
-    width: 45%;
-    height: 85%;
-}
-
-.photo-frame {
-    flex: 1;
-    min-height: 0;
-    height: auto;
-}
+/* ── Gallery — page-specific theming ── */
 
 .photo-img {
     object-position: center top;
-}
-
-.photo-nav {
-    margin-bottom: 28px;
 }
 
 .photo-cycle-btn {
@@ -244,10 +229,6 @@
    ═══════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-
-    .photo-frame {
-        flex: none;
-    }
 
     .chat-panel {
         min-height: 360px;
