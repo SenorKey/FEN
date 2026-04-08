@@ -156,7 +156,7 @@
 
 .etc-top::after,
 .etc-bottom::after {
-    content: '↑ click to promote';
+    content: '↑ click to stage';
     display: block;
     margin-top: 16px;
     font-size: 0.68rem;
