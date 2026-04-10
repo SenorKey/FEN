@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════
+   diet.css — Styles specific to /diet
+   frontendneeded.com
+   ═══════════════════════════════════════════════ */
+
+   :root {
+    --accent: #c27a4f;
+    --accent-rgb: 194, 122, 79;
+    --bg: #110e0a;
+}
+
+.site-nav {
+    background: #0d0a07;
+}
+
+.nav-dropdown-menu {
+    background: #0d0a07;
+}
+
+/* ── Progress region in gr-top ── */
+
+.progress-region {
+    position: absolute;
+    right: 6%;
+    bottom: 12%;
+    width: 35%;
+}
+
+.progress-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(var(--accent-rgb), 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #d9a87c);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+/* ── Category spacing ── */
+
+.reset-category {
+    margin-bottom: 28px;
+}
+
+.reset-category:last-child {
+    margin-bottom: 0;
+}
+
+.reset-category .section-label {
+    margin-bottom: 12px;
+}
+
+/* ── Checklist items ── */
+
+.reset-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    background: rgba(var(--accent-rgb), 0.03);
+    border: 1px solid rgba(var(--accent-rgb), 0.08);
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: border-color 0.2s, background 0.2s, opacity 0.3s;
+}
+
+.reset-item:hover {
+    border-color: rgba(var(--accent-rgb), 0.2);
+    background: rgba(var(--accent-rgb), 0.06);
+}
+
+.reset-item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ── Custom checkbox ── */
+
+.reset-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid rgba(var(--accent-rgb), 0.3);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.reset-check::after {
+    content: '';
+    display: none;
+    width: 5px;
+    height: 9px;
+    border: solid var(--bg);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+}
+
+/* ── Checked state ── */
+
+.reset-item.checked {
+    opacity: 0.4;
+}
+
+.reset-item.checked .reset-check {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.reset-item.checked .reset-check::after {
+    display: block;
+}
+
+.reset-item.checked .sub {
+    text-decoration: line-through;
+    text-decoration-color: rgba(var(--accent-rgb), 0.5);
+}
+
+/* ── Text inside items ── */
+
+.reset-text .sub {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.reset-text .body-text {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* ── Sidebar notes ── */
+
+.reset-note {
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    padding-top: 16px;
+    border-top: 1px solid rgba(var(--accent-rgb), 0.08);
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — mobile overrides
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+    .progress-region {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .reset-item {
+        padding: 12px 14px;
+        gap: 12px;
+    }
+
+    .reset-text .sub {
+        font-size: 0.88rem;
+    }
+
+    .reset-text .body-text {
+        font-size: 0.8rem;
+    }
+}
