@@ -61,9 +61,9 @@
             });
 
             var data = await res.json();
-            var reply = data.message && data.message.content
-                ? data.message.content
-                : 'Sorry, something went wrong. Try again.';
+            var reply = data.message && data.message.content ? 
+                data.message.content : 
+                'Sorry, something went wrong. Try again.';
 
             history.push({ role: 'assistant', content: reply });
             history = history.slice(-20);
