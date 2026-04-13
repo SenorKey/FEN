@@ -3,135 +3,274 @@
    frontendneeded.com
    ═══════════════════════════════════════════════ */
 
-:root {
-   --accent: #c7d2fe;
-   --accent-rgb: 145, 103, 35;
-}
-
-/* ── Easter egg: hidden nav link ──────────────────────────── */
-
-.nav-etc {
-   display: none;
-}
-
-.nav-etc.egg-revealed {
-   display: inline;
-}
-
-.site-nav .nav-etc {
-   text-transform: lowercase;
-   letter-spacing: 0.02em;
-}
-
-/* ── Easter egg: draggable letters ─────────────────────────── */
-
-.egg-letter {
-   cursor: grab;
-   transition: color 0.2s;
-   user-select: none;
-   -webkit-user-select: none;
-   -webkit-user-drag: element;
-}
-
-.egg-letter:hover {
-   color: var(--accent);
-}
-
-.egg-letter:active {
-   cursor: grabbing;
-}
-
-.egg-letter.egg-invisible {
-   color: var(--bg);
-}
-
-.egg-letter.egg-used {
-   color: var(--bg);
-   cursor: default;
-   pointer-events: none;
-}
-
-
-/* ── Easter egg: drop row ───────────────────────────────────── */
-
-.egg-drop-column {
-   display: flex;
-   flex-direction: row;
-   gap: 8px;
-   margin-top: 24px;
-}
-
-.egg-slot {
-   width: 28px;
-   height: 34px;
-   border-bottom: 2px solid var(--rule);
-   display: flex;
-   align-items: flex-end;
-   justify-content: center;
-   padding-bottom: 3px;
-   font-family: 'DM Sans', sans-serif;
-   font-size: 0.92rem;
-   font-weight: 500;
-   color: var(--ink);
-   opacity: 0;
-   pointer-events: none;
-   transition: opacity 0.2s, border-color 0.2s, background 0.2s;
-}
-
-body.egg-dragging .egg-slot {
-   opacity: 1;
-   pointer-events: all;
-}
-
-.egg-slot.egg-drag-over {
-   border-color: var(--accent);
-   background: rgba(var(--accent-rgb), 0.1);
-   border-radius: 2px 2px 0 0;
-}
-
-.egg-slot.egg-filled {
-   opacity: 1;
-   pointer-events: none;
-   color: var(--accent);
-   border-color: var(--accent);
-}
-
-/* ── Easter egg: color picker ───────────────────────────────── */
-
-#egg-color-picker {
-   visibility: hidden;
-   width: 36px;
-   height: 36px;
-   border: none;
-   border-radius: 50%;
-   padding: 0;
-   cursor: pointer;
-   background: none;
-}
-
-/* ── Gallery — page-specific theming ── */
-
-.photo-cycle-btn:hover {
-   background: #a87830;
-}
-
-/* ═══════════════════════════════════════════════
-      Responsive — mobile overrides
-      ═══════════════════════════════════════════════ */
-
-@media (max-width: 768px) {
-
-   .egg-drop-column {
+   :root {
+      --accent: #d4a520;
+      --accent-rgb: 212, 165, 32;
+      --bg: #0a0a0a;
+   }
+   
+   /* ── Black and gold theme overrides ─────────────────────── */
+   
+   .site-nav {
+      background: #060606;
+      border-image: linear-gradient(90deg,
+         transparent,
+         rgba(212, 165, 32, 0.3),
+         rgba(255, 215, 100, 0.2),
+         rgba(212, 165, 32, 0.3),
+         transparent) 1;
+      box-shadow: 0 1px 12px rgba(212, 165, 32, 0.06);
+   }
+   
+   .nav-dropdown-menu {
+      background: #060606;
+      border-top: 1px solid rgba(212, 165, 32, 0.12);
+   }
+   
+   .gr-top {
+      background: var(--bg);
+      border-image: linear-gradient(90deg,
+         transparent,
+         rgba(212, 165, 32, 0.5),
+         rgba(255, 223, 120, 0.35),
+         rgba(212, 165, 32, 0.5),
+         transparent) 1;
+      box-shadow: 0 1px 30px rgba(212, 165, 32, 0.08),
+         0 1px 60px rgba(180, 140, 20, 0.04);
+   }
+   
+   .gr-left {
+      background: var(--bg);
+      border-image: linear-gradient(180deg,
+         transparent,
+         rgba(212, 165, 32, 0.5),
+         rgba(255, 223, 120, 0.35),
+         rgba(212, 165, 32, 0.5),
+         transparent) 1;
+      box-shadow: 1px 0 30px rgba(212, 165, 32, 0.08),
+         1px 0 60px rgba(180, 140, 20, 0.04);
+   }
+   
+   .gr-right {
+      background: var(--bg);
+   }
+   
+   /* ── Shiny gold page title ─────────────────────────────── */
+   
+   .page-title {
+      background: linear-gradient(
+         120deg,
+         #b8860b 0%,
+         #d4a520 20%,
+         #ffd700 40%,
+         #fff5c2 50%,
+         #ffd700 60%,
+         #d4a520 80%,
+         #b8860b 100%
+      );
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      animation: goldShimmer 4s ease-in-out infinite;
+   }
+   
+   @keyframes goldShimmer {
+      0% {
+         background-position: 100% 50%;
+      }
+      50% {
+         background-position: 0% 50%;
+      }
+      100% {
+         background-position: 100% 50%;
+      }
+   }
+   
+   /* ── Gold accent bar ── */
+   
+   .accent-bar {
+      background: linear-gradient(90deg, #b8860b, #ffd700, #d4a520);
+      box-shadow: 0 0 12px rgba(212, 165, 32, 0.3);
+   }
+   
+   /* ── Gold-tinted subtitle ── */
+   
+   .page-subtitle {
+      color: rgba(212, 165, 32, 0.5);
+   }
+   
+   /* ── Gold section labels ── */
+   
+   .section-label {
+      color: rgba(212, 165, 32, 0.45);
+   }
+   
+   /* ── Gold left-panel headings ── */
+   
+   .gr-left h2.sub,
+   .gr-left h3.sub {
+      color: var(--accent);
+   }
+   
+   /* ── Gold link arrows ── */
+   
+   .nav-links a {
+      color: var(--accent);
+   }
+   
+   /* ── Photo gallery dot active state ── */
+   
+   .photo-dot.active {
+      background: var(--accent);
+   }
+   
+   /* ── Easter egg: hidden nav link ──────────────────────────── */
+   
+   .nav-etc {
       display: none;
    }
-
+   
+   .nav-etc.egg-revealed {
+      display: inline;
+   }
+   
+   .site-nav .nav-etc {
+      text-transform: lowercase;
+      letter-spacing: 0.02em;
+   }
+   
+   /* ── Easter egg: draggable letters ─────────────────────────── */
+   
    .egg-letter {
+      cursor: grab;
+      transition: color 0.2s;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: element;
+   }
+   
+   .egg-letter:hover {
+      color: var(--accent);
+   }
+   
+   .egg-letter:active {
+      cursor: grabbing;
+   }
+   
+   .egg-letter.egg-invisible {
+      color: var(--bg);
+   }
+   
+   .egg-letter.egg-used {
+      color: var(--bg);
       cursor: default;
-      -webkit-user-drag: none;
+      pointer-events: none;
    }
-
-   #egg-color-picker,
-   #egg-picker-label {
-      display: none;
+   
+   
+   /* ── Easter egg: drop row ───────────────────────────────────── */
+   
+   .egg-drop-column {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      margin-top: 24px;
    }
-}
+   
+   .egg-slot {
+      width: 28px;
+      height: 34px;
+      border-bottom: 2px solid var(--rule);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, border-color 0.2s, background 0.2s;
+   }
+   
+   body.egg-dragging .egg-slot {
+      opacity: 1;
+      pointer-events: all;
+   }
+   
+   .egg-slot.egg-drag-over {
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.1);
+      border-radius: 2px 2px 0 0;
+   }
+   
+   .egg-slot.egg-filled {
+      opacity: 1;
+      pointer-events: none;
+      color: var(--accent);
+      border-color: var(--accent);
+   }
+   
+   /* ── Easter egg: color picker ───────────────────────────────── */
+   
+   #egg-color-picker {
+      visibility: hidden;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+      background: none;
+   }
+   
+   /* ── Gallery — page-specific theming ── */
+   
+   .photo-cycle-btn:hover {
+      background: #b8860b;
+   }
+   
+   /* ── Gallery border — gold glow ── */
+   
+   .photo-frame {
+      border: 1px solid rgba(212, 165, 32, 0.2);
+      box-shadow:
+         0 0 20px rgba(212, 165, 32, 0.1),
+         0 0 50px rgba(180, 140, 20, 0.05),
+         0 4px 20px rgba(0, 0, 0, 0.3);
+   }
+   
+   /* ═══════════════════════════════════════════════
+         Responsive — mobile overrides
+         ═══════════════════════════════════════════════ */
+   
+   @media (max-width: 768px) {
+   
+      .egg-drop-column {
+         display: none;
+      }
+   
+      .egg-letter {
+         cursor: default;
+         -webkit-user-drag: none;
+      }
+   
+      #egg-color-picker,
+      #egg-picker-label {
+         display: none;
+      }
+   
+      .gr-left {
+         border-image: linear-gradient(90deg,
+            transparent,
+            rgba(212, 165, 32, 0.5),
+            rgba(255, 223, 120, 0.35),
+            rgba(212, 165, 32, 0.5),
+            transparent) 1;
+         box-shadow: 0 1px 30px rgba(212, 165, 32, 0.08),
+            0 1px 60px rgba(180, 140, 20, 0.04);
+      }
+   }
