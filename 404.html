@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>404 — Page Not Found</title>
+
+    <style>
+        .gr-top {
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            transition: gap 0.2s;
+        }
+
+        .back-link:hover {
+            gap: 10px;
+        }
+
+        .back-link::before {
+            content: '←';
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/pental">Pental</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content" class="gr-shell">
+
+        <div class="gr-top">
+            <div class="accent-bar"></div>
+            <h1 class="page-title">404</h1>
+            <p class="page-subtitle">This page doesn't exist — or maybe it moved somewhere else.</p>
+            <a href="/" class="back-link">Back to home</a>
+        </div>
+
+        <div class="gr-bottom">
+            <div class="gr-left">
+                <p class="section-label">While you're here</p>
+                <p class="body-text">If you were looking for something specific, these might help:</p>
+
+                <h2 class="sub" style="margin-top: 16px;">Projects</h2>
+                <p class="body-text">Check out <a href="/tarella-notes" style="color: var(--accent);">Tarella Notes</a>,
+                    the <a href="/wfpc" style="color: var(--accent);">Warframe Price Checker</a>, or
+                    <a href="/pental" style="color: var(--accent);">Pental</a>.
+                </p>
+
+                <h2 class="sub">Looking to hire?</h2>
+                <p class="body-text">Head over to my <a href="/hire-me" style="color: var(--accent);">Hire Me</a> page
+                    for my resume and an AI chatbot you can ask questions about my background.</p>
+            </div>
+            <div class="gr-right">
+                <p class="section-label">Links</p>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="https://github.com/SenorKey/" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="mailto:kijananyc@gmail.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>
