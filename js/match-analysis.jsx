@@ -300,7 +300,7 @@ function ActionMenu(_ref) {
                     {items.map(function (item, i) {
                         return (
                             <button key={i} disabled={item.disabled}
-                                onClick={function () { item.action(); setOpen(false); }}
+                                onClick={function () { item.action();}}
                                 style={{
                                     padding: "9px 14px", fontSize: 12, fontFamily: C.fontCond,
                                     fontWeight: 600, textAlign: "center", background: "transparent", border: "none",
