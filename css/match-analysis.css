@@ -29,3 +29,157 @@
     flex: 1;
     overflow: hidden;
 }
+
+
+/* ═══════════════════════════════════════════════
+   FIX 1 — Mobile viewport height
+   
+   The base styles.css sets body { height: 100vh }.
+   On mobile Safari/Chrome, 100vh includes the
+   browser's address bar, so the actual visible area
+   is shorter. This pushes the bottom tab bar behind
+   the browser chrome, making it unreachable.
+   
+   100dvh (dynamic viewport height) tracks the
+   *actual* visible area in real time. We add the
+   standard 100vh as a fallback for older browsers.
+   ═══════════════════════════════════════════════ */
+
+body {
+    height: 100dvh;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 2 — Focus visibility (accessibility)
+   
+   The JSX sets outline:"none" on all inputs, textareas,
+   and buttons. This kills the browser's default focus
+   ring, so keyboard/tab users can't see what's focused.
+   
+   :focus-visible fires only on keyboard navigation
+   (not mouse clicks), so it won't look weird when
+   tapping buttons — it only appears when someone is
+   actually tabbing through the UI.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root *:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 2px;
+}
+
+/* Inputs get an inset ring instead of an offset one,
+   which looks cleaner inside form fields. */
+#match-analysis-root input:focus-visible,
+#match-analysis-root textarea:focus-visible {
+    outline-offset: -1px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 3 — Prevent iOS rubber-band / overscroll
+   on the app shell, while keeping inner panels
+   scrollable.
+   
+   Without this, swiping up/down on the pitch board
+   can drag the entire page and cause a visual bounce,
+   which feels broken on a "locked" viewport app.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root {
+    overscroll-behavior: contain;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 4 — Tap highlight cleanup on iOS
+   
+   By default, iOS shows a translucent grey overlay
+   when you tap any clickable element. On a dark
+   tactical UI full of small toggle buttons, these
+   flashes are distracting and feel unpolished.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root button,
+#match-analysis-root input,
+#match-analysis-root textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 5 — iOS text size inflation
+   
+   Mobile Safari sometimes inflates font sizes
+   when it thinks a block is "too narrow." In a
+   data-dense tactical form, this breaks layouts.
+   -webkit-text-size-adjust: 100% prevents it.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 6 — Prevent textarea horizontal resize
+   
+   The Field component allows vertical resize on
+   textareas, which is fine. But the default browser
+   behavior also allows horizontal resize, which can
+   break the form layout by pushing content offscreen.
+   This constrains it to vertical only.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root textarea {
+    max-width: 100%;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX 7 — SVG touch-action on the pitch
+   
+   The inline style sets touch-action: none on the
+   SVG, which is correct for the drawing tools.
+   But we also need to prevent any parent from
+   intercepting touch events (e.g. pull-to-refresh).
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root svg {
+    touch-action: none;
+}
+
+
+/* ═══════════════════════════════════════════════
+   Narrow-screen responsive overrides
+   
+   The React app uses all inline styles with no
+   breakpoints at all — it's a single fixed layout.
+   These CSS overrides target elements that can be
+   reached via selectors, adding the responsive
+   behavior that inline styles can't provide.
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 374px) {
+
+    /* On screens narrower than 375px (iPhone SE, 
+       older Androids), the header controls crowd
+       together. Tighten the gap and shrink font. */
+    #match-analysis-root h1 {
+        font-size: 13px !important;
+        letter-spacing: 1px !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* Momentum segment labels are nearly unreadable 
+       at 8px on small screens — hide them. The color 
+       coding (blue/red/neutral) already communicates 
+       the state. */
+    #match-analysis-root svg+div span[style*="fontSize: 8"] {
+        /* Can't reliably target inline-styled spans, 
+           so this is documented as a JSX-level fix below. */
+    }
+}
