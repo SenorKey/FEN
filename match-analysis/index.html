@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/match-analysis.css">
 
+    <!-- Moved here from inside the React app (was a <link> inside a <div>) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=Saira+Condensed:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <meta name="description"
         content="Match Analysis — a live tactical scouting tool for football matches on frontendneeded.com.">
     <meta name="robots" content="noindex, nofollow">
@@ -39,33 +44,14 @@
         <a href="/hire-me">Hire Me</a>
     </nav>
 
-    <!--
-        This is where React mounts the match analysis app.
-        Unlike your other pages that use the gr-shell layout,
-        this page hands control to a React component that
-        manages its own layout (tabbed interface, tactical board, etc).
-    -->
     <main id="main-content">
         <div id="match-analysis-root"></div>
     </main>
 
     <!--
         React from CDN — no npm, no build step.
-
-        react.production.min.js    → The React library itself (component model, hooks, state)
-        react-dom.production.min.js → Renders React components into the actual DOM
-        babel.min.js               → Compiles JSX syntax into regular JavaScript in the browser
-
-        Babel is the key piece here. Your .jsx file uses syntax like:
-            <div style={{ color: "red" }}>Hello</div>
-        ...which browsers don't understand natively. Babel reads any
-        <script type="text/babel"> tag and compiles it to:
-            React.createElement("div", { style: { color: "red" } }, "Hello")
-        ...which browsers DO understand. This happens once on page load.
-
-        In production apps you'd do this compile step ahead of time with a
-        bundler (Webpack, Vite, etc), but for a single-page tool like this,
-        the in-browser approach is perfectly fine and keeps your stack simple.
+        See original comments in match-analysis.jsx for details
+        on why Babel is needed for in-browser JSX compilation.
     -->
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
     <script crossorigin
@@ -73,17 +59,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
 
     <!--
-        Your actual component. type="text/babel" tells Babel to compile it.
-        data-type="module" lets it use import/export syntax (though we handle
-        React globals differently here — see the JSX file).
-    -->
-    <script type="text/babel" src="/js/match-analysis.jsx"></script>
+        ── FILE LOAD ORDER ──
 
-    <!--
-        Mount the React app into the #match-analysis-root div.
-        This is the equivalent of your other pages' DOMContentLoaded setup,
-        but for React.
+        Because there's no bundler, each file is a separate
+        <script type="text/babel"> tag that Babel compiles and
+        executes in sequence. All vars land in global scope, so
+        later files can reference globals defined by earlier ones.
+
+        1. app.jsx        — Theme (C), utilities (uid), hooks
+                             (useAutoSave, useMatchClock), shared
+                             components (Field, ToggleGroup, Section,
+                             Label, Spacer), ExportMenu, generateReport,
+                             and the main App shell.
+
+        2. pitch.jsx      — boardReducer, ActionMenu, PitchSVG,
+                             TacticalBoard. Uses C, uid from (1).
+
+        3. scouting-form.jsx — ScoutingForm. Uses C, Field,
+                             ToggleGroup, Section, Label, Spacer
+                             from (1).
+
+        4. timeline.jsx   — MatchTimeline. Uses C, uid, Field
+                             from (1).
+
+        App (defined in step 1) references TacticalBoard, ScoutingForm,
+        and MatchTimeline in its render function — but that function
+        isn't called until the mount script below runs, by which time
+        all four files have executed and those globals exist.
     -->
+    <script type="text/babel" src="/js/app.jsx"></script>
+    <script type="text/babel" src="/js/pitch.jsx"></script>
+    <script type="text/babel" src="/js/scouting-form.jsx"></script>
+    <script type="text/babel" src="/js/timeline.jsx"></script>
+
+    <!-- Mount the React app -->
     <script type="text/babel">
         const root = ReactDOM.createRoot(document.getElementById('match-analysis-root'));
         root.render(React.createElement(App));
