@@ -1,0 +1,31 @@
+/* ═══════════════════════════════════════════════
+   match-analysis.css — Styles specific to /match-analysis
+   frontendneeded.com
+
+   This overrides the shared design tokens from styles.css
+   to match the tactical-green theme of the React app.
+   ═══════════════════════════════════════════════ */
+
+:root {
+    --accent: #b8e636;
+    --accent-rgb: 184, 230, 54;
+    --bg: #0f1410;
+}
+
+.site-nav {
+    background: #0a0f0c;
+}
+
+.nav-dropdown-menu {
+    background: #0a0f0c;
+}
+
+/* ── The React app fills all available space below the nav ──
+   We override the gr-shell pattern since this page uses
+   a full-viewport React component instead of the golden
+   ratio layout. */
+
+#match-analysis-root {
+    flex: 1;
+    overflow: hidden;
+}

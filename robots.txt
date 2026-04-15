@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /gallimaufry/
+Disallow: /etc/
+Disallow: /diet/
 
 Sitemap: https://frontendneeded.com/sitemap.xml

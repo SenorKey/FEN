@@ -1,6 +1,8 @@
 RewriteEngine On
 RewriteRule ^tarella-notes-privacy-policy/?$ https://www.frontendneeded.com/tarella-privacy-policy/ [R=301,L]
 
+RewriteRule ^gallimaufry(/|$) - [R=404,L]
+
 ErrorDocument 404 /404.html
 
 <Files "READMESITE.html">

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/match-analysis.css">
+
+    <meta name="description"
+        content="Match Analysis — a live tactical scouting tool for football matches on frontendneeded.com.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Match Analysis</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/pental">Pental</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <!--
+        This is where React mounts the match analysis app.
+        Unlike your other pages that use the gr-shell layout,
+        this page hands control to a React component that
+        manages its own layout (tabbed interface, tactical board, etc).
+    -->
+    <main id="main-content">
+        <div id="match-analysis-root"></div>
+    </main>
+
+    <!--
+        React from CDN — no npm, no build step.
+
+        react.production.min.js    → The React library itself (component model, hooks, state)
+        react-dom.production.min.js → Renders React components into the actual DOM
+        babel.min.js               → Compiles JSX syntax into regular JavaScript in the browser
+
+        Babel is the key piece here. Your .jsx file uses syntax like:
+            <div style={{ color: "red" }}>Hello</div>
+        ...which browsers don't understand natively. Babel reads any
+        <script type="text/babel"> tag and compiles it to:
+            React.createElement("div", { style: { color: "red" } }, "Hello")
+        ...which browsers DO understand. This happens once on page load.
+
+        In production apps you'd do this compile step ahead of time with a
+        bundler (Webpack, Vite, etc), but for a single-page tool like this,
+        the in-browser approach is perfectly fine and keeps your stack simple.
+    -->
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+    <script crossorigin
+        src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.4/babel.min.js"></script>
+
+    <!--
+        Your actual component. type="text/babel" tells Babel to compile it.
+        data-type="module" lets it use import/export syntax (though we handle
+        React globals differently here — see the JSX file).
+    -->
+    <script type="text/babel" src="/js/match-analysis.jsx"></script>
+
+    <!--
+        Mount the React app into the #match-analysis-root div.
+        This is the equivalent of your other pages' DOMContentLoaded setup,
+        but for React.
+    -->
+    <script type="text/babel">
+        const root = ReactDOM.createRoot(document.getElementById('match-analysis-root'));
+        root.render(React.createElement(App));
+    </script>
+</body>
+
+</html>
