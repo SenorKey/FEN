@@ -20,19 +20,125 @@
     background: #0a0f0c;
 }
 
-/* ── The React app fills all available space below the nav ──
-   We override the gr-shell pattern since this page uses
-   a full-viewport React component instead of the golden
-   ratio layout. */
+
+/* ═══════════════════════════════════════════════
+   FIX A — Broken height chain from body → app
+   (ROOT CAUSE of the ultra-wide clipping bug)
+   
+   The HTML structure is:
+   
+     body  (flex column, 100vh)
+       nav.site-nav
+       main#main-content        ← not a flex container
+         div#match-analysis-root  ← flex:1 has NO EFFECT
+   
+   On your other pages, <main> IS the .gr-shell, so it
+   gets flex:1, display:flex, overflow:hidden from that
+   class. But the match-analysis page doesn't use gr-shell.
+   <main> is a plain element with no flex properties.
+   
+   That means:
+   1. <main> doesn't grow to fill remaining viewport
+      (defaults to flex: 0 1 auto, shrinks to content)
+   2. <main> isn't a flex container, so the root div's
+      flex: 1 is completely ignored
+   3. The React app's height: 100% has no definite
+      ancestor height to resolve against
+   
+   On standard monitors this works by accident because
+   the content's natural height fits. On ultra-wide
+   monitors (where the SVG's intrinsic aspect ratio
+   demands more height than is available), the layout
+   overflows and the board tabs and bottom tab bar
+   get clipped off.
+   
+   The fix: make <main> a proper flex participant.
+   ═══════════════════════════════════════════════ */
+
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ── The React app fills all available space below the nav ── */
 
 #match-analysis-root {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    min-height: 0;
 }
 
 
 /* ═══════════════════════════════════════════════
-   FIX 1 — Mobile viewport height
+   FIX B — Flexbox min-height cascade
+   (The other half of the ultra-wide bug)
+   
+   Even with the height chain fixed, nested flex
+   containers have a subtle default behavior:
+   
+     min-height: auto
+   
+   This means a flex item will NEVER shrink below
+   the intrinsic size of its content. For most UI
+   elements that's fine — a button shouldn't collapse
+   to 0px. But for the pitch SVG, the intrinsic
+   size is computed from the viewBox aspect ratio:
+   
+     viewBox = 0 0 700 460, aspect ratio 1.52:1
+     Container width on ultra-wide is around 3400px
+     Intrinsic height = 3400 / 1.52 = ~2237px
+   
+   That 2237px becomes the minimum height of every
+   flex ancestor up the chain, because min-height:auto
+   propagates upward through nested flex containers.
+   
+   The fix: set min-height:0 on intermediate divs
+   so flex items are allowed to shrink below their
+   content's intrinsic size.
+   
+   This is safe because:
+   - Elements with inline minHeight (buttons, inputs)
+     are unaffected — inline styles override CSS
+   - Content-sized elements still grow to fit their
+     content via height:auto — min-height:0 just
+     removes the FLOOR, it doesn't force anything
+     to actually be 0px tall
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root div {
+    min-height: 0;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX C — Cap the pitch width on ultra-wide
+   
+   Even with the layout fixed, a 3400px-wide pitch
+   is a poor experience — markers become tiny specks,
+   and precise placement requires mouse travel across
+   the entire screen. Capping the SVG at a reasonable
+   max-width keeps it usable.
+   
+   The SVG's preserveAspectRatio="xMidYMid meet"
+   already handles centering. We just limit how wide
+   the element is allowed to grow, and auto-center
+   it in the remaining space.
+   ═══════════════════════════════════════════════ */
+
+#match-analysis-root svg[viewBox] {
+    max-width: min(100%, 1400px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIX D — Mobile viewport height
    
    The base styles.css sets body { height: 100vh }.
    On mobile Safari/Chrome, 100vh includes the
@@ -41,8 +147,7 @@
    the browser chrome, making it unreachable.
    
    100dvh (dynamic viewport height) tracks the
-   *actual* visible area in real time. We add the
-   standard 100vh as a fallback for older browsers.
+   actual visible area in real time.
    ═══════════════════════════════════════════════ */
 
 body {
@@ -51,7 +156,7 @@ body {
 
 
 /* ═══════════════════════════════════════════════
-   FIX 2 — Focus visibility (accessibility)
+   FIX E — Focus visibility (accessibility)
    
    The JSX sets outline:"none" on all inputs, textareas,
    and buttons. This kills the browser's default focus
@@ -68,8 +173,6 @@ body {
     outline-offset: 2px;
 }
 
-/* Inputs get an inset ring instead of an offset one,
-   which looks cleaner inside form fields. */
 #match-analysis-root input:focus-visible,
 #match-analysis-root textarea:focus-visible {
     outline-offset: -1px;
@@ -77,109 +180,45 @@ body {
 
 
 /* ═══════════════════════════════════════════════
-   FIX 3 — Prevent iOS rubber-band / overscroll
-   on the app shell, while keeping inner panels
-   scrollable.
-   
-   Without this, swiping up/down on the pitch board
-   can drag the entire page and cause a visual bounce,
-   which feels broken on a "locked" viewport app.
+   FIX F — iOS / touch device polish
    ═══════════════════════════════════════════════ */
 
+/* Prevent rubber-band overscroll on the app shell */
 #match-analysis-root {
     overscroll-behavior: contain;
 }
 
-
-/* ═══════════════════════════════════════════════
-   FIX 4 — Tap highlight cleanup on iOS
-   
-   By default, iOS shows a translucent grey overlay
-   when you tap any clickable element. On a dark
-   tactical UI full of small toggle buttons, these
-   flashes are distracting and feel unpolished.
-   ═══════════════════════════════════════════════ */
-
+/* Kill iOS tap highlight flash on dark UI */
 #match-analysis-root button,
 #match-analysis-root input,
 #match-analysis-root textarea {
     -webkit-tap-highlight-color: transparent;
 }
 
-
-/* ═══════════════════════════════════════════════
-   FIX 5 — iOS text size inflation
-   
-   Mobile Safari sometimes inflates font sizes
-   when it thinks a block is "too narrow." In a
-   data-dense tactical form, this breaks layouts.
-   -webkit-text-size-adjust: 100% prevents it.
-   ═══════════════════════════════════════════════ */
-
+/* Prevent iOS font size inflation in narrow containers */
 #match-analysis-root {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
 
-
-/* ═══════════════════════════════════════════════
-   FIX 6 — Prevent textarea horizontal resize
-   
-   The Field component allows vertical resize on
-   textareas, which is fine. But the default browser
-   behavior also allows horizontal resize, which can
-   break the form layout by pushing content offscreen.
-   This constrains it to vertical only.
-   ═══════════════════════════════════════════════ */
-
+/* Lock textareas to vertical-only resize */
 #match-analysis-root textarea {
     max-width: 100%;
 }
 
-
-/* ═══════════════════════════════════════════════
-   FIX 7 — SVG touch-action on the pitch
-   
-   The inline style sets touch-action: none on the
-   SVG, which is correct for the drawing tools.
-   But we also need to prevent any parent from
-   intercepting touch events (e.g. pull-to-refresh).
-   ═══════════════════════════════════════════════ */
-
+/* Ensure pitch blocks pull-to-refresh and scroll gestures */
 #match-analysis-root svg {
     touch-action: none;
 }
 
 
 /* ═══════════════════════════════════════════════
-   Narrow-screen responsive overrides
-   
-   The React app uses all inline styles with no
-   breakpoints at all — it's a single fixed layout.
-   These CSS overrides target elements that can be
-   reached via selectors, adding the responsive
-   behavior that inline styles can't provide.
+   Narrow-screen overrides
    ═══════════════════════════════════════════════ */
 
 @media (max-width: 374px) {
-
-    /* On screens narrower than 375px (iPhone SE, 
-       older Androids), the header controls crowd
-       together. Tighten the gap and shrink font. */
     #match-analysis-root h1 {
         font-size: 13px !important;
         letter-spacing: 1px !important;
-    }
-}
-
-@media (max-width: 480px) {
-
-    /* Momentum segment labels are nearly unreadable 
-       at 8px on small screens — hide them. The color 
-       coding (blue/red/neutral) already communicates 
-       the state. */
-    #match-analysis-root svg+div span[style*="fontSize: 8"] {
-        /* Can't reliably target inline-styled spans, 
-           so this is documented as a JSX-level fix below. */
     }
 }
