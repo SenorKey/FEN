@@ -429,12 +429,12 @@ function TacticalBoard(_ref) {
     var getSVGPoint = useCallback(function (e) {
         var svg = svgRef.current;
         if (!svg) return { x: 0, y: 0 };
-        var rect = svg.getBoundingClientRect();
-        return {
-            x: ((e.clientX - rect.left) / rect.width) * 700,
-            y: ((e.clientY - rect.top) / rect.height) * 460,
-        };
-    }, []);
+        var pt = svg.createSVGPoint();
+        pt.x = e.clientX;
+        pt.y = e.clientY;
+        var transformed = pt.matrixTransform(svg.getScreenCTM().inverse());
+        return { x: transformed.x, y: transformed.y };
+      }, []);
 
     var hitMarker = useCallback(function (pt, markers, r) {
         r = r || 20;
