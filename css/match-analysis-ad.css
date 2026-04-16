@@ -549,7 +549,7 @@ body {
 
 
 /* ═══════════════════════════════════════════════
-   RESPONSIVE — mobile
+   RESPONSIVE — mobile (tablet-ish)
    ═══════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
@@ -678,5 +678,423 @@ body {
     .line-pen-arc {
         width: 160px;
         height: 80px;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════
+   FULL-FIELD MODE — narrow portrait screens
+   
+   On phone-shaped viewports, the half-field layout
+   wastes the vertical real estate. This query
+   transforms the pitch into a full field (goal to
+   goal), which naturally fits a portrait aspect ratio.
+   
+   The top-half field markings compress into the 
+   upper 50%, and mirrored bottom-half markings are
+   drawn using ::after pseudo-elements on the existing
+   line divs. Content repositions: hero sits at the
+   center circle, wings drop into the bottom half,
+   and the CTA anchors near the bottom goal.
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 700px) and (min-aspect-ratio: 1/2) {
+
+    /* ── Lock the viewport so it doesn't scroll ── */
+    body {
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+    .pitch {
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+
+        /* full-field texture: lighten center, darken both ends */
+        background:
+            repeating-linear-gradient(90deg,
+                rgba(255, 255, 255, 0.012) 0px,
+                rgba(255, 255, 255, 0.012) 40px,
+                transparent 40px,
+                transparent 80px),
+            radial-gradient(ellipse at 50% 50%, rgba(30, 70, 20, 0.35) 0%, transparent 50%),
+            linear-gradient(180deg,
+                var(--pitch-deep) 0%,
+                var(--pitch) 20%,
+                var(--pitch) 80%,
+                var(--pitch-deep) 100%);
+    }
+
+
+    /* ── Halfway line moves to center ── */
+
+    .pitch::after {
+        bottom: auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    /* ═══════════════════════════════════════════
+       TOP-HALF FIELD LINES — compressed to 0–50%
+       ═══════════════════════════════════════════ */
+
+    .line-18 {
+        width: 72%;
+        height: 26%;
+    }
+
+    .line-6 {
+        width: 36%;
+        height: 9%;
+    }
+
+    .line-goal {
+        width: 18%;
+    }
+
+    .line-pen-spot {
+        top: 19%;
+    }
+
+    .line-pen-arc {
+        top: 26%;
+        width: 120px;
+        height: 60px;
+    }
+
+    .corner-arc {
+        width: 18px;
+        height: 18px;
+    }
+
+    .corner-arc--tl {
+        top: -9px;
+        left: -9px;
+    }
+
+    .corner-arc--tr {
+        top: -9px;
+        right: -9px;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       BOTTOM-HALF FIELD LINES — mirrored via
+       ::after pseudo-elements
+       
+       Each top-half line element generates a
+       mirrored counterpart anchored to the bottom
+       of the pitch. The pseudo-elements are
+       positioned relative to .pitch by breaking
+       out of their parent's bounds.
+       ═══════════════════════════════════════════ */
+
+    /* ── Bottom 18-yard box ── */
+    .line-18::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 72vw;
+        height: 26vh;
+        height: 26dvh;
+        border: 2px solid var(--line);
+        border-bottom: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ── Bottom 6-yard box ── */
+    .line-6::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36vw;
+        height: 9vh;
+        height: 9dvh;
+        border: 2px solid var(--line);
+        border-bottom: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ── Bottom goal line ── */
+    .line-goal::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 18vw;
+        height: 0;
+        border-top: 3px solid rgba(255, 255, 255, 0.35);
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* ── Bottom penalty spot ── */
+    .line-pen-spot::after {
+        content: '';
+        position: fixed;
+        bottom: 19vh;
+        bottom: 19dvh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ── Bottom penalty arc (inverted D) ── */
+    .line-pen-arc::after {
+        content: '';
+        position: fixed;
+        bottom: 26vh;
+        bottom: 26dvh;
+        left: 50%;
+        transform: translateX(-50%) scaleY(-1);
+        width: 120px;
+        height: 60px;
+        border: 2px solid var(--line);
+        border-radius: 0 0 50% 50% / 0 0 100% 100%;
+        border-top: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* ── Bottom corner arcs ── */
+    .corner-arc--tl::after {
+        content: '';
+        position: fixed;
+        bottom: -9px;
+        left: -9px;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--line);
+        border-radius: 0 50% 0 0;
+        border-bottom: none;
+        border-left: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .corner-arc--tr::after {
+        content: '';
+        position: fixed;
+        bottom: -9px;
+        right: -9px;
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--line);
+        border-radius: 50% 0 0 0;
+        border-bottom: none;
+        border-right: none;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       CENTER CIRCLE — fully visible at midfield
+       ═══════════════════════════════════════════ */
+
+    .line-center-circle {
+        bottom: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 160px;
+        height: 160px;
+    }
+
+    .line-center-spot {
+        bottom: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+
+    /* ═══════════════════════════════════════════
+       NAV — compressed into top goal area
+       ═══════════════════════════════════════════ */
+
+    .field-nav--fen {
+        width: 36%;
+        height: 9%;
+        font-size: 0.6rem;
+        padding-top: 1%;
+    }
+
+    .field-nav--projects {
+        top: 1.5%;
+        left: 24%;
+        font-size: 0.44rem;
+    }
+
+    .field-nav--hire {
+        top: 1.5%;
+        left: 76%;
+        font-size: 0.44rem;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       HERO — moves to center circle area
+       
+       On the half-field, the hero sits inside the
+       18-yard box (top third). On the full field,
+       it moves to the center of the pitch — right
+       over the center circle — which is where a
+       kickoff happens and feels like the natural
+       focal point of a full field.
+       ═══════════════════════════════════════════ */
+
+    .hero {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 12vw, 3rem);
+        margin-bottom: 6px;
+    }
+
+    .hero-sub {
+        font-size: 0.72rem;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       FEATURE MARKERS — repositioned to both halves
+       
+       Two markers in each half, placed in the
+       channels between the touchline and the
+       18-yard box edges.
+       ═══════════════════════════════════════════ */
+
+    .feature-marker {
+        display: block;
+        font-size: 0.46rem;
+    }
+
+    /* Top half — left and right of the 18-yard box */
+    .fm-1 {
+        top: 16%;
+        left: 5%;
+    }
+
+    .fm-2 {
+        top: 22%;
+        left: 5%;
+    }
+
+    .fm-3 {
+        top: 16%;
+        right: 5%;
+        left: auto;
+    }
+
+    .fm-4 {
+        top: 22%;
+        right: 5%;
+        left: auto;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       CONTENT WINGS — stacked in the bottom half
+       
+       The two wing blocks (The Pitch / The Report)
+       stack vertically and sit between the bottom
+       18-yard box and the center circle, giving
+       them room in the lower half of the full field.
+       ═══════════════════════════════════════════ */
+
+    .content-wings {
+        position: absolute;
+        bottom: auto;
+        top: 62%;
+        left: 0;
+        right: 0;
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+        padding: 0 16px;
+        margin-top: 0;
+        align-items: flex-start;
+    }
+
+    .wing {
+        max-width: 45%;
+        text-align: center;
+    }
+
+    .wing-label {
+        font-size: 0.48rem;
+        margin-bottom: 4px;
+    }
+
+    .wing-text {
+        font-size: 0.62rem;
+        line-height: 1.5;
+    }
+
+    /* Reset the wing animations to fade-up instead
+       of left/right, which works better vertically */
+    .wing--left,
+    .wing--right {
+        animation: fadeUp 0.6s 0.7s ease-out forwards;
+    }
+
+
+    /* ═══════════════════════════════════════════
+       CTA — anchored near the bottom goal
+       
+       Mirrors the hero's relationship to the top
+       goal: the CTA sits just inside the bottom
+       18-yard box, near the bottom goal line.
+       ═══════════════════════════════════════════ */
+
+    .center-content {
+        position: absolute;
+        bottom: 2%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        height: auto;
+        padding: 8px 16px;
+        margin-top: 0;
+    }
+
+    .center-cta {
+        font-size: 0.68rem;
+        padding: 8px 20px;
+        gap: 6px;
+    }
+
+    .center-cta svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .center-hint {
+        font-size: 0.48rem;
+        margin-top: 6px;
     }
 }
