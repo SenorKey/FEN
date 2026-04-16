@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/match-analysis-ad.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=Saira+Condensed:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Match Analysis — a live tactical scouting tool for football matches on frontendneeded.com.">
+    <link rel="canonical" href="https://frontendneeded.com/match-analysis-ad/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/match-analysis-ad/">
+    <meta property="og:title" content="Match Analysis — Tactical Scouting Tool">
+    <meta property="og:description"
+        content="A live tactical scouting tool for football. Draw formations, track momentum, and export full match reports.">
+    <meta property="og:image" content="https://frontendneeded.com/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Match Analysis — Tactical Scouting Tool</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- The entire page is the pitch -->
+    <main id="main-content" class="pitch">
+
+        <!-- ── Field line elements ── -->
+        <div class="line-goal"></div>
+        <div class="line-6"></div>
+        <div class="line-18"></div>
+        <div class="line-pen-spot"></div>
+        <div class="line-pen-arc"></div>
+        <div class="corner-arc corner-arc--tl"></div>
+        <div class="corner-arc corner-arc--tr"></div>
+        <div class="line-center-circle"></div>
+        <div class="line-center-spot"></div>
+
+        <!-- ── FEN — inside the 6-yard box, near the goal line ── -->
+        <div class="field-nav field-nav--fen">
+            <a href="/">FEN</a>
+        </div>
+
+        <!-- ── Projects — left channel between 6-yard & 18-yard lines ── -->
+        <nav class="field-nav field-nav--projects" aria-label="Site navigation">
+            <a href="/#projects">Projects</a>
+        </nav>
+
+        <!-- ── Hire Me — right channel between 6-yard & 18-yard lines ── -->
+        <div class="field-nav field-nav--hire">
+            <a href="/hire-me">Hire Me</a>
+        </div>
+
+        <!-- ── 18-yard box: Hero ── -->
+        <div class="hero">
+            <h1 class="hero-title">Match<br><span>Analysis</span></h1>
+            <p class="hero-sub">A live tactical scouting tool for football. Draw formations on the pitch, scout the
+                opposition in real time, and export full match reports.</p>
+        </div>
+
+        <!-- ── Feature markers scattered on the pitch ── -->
+        <span class="feature-marker fm-1">Tactical Board</span>
+        <span class="feature-marker fm-2">Scouting Forms</span>
+        <span class="feature-marker fm-3">Match Timeline</span>
+        <span class="feature-marker fm-4">Report Export</span>
+
+        <!-- ── Wing content — flanking the center circle ── -->
+        <div class="content-wings">
+            <div class="wing wing--left">
+                <p class="wing-label">The Pitch</p>
+                <p class="wing-text">Place markers, draw arrows, and diagram formations on a full interactive pitch.
+                    Create multiple boards per match to track shape changes across the 90 minutes.</p>
+            </div>
+            <div class="wing wing--right">
+                <p class="wing-label">The Report</p>
+                <p class="wing-text">Structured scouting forms cover build-up, progression, pressing, transitions, and
+                    set pieces. Everything exports as a formatted text report you can share with your staff.</p>
+            </div>
+        </div>
+
+        <!-- ── Center circle: CTA ── -->
+        <div class="center-content">
+            <a href="/match-analysis" class="center-cta">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0l2.5 5.3L16 6.2l-4 3.8 1 5.5L8 12.8l-5 2.7 1-5.5-4-3.8 5.5-.9z" />
+                </svg>
+                Launch Match Analysis
+            </a>
+            <p class="center-hint">No login required · Saves locally</p>
+        </div>
+
+    </main>
+</body>
+
+</html>
