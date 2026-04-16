@@ -746,25 +746,43 @@ body {
     .line-18 {
         width: 72%;
         height: 26%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        transform: none;
     }
 
     .line-6 {
         width: 36%;
         height: 9%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        transform: none;
     }
 
     .line-goal {
         width: 18%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        transform: none;
     }
 
     .line-pen-spot {
-        top: 19%;
+        top: calc(19% - 3px);
+        left: calc(50% - 3px);
+        transform: none;
     }
 
     .line-pen-arc {
         top: 26%;
         width: 120px;
         height: 60px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        transform: none;
     }
 
     .corner-arc {
@@ -789,9 +807,15 @@ body {
        
        Each top-half line element generates a
        mirrored counterpart anchored to the bottom
-       of the pitch. The pseudo-elements are
-       positioned relative to .pitch by breaking
-       out of their parent's bounds.
+       of the pitch via position:fixed.
+       
+       IMPORTANT: The parent line elements must NOT
+       have transform set — a CSS transform on a
+       parent makes position:fixed on its children
+       behave like position:absolute (relative to
+       that parent). That's why the top-half lines
+       above use left:0/right:0/margin:auto instead
+       of the default left:50%/translateX(-50%).
        ═══════════════════════════════════════════ */
 
     /* ── Bottom 18-yard box ── */
@@ -911,18 +935,18 @@ body {
 
     .line-center-circle {
         bottom: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: calc(50% - 80px);
+        left: calc(50% - 80px);
+        transform: none;
         width: 160px;
         height: 160px;
     }
 
     .line-center-spot {
         bottom: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: calc(50% - 3px);
+        left: calc(50% - 3px);
+        transform: none;
     }
 
 
