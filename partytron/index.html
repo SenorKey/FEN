@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Particle Collider Shower Demo</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- React + ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+  <!-- Babel standalone (transpiles JSX in-browser) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    input[type=range] { accent-color: #22d3ee; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useRef, useEffect, useState } = React;
+
+    // ——— SHADERS ———————————————————————————————————————————————
+
+    const VERTEX_SHADER = `
+      uniform float uTime;
+      uniform float uTrailLength;
+
+      attribute vec3 aVelocity;
+      attribute float aSeed;
+      attribute float aLifetime;
+      attribute vec3 aColor;
+
+      varying float vLife;
+      varying vec3 vColor;
+      varying vec2 vUv;
+
+      void main() {
+        vUv = uv;
+        float t = max(uTime, 0.0);
+
+        vec3 worldOffset = aVelocity * t;
+
+        float curl = aSeed * 6.2831853;
+        worldOffset.x += sin(t * 0.6 + curl) * 0.04 * t;
+        worldOffset.y += cos(t * 0.6 + curl) * 0.04 * t;
+
+        vec4 centerView = modelViewMatrix * instanceMatrix * vec4(worldOffset, 1.0);
+
+        vec3 velViewRaw = (modelViewMatrix * vec4(aVelocity, 0.0)).xyz;
+        vec2 velDir = length(velViewRaw.xy) > 0.001
+          ? normalize(velViewRaw.xy) : vec2(0.0, 1.0);
+        vec2 perpDir = vec2(-velDir.y, velDir.x);
+
+        float backward = 0.5 - position.y;
+        float trailWidth = 0.04;
+        vec2 offset2D = -velDir * uTrailLength * backward
+                      + perpDir * position.x * trailWidth;
+
+        vec4 finalView = centerView + vec4(offset2D, 0.0, 0.0);
+        gl_Position = projectionMatrix * finalView;
+
+        vLife = 1.0 - clamp(t / aLifetime, 0.0, 1.0);
+        vColor = aColor;
+      }
+    `;
+
+    const FRAGMENT_SHADER = `
+      varying float vLife;
+      varying vec3 vColor;
+      varying vec2 vUv;
+
+      void main() {
+        if (vLife <= 0.0) discard;
+
+        float widthFalloff = 1.0 - abs(vUv.x - 0.5) * 2.0;
+        widthFalloff = smoothstep(0.0, 1.0, widthFalloff);
+
+        float lengthFade = pow(vUv.y, 1.4);
+
+        float alpha = widthFalloff * lengthFade * vLife * vLife * 0.9;
+        if (alpha < 0.01) discard;
+
+        gl_FragColor = vec4(vColor * 2.5, alpha);
+      }
+    `;
+
+    // ——— HELPERS ———————————————————————————————————————————————
+
+    function randomUnitVector() {
+      const z = Math.random() * 2 - 1;
+      const a = Math.random() * Math.PI * 2;
+      const r = Math.sqrt(1 - z * z);
+      return new THREE.Vector3(Math.cos(a) * r, Math.sin(a) * r, z);
+    }
+
+    function randomInCone(axis, halfAngle) {
+      const cosT = 1 - Math.random() * (1 - Math.cos(halfAngle));
+      const sinT = Math.sqrt(1 - cosT * cosT);
+      const phi = Math.random() * Math.PI * 2;
+      const up = Math.abs(axis.y) < 0.9
+        ? new THREE.Vector3(0, 1, 0)
+        : new THREE.Vector3(1, 0, 0);
+      const right = new THREE.Vector3().crossVectors(axis, up).normalize();
+      const forward = new THREE.Vector3().crossVectors(right, axis).normalize();
+      return new THREE.Vector3()
+        .addScaledVector(axis, cosT)
+        .addScaledVector(right, sinT * Math.cos(phi))
+        .addScaledVector(forward, sinT * Math.sin(phi))
+        .normalize();
+    }
+
+    // ——— SLIDER COMPONENT ——————————————————————————————————————
+
+    function Slider({ label, value, display, min, max, step, onChange }) {
+      return (
+        <label style={{ display: 'block', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', color: '#67e8f9', marginBottom: '4px', fontSize: '11px' }}>
+            <span>{label}</span>
+            <span style={{ color: '#fff' }}>{display}</span>
+          </div>
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => onChange(+e.target.value)}
+            style={{ width: '100%', accentColor: '#22d3ee' }}
+          />
+        </label>
+      );
+    }
+
+    // ——— MAIN COMPONENT ————————————————————————————————————————
+
+    function ColliderShowerDemo() {
+      const mountRef = useRef(null);
+      const stateRef = useRef(null);
+
+      const [particleCount, setParticleCount] = useState(400);
+      const [coneAngle, setConeAngle] = useState(0.35);
+      const [jetCount, setJetCount] = useState(4);
+      const [speedMul, setSpeedMul] = useState(1.0);
+      const [trailLength, setTrailLength] = useState(0.3);
+      const [fireKey, setFireKey] = useState(1);
+      const [rarity, setRarity] = useState('common');
+
+      // Scene setup (once)
+      useEffect(() => {
+        const mount = mountRef.current;
+        if (!mount) return;
+
+        const width = mount.clientWidth;
+        const height = mount.clientHeight;
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x030610);
+        scene.fog = new THREE.Fog(0x030610, 7, 28);
+
+        const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 100);
+        camera.position.set(0, 1.5, 6);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(width, height);
+        renderer.setClearColor(0x030610, 1);
+        mount.appendChild(renderer.domElement);
+
+        // Starfield
+        const starCount = 400;
+        const starPos = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+          const r = 18 + Math.random() * 12;
+          const theta = Math.random() * Math.PI * 2;
+          const phi = Math.acos(Math.random() * 2 - 1);
+          starPos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+          starPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+          starPos[i * 3 + 2] = r * Math.cos(phi);
+        }
+        const starGeo = new THREE.BufferGeometry();
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const stars = new THREE.Points(
+          starGeo,
+          new THREE.PointsMaterial({ color: 0x6688aa, size: 0.05, sizeAttenuation: true })
+        );
+        scene.add(stars);
+
+        // Accelerator ring
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(3, 0.08, 16, 128),
+          new THREE.MeshBasicMaterial({ color: 0x3388dd, transparent: true, opacity: 0.6 })
+        );
+        ring.rotation.x = Math.PI / 2;
+        scene.add(ring);
+
+        const ringGlow = new THREE.Mesh(
+          new THREE.TorusGeometry(3, 0.28, 16, 128),
+          new THREE.MeshBasicMaterial({
+            color: 0x4499ff, transparent: true, opacity: 0.18,
+            blending: THREE.AdditiveBlending,
+          })
+        );
+        ringGlow.rotation.x = Math.PI / 2;
+        scene.add(ringGlow);
+
+        // Grid floor
+        const grid = new THREE.GridHelper(24, 48, 0x1a4466, 0x0a1a2e);
+        grid.position.y = -3;
+        scene.add(grid);
+
+        // Central chamber marker
+        const chamber = new THREE.Mesh(
+          new THREE.SphereGeometry(0.12, 20, 20),
+          new THREE.MeshBasicMaterial({ color: 0x112244, transparent: true, opacity: 0.4 })
+        );
+        scene.add(chamber);
+
+        stateRef.current = {
+          scene, camera, renderer, mount,
+          showerMesh: null, heroMeshes: [], flash: null, shockwave: null,
+          startTime: -100, elapsed: 0, animFrame: null,
+          ringGlow, chamber,
+        };
+
+        const onResize = () => {
+          if (!mount) return;
+          const w = mount.clientWidth;
+          const h = mount.clientHeight;
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        };
+        window.addEventListener('resize', onResize);
+
+        const clock = new THREE.Clock();
+        const tick = () => {
+          const s = stateRef.current;
+          if (!s) return;
+          const dt = clock.getDelta();
+          s.elapsed += dt;
+          const t = s.elapsed;
+          const tc = t - s.startTime;
+
+          camera.position.x = Math.sin(t * 0.12) * 6;
+          camera.position.z = Math.cos(t * 0.12) * 6;
+          camera.position.y = 1.5 + Math.sin(t * 0.08) * 0.3;
+          camera.lookAt(0, 0, 0);
+
+          if (s.ringGlow) {
+            s.ringGlow.material.opacity = 0.15 + Math.sin(t * 2.5) * 0.06;
+          }
+          if (s.chamber) {
+            s.chamber.material.opacity = 0.35 + Math.sin(t * 3) * 0.1;
+          }
+
+          if (s.flash) {
+            const ft = Math.min(tc, 0.4) / 0.4;
+            s.flash.scale.setScalar(1 + ft * 7);
+            s.flash.material.opacity = Math.max(0, 1 - ft * 1.3);
+          }
+
+          if (s.shockwave) {
+            const shT = tc / 1.8;
+            if (shT >= 0 && shT < 1) {
+              s.shockwave.scale.setScalar(0.5 + shT * 9);
+              s.shockwave.material.opacity = Math.max(0, (1 - shT) * 0.6);
+              s.shockwave.visible = true;
+            } else {
+              s.shockwave.visible = false;
+            }
+          }
+
+          s.heroMeshes.forEach((hero) => {
+            const dir = hero.userData.direction;
+            const sp = hero.userData.speed;
+            hero.position.copy(dir).multiplyScalar(Math.max(tc, 0) * sp);
+            const fadeStart = 1.8;
+            hero.material.opacity = tc > fadeStart
+              ? Math.max(0, 1 - (tc - fadeStart) * 0.5)
+              : 1;
+          });
+
+          if (s.showerMesh) {
+            s.showerMesh.material.uniforms.uTime.value = Math.max(tc, 0);
+          }
+
+          renderer.render(scene, camera);
+          s.animFrame = requestAnimationFrame(tick);
+        };
+        tick();
+
+        return () => {
+          if (stateRef.current?.animFrame) cancelAnimationFrame(stateRef.current.animFrame);
+          window.removeEventListener('resize', onResize);
+          renderer.dispose();
+          if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+        };
+      }, []);
+
+      // Fire a collision
+      useEffect(() => {
+        const s = stateRef.current;
+        if (!s) return;
+
+        if (s.showerMesh) {
+          s.scene.remove(s.showerMesh);
+          s.showerMesh.geometry.dispose();
+          s.showerMesh.material.dispose();
+        }
+        s.heroMeshes.forEach((h) => {
+          s.scene.remove(h);
+          h.traverse((c) => {
+            if (c.geometry) c.geometry.dispose();
+            if (c.material) c.material.dispose();
+          });
+        });
+        s.heroMeshes = [];
+        if (s.flash) {
+          s.scene.remove(s.flash);
+          s.flash.geometry.dispose();
+          s.flash.material.dispose();
+        }
+        if (s.shockwave) {
+          s.scene.remove(s.shockwave);
+          s.shockwave.geometry.dispose();
+          s.shockwave.material.dispose();
+        }
+
+        s.startTime = s.elapsed;
+
+        const rr = Math.random();
+        const rarityTier =
+          rr < 0.01 ? 'legendary' :
+          rr < 0.08 ? 'rare' :
+          rr < 0.3  ? 'uncommon' : 'common';
+        setRarity(rarityTier);
+
+        // Jet axes
+        const jets = [];
+        for (let i = 0; i < jetCount; i++) {
+          const a = (i / jetCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.3;
+          const z = (Math.random() - 0.5) * 0.7;
+          jets.push(new THREE.Vector3(Math.cos(a), Math.sin(a), z).normalize());
+        }
+
+        // Hero particles
+        const heroColors = [0xffdd44, 0x44ccff, 0xff6699, 0x66ffaa, 0xcc88ff, 0xff9944];
+        jets.forEach((axis, i) => {
+          const color = heroColors[i % heroColors.length];
+          const core = new THREE.Mesh(
+            new THREE.SphereGeometry(0.1, 20, 20),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 1 })
+          );
+          core.userData.direction = axis.clone();
+          core.userData.speed = 1.1;
+
+          const glow1 = new THREE.Mesh(
+            new THREE.SphereGeometry(0.22, 20, 20),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending })
+          );
+          const glow2 = new THREE.Mesh(
+            new THREE.SphereGeometry(0.45, 20, 20),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.13, blending: THREE.AdditiveBlending })
+          );
+          core.add(glow1);
+          core.add(glow2);
+          s.scene.add(core);
+          s.heroMeshes.push(core);
+        });
+
+        // Flash
+        const flashColor =
+          rarityTier === 'legendary' ? 0xffcc66 :
+          rarityTier === 'rare'      ? 0xff88dd :
+          rarityTier === 'uncommon'  ? 0x99ddff : 0xffffff;
+        const flash = new THREE.Mesh(
+          new THREE.SphereGeometry(0.3, 32, 32),
+          new THREE.MeshBasicMaterial({ color: flashColor, transparent: true, opacity: 1, blending: THREE.AdditiveBlending })
+        );
+        s.scene.add(flash);
+        s.flash = flash;
+
+        // Shockwave
+        const shock = new THREE.Mesh(
+          new THREE.RingGeometry(0.2, 0.28, 64),
+          new THREE.MeshBasicMaterial({ color: 0x66bbff, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, side: THREE.DoubleSide })
+        );
+        shock.rotation.x = -Math.PI / 2;
+        s.scene.add(shock);
+        s.shockwave = shock;
+
+        // Shower (instanced + shader)
+        const velocities = new Float32Array(particleCount * 3);
+        const seeds      = new Float32Array(particleCount);
+        const lifetimes  = new Float32Array(particleCount);
+        const colors     = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount; i++) {
+          let dir;
+          if (Math.random() < 0.85 && jets.length > 0) {
+            dir = randomInCone(jets[i % jets.length], coneAngle);
+          } else {
+            dir = randomUnitVector();
+          }
+          const sp = (1.5 + Math.pow(Math.random(), 2) * 6.0) * speedMul;
+          velocities[i * 3]     = dir.x * sp;
+          velocities[i * 3 + 1] = dir.y * sp;
+          velocities[i * 3 + 2] = dir.z * sp;
+          seeds[i]    = Math.random();
+          lifetimes[i] = 1.0 + Math.random() * 2.0;
+
+          const r = Math.random();
+          let c;
+          if (r < 0.65)      c = [0.85, 0.92, 1.00];
+          else if (r < 0.85) c = [0.40, 0.70, 1.00];
+          else if (r < 0.95) c = [1.00, 0.85, 0.40];
+          else               c = [1.00, 0.45, 0.60];
+          colors[i * 3] = c[0]; colors[i * 3 + 1] = c[1]; colors[i * 3 + 2] = c[2];
+        }
+
+        const geo = new THREE.PlaneGeometry(1, 1);
+        geo.setAttribute('aVelocity',  new THREE.InstancedBufferAttribute(velocities, 3));
+        geo.setAttribute('aSeed',      new THREE.InstancedBufferAttribute(seeds, 1));
+        geo.setAttribute('aLifetime',  new THREE.InstancedBufferAttribute(lifetimes, 1));
+        geo.setAttribute('aColor',     new THREE.InstancedBufferAttribute(colors, 3));
+
+        const mat = new THREE.ShaderMaterial({
+          uniforms: {
+            uTime:        { value: 0 },
+            uTrailLength: { value: trailLength },
+          },
+          vertexShader: VERTEX_SHADER,
+          fragmentShader: FRAGMENT_SHADER,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        });
+
+        const mesh = new THREE.InstancedMesh(geo, mat, particleCount);
+        mesh.frustumCulled = false;
+        s.scene.add(mesh);
+        s.showerMesh = mesh;
+
+      }, [fireKey, particleCount, coneAngle, jetCount, speedMul, trailLength]);
+
+      const rarityColor = {
+        common:   '#67e8f9',
+        uncommon: '#93c5fd',
+        rare:     '#f9a8d4',
+        legendary:'#fde68a',
+      }[rarity];
+
+      return (
+        <div style={{ width: '100%', height: '100vh', background: '#000', position: 'relative', fontFamily: 'monospace', overflow: 'hidden', userSelect: 'none' }}>
+          <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+
+          {/* Controls */}
+          <div style={{
+            position: 'absolute', top: 16, left: 16,
+            background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(34,211,238,0.3)', borderRadius: 10,
+            padding: 16, width: 240, color: '#fff',
+          }}>
+            <div style={{ color: '#22d3ee', fontSize: 11, letterSpacing: '0.2em', marginBottom: 16 }}>⟡ SHOWER CONTROLS</div>
+            <Slider label="PARTICLES" value={particleCount} display={particleCount}
+                    min={50} max={1200} step={50} onChange={setParticleCount} />
+            <Slider label="JETS" value={jetCount} display={jetCount}
+                    min={2} max={6} step={1} onChange={setJetCount} />
+            <Slider label="CONE ANGLE" value={coneAngle}
+                    display={`${(coneAngle * 57.3).toFixed(0)}°`}
+                    min={0.1} max={1.0} step={0.05} onChange={setConeAngle} />
+            <Slider label="SPEED" value={speedMul} display={`${speedMul.toFixed(1)}×`}
+                    min={0.3} max={2.5} step={0.1} onChange={setSpeedMul} />
+            <Slider label="TRAIL" value={trailLength} display={trailLength.toFixed(2)}
+                    min={0.05} max={0.6} step={0.05} onChange={setTrailLength} />
+          </div>
+
+          {/* Readout */}
+          <div style={{
+            position: 'absolute', top: 16, right: 16,
+            background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(34,211,238,0.3)', borderRadius: 10,
+            padding: 12, color: '#67e8f9', fontSize: 11, minWidth: 180,
+          }}>
+            <div style={{ letterSpacing: '0.2em' }}>⟡ p-p @ 13 TeV</div>
+            <div style={{ marginTop: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: rarityColor }}>
+              › {rarity} event
+            </div>
+            <div style={{ marginTop: 8, color: 'rgba(255,255,255,0.35)', fontSize: 10 }}>
+              1 draw call · {particleCount} instances
+            </div>
+          </div>
+
+          {/* FIRE button */}
+          <button
+            onClick={() => setFireKey((k) => k + 1)}
+            style={{
+              position: 'absolute', bottom: 32,
+              left: '50%', transform: 'translateX(-50%)',
+              padding: '12px 40px',
+              background: 'rgba(34,211,238,0.15)',
+              border: '2px solid #22d3ee',
+              color: '#a5f3fc',
+              fontFamily: 'monospace',
+              letterSpacing: '0.3em',
+              fontSize: 14,
+              cursor: 'pointer',
+              borderRadius: 2,
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={e => {
+              e.target.style.background = 'rgba(34,211,238,0.35)';
+              e.target.style.color = '#fff';
+              e.target.style.boxShadow = '0 0 30px rgba(34,211,238,0.5)';
+            }}
+            onMouseLeave={e => {
+              e.target.style.background = 'rgba(34,211,238,0.15)';
+              e.target.style.color = '#a5f3fc';
+              e.target.style.boxShadow = 'none';
+            }}
+          >
+            ⚡ FIRE
+          </button>
+        </div>
+      );
+    }
+
+    // ——— MOUNT ——————————————————————————————————————————————————
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ColliderShowerDemo />);
+  </script>
+</body>
+</html>
