@@ -162,17 +162,17 @@
         document.querySelector('.page-title').innerHTML = 'Front End<br>!nsertion Needed';
         document.querySelector('.nav-etc').classList.add('egg-revealed');
         var frame = document.querySelector('.photo-frame');
-        frame.innerHTML = '<img class="photo-img active" src="/images/gallery/durag.webp" alt="me">';
+        frame.innerHTML = '<img class="photo-img active" src="/assets/images/gallery/durag.webp" alt="me">';
         
 
         var AudioCtx = window.AudioContext || window.webkitAudioContext;
         var audioCtx = new AudioCtx();
 
         // ── Three audio elements ──
-        var soundFull = new Audio('/audio/durag.mp3');
-        var soundVocals = new Audio('/audio/durag-vocals.mp3');
-        var soundBass = new Audio('/audio/durag-bass.mp3');
-        var soundDrums = new Audio('/audio/durag-drums.mp3');
+        var soundFull = new Audio('/assets/audio/durag.mp3');
+        var soundVocals = new Audio('/assets/audio/durag-vocals.mp3');
+        var soundBass = new Audio('/assets/audio/durag-bass.mp3');
+        var soundDrums = new Audio('/assets/audio/durag-drums.mp3');
 
 
         soundFull.volume = 0.6;  // audible
