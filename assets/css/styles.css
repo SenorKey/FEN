@@ -436,7 +436,7 @@ p.body-text+h3.sub {
   gap: 10px;
 }
 
-.photo-cycle-btn {
+.photo-prev-btn, .photo-next-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -453,7 +453,7 @@ p.body-text+h3.sub {
   transition: transform 0.18s, background 0.18s;
 }
 
-.photo-cycle-btn:hover {
+.photo-prev-btn:hover, .photo-next-btn:hover{
   transform: scale(1.1);
 }
 
