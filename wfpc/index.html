@@ -58,7 +58,8 @@
       <!-- Photo gallery -->
       <div class="photo-gallery">
         <div class="photo-frame">
-          <img class="photo-img active" src="/assets/images/gallery/wfpc-1.webp" alt="WFPC screenshot 1" fetchpriority="high">
+          <img class="photo-img active" src="/assets/images/gallery/wfpc-1.webp" alt="WFPC screenshot 1"
+            fetchpriority="high">
           <img class="photo-img" src="/assets/images/gallery/wfpc-2.webp" alt="WFPC screenshot 2">
           <img class="photo-img" src="/assets/images/gallery/wfpc-3.webp" alt="WFPC screenshot 3">
           <img class="photo-img" src="/assets/images/gallery/wfpc-6.webp" alt="WFPC screenshot 6">
@@ -82,25 +83,35 @@
     <div class="gr-bottom">
       <div class="gr-left">
         <h2 class="sub">A quick price checker for relic mission rewards.</h2>
-        <p class="body-text">WFPC is a desktop overlay that sits on top of your game, reads the relic reward screen, and
-          tells you what everything is worth. No alt-tabbing, no manual searching, no guesswork.</p>
-        <p class="body-text">Position the transparent window over your reward choices, hit Capture, and WFPC does the
-          rest. It reads the item names using OCR, matches them against every known prime item on warframe.market, and
-          lays out the current best buy prices right there in the overlay. Individual part prices, full set prices, and
+        <p class="body-text">WFPC is a desktop companion that reads your relic reward screen and tells you what
+          everything is worth. No manual searching & no guesswork.
+        </p>
+        <p class="body-text">Define your capture region once, hit Capture when rewards appear, and WFPC does the rest.
+          It reads the item names using OCR, matches them against every known prime item on warframe.market, and lays
+          out the current best buy prices in card-style result panels. Individual part prices, full set prices, and
           which option puts the most platinum in your pocket, all visible before you have to pick.
         </p>
 
         <h2 class="sub">How it works</h2>
-        <p class="body-text">WFPC stays pinned above your game with a see-through capture region. When rewards appear,
-          it grabs a screenshot of what's behind the overlay, processes the text with OCR, and pulls live pricing data
-          from warframe.market. Results show up in card-style panels, one per reward, with part breakdowns and set
-          comparisons highlighted so the best pick stands out.</p>
+        <p class="body-text">Setup is a guided three-step flow: refresh market data, define your capture region, then
+          jump into in-game mode. The region selector lets you draw a rectangle directly over the screen area you want
+          to read, with multi-monitor support so you can pick exactly which display to capture from. Your region is
+          saved to disk and remembered across sessions.</p>
+        <p class="body-text">Once everything's set up, In Game mode hides the main window and drops a small floating
+          panel onto your gaming monitor with just two buttons: Capture and Back. When rewards appear, click Capture and
+          WFPC grabs a screenshot of your defined region, runs it through OCR, and pulls live pricing from
+          warframe.market. Results render as responsive card panels that reflow based on window size, with the best set
+          price and best parts total highlighted so the right pick stands out.
+        </p>
+
 
         <h2 class="sub">Built with</h2>
         <p class="body-text">Tesseract OCR and OpenCV for screen reading and image processing. The warframe.market API
-          for live pricing. Tkinter for the overlay UI. Runs locally on Windows.</p>
+          for live pricing data. Tkinter for the GUI, with mss handling screen capture across monitors. Runs locally on
+          Windows.</p>
         <p class="body-text">WFPC was made for the moments in Warframe where you need a price and you need it now,
-          without leaving the game to go find it.</p>
+          without leaving the game to go find it.
+        </p>
       </div>
       <div class="gr-right">
         <p class="section-label">Check out the project on GitHub!</p>
