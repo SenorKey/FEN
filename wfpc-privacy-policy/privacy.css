@@ -1,0 +1,21 @@
+/* ═══════════════════════════════════════════════
+   privacy.css — Styles specific to /wfpc-privacy-policy
+   frontendneeded.com
+   ═══════════════════════════════════════════════ */
+
+/* Inherits the dark + gold theme from /wfpc so the
+   privacy page feels like part of the same family. */
+
+:root {
+    --accent: #d4a520;
+    --accent-rgb: 212, 165, 32;
+    --bg: #1a1d23;
+}
+
+.site-nav {
+    background: #14161b;
+}
+
+.nav-dropdown-menu {
+    background: #14161b;
+}
