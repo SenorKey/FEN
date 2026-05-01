@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════
+   fresh-pull.css — Styles specific to /fresh-pull
+   frontendneeded.com
+   ═══════════════════════════════════════════════ */
+
+   :root {
+    --accent:     #4ecb66;
+    --accent-rgb: 78, 203, 102;
+    --bg:         #0d1a0f;
+    --tint:       #162b19;
+  }
+  
+  /* ── Nav overrides ── */
+  
+  .site-nav {
+    background: #080f09;
+  }
+  
+  .nav-dropdown-menu {
+    background: #080f09;
+    border-top: 1px solid rgba(78, 203, 102, 0.15);
+  }
+  
+  /* ── Top section ── */
+  
+  .gr-top {
+    background: linear-gradient(135deg, var(--bg) 55%, #142618 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Subtle radial glow behind the logo */
+  .gr-top::before {
+    content: '';
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(78, 203, 102, 0.08) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  
+  /* ── Logo art in gr-top ── */
+  
+  .fp-logo-wrap {
+    position: absolute;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 180px;
+    opacity: 0.88;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  /* Fade the logo into the panel on the left edge */
+  .fp-logo-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, transparent 30%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .fp-logo-wrap img {
+    width: 100%;
+    display: block;
+    border-radius: 22px;
+    filter: drop-shadow(0 8px 28px rgba(78, 203, 102, 0.18));
+  }
+  
+  /* ── Bottom section ── */
+  
+  .gr-left {
+    background: linear-gradient(to right, var(--bg), var(--tint) 120%);
+  }
+  
+  .gr-right {
+    background: linear-gradient(to left, var(--bg), var(--tint) 120%);
+  }
+  
+  /* ── Accent bar ── */
+  
+  .accent-bar {
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(78, 203, 102, 0.4);
+  }
+  
+  /* ── Built-with tag list ── */
+  
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  
+  .tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(78, 203, 102, 0.1);
+    border: 1px solid rgba(78, 203, 102, 0.22);
+    border-radius: 4px;
+    padding: 4px 10px;
+  }
+  
+  /* ── Mobile ── */
+  
+  @media (max-width: 768px) {
+    .fp-logo-wrap {
+      position: static;
+      transform: none;
+      width: 110px;
+      margin-top: 20px;
+      opacity: 0.7;
+    }
+  
+    .fp-logo-wrap::before {
+      display: none;
+    }
+  
+    .gr-top::before {
+      display: none;
+    }
+  }

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/fresh-pull/fresh-pull.css">
+
+  <meta name="description" content="Fresh Pull — one-click browsing data cleaner for Chrome.">
+  <link rel="canonical" href="https://frontendneeded.com/fresh-pull/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://frontendneeded.com/fresh-pull/">
+  <meta property="og:title" content="Fresh Pull">
+  <meta property="og:description" content="One-click browsing data cleaner for Chrome.">
+  <meta property="og:image" content="https://frontendneeded.com/images/og-home.webp">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Fresh Pull</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-TVD9746XT1');
+  </script>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <nav class="site-nav">
+    <a href="/" class="nav-home">FEN</a>
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+      <div class="nav-dropdown-menu">
+        <a href="/tarella-notes">Tarella Notes</a>
+        <a href="/wfpc">WF Price Checker</a>
+        <a href="/pental">Pental</a>
+        <a href="/fresh-pull" class="active">Fresh Pull</a>
+      </div>
+    </div>
+    <a href="/hire-me">Hire Me</a>
+  </nav>
+
+  <main id="main-content" class="gr-shell">
+
+    <div class="gr-top">
+      <div class="accent-bar"></div>
+      <h1 class="page-title">Fresh Pull</h1>
+      <p class="page-subtitle">One-click browsing data cleaner for Chrome.</p>
+
+      <div class="fp-logo-wrap">
+        <img src="/assets/images/fp-logo.webp" alt="Fresh Pull logo">
+      </div>
+    </div>
+
+    <div class="gr-bottom">
+      <div class="gr-left">
+
+        <h2 class="sub">No menus. No dialogs. Just clean.</h2>
+        <p class="body-text">Fresh Pull sits in your toolbar and clears your browsing data instantly. No menus, no
+          confirmation dialogs, no digging through Chrome settings. Click the icon, and it's done.</p>
+
+        <p class="body-text">Define your defaults once, and every click after that just works. Choose how far back to
+          clear (15 minutes to all time), pick exactly which data types you want wiped, and Fresh Pull remembers your
+          setup across sessions. A badge flashes a check mark on success and reloads your active tab so you're always
+          starting fresh.</p>
+
+        <h2 class="sub">How it works</h2>
+        <p class="body-text">Setup is a single options page: pick a time range, check the data types you want cleared,
+          and hit Save. That's it. From then on, clicking the pinned toolbar icon runs the clear immediately using those
+          saved defaults. No popups, no extra clicks.</p>
+
+        <p class="body-text">The time range buttons cover the most common needs: 15 minutes for a quick session wipe,
+          1 or 24 hours for a broader sweep, 7 or 30 days for a deeper clean, or all time if you want a full reset.
+          Data types are grouped with plain-language labels and short descriptions so you know exactly what you're
+          clearing before you commit. Each item has an expandable info panel explaining what gets deleted and, just as
+          importantly, what doesn't.</p>
+
+        <p class="body-text">A cookie warning appears automatically if you enable that option, since clearing cookies
+          logs you out of nearly every site. Clearing the download list only removes the entries from Chrome's downloads
+          page — the actual files on your disk are never touched.</p>
+
+        <p class="body-text">When you click the toolbar icon, Fresh Pull shows a brief ellipsis badge while the clear
+          runs, then switches to a check mark on success or an X if something went wrong. The badge clears itself after
+          two seconds and your active tab reloads clean.</p>
+
+        <h2 class="sub">Built with</h2>
+        <p class="body-text">The Chrome Extensions API — <code>browsingData</code>, <code>storage</code>,
+          <code>tabs</code>, and <code>alarms</code> — handles all data clearing and persistence. A hybrid
+          badge-clear strategy uses both <code>setTimeout</code> and <code>chrome.alarms</code> to handle service
+          worker sleep cycles gracefully. Settings are synced via <code>chrome.storage.sync</code> so your preferences
+          follow you across Chrome profiles.</p>
+
+        <div class="tag-list">
+          <span class="tag">chrome.browsingData</span>
+          <span class="tag">chrome.storage.sync</span>
+          <span class="tag">chrome.alarms</span>
+          <span class="tag">chrome.tabs</span>
+          <span class="tag">No servers</span>
+          <span class="tag">No tracking</span>
+        </div>
+
+      </div>
+      <div class="gr-right">
+        <p class="page-subtitle" style="text-align: center;"><i>Content coming soon!</i></p>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+
+</html>
