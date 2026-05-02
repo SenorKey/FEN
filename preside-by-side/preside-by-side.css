@@ -270,11 +270,19 @@ body {
 
 /* --------------------------------------------------------------------------
      Figure (silhouette + name badge) — sticky on desktop
+
+     NOTE: grid-row: 1 is set explicitly below because in side-right the
+     figure-wrap appears BEFORE bars-wrap in the DOM but is placed in
+     grid-column: 2. CSS grid's default "sparse" auto-flow advances the
+     placement cursor past column 2, then puts bars-wrap (which targets
+     column 1) onto a NEW row. Pinning both items to row 1 forces them
+     to share the same row, so the bars on each side line up vertically.
      -------------------------------------------------------------------------- */
 .figure-wrap {
     position: relative;
     z-index: 2;
     height: 100%;
+    grid-row: 1;
 }
 
 .side-left .figure-wrap {
@@ -358,15 +366,20 @@ body {
 
 /* --------------------------------------------------------------------------
      Bars — the diverging chart
+
+     justify-content: flex-start so the bars start at the TOP of the side
+     instead of being vertically centered (which pushed them below the fold).
+     grid-row: 1 — see note on .figure-wrap above.
      -------------------------------------------------------------------------- */
 .bars-wrap {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 40px 0;
     min-height: 100%;
+    grid-row: 1;
 }
 
 .side-left .bars-wrap {
@@ -861,9 +874,13 @@ body {
     animation-delay: 1.37s;
 }
 
+/* fill-mode `both` keeps the label at opacity:1 AFTER the animation
+   finishes. Previously this used `backwards`, which only filled the
+   "before" side of the delay — once the animation completed the
+   element fell back to its declared opacity:0 and the labels vanished. */
 .bar-label-outer {
     opacity: 0;
-    animation: fadeIn 0.5s var(--ease-soft) backwards;
+    animation: fadeIn 0.5s var(--ease-soft) both;
 }
 
 .bar:nth-child(1) .bar-label-outer {
@@ -898,7 +915,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-     Mobile — under 768px
+     Mobile — under 1000px
      -------------------------------------------------------------------------- */
 @media (max-width: 1000px) {
     :root {
@@ -1017,32 +1034,27 @@ body {
         text-overflow: ellipsis;
     }
 
-    .side-left .bar-fill {
-        flex-direction: row-reverse;
-        /* number at outer (left) tip, label at inner (right) */
-        padding: 0 12px 0 14px;
-        gap: 10px;
-        justify-content: flex-end;
+    /* Severity numbers are hidden on mobile — the modal still surfaces
+       the value when a bar is expanded, which is enough at this size. */
+    .severity-number {
+        display: none;
     }
 
-    .side-left .bar-fill .severity-number {
-        margin-left: auto;
+    /* With severity gone, anchor each label at the centerline edge of
+       its bar so labels on both sides line up against the centerline.
+       (Single flex item now — flex-direction is just for clarity.) */
+    .side-left .bar-fill {
+        flex-direction: row;
+        justify-content: flex-end;
+        padding: 0 14px;
+        gap: 0;
     }
 
     .side-right .bar-fill {
         flex-direction: row;
-        /* label at inner (left), number at outer (right) tip */
-        padding: 0 14px 0 12px;
-        gap: 10px;
         justify-content: flex-start;
-    }
-
-    .side-right .bar-fill .severity-number {
-        margin-left: auto;
-    }
-
-    .severity-number {
-        font-size: 1.15rem;
+        padding: 0 14px;
+        gap: 0;
     }
 
     /* Tighter bar widths on mobile so everything fits */
@@ -1076,10 +1088,6 @@ body {
 @media (max-width: 380px) {
     .bar-label-inner {
         font-size: 0.75rem;
-    }
-
-    .severity-number {
-        font-size: 1rem;
     }
 
     .bar-fill {
