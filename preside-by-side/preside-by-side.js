@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    const MOBILE_QUERY = '(max-width: 768px)';
+    const MOBILE_QUERY = '(max-width: 1000px)';
     const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
 
     // Modal elements
