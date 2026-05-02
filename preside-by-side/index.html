@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/preside-by-side/preside-by-side.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Preside by Side — a side-by-side comparison of presidential misconduct, weighted visually by severity. A project on frontendneeded.com.">
+    <link rel="canonical" href="https://frontendneeded.com/preside-by-side/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/preside-by-side/">
+    <meta property="og:title" content="Preside by Side — A Presidential Comparison">
+    <meta property="og:description"
+        content="A side-by-side comparison of presidential misconduct, weighted visually by severity.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Preside by Side</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/pental">Pental</a>
+                <a href="/preside-by-side" class="active">Preside by Side</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <header class="site-header">
+        <p class="site-eyebrow">A Comparison</p>
+        <h1 class="site-title">Preside <em>by</em> Side</h1>
+        <p class="site-tagline">Side by side, bar by bar — comparing the faults of two presidents.</p>
+        <div class="header-rule" aria-hidden="true"></div>
+    </header>
+
+    <main class="comparison" id="main-content">
+        <!-- ============ LEFT SIDE: BIDEN ============ -->
+        <section class="side side-left" aria-label="Joe Biden">
+            <div class="side-bg side-bg-stars" aria-hidden="true"></div>
+
+            <div class="figure-wrap">
+                <div class="figure-container">
+                    <svg class="silhouette" viewBox="0 0 240 720" xmlns="http://www.w3.org/2000/svg"
+                        preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="silGradLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#0a1438" stop-opacity="0.95" />
+                                <stop offset="100%" stop-color="#0a1438" stop-opacity="0.55" />
+                            </linearGradient>
+                        </defs>
+                        <g fill="url(#silGradLeft)">
+                            <!-- Head -->
+                            <ellipse cx="120" cy="105" rx="52" ry="62" />
+                            <!-- Neck -->
+                            <path d="M 98 158 L 98 184 Q 98 192, 108 195 L 132 195 Q 142 192, 142 184 L 142 158 Z" />
+                            <!-- Suit / body -->
+                            <path d="M 50 215
+                                     Q 85 198, 98 198
+                                     L 142 198
+                                     Q 155 198, 190 215
+                                     Q 215 250, 222 305
+                                     L 232 720
+                                     L 8 720
+                                     L 18 305
+                                     Q 25 250, 50 215 Z" />
+                            <!-- Lapel notch (negative space) -->
+                        </g>
+                        <!-- Tie -->
+                        <path d="M 108 200 L 132 200 L 126 230 L 132 320 L 120 360 L 108 320 L 114 230 Z" fill="#1a2c5c"
+                            opacity="0.85" />
+                        <!-- Lapel split lines -->
+                        <path d="M 110 202 L 100 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
+                            fill="none" />
+                        <path d="M 130 202 L 140 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
+                            fill="none" />
+                    </svg>
+                    <div class="name-badge">
+                        <span class="name-first">Joseph R.</span>
+                        <span class="last-name">Biden</span>
+                        <span class="name-detail">46<sup>th</sup> President</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bars-wrap">
+                <div class="bars-container" id="bars-left">
+
+                    <article class="bar" data-side="left">
+                        <div class="bar-row">
+                            <span class="bar-label-outer">Bar One</span>
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-L1"
+                                data-title="Bar One" style="--severity: 9;">
+                                <span class="severity-number">9</span>
+                                <span class="bar-label-inner">Bar 1</span>
+                            </button>
+                        </div>
+                        <div class="bar-detail" id="detail-L1" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar One</h3>
+                                <p class="detail-description">Description 1 — placeholder text describing the action
+                                    being measured. This area is where a longer explanation lives: what happened, when,
+                                    the people and institutions involved, and why it matters relative to other items on
+                                    the chart.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                        <li><a href="#" rel="noopener">Source 2 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="left">
+                        <div class="bar-row">
+                            <span class="bar-label-outer">Bar Two</span>
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-L2"
+                                data-title="Bar Two" style="--severity: 7;">
+                                <span class="severity-number">7</span>
+                                <span class="bar-label-inner">Bar 2</span>
+                            </button>
+                        </div>
+                        <div class="bar-detail" id="detail-L2" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Two</h3>
+                                <p class="detail-description">Description 2 — placeholder text. Replace with actual
+                                    content describing the second item on the chart.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                        <li><a href="#" rel="noopener">Source 2 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="left">
+                        <div class="bar-row">
+                            <span class="bar-label-outer">Bar Three</span>
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-L3"
+                                data-title="Bar Three" style="--severity: 5;">
+                                <span class="severity-number">5</span>
+                                <span class="bar-label-inner">Bar 3</span>
+                            </button>
+                        </div>
+                        <div class="bar-detail" id="detail-L3" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Three</h3>
+                                <p class="detail-description">Description 3 — placeholder text describing the third
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="left">
+                        <div class="bar-row">
+                            <span class="bar-label-outer">Bar Four</span>
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-L4"
+                                data-title="Bar Four" style="--severity: 4;">
+                                <span class="severity-number">4</span>
+                                <span class="bar-label-inner">Bar 4</span>
+                            </button>
+                        </div>
+                        <div class="bar-detail" id="detail-L4" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Four</h3>
+                                <p class="detail-description">Description 4 — placeholder text describing the fourth
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="left">
+                        <div class="bar-row">
+                            <span class="bar-label-outer">Bar Five</span>
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-L5"
+                                data-title="Bar Five" style="--severity: 2;">
+                                <span class="severity-number">2</span>
+                                <span class="bar-label-inner">Bar 5</span>
+                            </button>
+                        </div>
+                        <div class="bar-detail" id="detail-L5" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Five</h3>
+                                <p class="detail-description">Description 5 — placeholder text describing the fifth
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ RIGHT SIDE: TRUMP ============ -->
+        <section class="side side-right" aria-label="Donald Trump">
+            <div class="side-bg side-bg-stripes" aria-hidden="true"></div>
+
+            <div class="figure-wrap">
+                <div class="figure-container">
+                    <svg class="silhouette" viewBox="0 0 240 720" xmlns="http://www.w3.org/2000/svg"
+                        preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="silGradRight" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#3a0810" stop-opacity="0.95" />
+                                <stop offset="100%" stop-color="#3a0810" stop-opacity="0.55" />
+                            </linearGradient>
+                        </defs>
+                        <g fill="url(#silGradRight)">
+                            <!-- Head -->
+                            <ellipse cx="120" cy="105" rx="55" ry="60" />
+                            <!-- Hair flourish (bigger) -->
+                            <path
+                                d="M 70 78 Q 90 50, 130 55 Q 175 60, 175 90 Q 170 75, 140 70 Q 110 68, 90 80 Q 75 88, 70 95 Z" />
+                            <!-- Neck -->
+                            <path d="M 96 158 L 96 184 Q 96 192, 108 195 L 132 195 Q 144 192, 144 184 L 144 158 Z" />
+                            <!-- Suit / body (slightly broader) -->
+                            <path d="M 46 215
+                                     Q 82 198, 96 198
+                                     L 144 198
+                                     Q 158 198, 194 215
+                                     Q 220 250, 226 305
+                                     L 234 720
+                                     L 6 720
+                                     L 14 305
+                                     Q 20 250, 46 215 Z" />
+                        </g>
+                        <!-- Tie (longer, classic Trump red-tie reference) -->
+                        <path d="M 106 200 L 134 200 L 128 235 L 136 380 L 120 425 L 104 380 L 112 235 Z" fill="#5a0a14"
+                            opacity="0.85" />
+                        <!-- Lapel split lines -->
+                        <path d="M 108 202 L 96 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
+                            fill="none" />
+                        <path d="M 132 202 L 144 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
+                            fill="none" />
+                    </svg>
+                    <div class="name-badge">
+                        <span class="name-first">Donald J.</span>
+                        <span class="last-name">Trump</span>
+                        <span class="name-detail">45<sup>th</sup> &amp; 47<sup>th</sup> President</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bars-wrap">
+                <div class="bars-container" id="bars-right">
+
+                    <article class="bar" data-side="right">
+                        <div class="bar-row">
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-R1"
+                                data-title="Bar One" style="--severity: 10;">
+                                <span class="severity-number">10</span>
+                                <span class="bar-label-inner">Bar 1</span>
+                            </button>
+                            <span class="bar-label-outer">Bar One</span>
+                        </div>
+                        <div class="bar-detail" id="detail-R1" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar One</h3>
+                                <p class="detail-description">Description 1 — placeholder text describing the action
+                                    being measured. This area is where a longer explanation lives: what happened, when,
+                                    the people and institutions involved, and why it matters relative to other items on
+                                    the chart.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                        <li><a href="#" rel="noopener">Source 2 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="right">
+                        <div class="bar-row">
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-R2"
+                                data-title="Bar Two" style="--severity: 8;">
+                                <span class="severity-number">8</span>
+                                <span class="bar-label-inner">Bar 2</span>
+                            </button>
+                            <span class="bar-label-outer">Bar Two</span>
+                        </div>
+                        <div class="bar-detail" id="detail-R2" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Two</h3>
+                                <p class="detail-description">Description 2 — placeholder text describing the second
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                        <li><a href="#" rel="noopener">Source 2 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="right">
+                        <div class="bar-row">
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-R3"
+                                data-title="Bar Three" style="--severity: 6;">
+                                <span class="severity-number">6</span>
+                                <span class="bar-label-inner">Bar 3</span>
+                            </button>
+                            <span class="bar-label-outer">Bar Three</span>
+                        </div>
+                        <div class="bar-detail" id="detail-R3" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Three</h3>
+                                <p class="detail-description">Description 3 — placeholder text describing the third
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="right">
+                        <div class="bar-row">
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-R4"
+                                data-title="Bar Four" style="--severity: 4;">
+                                <span class="severity-number">4</span>
+                                <span class="bar-label-inner">Bar 4</span>
+                            </button>
+                            <span class="bar-label-outer">Bar Four</span>
+                        </div>
+                        <div class="bar-detail" id="detail-R4" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Four</h3>
+                                <p class="detail-description">Description 4 — placeholder text describing the fourth
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="bar" data-side="right">
+                        <div class="bar-row">
+                            <button class="bar-fill" type="button" aria-expanded="false" aria-controls="detail-R5"
+                                data-title="Bar Five" style="--severity: 3;">
+                                <span class="severity-number">3</span>
+                                <span class="bar-label-inner">Bar 5</span>
+                            </button>
+                            <span class="bar-label-outer">Bar Five</span>
+                        </div>
+                        <div class="bar-detail" id="detail-R5" hidden>
+                            <div class="bar-detail-inner">
+                                <h3 class="detail-title">Bar Five</h3>
+                                <p class="detail-description">Description 5 — placeholder text describing the fifth
+                                    item.</p>
+                                <div class="detail-sources">
+                                    <h4 class="sources-heading">Sources</h4>
+                                    <ol class="sources-list">
+                                        <li><a href="#" rel="noopener">Source 1 — placeholder citation</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual centerline -->
+        <div class="centerline" aria-hidden="true"></div>
+    </main>
+
+    <!-- Mobile detail modal -->
+    <div class="modal" id="modal" hidden>
+        <div class="modal-backdrop" data-modal-close></div>
+        <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button class="modal-close" type="button" aria-label="Close" data-modal-close>
+                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                    <path d="M6 6 L18 18 M6 18 L18 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+            <div class="modal-severity" id="modal-severity"></div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <p class="modal-description" id="modal-description"></p>
+            <div class="modal-sources">
+                <h4 class="sources-heading">Sources</h4>
+                <ol class="sources-list" id="modal-sources-list"></ol>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p class="footer-disclaimer"><strong>About this comparison.</strong> Placeholder text for methodology and
+            disclaimers. This space will explain how items are selected, how severity is assigned, and the editorial
+            limits of the comparison. The visual symmetry is structural, not a claim of equivalence.</p>
+    </footer>
+
+    <script src="/preside-by-side/preside-by-side.js"></script>
+</body>
+
+</html>

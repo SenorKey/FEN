@@ -1,0 +1,1088 @@
+/* ==========================================================================
+   preside-by-side.css — Styles for /preside-by-side
+   frontendneeded.com
+
+   Editorial-poster aesthetic: high-contrast serif display, flag-forward
+   gradients, restrained typography against bold color fields.
+
+   This page intentionally does NOT use the shared gr-shell layout. It
+   loads /assets/css/styles.css only for the FEN navbar — a few overrides
+   below undo the shared body's full-viewport lock so this page can scroll.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Overrides for shared styles.css
+
+   The shared body sets:
+     height: 100vh; overflow: hidden;
+     display: flex; flex-direction: column;
+     font-family: 'DM Sans', sans-serif;
+
+   This page needs to scroll vertically and uses its own body font, so we
+   undo those rules here. The navbar's font is then locked back to DM Sans
+   so it stays visually consistent with the rest of the site.
+   -------------------------------------------------------------------------- */
+
+body {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
+    display: block;
+}
+
+.site-nav,
+.site-nav a,
+.nav-dropdown-toggle,
+.nav-dropdown-menu a {
+    font-family: 'DM Sans', sans-serif;
+}
+
+
+/* --------------------------------------------------------------------------
+     Variables
+     -------------------------------------------------------------------------- */
+:root {
+    /* Palette — left (Biden / blue) */
+    --blue-deep: #0a1845;
+    --blue-mid: #1e3a8a;
+    --blue-bright: #2952d4;
+    --blue-glow: #4d7fff;
+    --blue-pale: #6e9eff;
+
+    /* Palette — right (Trump / red) */
+    --red-deep: #4a0810;
+    --red-mid: #8c0e1a;
+    --red-bright: #c81e2a;
+    --red-glow: #e74154;
+    --red-pale: #ff6b78;
+
+    /* Neutrals */
+    --ink: #f8f5ee;
+    --ink-dim: rgba(248, 245, 238, 0.72);
+    --ink-faint: rgba(248, 245, 238, 0.45);
+    --paper: #f5f1e8;
+    --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.45);
+    --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.25);
+
+    /* Type */
+    --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+    /* Layout */
+    --bar-height: 62px;
+    --bar-gap: 18px;
+    --side-pad-y: 80px;
+    --header-h: auto;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+     Base reset + body
+     -------------------------------------------------------------------------- */
+button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a {
+    color: inherit;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: #0a0a14;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: #0a0a14;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+     Site header — editorial masthead
+     -------------------------------------------------------------------------- */
+.site-header {
+    position: relative;
+    text-align: center;
+    padding: 70px 24px 50px;
+    background:
+        radial-gradient(ellipse at center top, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #0a0a14 0%, #14141f 100%);
+    z-index: 2;
+}
+
+.site-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 18px;
+}
+
+.site-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.25rem, 6.5vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 0;
+    color: var(--ink);
+    font-variation-settings: 'opsz' 144;
+}
+
+.site-title em {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.7em;
+    color: var(--ink-dim);
+    font-variation-settings: 'opsz' 100;
+    margin: 0 0.1em;
+    display: inline-block;
+    transform: translateY(-0.15em);
+}
+
+.site-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+    color: var(--ink-dim);
+    margin: 22px auto 0;
+    max-width: 540px;
+}
+
+.header-rule {
+    width: 60px;
+    height: 2px;
+    margin: 36px auto 0;
+    background: linear-gradient(90deg, transparent, var(--ink-faint), transparent);
+}
+
+/* --------------------------------------------------------------------------
+     Comparison main — two-column split
+     -------------------------------------------------------------------------- */
+.comparison {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    isolation: isolate;
+}
+
+/* The visible vertical centerline */
+.centerline {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.15) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+     Sides — shared layout
+     -------------------------------------------------------------------------- */
+.side {
+    position: relative;
+    display: grid;
+    padding: var(--side-pad-y) 0;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.side-left {
+    grid-template-columns: minmax(220px, 26%) 1fr;
+}
+
+.side-right {
+    grid-template-columns: 1fr minmax(220px, 26%);
+}
+
+/* Background layers — gradient + pattern overlay */
+.side-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.side-left .side-bg {
+    background:
+        /* faint star pattern */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><polygon points='40,12 47.5,33 70,33 51.5,46.5 58.5,68 40,55 21.5,68 28.5,46.5 10,33 32.5,33' fill='white' fill-opacity='0.07'/></svg>") repeat,
+        /* main gradient */
+        linear-gradient(180deg,
+            var(--blue-deep) 0%,
+            var(--blue-mid) 35%,
+            #1a2e6f 65%,
+            #0a1438 100%),
+        /* outer-edge glow behind silhouette */
+        radial-gradient(ellipse at 12% 50%, rgba(77, 127, 255, 0.25) 0%, transparent 55%);
+}
+
+.side-right .side-bg {
+    background:
+        /* faint stripe pattern */
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>") repeat,
+        linear-gradient(180deg,
+            var(--red-deep) 0%,
+            var(--red-mid) 35%,
+            #6f1018 65%,
+            #3a0810 100%),
+        radial-gradient(ellipse at 88% 50%, rgba(231, 65, 84, 0.28) 0%, transparent 55%);
+}
+
+/* Subtle grain layer for texture */
+.side::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.55) 0%, transparent 50%);
+}
+
+/* --------------------------------------------------------------------------
+     Figure (silhouette + name badge) — sticky on desktop
+     -------------------------------------------------------------------------- */
+.figure-wrap {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+}
+
+.side-left .figure-wrap {
+    grid-column: 1;
+}
+
+.side-right .figure-wrap {
+    grid-column: 2;
+}
+
+.figure-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 0 4vh;
+}
+
+.silhouette {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    flex: 1;
+    min-height: 0;
+    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.4));
+}
+
+.name-badge {
+    position: absolute;
+    bottom: 6vh;
+    text-align: center;
+    z-index: 3;
+    padding: 14px 24px;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    box-shadow: var(--shadow-strong);
+}
+
+.name-first {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+}
+
+.last-name {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 144;
+    color: var(--ink);
+}
+
+.name-detail {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+    margin-top: 6px;
+    font-variation-settings: 'opsz' 9;
+}
+
+.name-detail sup {
+    font-size: 0.65em;
+    margin-left: 1px;
+}
+
+/* --------------------------------------------------------------------------
+     Bars — the diverging chart
+     -------------------------------------------------------------------------- */
+.bars-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+    min-height: 100%;
+}
+
+.side-left .bars-wrap {
+    grid-column: 2;
+}
+
+.side-right .bars-wrap {
+    grid-column: 1;
+}
+
+.bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bar-gap);
+    width: 100%;
+}
+
+/* Each .bar is a column: row + (hidden) detail */
+.bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* The bar row — the visible bar + outer label */
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.side-left .bar-row {
+    flex-direction: row;
+    /* [label] [bar →] center */
+    justify-content: flex-end;
+    /* anchor at right (centerline) */
+    padding-right: 0;
+}
+
+.side-right .bar-row {
+    flex-direction: row;
+    /* center [← bar] [label] */
+    justify-content: flex-start;
+    /* anchor at left (centerline) */
+    padding-left: 0;
+}
+
+/* Outer label — desktop default */
+.bar-label-outer {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    white-space: nowrap;
+    font-variation-settings: 'opsz' 36;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    flex-shrink: 0;
+}
+
+/* The bar fill itself — width driven by --severity */
+.bar-fill {
+    --bar-width: calc(15% + (var(--severity) * 7.2%));
+    width: var(--bar-width);
+    height: var(--bar-height);
+    border: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    transition:
+        transform 0.35s var(--ease-soft),
+        filter 0.25s var(--ease-soft),
+        box-shadow 0.35s var(--ease-soft);
+
+    /* Page-load entrance animation */
+    transform-origin: var(--origin, right center);
+    animation: barGrow 0.95s var(--ease-out) backwards;
+}
+
+.bar-fill:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+}
+
+.side-left .bar-fill {
+    --origin: right center;
+    background:
+        linear-gradient(90deg,
+            var(--blue-pale) 0%,
+            var(--blue-glow) 35%,
+            var(--blue-bright) 100%);
+    border-radius: 2px 0 0 2px;
+    justify-content: flex-start;
+    padding: 0 18px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        -2px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.side-right .bar-fill {
+    --origin: left center;
+    background:
+        linear-gradient(270deg,
+            var(--red-pale) 0%,
+            var(--red-glow) 35%,
+            var(--red-bright) 100%);
+    border-radius: 0 2px 2px 0;
+    justify-content: flex-end;
+    padding: 0 18px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        2px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bar-fill:hover {
+    filter: brightness(1.1) saturate(1.1);
+    transform: scaleY(1.04);
+}
+
+.bar.expanded .bar-fill {
+    filter: brightness(1.15) saturate(1.15);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        0 0 24px rgba(255, 255, 255, 0.1);
+}
+
+/* Severity number — at the outer tip of the bar */
+.severity-number {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--ink);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-variation-settings: 'opsz' 144;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeIn 0.5s var(--ease-soft) 0.7s forwards;
+}
+
+/* Inner label — hidden on desktop, shown on mobile */
+.bar-label-inner {
+    display: none;
+}
+
+/* --------------------------------------------------------------------------
+     Bar detail (expanded panel) — desktop inline, mobile modal
+     -------------------------------------------------------------------------- */
+.bar-detail {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+        max-height 0.5s var(--ease-soft),
+        margin-top 0.5s var(--ease-soft),
+        opacity 0.4s var(--ease-soft);
+    opacity: 0;
+}
+
+.bar-detail[hidden] {
+    display: block;
+    /* override [hidden] so we can animate */
+}
+
+.bar.expanded .bar-detail {
+    max-height: 1000px;
+    margin-top: 14px;
+    opacity: 1;
+}
+
+.bar-detail-inner {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow-soft);
+}
+
+.side-left .bar-detail-inner {
+    border-left: 3px solid var(--blue-glow);
+}
+
+.side-right .bar-detail-inner {
+    border-right: 3px solid var(--red-glow);
+}
+
+.detail-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.5rem;
+    font-variation-settings: 'opsz' 144;
+    letter-spacing: -0.015em;
+    margin: 0 0 12px;
+    color: var(--ink);
+}
+
+.detail-description {
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    margin: 0 0 22px;
+}
+
+.detail-sources {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 18px;
+}
+
+.sources-heading {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+}
+
+.sources-list {
+    counter-reset: source;
+}
+
+.sources-list li {
+    counter-increment: source;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    padding: 6px 0 6px 28px;
+    position: relative;
+    color: var(--ink-dim);
+}
+
+.sources-list li::before {
+    content: counter(source);
+    position: absolute;
+    left: 0;
+    top: 6px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    width: 20px;
+    text-align: right;
+}
+
+.sources-list a {
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.sources-list a:hover {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+     Footer
+     -------------------------------------------------------------------------- */
+.site-footer {
+    position: relative;
+    z-index: 2;
+    padding: 50px 24px 60px;
+    text-align: center;
+    background: linear-gradient(180deg, #14141f 0%, #0a0a14 100%);
+}
+
+.footer-disclaimer {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    max-width: 680px;
+    margin: 0 auto;
+    font-variation-settings: 'opsz' 14;
+}
+
+.footer-disclaimer strong {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+}
+
+/* --------------------------------------------------------------------------
+     Modal (mobile only)
+     -------------------------------------------------------------------------- */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-soft);
+}
+
+.modal:not([hidden]) {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.modal[hidden] {
+    display: flex;
+    visibility: hidden;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-sheet {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1a1a26 0%, #0f0f18 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px 16px 0 0;
+    padding: 36px 28px 36px;
+    transform: translateY(40px);
+    transition: transform 0.4s var(--ease-out);
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal:not([hidden]) .modal-sheet {
+    transform: translateY(0);
+}
+
+.modal[data-side="left"] .modal-sheet {
+    border-top-color: var(--blue-glow);
+}
+
+.modal[data-side="right"] .modal-sheet {
+    border-top-color: var(--red-glow);
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: background 0.2s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.modal-severity {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 3.4rem;
+    line-height: 1;
+    font-variation-settings: 'opsz' 144;
+    margin: 0 0 6px;
+}
+
+.modal[data-side="left"] .modal-severity {
+    color: var(--blue-glow);
+}
+
+.modal[data-side="right"] .modal-severity {
+    color: var(--red-glow);
+}
+
+.modal-severity::before {
+    content: 'Severity ';
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.85rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 144;
+    margin: 0 0 18px;
+    color: var(--ink);
+}
+
+.modal-description {
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: var(--ink-dim);
+    margin: 0 0 28px;
+}
+
+.modal-sources {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 18px;
+}
+
+/* --------------------------------------------------------------------------
+     Animations
+     -------------------------------------------------------------------------- */
+@keyframes barGrow {
+    from {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stagger entrance per bar position */
+.bar:nth-child(1) .bar-fill {
+    animation-delay: 0.15s;
+}
+
+.bar:nth-child(2) .bar-fill {
+    animation-delay: 0.28s;
+}
+
+.bar:nth-child(3) .bar-fill {
+    animation-delay: 0.41s;
+}
+
+.bar:nth-child(4) .bar-fill {
+    animation-delay: 0.54s;
+}
+
+.bar:nth-child(5) .bar-fill {
+    animation-delay: 0.67s;
+}
+
+.bar:nth-child(1) .severity-number {
+    animation-delay: 0.85s;
+}
+
+.bar:nth-child(2) .severity-number {
+    animation-delay: 0.98s;
+}
+
+.bar:nth-child(3) .severity-number {
+    animation-delay: 1.11s;
+}
+
+.bar:nth-child(4) .severity-number {
+    animation-delay: 1.24s;
+}
+
+.bar:nth-child(5) .severity-number {
+    animation-delay: 1.37s;
+}
+
+.bar-label-outer {
+    opacity: 0;
+    animation: fadeIn 0.5s var(--ease-soft) backwards;
+}
+
+.bar:nth-child(1) .bar-label-outer {
+    animation-delay: 0.95s;
+}
+
+.bar:nth-child(2) .bar-label-outer {
+    animation-delay: 1.08s;
+}
+
+.bar:nth-child(3) .bar-label-outer {
+    animation-delay: 1.21s;
+}
+
+.bar:nth-child(4) .bar-label-outer {
+    animation-delay: 1.34s;
+}
+
+.bar:nth-child(5) .bar-label-outer {
+    animation-delay: 1.47s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+     Mobile — under 768px
+     -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    :root {
+        --bar-height: 50px;
+        --bar-gap: 12px;
+        --side-pad-y: 20px;
+    }
+
+    .site-header {
+        padding: 44px 20px 32px;
+    }
+
+    /* Each side becomes a single column with figure as a header strip */
+    .side-left,
+    .side-right {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .figure-wrap {
+        grid-column: 1;
+        grid-row: 1;
+        height: auto;
+    }
+
+    .side-left .figure-wrap,
+    .side-right .figure-wrap {
+        grid-column: 1;
+    }
+
+    .bars-wrap {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 24px 0 32px;
+    }
+
+    .side-left .bars-wrap,
+    .side-right .bars-wrap {
+        grid-column: 1;
+    }
+
+    /* Figure becomes a small sticky header.
+       Note: the FEN navbar is 40px tall on mobile (from styles.css),
+       so we offset this sticky header to sit just below it. */
+    .figure-container {
+        position: sticky;
+        top: 40px;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 12px 16px;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 10;
+        gap: 12px;
+    }
+
+    .side-right .figure-container {
+        flex-direction: row-reverse;
+    }
+
+    .silhouette {
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        min-height: 0;
+        filter: none;
+    }
+
+    .name-badge {
+        position: static;
+        padding: 0;
+        background: none;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        text-align: left;
+    }
+
+    .side-right .name-badge {
+        text-align: right;
+    }
+
+    .name-first {
+        display: none;
+    }
+
+    .name-detail {
+        display: none;
+    }
+
+    .last-name {
+        font-size: 1.2rem;
+    }
+
+    /* Bars — labels move INSIDE on mobile */
+    .bar-label-outer {
+        display: none;
+    }
+
+    .bar-label-inner {
+        display: block;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: var(--ink);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        font-variation-settings: 'opsz' 36;
+        letter-spacing: -0.005em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .side-left .bar-fill {
+        flex-direction: row-reverse;
+        /* number at outer (left) tip, label at inner (right) */
+        padding: 0 12px 0 14px;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .side-left .bar-fill .severity-number {
+        margin-left: auto;
+    }
+
+    .side-right .bar-fill {
+        flex-direction: row;
+        /* label at inner (left), number at outer (right) tip */
+        padding: 0 14px 0 12px;
+        gap: 10px;
+        justify-content: flex-start;
+    }
+
+    .side-right .bar-fill .severity-number {
+        margin-left: auto;
+    }
+
+    .severity-number {
+        font-size: 1.15rem;
+    }
+
+    /* Tighter bar widths on mobile so everything fits */
+    .bar-fill {
+        --bar-width: calc(20% + (var(--severity) * 7.5%));
+    }
+
+    /* Hide inline detail on mobile — modal takes over */
+    .bar.expanded .bar-detail {
+        max-height: 0;
+        margin-top: 0;
+        opacity: 0;
+    }
+
+    /* Push centerline above sticky header on mobile so it stays visible */
+    .centerline {
+        z-index: 11;
+    }
+
+    /* Smaller modal severity number on tiny screens */
+    .modal-severity {
+        font-size: 2.6rem;
+    }
+
+    .modal-title {
+        font-size: 1.45rem;
+    }
+}
+
+/* Even narrower phones */
+@media (max-width: 380px) {
+    .bar-label-inner {
+        font-size: 0.75rem;
+    }
+
+    .severity-number {
+        font-size: 1rem;
+    }
+
+    .bar-fill {
+        --bar-width: calc(22% + (var(--severity) * 7.3%));
+    }
+}
