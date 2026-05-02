@@ -526,6 +526,39 @@ body {
     animation: fadeIn 0.5s var(--ease-soft) 0.7s forwards;
 }
 
+/* Severity hint — only on the first (largest) bar of each side, to clarify
+   what the big standalone number is. Low-opacity, points outward toward
+   the number, fades in after the number has settled. Hidden on mobile. */
+.bar:first-child .bar-fill::after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+    animation: severityHintFadeIn 0.6s var(--ease-soft) 1.4s forwards;
+}
+
+.side-left .bar:first-child .bar-fill::after {
+    content: '\2190 \00a0severity level';
+    /* ← severity level */
+    left: 56px;
+    /* past the severity number */
+}
+
+.side-right .bar:first-child .bar-fill::after {
+    content: 'severity level\00a0 \2192';
+    /* severity level → */
+    right: 64px;
+    /* before the (potentially 2-digit) number */
+}
+
 /* Inner label — hidden on desktop, shown on mobile */
 .bar-label-inner {
     display: none;
@@ -782,6 +815,19 @@ body {
     margin-bottom: 4px;
 }
 
+/* "/10" suffix after the severity number — smaller and dimmer so the big
+   number still reads as the headline. The ::before above ('Severity ') is
+   block-level and stays put. */
+.modal-severity::after {
+    content: '/10';
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--ink-faint);
+    letter-spacing: -0.01em;
+    margin-left: 2px;
+}
+
 .modal-title {
     font-family: var(--font-display);
     font-weight: 900;
@@ -830,6 +876,17 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Same idea as fadeIn but caps at 0.45 so the hint stays subtle. */
+@keyframes severityHintFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.45;
     }
 }
 
@@ -1037,6 +1094,11 @@ body {
     /* Severity numbers are hidden on mobile — the modal still surfaces
        the value when a bar is expanded, which is enough at this size. */
     .severity-number {
+        display: none;
+    }
+
+    /* The desktop-only severity hint (← severity level) goes too. */
+    .bar:first-child .bar-fill::after {
         display: none;
     }
 
