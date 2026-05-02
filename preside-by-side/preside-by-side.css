@@ -24,6 +24,38 @@
    so it stays visually consistent with the rest of the site.
    -------------------------------------------------------------------------- */
 
+@font-face {
+    font-family: 'Fraunces';
+    src: url('/assets/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fraunces';
+    src: url('/assets/fonts/Fraunces-Italic-VariableFont_SOFT,WONK,opsz,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('/assets/fonts/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('/assets/fonts/IBMPlexSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 700;
+    font-style: italic;
+    font-display: swap;
+}
+
 body {
     height: auto;
     overflow-x: hidden;
