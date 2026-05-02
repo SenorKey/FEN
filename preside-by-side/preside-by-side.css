@@ -31,6 +31,16 @@ body {
     display: block;
 }
 
+/* Stick the FEN navbar to the top on this page (since the body actually
+   scrolls here, unlike the home page). The mobile figure-container sticks
+   at top: 40px expecting this 40px-tall navbar to be pinned above it.
+   z-index sits above the figure-container (z-index 10) and centerline. */
+.site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
 .site-nav,
 .site-nav a,
 .nav-dropdown-toggle,
@@ -43,6 +53,11 @@ body {
      Variables
      -------------------------------------------------------------------------- */
 :root {
+    /* Allow transitions to/from intrinsic sizes (max-content, auto). Used
+       by the bar-detail expand animation; falls back to instant in browsers
+       that don't support it yet. */
+    interpolate-size: allow-keywords;
+
     /* Palette — left (Biden / blue) */
     --blue-deep: #0a1845;
     --blue-mid: #1e3a8a;
@@ -584,7 +599,7 @@ body {
 }
 
 .bar.expanded .bar-detail {
-    max-height: 1000px;
+    max-height: max-content;
     margin-top: 14px;
     opacity: 1;
 }
@@ -707,43 +722,58 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-     Modal (mobile only)
+     Modal — uses the native <dialog> element (mobile only)
+
+     <dialog> opened via showModal() handles focus trapping, ESC dismissal,
+     top-layer placement, and inerting the background page for free. We
+     style on top of that and add an animated open/close.
+
+     The animation uses an .is-open class toggled from JS (on the next frame
+     after .showModal(), and removed before .close() with a delay). This is
+     more reliable across browsers than animating the open/close transition
+     directly, because <dialog> goes display:none ↔ display:block when
+     toggled and that breaks pure-CSS transitions.
      -------------------------------------------------------------------------- */
+
+/* Strip the browser's default <dialog> chrome */
 .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
+    border: none;
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+/* When open, lay the dialog out as a full-viewport flex container with the
+   sheet anchored to the bottom. dvh handles iOS Safari's URL-bar quirks. */
+.modal[open] {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    pointer-events: none;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+}
+
+/* Native ::backdrop replaces the manual .modal-backdrop div we used to ship */
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     opacity: 0;
     transition: opacity 0.3s var(--ease-soft);
 }
 
-.modal:not([hidden]) {
-    pointer-events: auto;
+.modal.is-open::backdrop {
     opacity: 1;
-}
-
-.modal[hidden] {
-    display: flex;
-    visibility: hidden;
-}
-
-.modal-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-sheet {
     position: relative;
     width: 100%;
     max-width: 720px;
-    max-height: 85vh;
+    max-height: 85dvh;
     overflow-y: auto;
     background: linear-gradient(180deg, #1a1a26 0%, #0f0f18 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -754,7 +784,7 @@ body {
     box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.6);
 }
 
-.modal:not([hidden]) .modal-sheet {
+.modal.is-open .modal-sheet {
     transform: translateY(0);
 }
 

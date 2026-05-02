@@ -1,41 +1,47 @@
 /* ==========================================================================
    Preside by Side — Interactions
    - Desktop: bar click toggles inline expansion (same-side bars push down)
-   - Mobile:  bar click opens a full-screen modal sheet
+   - Mobile:  bar click opens a native <dialog> modal
    ========================================================================== */
 
 (function () {
     'use strict';
 
     const MOBILE_QUERY = '(max-width: 1000px)';
-    const isMobile = () => window.matchMedia(MOBILE_QUERY).matches;
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const isMobile = () => mql.matches;
 
-    // Modal elements
+    // Modal elements (now a native <dialog>)
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalSeverity = document.getElementById('modal-severity');
     const modalSourcesList = document.getElementById('modal-sources-list');
 
+    // Kept in sync with the .modal-sheet transition duration in CSS
+    const MODAL_TRANSITION_MS = 400;
+
     // Track currently expanded bar (desktop) so we can collapse it
     let currentlyExpanded = null;
+    // Element that had focus before the modal opened, restored on close
+    let lastFocusedBeforeModal = null;
 
     /* --------------------------------------------------------------------------
-       Bar click handlers
+       Click handling — delegated from the document so dynamically-added bars
+       (e.g. from the future moderation queue) start working immediately
+       without needing to re-bind handlers.
        -------------------------------------------------------------------------- */
-    const allBarFills = document.querySelectorAll('.bar-fill');
+    document.addEventListener('click', (e) => {
+        const fill = e.target.closest('.bar-fill');
+        if (!fill) return;
+        const bar = fill.closest('.bar');
+        if (!bar) return;
 
-    allBarFills.forEach((fill) => {
-        fill.addEventListener('click', () => {
-            const bar = fill.closest('.bar');
-            if (!bar) return;
-
-            if (isMobile()) {
-                openModal(bar);
-            } else {
-                toggleExpand(bar);
-            }
-        });
+        if (isMobile()) {
+            openModal(bar);
+        } else {
+            toggleExpand(bar);
+        }
     });
 
     /* --------------------------------------------------------------------------
@@ -46,7 +52,7 @@
         const detail = bar.querySelector('.bar-detail');
         const isOpen = bar.classList.contains('expanded');
 
-        // Collapse any other open bar (single-open behavior keeps the page tidy)
+        // Single-open behavior — collapse any other open bar first
         if (currentlyExpanded && currentlyExpanded !== bar) {
             collapseBar(currentlyExpanded);
         }
@@ -67,20 +73,28 @@
         const detail = bar.querySelector('.bar-detail');
         bar.classList.remove('expanded');
         fill.setAttribute('aria-expanded', 'false');
-        // Wait for transition before re-hiding for a11y
+
         if (detail) {
+            // The detail has THREE concurrent transitions (max-height,
+            // margin-top, opacity). transitionend fires once per property,
+            // and opacity finishes first. Filter on propertyName so we
+            // wait for max-height to complete before re-hiding the element
+            // — and only THEN remove the listener. Previously the listener
+            // tore itself down on the first event regardless of property,
+            // so the [hidden] attribute often never got reapplied.
             const onEnd = (e) => {
-                if (e.propertyName === 'max-height' && !bar.classList.contains('expanded')) {
+                if (e.propertyName !== 'max-height') return;
+                detail.removeEventListener('transitionend', onEnd);
+                if (!bar.classList.contains('expanded')) {
                     detail.setAttribute('hidden', '');
                 }
-                detail.removeEventListener('transitionend', onEnd);
             };
             detail.addEventListener('transitionend', onEnd);
         }
     }
 
     /* --------------------------------------------------------------------------
-       Mobile: modal
+       Mobile: native <dialog> modal
        -------------------------------------------------------------------------- */
     function openModal(bar) {
         const side = bar.dataset.side;
@@ -96,59 +110,69 @@
         modalDescription.textContent = description;
         modalSeverity.textContent = severity;
 
-        // Rebuild sources list
-        modalSourcesList.innerHTML = '';
+        // Rebuild sources list — cloneNode preserves nested elements
+        // exactly without an innerHTML re-parse round-trip, and would
+        // also preserve any event listeners we attach in the future.
+        modalSourcesList.replaceChildren();
         sources.forEach((srcLi) => {
-            const li = document.createElement('li');
-            li.innerHTML = srcLi.innerHTML;
-            modalSourcesList.appendChild(li);
+            modalSourcesList.appendChild(srcLi.cloneNode(true));
         });
 
-        modal.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
+        // Capture focus so we can restore it when the modal closes
+        lastFocusedBeforeModal = document.activeElement;
 
-        // Focus the close button for keyboard users
-        requestAnimationFrame(() => {
-            const closeBtn = modal.querySelector('.modal-close');
-            if (closeBtn) closeBtn.focus();
-        });
+        modal.showModal();
+        // Trigger entrance animation on next frame — adding the class in the
+        // same frame as showModal() would skip the transition because the
+        // browser hasn't yet committed the dialog's "from" state.
+        requestAnimationFrame(() => modal.classList.add('is-open'));
     }
 
     function closeModal() {
-        modal.setAttribute('hidden', '');
-        document.body.style.overflow = '';
+        modal.classList.remove('is-open');
+        // Wait for the slide-out + backdrop fade to finish before actually
+        // closing the dialog, otherwise it snaps to display:none mid-frame.
+        setTimeout(() => {
+            if (modal.open) modal.close();
+            if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+                lastFocusedBeforeModal.focus();
+            }
+            lastFocusedBeforeModal = null;
+        }, MODAL_TRANSITION_MS);
     }
 
-    // Close handlers — backdrop, close button, ESC key
+    // Click on the backdrop (which bubbles to the dialog with target===dialog)
+    // or on any element marked data-modal-close (the close button).
     modal.addEventListener('click', (e) => {
-        if (e.target.matches('[data-modal-close]') || e.target.closest('[data-modal-close]')) {
+        if (e.target === modal) {
+            closeModal();
+            return;
+        }
+        if (e.target.closest('[data-modal-close]')) {
             closeModal();
         }
     });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
-            closeModal();
-        }
+    // ESC dismissal — <dialog> fires a `cancel` event before closing. We
+    // preventDefault so we can run our animated close path instead of the
+    // dialog snapping closed instantly.
+    modal.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        closeModal();
     });
 
     /* --------------------------------------------------------------------------
-       Resize handler — collapse open bars when crossing the breakpoint
-       so we don't have leftover state from one mode in the other.
+       Breakpoint crossings — listen directly to matchMedia's `change` event
+       instead of polling resize. Fires only when the breakpoint is actually
+       crossed, no manual lastIsMobile tracking required.
        -------------------------------------------------------------------------- */
-    let lastIsMobile = isMobile();
-    window.addEventListener('resize', () => {
-        const nowMobile = isMobile();
-        if (nowMobile !== lastIsMobile) {
-            // Crossed breakpoint — reset state
-            if (currentlyExpanded) {
-                collapseBar(currentlyExpanded);
-                currentlyExpanded = null;
-            }
-            if (!modal.hasAttribute('hidden')) {
-                closeModal();
-            }
-            lastIsMobile = nowMobile;
+    mql.addEventListener('change', () => {
+        if (currentlyExpanded) {
+            collapseBar(currentlyExpanded);
+            currentlyExpanded = null;
+        }
+        if (modal.open) {
+            closeModal();
         }
     });
 })();
