@@ -1,11 +1,364 @@
 /* ==========================================================================
    Preside by Side — Interactions
+   - Bar data defined as objects, rendered into the DOM on page load
    - Desktop: bar click toggles inline expansion (same-side bars push down)
    - Mobile:  bar click opens a native <dialog> modal
    ========================================================================== */
 
 (function () {
     'use strict';
+
+    /* --------------------------------------------------------------------------
+       Bar data — single source of truth for what appears on the page.
+       Add a new bar by pushing an object into the appropriate array. The
+       render step below sorts by severity descending, so source order
+       within each array does not matter.
+
+       Schema per bar:
+         severity:    Number (1–10)
+         title:       String — full title (desktop outer label + detail panel)
+         shortLabel:  String — 2–3 words max, shown inside the bar on mobile
+         description: String — long-form text in the expanded panel / modal
+         sources:     Array<{ url: String, text: String }>
+       -------------------------------------------------------------------------- */
+    const barData = {
+        left: [
+            {
+                severity: 9,
+                title: 'Bar One',
+                shortLabel: 'Bar 1',
+                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Two',
+                shortLabel: 'Bar 2',
+                description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 5,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 4,
+                title: 'Bar Four',
+                shortLabel: 'Bar 4',
+                description: 'Description 4 — placeholder text describing the fourth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 2,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar One',
+                shortLabel: 'Bar 1',
+                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 4,
+                title: 'Bar Two',
+                shortLabel: 'Bar 2',
+                description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 4,
+                title: 'Bar Four',
+                shortLabel: 'Bar 4',
+                description: 'Description 4 — placeholder text describing the fourth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 6,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 3,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            }
+        ],
+        right: [
+            {
+                severity: 10,
+                title: 'Bar One',
+                shortLabel: 'Bar 1',
+                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 7,
+                title: 'Bar Two',
+                shortLabel: 'Bar 2',
+                description: 'Description 2 — placeholder text describing the second item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 6,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 4,
+                title: 'Bar Four',
+                shortLabel: 'Bar 4',
+                description: 'Description 4 — placeholder text describing the fourth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 3,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 9,
+                title: 'Bar One',
+                shortLabel: 'Bar 1',
+                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 9,
+                title: 'Bar Two',
+                shortLabel: 'Bar 2',
+                description: 'Description 2 — placeholder text describing the second item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' },
+                    { url: '#', text: 'Source 2 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 6,
+                title: 'Bar Three',
+                shortLabel: 'Bar 3',
+                description: 'Description 3 — placeholder text describing the third item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 2,
+                title: 'Bar Four',
+                shortLabel: 'Bar 4',
+                description: 'Description 4 — placeholder text describing the fourth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            },
+            {
+                severity: 1,
+                title: 'Bar Five',
+                shortLabel: 'Bar 5',
+                description: 'Description 5 — placeholder text describing the fifth item.',
+                sources: [
+                    { url: '#', text: 'Source 1 — placeholder citation' }
+                ]
+            }
+        ]
+    };
+
+    /* --------------------------------------------------------------------------
+       Render — build bar markup from the data above and inject into the
+       containers. Runs once on script load (the script is `defer`-ed in
+       the HTML, so the DOM is parsed by the time we get here).
+
+       Animation delays are set inline per bar so that adding a 6th, 7th,
+       Nth bar Just Works without touching the CSS — the old hardcoded
+       :nth-child(1)..:nth-child(5) rules in preside-by-side.css are no
+       longer needed (see the change notes I sent alongside this).
+       -------------------------------------------------------------------------- */
+
+    // Animation timing — mirrors what the old CSS nth-child rules produced
+    const BAR_FILL_BASE_DELAY = 0.15;        // first bar's --bar-fill-delay
+    const SEVERITY_NUMBER_BASE_DELAY = 0.85; // first bar's severity number
+    const LABEL_BASE_DELAY = 0.95;           // first bar's outer label
+    const STAGGER_STEP = 0.13;               // gap between consecutive bars
+
+    function escapeHtml(str) {
+        return String(str)
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
+    function renderSourcesList(sources) {
+        return sources.map(function (src) {
+            return '<li><a href="' + escapeHtml(src.url) + '" rel="noopener">' +
+                escapeHtml(src.text) + '</a></li>';
+        }).join('');
+    }
+
+    function renderBar(bar, index, side) {
+        // Per-side ID prefix so left and right never collide
+        const idPrefix = side === 'left' ? 'L' : 'R';
+        const labelId = 'label-' + idPrefix + (index + 1);
+        const detailId = 'detail-' + idPrefix + (index + 1);
+
+        // Per-bar animation delays — replaces the old static nth-child rules
+        const fillDelay = (BAR_FILL_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
+        const numberDelay = (SEVERITY_NUMBER_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
+        const labelDelay = (LABEL_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
+
+        // Label and bar render in opposite DOM order per side so the label
+        // sits on the OUTSIDE of the bar (away from the centerline).
+        const labelSpan =
+            '<span class="bar-label-outer" id="' + labelId + '" style="animation-delay: ' + labelDelay + ';">' +
+            escapeHtml(bar.title) +
+            '</span>';
+
+        const buttonHtml =
+            '<button class="bar-fill" type="button" aria-expanded="false"' +
+            ' aria-controls="' + detailId + '"' +
+            ' aria-labelledby="' + labelId + '"' +
+            ' data-title="' + escapeHtml(bar.title) + '"' +
+            ' style="--severity: ' + bar.severity + '; animation-delay: ' + fillDelay + ';">' +
+            '<span class="severity-number" style="animation-delay: ' + numberDelay + ';">' + bar.severity + '</span>' +
+            '<span class="bar-label-inner">' + escapeHtml(bar.shortLabel) + '</span>' +
+            '</button>';
+
+        const rowHtml = side === 'left'
+            ? '<div class="bar-row">' + labelSpan + buttonHtml + '</div>'
+            : '<div class="bar-row">' + buttonHtml + labelSpan + '</div>';
+
+        const detailHtml =
+            '<div class="bar-detail" id="' + detailId + '" hidden>' +
+            '<div class="bar-detail-inner">' +
+            '<h3 class="detail-title">' + escapeHtml(bar.title) + '</h3>' +
+            '<p class="detail-description">' + escapeHtml(bar.description) + '</p>' +
+            '<div class="detail-sources">' +
+            '<h4 class="sources-heading">Sources</h4>' +
+            '<ol class="sources-list">' + renderSourcesList(bar.sources) + '</ol>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+
+        const article = document.createElement('article');
+        article.className = 'bar';
+        article.dataset.side = side;
+        article.innerHTML = rowHtml + detailHtml;
+        return article;
+    }
+
+    function renderSide(side) {
+        const container = document.getElementById('bars-' + side);
+        if (!container) return;
+
+        // Sort by severity descending — source order in barData no longer matters
+        const sorted = barData[side].slice().sort(function (a, b) {
+            return b.severity - a.severity;
+        });
+
+        const frag = document.createDocumentFragment();
+        sorted.forEach(function (bar, i) {
+            frag.appendChild(renderBar(bar, i, side));
+        });
+
+        container.replaceChildren(frag);
+    }
+
+    renderSide('left');
+    renderSide('right');
+
+    /* --------------------------------------------------------------------------
+       Everything below is the original interaction code, unchanged.
+       -------------------------------------------------------------------------- */
 
     const MOBILE_QUERY = '(max-width: 1000px)';
     const mql = window.matchMedia(MOBILE_QUERY);
