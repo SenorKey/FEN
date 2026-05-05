@@ -1,6 +1,8 @@
 /* ==========================================================================
    Preside by Side — Interactions
-   - Bar data defined as objects, rendered into the DOM on page load
+   - President data defined as objects keyed by id; each president owns its
+     own bars. A `selection` map decides which president is shown on each
+     side of the page.
    - Desktop: bar click toggles inline expansion (same-side bars push down)
    - Mobile:  bar click opens a native <dialog> modal
    ========================================================================== */
@@ -9,247 +11,278 @@
     'use strict';
 
     /* --------------------------------------------------------------------------
-       Bar data — single source of truth for what appears on the page.
-       Add a new bar by pushing an object into the appropriate array. The
-       render step below sorts by severity descending, so source order
-       within each array does not matter.
+       Presidents — single source of truth.
 
-       Schema per bar:
+       Each president is an object keyed by a stable `id` (used by `selection`
+       below to decide who appears on which side, and later by any selector
+       UI). Bars belong to the president, not to a side of the page.
+
+       To add a new president: add another entry to this object with their
+       own bars array. To edit a bar: edit it in place. The render step
+       sorts bars by severity descending, so source order doesn't matter.
+
+       Bar schema:
          severity:    Number (1–10)
          title:       String — full title (desktop outer label + detail panel)
          shortLabel:  String — 2–3 words max, shown inside the bar on mobile
          description: String — long-form text in the expanded panel / modal
          sources:     Array<{ url: String, text: String }>
        -------------------------------------------------------------------------- */
-    const barData = {
-        left: [
-            {
-                severity: 9,
-                title: 'Bar One',
-                shortLabel: 'Bar 1',
-                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Two',
-                shortLabel: 'Bar 2',
-                description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 5,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 4,
-                title: 'Bar Four',
-                shortLabel: 'Bar 4',
-                description: 'Description 4 — placeholder text describing the fourth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 2,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar One',
-                shortLabel: 'Bar 1',
-                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 4,
-                title: 'Bar Two',
-                shortLabel: 'Bar 2',
-                description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 4,
-                title: 'Bar Four',
-                shortLabel: 'Bar 4',
-                description: 'Description 4 — placeholder text describing the fourth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 6,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 3,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            }
-        ],
-        right: [
-            {
-                severity: 10,
-                title: 'Bar One',
-                shortLabel: 'Bar 1',
-                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 7,
-                title: 'Bar Two',
-                shortLabel: 'Bar 2',
-                description: 'Description 2 — placeholder text describing the second item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 6,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 4,
-                title: 'Bar Four',
-                shortLabel: 'Bar 4',
-                description: 'Description 4 — placeholder text describing the fourth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 3,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 9,
-                title: 'Bar One',
-                shortLabel: 'Bar 1',
-                description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 9,
-                title: 'Bar Two',
-                shortLabel: 'Bar 2',
-                description: 'Description 2 — placeholder text describing the second item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' },
-                    { url: '#', text: 'Source 2 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 6,
-                title: 'Bar Three',
-                shortLabel: 'Bar 3',
-                description: 'Description 3 — placeholder text describing the third item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 2,
-                title: 'Bar Four',
-                shortLabel: 'Bar 4',
-                description: 'Description 4 — placeholder text describing the fourth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            },
-            {
-                severity: 1,
-                title: 'Bar Five',
-                shortLabel: 'Bar 5',
-                description: 'Description 5 — placeholder text describing the fifth item.',
-                sources: [
-                    { url: '#', text: 'Source 1 — placeholder citation' }
-                ]
-            }
-        ]
+    const presidents = {
+        biden: {
+            id: 'biden',
+            firstName: 'Joseph R.',
+            lastName: 'Biden',
+            ordinal: '46th President',
+            party: 'democrat',
+            bars: [
+                {
+                    severity: 9,
+                    title: 'Bar One',
+                    shortLabel: 'Bar 1',
+                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Two',
+                    shortLabel: 'Bar 2',
+                    description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Bar Four',
+                    shortLabel: 'Bar 4',
+                    description: 'Description 4 — placeholder text describing the fourth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 2,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar One',
+                    shortLabel: 'Bar 1',
+                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Bar Two',
+                    shortLabel: 'Bar 2',
+                    description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Bar Four',
+                    shortLabel: 'Bar 4',
+                    description: 'Description 4 — placeholder text describing the fourth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 3,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                }
+            ]
+        },
+        trump: {
+            id: 'trump',
+            firstName: 'Donald J.',
+            lastName: 'Trump',
+            ordinal: '45th & 47th President',
+            party: 'republican',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Bar One',
+                    shortLabel: 'Bar 1',
+                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Bar Two',
+                    shortLabel: 'Bar 2',
+                    description: 'Description 2 — placeholder text describing the second item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Bar Four',
+                    shortLabel: 'Bar 4',
+                    description: 'Description 4 — placeholder text describing the fourth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 3,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Bar One',
+                    shortLabel: 'Bar 1',
+                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Bar Two',
+                    shortLabel: 'Bar 2',
+                    description: 'Description 2 — placeholder text describing the second item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' },
+                        { url: '#', text: 'Source 2 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Bar Three',
+                    shortLabel: 'Bar 3',
+                    description: 'Description 3 — placeholder text describing the third item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 2,
+                    title: 'Bar Four',
+                    shortLabel: 'Bar 4',
+                    description: 'Description 4 — placeholder text describing the fourth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                },
+                {
+                    severity: 1,
+                    title: 'Bar Five',
+                    shortLabel: 'Bar 5',
+                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    sources: [
+                        { url: '#', text: 'Source 1 — placeholder citation' }
+                    ]
+                }
+            ]
+        }
+    };
+
+    /* --------------------------------------------------------------------------
+       Selection — which president is currently shown on each side. The HTML
+       still hardcodes name badges and silhouettes for Biden/Trump, so for
+       now this just mirrors that. When a president-picker UI is added,
+       updating these values (and re-running renderSide) is what will swap
+       the bars for a different president.
+       -------------------------------------------------------------------------- */
+    const selection = {
+        left: 'biden',
+        right: 'trump'
     };
 
     /* --------------------------------------------------------------------------
@@ -258,9 +291,7 @@
        the HTML, so the DOM is parsed by the time we get here).
 
        Animation delays are set inline per bar so that adding a 6th, 7th,
-       Nth bar Just Works without touching the CSS — the old hardcoded
-       :nth-child(1)..:nth-child(5) rules in preside-by-side.css are no
-       longer needed (see the change notes I sent alongside this).
+       Nth bar Just Works without touching the CSS.
        -------------------------------------------------------------------------- */
 
     // Animation timing — mirrors what the old CSS nth-child rules produced
@@ -340,8 +371,19 @@
         const container = document.getElementById('bars-' + side);
         if (!container) return;
 
-        // Sort by severity descending — source order in barData no longer matters
-        const sorted = barData[side].slice().sort(function (a, b) {
+        // Look up the president currently assigned to this side
+        const presidentId = selection[side];
+        const president = presidents[presidentId];
+        if (!president) {
+            // Defensive: if the selection points at an unknown president
+            // (e.g. typo, or future deletion), clear the side rather than
+            // crashing. Keeps the rest of the page working.
+            container.replaceChildren();
+            return;
+        }
+
+        // Sort by severity descending — source order in bars no longer matters
+        const sorted = president.bars.slice().sort(function (a, b) {
             return b.severity - a.severity;
         });
 
@@ -357,7 +399,7 @@
     renderSide('right');
 
     /* --------------------------------------------------------------------------
-       Everything below is the original interaction code, unchanged.
+       Everything below is the original interaction code.
        -------------------------------------------------------------------------- */
 
     const MOBILE_QUERY = '(max-width: 1000px)';
