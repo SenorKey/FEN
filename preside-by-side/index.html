@@ -70,9 +70,19 @@
     -->
     <div class="picker-row">
         <div class="picker-cell" data-side="left" data-party="democrat">
+            <div class="name-badge" id="badge-left">
+                <span class="name-first"></span>
+                <span class="last-name"></span>
+                <span class="name-detail"></span>
+            </div>
             <select id="picker-left" class="president-picker" aria-label="Pick president for the left side"></select>
         </div>
         <div class="picker-cell" data-side="right" data-party="republican">
+            <div class="name-badge" id="badge-right">
+                <span class="name-first"></span>
+                <span class="last-name"></span>
+                <span class="name-detail"></span>
+            </div>
             <select id="picker-right" class="president-picker" aria-label="Pick president for the right side"></select>
         </div>
     </div>
@@ -118,17 +128,6 @@
                         <path d="M 130 202 L 140 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
                             fill="none" />
                     </svg>
-                    <!--
-                      Name badge content is populated by JS from the currently-
-                      selected president's data (see renderNameBadge in
-                      preside-by-side.js). The structural spans stay so the
-                      CSS targeting them keeps working.
-                    -->
-                    <div class="name-badge">
-                        <span class="name-first"></span>
-                        <span class="last-name"></span>
-                        <span class="name-detail"></span>
-                    </div>
                 </div>
             </div>
 
@@ -181,12 +180,6 @@
                         <path d="M 132 202 L 144 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
                             fill="none" />
                     </svg>
-                    <!-- See note on left-side .name-badge above. -->
-                    <div class="name-badge">
-                        <span class="name-first"></span>
-                        <span class="last-name"></span>
-                        <span class="name-detail"></span>
-                    </div>
                 </div>
             </div>
 

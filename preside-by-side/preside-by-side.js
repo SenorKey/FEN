@@ -752,37 +752,26 @@
        selection change.
        -------------------------------------------------------------------------- */
     function renderNameBadge(side) {
+        const badge = document.getElementById('badge-' + side);
         const sideEl = document.querySelector('.side-' + side);
-        if (!sideEl) return;
-        const badge = sideEl.querySelector('.name-badge');
         if (!badge) return;
 
         const president = presidents[selection[side]];
         if (!president) {
-            // Mirror the renderSide defensive path — clear rather than crash.
             badge.querySelector('.name-first').textContent = '';
             badge.querySelector('.last-name').textContent = '';
             badge.querySelector('.name-detail').textContent = '';
-            // Reset section landmark to a generic label.
-            sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
+            if (sideEl) sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
             return;
         }
 
-        // textContent for plain strings (auto-escapes anything weird).
         badge.querySelector('.name-first').textContent = president.firstName;
         badge.querySelector('.last-name').textContent = president.lastName;
-        // innerHTML for the ordinal because formatOrdinal returns markup
-        // (<sup> tags). Safe because the input is author-controlled data.
         badge.querySelector('.name-detail').innerHTML = formatOrdinal(president.ordinal);
-        // Update the section landmark so screen readers navigating by
-        // landmark hear the actual president's name (e.g. "Joseph R. Biden")
-        // rather than a generic "Left president". Re-announces on change.
-        sideEl.setAttribute('aria-label', president.firstName + ' ' + president.lastName);
-        // Drive the side's color theme. The CSS [data-party="..."] block
-        // defines --party-* variables; the side's background gradient,
-        // radial accent, bar fills, and detail accent border all read
-        // those vars, so a single attribute swap repaints the side.
-        sideEl.dataset.party = president.party;
+        if (sideEl) {
+            sideEl.setAttribute('aria-label', president.firstName + ' ' + president.lastName);
+            sideEl.dataset.party = president.party;
+        }
     }
 
     /* --------------------------------------------------------------------------
