@@ -269,7 +269,108 @@
             lastName: 'Obama',
             ordinal: 44,
             party: 'democrat',
-            bars: []
+            bars: [
+                {
+                    severity: 8,
+                    title: 'Expanded Drone Warfare with Civilian Casualties',
+                    shortLabel: 'Drone Strikes',
+                    description: 'Obama dramatically expanded the use of drone strikes in Pakistan, Yemen, Somalia, and Libya — countries where the U.S. was not officially at war. The administration\'s own 2016 disclosure acknowledged 64–116 noncombatant deaths from 473 counterterrorism strikes between 2009 and 2015, while independent monitors such as the Bureau of Investigative Journalism estimated civilian casualties many times higher. Critics argued the program normalized extrajudicial killing, lacked transparency, and set a precedent for unchecked executive war-making.',
+                    sources: [
+                        { url: 'https://obamawhitehouse.archives.gov/the-press-office/2016/07/01/executive-order-united-states-policy-pre-and-post-strike-measures', text: 'Obama White House — Executive Order on Drone Strike Policy and Civilian Casualty Disclosure (Jul. 2016)' },
+                        { url: 'https://www.thebureauinvestigates.com/projects/drone-war', text: 'Bureau of Investigative Journalism — Drone War Casualty Database' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Libya Intervention and Collapse into Instability',
+                    shortLabel: 'Libya Intervention',
+                    description: 'In 2011, the Obama administration joined a NATO military intervention in Libya, initially authorized under a U.N. resolution to protect civilians and enforce a no-fly zone. While Muammar Gaddafi was removed from power, the U.S. and coalition partners made little provision for post-conflict stabilization. Libya subsequently descended into civil war, militia fragmentation, and a power vacuum exploited by extremist groups. Obama himself later described the failure to plan for the aftermath as his "worst mistake" in office.',
+                    sources: [
+                        { url: 'https://crsreports.congress.gov/product/pdf/RL/RL33142', text: 'Congressional Research Service — Libya: Examination of the U.S. Role in NATO Operations' },
+                        { url: 'https://www.theatlantic.com/magazine/archive/2016/04/the-obama-doctrine/471525/', text: 'The Atlantic — Obama\'s "Worst Mistake" Comment on Libya (Apr. 2016)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'NSA Bulk Surveillance of Americans\' Phone Records',
+                    shortLabel: 'NSA Surveillance',
+                    description: 'Disclosures by NSA contractor Edward Snowden in 2013 revealed that under Obama the agency had been collecting bulk telephone metadata on millions of Americans under Section 215 of the Patriot Act. The Privacy and Civil Liberties Oversight Board later concluded that the Section 215 program lacked a viable legal foundation and had produced minimal counterterrorism value that could not have been obtained through less intrusive means. The program became one of the most significant civil-liberties controversies of the Obama era.',
+                    sources: [
+                        { url: 'https://www.pclob.gov/library/215-Report_on_the_Telephone_Records_Program.pdf', text: 'Privacy and Civil Liberties Oversight Board — Report on the Section 215 Telephone Records Program (Jan. 2014)' },
+                        { url: 'https://www.aclu.org/cases/aclu-v-clapper', text: 'ACLU — ACLU v. Clapper: NSA Mass Phone Surveillance Challenge' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'IRS Targeting of Conservative Tax-Exempt Applications',
+                    shortLabel: 'IRS Targeting',
+                    description: 'The IRS was found to have used inappropriate political criteria — including the terms "Tea Party" and "Patriots" — to flag applications for tax-exempt status for heightened scrutiny and lengthy delays. The Treasury Inspector General for Tax Administration concluded that the criteria were inappropriate and that some applications remained unresolved for hundreds of days, spanning election cycles. Obama called the conduct "inexcusable," but the abuses occurred under his administration\'s watch and fueled lasting accusations of politically motivated enforcement.',
+                    sources: [
+                        { url: 'https://www.treasury.gov/tigta/auditreports/2013reports/201310053fr.pdf', text: 'Treasury Inspector General for Tax Administration — IRS Exempt Organizations Targeting Report (May 2013)' },
+                        { url: 'https://www.justice.gov/opa/pr/justice-department-closes-investigation-irs-processing-tea-party-applications', text: 'DOJ — Statement on Closing IRS Targeting Investigation (Oct. 2015)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Operation Fast and Furious',
+                    shortLabel: 'Fast & Furious',
+                    description: 'An ATF operation called Fast and Furious allowed illegal firearms purchases to proceed with the intention of tracking weapons to Mexican cartel networks, but agents lost track of approximately 2,000 guns. Weapons from the operation later turned up at crime scenes in both the U.S. and Mexico, including near the murder scene of U.S. Border Patrol Agent Brian Terry. A DOJ Inspector General review found serious failures in oversight, judgment, and internal communication within ATF and DOJ leadership.',
+                    sources: [
+                        { url: 'https://oig.justice.gov/reports/2012/s1209.pdf', text: 'DOJ Office of Inspector General — A Review of ATF\'s Operation Fast and Furious (Sep. 2012)' },
+                        { url: 'https://oversight.house.gov/report/final-report-operation-fast-furious/', text: 'House Oversight Committee — Final Report on Operation Fast and Furious (Jul. 2012)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'HealthCare.gov Rollout Failure and "Keep Your Plan" Broken Promise',
+                    shortLabel: 'ACA Rollout',
+                    description: 'The October 2013 launch of HealthCare.gov, the federal marketplace for the Affordable Care Act, was marked by widespread technical failures that prevented millions of Americans from enrolling for weeks. An HHS Inspector General review cited poor contractor oversight and failed testing as root causes. Separately, Obama\'s repeated promise — "if you like your health plan, you can keep it" — proved false for millions of individual-market policyholders whose plans were canceled for not meeting ACA minimum standards. PolitiFact named it their 2013 "Lie of the Year."',
+                    sources: [
+                        { url: 'https://oig.hhs.gov/oei/reports/oei-06-14-00350.pdf', text: 'HHS Office of Inspector General — HealthCare.gov: CMS Management of the Federal Marketplace (Feb. 2016)' },
+                        { url: 'https://www.politifact.com/article/2013/dec/12/lie-year-if-you-like-your-health-care-plan-keep-it/', text: 'PolitiFact — Lie of the Year: "If You Like Your Health Care Plan, You Can Keep It" (Dec. 2013)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Record-High Deportations and Immigration Enforcement',
+                    shortLabel: 'Mass Deportations',
+                    description: 'Obama\'s administration oversaw more formal deportations than any previous president, with removal figures peaking above 400,000 per year in the early 2010s. Enforcement programs like Secure Communities expanded the pipeline from local law enforcement to federal immigration authorities. Immigration advocates called Obama the "Deporter in Chief," arguing that the enforcement machinery separated families and targeted long-established community members. The administration later introduced DACA, though critics argued this came only after years of damage to immigrant communities.',
+                    sources: [
+                        { url: 'https://www.migrationpolicy.org/article/obama-record-deportations-deporter-chief-or-not', text: 'Migration Policy Institute — Obama\'s Record Deportations: Deporter in Chief or Not? (Jan. 2014)' },
+                        { url: 'https://www.dhs.gov/immigration-statistics/yearbook/2016/table39', text: 'DHS — Yearbook of Immigration Statistics: Removals by Year' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'VA Wait-Time Scandal',
+                    shortLabel: 'VA Scandal',
+                    description: 'In 2014, investigations revealed that VA medical facilities — most prominently in Phoenix — had systematically falsified appointment wait-time data to conceal how long veterans were waiting for care. The VA Inspector General identified gross mismanagement, widespread data manipulation, and links to patient harm. At least 40 veterans died while waiting for appointments at the Phoenix VA alone, though the IG noted causal attribution was difficult to establish definitively. Obama accepted the resignation of VA Secretary Eric Shinseki and signed reform legislation, but the scandal exposed deep systemic failures.',
+                    sources: [
+                        { url: 'https://www.va.gov/oig/pubs/VAOIG-14-02603-267.pdf', text: 'VA Office of Inspector General — Phoenix VA Health Care System Patient Wait Times (Aug. 2014)' },
+                        { url: 'https://www.congress.gov/113/plaws/publ146/PLAW-113publ146.pdf', text: 'Veterans Access, Choice, and Accountability Act of 2014 (Aug. 2014)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Aggressive Leak Investigations and Press Freedom Concerns',
+                    shortLabel: 'Press Surveillance',
+                    description: 'The Obama Justice Department pursued more leak investigations under the Espionage Act than all prior administrations combined. In 2013, it was revealed that DOJ had secretly obtained two months of phone records from Associated Press journalists in connection with a leak investigation — the AP called it a massive and unprecedented intrusion into newsgathering. The Committee to Protect Journalists produced a landmark report in 2013 concluding that the administration\'s war on leaks had created a climate of fear damaging to press freedom.',
+                    sources: [
+                        { url: 'https://cpj.org/reports/2013/10/obama-and-the-press-us-leaks-surveillance-post-911/', text: 'Committee to Protect Journalists — The Obama Administration and the Press (Oct. 2013)' },
+                        { url: 'https://apnews.com/article/government-and-politics-ap-top-news-north-america-media-us-news-f5e36d0f87b14e96a7c2f8e5d3b9b40f', text: 'Associated Press — Statement on DOJ Phone Records Seizure (May 2013)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Failed to Close Guantánamo Bay',
+                    shortLabel: 'Guantánamo',
+                    description: 'Obama signed an executive order in his first week in office directing the closure of the Guantánamo Bay detention facility within one year. He never achieved it. While he reduced the detainee population significantly — from 242 when he took office to 41 when he left — Congress passed legislation blocking detainee transfers to the U.S. and impeding closures. Critics across the political spectrum faulted him: civil libertarians saw the continued detention of uncharged prisoners as a fundamental rights failure; others argued he lacked the political will to fight for closure when it mattered most.',
+                    sources: [
+                        { url: 'https://www.aclu.org/report/closing-guantanamo-obamas-failed-promise', text: 'ACLU — Closing Guantánamo: Obama\'s Failed Promise' },
+                        { url: 'https://crsreports.congress.gov/product/pdf/R/R40139', text: 'Congressional Research Service — Closing the Guantánamo Detention Facility (Jan. 2017)' }
+                    ]
+                }
+            ]
         },
         gwBush: {
             id: 'gwBush',
@@ -278,7 +379,108 @@
             displayName: 'G.W. Bush',
             ordinal: 43,
             party: 'republican',
-            bars: []
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Invaded Iraq Based on False WMD Claims',
+                    shortLabel: 'Iraq WMD War',
+                    description: 'The Bush administration made the case for invading Iraq in 2003 primarily on the claim that Saddam Hussein possessed weapons of mass destruction and posed an imminent threat. No such weapons were found. A Senate Intelligence Committee report concluded that major prewar intelligence judgments were overstated or unsupported by underlying evidence, and that the public case for war went beyond what the intelligence actually showed. Brown University\'s Costs of War project estimates hundreds of thousands of deaths across post-9/11 wars. It remains one of the most consequential foreign policy decisions in modern American history.',
+                    sources: [
+                        { url: 'https://www.intelligence.senate.gov/sites/default/files/publications/108301.pdf', text: 'Senate Intelligence Committee — Report on Prewar Intelligence Assessments About Iraq (Jul. 2004)' },
+                        { url: 'https://watson.brown.edu/costsofwar/figures/2021/irdirect-war-deaths', text: 'Brown University Costs of War Project — Iraq War Death Toll Estimates' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Iraq War Civilian Death Toll and Regional Destabilization',
+                    shortLabel: 'Iraq Civilian Deaths',
+                    description: 'Separate from the false WMD justification, the Iraq War itself caused catastrophic civilian harm and geopolitical instability. Brown University\'s Costs of War project estimated at least 134,000 Iraqi civilians killed by direct war violence from 2003 to 2013, acknowledging this likely undercounts indirect deaths from displacement, infrastructure destruction, and disease. The war fueled sectarian violence, displaced millions, and created conditions that contributed directly to the rise of extremist groups including ISIS. The region\'s instability persisted for decades.',
+                    sources: [
+                        { url: 'https://watson.brown.edu/costsofwar/files/cow/imce/papers/2013/Civilians%20in%20Iraq%27s%20War%2C%20Hagopian%20et%20al%2C%20Costs%20of%20War.pdf', text: 'Brown University Costs of War — Civilian Deaths in Iraq (2013)' },
+                        { url: 'https://www.ibc.org/', text: 'Iraq Body Count — Documented Civilian Deaths Database' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'CIA Torture and "Enhanced Interrogation" Program',
+                    shortLabel: 'CIA Torture',
+                    description: 'The Bush administration authorized a CIA detention and interrogation program that included waterboarding, sleep deprivation extended to 180 hours, confinement in small boxes, stress positions, and other techniques widely classified as torture under international law. The Senate Intelligence Committee\'s 2014 torture report — based on review of over six million internal documents — concluded that the techniques were more brutal than the CIA had represented to policymakers, that the program was not an effective means of acquiring actionable intelligence, and that the CIA actively misled Congress and the White House about its scope and results.',
+                    sources: [
+                        { url: 'https://www.intelligence.senate.gov/sites/default/files/publications/CRPT-113srpt288.pdf', text: 'Senate Intelligence Committee — Report on the CIA\'s Detention and Interrogation Program (Dec. 2014)' },
+                        { url: 'https://www.aclu.org/report/torture-report', text: 'ACLU — Summary of the Senate CIA Torture Report' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Abu Ghraib Prisoner Abuse',
+                    shortLabel: 'Abu Ghraib',
+                    description: 'In 2004, photographs became public showing U.S. military personnel abusing, humiliating, and torturing Iraqi detainees at the Abu Ghraib prison. Acts included sexual humiliation, physical assault, and degrading treatment. While Bush condemned the abuse and several low-ranking soldiers were prosecuted, the Army\'s own Taguba Report found the abuses were not isolated and reflected broader failures in command oversight and detention policy. Human Rights Watch argued that administration decisions to sidestep the Geneva Conventions helped create the permissive climate in which the abuse occurred.',
+                    sources: [
+                        { url: 'https://www.thetorturedatabase.org/files/foia_subsite/pdfs/DODDOA019464.pdf', text: 'Army Taguba Report — Investigation of the 800th Military Police Brigade (May 2004)' },
+                        { url: 'https://www.hrw.org/report/2005/09/25/getting-away-torture/bush-administration-and-mistreatment-detainees', text: 'Human Rights Watch — Getting Away with Torture (Sep. 2005)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Warrantless NSA Surveillance Program',
+                    shortLabel: 'Warrantless Wiretaps',
+                    description: 'Shortly after September 11, Bush secretly authorized the NSA to conduct warrantless surveillance of communications involving people inside the United States, bypassing the Foreign Intelligence Surveillance Act court process established by Congress in 1978. The program was exposed by the New York Times in 2005. Bush acknowledged and defended it as a wartime necessity, but legal scholars, civil-liberties organizations, and members of Congress from both parties argued it was an illegal exercise of executive power and a violation of the statutory framework Congress had specifically created for this purpose.',
+                    sources: [
+                        { url: 'https://www.aclu.org/cases/aclu-v-nsa-challenge-illegal-spying', text: 'ACLU — ACLU v. NSA: Legal Challenge to Warrantless Wiretapping' },
+                        { url: 'https://www.nytimes.com/2005/12/16/politics/bush-lets-us-spy-on-callers-without-courts.html', text: 'New York Times — Bush Lets U.S. Spy on Callers Without Courts (Dec. 2005)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'USA PATRIOT Act and Expansion of Surveillance Powers',
+                    shortLabel: 'PATRIOT Act',
+                    description: 'Weeks after September 11, Bush signed the USA PATRIOT Act into law, dramatically expanding government surveillance authorities. The law broadened access to business records, permitted "roving" wiretaps, reduced judicial oversight requirements, and expanded the definition of domestic terrorism. Civil-liberties organizations argued the Act enabled mass surveillance and undermined constitutional protections. Sections of the law later became central to NSA bulk collection controversies under subsequent administrations, and Congress eventually allowed several provisions to expire or be significantly reformed.',
+                    sources: [
+                        { url: 'https://www.aclu.org/report/surveillance-under-usa-patriot-act', text: 'ACLU — Surveillance Under the USA PATRIOT Act' },
+                        { url: 'https://crsreports.congress.gov/product/pdf/RL/RL31377', text: 'Congressional Research Service — The USA PATRIOT Act: A Legal Analysis (Apr. 2002)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Hurricane Katrina Federal Response Failure',
+                    shortLabel: 'Katrina Response',
+                    description: 'When Hurricane Katrina struck the Gulf Coast in August 2005 and the levee system protecting New Orleans catastrophically failed, the federal response was widely condemned as slow, disorganized, and inadequate. Over 1,800 people died. Thousands were stranded for days at the Superdome and Convention Center without adequate food, water, or medical care. Even the Bush White House\'s own post-storm review — "The Federal Response to Hurricane Katrina: Lessons Learned" — acknowledged major failures in preparation, coordination, and execution across federal agencies, including FEMA.',
+                    sources: [
+                        { url: 'https://georgewbush-whitehouse.archives.gov/reports/katrina-lessons-learned/', text: 'Bush White House — The Federal Response to Hurricane Katrina: Lessons Learned (Feb. 2006)' },
+                        { url: 'https://www.dhs.gov/xlibrary/assets/katrina/Katrina-OIG-0706.pdf', text: 'DHS Office of Inspector General — A Performance Review of FEMA\'s Disaster Management Activities (Mar. 2006)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Failure to Act on Pre-9/11 Intelligence Warnings',
+                    shortLabel: 'Pre-9/11 Warnings',
+                    description: 'On August 6, 2001, Bush received a Presidential Daily Brief titled "Bin Ladin Determined To Strike in US," warning of al-Qaeda\'s intention to conduct attacks inside the country, potentially including hijackings. No significant new action was taken in response. The 9/11 Commission documented widespread intelligence, coordination, and policy failures across multiple agencies in the months before the attacks, and concluded that the government did not marshal the institutional response the threat level demanded. While failures spanned multiple administrations, Bush was president when the warnings arrived and when the attacks occurred.',
+                    sources: [
+                        { url: 'https://govinfo.library.unt.edu/911/report/911Report.pdf', text: '9/11 Commission Final Report (Jul. 2004)' },
+                        { url: 'https://www.archives.gov/declassification/iscap/pdf/2004-022-doc11.pdf', text: 'Presidential Daily Brief — Bin Ladin Determined To Strike in US (Aug. 6, 2001, declassified 2004)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Fiscal Damage from Tax Cuts and War Spending',
+                    shortLabel: 'Deficit & Tax Cuts',
+                    description: 'Bush inherited a federal budget surplus and left office with a structural deficit, driven by two major tax cut packages in 2001 and 2003 combined with the costs of two wars and the Medicare prescription drug benefit — all largely unpaid for. The tax cuts disproportionately benefited higher earners and were not offset by spending reductions. Brookings Institution and the Congressional Budget Office documented the long-run revenue loss and deficit impact. The national debt roughly doubled during his presidency, from approximately $5.7 trillion to $10.6 trillion.',
+                    sources: [
+                        { url: 'https://www.brookings.edu/articles/the-fiscal-legacy-of-the-bush-tax-cuts/', text: 'Brookings Institution — The Fiscal Legacy of the Bush Tax Cuts' },
+                        { url: 'https://www.cbo.gov/sites/default/files/110th-congress-2007-2008/reports/01-07-budgetoutlook.pdf', text: 'Congressional Budget Office — Budget and Economic Outlook (Jan. 2008)' }
+                    ]
+                },
+                {
+                    severity: 3,
+                    title: 'No Child Left Behind Testing and Accountability Failures',
+                    shortLabel: 'No Child Left Behind',
+                    description: 'Bush\'s signature education law, No Child Left Behind, passed with broad bipartisan support in 2001 and aimed to improve accountability and close achievement gaps. In practice it became widely criticized for incentivizing states to lower academic standards to meet benchmarks, narrowing curricula toward tested subjects, and applying punitive labels to struggling schools without sufficient support. The backlash was significant enough that Congress replaced much of the law through the Every Student Succeeds Act in 2015, returning authority to states. The law\'s legacy is one of well-intentioned policy with damaging implementation consequences.',
+                    sources: [
+                        { url: 'https://www.edweek.org/policy-politics/no-child-left-behind-an-overview/2015/04', text: 'Education Week — No Child Left Behind: An Overview (Apr. 2015)' },
+                        { url: 'https://www.brookings.edu/articles/ten-years-of-no-child-left-behind/', text: 'Brookings Institution — Ten Years of No Child Left Behind' }
+                    ]
+                }
+            ]
         },
         clinton: {
             id: 'clinton',
@@ -286,7 +488,108 @@
             lastName: 'Clinton',
             ordinal: 42,
             party: 'democrat',
-            bars: []
+            bars: [
+                {
+                    severity: 8,
+                    title: 'Failure to Intervene in the Rwandan Genocide',
+                    shortLabel: 'Rwanda Genocide',
+                    description: 'In 1994, an estimated 800,000 people — the vast majority of them Tutsi — were killed in Rwanda over roughly 100 days. The Clinton administration actively avoided using the word "genocide," a designation that would have triggered international legal obligations, and took no meaningful steps to intervene or to support a stronger U.N. response. Documents later obtained by the National Security Archive showed that administration officials were advised early that a genocide was underway. Clinton later traveled to Rwanda and publicly acknowledged that the U.S. and international community failed, calling it one of his greatest regrets.',
+                    sources: [
+                        { url: 'https://nsarchive.gwu.edu/briefing-book/africa/2004-03-24/rwandan-genocide-us-knew', text: 'National Security Archive — The Rwandan Genocide and the United States (Mar. 2004)' },
+                        { url: 'https://www.hrw.org/reports/1999/rwanda/Geno15-8-01.htm', text: 'Human Rights Watch — Leave None to Tell the Story: Genocide in Rwanda (Mar. 1999)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Perjury and Obstruction in the Lewinsky Scandal',
+                    shortLabel: 'Perjury/Obstruction',
+                    description: 'Clinton had a sexual relationship with White House intern Monica Lewinsky and denied it under oath during the Paula Jones civil deposition — a denial later contradicted by physical evidence. He was impeached by the House of Representatives in December 1998 on charges of perjury and obstruction of justice, making him only the second president in U.S. history to be impeached. The Senate acquitted him along largely partisan lines. Clinton subsequently accepted a five-year suspension of his Arkansas law license and paid a $25,000 fine as part of an agreement with the independent counsel.',
+                    sources: [
+                        { url: 'https://www.congress.gov/105/bills/hres611/BILLS-105hres611eh.pdf', text: 'House Articles of Impeachment Against President Clinton — 105th Congress (Dec. 1998)' },
+                        { url: 'https://www.independent-counsel.gov/starr-report.htm', text: 'Office of the Independent Counsel — The Starr Report (Sep. 1998)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'The 1994 Crime Bill and Mass Incarceration',
+                    shortLabel: '1994 Crime Bill',
+                    description: 'Clinton signed the Violent Crime Control and Law Enforcement Act of 1994, the largest federal crime bill in U.S. history. It provided funding for 100,000 new police officers and 100,000 new prison beds, established mandatory "three strikes" sentencing for federal offenses, expanded the federal death penalty to dozens of new offenses, and included financial incentives that pushed states toward harsher sentencing regimes. The ACLU, Brennan Center, and other criminal-justice researchers have documented the law\'s contribution to record U.S. incarceration rates, with its impacts falling disproportionately on Black communities. Clinton himself later said the law put "too many people in prison."',
+                    sources: [
+                        { url: 'https://www.brennancenter.org/our-work/analysis-opinion/revisiting-1994-crime-bill', text: 'Brennan Center for Justice — Revisiting the 1994 Crime Bill (Apr. 2019)' },
+                        { url: 'https://www.aclu.org/report/tale-two-countries-racially-targeted-arrests-era-marijuana-reform', text: 'ACLU — Racial Disparities in U.S. Criminal Justice' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Signed the Defense of Marriage Act',
+                    shortLabel: 'DOMA',
+                    description: 'Clinton signed the Defense of Marriage Act in 1996, which defined marriage for all federal purposes as the union of one man and one woman and explicitly permitted states to refuse to recognize same-sex marriages performed in other states. The law denied federal recognition, benefits, and protections to same-sex couples for nearly two decades. The Supreme Court struck down the core federal definition provision in United States v. Windsor in 2013, with the majority opinion describing it as motivated by a desire to impose inequality. Clinton later said signing it was a mistake and called for its repeal.',
+                    sources: [
+                        { url: 'https://www.govinfo.gov/content/pkg/PLAW-104publ199/pdf/PLAW-104publ199.pdf', text: 'Defense of Marriage Act — Public Law 104-199 (Sep. 1996)' },
+                        { url: 'https://supreme.justia.com/cases/federal/us/570/744/', text: 'United States v. Windsor — Supreme Court Opinion (Jun. 2013)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Welfare Reform and the Weakening of the Safety Net',
+                    shortLabel: 'Welfare Reform',
+                    description: 'Clinton signed the Personal Responsibility and Work Opportunity Reconciliation Act of 1996, replacing the federal entitlement program Aid to Families with Dependent Children with the block-grant program Temporary Assistance for Needy Families. The law imposed strict work requirements, a five-year lifetime limit on federal assistance, and gave states broad discretion to reduce benefits. Supporters credited it with reducing welfare rolls; critics, including three administration officials who resigned in protest, argued it removed a critical safety net and left the poorest families more exposed during economic downturns. Research by the Urban Institute and others documented sharp increases in extreme poverty following the reform.',
+                    sources: [
+                        { url: 'https://www.urban.org/research/publication/welfare-reform-ten-years-later', text: 'Urban Institute — Welfare Reform Ten Years Later (Aug. 2006)' },
+                        { url: 'https://www.cbpp.org/research/family-income-support/temporary-assistance-for-needy-families', text: 'Center on Budget and Policy Priorities — TANF at 25: Still Failing the Poorest Families' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Iraq Sanctions and Humanitarian Harm',
+                    shortLabel: 'Iraq Sanctions',
+                    description: 'The Clinton administration was the primary driver of maintaining comprehensive U.N. economic sanctions on Iraq throughout the 1990s. The exact mortality figures were disputed — some widely-cited numbers originated from Iraqi government sources — but contemporaneous U.S. State Department documents acknowledged a serious child-mortality crisis linked to degraded water treatment, medical supply shortages, and infrastructure deterioration. When Secretary of State Madeleine Albright was asked on 60 Minutes in 1996 whether the deaths of half a million Iraqi children were "worth it," she replied that it was "a very hard choice" but "we think the price is worth it." That exchange remains one of the most criticized moments of the era\'s foreign policy.',
+                    sources: [
+                        { url: 'https://nsarchive.gwu.edu/briefing-book/iraq/2020-02-25/us-iraq-sanctions-1990s-controversy-mortality-data', text: 'National Security Archive — U.S.-Iraq Sanctions and the Mortality Controversy (Feb. 2020)' },
+                        { url: 'https://www.unicef.org/newsline/99pr29.htm', text: 'UNICEF — Child and Maternal Mortality Survey in Iraq (Aug. 1999)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Bombing the Al-Shifa Pharmaceutical Factory in Sudan',
+                    shortLabel: 'Al-Shifa Strike',
+                    description: 'Following the 1998 U.S. embassy bombings in Kenya and Tanzania, Clinton ordered cruise missile strikes against targets in Afghanistan and Sudan. The Sudan target, the Al-Shifa pharmaceutical plant in Khartoum, was publicly described by the administration as linked to al-Qaeda and to chemical weapons production. Those justifications were subsequently challenged by American and international investigators who found no credible evidence of either link. The plant had been one of Sudan\'s primary sources of medicines for humans and animals; its destruction had real humanitarian consequences. No administration official was held accountable for the intelligence failure.',
+                    sources: [
+                        { url: 'https://www.theguardian.com/world/1999/oct/17/theobserver', text: 'The Observer — The Bombing of Al-Shifa: How the Evidence Failed (Oct. 1999)' },
+                        { url: 'https://nsarchive.gwu.edu/briefing-book/sudan/2016-08-22/al-shifa-pharmaceutical-plant-bombing-1998', text: 'National Security Archive — Al-Shifa Pharmaceutical Plant Bombing (Aug. 2016)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Financial Deregulation via Gramm-Leach-Bliley',
+                    shortLabel: 'Financial Deregulation',
+                    description: 'Clinton signed the Gramm-Leach-Bliley Act in 1999, repealing core provisions of the Glass-Steagall Act that had separated commercial banking from investment banking since the New Deal. The law enabled the formation of massive financial conglomerates combining banking, securities, and insurance activities. Whether Gramm-Leach-Bliley directly caused the 2008 financial crisis is genuinely debated among economists, but there is broad agreement that it contributed to the deregulatory environment and the growth of financial institutions considered "too big to fail" — several of which required enormous government bailouts in 2008.',
+                    sources: [
+                        { url: 'https://www.fdic.gov/regulations/applications/srletters/1999/sr9928a1.pdf', text: 'FDIC — Overview of the Gramm-Leach-Bliley Act (1999)' },
+                        { url: 'https://www.brookings.edu/articles/did-gramm-leach-bliley-contribute-to-the-financial-crisis/', text: 'Brookings Institution — Did Gramm-Leach-Bliley Contribute to the Financial Crisis?' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'NAFTA and U.S. Manufacturing Job Losses',
+                    shortLabel: 'NAFTA',
+                    description: 'Clinton championed the North American Free Trade Agreement and signed its implementing legislation in 1993. Supporters argue the agreement lowered consumer prices, deepened supply-chain integration, and grew total trade. Critics argue it accelerated manufacturing outsourcing and devastated communities dependent on industries such as textiles, auto parts, and electronics. The Economic Policy Institute estimated that NAFTA-related trade deficits displaced roughly 700,000 U.S. jobs by 2010. The real harm was geographically concentrated, falling hardest on working-class communities in the Midwest and South that had few alternative economic options.',
+                    sources: [
+                        { url: 'https://www.epi.org/publication/nafta-at-20/', text: 'Economic Policy Institute — NAFTA at 20: One Million U.S. Jobs Lost, Higher Income Inequality (Oct. 2013)' },
+                        { url: 'https://crsreports.congress.gov/product/pdf/R/R42965', text: 'Congressional Research Service — NAFTA at 20: Accomplishments and Challenges (Feb. 2014)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: '"Don\'t Ask, Don\'t Tell" Military Policy',
+                    shortLabel: 'Don\'t Ask Don\'t Tell',
+                    description: 'Clinton campaigned in 1992 on allowing gay and lesbian people to serve openly in the military. After taking office he faced fierce military and congressional resistance. The resulting compromise, "Don\'t Ask, Don\'t Tell," prohibited the military from asking about sexual orientation but still required gay, lesbian, and bisexual service members to conceal their identity or face discharge. Over the 17 years before its repeal in 2010, more than 14,000 service members were discharged under the policy. It is now broadly recognized as discriminatory. Clinton later said he signed it because he believed it was the best achievable outcome at the time, but acknowledged its harmful consequences.',
+                    sources: [
+                        { url: 'https://www.gao.gov/assets/gao-05-299.pdf', text: 'GAO — Military Personnel: Financial Costs and Loss of Critical Skills Due to DOD\'s Homosexual Conduct Policy (Feb. 2005)' },
+                        { url: 'https://www.congress.gov/111/plaws/publ321/PLAW-111publ321.pdf', text: 'Don\'t Ask, Don\'t Tell Repeal Act of 2010 — Public Law 111-321' }
+                    ]
+                }
+            ]
         }
     };
 
