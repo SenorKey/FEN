@@ -90,14 +90,14 @@ body {
        that don't support it yet. */
     interpolate-size: allow-keywords;
 
-    /* Palette — left (Biden / blue) */
+    /* Palette — democrat (blue) */
     --blue-deep: #0a1845;
     --blue-mid: #1e3a8a;
     --blue-bright: #2952d4;
     --blue-glow: #4d7fff;
     --blue-pale: #6e9eff;
 
-    /* Palette — right (Trump / red) */
+    /* Palette — republican (red) */
     --red-deep: #4a0810;
     --red-mid: #8c0e1a;
     --red-bright: #c81e2a;
@@ -125,6 +125,56 @@ body {
     /* Motion */
     --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
     --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+     Party theming
+
+     Color follows the president; side only governs layout/orientation.
+     Whichever ancestor element carries `data-party` defines the --party-*
+     variables for everything inside. JS sets data-party on:
+       - each .side          (drives the side background + bar fills)
+       - each .picker-cell   (drives the picker border tint)
+       - the modal           (drives modal severity + sheet border colors)
+
+     Adding a third party ("independent" etc.) is one more block here plus
+     a `party` value in the president data — no other code changes.
+
+     bg-1..bg-4 are the four stops of each side's vertical background
+     gradient, in order. The two end stops are nearly identical (a slightly
+     deeper, slightly different deep at top vs bottom) — kept distinct
+     because the original had subtle variance there.
+
+     --party-rgb is an unwrapped triplet so the same channel can power
+     multiple alphas via rgba() (radial accent at 0.25, picker border at
+     0.45, picker hover at 0.85) without exploding into one variable per
+     opacity.
+     -------------------------------------------------------------------------- */
+
+[data-party="democrat"] {
+    --party-bg-1: var(--blue-deep);
+    /* gradient 0% */
+    --party-bg-2: var(--blue-mid);
+    /* gradient 35% */
+    --party-bg-3: #1a2e6f;
+    /* gradient 65% */
+    --party-bg-4: #0a1438;
+    /* gradient 100% */
+    --party-bright: var(--blue-bright);
+    --party-glow: var(--blue-glow);
+    --party-pale: var(--blue-pale);
+    --party-rgb: 77, 127, 255;
+}
+
+[data-party="republican"] {
+    --party-bg-1: var(--red-deep);
+    --party-bg-2: var(--red-mid);
+    --party-bg-3: #6f1018;
+    --party-bg-4: #3a0810;
+    --party-bright: var(--red-bright);
+    --party-glow: var(--red-glow);
+    --party-pale: var(--red-pale);
+    --party-rgb: 231, 65, 84;
 }
 
 /* --------------------------------------------------------------------------
@@ -223,6 +273,112 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+     President pickers — straddle the boundary between header and comparison.
+
+     The .picker-row container is zero-height and uses absolute positioning
+     to place each picker over the boundary line. Each .picker-cell is
+     centered on its half of the page (25% / 75%) and vertically centered
+     on the boundary itself via translate(-50%, -50%) — so half the picker
+     sits in the header's bottom padding, half pokes down into the
+     comparison's top padding. Both have enough padding (50px / 80px) to
+     comfortably absorb a ~50px-tall picker.
+
+     Mobile: the row turns into a normal-flow flex row (see media query
+     near the bottom of this file).
+     -------------------------------------------------------------------------- */
+.picker-row {
+    position: relative;
+    height: 0;
+    /* Sit above the comparison's content (z:1–2) and the centerline (z:5),
+       but below the FEN navbar (z:50) so scroll-sticky nav still wins. */
+    z-index: 25;
+}
+
+.picker-cell {
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.picker-cell[data-side="left"] {
+    left: 25%;
+}
+
+.picker-cell[data-side="right"] {
+    left: 75%;
+}
+
+.president-picker {
+    /* Reset native styling so we can paint our own. The dropdown that
+       opens on click is still browser-native — only the closed display
+       is styleable cross-browser, which is fine for "basic picker UI". */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    font-variation-settings: 'opsz' 36;
+    letter-spacing: -0.005em;
+
+    color: var(--ink);
+    background-color: rgba(0, 0, 0, 0.55);
+    /* Border tint follows the picker cell's data-party (set by JS). The
+       fallback (white) only applies if a cell somehow loses its data-party
+       — the cascade from .picker-cell[data-party="..."] supplies the rgb
+       triplet otherwise. */
+    border: 1px solid rgba(var(--party-rgb, 255, 255, 255), 0.45);
+    border-radius: 2px;
+    padding: 12px 36px 12px 18px;
+    min-width: 160px;
+
+    /* Centers the currently-selected option's text horizontally. The
+       second declaration is what actually does the work in <select>;
+       the first keeps the value inheritable for any future styled
+       option lists. */
+    text-align: center;
+    text-align-last: center;
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
+
+    /* Custom dropdown chevron — inline SVG so no extra HTTP request and
+       it inherits theme cleanly. Replace the stroke colour to recolour. */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px 14px;
+}
+
+.president-picker:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-color: rgba(var(--party-rgb, 255, 255, 255), 0.85);
+    transform: translateY(-1px);
+}
+
+.president-picker:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+}
+
+/* Style the opened option list. Most browsers render the open dropdown
+   with OS chrome, but Chrome/Edge let us at least pick the surface and
+   text colors so the list isn't a stark white rectangle next to a dark
+   page. Safari/Firefox ignore most of this; that's fine. */
+.president-picker option {
+    background: #1a1a26;
+    color: var(--ink);
+    font-family: var(--font-display);
+}
+
+/* --------------------------------------------------------------------------
      Comparison main — two-column split
      -------------------------------------------------------------------------- */
 .comparison {
@@ -279,28 +435,31 @@ body {
 
 .side-left .side-bg {
     background:
-        /* faint star pattern */
+        /* faint star pattern — side-scoped because stars belong on the
+           viewer's left half regardless of which president is shown */
         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><polygon points='40,12 47.5,33 70,33 51.5,46.5 58.5,68 40,55 21.5,68 28.5,46.5 10,33 32.5,33' fill='white' fill-opacity='0.07'/></svg>") repeat,
-        /* main gradient */
+        /* main gradient — colors follow the side's current party */
         linear-gradient(180deg,
-            var(--blue-deep) 0%,
-            var(--blue-mid) 35%,
-            #1a2e6f 65%,
-            #0a1438 100%),
-        /* outer-edge glow behind silhouette */
-        radial-gradient(ellipse at 12% 50%, rgba(77, 127, 255, 0.25) 0%, transparent 55%);
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%),
+        /* outer-edge glow behind silhouette — anchored at 12% (left side
+           of viewport), color follows party */
+        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
 }
 
 .side-right .side-bg {
     background:
-        /* faint stripe pattern */
+        /* faint stripe pattern — side-scoped to the viewer's right half */
         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>") repeat,
         linear-gradient(180deg,
-            var(--red-deep) 0%,
-            var(--red-mid) 35%,
-            #6f1018 65%,
-            #3a0810 100%),
-        radial-gradient(ellipse at 88% 50%, rgba(231, 65, 84, 0.28) 0%, transparent 55%);
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%),
+        /* radial anchored at 88% (right side of viewport) */
+        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
 }
 
 /* Subtle grain layer for texture */
@@ -372,6 +531,19 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 2px;
     box-shadow: var(--shadow-strong);
+    /* The badge ships empty in the HTML (JS fills it in). The styled
+       background + padding + blur would otherwise paint a small empty
+       rounded rectangle for a frame before JS runs. Hide until the
+       `hydrated` class is added below — see the init block in
+       preside-by-side.js. Reduced-motion users get a snap-in (the
+       global prefers-reduced-motion rule wipes the transition); that's
+       appropriate. */
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+body.hydrated .name-badge {
+    opacity: 1;
 }
 
 .name-first {
@@ -518,9 +690,9 @@ body {
     --origin: right center;
     background:
         linear-gradient(90deg,
-            var(--blue-pale) 0%,
-            var(--blue-glow) 35%,
-            var(--blue-bright) 100%);
+            var(--party-pale) 0%,
+            var(--party-glow) 35%,
+            var(--party-bright) 100%);
     border-radius: 2px 0 0 2px;
     justify-content: flex-start;
     padding: 0 18px;
@@ -534,9 +706,9 @@ body {
     --origin: left center;
     background:
         linear-gradient(270deg,
-            var(--red-pale) 0%,
-            var(--red-glow) 35%,
-            var(--red-bright) 100%);
+            var(--party-pale) 0%,
+            var(--party-glow) 35%,
+            var(--party-bright) 100%);
     border-radius: 0 2px 2px 0;
     justify-content: flex-end;
     padding: 0 18px;
@@ -647,11 +819,11 @@ body {
 }
 
 .side-left .bar-detail-inner {
-    border-left: 3px solid var(--blue-glow);
+    border-left: 3px solid var(--party-glow);
 }
 
 .side-right .bar-detail-inner {
-    border-right: 3px solid var(--red-glow);
+    border-right: 3px solid var(--party-glow);
 }
 
 .detail-title {
@@ -808,7 +980,11 @@ body {
     max-height: 85dvh;
     overflow-y: auto;
     background: linear-gradient(180deg, #1a1a26 0%, #0f0f18 100%);
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    /* Border tint follows the modal's data-party (set in openModal). The
+       fallback only applies if data-party is absent — which shouldn't
+       happen in normal flow but keeps the modal looking right if a future
+       caller forgets to set it. */
+    border-top: 1px solid var(--party-glow, rgba(255, 255, 255, 0.15));
     border-radius: 16px 16px 0 0;
     padding: 36px 28px 36px;
     transform: translateY(40px);
@@ -818,14 +994,6 @@ body {
 
 .modal.is-open .modal-sheet {
     transform: translateY(0);
-}
-
-.modal[data-side="left"] .modal-sheet {
-    border-top-color: var(--blue-glow);
-}
-
-.modal[data-side="right"] .modal-sheet {
-    border-top-color: var(--red-glow);
 }
 
 .modal-close {
@@ -855,14 +1023,9 @@ body {
     line-height: 1;
     font-variation-settings: 'opsz' 144;
     margin: 0 0 6px;
-}
-
-.modal[data-side="left"] .modal-severity {
-    color: var(--blue-glow);
-}
-
-.modal[data-side="right"] .modal-severity {
-    color: var(--red-glow);
+    /* Color follows the modal's data-party (set in openModal). Fallback
+       to --ink so the number remains visible even if data-party is unset. */
+    color: var(--party-glow, var(--ink));
 }
 
 .modal-severity::before {
@@ -975,6 +1138,41 @@ body {
 
     .site-header {
         padding: 44px 20px 32px;
+    }
+
+    /* Picker row — the 25%/75% absolute positioning doesn't make sense
+       once the sides stack, so this becomes a normal-flow flex row that
+       sits between the header and the comparison. Each picker takes
+       half the width. Note: the row scrolls away with the page header,
+       and the figure-container's sticky behavior takes over from there. */
+    .picker-row {
+        position: static;
+        height: auto;
+        display: flex;
+        gap: 10px;
+        padding: 14px 16px;
+        background: linear-gradient(180deg, #14141f 0%, #0e0e18 100%);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        z-index: auto;
+    }
+
+    .picker-cell {
+        position: static;
+        transform: none;
+        flex: 1;
+    }
+
+    /* Override the desktop 25%/75% values so they don't keep applying. */
+    .picker-cell[data-side="left"],
+    .picker-cell[data-side="right"] {
+        left: auto;
+    }
+
+    .president-picker {
+        width: 100%;
+        min-width: 0;
+        font-size: 0.92rem;
+        padding: 10px 32px 10px 14px;
     }
 
     /* Each side becomes a single column with figure as a header strip */

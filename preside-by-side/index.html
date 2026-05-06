@@ -60,9 +60,26 @@
         <div class="header-rule" aria-hidden="true"></div>
     </header>
 
+    <!--
+      President pickers. Sit at the boundary between the header and the
+      comparison: each picker is centered horizontally on its half of the
+      page (~25% / ~75%) and vertically straddles the line between the
+      header and the comparison. Options are populated by JS from the
+      `presidents` object; the currently-selected president's name stays
+      visible on the closed select.
+    -->
+    <div class="picker-row">
+        <div class="picker-cell" data-side="left" data-party="democrat">
+            <select id="picker-left" class="president-picker" aria-label="Pick president for the left side"></select>
+        </div>
+        <div class="picker-cell" data-side="right" data-party="republican">
+            <select id="picker-right" class="president-picker" aria-label="Pick president for the right side"></select>
+        </div>
+    </div>
+
     <main class="comparison" id="main-content">
-        <!-- ============ LEFT SIDE: BIDEN ============ -->
-        <section class="side side-left" aria-label="Joe Biden">
+        <!-- ============ LEFT SIDE ============ -->
+        <section class="side side-left" aria-label="Left president" data-party="democrat">
             <div class="side-bg side-bg-stars" aria-hidden="true"></div>
 
             <div class="figure-wrap">
@@ -101,10 +118,16 @@
                         <path d="M 130 202 L 140 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
                             fill="none" />
                     </svg>
+                    <!--
+                      Name badge content is populated by JS from the currently-
+                      selected president's data (see renderNameBadge in
+                      preside-by-side.js). The structural spans stay so the
+                      CSS targeting them keeps working.
+                    -->
                     <div class="name-badge">
-                        <span class="name-first">Joseph R.</span>
-                        <span class="last-name">Biden</span>
-                        <span class="name-detail">46<sup>th</sup> President</span>
+                        <span class="name-first"></span>
+                        <span class="last-name"></span>
+                        <span class="name-detail"></span>
                     </div>
                 </div>
             </div>
@@ -116,8 +139,8 @@
             </div>
         </section>
 
-        <!-- ============ RIGHT SIDE: TRUMP ============ -->
-        <section class="side side-right" aria-label="Donald Trump">
+        <!-- ============ RIGHT SIDE ============ -->
+        <section class="side side-right" aria-label="Right president" data-party="republican">
             <div class="side-bg side-bg-stripes" aria-hidden="true"></div>
 
             <div class="figure-wrap">
@@ -158,10 +181,11 @@
                         <path d="M 132 202 L 144 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
                             fill="none" />
                     </svg>
+                    <!-- See note on left-side .name-badge above. -->
                     <div class="name-badge">
-                        <span class="name-first">Donald J.</span>
-                        <span class="last-name">Trump</span>
-                        <span class="name-detail">45<sup>th</sup> &amp; 47<sup>th</sup> President</span>
+                        <span class="name-first"></span>
+                        <span class="last-name"></span>
+                        <span class="name-detail"></span>
                     </div>
                 </div>
             </div>
