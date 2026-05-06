@@ -149,6 +149,11 @@ body {
      multiple alphas via rgba() (radial accent at 0.25, picker border at
      0.45, picker hover at 0.85) without exploding into one variable per
      opacity.
+
+     --party-pattern is the SVG texture (stars for democrat, stripes for
+     republican) that overlays the side background. Lives with the party
+     so it follows the president across sides — picking a republican on
+     the left correctly shows red stripes, not red stars.
      -------------------------------------------------------------------------- */
 
 [data-party="democrat"] {
@@ -164,6 +169,7 @@ body {
     --party-glow: var(--blue-glow);
     --party-pale: var(--blue-pale);
     --party-rgb: 77, 127, 255;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><polygon points='40,12 47.5,33 70,33 51.5,46.5 58.5,68 40,55 21.5,68 28.5,46.5 10,33 32.5,33' fill='white' fill-opacity='0.07'/></svg>");
 }
 
 [data-party="republican"] {
@@ -175,6 +181,7 @@ body {
     --party-glow: var(--red-glow);
     --party-pale: var(--red-pale);
     --party-rgb: 231, 65, 84;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>");
 }
 
 /* --------------------------------------------------------------------------
@@ -425,7 +432,12 @@ body {
     grid-template-columns: 1fr minmax(220px, 26%);
 }
 
-/* Background layers — gradient + pattern overlay */
+/* Background layers — gradient + pattern overlay.
+
+   Pattern (stars vs stripes) is driven by --party-pattern, which travels
+   with the president via data-party. The radial-accent anchor stays bound
+   to the side (12% on the left, 88% on the right) because the silhouette
+   never moves — the glow always belongs at the outer edge. */
 .side-bg {
     position: absolute;
     inset: 0;
@@ -435,9 +447,9 @@ body {
 
 .side-left .side-bg {
     background:
-        /* faint star pattern — side-scoped because stars belong on the
-           viewer's left half regardless of which president is shown */
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><polygon points='40,12 47.5,33 70,33 51.5,46.5 58.5,68 40,55 21.5,68 28.5,46.5 10,33 32.5,33' fill='white' fill-opacity='0.07'/></svg>") repeat,
+        /* pattern follows the side's current party — stars for democrat,
+           stripes for republican */
+        var(--party-pattern) repeat,
         /* main gradient — colors follow the side's current party */
         linear-gradient(180deg,
             var(--party-bg-1) 0%,
@@ -451,8 +463,7 @@ body {
 
 .side-right .side-bg {
     background:
-        /* faint stripe pattern — side-scoped to the viewer's right half */
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>") repeat,
+        var(--party-pattern) repeat,
         linear-gradient(180deg,
             var(--party-bg-1) 0%,
             var(--party-bg-2) 35%,

@@ -53,96 +53,102 @@
             bars: [
                 {
                     severity: 10,
-                    title: 'Bar One',
-                    shortLabel: 'Bar 1',
-                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    title: 'Attempted to Overturn the 2020 Election',
+                    shortLabel: 'Election Overturn',
+                    description: 'Following his 2020 defeat, Trump pushed false election-fraud claims, pressured state officials to alter results, coordinated alternate-elector schemes in multiple states, and pressured Vice President Pence to refuse certification of the Electoral College vote. The House January 6th Committee concluded Trump was the central cause of the effort to subvert the transfer of power. The DOJ later indicted him on four federal counts related to the scheme.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
+                        { url: 'https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf', text: 'House Select Committee Final Report — U.S. Government Publishing Office (2022)' },
+                        { url: 'https://www.justice.gov/storage/US_v_Trump_23_cr_257.pdf', text: 'United States v. Trump — Federal Indictment, DOJ (Aug. 2023)' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Conduct on January 6th',
+                    shortLabel: 'Jan. 6 Capitol',
+                    description: 'On January 6, 2021, Trump summoned supporters to Washington D.C., addressed them with continued false election claims, and directed them to march to the Capitol. After the building was breached, he waited roughly three hours before issuing a public statement asking the crowd to leave, during which time legislators were sheltering from rioters. The House Jan. 6 Committee found he was aware of the violence and took no meaningful action to stop it.',
+                    sources: [
+                        { url: 'https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf', text: 'House Select Committee Final Report — U.S. Government Publishing Office (2022)' },
+                        { url: 'https://www.congress.gov/117/bills/hres851/BILLS-117hres851eh.pdf', text: 'House Resolution Impeaching Trump for Incitement of Insurrection (Jan. 2021)' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Family Separation at the Border',
+                    shortLabel: 'Family Separation',
+                    description: 'The Trump administration\'s "zero tolerance" policy, implemented in 2018, resulted in more than 3,000 children being separated from their parents at the southern border. A DOJ Office of Inspector General report found that the administration had failed to plan for the separations and did not establish an adequate system to track or reunite families. Many separations occurred even when parents had no criminal history beyond the civil immigration crossing.',
+                    sources: [
+                        { url: 'https://oig.justice.gov/reports/2020/e21012.pdf', text: 'DOJ Office of Inspector General Report on Family Separation (Jan. 2021)' },
+                        { url: 'https://www.aclu.org/report/family-separation-aclu-report', text: 'ACLU Report: Family Separation by the Numbers' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Withheld Ukraine Aid to Pressure Political Investigations',
+                    shortLabel: 'Ukraine Aid Freeze',
+                    description: 'In 2019, Trump withheld congressionally approved military aid to Ukraine while his administration pressed Ukrainian officials to publicly announce investigations into Joe Biden and his son Hunter. The Government Accountability Office concluded that the Office of Management and Budget violated the Impoundment Control Act by withholding the funds. Trump was impeached by the House over the matter; the Senate acquitted him largely along party lines.',
+                    sources: [
+                        { url: 'https://www.gao.gov/assets/gao-20-254.pdf', text: 'GAO Decision: OMB Violated Impoundment Control Act (Jan. 2020)' },
+                        { url: 'https://www.congress.gov/116/bills/hres755/BILLS-116hres755enr.pdf', text: 'House Articles of Impeachment — 116th Congress (Dec. 2019)' }
                     ]
                 },
                 {
                     severity: 7,
-                    title: 'Bar Two',
-                    shortLabel: 'Bar 2',
-                    description: 'Description 2 — placeholder text describing the second item.',
+                    title: 'Mishandled Classified Documents and Obstructed Retrieval',
+                    shortLabel: 'Classified Docs',
+                    description: 'After leaving office, Trump retained hundreds of classified and national-defense documents at his Mar-a-Lago residence. Federal prosecutors alleged in a 37-count indictment that he refused to return the materials when requested, directed aides to move boxes to conceal them from investigators, and showed documents to unauthorized individuals. The case was ultimately dismissed on procedural grounds related to the special counsel\'s appointment, but the underlying evidence and indictment remain a matter of public record.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
+                        { url: 'https://www.justice.gov/storage/US_v_Trump_23_cr_80101.pdf', text: 'United States v. Trump — Classified Documents Indictment, DOJ (Jun. 2023)' },
+                        { url: 'https://www.archives.gov/files/foia/pdfs/2022-nara-trump-referral.pdf', text: 'National Archives Referral to DOJ Regarding Presidential Records (Feb. 2022)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Convicted of 34 Felony Counts of Falsifying Business Records',
+                    shortLabel: 'Felony Conviction',
+                    description: 'In May 2024, Trump was convicted by a Manhattan jury on all 34 felony counts of falsifying business records in the first degree. The charges stemmed from payments made to adult film actress Stormy Daniels before the 2016 election, recorded as legal expenses to conceal their true nature. He was sentenced in January 2025 to an unconditional discharge — no prison, probation, or fine — but the criminal conviction stands while he pursues appeals.',
+                    sources: [
+                        { url: 'https://www.nycourts.gov/courts/1jd/supctmanh/index.shtml', text: 'New York Supreme Court — People v. Trump, Case No. 71543-23' },
+                        { url: 'https://apnews.com/article/trump-hush-money-trial-verdict-conviction-2024', text: 'Associated Press — Trump Convicted on All 34 Counts (May 2024)' }
                     ]
                 },
                 {
                     severity: 6,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
+                    title: 'Found Liable for Sexual Abuse and Defamation',
+                    shortLabel: 'E. Jean Carroll',
+                    description: 'In May 2023, a federal civil jury found Trump liable for sexually abusing writer E. Jean Carroll and for defaming her after she went public with her account, awarding her $5 million. In a separate January 2024 defamation trial, a second jury awarded Carroll $83.3 million after Trump continued to deny the abuse publicly. Trump has appealed both verdicts. The jury findings constitute formal civil court determinations of liability.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://www.courtlistener.com/docket/6452284/carroll-v-trump/', text: 'Carroll v. Trump — Federal Court Docket, S.D.N.Y.' },
+                        { url: 'https://apnews.com/article/trump-carroll-defamation-verdict-83-million-2024', text: 'Associated Press — Jury Awards Carroll $83.3 Million (Jan. 2024)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Found Liable for Years of Civil Business Fraud',
+                    shortLabel: 'Business Fraud',
+                    description: 'A New York judge found Trump, his adult sons, and the Trump Organization liable for persistent civil fraud involving years of inflated asset valuations used to obtain favorable loan terms and insurance rates. The trial court initially ordered more than $450 million in penalties including interest. An appellate court later reduced the bond requirement while the case proceeds on appeal, but the underlying factual findings of fraudulent financial statements have not been overturned.',
+                    sources: [
+                        { url: 'https://ag.ny.gov/sites/default/files/2024-02/trump-judgment.pdf', text: 'New York AG — Final Judgment, People v. Trump Organization (Feb. 2024)' },
+                        { url: 'https://apnews.com/article/trump-fraud-trial-verdict-new-york-2024', text: 'Associated Press — Judge Orders $355 Million Penalty (Feb. 2024)' }
                     ]
                 },
                 {
                     severity: 4,
-                    title: 'Bar Four',
-                    shortLabel: 'Bar 4',
-                    description: 'Description 4 — placeholder text describing the fourth item.',
+                    title: 'Used Pardon Power for Political Allies and Personal Associates',
+                    shortLabel: 'Loyalty Pardons',
+                    description: 'Trump used his presidential clemency power to pardon or commute sentences for a number of individuals with direct personal or political ties to him, including Michael Flynn, Roger Stone, Paul Manafort, and Steve Bannon — all of whom had been convicted or charged in connection with matters that touched on Trump\'s own conduct or political interests. Legal scholars and former officials noted the pattern raised serious concerns about self-interested use of the pardon power, even though presidents hold broad constitutional authority over clemency.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://www.justice.gov/pardon/pardons-granted-president-donald-trump-2017-2021', text: 'DOJ — Pardons Granted by President Donald Trump (2017–2021)' },
+                        { url: 'https://www.brookings.edu/articles/trump-pardons-and-clemency/', text: 'Brookings Institution — Analysis of Trump Clemency Grants' }
                     ]
                 },
                 {
-                    severity: 3,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    severity: 5,
+                    title: 'Travel Ban Targeting Primarily Muslim-Majority Countries',
+                    shortLabel: 'Travel Ban',
+                    description: 'Shortly after taking office in 2017, Trump signed executive orders restricting travel from several countries, the majority of which were Muslim-majority nations. Earlier versions were blocked in courts; a later revised version was upheld 5–4 by the Supreme Court in Trump v. Hawaii (2018). Critics pointed to Trump\'s own campaign statements calling for a "Muslim ban" as evidence of discriminatory intent. The ban separated families, blocked refugees, and affected students, workers, and travelers with legal visas.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 9,
-                    title: 'Bar One',
-                    shortLabel: 'Bar 1',
-                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 9,
-                    title: 'Bar Two',
-                    shortLabel: 'Bar 2',
-                    description: 'Description 2 — placeholder text describing the second item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 6,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 2,
-                    title: 'Bar Four',
-                    shortLabel: 'Bar 4',
-                    description: 'Description 4 — placeholder text describing the fourth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://supreme.justia.com/cases/federal/us/585/18-280/', text: 'Trump v. Hawaii — Supreme Court Opinion (Jun. 2018)' },
+                        { url: 'https://www.aclu.org/cases/trump-v-hawaii', text: 'ACLU — Trump v. Hawaii Case Summary' }
                     ]
                 }
             ]
@@ -155,133 +161,103 @@
             party: 'democrat',
             bars: [
                 {
-                    severity: 9,
-                    title: 'Bar One',
-                    shortLabel: 'Bar 1',
-                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
+                    severity: 8,
+                    title: 'Chaotic Afghanistan Withdrawal',
+                    shortLabel: 'Afghanistan Exit',
+                    description: 'Biden\'s execution of the U.S. withdrawal from Afghanistan in August 2021 resulted in the rapid collapse of the Afghan government, the Taliban retaking power within days, and a desperate evacuation from Kabul\'s airport. The Abbey Gate suicide bombing killed 13 U.S. service members and over 170 Afghan civilians. The Biden White House\'s own after-action review acknowledged serious planning failures, even while noting that the constraints of the Trump-era Doha Agreement limited options. Biden owned the final decisions on timing and execution.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
+                        { url: 'https://www.whitehouse.gov/wp-content/uploads/2023/04/afghanistan-war-lessons-learned.pdf', text: 'White House Afghanistan Lessons Learned Report (Apr. 2023)' },
+                        { url: 'https://www.defense.gov/News/Releases/Release/Article/2806648/', text: 'DOD Statement on Abbey Gate Bombing Investigation (Feb. 2022)' }
                     ]
                 },
                 {
-                    severity: 1,
-                    title: 'Bar Two',
-                    shortLabel: 'Bar 2',
-                    description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
+                    severity: 7,
+                    title: 'Pardoned Hunter Biden After Promising Not to Interfere',
+                    shortLabel: 'Hunter Pardon',
+                    description: 'Throughout his presidency, Biden repeatedly and publicly stated he would not interfere with Department of Justice decisions regarding his son Hunter Biden, who faced federal gun and tax charges. In December 2024, Biden issued a sweeping preemptive pardon covering Hunter\'s conduct from January 1, 2014 through December 1, 2024 — one of the broadest pardons in scope ever issued for a family member by a sitting president. The action directly contradicted his prior public commitments and presented an obvious conflict of interest regardless of one\'s view of the underlying prosecutions.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 5,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 4,
-                    title: 'Bar Four',
-                    shortLabel: 'Bar 4',
-                    description: 'Description 4 — placeholder text describing the fourth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 2,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar One',
-                    shortLabel: 'Bar 1',
-                    description: 'Description 1 — placeholder text describing the action being measured. This area is where a longer explanation lives: what happened, when, the people and institutions involved, and why it matters relative to other items on the chart.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 4,
-                    title: 'Bar Two',
-                    shortLabel: 'Bar 2',
-                    description: 'Description 2 — placeholder text. Replace with actual content describing the second item on the chart.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' },
-                        { url: '#', text: 'Source 2 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 4,
-                    title: 'Bar Four',
-                    shortLabel: 'Bar 4',
-                    description: 'Description 4 — placeholder text describing the fourth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://www.justice.gov/pardon/grant-of-clemency-robert-hunter-biden', text: 'DOJ — Grant of Clemency for Robert Hunter Biden (Dec. 2024)' },
+                        { url: 'https://apnews.com/article/hunter-biden-pardon-president-joe-biden-2024', text: 'Associated Press — Biden Pardons Son Hunter (Dec. 2024)' }
                     ]
                 },
                 {
                     severity: 6,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    title: 'Mishandled Classified Documents After Vice Presidency',
+                    shortLabel: 'Classified Docs',
+                    description: 'Special Counsel Robert Hur\'s 2024 report concluded that Biden "willfully retained and disclosed classified materials" after leaving the vice presidency, including sensitive documents related to Afghanistan found at his Delaware home and a Washington think tank. Hur declined to recommend criminal charges, citing factors including that a jury would likely find Biden sympathetic and that evidence of criminal intent fell short of proof beyond a reasonable doubt. The report nonetheless documented serious mishandling of national-security materials spanning years.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://www.justice.gov/storage/report-of-special-counsel-robert-k-hur.pdf', text: 'Special Counsel Robert Hur — Report on Biden Classified Documents (Feb. 2024)' },
+                        { url: 'https://apnews.com/article/biden-classified-documents-hur-report-2024', text: 'Associated Press — Hur Report Summary (Feb. 2024)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Student Loan Cancellation Exceeded Executive Authority',
+                    shortLabel: 'Loan Overreach',
+                    description: 'Biden\'s administration attempted to cancel approximately $430 billion in federal student loan debt by invoking the HEROES Act without congressional authorization. The Supreme Court struck down the plan 6–3 in Biden v. Nebraska (2023), ruling that the administration had invoked the "major questions doctrine" — executive agencies cannot claim broad authority over economically and politically significant decisions without clear congressional direction. Supporters characterized it as necessary relief; the Court\'s ruling was a significant rebuke of executive power claimed without legislative backing.',
+                    sources: [
+                        { url: 'https://supreme.justia.com/cases/federal/us/600/22-506/', text: 'Biden v. Nebraska — Supreme Court Opinion (Jun. 2023)' },
+                        { url: 'https://www.cbo.gov/publication/58494', text: 'Congressional Budget Office — Cost Estimate of Student Loan Cancellation' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'OSHA Vaccine Mandate Blocked as Executive Overreach',
+                    shortLabel: 'Vaccine Mandate',
+                    description: 'Biden\'s OSHA issued an emergency temporary standard requiring employers with 100 or more employees to mandate COVID-19 vaccination or weekly testing and masking. The Supreme Court blocked it 6–3 in January 2022, finding that OSHA likely lacked the statutory authority to impose a broad public-health measure through workplace-safety law. The Court distinguished between targeted workplace hazards OSHA can regulate and a general societal risk that Congress had not clearly authorized the agency to address.',
+                    sources: [
+                        { url: 'https://supreme.justia.com/cases/federal/us/595/21a244/', text: 'NFIB v. OSHA — Supreme Court Opinion (Jan. 2022)' },
+                        { url: 'https://www.osha.gov/coronavirus/ets2', text: 'OSHA Emergency Temporary Standard — Vaccination and Testing Rule' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Extended Eviction Moratorium Without Congressional Authorization',
+                    shortLabel: 'Eviction Moratorium',
+                    description: 'After Congress declined to renew the pandemic-era eviction moratorium in July 2021, the Biden administration directed the CDC to issue a new, targeted moratorium anyway. The Supreme Court struck it down, finding that the CDC had effectively claimed authority to do what Congress had just declined to do — and that such a broad economic intervention required explicit legislative authorization. Administration officials, including some White House lawyers, reportedly warned Biden the action was legally dubious before he proceeded.',
+                    sources: [
+                        { url: 'https://supreme.justia.com/cases/federal/us/594/21a23/', text: 'Alabama Association of Realtors v. HHS — Supreme Court Opinion (Aug. 2021)' },
+                        { url: 'https://www.nytimes.com/2021/08/26/us/politics/eviction-moratorium-biden.html', text: 'New York Times — Biden Proceeding Despite Legal Warnings (Aug. 2021)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'American Rescue Plan Contributed to Inflation',
+                    shortLabel: 'ARP Inflation',
+                    description: 'Biden\'s $1.9 trillion American Rescue Plan, passed in March 2021, injected significant demand-side stimulus into an economy already recovering faster than many projections anticipated. Economists including former Obama administration Treasury Secretary Larry Summers publicly warned at the time that the scale of the package risked overheating the economy. Subsequent inflation peaked at 9.1% in June 2022, the highest in four decades. While inflation had multiple causes — supply chain disruption, energy prices, and global conditions — a notable body of economic research concluded the ARP contributed to the surge.',
+                    sources: [
+                        { url: 'https://www.cbo.gov/publication/56975', text: 'CBO — Budgetary Effects of the American Rescue Plan (Mar. 2021)' },
+                        { url: 'https://www.nber.org/papers/w29312', text: 'National Bureau of Economic Research — Fiscal Policy and Inflation (2021)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Sustained U.S. Weapons Support to Israel During Gaza Conflict',
+                    shortLabel: 'Gaza Arms Support',
+                    description: 'Following the October 7, 2023 Hamas attacks, Biden backed Israel strongly and continued major arms transfers throughout the conflict. As the civilian death toll in Gaza exceeded 30,000 and humanitarian conditions deteriorated severely, the Biden administration\'s own State Department assessment in 2024 concluded it was "reasonable to assess" that Israel had used U.S.-provided weapons in ways inconsistent with international humanitarian law — but stopped short of a definitive finding that would have triggered statutory aid restrictions. The administration continued the transfers while the assessment was ongoing.',
+                    sources: [
+                        { url: 'https://www.state.gov/report-to-congress-pursuant-to-national-security-memorandum-20/', text: 'State Department — NSM-20 Report to Congress on Israel Arms Use (May 2024)' },
+                        { url: 'https://apnews.com/article/israel-us-weapons-humanitarian-law-biden-2024', text: 'Associated Press — U.S. Report on Israeli Weapons Use (May 2024)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Repeated Failures in Border and Immigration Management',
+                    shortLabel: 'Border Failures',
+                    description: 'Border encounters reached record highs during Biden\'s term, topping 2 million in fiscal year 2023. His administration struggled to sustain a coherent policy framework as it navigated court rulings, the end of Title 42, large-scale parole programs, and fluctuating asylum restrictions. The administration ultimately enacted restrictive asylum measures in 2024 that critics on the left said mirrored Trump-era policies, while critics on the right said the earlier openness had created the crisis those restrictions were now trying to address.',
+                    sources: [
+                        { url: 'https://www.cbp.gov/newsroom/stats/nationwide-encounters', text: 'CBP — Nationwide Encounters Data (2021–2024)' },
+                        { url: 'https://www.dhs.gov/sites/default/files/2024-06/24_0604_s1-southwest-border-report.pdf', text: 'DHS — Southwest Border Report (2024)' }
                     ]
                 },
                 {
                     severity: 3,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
+                    title: 'Fossil Fuel Leasing Pauses Challenged in Court',
+                    shortLabel: 'Energy Leasing Pause',
+                    description: 'Early in his term, Biden signed an executive order pausing new oil and gas leasing on federal lands as part of a broader climate agenda. Federal courts blocked the pause, finding Biden had likely exceeded his statutory authority under the Mineral Leasing Act. Later in his term, the administration also paused approval of new LNG export terminals, which industry groups challenged as economically harmful and beyond agency authority. Courts and critics across the political spectrum questioned whether these moves fell within the executive\'s unilateral power.',
                     sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar Five',
-                    shortLabel: 'Bar 5',
-                    description: 'Description 5 — placeholder text describing the fifth item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
-                    ]
-                },
-                {
-                    severity: 1,
-                    title: 'Bar Three',
-                    shortLabel: 'Bar 3',
-                    description: 'Description 3 — placeholder text describing the third item.',
-                    sources: [
-                        { url: '#', text: 'Source 1 — placeholder citation' }
+                        { url: 'https://www.doi.gov/pressreleases/court-blocks-biden-administration-pause-oil-gas-leasing', text: 'DOI — Statement on Leasing Pause Court Order (Jun. 2021)' },
+                        { url: 'https://apnews.com/article/biden-lng-exports-pause-climate-2024', text: 'Associated Press — Biden Pauses LNG Export Approvals (Jan. 2024)' }
                     ]
                 }
             ]
