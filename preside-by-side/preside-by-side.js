@@ -38,8 +38,8 @@
 
        Bar schema:
          severity:    Number (1–10)
-         title:       String — full title (desktop outer label + detail panel)
-         shortLabel:  String — 2–3 words max, shown inside the bar on mobile
+         title:       String — full title (detail panel + modal heading)
+         shortLabel:  String — 2–3 words max, shown on the bar on every breakpoint
          description: String — long-form text in the expanded panel / modal
          sources:     Array<{ url: String, text: String }>
        -------------------------------------------------------------------------- */
@@ -679,7 +679,7 @@
         // sits on the OUTSIDE of the bar (away from the centerline).
         const labelSpan =
             '<span class="bar-label-outer" id="' + labelId + '" style="animation-delay: ' + labelDelay + ';">' +
-            escapeHtml(bar.title) +
+            escapeHtml(bar.shortLabel) +
             '</span>';
 
         const buttonHtml =
@@ -744,45 +744,49 @@
     }
 
     /* --------------------------------------------------------------------------
-       Name badge — populate the existing .name-badge spans inside each
-       side from the currently-selected president's data.
+       Name badge — populate the spans inside .picker-cell > .picker-badge
+       from the currently-selected president's data.
 
-       The HTML keeps the badge structure (the spans with their classes)
-       but ships them empty. This function fills them in. Re-run on every
-       selection change.
+       The badge text lives in the picker cell (which straddles the
+       header/comparison boundary), not inside .side-left/.side-right.
+       We still touch the .side- element to update its aria-label
+       (section landmark) and data-party (background + bar theming).
        -------------------------------------------------------------------------- */
     function renderNameBadge(side) {
+        const cell = document.querySelector('.picker-cell[data-side="' + side + '"]');
+        if (!cell) return;
         const sideEl = document.querySelector('.side-' + side);
-        if (!sideEl) return;
-        const badge = sideEl.querySelector('.name-badge');
-        if (!badge) return;
+
+        const nf = cell.querySelector('.name-first');
+        const ln = cell.querySelector('.last-name');
+        const nd = cell.querySelector('.name-detail');
 
         const president = presidents[selection[side]];
         if (!president) {
             // Mirror the renderSide defensive path — clear rather than crash.
-            badge.querySelector('.name-first').textContent = '';
-            badge.querySelector('.last-name').textContent = '';
-            badge.querySelector('.name-detail').textContent = '';
-            // Reset section landmark to a generic label.
-            sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
+            if (nf) nf.textContent = '';
+            if (ln) ln.textContent = '';
+            if (nd) nd.textContent = '';
+            if (sideEl) sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
             return;
         }
 
         // textContent for plain strings (auto-escapes anything weird).
-        badge.querySelector('.name-first').textContent = president.firstName;
-        badge.querySelector('.last-name').textContent = president.lastName;
+        if (nf) nf.textContent = president.firstName;
+        if (ln) ln.textContent = president.lastName;
         // innerHTML for the ordinal because formatOrdinal returns markup
-        // (<sup> tags). Safe because the input is author-controlled data.
-        badge.querySelector('.name-detail').innerHTML = formatOrdinal(president.ordinal);
-        // Update the section landmark so screen readers navigating by
-        // landmark hear the actual president's name (e.g. "Joseph R. Biden")
-        // rather than a generic "Left president". Re-announces on change.
-        sideEl.setAttribute('aria-label', president.firstName + ' ' + president.lastName);
-        // Drive the side's color theme. The CSS [data-party="..."] block
-        // defines --party-* variables; the side's background gradient,
-        // radial accent, bar fills, and detail accent border all read
-        // those vars, so a single attribute swap repaints the side.
-        sideEl.dataset.party = president.party;
+        // (sup tags). Safe because the input is author-controlled data.
+        if (nd) nd.innerHTML = formatOrdinal(president.ordinal);
+
+        if (sideEl) {
+            // Re-announce the section landmark with the new president's name.
+            sideEl.setAttribute('aria-label', president.firstName + ' ' + president.lastName);
+            // Drive the side's color theme. The CSS [data-party="..."] block
+            // defines --party-* variables; the side's background gradient,
+            // radial accent, bar fills, and detail accent border all read
+            // those vars, so a single attribute swap repaints the side.
+            sideEl.dataset.party = president.party;
+        }
     }
 
     /* --------------------------------------------------------------------------

@@ -47,7 +47,6 @@
                 <a href="/match-analysis-ad">Match Analysis</a>
                 <a href="/fresh-pull">Fresh Pull</a>
                 <a href="/pental">Pental</a>
-
             </div>
         </div>
         <a href="/hire-me">Hire Me</a>
@@ -61,19 +60,31 @@
     </header>
 
     <!--
-      President pickers. Sit at the boundary between the header and the
-      comparison: each picker is centered horizontally on its half of the
-      page (~25% / ~75%) and vertically straddles the line between the
-      header and the comparison. Options are populated by JS from the
-      `presidents` object; the currently-selected president's name stays
-      visible on the closed select.
+      President pickers. Each .picker-badge is the visible trigger; the
+      invisible <select> overlays it so any click on the badge opens the
+      native dropdown. JS populates the spans (name-first, last-name,
+      name-detail) and the <select> options from the presidents data.
     -->
     <div class="picker-row">
         <div class="picker-cell" data-side="left" data-party="democrat">
-            <select id="picker-left" class="president-picker" aria-label="Pick president for the left side"></select>
+            <div class="picker-badge">
+                <span class="name-first"></span>
+                <span class="last-name"></span>
+                <span class="name-detail"></span>
+                <span class="picker-chevron" aria-hidden="true">▾</span>
+                <select id="picker-left" class="president-picker"
+                    aria-label="Pick president for the left side"></select>
+            </div>
         </div>
         <div class="picker-cell" data-side="right" data-party="republican">
-            <select id="picker-right" class="president-picker" aria-label="Pick president for the right side"></select>
+            <div class="picker-badge">
+                <span class="name-first"></span>
+                <span class="last-name"></span>
+                <span class="name-detail"></span>
+                <span class="picker-chevron" aria-hidden="true">▾</span>
+                <select id="picker-right" class="president-picker"
+                    aria-label="Pick president for the right side"></select>
+            </div>
         </div>
     </div>
 
@@ -82,130 +93,23 @@
         <section class="side side-left" aria-label="Left president" data-party="democrat">
             <div class="side-bg" aria-hidden="true"></div>
 
-            <div class="figure-wrap">
-                <div class="figure-container">
-                    <svg class="silhouette" viewBox="0 0 240 720" xmlns="http://www.w3.org/2000/svg"
-                        preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-                        <defs>
-                            <linearGradient id="silGradLeft" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#0a1438" stop-opacity="0.95" />
-                                <stop offset="100%" stop-color="#0a1438" stop-opacity="0.55" />
-                            </linearGradient>
-                        </defs>
-                        <g fill="url(#silGradLeft)">
-                            <!-- Head -->
-                            <ellipse cx="120" cy="105" rx="52" ry="62" />
-                            <!-- Neck -->
-                            <path d="M 98 158 L 98 184 Q 98 192, 108 195 L 132 195 Q 142 192, 142 184 L 142 158 Z" />
-                            <!-- Suit / body -->
-                            <path d="M 50 215
-                                     Q 85 198, 98 198
-                                     L 142 198
-                                     Q 155 198, 190 215
-                                     Q 215 250, 222 305
-                                     L 232 720
-                                     L 8 720
-                                     L 18 305
-                                     Q 25 250, 50 215 Z" />
-                            <!-- Lapel notch (negative space) -->
-                        </g>
-                        <!-- Tie -->
-                        <path d="M 108 200 L 132 200 L 126 230 L 132 320 L 120 360 L 108 320 L 114 230 Z" fill="#1a2c5c"
-                            opacity="0.85" />
-                        <!-- Lapel split lines -->
-                        <path d="M 110 202 L 100 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
-                            fill="none" />
-                        <path d="M 130 202 L 140 360" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
-                            fill="none" />
-                    </svg>
-                    <!--
-                      Name badge content is populated by JS from the currently-
-                      selected president's data (see renderNameBadge in
-                      preside-by-side.js). The structural spans stay so the
-                      CSS targeting them keeps working.
-                    -->
-                    <div class="name-badge">
-                        <span class="name-first"></span>
-                        <span class="last-name"></span>
-                        <span class="name-detail"></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="bars-wrap">
-                <div class="bars-container" id="bars-left">
-
-                </div>
+                <div class="bars-container" id="bars-left"></div>
             </div>
         </section>
+
+        <div class="centerline" aria-hidden="true"></div>
 
         <!-- ============ RIGHT SIDE ============ -->
         <section class="side side-right" aria-label="Right president" data-party="republican">
             <div class="side-bg" aria-hidden="true"></div>
 
-            <div class="figure-wrap">
-                <div class="figure-container">
-                    <svg class="silhouette" viewBox="0 0 240 720" xmlns="http://www.w3.org/2000/svg"
-                        preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-                        <defs>
-                            <linearGradient id="silGradRight" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#3a0810" stop-opacity="0.95" />
-                                <stop offset="100%" stop-color="#3a0810" stop-opacity="0.55" />
-                            </linearGradient>
-                        </defs>
-                        <g fill="url(#silGradRight)">
-                            <!-- Head -->
-                            <ellipse cx="120" cy="105" rx="55" ry="60" />
-                            <!-- Hair flourish (bigger) -->
-                            <path
-                                d="M 70 78 Q 90 50, 130 55 Q 175 60, 175 90 Q 170 75, 140 70 Q 110 68, 90 80 Q 75 88, 70 95 Z" />
-                            <!-- Neck -->
-                            <path d="M 96 158 L 96 184 Q 96 192, 108 195 L 132 195 Q 144 192, 144 184 L 144 158 Z" />
-                            <!-- Suit / body (slightly broader) -->
-                            <path d="M 46 215
-                                     Q 82 198, 96 198
-                                     L 144 198
-                                     Q 158 198, 194 215
-                                     Q 220 250, 226 305
-                                     L 234 720
-                                     L 6 720
-                                     L 14 305
-                                     Q 20 250, 46 215 Z" />
-                        </g>
-                        <!-- Tie (longer, classic Trump red-tie reference) -->
-                        <path d="M 106 200 L 134 200 L 128 235 L 136 380 L 120 425 L 104 380 L 112 235 Z" fill="#5a0a14"
-                            opacity="0.85" />
-                        <!-- Lapel split lines -->
-                        <path d="M 108 202 L 96 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
-                            fill="none" />
-                        <path d="M 132 202 L 144 380" stroke="#000" stroke-opacity="0.35" stroke-width="1.5"
-                            fill="none" />
-                    </svg>
-                    <!-- See note on left-side .name-badge above. -->
-                    <div class="name-badge">
-                        <span class="name-first"></span>
-                        <span class="last-name"></span>
-                        <span class="name-detail"></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="bars-wrap">
-                <div class="bars-container" id="bars-right">
-
-                </div>
+                <div class="bars-container" id="bars-right"></div>
             </div>
         </section>
-
-        <!-- Visual centerline -->
-        <div class="centerline" aria-hidden="true"></div>
     </main>
 
-    <!--
-      Mobile detail modal — native <dialog> opened via showModal() so the
-      browser handles focus trap, ESC dismissal, top-layer placement, and
-      inerting the background page for free.
-    -->
     <dialog class="modal" id="modal" aria-labelledby="modal-title">
         <div class="modal-sheet">
             <button class="modal-close" type="button" autofocus aria-label="Close" data-modal-close>

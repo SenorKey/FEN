@@ -1,72 +1,11 @@
 /* ==========================================================================
-   preside-by-side.css — Styles for /preside-by-side
-   frontendneeded.com
-
-   Editorial-poster aesthetic: high-contrast serif display, flag-forward
-   gradients, restrained typography against bold color fields.
-
-   This page intentionally does NOT use the shared gr-shell layout. It
-   loads /assets/css/styles.css only for the FEN navbar — a few overrides
-   below undo the shared body's full-viewport lock so this page can scroll.
+   Preside by Side — Styles
    ========================================================================== */
 
-
-/* --------------------------------------------------------------------------
-   Overrides for shared styles.css
-
-   The shared body sets:
-     height: 100vh; overflow: hidden;
-     display: flex; flex-direction: column;
-     font-family: 'DM Sans', sans-serif;
-
-   This page needs to scroll vertically and uses its own body font, so we
-   undo those rules here. The navbar's font is then locked back to DM Sans
-   so it stays visually consistent with the rest of the site.
-   -------------------------------------------------------------------------- */
-
-@font-face {
-    font-family: 'Fraunces';
-    src: url('/assets/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf') format('truetype');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Fraunces';
-    src: url('/assets/fonts/Fraunces-Italic-VariableFont_SOFT,WONK,opsz,wght.ttf') format('truetype');
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'IBM Plex Sans';
-    src: url('/assets/fonts/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
-    font-weight: 100 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'IBM Plex Sans';
-    src: url('/assets/fonts/IBMPlexSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
-    font-weight: 100 700;
-    font-style: italic;
-    font-display: swap;
-}
-
-body {
-    height: auto;
-    overflow-x: hidden;
-    overflow-y: visible;
-    display: block;
-}
-
-/* Stick the FEN navbar to the top on this page (since the body actually
-   scrolls here, unlike the home page). The mobile figure-container sticks
-   at top: 40px expecting this 40px-tall navbar to be pinned above it.
-   z-index sits above the figure-container (z-index 10) and centerline. */
+/*
+   NOTE: .site-nav styles live in /assets/css/styles.css (shared across all
+   pages). The block below only overrides the font-family since this page
+   loads a different font stack than the home page. */
 .site-nav {
     position: sticky;
     top: 0;
@@ -134,16 +73,14 @@ body {
      Whichever ancestor element carries `data-party` defines the --party-*
      variables for everything inside. JS sets data-party on:
        - each .side          (drives the side background + bar fills)
-       - each .picker-cell   (drives the picker border tint)
+       - each .picker-badge  (drives the picker border tint)
        - the modal           (drives modal severity + sheet border colors)
 
      Adding a third party ("independent" etc.) is one more block here plus
      a `party` value in the president data — no other code changes.
 
      bg-1..bg-4 are the four stops of each side's vertical background
-     gradient, in order. The two end stops are nearly identical (a slightly
-     deeper, slightly different deep at top vs bottom) — kept distinct
-     because the original had subtle variance there.
+     gradient, in order.
 
      --party-rgb is an unwrapped triplet so the same channel can power
      multiple alphas via rgba() (radial accent at 0.25, picker border at
@@ -158,13 +95,9 @@ body {
 
 [data-party="democrat"] {
     --party-bg-1: var(--blue-deep);
-    /* gradient 0% */
     --party-bg-2: var(--blue-mid);
-    /* gradient 35% */
     --party-bg-3: #1a2e6f;
-    /* gradient 65% */
     --party-bg-4: #0a1438;
-    /* gradient 100% */
     --party-bright: var(--blue-bright);
     --party-glow: var(--blue-glow);
     --party-pale: var(--blue-pale);
@@ -283,15 +216,15 @@ body {
      President pickers — straddle the boundary between header and comparison.
 
      The .picker-row container is zero-height and uses absolute positioning
-     to place each picker over the boundary line. Each .picker-cell is
+     to place each picker-cell over the boundary line. Each .picker-cell is
      centered on its half of the page (25% / 75%) and vertically centered
-     on the boundary itself via translate(-50%, -50%) — so half the picker
-     sits in the header's bottom padding, half pokes down into the
-     comparison's top padding. Both have enough padding (50px / 80px) to
-     comfortably absorb a ~50px-tall picker.
+     on the boundary itself via translate(-50%, -50%).
 
-     Mobile: the row turns into a normal-flow flex row (see media query
-     near the bottom of this file).
+     The visual badge (.picker-badge) looks like the old name-badge and
+     doubles as the dropdown trigger. The <select> overlays it at opacity:0
+     so any click on the badge falls through and opens the native picker.
+
+     Mobile: the row becomes sticky under the navbar (see media query).
      -------------------------------------------------------------------------- */
 .picker-row {
     position: relative;
@@ -315,248 +248,89 @@ body {
     left: 75%;
 }
 
-.president-picker {
-    /* Reset native styling so we can paint our own. The dropdown that
-       opens on click is still browser-native — only the closed display
-       is styleable cross-browser, which is fine for "basic picker UI". */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+/* The visual badge — looks like the old name-badge, doubles as the
+   dropdown trigger. The <select> overlays it at opacity:0, so any
+   click on the badge falls through and opens the native picker. */
+.picker-badge {
+    position: relative;
+    text-align: center;
+    padding: 16px 38px 14px 24px;
+    min-width: 200px;
 
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1rem;
-    font-variation-settings: 'opsz' 36;
-    letter-spacing: -0.005em;
-
-    color: var(--ink);
-    background-color: rgba(0, 0, 0, 0.55);
-    /* Border tint follows the picker cell's data-party (set by JS). The
-       fallback (white) only applies if a cell somehow loses its data-party
-       — the cascade from .picker-cell[data-party="..."] supplies the rgb
-       triplet otherwise. */
+    background: rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(var(--party-rgb, 255, 255, 255), 0.45);
     border-radius: 2px;
-    padding: 12px 36px 12px 18px;
-    min-width: 160px;
-
-    /* Centers the currently-selected option's text horizontally. The
-       second declaration is what actually does the work in <select>;
-       the first keeps the value inheritable for any future styled
-       option lists. */
-    text-align: center;
-    text-align-last: center;
-
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.5),
+        0 12px 40px rgba(0, 0, 0, 0.45),
         inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
     cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
-
-    /* Custom dropdown chevron — inline SVG so no extra HTTP request and
-       it inherits theme cleanly. Replace the stroke colour to recolour. */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px 14px;
+    /* Pre-hydration hidden state — JS adds body.hydrated once the
+       spans are populated. Same trick the old name-badge used. */
+    opacity: 0;
+    transition: opacity 0.25s ease, border-color 0.2s, background-color 0.2s, transform 0.2s;
 }
 
-.president-picker:hover {
+body.hydrated .picker-badge {
+    opacity: 1;
+}
+
+.picker-badge:hover {
     background-color: rgba(0, 0, 0, 0.7);
     border-color: rgba(var(--party-rgb, 255, 255, 255), 0.85);
     transform: translateY(-1px);
 }
 
-.president-picker:focus-visible {
+/* Keyboard focus moves to the <select>, not the wrapper, so the ring
+   has to follow focus-within. */
+.picker-badge:focus-within {
     outline: 2px solid var(--ink);
     outline-offset: 3px;
 }
 
-/* Style the opened option list. Most browsers render the open dropdown
-   with OS chrome, but Chrome/Edge let us at least pick the surface and
-   text colors so the list isn't a stark white rectangle next to a dark
-   page. Safari/Firefox ignore most of this; that's fine. */
+.picker-chevron {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-faint);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+/* The select itself — invisible but interactive. Stretches to fill
+   the badge so a click anywhere lands on it. */
+.president-picker {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    font: inherit;
+    cursor: pointer;
+    opacity: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Open option list — Chromium honors this, Safari/Firefox use OS chrome. */
 .president-picker option {
     background: #1a1a26;
     color: var(--ink);
     font-family: var(--font-display);
+    text-align: left;
 }
 
 /* --------------------------------------------------------------------------
-     Comparison main — two-column split
+     Name text — used inside .picker-badge
      -------------------------------------------------------------------------- */
-.comparison {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 100vh;
-    isolation: isolate;
-}
-
-/* The visible vertical centerline */
-.centerline {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    transform: translateX(-50%);
-    background: linear-gradient(180deg,
-            rgba(255, 255, 255, 0.55) 0%,
-            rgba(255, 255, 255, 0.15) 60%,
-            rgba(255, 255, 255, 0) 100%);
-    box-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
-    z-index: 5;
-    pointer-events: none;
-}
-
-/* --------------------------------------------------------------------------
-     Sides — shared layout
-     -------------------------------------------------------------------------- */
-.side {
-    position: relative;
-    display: grid;
-    padding: var(--side-pad-y) 0;
-    min-height: 100vh;
-    overflow: hidden;
-}
-
-.side-left {
-    grid-template-columns: minmax(220px, 26%) 1fr;
-}
-
-.side-right {
-    grid-template-columns: 1fr minmax(220px, 26%);
-}
-
-/* Background layers — gradient + pattern overlay.
-
-   Pattern (stars vs stripes) is driven by --party-pattern, which travels
-   with the president via data-party. The radial-accent anchor stays bound
-   to the side (12% on the left, 88% on the right) because the silhouette
-   never moves — the glow always belongs at the outer edge. */
-.side-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.side-left .side-bg {
-    background:
-        /* pattern follows the side's current party — stars for democrat,
-           stripes for republican */
-        var(--party-pattern) repeat,
-        /* main gradient — colors follow the side's current party */
-        linear-gradient(180deg,
-            var(--party-bg-1) 0%,
-            var(--party-bg-2) 35%,
-            var(--party-bg-3) 65%,
-            var(--party-bg-4) 100%),
-        /* outer-edge glow behind silhouette — anchored at 12% (left side
-           of viewport), color follows party */
-        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
-}
-
-.side-right .side-bg {
-    background:
-        var(--party-pattern) repeat,
-        linear-gradient(180deg,
-            var(--party-bg-1) 0%,
-            var(--party-bg-2) 35%,
-            var(--party-bg-3) 65%,
-            var(--party-bg-4) 100%),
-        /* radial anchored at 88% (right side of viewport) */
-        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
-}
-
-/* Subtle grain layer for texture */
-.side::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background:
-        radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.4) 0%, transparent 40%),
-        radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.55) 0%, transparent 50%);
-}
-
-/* --------------------------------------------------------------------------
-     Figure (silhouette + name badge) — sticky on desktop
-
-     NOTE: grid-row: 1 is set explicitly below because in side-right the
-     figure-wrap appears BEFORE bars-wrap in the DOM but is placed in
-     grid-column: 2. CSS grid's default "sparse" auto-flow advances the
-     placement cursor past column 2, then puts bars-wrap (which targets
-     column 1) onto a NEW row. Pinning both items to row 1 forces them
-     to share the same row, so the bars on each side line up vertically.
-     -------------------------------------------------------------------------- */
-.figure-wrap {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    grid-row: 1;
-}
-
-.side-left .figure-wrap {
-    grid-column: 1;
-}
-
-.side-right .figure-wrap {
-    grid-column: 2;
-}
-
-.figure-container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 0 4vh;
-}
-
-.silhouette {
-    width: 100%;
-    max-width: 360px;
-    height: auto;
-    flex: 1;
-    min-height: 0;
-    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.4));
-}
-
-.name-badge {
-    position: absolute;
-    bottom: 6vh;
-    text-align: center;
-    z-index: 3;
-    padding: 14px 24px;
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 2px;
-    box-shadow: var(--shadow-strong);
-    /* The badge ships empty in the HTML (JS fills it in). The styled
-       background + padding + blur would otherwise paint a small empty
-       rounded rectangle for a frame before JS runs. Hide until the
-       `hydrated` class is added below — see the init block in
-       preside-by-side.js. Reduced-motion users get a snap-in (the
-       global prefers-reduced-motion rule wipes the transition); that's
-       appropriate. */
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-
-body.hydrated .name-badge {
-    opacity: 1;
-}
-
 .name-first {
     display: block;
     font-family: var(--font-body);
@@ -595,11 +369,104 @@ body.hydrated .name-badge {
 }
 
 /* --------------------------------------------------------------------------
-     Bars — the diverging chart
+     Comparison main — two-column split
+     -------------------------------------------------------------------------- */
+.comparison {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    isolation: isolate;
+}
 
-     justify-content: flex-start so the bars start at the TOP of the side
-     instead of being vertically centered (which pushed them below the fold).
-     grid-row: 1 — see note on .figure-wrap above.
+/* The visible vertical centerline */
+.centerline {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.15) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+     Sides — shared layout
+
+     No figure column anymore — each side is a single-column grid.
+     -------------------------------------------------------------------------- */
+.side {
+    position: relative;
+    display: grid;
+    padding: var(--side-pad-y) 0;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.side-left,
+.side-right {
+    grid-template-columns: 1fr;
+}
+
+.side-left .bars-wrap,
+.side-right .bars-wrap {
+    grid-column: 1;
+}
+
+/* Background layers — gradient + pattern overlay.
+
+   Pattern (stars vs stripes) is driven by --party-pattern, which travels
+   with the president via data-party. The radial-accent anchor stays bound
+   to the side (12% on the left, 88% on the right). */
+.side-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.side-left .side-bg {
+    background:
+        var(--party-pattern) repeat,
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%),
+        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
+}
+
+.side-right .side-bg {
+    background:
+        var(--party-pattern) repeat,
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%),
+        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
+}
+
+/* Subtle grain layer for texture */
+.side::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.55) 0%, transparent 50%);
+}
+
+/* --------------------------------------------------------------------------
+     Bars — the diverging chart
      -------------------------------------------------------------------------- */
 .bars-wrap {
     position: relative;
@@ -610,14 +477,6 @@ body.hydrated .name-badge {
     padding: 40px 0;
     min-height: 100%;
     grid-row: 1;
-}
-
-.side-left .bars-wrap {
-    grid-column: 2;
-}
-
-.side-right .bars-wrap {
-    grid-column: 1;
 }
 
 .bars-container {
@@ -645,7 +504,6 @@ body.hydrated .name-badge {
     flex-direction: row;
     /* [label] [bar →] center */
     justify-content: flex-end;
-    /* anchor at right (centerline) */
     padding-right: 0;
 }
 
@@ -653,7 +511,6 @@ body.hydrated .name-badge {
     flex-direction: row;
     /* center [← bar] [label] */
     justify-content: flex-start;
-    /* anchor at left (centerline) */
     padding-left: 0;
 }
 
@@ -777,16 +634,12 @@ body.hydrated .name-badge {
 
 .side-left .bar:first-child .bar-fill::after {
     content: '\2190 \00a0severity level';
-    /* ← severity level */
     left: 56px;
-    /* past the severity number */
 }
 
 .side-right .bar:first-child .bar-fill::after {
     content: 'severity level\00a0 \2192';
-    /* severity level → */
     right: 64px;
-    /* before the (potentially 2-digit) number */
 }
 
 /* Inner label — hidden on desktop, shown on mobile */
@@ -971,7 +824,7 @@ body.hydrated .name-badge {
     max-height: 100dvh;
 }
 
-/* Native ::backdrop replaces the manual .modal-backdrop div we used to ship */
+/* Native ::backdrop replaces the manual .modal-backdrop div */
 .modal::backdrop {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
@@ -991,10 +844,6 @@ body.hydrated .name-badge {
     max-height: 85dvh;
     overflow-y: auto;
     background: linear-gradient(180deg, #1a1a26 0%, #0f0f18 100%);
-    /* Border tint follows the modal's data-party (set in openModal). The
-       fallback only applies if data-party is absent — which shouldn't
-       happen in normal flow but keeps the modal looking right if a future
-       caller forgets to set it. */
     border-top: 1px solid var(--party-glow, rgba(255, 255, 255, 0.15));
     border-radius: 16px 16px 0 0;
     padding: 36px 28px 36px;
@@ -1034,8 +883,6 @@ body.hydrated .name-badge {
     line-height: 1;
     font-variation-settings: 'opsz' 144;
     margin: 0 0 6px;
-    /* Color follows the modal's data-party (set in openModal). Fallback
-       to --ink so the number remains visible even if data-party is unset. */
     color: var(--party-glow, var(--ink));
 }
 
@@ -1051,9 +898,6 @@ body.hydrated .name-badge {
     margin-bottom: 4px;
 }
 
-/* "/10" suffix after the severity number — smaller and dimmer so the big
-   number still reads as the headline. The ::before above ('Severity ') is
-   block-level and stays put. */
 .modal-severity::after {
     content: '/10';
     font-family: var(--font-display);
@@ -1115,7 +959,6 @@ body.hydrated .name-badge {
     }
 }
 
-/* Same idea as fadeIn but caps at 0.45 so the hint stays subtle. */
 @keyframes severityHintFadeIn {
     from {
         opacity: 0;
@@ -1151,126 +994,65 @@ body.hydrated .name-badge {
         padding: 44px 20px 32px;
     }
 
-    /* Picker row — the 25%/75% absolute positioning doesn't make sense
-       once the sides stack, so this becomes a normal-flow flex row that
-       sits between the header and the comparison. Each picker takes
-       half the width. Note: the row scrolls away with the page header,
-       and the figure-container's sticky behavior takes over from there. */
+    /* Picker row — becomes a sticky flex row under the navbar.
+       The figures are gone so this is the only persistent "who am I
+       looking at" anchor while scrolling through bars. */
     .picker-row {
-        position: static;
+        position: sticky;
+        top: 40px;
+        /* sits below the 40px FEN navbar */
         height: auto;
         display: flex;
         gap: 10px;
-        padding: 14px 16px;
+        padding: 10px 12px;
         background: linear-gradient(180deg, #14141f 0%, #0e0e18 100%);
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        z-index: auto;
+        z-index: 10;
     }
 
     .picker-cell {
         position: static;
         transform: none;
         flex: 1;
+        min-width: 0;
     }
 
-    /* Override the desktop 25%/75% values so they don't keep applying. */
     .picker-cell[data-side="left"],
     .picker-cell[data-side="right"] {
         left: auto;
     }
 
-    .president-picker {
-        width: 100%;
+    .picker-badge {
         min-width: 0;
-        font-size: 0.92rem;
-        padding: 10px 32px 10px 14px;
+        width: 100%;
+        padding: 10px 30px 10px 14px;
     }
 
-    /* Each side becomes a single column with figure as a header strip */
+    .picker-badge .last-name {
+        font-size: 1.15rem;
+    }
+
+    .picker-badge .name-first {
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        margin-bottom: 2px;
+    }
+
+    .picker-badge .name-detail {
+        font-size: 0.65rem;
+        margin-top: 3px;
+    }
+
+    /* Sides become a single column — no more figure header */
     .side-left,
     .side-right {
         grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-    }
-
-    .figure-wrap {
-        grid-column: 1;
-        grid-row: 1;
-        height: auto;
-    }
-
-    .side-left .figure-wrap,
-    .side-right .figure-wrap {
-        grid-column: 1;
+        grid-template-rows: 1fr;
     }
 
     .bars-wrap {
         grid-column: 1;
-        grid-row: 2;
         padding: 24px 0 32px;
-    }
-
-    .side-left .bars-wrap,
-    .side-right .bars-wrap {
-        grid-column: 1;
-    }
-
-    /* Figure becomes a small sticky header.
-       Note: the FEN navbar is 40px tall on mobile (from styles.css),
-       so we offset this sticky header to sit just below it. */
-    .figure-container {
-        position: sticky;
-        top: 40px;
-        height: auto;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 12px 16px;
-        background: rgba(0, 0, 0, 0.55);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        z-index: 10;
-        gap: 12px;
-    }
-
-    .side-right .figure-container {
-        flex-direction: row-reverse;
-    }
-
-    .silhouette {
-        width: 44px;
-        height: 44px;
-        flex: 0 0 44px;
-        min-height: 0;
-        filter: none;
-    }
-
-    .name-badge {
-        position: static;
-        padding: 0;
-        background: none;
-        border: none;
-        box-shadow: none;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        text-align: left;
-    }
-
-    .side-right .name-badge {
-        text-align: right;
-    }
-
-    .name-first {
-        display: none;
-    }
-
-    .name-detail {
-        display: none;
-    }
-
-    .last-name {
-        font-size: 1.2rem;
     }
 
     /* Bars — labels move INSIDE on mobile */
@@ -1304,8 +1086,7 @@ body.hydrated .name-badge {
     }
 
     /* With severity gone, anchor each label at the centerline edge of
-       its bar so labels on both sides line up against the centerline.
-       (Single flex item now — flex-direction is just for clarity.) */
+       its bar so labels on both sides line up against the centerline. */
     .side-left .bar-fill {
         flex-direction: row;
         justify-content: flex-end;
