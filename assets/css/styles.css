@@ -542,6 +542,9 @@ p.body-text+h3.sub {
     padding: 0 16px;
     gap: 14px;
     height: 40px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
   }
 
   .site-nav a {
