@@ -590,6 +590,224 @@
                     ]
                 }
             ]
+        },
+        reagan: {
+            id: 'reagan',
+            firstName: 'Ronald W.',
+            lastName: 'Reagan',
+            ordinal: [40, 47],
+            party: 'republican',
+            bars: [
+                {
+                    severity: 9,
+                    title: 'Iran-Contra: Secret Arms Sales and Illegal Contra Funding',
+                    shortLabel: 'Iran-Contra',
+                    description: 'Reagan\'s administration secretly sold arms to Iran — in violation of a U.S. arms embargo and the administration\'s own public policy against negotiating with terrorism-sponsoring states — and then illegally diverted the proceeds to fund Contra rebels in Nicaragua in defiance of explicit congressional restrictions. The independent counsel\'s final report concluded that Reagan chose to proceed "in the utmost secrecy" and personally disregarded the administration\'s stated policies. Reagan eventually acknowledged on national television that the operation had "deteriorated" into trading arms for hostages. Eleven administration officials were convicted; several were later pardoned by President George H.W. Bush.',
+                    sources: [
+                        { url: 'https://fas.org/irp/offdocs/walsh/execsum.htm', text: 'Independent Counsel Lawrence Walsh — Iran-Contra Final Report Executive Summary (Aug. 1993)' },
+                        { url: 'https://www.brown.edu/Research/Understanding_the_Iran_Contra_Affair/documents.php', text: 'Brown University — Iran-Contra Affair Declassified Document Archive' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Backing the Contras and Fueling Nicaragua\'s Civil War',
+                    shortLabel: 'Contra Support',
+                    description: 'Separate from the Iran-Contra cover-up, the underlying policy of supporting anti-Sandinista Contra rebels in Nicaragua caused serious harm. Reagan signed a secret directive in 1981 authorizing $19 million in CIA paramilitary operations in Nicaragua. The Contras were repeatedly documented by human rights organizations as committing atrocities including murder, rape, and torture of civilians. The International Court of Justice ruled in 1986 that U.S. support for the Contras violated international law and ordered the U.S. to pay reparations — a ruling Washington rejected. Congress cut off funding through the Boland Amendment precisely because of these concerns.',
+                    sources: [
+                        { url: 'https://www.icj-cij.org/case/70', text: 'International Court of Justice — Nicaragua v. United States (Jun. 1986)' },
+                        { url: 'https://www.hrw.org/reports/1989/nicaragua.pdf', text: 'Human Rights Watch — Human Rights Abuses by the Contras in Nicaragua (1989)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Slow Response to the AIDS Crisis',
+                    shortLabel: 'AIDS Crisis',
+                    description: 'As AIDS killed tens of thousands of Americans — disproportionately gay men, intravenous drug users, and people of color — the Reagan administration was largely silent. Reagan did not publicly mention AIDS until 1985, four years into the epidemic, and did not deliver a major speech on the disease until 1987, by which point more than 20,000 Americans had died. Internal documents showed aides treated the epidemic as a political liability rather than a public health emergency. The CDC\'s own historians and public health researchers have documented how the delayed federal response allowed the epidemic to spread far more broadly than it otherwise would have.',
+                    sources: [
+                        { url: 'https://www.cdc.gov/mmwr/preview/mmwrhtml/00001163.htm', text: 'CDC MMWR — Pneumocystis Pneumonia, First AIDS Report (Jun. 1981)' },
+                        { url: 'https://www.ucsf.edu/news/2011/11/10918/reagan-aids-crisis-and-real-story-about-white-house-and-epidemic', text: 'UCSF — Reagan, AIDS, and the Real Story About the White House and the Epidemic (Nov. 2011)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Escalating the Drug War and Creating Crack/Cocaine Sentencing Disparity',
+                    shortLabel: 'Drug War & Sentencing',
+                    description: 'Reagan dramatically expanded the federal drug war, prioritizing criminal punishment over treatment. The Anti-Drug Abuse Act of 1986 established mandatory minimum sentences for drug offenses and created a 100-to-1 sentencing disparity between crack cocaine and powder cocaine — meaning someone caught with five grams of crack received the same mandatory minimum as someone with 500 grams of powder. Because crack was more prevalent in Black communities, the disparity drove racially skewed incarceration rates that the U.S. Sentencing Commission later described as unjustified. The disparity remained law for 24 years until partially reformed by the Fair Sentencing Act of 2010.',
+                    sources: [
+                        { url: 'https://www.ussc.gov/sites/default/files/pdf/news/congressional-testimony-and-reports/drug-topics/199504_RtC_Cocaine_Sentencing_Policy.pdf', text: 'U.S. Sentencing Commission — Cocaine and Federal Sentencing Policy (Feb. 1995)' },
+                        { url: 'https://www.brennancenter.org/our-work/analysis-opinion/how-war-drugs-affected-incarceration-rates', text: 'Brennan Center for Justice — How the War on Drugs Affected Incarceration Rates' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Vetoed Sanctions Against Apartheid South Africa',
+                    shortLabel: 'Apartheid Veto',
+                    description: 'Reagan vetoed the Comprehensive Anti-Apartheid Act of 1986, which would have imposed economic sanctions on South Africa\'s white minority government and called for the release of Nelson Mandela. Reagan argued that his policy of "constructive engagement" — maintaining economic and diplomatic ties — would be more effective at encouraging change. Congress disagreed so strongly that it overrode his veto with bipartisan support, one of only eight successful veto overrides of his presidency. The episode is widely regarded as one of Reagan\'s most significant moral failures, placing the U.S. in effective opposition to the international consensus against apartheid.',
+                    sources: [
+                        { url: 'https://www.congress.gov/bill/99th-congress/house-bill/4868', text: 'Comprehensive Anti-Apartheid Act of 1986 — Congressional Record, 99th Congress' },
+                        { url: 'https://www.reaganlibrary.gov/archives/speech/message-house-representatives-returning-without-approval-legislation-imposing', text: 'Reagan Presidential Library — Veto Message on Anti-Apartheid Legislation (Sep. 1986)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Firing 11,000 Striking Air Traffic Controllers',
+                    shortLabel: 'PATCO Strike',
+                    description: 'In August 1981, when members of the Professional Air Traffic Controllers Organization went on strike demanding higher pay and shorter hours, Reagan ordered them back to work within 48 hours, citing a federal law prohibiting strikes by government employees. When roughly 11,345 controllers refused, he fired them and banned them from federal employment for life. The FAA trained replacement controllers and the aviation system continued functioning. Defenders argue Reagan was enforcing the law; critics argue the mass firing sent a signal to private employers that aggressive union-busting was acceptable, and labor economists widely cite it as a turning point that accelerated the decline of U.S. union membership and bargaining power.',
+                    sources: [
+                        { url: 'https://www.bls.gov/opub/mlr/2006/01/art3full.pdf', text: 'Bureau of Labor Statistics — The PATCO Strike: A Retrospective (Jan. 2006)' },
+                        { url: 'https://www.epi.org/publication/reagan-fired-patco-workers/', text: 'Economic Policy Institute — Reagan\'s Firing of the PATCO Workers (Aug. 2011)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Savings and Loan Deregulation and the S&L Crisis',
+                    shortLabel: 'S&L Crisis',
+                    description: 'Reagan signed the Garn-St. Germain Depository Institutions Act in 1982, which dramatically expanded the investment powers of savings and loan institutions while loosening federal oversight, allowing them to offer adjustable-rate mortgages and invest in riskier assets. In combination with earlier deregulation and inadequate federal supervision, these changes contributed to widespread fraud and reckless lending across the S&L industry. By the time the crisis peaked in the late 1980s and early 1990s, roughly 1,000 institutions had failed. The federal bailout ultimately cost taxpayers an estimated $124 billion, with total losses to the economy considerably higher.',
+                    sources: [
+                        { url: 'https://www.fdic.gov/bank/historical/history/167_188.pdf', text: 'FDIC — History of the Eighties: The Savings and Loan Crisis (1997)' },
+                        { url: 'https://www.gao.gov/assets/160/151363.pdf', text: 'GAO — Thrift Failures: Costly Failures Resulted from Regulatory Violations and Unsafe Practices (Jun. 1989)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Housing and Social Program Cuts Amid Rising Homelessness',
+                    shortLabel: 'Housing & Social Cuts',
+                    description: 'Homelessness became a visible national crisis during the 1980s, driven by multiple factors including deinstitutionalization, rising rents, and economic disruption. Reagan\'s administration cut low-income housing subsidies sharply — the HUD budget fell by roughly 75% in real terms between 1980 and 1989 — and reduced funding for food assistance, Medicaid, and other safety-net programs. The Urban Institute documented how Reagan-era budget cuts reduced the availability of federally assisted housing. While Reagan did not cause homelessness singlehandedly, housing advocates and researchers consistently identify the program cuts as a major contributor to its dramatic expansion during this period.',
+                    sources: [
+                        { url: 'https://www.urban.org/research/publication/reagan-administration-and-low-income-housing', text: 'Urban Institute — The Reagan Administration and Low-Income Housing (1982)' },
+                        { url: 'https://www.cbpp.org/research/reagan-era-cuts-in-housing-programs', text: 'Center on Budget and Policy Priorities — Reagan-Era Cuts in Housing Programs' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Dismantling Federal Mental Health Policy',
+                    shortLabel: 'Mental Health Cuts',
+                    description: 'Reagan signed the Omnibus Budget Reconciliation Act of 1981, which effectively repealed the Mental Health Systems Act passed under Carter and converted federal mental health funding into block grants to states, with significantly reduced total funding. While deinstitutionalization of psychiatric patients had begun decades earlier, the Reagan shift eliminated the promised federal community-care infrastructure meant to replace institutionalization. A Milbank Quarterly analysis described Reagan\'s inauguration as prompting an "immediate reversal" of federal mental health policy. Critics argue the resulting gap in care contributed to the cycles of homelessness, incarceration, and untreated illness that persist today.',
+                    sources: [
+                        { url: 'https://www.milbank.org/quarterly/articles/the-political-context-for-the-reagan-administration-mental-health-policy/', text: 'Milbank Quarterly — The Political Context for Reagan Administration Mental Health Policy' },
+                        { url: 'https://www.treatmentadvocacycenter.org/the-consequences-of-ignoring-mental-illness', text: 'Treatment Advocacy Center — The Consequences of Ignoring Mental Illness' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Tax Cuts That Increased Deficits and Favored Higher Earners',
+                    shortLabel: 'Reagan Tax Cuts',
+                    description: 'Reagan\'s Economic Recovery Tax Act of 1981 reduced the top marginal income tax rate from 70% to 50%, with further cuts later in his presidency bringing it to 28%. Proponents argued the cuts would stimulate growth sufficient to offset lost revenue — a theory known as supply-side or "trickle-down" economics. In practice, federal deficits increased substantially during Reagan\'s presidency, and the national debt tripled from roughly $994 billion to $2.9 trillion. Brookings Institution has stated plainly that the Reagan tax cut "didn\'t pay for itself." Independent analyses found the benefits of the cuts accrued disproportionately to higher-income households.',
+                    sources: [
+                        { url: 'https://www.brookings.edu/articles/the-reagan-tax-cuts-lessons-for-tax-reform/', text: 'Brookings Institution — The Reagan Tax Cuts: Lessons for Tax Reform' },
+                        { url: 'https://www.cbpp.org/research/federal-tax/the-legacy-of-the-reagan-tax-cuts', text: 'Center on Budget and Policy Priorities — The Legacy of the Reagan Tax Cuts' }
+                    ]
+                }
+            ]
+        },
+        jackson: {
+            id: 'jackson',
+            firstName: 'Andrew',
+            lastName: 'Jackson',
+            ordinal: 7,
+            party: 'democrat',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Signed the Indian Removal Act',
+                    shortLabel: 'Indian Removal Act',
+                    description: 'On May 28, 1830, Jackson signed the Indian Removal Act into law, authorizing the federal government to forcibly relocate Native nations living east of the Mississippi River to lands farther west. The National Archives describes it as the first major legislative step in forcing American Indians westward, driven by white settler demand for Native land. The law set in motion the systematic dispossession of dozens of tribes — including the Cherokee, Choctaw, Creek, Chickasaw, and Seminole — from territories they had inhabited for generations, through a combination of coercion, fraudulent treaties, and military force.',
+                    sources: [
+                        { url: 'https://www.archives.gov/education/lessons/indian-removal-act', text: 'National Archives — Indian Removal Act: Primary Documents in American History (1830)' },
+                        { url: 'https://history.state.gov/milestones/1830-1860/indian-treaties', text: 'U.S. State Department Office of the Historian — Indian Treaties and the Removal Act' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Trail of Tears and Mass Death of Native People',
+                    shortLabel: 'Trail of Tears',
+                    description: 'The most catastrophic consequence of Jackson\'s removal policy was the forced march now known as the Trail of Tears. In 1838, thousands of federal soldiers and Georgia volunteers forcibly relocated the Cherokee Nation, with some Cherokees hunted, imprisoned, assaulted, or killed in the process. Survivors were forced on a roughly 1,000-mile march with inadequate food, shelter, or medical care. Approximately 4,000 Cherokee died — roughly one in four — along the route. Similar forced removals devastated the Choctaw, Creek, Chickasaw, and Seminole nations. Although the 1838 march occurred after Jackson left office, his policy, his treaties, and his deliberate refusal to protect tribal sovereignty directly created the conditions that made it inevitable.',
+                    sources: [
+                        { url: 'https://www.loc.gov/collections/trail-of-tears/about-this-collection/', text: 'Library of Congress — Trail of Tears: About This Collection' },
+                        { url: 'https://www.nps.gov/trte/learn/historyculture/facts.htm', text: 'National Park Service — Trail of Tears: Facts' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Pressuring, Bribing, and Threatening Tribes into Removal Treaties',
+                    shortLabel: 'Coerced Removal Treaties',
+                    description: 'Jackson\'s removal policy was not a voluntary land exchange. The State Department\'s Office of the Historian documents that once the Indian Removal Act was law, Jackson and his allies were free to "persuade, bribe, and threaten" Native nations into signing removal treaties. Federal agents exploited internal tribal divisions, recognized fraudulent splinter factions as official negotiating parties, and pressured leaders under duress. The Treaty of New Echota — the legal instrument used to justify Cherokee removal — was signed by a small unauthorized faction and was repudiated by the vast majority of the Cherokee Nation and its elected government, yet the administration treated it as binding.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1830-1860/indian-treaties', text: 'U.S. State Department Office of the Historian — Indian Treaties and the Removal Act' },
+                        { url: 'https://www.archives.gov/files/education/lessons/georgia-cherokee/images/white-plains-treaty-1837.pdf', text: 'National Archives — Treaty of New Echota and Cherokee Removal Documents' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Refused to Enforce Worcester v. Georgia',
+                    shortLabel: 'Defied Supreme Court',
+                    description: 'In Worcester v. Georgia (1832), the Supreme Court under Chief Justice John Marshall ruled that Georgia\'s laws had no force within Cherokee territory, affirming tribal sovereignty and striking down state efforts to seize Native lands. Jackson refused to enforce the decision. The Federal Judicial Center confirms he "took no action to force Georgia\'s compliance," allowing the state to continue its seizure of Cherokee territory and its campaign of harassment against tribal members. The defiance of a Supreme Court ruling in order to enable the dispossession of Native peoples represents one of the most flagrant abuses of executive power in American presidential history.',
+                    sources: [
+                        { url: 'https://www.fjc.gov/history/cases/landmark-judicial-decisions/worcester-v-georgia', text: 'Federal Judicial Center — Worcester v. Georgia: Landmark Case History' },
+                        { url: 'https://supreme.justia.com/cases/federal/us/31/515/', text: 'Worcester v. Georgia — Supreme Court Opinion, 31 U.S. 515 (1832)' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Enslaved More Than 150 People and Profited from Their Labor',
+                    shortLabel: 'Slavery',
+                    description: 'Jackson was a major enslaver throughout his life and presidency. The Hermitage — Jackson\'s plantation — records that he owned approximately 150 enslaved people at the time of his death, and researchers have identified more than 500 individuals enslaved at The Hermitage or descended from those held there. In 1829, just before entering the White House, Jackson ordered an inventory listing 95 enslaved people at The Hermitage; he brought enslaved workers with him to serve in the executive mansion. His wealth, his political career, and his plantation were all built on the forced, uncompensated labor of enslaved Black people.',
+                    sources: [
+                        { url: 'https://thehermitage.com/learn/andrew-jackson/people-of-the-hermitage/enslaved-community/', text: 'The Hermitage — The Enslaved Community at The Hermitage' },
+                        { url: 'https://www.whitehousehistory.org/slavery-in-the-white-house-andrew-jackson', text: 'White House Historical Association — Slavery in the White House: Andrew Jackson' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Advertised Brutal Punishment of Escaped Enslaved Person',
+                    shortLabel: 'Runaway Slave Ad',
+                    description: 'In 1804, Jackson placed a newspaper advertisement seeking the capture of an enslaved man who had escaped, offering a reward for his return and an additional payment for each hundred lashes inflicted on him — up to three hundred lashes total. The advertisement, documented by the University of Glasgow\'s Runaway Slaves in Britain project and discussed in the Tennessee Historical Quarterly, reveals not merely passive participation in the institution of slavery but active, explicit cruelty. The offer of financial incentive for brutal corporal punishment reflects both Jackson\'s personal character and the systemic violence on which slavery depended.',
+                    sources: [
+                        { url: 'https://www.runaways.gla.ac.uk/database/', text: 'University of Glasgow — Runaway Slaves in Britain: Advertisement Database' },
+                        { url: 'https://www.tnhistoricalsociety.org/tennessee-historical-quarterly/', text: 'Tennessee Historical Quarterly — Documentation of Jackson Runaway Slave Advertisement' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Bank War and Destabilization of the Financial System',
+                    shortLabel: 'Bank War',
+                    description: 'Jackson waged a sustained campaign against the Second Bank of the United States, vetoing its recharter in 1832 and then removing federal deposits from it and distributing them among state-chartered "pet banks." The Bank\'s president Nicholas Biddle responded by contracting credit sharply, contributing to a financial downturn. While the Bank had legitimate critics — it did concentrate financial power and had engaged in political lending — Jackson\'s abrupt and destabilizing approach to dismantling it helped create the conditions for the broader financial crisis that followed. Most economic historians treat Jackson\'s handling of the Bank as reckless regardless of whether the institution deserved to survive.',
+                    sources: [
+                        { url: 'https://www.britannica.com/topic/Bank-War', text: 'Britannica — Bank War: Jackson and the Second Bank of the United States' },
+                        { url: 'https://www.federalreservehistory.org/essays/bank-war', text: 'Federal Reserve History — The Bank War' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Specie Circular and the Panic of 1837',
+                    shortLabel: 'Panic of 1837',
+                    description: 'In 1836, Jackson issued the Specie Circular, an executive order requiring that payments for federal public lands be made exclusively in gold or silver rather than bank-issued paper currency. The order was intended to curtail land speculation, but it had the effect of draining specie from eastern banks, tightening credit, and puncturing an already overinflated land bubble. When the bubble burst in 1837, banks across the country failed, businesses collapsed, and a severe economic depression followed. The Panic of 1837 had multiple causes — including British credit contraction and falling cotton prices — but Jackson\'s hard-money policy was a major and widely recognized contributing factor.',
+                    sources: [
+                        { url: 'https://dp.la/primary-source-sets/the-panic-of-1837', text: 'Digital Public Library of America — The Panic of 1837: Primary Source Set' },
+                        { url: 'https://www.britannica.com/event/Panic-of-1837', text: 'Britannica — Panic of 1837' }
+                    ]
+                },
+                {
+                    severity: 3,
+                    title: 'Entrenching the Spoils System in Federal Government',
+                    shortLabel: 'Spoils System',
+                    description: 'Jackson aggressively expanded the practice of awarding federal government positions to political supporters and loyalists rather than on the basis of competence or merit — a practice that became known as the "spoils system." He replaced a significant portion of the existing federal workforce with his own allies, arguing this democratized government by breaking up entrenched elites. Critics at the time and since have argued it replaced one form of favoritism with another, prioritized loyalty over ability, and created incentives for corruption and patronage politics that plagued American government for decades until civil service reform began with the Pendleton Act of 1883.',
+                    sources: [
+                        { url: 'https://www.britannica.com/topic/spoils-system', text: 'Britannica — Spoils System: Origins and Jackson\'s Role' },
+                        { url: 'https://www.opm.gov/policy-data-oversight/data-analysis-documentation/federal-employment-reports/historical-tables/total-government-employment-since-1962/', text: 'Office of Personnel Management — History of Federal Civil Service Reform' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Nullification Crisis and Threat of Military Force Against a State',
+                    shortLabel: 'Nullification Crisis',
+                    description: 'When South Carolina declared federal tariff laws null and void within its borders in 1832 — threatening to secede if the federal government attempted to collect them — Jackson responded by declaring nullification treasonous and asking Congress for authority to use military force to compel compliance. Congress passed the Force Bill, authorizing armed federal enforcement of tariff collection. While Jackson was constitutionally correct that states cannot unilaterally nullify federal law, the confrontation brought the country to the brink of armed conflict between federal troops and a state. A last-minute compromise tariff defused the crisis, but it previewed the sectional tensions that would eventually lead to the Civil War.',
+                    sources: [
+                        { url: 'https://www.britannica.com/event/Nullification-Crisis', text: 'Britannica — Nullification Crisis (1832–1833)' },
+                        { url: 'https://millercenter.org/president/jackson/the-nullification-crisis', text: 'Miller Center — Andrew Jackson: The Nullification Crisis' }
+                    ]
+                }
+            ]
         }
     };
 
@@ -715,6 +933,82 @@
         return article;
     }
 
+    /* --------------------------------------------------------------------------
+       Per-label tight-fit — desktop fallback for outer labels that would
+       clip past the viewport edge at their natural single-line size.
+
+       Bar widths are fixed (20%–80% of the half-viewport). For most labels
+       in the dataset that leaves enough outer gutter at common desktop
+       widths. When a particular label still doesn't fit — long words,
+       narrow viewports, or both — this function tags it with .label-tight
+       and sets its max-width to the available outer space, which lets it
+       wrap to two lines at a smaller font size. Two wrapped lines at
+       0.85rem / 1.1 line-height stay comfortably within the 62px bar
+       height, so the row's overall height doesn't change.
+
+       Only one label is shrunk per offender; non-overflowing labels keep
+       their default styling. We don't shrink the bars themselves —
+       silhouette stability across selections is the whole point of the
+       fixed-width strategy.
+       -------------------------------------------------------------------------- */
+    function applyLabelTightFit() {
+        const labels = document.querySelectorAll('.bar-label-outer');
+        if (!labels.length) return;
+
+        // Mobile uses inner labels, so any leftover .label-tight from a
+        // desktop session needs to be cleared (and it'd be a no-op
+        // anyway since outer labels are hidden).
+        const onMobile = mql.matches;
+
+        const SAFETY = 8;       // breathing room past the viewport edge
+        const GAP = 18;         // mirrors .bar-row { gap: 18px }
+        const BREATHING = 6;    // shave a few px off max-width so wrapped
+        // text doesn't kiss the edge
+        const vw = window.innerWidth;
+
+        labels.forEach(function (label) {
+            // Always reset before re-measuring; the previous render or
+            // a wider viewport may have applied .label-tight that no
+            // longer applies.
+            label.classList.remove('label-tight');
+            label.style.maxWidth = '';
+
+            if (onMobile) return;
+
+            const bar = label.closest('.bar');
+            if (!bar) return;
+            const fill = bar.querySelector('.bar-fill');
+            if (!fill) return;
+
+            const labelRect = label.getBoundingClientRect();
+            const fillRect = fill.getBoundingClientRect();
+            const side = bar.dataset.side;
+
+            let overflow = false;
+            let availableOuter = 0;
+
+            if (side === 'left') {
+                // Label sits to the LEFT of the bar; risk is running
+                // off the left viewport edge.
+                overflow = labelRect.left < SAFETY;
+                availableOuter = fillRect.left - GAP - SAFETY - BREATHING;
+            } else {
+                // Label sits to the RIGHT of the bar; risk is the
+                // right viewport edge.
+                overflow = labelRect.right > vw - SAFETY;
+                availableOuter = vw - fillRect.right - GAP - SAFETY - BREATHING;
+            }
+
+            if (!overflow) return;
+            if (availableOuter < 40) availableOuter = 40; // hard floor;
+            // anything narrower would be unreadable even wrapped, but
+            // line-clamp + ellipsis still saves us from breaking layout.
+
+            label.classList.add('label-tight');
+            label.style.maxWidth = availableOuter.toFixed(1) + 'px';
+        });
+    }
+
     function renderSide(side) {
         const container = document.getElementById('bars-' + side);
         if (!container) return;
@@ -778,6 +1072,11 @@
         // (sup tags). Safe because the input is author-controlled data.
         if (nd) nd.innerHTML = formatOrdinal(president.ordinal);
 
+        // Repaint the picker badge border. --party-rgb is inherited from
+        // the nearest data-party ancestor, and the badge's border reads it.
+        // Without this, switching across parties leaves a stale outline.
+        cell.dataset.party = president.party;
+
         if (sideEl) {
             // Re-announce the section landmark with the new president's name.
             sideEl.setAttribute('aria-label', president.firstName + ' ' + president.lastName);
@@ -810,9 +1109,12 @@
         const currentId = selection[side];
 
         // Drive the picker cell's border tint via data-party. The
-        // .president-picker base rule reads rgba(var(--party-rgb), 0.45),
-        // so changing the wrapper's data-party recolors the border.
-        const cell = select.parentElement;
+        // .picker-badge base rule reads rgba(var(--party-rgb), 0.45),
+        // so changing data-party on the cell recolors the border.
+        // Must target .picker-cell, not select.parentElement (the badge),
+        // because renderNameBadge writes to the cell — and whichever
+        // ancestor sits closer wins the CSS variable lookup.
+        const cell = select.closest('.picker-cell');
         const currentPresident = presidents[currentId];
         if (cell && currentPresident) {
             cell.dataset.party = currentPresident.party;
@@ -854,6 +1156,9 @@
         renderSide(side);
         renderNameBadge(side);
         renderPicker(side === 'left' ? 'right' : 'left');
+        // Re-evaluate per-label fit — the new president's labels may
+        // have different widths than the previous one's.
+        applyLabelTightFit();
     }
 
     // Wire up picker change listeners ONCE. The select elements themselves
@@ -866,6 +1171,12 @@
             onPickerChange(side, e.target.value);
         });
     });
+
+    // Mobile-query setup hoisted above the initial render so
+    // applyLabelTightFit can read mql.matches on its very first call.
+    const MOBILE_QUERY = '(max-width: 1000px)';
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const isMobile = () => mql.matches;
 
     // Initial render — bars, badges, pickers (in that order, but it
     // doesn't strictly matter; they all read from `selection`).
@@ -880,14 +1191,13 @@
     document.body.classList.add('hydrated');
     renderPicker('left');
     renderPicker('right');
+    // First label-fit pass — bars are in the DOM, so getBoundingClientRect
+    // can read their natural widths.
+    applyLabelTightFit();
 
     /* --------------------------------------------------------------------------
        Everything below is the original interaction code, unchanged.
        -------------------------------------------------------------------------- */
-
-    const MOBILE_QUERY = '(max-width: 1000px)';
-    const mql = window.matchMedia(MOBILE_QUERY);
-    const isMobile = () => mql.matches;
 
     // Modal elements (now a native <dialog>)
     const modal = document.getElementById('modal');
@@ -1058,5 +1368,22 @@
         if (modal.open) {
             closeModal();
         }
+        // Crossing the breakpoint flips outer/inner labels — clear or
+        // re-apply tight-fit accordingly.
+        applyLabelTightFit();
+    });
+
+    /* --------------------------------------------------------------------------
+       Viewport resize — bar widths track viewport (they're %-based), so
+       a label that fit at 1600px may clip at 1100px. rAF-debounced so
+       drag-resize coalesces to one recompute per frame.
+       -------------------------------------------------------------------------- */
+    let resizeRaf = 0;
+    window.addEventListener('resize', () => {
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => {
+            resizeRaf = 0;
+            applyLabelTightFit();
+        });
     });
 })();

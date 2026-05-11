@@ -149,6 +149,12 @@ body {
     color: var(--ink);
     background: #0a0a14;
     -webkit-font-smoothing: antialiased;
+    /* Override the sitewide /assets/css/styles.css body rule, which
+       pins height to 100vh and overflow to hidden for the FEN home
+       page's full-viewport "golden ratio" layout. This page needs
+       to scroll. */
+    height: auto;
+    overflow: visible;
 }
 
 /* --------------------------------------------------------------------------
@@ -527,9 +533,36 @@ body.hydrated .picker-badge {
     flex-shrink: 0;
 }
 
-/* The bar fill itself — width driven by --severity */
+/* Per-label fallback — applied by JS when a single label would clip
+   off the viewport edge at its natural single-line size. Drops the
+   font, allows wrapping, and clamps to two lines so the row's height
+   stays bounded by --bar-height (62px). max-width is set inline by
+   JS to the available outer-gutter width for that specific bar. */
+.bar-label-outer.label-tight {
+    white-space: normal;
+    font-size: 0.85rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+/* The bar fill itself — width driven by --severity.
+   Desktop anchors: severity 1 = 20% of the bar-row (a "side" =
+   half-viewport), severity 10 = 80%. The 80% cap leaves a fixed
+   ~20% gutter for the outer shortLabel that's wide enough for most
+   labels in the dataset on common desktop widths (1280–1920px); rare
+   outliers are handled per-label by the .label-tight fallback rather
+   than by shrinking the whole chart. Bar widths intentionally stay
+   constant across selections so the chart's silhouette doesn't
+   reflow when a different president is picked. */
 .bar-fill {
-    --bar-width: calc(15% + (var(--severity) * 7.2%));
+    --bar-base: 13.33%;
+    --bar-step: 6.67%;
+    --bar-width: calc(var(--bar-base) + (var(--severity) * var(--bar-step)));
     width: var(--bar-width);
     height: var(--bar-height);
     border: none;
@@ -1101,9 +1134,12 @@ body.hydrated .picker-badge {
         gap: 0;
     }
 
-    /* Tighter bar widths on mobile so everything fits */
+    /* Tighter bar widths on mobile so everything fits. Mobile uses
+       inner labels, so the .label-tight fallback isn't relevant
+       here — these percentages stand on their own. */
     .bar-fill {
-        --bar-width: calc(20% + (var(--severity) * 7.5%));
+        --bar-base: 20%;
+        --bar-step: 7.5%;
     }
 
     /* Hide inline detail on mobile — modal takes over */
@@ -1135,6 +1171,7 @@ body.hydrated .picker-badge {
     }
 
     .bar-fill {
-        --bar-width: calc(22% + (var(--severity) * 7.3%));
+        --bar-base: 22%;
+        --bar-step: 7.3%;
     }
 }
