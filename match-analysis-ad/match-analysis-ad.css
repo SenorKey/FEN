@@ -273,6 +273,63 @@ body {
     font-size: 0.65rem;
 }
 
+/* ── Projects dropdown — themed to match the pitch ──
+   The global dropdown (assets/css/styles.css) is dark
+   navy and uses position:fixed on mobile. That fixed
+   positioning breaks here because .field-nav--projects
+   has a transform, which makes fixed behave like
+   absolute relative to a narrow ancestor — clipping the
+   menu background. Override with absolute positioning
+   centered under the toggle, in the pitch palette. */
+
+.field-nav--projects .nav-dropdown-toggle {
+    color: var(--muted);
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s;
+}
+
+.field-nav--projects:hover .nav-dropdown-toggle,
+.field-nav--projects:focus-within .nav-dropdown-toggle {
+    color: var(--accent);
+}
+
+.field-nav--projects .nav-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: max-content;
+    min-width: 0;
+    background: rgba(15, 20, 16, 0.92);
+    border: 1px solid rgba(184, 230, 54, 0.18);
+    border-radius: 2px;
+    padding: 4px 0;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.field-nav--projects .nav-dropdown-menu a {
+    color: var(--muted);
+    font-family: 'Saira Condensed', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+}
+
+.field-nav--projects .nav-dropdown-menu a:hover,
+.field-nav--projects .nav-dropdown-menu a.active {
+    color: var(--accent);
+}
+
 /* ═══════════════════════════════════════════════
    18-YARD BOX — Hero title area
    ═══════════════════════════════════════════════ */
@@ -549,10 +606,19 @@ body {
 
 
 /* ═══════════════════════════════════════════════
-   RESPONSIVE — mobile (tablet-ish)
+   RESPONSIVE — mobile (full-field mode)
+
+   This block is keyed to the SAME conditions as the
+   full-field block below so that the half-field
+   desktop layout (wings on the left/right channels)
+   stays in place all the way down until the pitch
+   itself flips to a full field. Without this, there
+   was a third regime in the ~700–768px range where
+   the wings would stack centrally on top of a still-
+   half-field — visually awkward.
    ═══════════════════════════════════════════════ */
 
-@media (max-width: 768px) {
+@media (max-width: 700px) and (min-aspect-ratio: 1/2) {
     body {
         height: auto;
         overflow: auto;
@@ -661,7 +727,7 @@ body {
     }
 }
 
-@media (min-width: 769px) and (max-height: 600px) {
+@media (min-width: 701px) and (max-height: 600px) {
     .hero {
         top: 16%;
         height: 30%;
@@ -958,7 +1024,7 @@ body {
         width: 36%;
         height: 9%;
         font-size: 0.6rem;
-        padding-top: 1%;
+        padding-top: 1.5%;
     }
 
     .field-nav--projects {
@@ -986,7 +1052,7 @@ body {
        ═══════════════════════════════════════════ */
 
     .hero {
-        top: 50%;
+        top: 36%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 90%;
@@ -1053,7 +1119,7 @@ body {
     .content-wings {
         position: absolute;
         bottom: auto;
-        top: 62%;
+        top: 52%;
         left: 0;
         right: 0;
         flex-direction: row;
