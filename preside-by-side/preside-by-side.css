@@ -1106,23 +1106,25 @@ body.hydrated .picker-badge {
     }
 
     .bar-label-inner {
-        display: block;
+        display: -webkit-box;
         font-family: var(--font-display);
         font-weight: 700;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        line-height: 1.15;
         color: var(--ink);
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
         font-variation-settings: 'opsz' 36;
         letter-spacing: -0.005em;
-        white-space: nowrap;
+        /* Allow wrap so labels stay readable in full instead of being
+           truncated with ellipsis. Clamp to 2 lines so a long label
+           can't push past the bar's fixed height. min-width: 0 lets
+           the flex item shrink to the bar's actual width so wrapping
+           kicks in instead of overflowing. */
+        white-space: normal;
         overflow: hidden;
-        text-overflow: ellipsis;
-        /* Flex items default to min-width: auto (= min-content), which for
-           nowrap text is the full text width — that defeats text-overflow
-           and lets long labels overflow the bar. The bar then appears to
-           bleed past its right edge until clipped by .side's overflow:hidden
-           at the centerline. min-width: 0 + flex: 1 lets the label shrink
-           to the bar's actual width so ellipsis can kick in. */
+        word-break: break-word;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         flex: 1 1 0;
         min-width: 0;
     }
@@ -1187,7 +1189,7 @@ body.hydrated .picker-badge {
 /* Even narrower phones */
 @media (max-width: 380px) {
     .bar-label-inner {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 
     .bar-fill {
