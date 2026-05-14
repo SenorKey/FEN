@@ -483,6 +483,15 @@ body.hydrated .picker-badge {
     padding: 40px 0;
     min-height: 100%;
     grid-row: 1;
+    /* Defeat min-width: auto on the whole bar-chain (grid item → flex
+       items → flex container). Each link's intrinsic min-content
+       otherwise propagates up from the nowrap label inside .bar-fill,
+       so on narrow viewports the chain refuses to collapse below the
+       widest label and bars overflow the column. min-width: 0 lets each
+       link respect its actual track/container width, so the bars'
+       severity-percentages resolve against the visible column, not the
+       intrinsic content width. */
+    min-width: 0;
 }
 
 .bars-container {
@@ -490,6 +499,7 @@ body.hydrated .picker-badge {
     flex-direction: column;
     gap: var(--bar-gap);
     width: 100%;
+    min-width: 0;
 }
 
 /* Each .bar is a column: row + (hidden) detail */
@@ -497,6 +507,7 @@ body.hydrated .picker-badge {
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
 }
 
 /* The bar row — the visible bar + outer label */
@@ -504,6 +515,7 @@ body.hydrated .picker-badge {
     display: flex;
     align-items: center;
     gap: 18px;
+    min-width: 0;
 }
 
 .side-left .bar-row {
@@ -1105,6 +1117,14 @@ body.hydrated .picker-badge {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        /* Flex items default to min-width: auto (= min-content), which for
+           nowrap text is the full text width — that defeats text-overflow
+           and lets long labels overflow the bar. The bar then appears to
+           bleed past its right edge until clipped by .side's overflow:hidden
+           at the centerline. min-width: 0 + flex: 1 lets the label shrink
+           to the bar's actual width so ellipsis can kick in. */
+        flex: 1 1 0;
+        min-width: 0;
     }
 
     /* Severity numbers are hidden on mobile — the modal still surfaces
