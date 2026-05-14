@@ -51,11 +51,7 @@
         <div id="match-analysis-root"></div>
     </main>
 
-    <!--
-        React from CDN — no npm, no build step.
-        See original comments in match-analysis.jsx for details
-        on why Babel is needed for in-browser JSX compilation.
-    -->
+    <!-- React from CDN — no npm, no build step. Babel compiles JSX in-browser. -->
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
     <script crossorigin
         src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
@@ -90,10 +86,10 @@
         isn't called until the mount script below runs, by which time
         all four files have executed and those globals exist.
     -->
-    <script type="text/babel" src="/match-analysis/app.jsx"></script>
-    <script type="text/babel" src="/match-analysis/pitch.jsx"></script>
-    <script type="text/babel" src="/match-analysis/scouting-form.jsx"></script>
-    <script type="text/babel" src="/match-analysis/timeline.jsx"></script>
+    <script type="text/babel" src="/match-analysis/app.jsx?v=7"></script>
+    <script type="text/babel" src="/match-analysis/pitch.jsx?v=2"></script>
+    <script type="text/babel" src="/match-analysis/scouting-form.jsx?v=7"></script>
+    <script type="text/babel" src="/match-analysis/timeline.jsx?v=8"></script>
 
     <!-- Mount the React app -->
     <script type="text/babel">

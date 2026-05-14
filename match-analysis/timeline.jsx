@@ -64,7 +64,8 @@ function MatchTimeline(_ref) {
                     <span style={{ color: C.textDim }}>■ Neutral</span></div>
             </div>
 
-            <div style={{ padding: 12, background: C.bgCard, borderRadius: 6, border: "1px solid " + C.border, marginBottom: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 8, alignItems: "start" }}>
+            <div style={{ padding: 12, background: C.bgCard, borderRadius: 6, border: "1px solid " + C.border }}>
                 <div style={{ fontSize: 11, color: C.textMuted, fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>
                     Match Observations</div>
                 <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
@@ -119,6 +120,7 @@ function MatchTimeline(_ref) {
                 <Field label="Key Problems" value={summary.problems} onChange={function (v) { onUpdateSummary("problems", v); }} multiline placeholder="Major issues..." />
                 <Field label="Key Opportunities" value={summary.opportunities} onChange={function (v) { onUpdateSummary("opportunities", v); }} multiline placeholder="Where we can hurt them..." />
                 <Field label="Half-Time / Post-Match Notes" value={summary.notes} onChange={function (v) { onUpdateSummary("notes", v); }} multiline placeholder="Adjustments..." />
+            </div>
             </div>
         </div>
     );

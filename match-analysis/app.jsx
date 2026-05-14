@@ -56,6 +56,46 @@ var _id = Date.now();
 var uid = function () { return "" + (++_id); };
 
 var STORAGE_KEY = "match-analysis-v3";
+var LIBRARY_KEY = "match-analysis-library-v1";
+
+function loadLibrary() {
+    try {
+        var raw = localStorage.getItem(LIBRARY_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+}
+
+function writeLibrary(items) {
+    try { localStorage.setItem(LIBRARY_KEY, JSON.stringify(items)); } catch (e) { console.warn("Library save failed", e); }
+}
+
+function saveToLibrary(data) {
+    var lib = loadLibrary();
+    var entry = {
+        id: "" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+        savedAt: new Date().toISOString(),
+        opponent: data.match.opponent || "",
+        ourTeam: data.match.ourTeam || "",
+        date: data.match.date || "",
+        data: JSON.parse(JSON.stringify(data)),
+    };
+    var idx = lib.findIndex(function (e) {
+        return e.opponent === entry.opponent && e.ourTeam === entry.ourTeam && e.date === entry.date;
+    });
+    if (idx > -1) {
+        var label = (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent") + (entry.date ? " (" + entry.date + ")" : "");
+        if (!confirm("An analysis for " + label + " already exists. Overwrite it?")) return null;
+        lib[idx] = entry;
+    } else {
+        lib.unshift(entry);
+    }
+    writeLibrary(lib);
+    return entry;
+}
+
+function deleteFromLibrary(id) {
+    writeLibrary(loadLibrary().filter(function (e) { return e.id !== id; }));
+}
 
 /* ═══════════════════════════════════════════════════════════
    AUTO-SAVE using localStorage
@@ -149,15 +189,17 @@ function ToggleGroup(_ref) {
 }
 
 function Field(_ref) {
-    var label = _ref.label, value = _ref.value, onChange = _ref.onChange, placeholder = _ref.placeholder, multiline = _ref.multiline, minute = _ref.minute, onMinuteChange = _ref.onMinuteChange;
+    var label = _ref.label, value = _ref.value, onChange = _ref.onChange, placeholder = _ref.placeholder, multiline = _ref.multiline, minute = _ref.minute, onMinuteChange = _ref.onMinuteChange, type = _ref.type;
     var shared = {
         value: value || "", onChange: function (e) { onChange(e.target.value); },
         placeholder: placeholder || "",
+        type: type || "text",
         style: {
             width: "100%", padding: "8px 11px", fontSize: 14, background: C.bgInput,
             border: "1px solid " + C.border, borderRadius: 4, color: C.text,
             fontFamily: C.font, resize: multiline ? "vertical" : "none",
             minHeight: multiline ? 60 : "auto", outline: "none", boxSizing: "border-box",
+            colorScheme: "dark",
         },
     };
     return (
@@ -185,25 +227,43 @@ function Field(_ref) {
 }
 
 function Section(_ref) {
-    var title = _ref.title, icon = _ref.icon, children = _ref.children, isOpen = _ref.isOpen, onToggle = _ref.onToggle, color = _ref.color || C.accent;
+    var title = _ref.title, description = _ref.description, icon = _ref.icon, children = _ref.children, isOpen = _ref.isOpen, onToggle = _ref.onToggle, color = _ref.color || C.accent;
     return (
         <div style={{
-            marginBottom: 6, borderRadius: 6, overflow: "hidden",
-            border: "1px solid " + (isOpen ? color + "33" : C.bgCard), background: C.bgCard
+            borderRadius: 8, overflow: "hidden",
+            border: "1px solid " + (isOpen ? color + "66" : C.border),
+            background: C.bgCard,
+            gridColumn: isOpen ? "1 / -1" : "auto", alignSelf: "start",
+            transition: "border-color 0.15s",
         }}>
             <button onClick={onToggle} aria-expanded={isOpen} style={{
-                width: "100%", padding: "13px 14px", display: "flex", alignItems: "center",
-                gap: 10, background: isOpen ? C.bgHover : "transparent", border: "none",
-                cursor: "pointer", textAlign: "left"
+                width: "100%",
+                padding: isOpen ? "13px 14px" : "18px 16px",
+                display: "flex", alignItems: isOpen ? "center" : "flex-start",
+                gap: 12, background: isOpen ? C.bgHover : "transparent", border: "none",
+                cursor: "pointer", textAlign: "left",
+                minHeight: isOpen ? "auto" : 96,
             }}>
-                <span style={{ fontSize: 16, width: 24, textAlign: "center" }}>{icon}</span>
                 <span style={{
-                    flex: 1, fontSize: 13, fontWeight: 700, color: isOpen ? color : C.textMuted,
-                    fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 1.5
-                }}>{title}</span>
+                    fontSize: isOpen ? 16 : 24, width: isOpen ? 24 : 32,
+                    textAlign: "center", lineHeight: 1, flexShrink: 0,
+                }}>{icon}</span>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{
+                        display: "block", fontSize: isOpen ? 13 : 14, fontWeight: 700,
+                        color: isOpen ? color : C.text, fontFamily: C.fontCond,
+                        textTransform: "uppercase", letterSpacing: 1.4, lineHeight: 1.25,
+                    }}>{title}</span>
+                    {!isOpen && description && (
+                        <span style={{
+                            display: "block", fontSize: 11, color: C.textDim,
+                            marginTop: 5, fontFamily: C.font, lineHeight: 1.4,
+                        }}>{description}</span>
+                    )}
+                </span>
                 <span style={{
-                    fontSize: 16, color: C.textDim,
-                    transform: isOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s"
+                    fontSize: 16, color: C.textDim, flexShrink: 0,
+                    transform: isOpen ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s",
                 }}>▾</span>
             </button>
             {isOpen && <div style={{ padding: "10px 14px 14px" }}>{children}</div>}
@@ -337,6 +397,147 @@ function generateReport(data) {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   PRINTABLE HTML REPORT
+   ═══════════════════════════════════════════════════════════ */
+function escHTML(s) {
+    return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function generateReportHTML(data) {
+    var m = data.match;
+    var s = data.scouting;
+    var title = (m.ourTeam || "Our Team") + " vs " + (m.opponent || "Opponent");
+
+    var boardSvg = "";
+    var svgEl = document.querySelector("svg[viewBox='0 0 700 460']");
+    if (svgEl) {
+        var clone = svgEl.cloneNode(true);
+        clone.removeAttribute("style");
+        clone.setAttribute("width", "100%");
+        clone.setAttribute("height", "auto");
+        boardSvg = clone.outerHTML;
+    }
+
+    var sections = [];
+
+    var meta = [];
+    if (m.date) meta.push("<strong>Date:</strong> " + escHTML(m.date));
+    if (m.formationIn) meta.push("<strong>In Possession:</strong> " + escHTML(m.formationIn));
+    if (m.formationOut) meta.push("<strong>Out of Possession:</strong> " + escHTML(m.formationOut));
+    if (meta.length) sections.push('<div class="meta">' + meta.join(" &nbsp;·&nbsp; ") + "</div>");
+    if (m.dangerPlayers) sections.push('<h2>Danger Players</h2><p>' + escHTML(m.dangerPlayers) + "</p>");
+
+    if (boardSvg) sections.push('<h2>Formation Board</h2><div class="board">' + boardSvg + "</div>");
+
+    var row = function (label, val) { return val ? "<li><strong>" + escHTML(label) + ":</strong> " + escHTML(Array.isArray(val) ? val.join(", ") : val) + "</li>" : ""; };
+    var block = function (title, items) {
+        var li = items.filter(Boolean).join("");
+        return li ? "<h2>" + escHTML(title) + "</h2><ul>" + li + "</ul>" : "";
+    };
+
+    var bu = s.buildUp || {};
+    sections.push(block("In Possession — Build-Up", [
+        row("Goalkeeper", bu.gk), row("Focus", bu.focus), row("Fullbacks", bu.fbRole),
+        row("Midfield", bu.midfield), row("Patterns", bu.patterns), row("Under Pressure", bu.weakness),
+    ]));
+
+    var pr = s.progression || {};
+    sections.push(block("In Possession — Progression", [
+        row("Entry", pr.entry), row("Runs Behind", pr.fwdRuns),
+        row("Attacker Behavior", pr.attackerBehavior), row("Overload", pr.overload),
+        row("Threat Zones", pr.threatZones), row("Notes", pr.notes),
+    ]));
+
+    var ps = s.pressing || {};
+    sections.push(block("Defending — Pressing Shape", [
+        row("Block Height", ps.blockHeight), row("Led By", ps.whoLeads),
+        row("Show To", ps.direction), row("Triggers", ps.traps),
+    ]));
+
+    var bl = s.block || {};
+    sections.push(block("Defending — Block", [
+        row("Shape", bl.compactness), row("Lines", bl.space),
+        row("Weak Areas", bl.weakAreas), row("Exploit", bl.exploit),
+    ]));
+
+    var pt = s.posTransition || {};
+    sections.push(block("Positive Transition (Their Counter)", [
+        row("Style", pt.style), row("Direction", pt.direction),
+        row("Target", pt.target), row("Exploit", pt.weakness),
+    ]));
+
+    var nt = s.negTransition || {};
+    sections.push(block("Negative Transition (Losing the Ball)", [
+        row("Speed", nt.speed), row("Response", nt.response),
+        row("Quality", nt.quality), row("Exposed", nt.exposed),
+    ]));
+
+    var activeSP = (s.setPieces || []).filter(function (sp) { return sp.type || sp.notes; });
+    if (activeSP.length) {
+        var spHtml = activeSP.map(function (sp) {
+            var label = [sp.type, sp.side].filter(Boolean).map(escHTML).join(" — ");
+            var minute = sp.minute ? " <span class='muted'>(" + escHTML(sp.minute) + "')</span>" : "";
+            return "<li><strong>" + (label || "Set Piece") + "</strong>" + minute + (sp.notes ? "<br>" + escHTML(sp.notes) : "") + "</li>";
+        }).join("");
+        sections.push("<h2>Set Pieces</h2><ul>" + spHtml + "</ul>");
+    }
+
+    if (data.observations && data.observations.length) {
+        var obs = data.observations.map(function (o) {
+            return "<li><strong>" + (o.minute ? escHTML(o.minute) + "'" : "—") + "</strong> " + escHTML(o.text) + "</li>";
+        }).join("");
+        sections.push("<h2>Match Observations</h2><ol class='obs'>" + obs + "</ol>");
+    }
+
+    var sm = data.summary || {};
+    if (sm.problems || sm.opportunities || sm.notes) {
+        var sumParts = [];
+        if (sm.problems) sumParts.push("<h3>Problems</h3><p>" + escHTML(sm.problems) + "</p>");
+        if (sm.opportunities) sumParts.push("<h3>Opportunities</h3><p>" + escHTML(sm.opportunities) + "</p>");
+        if (sm.notes) sumParts.push("<h3>Notes</h3><p>" + escHTML(sm.notes) + "</p>");
+        sections.push("<h2>Summary</h2>" + sumParts.join(""));
+    }
+
+    var css = [
+        "*{box-sizing:border-box}",
+        "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111;margin:0;padding:24px;line-height:1.45;font-size:12pt}",
+        "header{border-bottom:2px solid #111;padding-bottom:10px;margin-bottom:18px}",
+        "h1{margin:0 0 4px;font-size:22pt;letter-spacing:0.5px}",
+        "h2{font-size:13pt;text-transform:uppercase;letter-spacing:1.2px;border-bottom:1px solid #999;padding-bottom:3px;margin:18px 0 8px}",
+        "h3{font-size:11pt;margin:10px 0 4px;text-transform:uppercase;letter-spacing:0.6px;color:#444}",
+        "ul,ol{margin:6px 0;padding-left:20px}",
+        "li{margin:3px 0}",
+        ".meta{font-size:10.5pt;color:#333;margin-bottom:6px}",
+        ".muted{color:#888;font-weight:normal}",
+        ".board{max-width:520px;margin:8px 0}",
+        ".board svg{width:100%;height:auto;border:1px solid #ccc;background:#f5f5f5}",
+        "p{margin:4px 0}",
+        "@page{margin:14mm}",
+        "@media print{body{padding:0} h2{page-break-after:avoid} ul,ol,p{page-break-inside:avoid}}",
+    ].join("");
+
+    return "<!doctype html><html><head><meta charset='utf-8'><title>" + escHTML(title) + "</title><style>" + css + "</style></head><body>" +
+        "<header><h1>" + escHTML(title) + "</h1>" + (m.date ? "<div class='meta'>" + escHTML(m.date) + "</div>" : "") + "</header>" +
+        sections.filter(Boolean).join("") +
+        "</body></html>";
+}
+
+function printPDF(data) {
+    var html = generateReportHTML(data);
+    var w = window.open("", "_blank", "noopener,noreferrer");
+    if (!w) { alert("Pop-up blocked. Please allow pop-ups to export a PDF."); return; }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    var doPrint = function () { try { w.print(); } catch (e) { /* ignore */ } };
+    if (w.document.readyState === "complete") setTimeout(doPrint, 300);
+    else w.addEventListener("load", function () { setTimeout(doPrint, 200); });
+}
+
+/* ═══════════════════════════════════════════════════════════
    EXPORT MENU
    ═══════════════════════════════════════════════════════════ */
 function ExportMenu(_ref) {
@@ -401,8 +602,125 @@ function ExportMenu(_ref) {
                     <button onClick={downloadText} style={{
                         width: "100%", padding: "12px 14px", fontSize: 13, fontFamily: C.fontCond,
                         fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
-                        color: C.text, cursor: "pointer",
+                        borderBottom: "1px solid " + C.border, color: C.text, cursor: "pointer",
                     }}>💾  Download .txt</button>
+                    <button onClick={function () { setOpen(false); printPDF(data); }} style={{
+                        width: "100%", padding: "12px 14px", fontSize: 13, fontFamily: C.fontCond,
+                        fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
+                        color: C.text, cursor: "pointer",
+                    }}>🖨  Print / Save as PDF</button>
+                </div>
+            )}
+        </div>
+    );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SAVE BUTTON & LOAD MENU
+   ═══════════════════════════════════════════════════════════ */
+function SaveButton(_ref) {
+    var data = _ref.data;
+    var _s = useState(false), saved = _s[0], setSaved = _s[1];
+    var onClick = function () {
+        var entry = saveToLibrary(data);
+        if (!entry) return;
+        setSaved(true);
+        setTimeout(function () { setSaved(false); }, 1400);
+    };
+    return (
+        <button onClick={onClick} aria-label="Save analysis" style={{
+            padding: "5px 10px", fontSize: 10, background: saved ? C.accent : "transparent",
+            color: saved ? C.bg : C.accent, border: "1px solid " + C.accent, borderRadius: 3,
+            cursor: "pointer", fontWeight: 700, fontFamily: C.fontCond, textTransform: "uppercase",
+            letterSpacing: 0.5, whiteSpace: "nowrap",
+        }}>{saved ? "✓ Saved" : "Save"}</button>
+    );
+}
+
+function LoadMenu(_ref) {
+    var onLoad = _ref.onLoad, currentData = _ref.currentData;
+    var _o = useState(false), open = _o[0], setOpen = _o[1];
+    var _l = useState([]), lib = _l[0], setLib = _l[1];
+    var ref = useRef(null);
+
+    useEffect(function () {
+        if (!open) return;
+        setLib(loadLibrary());
+        var handler = function (e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+        document.addEventListener("pointerdown", handler);
+        return function () { document.removeEventListener("pointerdown", handler); };
+    }, [open]);
+
+    var hasContent = function (d) {
+        return !!(d && (d.match.opponent || d.match.ourTeam || d.match.date ||
+            (d.observations && d.observations.length) ||
+            (d.summary && (d.summary.problems || d.summary.opportunities || d.summary.notes))));
+    };
+
+    var load = function (entry) {
+        if (hasContent(currentData)) {
+            if (!confirm("Replace the current analysis with " + (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent") + "?")) return;
+        }
+        onLoad(entry.data);
+        setOpen(false);
+    };
+
+    var remove = function (e, entry) {
+        e.stopPropagation();
+        var label = (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent");
+        if (!confirm("Delete saved analysis: " + label + "?")) return;
+        deleteFromLibrary(entry.id);
+        setLib(loadLibrary());
+    };
+
+    var fmtSavedAt = function (iso) {
+        try { return new Date(iso).toLocaleDateString(); } catch (e) { return ""; }
+    };
+
+    return (
+        <div ref={ref} style={{ position: "relative" }}>
+            <button onClick={function () { setOpen(!open); }} aria-label="Load saved analysis" style={{
+                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.accent,
+                border: "1px solid " + C.accent, borderRadius: 3, cursor: "pointer", fontWeight: 700,
+                fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 0.5, whiteSpace: "nowrap",
+            }}>Load</button>
+            {open && (
+                <div style={{
+                    position: "absolute", top: "calc(100% + 4px)", right: 0, zIndex: 50,
+                    background: C.bgCard, border: "1px solid " + C.borderActive, borderRadius: 6,
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.5)", minWidth: 260, maxWidth: 320,
+                    maxHeight: 340, overflowY: "auto",
+                }}>
+                    {lib.length === 0 && (
+                        <div style={{ padding: "14px", fontSize: 12, color: C.textMuted, fontFamily: C.fontCond, textAlign: "center" }}>
+                            No saved analyses yet.
+                        </div>
+                    )}
+                    {lib.map(function (entry) {
+                        var title = (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent");
+                        return (
+                            <div key={entry.id} onClick={function () { load(entry); }} style={{
+                                display: "flex", alignItems: "center", gap: 6, padding: "10px 12px",
+                                borderBottom: "1px solid " + C.border, cursor: "pointer",
+                            }}>
+                                <div style={{ flex: 1, minWidth: 0 }}>
+                                    <div style={{
+                                        fontSize: 13, fontFamily: C.fontCond, fontWeight: 700,
+                                        color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                                    }}>{title}</div>
+                                    <div style={{ fontSize: 10, color: C.textDim, marginTop: 2, lineHeight: 1.4 }}>
+                                        {entry.date && (<div>Match date: {entry.date}</div>)}
+                                        <div>Save date: {fmtSavedAt(entry.savedAt)}</div>
+                                    </div>
+                                </div>
+                                <button onClick={function (e) { remove(e, entry); }} aria-label="Delete" style={{
+                                    background: "transparent", border: "1px solid " + C.red + "55",
+                                    color: C.red, borderRadius: 3, padding: "3px 7px", fontSize: 11,
+                                    cursor: "pointer", flexShrink: 0,
+                                }}>✕</button>
+                            </div>
+                        );
+                    })}
                 </div>
             )}
         </div>
@@ -455,8 +773,8 @@ function App() {
 
     var tabs = [
         { id: "board", label: "Board", icon: "⚽" },
-        { id: "scout", label: "Scout", icon: "📋" },
         { id: "timeline", label: "Timeline", icon: "📊" },
+        { id: "scout", label: "Scout", icon: "📋" }
     ];
 
     return (
@@ -500,6 +818,8 @@ function App() {
                     }}>{clock.minute}'</span>
                     <span style={{ fontSize: 9, color: C.textDim, fontFamily: C.fontCond }}>{clock.half === 1 ? "1H" : "2H"}</span>
                 </div>
+                <SaveButton data={data} />
+                <LoadMenu currentData={data} onLoad={function (d) { setData({ ...INITIAL_DATA, ...d }); }} />
                 <ExportMenu data={data} />
                 <button onClick={resetAll} aria-label="Reset" style={{
                     padding: "5px 6px", fontSize: 13, background: "transparent",

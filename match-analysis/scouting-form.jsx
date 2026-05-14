@@ -34,6 +34,9 @@ function ScoutingForm(_ref) {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                     <Field label="Opponent" value={matchInfo.opponent} onChange={function (v) { onUpdateMatch("opponent", v); }} />
                     <Field label="Our Team" value={matchInfo.ourTeam} onChange={function (v) { onUpdateMatch("ourTeam", v); }} />
+                </div>
+                <Field label="Match Date" value={matchInfo.date} type="date" onChange={function (v) { onUpdateMatch("date", v); }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                     <Field label="In Possession" value={matchInfo.formationIn} onChange={function (v) { onUpdateMatch("formationIn", v); }} placeholder="4-3-3" />
                     <Field label="Out of Possession" value={matchInfo.formationOut} onChange={function (v) { onUpdateMatch("formationOut", v); }} placeholder="4-4-2" />
                 </div>
@@ -41,7 +44,8 @@ function ScoutingForm(_ref) {
                     onChange={function (v) { onUpdateMatch("dangerPlayers", v); }} multiline placeholder="#10 creative, #9 pace in behind..." />
             </div>
 
-            <Section title="In Possession — Build-Up" icon="⬆" isOpen={openSection === "buildUp"} onToggle={function () { toggle("buildUp"); }} color={C.blue}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 10, gridAutoFlow: "dense", maxWidth: 1100, marginLeft: "auto", marginRight: "auto" }}>
+            <Section title="In Possession — Build-Up" description="GK distribution, build-up focus & midfield movement" icon="⬆" isOpen={openSection === "buildUp"} onToggle={function () { toggle("buildUp"); }} color={C.blue}>
                 <Label>GK Distribution</Label>
                 <ToggleGroup options={["Long", "Short"]} value={s.buildUp.gk} onChange={function (v) { upd("buildUp", "gk", v); }} />
                 <Spacer />
@@ -60,7 +64,7 @@ function ScoutingForm(_ref) {
                 <Field label="Under Pressure Weakness" value={s.buildUp.weakness} onChange={function (v) { upd("buildUp", "weakness", v); }} placeholder="How do they react?" />
             </Section>
 
-            <Section title="In Possession — Progression" icon="⚡" isOpen={openSection === "progression"} onToggle={function () { toggle("progression"); }} color={C.yellow}>
+            <Section title="In Possession — Progression" description="Final third entry, runs behind & threat zones" icon="⚡" isOpen={openSection === "progression"} onToggle={function () { toggle("progression"); }} color={C.yellow}>
                 <Label>Final Third Entry</Label>
                 <ToggleGroup options={["Wide", "Central", "Direct/Through"]} value={s.progression.entry} onChange={function (v) { upd("progression", "entry", v); }} />
                 <Spacer />
@@ -77,7 +81,7 @@ function ScoutingForm(_ref) {
                     minute={s.progression.notesMin} onMinuteChange={function (v) { upd("progression", "notesMin", v); }} />
             </Section>
 
-            <Section title="Defending — Pressing Shape" icon="🛡" isOpen={openSection === "pressing"} onToggle={function () { toggle("pressing"); }} color="#e6824a">
+            <Section title="Defending — Pressing Shape" description="Block height, who leads & press triggers" icon="🛡" isOpen={openSection === "pressing"} onToggle={function () { toggle("pressing"); }} color="#e6824a">
                 <Label>Block Height</Label>
                 <ToggleGroup options={["High", "Mid", "Low"]} value={s.pressing.blockHeight} onChange={function (v) { upd("pressing", "blockHeight", v); }} />
                 <Spacer />
@@ -92,7 +96,7 @@ function ScoutingForm(_ref) {
                     minute={s.pressing.trapsMin} onMinuteChange={function (v) { upd("pressing", "trapsMin", v); }} />
             </Section>
 
-            <Section title="Defending — Defensive Block" icon="🧱" isOpen={openSection === "block"} onToggle={function () { toggle("block"); }} color={C.red}>
+            <Section title="Defending — Defensive Block" description="Compactness, line spacing & weak areas to exploit" icon="🧱" isOpen={openSection === "block"} onToggle={function () { toggle("block"); }} color={C.red}>
                 <Label>Compactness</Label>
                 <ToggleGroup options={["Compact", "Loose"]} value={s.block.compactness} onChange={function (v) { upd("block", "compactness", v); }} />
                 <Spacer />
@@ -106,7 +110,7 @@ function ScoutingForm(_ref) {
                 <Field label="How We Can Exploit" value={s.block.exploit} onChange={function (v) { upd("block", "exploit", v); }} multiline placeholder="Tactical ideas..." />
             </Section>
 
-            <Section title="Positive Transition (Their Counter)" icon="↗" isOpen={openSection === "posTrans"} onToggle={function () { toggle("posTrans"); }} color="#b070e6">
+            <Section title="Positive Transition (Their Counter)" description="How they counter when winning the ball" icon="↗" isOpen={openSection === "posTrans"} onToggle={function () { toggle("posTrans"); }} color="#b070e6">
                 <Label>Transition Style</Label>
                 <ToggleGroup options={["Counter Attack", "Quick Passes", "Direct Long", "Controlled"]}
                     value={s.posTransition.style} onChange={function (v) { upd("posTransition", "style", v); }} />
@@ -119,7 +123,7 @@ function ScoutingForm(_ref) {
                 <Field label="Weakness We Can Exploit" value={s.posTransition.weakness} onChange={function (v) { upd("posTransition", "weakness", v); }} />
             </Section>
 
-            <Section title="Negative Transition (Losing Ball)" icon="↙" isOpen={openSection === "negTrans"} onToggle={function () { toggle("negTrans"); }} color={C.blue}>
+            <Section title="Negative Transition (Losing Ball)" description="Reaction speed & response when losing possession" icon="↙" isOpen={openSection === "negTrans"} onToggle={function () { toggle("negTrans"); }} color={C.blue}>
                 <Label>Reaction Speed</Label>
                 <ToggleGroup options={["Fast", "Slow"]} value={s.negTransition.speed} onChange={function (v) { upd("negTransition", "speed", v); }} />
                 <Spacer />
@@ -132,7 +136,7 @@ function ScoutingForm(_ref) {
                 <Field label="Exposed Areas" value={s.negTransition.exposed} onChange={function (v) { upd("negTransition", "exposed", v); }} placeholder="Areas left open..." />
             </Section>
 
-            <Section title="Set Pieces" icon="🎯" isOpen={openSection === "setPieces"} onToggle={function () { toggle("setPieces"); }} color={C.yellow}>
+            <Section title="Set Pieces" description="Corners, free kicks & throw-in routines" icon="🎯" isOpen={openSection === "setPieces"} onToggle={function () { toggle("setPieces"); }} color={C.yellow}>
                 {s.setPieces.map(function (sp, i) {
                     return (
                         <div key={i} style={{ padding: 10, background: C.bgHover, borderRadius: 6, marginBottom: 6 }}>
@@ -160,6 +164,7 @@ function ScoutingForm(_ref) {
                         fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 1
                     }}>+ Add Set Piece</button>
             </Section>
+            </div>
         </div>
     );
 }
