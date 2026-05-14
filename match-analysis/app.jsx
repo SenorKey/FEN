@@ -842,7 +842,17 @@ function App() {
                     <span style={{ fontSize: 9, color: C.textDim, fontFamily: C.fontCond }}>{clock.half === 1 ? "1H" : "2H"}</span>
                 </div>
                 <SaveButton data={data} />
-                <LoadMenu currentData={data} onLoad={function (d) { setData({ ...INITIAL_DATA, ...d }); }} />
+                <LoadMenu currentData={data} onLoad={function (d) {
+                    var merged = { ...INITIAL_DATA, ...d };
+                    var idMap = {};
+                    merged.boards = (merged.boards || []).map(function (b) {
+                        var newId = uid();
+                        idMap[b.id] = newId;
+                        return { ...b, id: newId };
+                    });
+                    merged.activeBoard = idMap[merged.activeBoard] || (merged.boards[0] ? merged.boards[0].id : "");
+                    setData(merged);
+                }} />
                 <ExportMenu data={data} />
                 <button onClick={resetAll} aria-label="Reset" style={{
                     padding: "5px 6px", fontSize: 13, background: "transparent",
