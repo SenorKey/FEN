@@ -50,11 +50,12 @@
             lastName: 'Trump',
             ordinal: [45, 47],
             party: 'republican',
+            portrait: '/assets/images/trump.webp',
             bars: [
                 {
                     severity: 10,
                     title: 'Attempted to Overturn the 2020 Election',
-                    shortLabel: 'Election Overturn extra long label test',
+                    shortLabel: 'Election Overturn long label test',
                     description: 'Following his 2020 defeat, Trump pushed false election-fraud claims, pressured state officials to alter results, coordinated alternate-elector schemes in multiple states, and pressured Vice President Pence to refuse certification of the Electoral College vote. The House January 6th Committee concluded Trump was the central cause of the effort to subvert the transfer of power. The DOJ later indicted him on four federal counts related to the scheme.',
                     sources: [
                         { url: 'https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf', text: 'House Select Committee Final Report — U.S. Government Publishing Office (2022)' },
@@ -157,6 +158,7 @@
             id: 'biden',
             firstName: 'Joseph R.',
             lastName: 'Biden',
+            portrait: '/assets/images/biden.webp',
             ordinal: 46,
             party: 'democrat',
             bars: [
@@ -980,7 +982,16 @@
             if (!fill) return;
 
             const labelRect = label.getBoundingClientRect();
-            const fillRect = fill.getBoundingClientRect();
+            // The bar-fill runs a scaleX entrance animation, so its
+            // getBoundingClientRect is collapsed onto the transform-origin
+            // during the first ~1s. Read the fill's layout box instead
+            // (offsetLeft/offsetWidth ignore transforms), anchored to its
+            // offsetParent's viewport rect — which has no transform of its
+            // own, so it's stable on the first paint.
+            const offsetParent = fill.offsetParent || document.body;
+            const opRect = offsetParent.getBoundingClientRect();
+            const fillLayoutLeft = opRect.left + fill.offsetLeft;
+            const fillLayoutRight = fillLayoutLeft + fill.offsetWidth;
             const side = bar.dataset.side;
 
             let availableOuter = 0;
@@ -988,11 +999,11 @@
             if (side === 'left') {
                 // Label sits to the LEFT of the bar; gutter is from
                 // the viewport edge to the bar's left edge.
-                availableOuter = fillRect.left - GAP - SAFETY - BREATHING;
+                availableOuter = fillLayoutLeft - GAP - SAFETY - BREATHING;
             } else {
                 // Label sits to the RIGHT of the bar; gutter is from
                 // the bar's right edge to the viewport edge.
-                availableOuter = vw - fillRect.right - GAP - SAFETY - BREATHING;
+                availableOuter = vw - fillLayoutRight - GAP - SAFETY - BREATHING;
             }
 
             // Fire the tight fallback proactively whenever the label's
@@ -1089,6 +1100,45 @@
     }
 
     /* --------------------------------------------------------------------------
+       Portrait — swap the <img> src on the masthead portrait for this side.
+
+       The <img> tag itself stays put across selection changes; only `src`,
+       `alt`, and the data-loaded flag get updated. The CSS animation reads
+       data-loaded, so removing it before setting a new src restarts the
+       fade-in for the next portrait. If the new president has no portrait
+       defined, the img stays hidden (no src, no data-loaded).
+       -------------------------------------------------------------------------- */
+    function renderPortrait(side) {
+        const img = document.querySelector('.president-portrait[data-side="' + side + '"]');
+        if (!img) return;
+
+        const president = presidents[selection[side]];
+
+        // Drop any prior loaded state so the animation can replay for the
+        // new portrait once it loads.
+        img.removeAttribute('data-loaded');
+
+        if (!president || !president.portrait) {
+            img.removeAttribute('src');
+            img.alt = '';
+            return;
+        }
+
+        img.alt = president.firstName + ' ' + president.lastName;
+        // Wait for the new image to finish decoding before flipping
+        // data-loaded — otherwise the fade-in can start against a blank
+        // <img> and snap to the image mid-animation.
+        img.onload = function () {
+            img.setAttribute('data-loaded', '');
+        };
+        img.src = president.portrait;
+        // Some browsers cache the image and skip onload — handle that.
+        if (img.complete && img.naturalWidth > 0) {
+            img.setAttribute('data-loaded', '');
+        }
+    }
+
+    /* --------------------------------------------------------------------------
        Picker — render the <option>s inside an existing <select>.
 
        The select element itself stays put across re-renders (preserving
@@ -1155,6 +1205,7 @@
         selection[side] = newId;
         renderSide(side);
         renderNameBadge(side);
+        renderPortrait(side);
         renderPicker(side === 'left' ? 'right' : 'left');
         // Re-evaluate per-label fit — the new president's labels may
         // have different widths than the previous one's.
@@ -1184,6 +1235,8 @@
     renderSide('right');
     renderNameBadge('left');
     renderNameBadge('right');
+    renderPortrait('left');
+    renderPortrait('right');
     // Reveal the name badges now that they're populated. Done before
     // the picker render so an error in renderPicker doesn't strand the
     // badges in their pre-hydration hidden state — a half-broken page

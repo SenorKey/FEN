@@ -180,6 +180,53 @@ body {
     margin: 0 0 18px;
 }
 
+/* --------------------------------------------------------------------------
+     President portraits — sit in the empty space on the far left/right of
+     the masthead, past the picker badges. Anchored to the bottom edge of
+     the header so they "stand on" the boundary with the comparison.
+
+     Hidden by default; JS adds [data-loaded] once a src is set, which
+     triggers the fade-in animation timed to start after the bars have
+     finished sliding into view in the comparison below.
+
+     Hidden on mobile (the header collapses, badges become sticky, and
+     there's no room for portraits to breathe).
+     -------------------------------------------------------------------------- */
+.president-portrait {
+    position: absolute;
+    bottom: 0;
+    height: 85%;
+    width: auto;
+    max-width: 22%;
+    object-fit: contain;
+    object-position: bottom center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    /* Render quality on scaled-down portraits */
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.portrait-left {
+    left: 0;
+    object-position: bottom left;
+}
+
+.portrait-right {
+    right: 0;
+    object-position: bottom right;
+}
+
+/* Fade in once a portrait is actually loaded (JS toggles data-loaded
+   after the <img> finishes loading the new src). Delay is timed to
+   land just after the last bar in the comparison finishes its slide:
+   first bar fill starts at 0.15s, +0.13s per bar (5 bars = 0.67s
+   last start), +0.95s grow duration = ~1.6s. We start the fade at
+   1.4s so the portrait is mid-fade as the bars settle. */
+.president-portrait[data-loaded] {
+    animation: portraitFadeIn 0.9s var(--ease-soft) 1.4s forwards;
+}
+
 .site-title {
     font-family: var(--font-display);
     font-weight: 900;
@@ -1014,6 +1061,18 @@ body.hydrated .picker-badge {
     }
 }
 
+@keyframes portraitFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 0.7;
+        transform: translateY(0);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
 
     *,
@@ -1037,6 +1096,12 @@ body.hydrated .picker-badge {
 
     .site-header {
         padding: 44px 20px 32px;
+    }
+
+    /* No room for portraits on mobile — header collapses, sticky picker
+       eats the bottom edge, and the side gutters are gone. */
+    .president-portrait {
+        display: none;
     }
 
     /* Picker row — becomes a sticky flex row under the navbar.

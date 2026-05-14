@@ -53,6 +53,15 @@
     </nav>
 
     <header class="site-header">
+        <!--
+          President portraits — anchored to the far left/right edges of the
+          masthead. JS swaps the src + alt when a side switches presidents,
+          and removes the [data-loaded] attribute on any side whose president
+          has no portrait defined, hiding it via CSS.
+        -->
+        <img class="president-portrait portrait-left" data-side="left" alt="" aria-hidden="true">
+        <img class="president-portrait portrait-right" data-side="right" alt="" aria-hidden="true">
+
         <p class="site-eyebrow">A Comparison</p>
         <h1 class="site-title">Preside <em>by</em> Side</h1>
         <p class="site-tagline">Side by side, bar by bar — comparing the faults of two presidents.</p>
