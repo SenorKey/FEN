@@ -158,9 +158,9 @@
             id: 'biden',
             firstName: 'Joseph R.',
             lastName: 'Biden',
-            portrait: '/assets/images/biden.webp',
             ordinal: 46,
             party: 'democrat',
+            portrait: '/assets/images/biden.webp',
             bars: [
                 {
                     severity: 8,
@@ -270,6 +270,7 @@
             lastName: 'Obama',
             ordinal: 44,
             party: 'democrat',
+            portrait: '/assets/images/obama.webp',
             bars: [
                 {
                     severity: 8,
@@ -380,6 +381,7 @@
             displayName: 'G.W. Bush',
             ordinal: 43,
             party: 'republican',
+            portrait: '/assets/images/gwb.webp',
             bars: [
                 {
                     severity: 10,
@@ -489,6 +491,7 @@
             lastName: 'Clinton',
             ordinal: 42,
             party: 'democrat',
+            portrait: '/assets/images/clinton.webp',
             bars: [
                 {
                     severity: 8,
