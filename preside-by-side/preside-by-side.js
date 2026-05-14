@@ -1121,6 +1121,19 @@
         // new portrait once it loads.
         img.removeAttribute('data-loaded');
 
+        // Force a style flush between the remove above and any (potentially
+        // synchronous) re-add below. For a cached portrait, img.complete
+        // becomes true immediately after `img.src = ...`, so the `if` block
+        // further down sets data-loaded back in the same task — without
+        // this flush the browser would only see the net state (still
+        // present), wouldn't register a [data-loaded] transition, and the
+        // portraitFadeIn animation wouldn't restart. The previous portrait's
+        // animation is `forwards`, so the new image would inherit its final
+        // opacity (0.7) and appear to pop in instead of fading. Reading
+        // offsetWidth forces a synchronous layout + style recalc, which
+        // makes the un-loaded state observable.
+        void img.offsetWidth;
+
         if (!president || !president.portrait) {
             img.removeAttribute('src');
             img.alt = '';
