@@ -262,7 +262,6 @@
                 }
             ]
         },
-        // ── Scaffolded presidents — empty bars, ready to fill in ──
         obama: {
             id: 'obama',
             firstName: 'Barack H.',

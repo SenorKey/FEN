@@ -1201,7 +1201,7 @@ function App() {
                         textTransform: "uppercase", letterSpacing: 2, color: C.accent,
                         whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}>
-                        {data.match.opponent ? "vs " + data.match.opponent : "Match Analysis"}
+                        {(data.match.ourTeam || "Our Team") + " vs " + (data.match.opponent || "Opponent")}
                     </h1>
                 </div>
                 <div style={{
