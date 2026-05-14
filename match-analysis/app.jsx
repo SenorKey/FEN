@@ -526,15 +526,38 @@ function generateReportHTML(data) {
 
 function printPDF(data) {
     var html = generateReportHTML(data);
-    var w = window.open("", "_blank", "noopener,noreferrer");
-    if (!w) { alert("Pop-up blocked. Please allow pop-ups to export a PDF."); return; }
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    var doPrint = function () { try { w.print(); } catch (e) { /* ignore */ } };
-    if (w.document.readyState === "complete") setTimeout(doPrint, 300);
-    else w.addEventListener("load", function () { setTimeout(doPrint, 200); });
+    var iframe = document.createElement("iframe");
+    iframe.setAttribute("aria-hidden", "true");
+    iframe.style.position = "fixed";
+    iframe.style.right = "0";
+    iframe.style.bottom = "0";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "0";
+    iframe.style.visibility = "hidden";
+    document.body.appendChild(iframe);
+
+    var cleanup = function () {
+        setTimeout(function () {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        }, 1000);
+    };
+
+    var doPrint = function () {
+        try {
+            var win = iframe.contentWindow;
+            win.focus();
+            win.print();
+        } catch (e) { /* ignore */ }
+        var onAfter = function () { cleanup(); win.removeEventListener("afterprint", onAfter); };
+        try { iframe.contentWindow.addEventListener("afterprint", onAfter); } catch (e) { cleanup(); }
+    };
+
+    iframe.onload = function () { setTimeout(doPrint, 100); };
+    var doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
 }
 
 /* ═══════════════════════════════════════════════════════════
