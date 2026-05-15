@@ -860,81 +860,109 @@
        the HTML, so the DOM is parsed by the time we get here) and again
        whenever `selection[side]` changes via a picker.
 
-       Animation delays are set inline per bar so that adding a 6th, 7th,
-       Nth bar Just Works without touching the CSS.
+       Bar entrance choreography lives in CSS. The only timing data JS
+       contributes is each bar's index, written to a --bar-index custom
+       property on the .bar element; CSS does the calc() to derive the
+       per-element animation-delay from that index. Adding a 6th, 7th,
+       Nth bar Just Works — the index increments and the existing CSS
+       rules pick it up. To retune the choreography, edit the
+       --bar-*-base-delay / --bar-stagger variables in the CSS :root
+       block; no JS change or page reload of this file is required.
        -------------------------------------------------------------------------- */
 
-    // Animation timing — mirrors what the old CSS nth-child rules produced
-    const BAR_FILL_BASE_DELAY = 0.15;        // first bar's --bar-fill-delay
-    const SEVERITY_NUMBER_BASE_DELAY = 0.85; // first bar's severity number
-    const LABEL_BASE_DELAY = 0.95;           // first bar's outer label
-    const STAGGER_STEP = 0.13;               // gap between consecutive bars
+    /* --------------------------------------------------------------------------
+       Bar template — the inert markup lives in index.html as
+       <template id="bar-template">. We grab it once at module init and
+       cloneNode for each bar rather than reparsing a string per render.
 
-    function escapeHtml(str) {
-        return String(str)
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;')
-            .replaceAll('"', '&quot;')
-            .replaceAll("'", '&#39;');
-    }
+       Why a template instead of an HTML string + innerHTML:
 
-    function renderSourcesList(sources) {
-        return sources.map(function (src) {
-            return '<li><a href="' + escapeHtml(src.url) + '" rel="noopener">' +
-                escapeHtml(src.text) + '</a></li>';
-        }).join('');
-    }
+         1. Safety is structural. textContent and the DOM attribute APIs
+            escape by definition, so bar data cannot break out of its
+            insertion context — no hand-rolled escapeHtml to call (and
+            forget) at every interpolation site. The day user-submitted
+            bars land in V2, the renderer is already safe by default.
+
+         2. Refactor-friendly. Adding a new field or rearranging the
+            structure means editing one HTML block, not chasing string
+            concatenations across a render function.
+
+         3. Cheaper on re-render. The template's DocumentFragment is
+            parsed once; subsequent clones are a tree copy, not a parse.
+       -------------------------------------------------------------------------- */
+    const barTemplate = document.getElementById('bar-template');
 
     function renderBar(bar, index, side) {
-        // Per-side ID prefix so left and right never collide
+        // Clone the <article class="bar"> sub-tree from the template's
+        // DocumentFragment. firstElementChild skips any whitespace text
+        // nodes the HTML parser left around our <article>.
+        const node = barTemplate.content.firstElementChild.cloneNode(true);
+
+        node.dataset.side = side;
+        // Expose the bar's ordinal position to CSS; the entrance
+        // animation-delay rules in preside-by-side.css read this via
+        // var(--bar-index) and inherit it to .bar-fill / .severity-number /
+        // .bar-label-outer. JS owns the index, CSS owns the timing.
+        node.style.setProperty('--bar-index', index);
+
+        // Per-side ID prefix so the left and right columns never collide
+        // on label/detail ids — they share a single document.
         const idPrefix = side === 'left' ? 'L' : 'R';
         const labelId = 'label-' + idPrefix + (index + 1);
         const detailId = 'detail-' + idPrefix + (index + 1);
 
-        // Per-bar animation delays — replaces the old static nth-child rules
-        const fillDelay = (BAR_FILL_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
-        const numberDelay = (SEVERITY_NUMBER_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
-        const labelDelay = (LABEL_BASE_DELAY + index * STAGGER_STEP).toFixed(2) + 's';
+        const labelOuter = node.querySelector('.bar-label-outer');
+        labelOuter.id = labelId;
+        labelOuter.textContent = bar.shortLabel;
 
-        // Label and bar render in opposite DOM order per side so the label
-        // sits on the OUTSIDE of the bar (away from the centerline).
-        const labelSpan =
-            '<span class="bar-label-outer" id="' + labelId + '" style="animation-delay: ' + labelDelay + ';">' +
-            escapeHtml(bar.shortLabel) +
-            '</span>';
+        const fill = node.querySelector('.bar-fill');
+        fill.setAttribute('aria-controls', detailId);
+        fill.setAttribute('aria-labelledby', labelId);
+        fill.dataset.title = bar.title;
+        // --severity is read by the bar's clip-path reveal width in CSS,
+        // so this single custom property drives both the visual length
+        // and the on-bar number.
+        fill.style.setProperty('--severity', bar.severity);
 
-        const buttonHtml =
-            '<button class="bar-fill" type="button" aria-expanded="false"' +
-            ' aria-controls="' + detailId + '"' +
-            ' aria-labelledby="' + labelId + '"' +
-            ' data-title="' + escapeHtml(bar.title) + '"' +
-            ' style="--severity: ' + bar.severity + '; animation-delay: ' + fillDelay + ';">' +
-            '<span class="severity-number" style="animation-delay: ' + numberDelay + ';">' + bar.severity + '</span>' +
-            '<span class="bar-label-inner">' + escapeHtml(bar.shortLabel) + '</span>' +
-            '</button>';
+        node.querySelector('.severity-number').textContent = bar.severity;
+        node.querySelector('.bar-label-inner').textContent = bar.shortLabel;
 
-        const rowHtml = side === 'left'
-            ? '<div class="bar-row">' + labelSpan + buttonHtml + '</div>'
-            : '<div class="bar-row">' + buttonHtml + labelSpan + '</div>';
+        const detail = node.querySelector('.bar-detail');
+        detail.id = detailId;
 
-        const detailHtml =
-            '<div class="bar-detail" id="' + detailId + '" hidden>' +
-            '<div class="bar-detail-inner">' +
-            '<h3 class="detail-title">' + escapeHtml(bar.title) + '</h3>' +
-            '<p class="detail-description">' + escapeHtml(bar.description) + '</p>' +
-            '<div class="detail-sources">' +
-            '<h4 class="sources-heading">Sources</h4>' +
-            '<ol class="sources-list">' + renderSourcesList(bar.sources) + '</ol>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
+        node.querySelector('.detail-title').textContent = bar.title;
+        node.querySelector('.detail-description').textContent = bar.description;
 
-        const article = document.createElement('article');
-        article.className = 'bar';
-        article.dataset.side = side;
-        article.innerHTML = rowHtml + detailHtml;
-        return article;
+        // Build the sources list with createElement so the href is set
+        // via the DOM API (not interpolated into an HTML string) and the
+        // link text is set via textContent. Anchor.href accepts any string
+        // — the browser URL-parses it but does not execute it — and
+        // textContent cannot introduce markup, so the list is safe even
+        // if a source ever carries hostile text or a `javascript:` URL
+        // (the latter would still be a concern at click time; a future
+        // hardening pass can validate the scheme here).
+        const sourcesList = node.querySelector('.sources-list');
+        bar.sources.forEach(function (src) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = src.url;
+            a.rel = 'noopener';
+            a.textContent = src.text;
+            li.appendChild(a);
+            sourcesList.appendChild(li);
+        });
+
+        // Right-side bars need the outer label AFTER the bar in DOM
+        // order so it ends up on the outside edge (away from the
+        // centerline). The template authors left-side order; we move
+        // the label to the end of the row for right-side bars rather
+        // than maintain two parallel templates.
+        if (side === 'right') {
+            const row = node.querySelector('.bar-row');
+            row.appendChild(labelOuter);
+        }
+
+        return node;
     }
 
     /* --------------------------------------------------------------------------
@@ -985,16 +1013,16 @@
             if (!fill) return;
 
             const labelRect = label.getBoundingClientRect();
-            // The bar-fill runs a scaleX entrance animation, so its
-            // getBoundingClientRect is collapsed onto the transform-origin
-            // during the first ~1s. Read the fill's layout box instead
-            // (offsetLeft/offsetWidth ignore transforms), anchored to its
-            // offsetParent's viewport rect — which has no transform of its
-            // own, so it's stable on the first paint.
-            const offsetParent = fill.offsetParent || document.body;
-            const opRect = offsetParent.getBoundingClientRect();
-            const fillLayoutLeft = opRect.left + fill.offsetLeft;
-            const fillLayoutRight = fillLayoutLeft + fill.offsetWidth;
+            // The bar-fill's entrance animation is a clip-path reveal
+            // rather than a scaleX transform, so the element's layout
+            // box is honest at every frame of the animation. That means
+            // getBoundingClientRect reports the bar's true on-screen
+            // rect even on the very first paint, and we can read its
+            // edges directly without falling back to offsetLeft/
+            // offsetWidth + offsetParent gymnastics.
+            const fillRect = fill.getBoundingClientRect();
+            const fillLayoutLeft = fillRect.left;
+            const fillLayoutRight = fillRect.right;
             const side = bar.dataset.side;
 
             let availableOuter = 0;
@@ -1064,6 +1092,12 @@
         const cell = document.querySelector('.picker-cell[data-side="' + side + '"]');
         if (!cell) return;
         const sideEl = document.querySelector('.side-' + side);
+        // The overlaying <select> is the accessible name source for the
+        // picker. The visible spans below are aria-hidden, so the select's
+        // aria-label must carry the full identifying text and an action
+        // hint — kept in sync with `selection[side]` on every re-render.
+        const select = cell.querySelector('.president-picker');
+        const sideWord = side === 'left' ? 'Left' : 'Right';
 
         const nf = cell.querySelector('.name-first');
         const ln = cell.querySelector('.last-name');
@@ -1076,6 +1110,9 @@
             if (ln) ln.textContent = '';
             if (nd) nd.textContent = '';
             if (sideEl) sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
+            // Fall back to the generic picker label when no president is
+            // resolved (e.g. an unknown selection id).
+            if (select) select.setAttribute('aria-label', 'Pick president for the ' + sideWord.toLowerCase() + ' side');
             return;
         }
 
@@ -1085,6 +1122,20 @@
         // innerHTML for the ordinal because formatOrdinal returns markup
         // (sup tags). Safe because the input is author-controlled data.
         if (nd) nd.innerHTML = formatOrdinal(president.ordinal);
+
+        // Rich, dynamic aria-label collapses what would otherwise be two
+        // separate screen-reader announcements (label + current option)
+        // into one self-describing string, e.g. "Left president: Biden —
+        // change". lastName is preferred over firstName + lastName here
+        // to match what's visually emphasized in the badge and what each
+        // <option>'s textContent says, keeping the spoken label aligned
+        // with the visual UI.
+        if (select) {
+            select.setAttribute(
+                'aria-label',
+                sideWord + ' president: ' + (president.displayName || president.lastName) + ' — change'
+            );
+        }
 
         // Repaint the picker badge border. --party-rgb is inherited from
         // the nearest data-party ancestor, and the badge's border reads it.
@@ -1275,9 +1326,6 @@
     const modalSeverity = document.getElementById('modal-severity');
     const modalSourcesList = document.getElementById('modal-sources-list');
 
-    // Kept in sync with the .modal-sheet transition duration in CSS
-    const MODAL_TRANSITION_MS = 400;
-
     // Track currently expanded bar (desktop) so we can collapse it
     let currentlyExpanded = null;
     // Element that had focus before the modal opened, restored on close
@@ -1393,15 +1441,45 @@
 
     function closeModal() {
         modal.classList.remove('is-open');
-        // Wait for the slide-out + backdrop fade to finish before actually
-        // closing the dialog, otherwise it snaps to display:none mid-frame.
-        setTimeout(() => {
+
+        // Wait for the slide-out to finish before actually closing the
+        // dialog — otherwise it snaps to display:none mid-frame and the
+        // exit animation is never seen. We listen to the sheet's own
+        // `transitionend` rather than a setTimeout tied to a hard-coded
+        // duration: if anyone tweaks the CSS `transition: transform 0.4s`
+        // value the JS keeps working automatically, with no hidden
+        // CSS↔JS coupling waiting to break.
+        const sheet = modal.querySelector('.modal-sheet');
+
+        const finalizeClose = () => {
             if (modal.open) modal.close();
             if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
                 lastFocusedBeforeModal.focus();
             }
             lastFocusedBeforeModal = null;
-        }, MODAL_TRANSITION_MS);
+        };
+
+        // Defensive fallback: if the sheet element is missing for any
+        // reason (markup change, etc.), close immediately rather than
+        // leaving the dialog stuck open waiting for an event that will
+        // never fire.
+        if (!sheet) {
+            finalizeClose();
+            return;
+        }
+
+        // `transitionend` fires once per animated property on the sheet.
+        // Filtering by `propertyName` — and by `e.target` so a bubbled
+        // event from a descendant element can't trigger close — is the
+        // same pattern used in `collapseBar` above. Without the filter
+        // we'd finalize on whichever property happens to finish first,
+        // which may not be the visible slide.
+        const onEnd = (e) => {
+            if (e.target !== sheet || e.propertyName !== 'transform') return;
+            sheet.removeEventListener('transitionend', onEnd);
+            finalizeClose();
+        };
+        sheet.addEventListener('transitionend', onEnd);
     }
 
     // Click on the backdrop (which bubbles to the dialog with target===dialog)

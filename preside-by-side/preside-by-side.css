@@ -64,6 +64,22 @@
     /* Motion */
     --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
     --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Bar entrance choreography.
+
+       Each bar's stagger position is supplied by JS as `--bar-index` on
+       the .bar element (see renderBar). CSS does the arithmetic so the
+       whole sequence can be retuned — base delays, gap between bars —
+       by editing the four values below, with no re-render required.
+
+       The @media (prefers-reduced-motion: reduce) reset later in this
+       file zeros animation-delay globally, so the calc() collapses to
+       0s automatically for users who request reduced motion — no
+       per-bar special case needed. */
+    --bar-fill-base-delay: 0.15s;
+    --bar-number-base-delay: 0.85s;
+    --bar-label-base-delay: 0.95s;
+    --bar-stagger: 0.13s;
 }
 
 /* --------------------------------------------------------------------------
@@ -579,7 +595,12 @@ body.hydrated .picker-badge {
     padding-left: 0;
 }
 
-/* Outer label — desktop default */
+/* Outer label — desktop default.
+
+   animation-delay is wired through the same --bar-index pipeline as
+   the bar fill and severity number so that, if/when an entrance
+   animation is attached to the label, it slots into the existing
+   choreography without a separate timing scheme. */
 .bar-label-outer {
     font-family: var(--font-display);
     font-weight: 700;
@@ -590,6 +611,7 @@ body.hydrated .picker-badge {
     font-variation-settings: 'opsz' 36;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     flex-shrink: 0;
+    animation-delay: calc(var(--bar-label-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
 }
 
 /* Per-label fallback — applied by JS when a single label would clip
@@ -636,9 +658,30 @@ body.hydrated .picker-badge {
         filter 0.25s var(--ease-soft),
         box-shadow 0.35s var(--ease-soft);
 
-    /* Page-load entrance animation */
-    transform-origin: var(--origin, right center);
-    animation: barGrow 0.95s var(--ease-out) backwards;
+    /* Page-load entrance animation.
+
+       We reveal the bar with a clip-path mask rather than a scaleX
+       transform. scaleX would scale every descendant — the severity
+       number, the inner label, the box-shadow — and, more importantly,
+       would collapse the bar's layout box onto its transform-origin
+       for the duration of the animation. That made getBoundingClientRect
+       unreliable during the first ~1s after load, forcing layout code
+       (applyLabelTightFit) to fall back to offsetLeft/offsetWidth.
+
+       clip-path keeps the layout box honest at every frame: descendants
+       sit in their final positions from frame 1, only the visible
+       pixels are masked. clip-path is GPU-accelerated on modern
+       browsers, so the perf profile is comparable to transform.
+
+       The animation-name is overridden per side below so each bar is
+       revealed from the centerline outward.
+
+       animation-delay is computed from --bar-index (set by JS on the
+       parent .bar) so that bars enter in sequence rather than all at
+       once. The shorthand above leaves delay at its initial 0s; the
+       longhand below replaces it with the staggered value. */
+    animation: barReveal 0.95s var(--ease-out) backwards;
+    animation-delay: calc(var(--bar-fill-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
 }
 
 .bar-fill:focus-visible {
@@ -647,7 +690,10 @@ body.hydrated .picker-badge {
 }
 
 .side-left .bar-fill {
-    --origin: right center;
+    /* Left-side bars sit to the left of the centerline, so they should
+       appear to grow outward from the centerline (their right edge)
+       toward the viewport edge. */
+    animation-name: barRevealFromRight;
     background:
         linear-gradient(90deg,
             var(--party-pale) 0%,
@@ -663,7 +709,9 @@ body.hydrated .picker-badge {
 }
 
 .side-right .bar-fill {
-    --origin: left center;
+    /* Right-side bars mirror left: they grow from the centerline (their
+       left edge) outward to the viewport edge. */
+    animation-name: barRevealFromLeft;
     background:
         linear-gradient(270deg,
             var(--party-pale) 0%,
@@ -691,7 +739,12 @@ body.hydrated .picker-badge {
         0 0 24px rgba(255, 255, 255, 0.1);
 }
 
-/* Severity number — at the outer tip of the bar */
+/* Severity number — at the outer tip of the bar.
+
+   Fades in after the bar fill has finished sweeping past its position;
+   the per-bar stagger is sourced from --bar-index (see :root). The
+   shorthand intentionally omits a delay so the longhand below stays
+   the single source of truth for timing. */
 .severity-number {
     font-family: var(--font-display);
     font-weight: 900;
@@ -702,7 +755,8 @@ body.hydrated .picker-badge {
     font-variation-settings: 'opsz' 144;
     letter-spacing: -0.02em;
     opacity: 0;
-    animation: fadeIn 0.5s var(--ease-soft) 0.7s forwards;
+    animation: fadeIn 0.5s var(--ease-soft) forwards;
+    animation-delay: calc(var(--bar-number-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
 }
 
 /* Severity hint — only on the first (largest) bar of each side, to clarify
@@ -1027,14 +1081,39 @@ body.hydrated .picker-badge {
 /* --------------------------------------------------------------------------
      Animations
      -------------------------------------------------------------------------- */
-@keyframes barGrow {
+/* Bar entrance — clip-path reveal.
+
+   inset() arguments are top/right/bottom/left insets. A 100% inset on
+   one side hides the bar entirely from that side; animating that inset
+   down to 0 sweeps the visible area outward from the opposite edge.
+
+   Using clip-path (rather than transform: scaleX) means the bar's
+   layout box, box-shadow, and child elements (severity number, label)
+   are never scaled or displaced during the animation — so DOM
+   measurements taken during the first second of page load report the
+   bar's true on-screen geometry. */
+@keyframes barRevealFromRight {
+    /* Reveal sweeps from the right edge leftward — used by side-left bars. */
     from {
-        transform: scaleX(0);
+        clip-path: inset(0 0 0 100%);
         opacity: 0;
     }
 
     to {
-        transform: scaleX(1);
+        clip-path: inset(0);
+        opacity: 1;
+    }
+}
+
+@keyframes barRevealFromLeft {
+    /* Reveal sweeps from the left edge rightward — used by side-right bars. */
+    from {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+    }
+
+    to {
+        clip-path: inset(0);
         opacity: 1;
     }
 }

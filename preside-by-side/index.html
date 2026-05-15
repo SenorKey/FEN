@@ -58,9 +58,15 @@
           masthead. JS swaps the src + alt when a side switches presidents,
           and removes the [data-loaded] attribute on any side whose president
           has no portrait defined, hiding it via CSS.
+
+          The portrait is treated as identifying (not decorative), so it
+          carries no aria-hidden — JS keeps `alt` in sync with the current
+          president so assistive tech announces e.g. "Joseph R. Biden". An
+          empty alt during the no-portrait fallback still removes it from
+          the accessibility tree without needing aria-hidden.
         -->
-        <img class="president-portrait portrait-left" data-side="left" alt="" aria-hidden="true">
-        <img class="president-portrait portrait-right" data-side="right" alt="" aria-hidden="true">
+        <img class="president-portrait portrait-left" data-side="left" alt="">
+        <img class="president-portrait portrait-right" data-side="right" alt="">
 
         <p class="site-eyebrow">A Comparison</p>
         <h1 class="site-title">Preside <em>by</em> Side</h1>
@@ -73,13 +79,21 @@
       invisible <select> overlays it so any click on the badge opens the
       native dropdown. JS populates the spans (name-first, last-name,
       name-detail) and the <select> options from the presidents data.
+
+      The badge name spans are marked aria-hidden because they duplicate
+      information the overlaying <select> already announces (current
+      option + aria-label). Without this, a screen-reader user would hear
+      the president's name twice — once from the select, once from the
+      visible badge text. JS keeps the <select>'s aria-label rich and
+      current ("Left president: Biden — change") so a single, complete
+      announcement replaces the redundant pair.
     -->
     <div class="picker-row">
         <div class="picker-cell" data-side="left" data-party="democrat">
             <div class="picker-badge">
-                <span class="name-first"></span>
-                <span class="last-name"></span>
-                <span class="name-detail"></span>
+                <span class="name-first" aria-hidden="true"></span>
+                <span class="last-name" aria-hidden="true"></span>
+                <span class="name-detail" aria-hidden="true"></span>
                 <span class="picker-chevron" aria-hidden="true">▾</span>
                 <select id="picker-left" class="president-picker"
                     aria-label="Pick president for the left side"></select>
@@ -87,15 +101,50 @@
         </div>
         <div class="picker-cell" data-side="right" data-party="republican">
             <div class="picker-badge">
-                <span class="name-first"></span>
-                <span class="last-name"></span>
-                <span class="name-detail"></span>
+                <span class="name-first" aria-hidden="true"></span>
+                <span class="last-name" aria-hidden="true"></span>
+                <span class="name-detail" aria-hidden="true"></span>
                 <span class="picker-chevron" aria-hidden="true">▾</span>
                 <select id="picker-right" class="president-picker"
                     aria-label="Pick president for the right side"></select>
             </div>
         </div>
     </div>
+
+    <!--
+      Bar template — inert markup cloned by JS for every rendered bar.
+      Living in the HTML (rather than as a JS string) means the structure
+      is parsed once by the browser at load and every subsequent bar is
+      built via cloneNode + textContent + DOM attribute APIs. That makes
+      XSS structurally impossible for bar data (textContent escapes by
+      definition) instead of relying on a hand-rolled escapeHtml helper
+      called correctly at every interpolation site.
+
+      The outer label is authored first; for right-side bars, renderBar
+      moves it to the end of .bar-row so it sits on the outer edge away
+      from the centerline.
+    -->
+    <template id="bar-template">
+        <article class="bar">
+            <div class="bar-row">
+                <span class="bar-label-outer"></span>
+                <button class="bar-fill" type="button" aria-expanded="false">
+                    <span class="severity-number"></span>
+                    <span class="bar-label-inner"></span>
+                </button>
+            </div>
+            <div class="bar-detail" hidden>
+                <div class="bar-detail-inner">
+                    <h3 class="detail-title"></h3>
+                    <p class="detail-description"></p>
+                    <div class="detail-sources">
+                        <h4 class="sources-heading">Sources</h4>
+                        <ol class="sources-list"></ol>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </template>
 
     <main class="comparison" id="main-content">
         <!-- ============ LEFT SIDE ============ -->
