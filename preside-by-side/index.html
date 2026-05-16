@@ -75,41 +75,45 @@
     </header>
 
     <!--
-      President pickers. Each .picker-badge is the visible trigger; the
-      invisible <select> overlays it so any click on the badge opens the
-      native dropdown. JS populates the spans (name-first, last-name,
-      name-detail) and the <select> options from the presidents data.
+      President pickers. Each .picker-badge is now a real <button> that
+      opens a custom listbox popover (.picker-menu) grouped by party.
+      JS populates the badge spans (name-first, last-name, name-detail,
+      name-party) AND the menu's grouped options from the presidents
+      data, and manages open/close + keyboard navigation.
 
-      The badge name spans are marked aria-hidden because they duplicate
-      information the overlaying <select> already announces (current
-      option + aria-label). Without this, a screen-reader user would hear
-      the president's name twice — once from the select, once from the
-      visible badge text. JS keeps the <select>'s aria-label rich and
-      current ("Left president: Biden — change") so a single, complete
-      announcement replaces the redundant pair.
+      The badge spans are aria-hidden because the button's aria-label
+      already announces the current president and the action ("Left
+      president: Biden — change"), so a screen reader hears a single
+      complete announcement instead of duplicating the visible text.
     -->
     <div class="picker-row">
         <div class="picker-cell" data-side="left" data-party="democrat">
-            <div class="picker-badge">
+            <button id="picker-left" type="button" class="picker-badge"
+                aria-haspopup="listbox" aria-expanded="false"
+                aria-controls="picker-menu-left"
+                aria-label="Pick president for the left side">
                 <span class="name-first" aria-hidden="true"></span>
                 <span class="last-name" aria-hidden="true"></span>
                 <span class="name-detail" aria-hidden="true"></span>
                 <span class="name-party" aria-hidden="true"></span>
                 <span class="picker-chevron" aria-hidden="true">▾</span>
-                <select id="picker-left" class="president-picker"
-                    aria-label="Pick president for the left side"></select>
-            </div>
+            </button>
+            <div id="picker-menu-left" class="picker-menu" role="listbox"
+                tabindex="-1" aria-label="Choose left president" hidden></div>
         </div>
         <div class="picker-cell" data-side="right" data-party="republican">
-            <div class="picker-badge">
+            <button id="picker-right" type="button" class="picker-badge"
+                aria-haspopup="listbox" aria-expanded="false"
+                aria-controls="picker-menu-right"
+                aria-label="Pick president for the right side">
                 <span class="name-first" aria-hidden="true"></span>
                 <span class="last-name" aria-hidden="true"></span>
                 <span class="name-detail" aria-hidden="true"></span>
                 <span class="name-party" aria-hidden="true"></span>
                 <span class="picker-chevron" aria-hidden="true">▾</span>
-                <select id="picker-right" class="president-picker"
-                    aria-label="Pick president for the right side"></select>
-            </div>
+            </button>
+            <div id="picker-menu-right" class="picker-menu" role="listbox"
+                tabindex="-1" aria-label="Choose right president" hidden></div>
         </div>
     </div>
 

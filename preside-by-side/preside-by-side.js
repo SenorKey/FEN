@@ -599,7 +599,7 @@
             id: 'reagan',
             firstName: 'Ronald W.',
             lastName: 'Reagan',
-            ordinal: [40, 47],
+            ordinal: [40],
             party: 'republican',
             bars: [
                 {
@@ -2323,11 +2323,12 @@
         const cell = document.querySelector('.picker-cell[data-side="' + side + '"]');
         if (!cell) return;
         const sideEl = document.querySelector('.side-' + side);
-        // The overlaying <select> is the accessible name source for the
-        // picker. The visible spans below are aria-hidden, so the select's
-        // aria-label must carry the full identifying text and an action
-        // hint — kept in sync with `selection[side]` on every re-render.
-        const select = cell.querySelector('.president-picker');
+        // The picker trigger button carries the accessible name for the
+        // dropdown. The visible spans below are aria-hidden, so the
+        // button's aria-label must carry the full identifying text and
+        // an action hint — kept in sync with `selection[side]` on every
+        // re-render.
+        const trigger = cell.querySelector('.picker-badge');
         const sideWord = side === 'left' ? 'Left' : 'Right';
 
         const nf = cell.querySelector('.name-first');
@@ -2345,7 +2346,7 @@
             if (sideEl) sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
             // Fall back to the generic picker label when no president is
             // resolved (e.g. an unknown selection id).
-            if (select) select.setAttribute('aria-label', 'Pick president for the ' + sideWord.toLowerCase() + ' side');
+            if (trigger) trigger.setAttribute('aria-label', 'Pick president for the ' + sideWord.toLowerCase() + ' side');
             return;
         }
 
@@ -2362,10 +2363,10 @@
         // into one self-describing string, e.g. "Left president: Biden —
         // change". lastName is preferred over firstName + lastName here
         // to match what's visually emphasized in the badge and what each
-        // <option>'s textContent says, keeping the spoken label aligned
+        // option's textContent says, keeping the spoken label aligned
         // with the visual UI.
-        if (select) {
-            select.setAttribute(
+        if (trigger) {
+            trigger.setAttribute(
                 'aria-label',
                 sideWord + ' president: ' + (president.displayName || president.lastName) + ' — change'
             );
@@ -2440,88 +2441,376 @@
     }
 
     /* --------------------------------------------------------------------------
-       Picker — render the <option>s inside an existing <select>.
+       Picker — custom listbox popover, grouped by party.
 
-       The select element itself stays put across re-renders (preserving
-       the change listener attached once below); only its options get
-       replaced. Each call recomputes which presidents to show:
+       Replaces a native <select>: the badge is a <button> that toggles
+       a styled .picker-menu sibling inside .picker-cell. Each call wipes
+       and rebuilds the menu's sections + options. Cheap enough (under
+       ~20 options) that diffing isn't worth the complexity.
 
-         - Skip the one already chosen on the OTHER side (filter rule)
-         - Mark this side's current selection as `selected`
-         - Use displayName when present (lets "G.W. Bush" disambiguate
-           from a future H.W. Bush without changing his lastName)
+       Each call recomputes:
+         - Sections, grouped by party. Section order is fixed below.
+         - Options within a section, sorted chronologically by ordinal.
+         - The OTHER side's current selection rendered as disabled
+           (visible but not pickable), so users can see who they'd be
+           displacing rather than having that president silently vanish.
+         - This side's current selection marked aria-selected + checked.
        -------------------------------------------------------------------------- */
+
+    // The menu is laid out in three columns: Democrats, Republicans,
+    // and Other (a catch-all for historical/minor parties). Each column
+    // can contain one or more party sections.
+    const PARTY_COLUMNS = [
+        { id: 'democrats', parties: ['democrat'] },
+        { id: 'republicans', parties: ['republican'] },
+        { id: 'other', parties: ['democratic-republican', 'federalist', 'whig', 'noparty'] }
+    ];
+    const PARTY_LABELS = {
+        democrat: 'Democrats',
+        republican: 'Republicans',
+        'democratic-republican': 'Democratic-Republicans',
+        federalist: 'Federalists',
+        whig: 'Whigs',
+        noparty: 'Nonpartisan'
+    };
+
+    // Smaller ordinal-only formatter for menu rows (e.g. "46th",
+    // "45th & 47th"). The badge's formatOrdinal appends "President"
+    // which would be redundant in a list of presidents.
+    // Multi-term presidents (Cleveland, Trump) get newline-joined
+    // ordinals so each fits in the narrow ordinal column without
+    // overlapping the name; the CSS uses white-space: pre-line.
+    function formatOrdinalShort(n) {
+        function suffix(num) {
+            const lastDigit = num % 10;
+            const lastTwo = num % 100;
+            if (lastDigit === 1 && lastTwo !== 11) return 'st';
+            if (lastDigit === 2 && lastTwo !== 12) return 'nd';
+            if (lastDigit === 3 && lastTwo !== 13) return 'rd';
+            return 'th';
+        }
+        function fmt(num) { return num + suffix(num); }
+        if (Array.isArray(n)) return n.map(fmt).join('\n&\n');
+        return fmt(n);
+    }
+
+    function firstOrdinal(p) {
+        return Array.isArray(p.ordinal) ? p.ordinal[0] : p.ordinal;
+    }
+
+    // Most recent (largest) ordinal — Cleveland and Trump have two
+    // non-consecutive terms; for "sort by most recent" we want the
+    // later term to anchor their position.
+    function latestOrdinal(p) {
+        return Array.isArray(p.ordinal) ? Math.max.apply(null, p.ordinal) : p.ordinal;
+    }
+
     function renderPicker(side) {
-        const select = document.getElementById('picker-' + side);
-        if (!select) return;
+        const trigger = document.getElementById('picker-' + side);
+        const menu = document.getElementById('picker-menu-' + side);
+        if (!trigger || !menu) return;
 
         const otherSide = side === 'left' ? 'right' : 'left';
-        const excludeId = selection[otherSide];
+        const disabledId = selection[otherSide];
         const currentId = selection[side];
 
         // Drive the picker cell's border tint via data-party. The
         // .picker-badge base rule reads rgba(var(--party-rgb), 0.45),
         // so changing data-party on the cell recolors the border.
-        // Must target .picker-cell, not select.parentElement (the badge),
-        // because renderNameBadge writes to the cell — and whichever
-        // ancestor sits closer wins the CSS variable lookup.
-        const cell = select.closest('.picker-cell');
+        const cell = trigger.closest('.picker-cell');
         const currentPresident = presidents[currentId];
         if (cell && currentPresident) {
             cell.dataset.party = currentPresident.party;
         }
 
-        // Wipe and rebuild — small enough that this is simpler than diffing
-        select.replaceChildren();
-
+        // Bucket presidents by party in a single pass, then sort each
+        // bucket by most recent ordinal first (largest at top).
+        const buckets = {};
         Object.values(presidents).forEach(function (p) {
-            if (p.id === excludeId) return; // hidden because they're on the other side
-            const opt = document.createElement('option');
-            opt.value = p.id;
-            opt.textContent = p.displayName || p.lastName;
-            if (p.id === currentId) opt.selected = true;
-            select.appendChild(opt);
+            (buckets[p.party] = buckets[p.party] || []).push(p);
         });
+        Object.keys(buckets).forEach(function (party) {
+            buckets[party].sort(function (a, b) {
+                return latestOrdinal(b) - latestOrdinal(a);
+            });
+        });
+
+        const frag = document.createDocumentFragment();
+
+        PARTY_COLUMNS.forEach(function (col) {
+            const column = document.createElement('div');
+            column.className = 'picker-column';
+            column.dataset.column = col.id;
+
+            col.parties.forEach(function (party) {
+                const list = buckets[party];
+                if (!list || list.length === 0) return;
+
+                const section = document.createElement('div');
+                section.className = 'picker-section';
+                section.dataset.party = party;
+                section.setAttribute('role', 'group');
+
+                const headerId = 'picker-' + side + '-section-' + party;
+                const header = document.createElement('div');
+                header.className = 'picker-section-header';
+                header.id = headerId;
+                header.textContent = PARTY_LABELS[party] || formatParty(party);
+                section.setAttribute('aria-labelledby', headerId);
+                section.appendChild(header);
+
+                list.forEach(function (p) {
+                    const opt = document.createElement('button');
+                    opt.type = 'button';
+                    opt.className = 'picker-option';
+                    opt.dataset.id = p.id;
+                    opt.id = 'picker-' + side + '-opt-' + p.id;
+                    opt.setAttribute('role', 'option');
+                    opt.setAttribute('tabindex', '-1');
+                    if (Array.isArray(p.ordinal) && p.ordinal.length > 1) {
+                        opt.dataset.multiOrdinal = 'true';
+                    }
+
+                    const isSelected = p.id === currentId;
+                    const isDisabled = p.id === disabledId;
+                    opt.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+                    if (isDisabled) {
+                        opt.setAttribute('aria-disabled', 'true');
+                        opt.setAttribute('aria-label',
+                            (p.displayName || (p.firstName + ' ' + p.lastName)) +
+                            ' — already chosen on the ' + otherSide + ' side');
+                    }
+
+                    const ordinal = document.createElement('span');
+                    ordinal.className = 'picker-option-ordinal';
+                    ordinal.textContent = formatOrdinalShort(p.ordinal);
+                    opt.appendChild(ordinal);
+
+                    const name = document.createElement('span');
+                    name.className = 'picker-option-name';
+                    name.textContent = p.displayName || (p.firstName + ' ' + p.lastName);
+                    opt.appendChild(name);
+
+                    const check = document.createElement('span');
+                    check.className = 'picker-option-check';
+                    check.setAttribute('aria-hidden', 'true');
+                    check.textContent = '✓';
+                    opt.appendChild(check);
+
+                    section.appendChild(opt);
+                });
+
+                column.appendChild(section);
+            });
+
+            frag.appendChild(column);
+        });
+
+        menu.replaceChildren(frag);
+
+        // Keep aria-activedescendant on the listbox pointing at the
+        // currently-selected option so screen readers announce the
+        // right row when the menu is opened with the keyboard.
+        const selectedOpt = menu.querySelector('.picker-option[aria-selected="true"]');
+        if (selectedOpt) {
+            menu.setAttribute('aria-activedescendant', selectedOpt.id);
+        } else {
+            menu.removeAttribute('aria-activedescendant');
+        }
     }
 
     /* --------------------------------------------------------------------------
-       Picker change handler — orchestrates the four updates that need
-       to happen when a side switches presidents:
+       Picker open/close + keyboard nav.
 
-         1. Update `selection` (the source of truth)
-         2. Re-render this side's bars
-         3. Re-render this side's name badge
-         4. Re-render the OTHER side's picker, so the new pick is filtered
-            out of its option list
+       Exactly one menu open at a time. Click-outside, Escape, and
+       selecting an option all close it; closing always returns focus
+       to the trigger button so keyboard users land back where they
+       started.
 
-       Note that step 4 does NOT re-render this side's own picker. The
-       current selection in this side's <select> is already correct
-       (the user just chose it), and the option list doesn't need to
-       change because the OTHER side's selection didn't change.
+       Keyboard model on the menu:
+         - ArrowDown / ArrowUp move the "active" option (visual
+           highlight + aria-activedescendant), skipping disabled rows.
+         - Home / End jump to first/last enabled option.
+         - Enter / Space pick the active option.
+         - Escape closes.
+       The listbox itself takes focus (tabindex=-1) when opened so the
+       keyboard handler below sees keydown events.
        -------------------------------------------------------------------------- */
+    let openSide = null;
+
+    function getEnabledOptions(menu) {
+        return Array.prototype.slice.call(
+            menu.querySelectorAll('.picker-option:not([aria-disabled="true"])')
+        );
+    }
+
+    function setActiveOption(menu, opt) {
+        if (!opt) return;
+        menu.querySelectorAll('.picker-option.is-active').forEach(function (n) {
+            n.classList.remove('is-active');
+        });
+        opt.classList.add('is-active');
+        menu.setAttribute('aria-activedescendant', opt.id);
+        // Keep the active row in view without scrolling the whole page.
+        if (typeof opt.scrollIntoView === 'function') {
+            opt.scrollIntoView({ block: 'nearest' });
+        }
+    }
+
+    function openPicker(side) {
+        if (openSide && openSide !== side) closePicker(openSide, { restoreFocus: false });
+        const trigger = document.getElementById('picker-' + side);
+        const menu = document.getElementById('picker-menu-' + side);
+        if (!trigger || !menu) return;
+
+        menu.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        openSide = side;
+
+        // Seed the active option to the current selection so arrow keys
+        // start from the user's known anchor instead of the top.
+        const selectedOpt = menu.querySelector('.picker-option[aria-selected="true"]');
+        const firstEnabled = getEnabledOptions(menu)[0];
+        const initial = (selectedOpt && selectedOpt.getAttribute('aria-disabled') !== 'true')
+            ? selectedOpt
+            : firstEnabled;
+        if (initial) setActiveOption(menu, initial);
+
+        // Defer focus by a tick — flipping `hidden` and then immediately
+        // focusing in the same task can be ignored by some browsers.
+        requestAnimationFrame(function () { menu.focus(); });
+    }
+
+    function closePicker(side, opts) {
+        const trigger = document.getElementById('picker-' + side);
+        const menu = document.getElementById('picker-menu-' + side);
+        if (!trigger || !menu) return;
+        if (menu.hidden) return;
+
+        menu.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+        if (openSide === side) openSide = null;
+
+        if (!opts || opts.restoreFocus !== false) {
+            trigger.focus();
+        }
+    }
+
+    function togglePicker(side) {
+        const menu = document.getElementById('picker-menu-' + side);
+        if (!menu) return;
+        if (menu.hidden) openPicker(side);
+        else closePicker(side);
+    }
+
     function onPickerChange(side, newId) {
-        if (selection[side] === newId) return; // no-op
-        if (!presidents[newId]) return;        // defensive: unknown id
+        if (selection[side] === newId) return;     // no-op
+        if (!presidents[newId]) return;            // defensive: unknown id
 
         selection[side] = newId;
         renderSide(side);
         renderNameBadge(side);
         renderPortrait(side);
+        // Both pickers need a rebuild: this side's selected row moves,
+        // and the OTHER side's disabled row moves to the new selection.
+        renderPicker(side);
         renderPicker(side === 'left' ? 'right' : 'left');
-        // Re-evaluate per-label fit — the new president's labels may
-        // have different widths than the previous one's.
         applyLabelTightFit();
     }
 
-    // Wire up picker change listeners ONCE. The select elements themselves
-    // don't get re-created on selection changes — only their options — so
-    // these listeners survive every re-render.
+    // Wire trigger buttons + menus once. Children inside them get
+    // replaced on every renderPicker, but these top-level listeners
+    // survive across re-renders.
     ['left', 'right'].forEach(function (side) {
-        const select = document.getElementById('picker-' + side);
-        if (!select) return;
-        select.addEventListener('change', function (e) {
-            onPickerChange(side, e.target.value);
+        const trigger = document.getElementById('picker-' + side);
+        const menu = document.getElementById('picker-menu-' + side);
+        if (!trigger || !menu) return;
+
+        trigger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            togglePicker(side);
         });
+
+        trigger.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openPicker(side);
+            }
+        });
+
+        // Use a click delegate on the menu so newly rendered options
+        // are handled without re-binding per option.
+        menu.addEventListener('click', function (e) {
+            const opt = e.target.closest('.picker-option');
+            if (!opt || !menu.contains(opt)) return;
+            if (opt.getAttribute('aria-disabled') === 'true') return;
+            onPickerChange(side, opt.dataset.id);
+            closePicker(side);
+        });
+
+        menu.addEventListener('mousemove', function (e) {
+            const opt = e.target.closest('.picker-option');
+            if (!opt || opt.getAttribute('aria-disabled') === 'true') return;
+            setActiveOption(menu, opt);
+        });
+
+        menu.addEventListener('keydown', function (e) {
+            const options = getEnabledOptions(menu);
+            if (options.length === 0) return;
+            const active = menu.querySelector('.picker-option.is-active');
+            const idx = active ? options.indexOf(active) : -1;
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    setActiveOption(menu, options[(idx + 1 + options.length) % options.length]);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    setActiveOption(menu, options[(idx - 1 + options.length) % options.length]);
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    setActiveOption(menu, options[0]);
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    setActiveOption(menu, options[options.length - 1]);
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    if (active) {
+                        onPickerChange(side, active.dataset.id);
+                        closePicker(side);
+                    }
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    closePicker(side);
+                    break;
+                case 'Tab':
+                    closePicker(side, { restoreFocus: false });
+                    break;
+            }
+        });
+    });
+
+    // Click anywhere outside the open picker closes it. Captured at the
+    // document level since the menus float over the comparison content.
+    document.addEventListener('click', function (e) {
+        if (!openSide) return;
+        const cell = document.querySelector('.picker-cell[data-side="' + openSide + '"]');
+        if (cell && cell.contains(e.target)) return;
+        closePicker(openSide, { restoreFocus: false });
+    });
+
+    // Closing on Escape from anywhere — handy when focus has drifted
+    // off the menu (e.g. after a tab out).
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && openSide) {
+            closePicker(openSide);
+        }
     });
 
     // Mobile-query setup hoisted above the initial render so
