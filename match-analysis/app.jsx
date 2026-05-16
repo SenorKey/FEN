@@ -227,13 +227,14 @@ function Field(_ref) {
 }
 
 function Section(_ref) {
-    var title = _ref.title, description = _ref.description, icon = _ref.icon, children = _ref.children, isOpen = _ref.isOpen, onToggle = _ref.onToggle, color = _ref.color || C.accent;
+    var title = _ref.title, description = _ref.description, icon = _ref.icon, children = _ref.children, isOpen = _ref.isOpen, onToggle = _ref.onToggle, color = _ref.color || C.accent, iconColor = _ref.iconColor || color, borderColor = _ref.borderColor || color;
     return (
         <div style={{
             borderRadius: 8, overflow: "hidden",
-            border: "1px solid " + (isOpen ? color + "66" : C.border),
+            border: "1px solid " + (isOpen ? borderColor + "66" : C.border),
             background: C.bgCard,
-            gridColumn: isOpen ? "1 / -1" : "auto", alignSelf: "start",
+            alignSelf: "stretch",
+            width: "100%",
             transition: "border-color 0.15s",
         }}>
             <button onClick={onToggle} aria-expanded={isOpen} style={{
@@ -242,11 +243,12 @@ function Section(_ref) {
                 display: "flex", alignItems: isOpen ? "center" : "flex-start",
                 gap: 12, background: isOpen ? C.bgHover : "transparent", border: "none",
                 cursor: "pointer", textAlign: "left",
-                minHeight: isOpen ? "auto" : 96,
+                height: isOpen ? "auto" : 96,
+                overflow: "hidden",
             }}>
                 <span style={{
                     fontSize: isOpen ? 16 : 24, width: isOpen ? 24 : 32,
-                    textAlign: "center", lineHeight: 1, flexShrink: 0,
+                    textAlign: "center", lineHeight: 1, flexShrink: 0, color: iconColor,
                 }}>{icon}</span>
                 <span style={{ flex: 1, minWidth: 0 }}>
                     <span style={{

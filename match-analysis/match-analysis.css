@@ -222,3 +222,34 @@ body {
         letter-spacing: 1px !important;
     }
 }
+
+
+/* ═══════════════════════════════════════════════
+   Scout tab — side-by-side layout above mobile width
+   Match Info sits next to the expandable cards,
+   each taking half the available horizontal space.
+   ═══════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+    #match-analysis-root .scout-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+        align-items: start;
+    }
+
+    #match-analysis-root .scout-layout > * {
+        min-width: 0;
+    }
+
+    #match-analysis-root .scout-layout .scout-match-info {
+        margin-bottom: 0;
+    }
+
+    #match-analysis-root .scout-layout .scout-sections {
+        max-width: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100%;
+    }
+}
