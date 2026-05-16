@@ -922,7 +922,1110 @@
                     ]
                 },
             ]
+        },
+        tRoosevelt: {
+            id: 'tRoosevelt',
+            firstName: 'Theodore',
+            lastName: 'Roosevelt',
+            displayName: 'T. Roosevelt',
+            ordinal: 26,
+            party: 'republican',
+            portrait: '/assets/images/troosevelt.webp',
+            bars: [
+                {
+                    severity: 8,
+                    title: 'Continued U.S. Imperial War in the Philippines',
+                    shortLabel: 'Philippines War',
+                    description: 'Roosevelt inherited and continued the Philippine-American War, a brutal counterinsurgency campaign against Filipino independence fighters that involved widespread civilian suffering, torture, and massacres. U.S. soldiers used the "water cure" — a form of waterboarding — against Filipino prisoners, which became a major anti-imperialist scandal at the time. Congressional hearings documented the abuses. Historians estimate the war killed between 200,000 and 1 million Filipinos, the vast majority civilians, through combat, famine, and disease caused by U.S. military operations.',
+                    sources: [
+                        { url: 'https://www.loc.gov/collections/philippine-american-war/about-this-collection/', text: 'Library of Congress — The Philippine-American War: About This Collection' },
+                        { url: 'https://www.senate.gov/artandhistory/history/common/generic/Philippine_Insurrection.htm', text: 'U.S. Senate — The Philippine-American War: Historical Overview' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Engineered the Panama Revolt to Seize the Canal Zone',
+                    shortLabel: 'Panama Canal Coup',
+                    description: 'When Colombia rejected the terms of Roosevelt\'s proposed canal treaty, his administration collaborated with Panamanian business interests to engineer Panama\'s secession. U.S. naval vessels were positioned nearby to prevent Colombian troops from suppressing the revolt, and Colombian soldiers were bribed not to resist. Roosevelt then quickly recognized the new Panamanian government and signed a canal treaty on favorable U.S. terms within days. He later boasted openly about his role. While the canal became one of the great engineering achievements of the era, its acquisition involved the deliberate subversion of Colombian sovereignty.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1899-1913/panama-canal', text: 'U.S. State Department Office of the Historian — The Panama Canal' },
+                        { url: 'https://www.archives.gov/publications/prologue/2004/summer/panama-revolution.html', text: 'National Archives — The Panama Revolution of 1903' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Roosevelt Corollary and Claiming U.S. "Police Power" Over Latin America',
+                    shortLabel: 'Roosevelt Corollary',
+                    description: 'In 1904, Roosevelt expanded the Monroe Doctrine into the Roosevelt Corollary, asserting that the United States had the right to intervene militarily in Latin American countries deemed unstable, indebted, or misgoverned — effectively claiming a regional police power over sovereign nations. The State Department\'s own historians describe the shift as the U.S. taking on the role of "regional policeman." Anti-imperialists at the time criticized it for converting a defensive doctrine against European colonialism into a justification for U.S. military intervention against weaker neighbors. The Corollary provided the pretext for numerous U.S. interventions across the Caribbean and Central America over the following decades.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1899-1913/roosevelt-and-monroe-doctrine', text: 'U.S. State Department Office of the Historian — Roosevelt Corollary to the Monroe Doctrine' },
+                        { url: 'https://www.archives.gov/education/lessons/monroe-doctrine', text: 'National Archives — The Monroe Doctrine and Roosevelt Corollary' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Dishonorably Discharged 167 Black Soldiers Without Trial',
+                    shortLabel: 'Brownsville Affair',
+                    description: 'In 1906, following a shooting incident in Brownsville, Texas, Roosevelt ordered the dishonorable discharge of all 167 Black soldiers of the 25th Infantry Regiment — without a trial, without individual findings of guilt, and without allowing the men to confront their accusers. The mass punishment stripped the soldiers of their pay, pensions, and the right to future federal employment. Many historians now regard it as one of the most egregious racial injustices carried out by a sitting president. Decades later Congress moved to correct the record, and the soldiers were eventually exonerated — long after most had died.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/brownsville-affair.htm', text: 'National Park Service — The Brownsville Affair (1906)' },
+                        { url: 'https://www.armyhistory.org/the-brownsville-affair/', text: 'Army Historical Foundation — The Brownsville Affair' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Held Racist and Eugenicist Views That Shaped Policy',
+                    shortLabel: 'Eugenicism',
+                    description: 'Roosevelt subscribed to the racial hierarchy theories and eugenicist ideology prevalent among white elites of his era, and his views were not merely private opinions — they influenced conservation policy, immigration restriction, and his approach to governance. The National Park Service documents that Roosevelt and other conservationists believed in eugenics and supported preventing people they deemed "inferior," including people of color and disabled people, from having children. He wrote and spoke extensively about fears of "race suicide" among white Americans. These views shaped federal policy and lent presidential legitimacy to a pseudoscientific movement that caused lasting harm.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/000/roosevelt-and-eugenics.htm', text: 'National Park Service — Theodore Roosevelt and Eugenics' },
+                        { url: 'https://www.theodorerooseveltcenter.org/Learn-About-TR/TR-Encyclopedia/Race-Ethnicity-and-Gender', text: 'Theodore Roosevelt Center — Race, Ethnicity, and Gender in Roosevelt\'s Thought' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Disregard for Colombian Sovereignty Over Panama',
+                    shortLabel: 'Colombian Sovereignty',
+                    description: 'Roosevelt\'s handling of Colombia in the canal negotiations was openly coercive. After Colombia\'s senate rejected the Hay-Herrán Treaty — a decision well within its sovereign rights — Roosevelt publicly derided Colombian officials, authorized support for the Panamanian independence movement, and dispatched warships to prevent Colombia from suppressing the revolt. He later acknowledged his aggressive role with apparent pride. The Theodore Roosevelt Center documents that Roosevelt sent warships to tacitly support the independence movement after Colombia rejected the canal terms. Colombia received a formal U.S. apology and $25 million in compensation in 1921, years after Roosevelt\'s death.',
+                    sources: [
+                        { url: 'https://www.theodorerooseveltcenter.org/Learn-About-TR/TR-Encyclopedia/Foreign-Affairs/Panama-Canal', text: 'Theodore Roosevelt Center — The Panama Canal' },
+                        { url: 'https://history.state.gov/milestones/1899-1913/panama-canal', text: 'U.S. State Department — Panama Canal Negotiations and Colombia' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Roosevelt Corollary Used to Justify Debt-Collection Interventions',
+                    shortLabel: 'Intervention Doctrine',
+                    description: 'Beyond its defensive framing against European colonialism, the Roosevelt Corollary in practice authorized U.S. intervention in Latin American countries deemed fiscally irresponsible or politically unstable — effectively making indebtedness and internal disorder grounds for U.S. military occupation. Roosevelt applied this logic most directly in the Dominican Republic in 1905, placing U.S. officials in control of its customs revenues. Anti-imperialist critics at the time argued the Corollary transformed the Monroe Doctrine from a shield against European empire into a tool for American empire, with sovereign Latin American governments subject to U.S. veto over their domestic affairs.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1899-1913/roosevelt-and-monroe-doctrine', text: 'U.S. State Department — Roosevelt Corollary and Dominican Republic' },
+                        { url: 'https://www.archives.gov/education/lessons/monroe-doctrine', text: 'National Archives — Monroe Doctrine Expansion Under Roosevelt' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Conservation Policy Built on Displacement of Native Land Use',
+                    shortLabel: 'Native Land Conservation',
+                    description: 'Roosevelt\'s conservation legacy is substantial — he protected roughly 230 million acres of public land — but the movement he championed treated Native American land use and stewardship as inferior or invisible. Federal conservation policy expanded government control over lands that Indigenous nations had managed for generations, often without meaningful consultation or compensation, and the "wilderness" ideal embedded in conservation law reflected a view of nature as uninhabited that erased existing Native presence. This is a structural criticism rather than a single act, but it represents a real and documented cost of Roosevelt\'s conservation program.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/000/roosevelt-conservation.htm', text: 'National Park Service — Theodore Roosevelt and Conservation' },
+                        { url: 'https://www.doi.gov/sites/doi.gov/files/uploads/doi-report-on-land-acknowledgement.pdf', text: 'Department of the Interior — Indigenous Land and Conservation History' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Expanded Unilateral Executive Power',
+                    shortLabel: 'Executive Overreach',
+                    description: 'Roosevelt aggressively expanded the scope and assertiveness of the presidency, acting on a "stewardship theory" that the president could do anything not explicitly forbidden by the Constitution. While this produced genuine domestic achievements in conservation and regulation, it also normalized unilateral executive action in foreign affairs, bypassed Congress on treaty-adjacent arrangements, and set precedents for a more imperial presidency. His admirers credit this energy as transformative; critics, including his successor William Howard Taft, argued it exceeded constitutional bounds and established a model of executive unilateralism that outlasted his specific causes.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/roosevelt/key-events', text: 'Miller Center — Theodore Roosevelt: Executive Power and the Stewardship Theory' },
+                        { url: 'https://www.britannica.com/biography/Theodore-Roosevelt/Presidency', text: 'Britannica — Theodore Roosevelt: The Presidency and Executive Power' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: '"Big Stick" Militarism and Normalization of Coercive Diplomacy',
+                    shortLabel: 'Big Stick Policy',
+                    description: 'Roosevelt\'s "speak softly and carry a big stick" foreign policy doctrine made military threat a routine instrument of U.S. diplomacy, particularly toward smaller and weaker nations. While Roosevelt avoided large-scale wars among major powers and won the Nobel Peace Prize for mediating the Russo-Japanese War, the "big stick" was wielded most freely against Latin American and Caribbean nations that lacked the power to resist. The doctrine normalized a posture in which U.S. strategic and commercial interests could override the sovereignty of weaker states, laying the groundwork for decades of interventionist U.S. foreign policy in the Western Hemisphere.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1899-1913/big-stick', text: 'U.S. State Department Office of the Historian — "Big Stick" Diplomacy' },
+                        { url: 'https://www.britannica.com/topic/Big-Stick-policy', text: 'Britannica — Big Stick Policy: Origins and Legacy' }
+                    ]
+                },
+            ]
+        },
+        fdRoosevelt: {
+            id: 'fdRoosevelt',
+            firstName: 'Franklin D.',
+            lastName: 'Roosevelt',
+            displayName: 'F.D. Roosevelt',
+            ordinal: 32,
+            party: 'democrat',
+            portrait: '/assets/images/fdr.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Japanese American Internment',
+                    shortLabel: 'Japanese Internment',
+                    description: 'In February 1942, Roosevelt signed Executive Order 9066, authorizing the creation of military exclusion zones that led to the forced removal and mass incarceration of approximately 125,000 people of Japanese ancestry — the majority of them U.S.-born citizens who had committed no crime. Families were given days to dispose of their homes and businesses before being transported to remote camps surrounded by barbed wire and armed guards, where they were held for years. The National Archives documents the order\'s direct role in the removals. In 1988, Congress formally acknowledged the internment as a "grave injustice" driven by "racial prejudice, war hysteria, and a failure of political leadership" and paid reparations to survivors.',
+                    sources: [
+                        { url: 'https://www.archives.gov/milestone-documents/executive-order-9066', text: 'National Archives — Executive Order 9066: Milestone Documents' },
+                        { url: 'https://www.densho.org/executive-order-9066/', text: 'Densho Encyclopedia — Executive Order 9066 and Japanese American Incarceration' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Refused Jewish Refugees Aboard the St. Louis',
+                    shortLabel: 'St. Louis Refugees',
+                    description: 'In May 1939, the German ocean liner St. Louis departed Hamburg carrying 937 passengers, nearly all of them Jewish refugees fleeing Nazi persecution. After Cuba refused entry, the ship sailed along the U.S. coastline seeking asylum. The Roosevelt administration declined to admit the passengers, citing immigration quotas and State Department restrictions, even as the ship waited within sight of Miami. The vessel was forced to return to Europe. The U.S. Holocaust Memorial Museum documents that 254 of those passengers were subsequently murdered in the Holocaust. The episode remains one of the most documented instances of the administration\'s failure to act when action was possible.',
+                    sources: [
+                        { url: 'https://encyclopedia.ushmm.org/content/en/article/the-voyage-of-the-st-louis', text: 'U.S. Holocaust Memorial Museum — The Voyage of the St. Louis' },
+                        { url: 'https://www.archives.gov/research/holocaust', text: 'National Archives — Holocaust-Era Records and U.S. Policy' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Broader Failure to Admit Jewish Refugees During the Holocaust',
+                    shortLabel: 'Holocaust Refugees',
+                    description: 'The St. Louis was the most visible case, but the broader failure of FDR\'s administration to use available executive authority to ease immigration restrictions and rescue Jews fleeing Nazi persecution is a sustained and documented criticism. The State Department under Secretary Cordell Hull actively obstructed refugee admissions and suppressed reports of mass killings. The War Refugee Board — which FDR eventually created in January 1944 — came years after the scale of the Holocaust was known inside the administration. Historians including David Wyman have argued that earlier, more aggressive action could have saved hundreds of thousands of lives, and that domestic antisemitism and political calculation drove the inaction more than true legal constraint.',
+                    sources: [
+                        { url: 'https://encyclopedia.ushmm.org/content/en/article/the-united-states-and-the-holocaust', text: 'U.S. Holocaust Memorial Museum — The United States and the Holocaust' },
+                        { url: 'https://www.archives.gov/research/holocaust/article.html', text: 'National Archives — America and the Holocaust: Documenting the Failure' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Tried to Pack the Supreme Court',
+                    shortLabel: 'Court-Packing Plan',
+                    description: 'After the Supreme Court struck down several major New Deal programs, FDR proposed the Judicial Procedures Reform Bill of 1937, which would have allowed him to appoint an additional justice for every sitting justice over the age of 70 — potentially expanding the Court to 15 members. The Federal Judicial Center states plainly that his motive was to reshape the Court\'s ideological balance to stop it from invalidating his legislation. The plan was rejected even by a Congress dominated by his own party, with members of both parties condemning it as an assault on judicial independence. It remains one of the most direct attempts by a president to subordinate the judiciary to executive will.',
+                    sources: [
+                        { url: 'https://www.fjc.gov/history/courts/packing-supreme-court', text: 'Federal Judicial Center — FDR\'s Court-Packing Plan' },
+                        { url: 'https://www.archives.gov/exhibits/new-deal', text: 'National Archives — The New Deal and the Supreme Court Conflict' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'New Deal Housing Policy Entrenched Racial Segregation',
+                    shortLabel: 'Redlining & Segregation',
+                    description: 'New Deal housing programs helped millions of white Americans build generational wealth through homeownership, but the same federal apparatus systematically excluded Black Americans. The Home Owners\' Loan Corporation produced color-coded maps — the origin of "redlining" — that designated Black and immigrant neighborhoods as high-risk, denying residents access to federally backed mortgages. The Federal Housing Administration then reinforced segregation by refusing to insure mortgages in integrated neighborhoods and explicitly requiring racially restrictive covenants in new developments. The National Community Reinvestment Coalition has documented how these policies created racial wealth gaps that persisted for generations. The New Deal\'s most transformative domestic benefit was deliberately structured to exclude Black Americans.',
+                    sources: [
+                        { url: 'https://ncrc.org/holc/', text: 'National Community Reinvestment Coalition — HOLC Redlining Maps' },
+                        { url: 'https://www.npr.org/2017/05/03/526655831/a-forgotten-history-of-how-the-u-s-government-segregated-america', text: 'NPR — A Forgotten History of How the U.S. Government Segregated America (May 2017)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'New Deal Excluded Most Black Workers from Key Protections',
+                    shortLabel: 'Black Workers Excluded',
+                    description: 'The Social Security Act of 1935 and the National Labor Relations Act deliberately excluded agricultural workers and domestic servants from their protections — categories that encompassed the majority of Black workers in the South. This was not accidental: the exclusions were conditions demanded by Southern Democratic congressmen whose support FDR needed to pass the legislation. The result was that the New Deal\'s most durable economic protections — retirement insurance, unemployment benefits, and the right to organize — were structurally denied to Black Americans at the moment they were extended to the broader workforce, deepening racial economic inequality for generations.',
+                    sources: [
+                        { url: 'https://www.ssa.gov/history/reports/acsim/ACSIMonline.pdf', text: 'Social Security Administration — Historical Context of the Social Security Act and Racial Exclusions' },
+                        { url: 'https://www.epi.org/publication/new-deal-left-out-black-workers/', text: 'Economic Policy Institute — How the New Deal Left Out Black Workers' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Firebombing Campaigns Against Civilian-Dense Cities',
+                    shortLabel: 'Civilian Firebombing',
+                    description: 'As commander in chief, FDR bore command responsibility for the Allied strategic bombing campaigns of World War II, which increasingly targeted civilian-dense urban areas. The March 9–10, 1945 firebombing of Tokyo — the single deadliest air raid in history — killed an estimated 80,000 to 100,000 civilians in a single night, destroying sixteen square miles of the city. Similar area-bombing campaigns devastated Dresden and dozens of other German cities. Military historians debate the strategic necessity and distribution of responsibility across Allied command, but the campaigns represented a deliberate shift toward targeting civilian infrastructure and population centers that caused mass noncombatant death.',
+                    sources: [
+                        { url: 'https://www.afhistory.af.mil/News/Article-Display/Article/458980/the-bombing-of-japan/', text: 'Air Force Historical Research Agency — Strategic Bombing of Japan' },
+                        { url: 'https://www.britannica.com/event/firebombing-of-Tokyo', text: 'Britannica — Firebombing of Tokyo (March 1945)' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Yalta Concessions and Soviet Domination of Eastern Europe',
+                    shortLabel: 'Yalta Concessions',
+                    description: 'At the Yalta Conference in February 1945, a visibly ill FDR negotiated postwar arrangements with Churchill and Stalin that critics have long argued were excessively favorable to Soviet interests. The agreements effectively acknowledged Soviet influence over Poland and much of Eastern Europe, with democratic election pledges that Stalin promptly ignored. The State Department\'s own historical office notes that critics accused FDR of "handing over" Eastern Europe and parts of Northeast Asia, though defenders argue his negotiating position was constrained by Soviet military realities on the ground and the need for Soviet entry into the Pacific war. The debate remains genuinely contested among historians.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1937-1945/yalta-conf', text: 'U.S. State Department Office of the Historian — The Yalta Conference (1945)' },
+                        { url: 'https://www.britannica.com/event/Yalta-Conference', text: 'Britannica — Yalta Conference: Outcomes and Legacy' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Mass Incarceration System Beyond the Initial Order',
+                    shortLabel: 'Internment Infrastructure',
+                    description: 'Executive Order 9066 was not a one-time decision but the foundation for a large administrative apparatus of mass incarceration that expanded over years. The Truman Library documents that more than 100,000 Japanese Americans were placed into internment camps in the six months following the order, held in facilities administered by the War Relocation Authority across desolate sites in California, Arizona, Idaho, Wyoming, Colorado, Utah, and Arkansas. Internees lost homes, businesses, farms, and savings. The incarceration continued until 1945, and the Supreme Court upheld it in Korematsu v. United States — a ruling not formally repudiated until 2018.',
+                    sources: [
+                        { url: 'https://www.trumanlibrary.gov/education/presidential-inquiries/japanese-american-internment', text: 'Truman Presidential Library — Japanese American Internment' },
+                        { url: 'https://encyclopedia.densho.org/War_Relocation_Authority/', text: 'Densho Encyclopedia — War Relocation Authority' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Dramatic and Contested Expansion of Executive Power',
+                    shortLabel: 'Executive Power Expansion',
+                    description: 'FDR transformed the American presidency, expanding its reach through emergency banking actions, the creation of dozens of New Deal agencies, wartime executive authority, and a four-term tenure that reshaped expectations of presidential power. Many of these expansions addressed genuine crises and produced lasting public benefits. But critics across the political spectrum have argued that FDR normalized a model of executive governance that bypassed Congress, pushed constitutional boundaries, and built a federal administrative state with limited democratic accountability. The court-packing plan was the most overt expression of this tendency, but it ran throughout his presidency.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/fdroosevelt/key-events', text: 'Miller Center — Franklin D. Roosevelt: Key Events and Executive Power' },
+                        { url: 'https://www.brookings.edu/articles/fdr-and-the-modern-presidency/', text: 'Brookings Institution — FDR and the Modern Presidency' }
+                    ]
+                },
+            ]
+        },
+        jefferson: {
+            id: 'jefferson',
+            firstName: 'Thomas',
+            lastName: 'Jefferson',
+            ordinal: 3,
+            party: 'democratic-republican',
+            portrait: '/assets/images/jefferson.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Enslaved More Than 600 People Over His Lifetime',
+                    shortLabel: 'Enslaved 600+ People',
+                    description: 'Over the course of his life, Jefferson enslaved more than 600 people. Monticello\'s own research documents that he freed only ten people in total — all from the same family — while hundreds of others remained enslaved or were sold after his death to satisfy his debts. He lived in luxury at Monticello through the forced, uncompensated labor of enslaved people, including skilled artisans, domestic workers, and agricultural laborers. The scale of his slaveholding places him among the largest enslavers among American presidents, and the near-total failure to free those he enslaved — even upon his death — stands in direct and irreconcilable contradiction to his most celebrated political writing.',
+                    sources: [
+                        { url: 'https://www.monticello.org/thomas-jefferson/jefferson-slavery/', text: 'Monticello — Thomas Jefferson and Slavery' },
+                        { url: 'https://www.whitehousehistory.org/slavery-in-the-white-house-thomas-jefferson', text: 'White House Historical Association — Slavery in the White House: Thomas Jefferson' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Fathered Children with Sally Hemings, a Woman He Enslaved',
+                    shortLabel: 'Sally Hemings',
+                    description: 'The Thomas Jefferson Foundation at Monticello considers it settled historical fact that Jefferson fathered six children with Sally Hemings, an enslaved woman who was also the half-sister of his late wife. Hemings was legally his property, had no right to refuse, and had no standing to leave. The relationship existed entirely within a structure of absolute power — she could be sold, separated from her children, or punished at his discretion. Modern ethical frameworks cannot treat this as consensual in any meaningful sense. Jefferson never freed Hemings during his lifetime; she obtained her freedom only informally after his death through his son Madison.',
+                    sources: [
+                        { url: 'https://www.monticello.org/thomas-jefferson/jefferson-slavery/thomas-jefferson-and-sally-hemings-a-brief-account/', text: 'Monticello — Thomas Jefferson and Sally Hemings: A Brief Account' },
+                        { url: 'https://www.smithsonianmag.com/history/the-truth-about-jefferson-180975789/', text: 'Smithsonian Magazine — The Truth About Jefferson and Sally Hemings' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Failed to Act Against Slavery Despite Acknowledging It Was Wrong',
+                    shortLabel: 'Slavery Hypocrisy',
+                    description: 'Jefferson repeatedly acknowledged in his private writings and public statements that slavery was a moral evil and a danger to the republic, yet he continued to profit from it his entire life, freed almost none of the people he enslaved, and did not use his extraordinary political influence — as the author of the Declaration of Independence, as Secretary of State, as Vice President, and as a two-term president — to advance any serious program of abolition. His intellectual prestige made this failure especially consequential: more than almost any figure in the early republic, Jefferson had the credibility to push against slavery\'s expansion and chose not to. The gap between his stated principles and his actions helped normalize the contradiction at the heart of American democracy.',
+                    sources: [
+                        { url: 'https://www.monticello.org/thomas-jefferson/jefferson-slavery/jefferson-s-attitudes-toward-slavery/', text: 'Monticello — Jefferson\'s Attitudes Toward Slavery' },
+                        { url: 'https://www.loc.gov/collections/thomas-jefferson-papers/articles-and-essays/jefferson-and-slavery/', text: 'Library of Congress — Jefferson and Slavery' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Promoted Racist Theories of Black Inferiority',
+                    shortLabel: 'Racist Ideology',
+                    description: 'In Notes on the State of Virginia, Jefferson wrote at length that Black people were inferior to white people in "body and mind" — deficient in reason, imagination, and beauty. He presented these views not as prejudice but as considered scientific observation, lending the authority of one of America\'s foremost intellectuals to white supremacist ideology at the moment the nation\'s racial order was being constructed. Because Jefferson was the era\'s most influential American political thinker, his racial theories carried exceptional legitimating weight — helping to provide intellectual scaffolding for the defense of slavery and, later, for scientific racism and segregationist ideology throughout the nineteenth and twentieth centuries.',
+                    sources: [
+                        { url: 'https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/notes-state-virginia/', text: 'Monticello — Notes on the State of Virginia' },
+                        { url: 'https://www.loc.gov/resource/mtj1.024_0368_0380/', text: 'Library of Congress — Notes on the State of Virginia: Original Text' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Louisiana Purchase Expanded Territory for Slavery and Native Dispossession',
+                    shortLabel: 'Louisiana Purchase',
+                    description: 'The Louisiana Purchase of 1803 doubled the size of the United States and is widely celebrated as a diplomatic achievement, but it also opened an enormous new continental interior to westward expansion, the dispossession of Native nations, and the spread of slavery. The purchase intensified the sectional crisis over whether slavery would expand into new territories — a conflict that culminated in the Civil War. Jefferson also knew the purchase sat uneasily with his own strict-constructionist constitutional principles, privately admitting it exceeded his reading of presidential authority but proceeding anyway, prioritizing political expediency over the constitutional limits he had spent his career championing.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1801-1829/louisiana-purchase', text: 'U.S. State Department Office of the Historian — The Louisiana Purchase (1803)' },
+                        { url: 'https://www.archives.gov/exhibits/american_originals/louistxt.html', text: 'National Archives — Louisiana Purchase Treaty' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Laid Groundwork for Native American Removal Through Debt and Coercion',
+                    shortLabel: 'Native Removal Groundwork',
+                    description: 'Jefferson\'s Native American policy promoted "civilization" programs and land cession treaties as official federal strategy, but his private correspondence reveals a more deliberate and coercive design. He wrote to government officials that encouraging Native nations to accumulate debt through federal trading posts would pressure them into selling land to repay what they owed — a strategy of engineered economic dependency used to extract territorial concessions. While Jefferson\'s policies were less immediately violent than Andrew Jackson\'s forced removal program, historians recognize them as a direct intellectual and policy predecessor to the Indian Removal Act of 1830, providing the framework and justifications that later administrations built upon.',
+                    sources: [
+                        { url: 'https://www.monticello.org/thomas-jefferson/jefferson-and-native-americans/', text: 'Monticello — Thomas Jefferson and Native Americans' },
+                        { url: 'https://history.state.gov/milestones/1801-1829/native-american-diplomacy', text: 'U.S. State Department — Jefferson\'s Native American Policy' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'The Embargo Act Devastated American Commerce',
+                    shortLabel: 'Embargo Act',
+                    description: 'Jefferson\'s Embargo Act of 1807 prohibited American ships from engaging in foreign trade in an attempt to economically pressure Britain and France to respect U.S. neutral shipping rights during the Napoleonic Wars. The policy failed entirely as a diplomatic instrument — neither Britain nor France changed course — while inflicting severe economic damage on American merchants, sailors, farmers, and port communities, particularly in New England. The embargo is widely regarded as one of the most damaging peacetime economic policies in early American history. Jefferson eventually acknowledged its failure and signed its repeal three days before leaving office.',
+                    sources: [
+                        { url: 'https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/embargo-act-1807/', text: 'Monticello — The Embargo Act of 1807' },
+                        { url: 'https://history.state.gov/milestones/1801-1829/embargo-act', text: 'U.S. State Department Office of the Historian — The Embargo Act of 1807' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Enforced the Embargo with Sweeping Federal Powers He Opposed in Principle',
+                    shortLabel: 'Embargo Enforcement',
+                    description: 'The enforcement of the Embargo Act required the kind of intrusive federal authority over commerce and individual behavior that Jefferson had spent his political career condemning as tyrannical. To suppress widespread smuggling — particularly in New England and along the Canadian border — his administration obtained broad enforcement powers, authorized warrantless searches of vessels and warehouses, and deployed military force against American citizens engaged in trade. The spectacle of Jefferson, the great champion of limited government and states\' rights, presiding over an aggressive federal enforcement regime against his own citizens was politically devastating and exposed a deep contradiction between his constitutional principles and his exercise of presidential power.',
+                    sources: [
+                        { url: 'https://www.loc.gov/law/help/statutes-at-large/10th-congress/session-2/c10s2ch5.pdf', text: 'Library of Congress — Embargo Act Enforcement Legislation (1808)' },
+                        { url: 'https://www.britannica.com/event/Embargo-Act', text: 'Britannica — Embargo Act: Enforcement and Consequences' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Constitutional Flexibility Contradicted His Own Principles',
+                    shortLabel: 'Constitutional Hypocrisy',
+                    description: 'Jefferson built his political identity in large part on strict constitutional construction — the argument that the federal government could exercise only powers explicitly granted to it by the Constitution. As president, he abandoned this principle when it suited him, most visibly with the Louisiana Purchase, for which he privately acknowledged there was no clear constitutional authority. He chose to proceed rather than seek a constitutional amendment, prioritizing the political and strategic opportunity over his stated principles. The pattern of Jefferson invoking constitutional limits against his opponents while disregarding them when in power is one of the most consistently noted contradictions of his presidency.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/jefferson/key-events', text: 'Miller Center — Thomas Jefferson: Key Events of His Presidency' },
+                        { url: 'https://www.britannica.com/biography/Thomas-Jefferson/President-of-the-United-States', text: 'Britannica — Thomas Jefferson: The Presidency' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Democratic Ideals Built on Deliberate Exclusion',
+                    shortLabel: 'Exclusionary Democracy',
+                    description: 'Jefferson\'s contributions to American democratic language — most powerfully "all men are created equal" — are foundational, but his actual vision of political life systematically excluded the majority of people living in the republic he helped create. Enslaved people, free Black people, Native Americans, women, and landless white men were excluded from the political equality Jefferson articulated. This was not accidental or merely a reflection of his era — Jefferson actively defended and sustained the institutions, laws, and ideological frameworks that kept these groups outside the polity. The result was a nation whose founding language promised universal human equality and whose founding institutions were deliberately structured to deny it, a contradiction Jefferson did more than almost anyone to both create and entrench.',
+                    sources: [
+                        { url: 'https://www.loc.gov/exhibits/jefferson/jeffamer.html', text: 'Library of Congress — Jefferson\'s Vision for America' },
+                        { url: 'https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/liberty-and-slavery/', text: 'Monticello — Liberty and Slavery: The Paradox of Jefferson' }
+                    ]
+                },
+            ]
+        },
+        hoover: {
+            id: 'hoover',
+            firstName: 'Herbert',
+            lastName: 'Hoover',
+            ordinal: 31,
+            party: 'republican',
+            portrait: '/assets/images/hoover.webp',
+            bars: [
+                {
+                    severity: 9,
+                    title: 'Failed to Respond Adequately to the Great Depression',
+                    shortLabel: 'Depression Response',
+                    description: 'Hoover did not cause the Great Depression, but his response to it — rooted in a philosophical commitment to voluntarism, private charity, and local relief over direct federal action — left millions of Americans without meaningful help during the worst economic collapse in the nation\'s history. Unemployment reached 25 percent, banks failed by the thousands, and farm incomes collapsed while Hoover resisted direct federal relief on the grounds that it would undermine individual character and expand government inappropriately. The Miller Center notes his Depression response has defined his historical legacy. When federal intervention did come, it was too limited and too late to prevent catastrophic human suffering or his landslide electoral defeat.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/hoover/domestic-affairs', text: 'Miller Center — Herbert Hoover: Domestic Affairs and the Great Depression' },
+                        { url: 'https://hoover.archives.gov/info/depression.html', text: 'Herbert Hoover Presidential Library — Hoover and the Great Depression' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Withheld Direct Federal Relief from Unemployed and Hungry Americans',
+                    shortLabel: 'Denied Federal Relief',
+                    description: 'Throughout the early years of the Depression, Hoover refused to authorize direct federal relief for unemployed and destitute Americans, insisting that local governments, charities, and voluntary cooperation were the appropriate response to mass unemployment and hunger. Private charity and state resources were catastrophically overwhelmed. He eventually signed the Emergency Relief and Construction Act in July 1932 — allowing the Reconstruction Finance Corporation to lend $300 million to states for relief purposes — but this came nearly three years into the Depression and months before he left office. By then, Hoovervilles had become a national symbol of his administration\'s inadequate response to the scale of the crisis.',
+                    sources: [
+                        { url: 'https://www.federalreservehistory.org/essays/reconstruction-finance-corp', text: 'Federal Reserve History — The Reconstruction Finance Corporation' },
+                        { url: 'https://hoover.archives.gov/info/depression.html', text: 'Herbert Hoover Presidential Library — Relief Policy During the Depression' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Signed the Smoot-Hawley Tariff',
+                    shortLabel: 'Smoot-Hawley Tariff',
+                    description: 'In June 1930, Hoover signed the Smoot-Hawley Tariff Act, raising import duties on more than 20,000 goods to record levels at precisely the moment the global economy was contracting. More than 1,000 economists signed a public petition urging him to veto it. Trading partners retaliated with their own tariffs, global trade collapsed, and the international economic contraction deepened. While the Great Depression had many causes and Smoot-Hawley alone did not create it, economists and historians widely regard the Act as a serious policy error that worsened and prolonged the downturn by choking off international trade at the worst possible moment.',
+                    sources: [
+                        { url: 'https://www.senate.gov/artandhistory/history/minute/Smoot_Hawley_Tariff.htm', text: 'U.S. Senate — Smoot-Hawley Tariff: Historical Minute Essay' },
+                        { url: 'https://www.econlib.org/library/Enc/SmootHawleyTariff.html', text: 'Library of Economics and Liberty — Smoot-Hawley Tariff' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Ordered the Forcible Eviction of the Bonus Army',
+                    shortLabel: 'Bonus Army Eviction',
+                    description: 'In the summer of 1932, roughly 43,000 people — including World War I veterans, their families, and supporters — marched on Washington to demand early payment of service bonuses promised for 1945. After Congress rejected the bonus bill, Hoover ordered federal troops to clear veterans from occupied federal property. General Douglas MacArthur exceeded those orders, driving veterans and their families from all their camps with cavalry, infantry, and tanks, burning their shelters to the ground. Images of the U.S. Army turning on desperate veterans who had fought in the World War were politically devastating and morally damning, becoming one of the defining moments of Hoover\'s presidency.',
+                    sources: [
+                        { url: 'https://www.history.com/topics/great-depression/bonus-army', text: 'History.com — The Bonus Army: World War I Veterans\' March on Washington' },
+                        { url: 'https://www.archives.gov/publications/prologue/2006/summer/bonus-army.html', text: 'National Archives — The Bonus Army (Prologue, Summer 2006)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Rescued Banks While Leaving Ordinary Americans Without Help',
+                    shortLabel: 'Banks Over People',
+                    description: 'Hoover\'s Reconstruction Finance Corporation, created in January 1932, provided emergency loans to banks, railroads, insurance companies, and other large financial institutions. While financial system stabilization had genuine economic logic, the political and human reality was stark: institutions deemed too important to fail received federal assistance while millions of unemployed Americans were told direct relief was not the government\'s responsibility. The Federal Reserve History notes the RFC\'s mandate was emergency financing for financial institutions; the theory that RFC loans would flow through banks and businesses to workers proved wrong in practice — banks hoarded capital and businesses did not hire. The contrast between institutional rescue and individual abandonment became the defining image of Hoover\'s failure.',
+                    sources: [
+                        { url: 'https://www.federalreservehistory.org/essays/reconstruction-finance-corp', text: 'Federal Reserve History — The Reconstruction Finance Corporation' },
+                        { url: 'https://www.trumanlibrary.gov/education/presidential-inquiries/reconstruction-finance-corporation', text: 'Truman Presidential Library — The Reconstruction Finance Corporation' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Raised Taxes During the Depression',
+                    shortLabel: 'Depression-Era Tax Hike',
+                    description: 'In 1932, Hoover signed the Revenue Act, which sharply increased income tax rates — raising the top marginal rate from 25 percent to 63 percent — along with new taxes on corporations, estates, and a broad range of consumer goods, in an effort to balance the federal budget and preserve the government\'s credit. The balanced-budget impulse was conventional wisdom among policymakers of the era, but in hindsight the Revenue Act was deeply contractionary: raising taxes during a collapsing economy withdrew purchasing power from a system already in freefall, reducing demand and deepening the contraction. Most economic historians view it as one of the worst fiscal policy decisions of the Depression era.',
+                    sources: [
+                        { url: 'https://www.taxfoundation.org/revenue-act-1932/', text: 'Tax Foundation — The Revenue Act of 1932' },
+                        { url: 'https://www.cbo.gov/sites/default/files/cbofiles/ftpdocs/83xx/doc8366/maintext.3.1.shtml', text: 'Congressional Budget Office — Historical Tax Policy: The 1932 Revenue Act in Context' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Presided Over Mass Deportation of Mexicans and Mexican Americans',
+                    shortLabel: 'Mexican Repatriation',
+                    description: 'During Hoover\'s presidency, a coordinated campaign of federal deportations and local coercion pressured hundreds of thousands of people of Mexican origin to leave the United States, including large numbers of U.S.-born citizens with full legal rights. The Labor Department under Hoover\'s appointee William Doak intensified deportation enforcement, and federal action created political cover for state and local campaigns of intimidation and forced removal. Digital History documents that 82,400 people were involuntarily deported by federal authorities, while local pressure drove many more to leave. Decades later, the state of California formally apologized for its role in what it acknowledged were unconstitutional deportations of American citizens.',
+                    sources: [
+                        { url: 'https://www.digitalhistory.uh.edu/disp_textbook.cfm?smtID=2&psid=3479', text: 'Digital History — Mexican Repatriation During the Great Depression' },
+                        { url: 'https://www.loc.gov/item/2021387543/', text: 'Library of Congress — Mexican Repatriation: Primary Source Documentation' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Nominated John J. Parker to the Supreme Court',
+                    shortLabel: 'Parker Nomination',
+                    description: 'In 1930, Hoover nominated Judge John J. Parker of North Carolina to the Supreme Court. Parker was opposed by the American Federation of Labor over a ruling that upheld "yellow dog" contracts barring workers from joining unions, and by the NAACP over statements he had made opposing Black political participation in elections. The Senate rejected the nomination 41–39 in a significant early defeat for Hoover. The episode was a meaningful failure of political judgment that damaged Hoover\'s standing with both organized labor and Black voters — constituencies whose support Republicans could not afford to lose heading into a difficult economic and electoral environment.',
+                    sources: [
+                        { url: 'https://www.senate.gov/artandhistory/history/common/generic/nominations_parker.htm', text: 'U.S. Senate — Rejection of the John J. Parker Nomination (1930)' },
+                        { url: 'https://www.fjc.gov/history/judges/parker-john-johnston', text: 'Federal Judicial Center — John J. Parker: Biographical Data' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Weak Civil Rights Leadership During a Period of Severe Racial Inequality',
+                    shortLabel: 'Civil Rights Failure',
+                    description: 'Hoover did not make racial equality a meaningful presidential priority, and his relationship with Black Americans — who had been a significant Republican constituency since Reconstruction — deteriorated sharply during his presidency. The Parker nomination was the most visible symbol of this failure. More broadly, Black Americans experienced the Depression in its most severe form, routinely excluded from local relief programs by discriminatory administrators, denied agricultural assistance, and shut out of public works jobs. Hoover\'s limited federal relief approach left Black communities exposed to exactly these local discriminatory systems without meaningful federal protection or redress.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/hoover/domestic-affairs', text: 'Miller Center — Hoover\'s Civil Rights Record' },
+                        { url: 'https://www.naacp.org/naacp-history-and-the-great-depression/', text: 'NAACP — Civil Rights and the Great Depression Era' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Persistently Underestimated the Scale and Duration of the Crisis',
+                    shortLabel: 'Crisis Underestimation',
+                    description: 'Throughout the Depression\'s early years, Hoover repeatedly predicted imminent recovery and framed the crisis as a manageable disruption that could be addressed through confidence-building, voluntary cooperation, and limited credit interventions. His public optimism — including statements that "prosperity is just around the corner" — became politically toxic as conditions worsened and millions remained destitute. Whether rooted in genuine belief or a calculated attempt to prevent panic, the persistent gap between Hoover\'s reassurances and the lived reality of Americans losing homes, farms, and livelihoods contributed to the collapse of public trust in his administration and the perception that he was fundamentally detached from the scale of national suffering.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/hoover/key-events', text: 'Miller Center — Herbert Hoover: Key Events of His Presidency' },
+                        { url: 'https://hoover.archives.gov/info/depression.html', text: 'Herbert Hoover Presidential Library — Hoover\'s Public Statements on the Depression' }
+                    ]
+                },
+            ]
+        },
+        cleveland: {
+            id: 'cleveland',
+            firstName: 'Grover',
+            lastName: 'Cleveland',
+            ordinal: [22, 24],
+            party: 'democrat',
+            portrait: '/assets/images/cleveland.webp',
+            bars: [
+                {
+                    severity: 8,
+                    title: 'Sent Federal Troops to Break the Pullman Strike',
+                    shortLabel: 'Pullman Strike',
+                    description: 'In 1894, when workers at the Pullman Palace Car Company walked off the job over wage cuts and were joined in a sympathy boycott by members of the American Railway Union, Cleveland\'s administration obtained a sweeping federal injunction against the strike and deployed federal troops to Chicago over the objection of Illinois Governor John Altgeld, who had not requested them. Violence followed the troop deployment; National Guardsmen fired into crowds, killing between 4 and 30 people depending on the account. The strike collapsed, ARU leader Eugene Debs was imprisoned for contempt of the injunction, and Cleveland was broadly seen as having used the full machinery of federal government — courts, injunctions, and military force — to destroy organized labor on behalf of railroad corporations.',
+                    sources: [
+                        { url: 'https://www.britannica.com/event/Pullman-Strike', text: 'Britannica — The Pullman Strike (1894)' },
+                        { url: 'https://www.nlrb.gov/about-nlrb/who-we-are/our-history/1894-pullman-strike', text: 'National Labor Relations Board — The 1894 Pullman Strike' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Used Federal Power Systematically Against Organized Labor',
+                    shortLabel: 'Anti-Labor Policy',
+                    description: 'The Pullman Strike was the most dramatic episode, but it reflected a broader pattern in Cleveland\'s presidency of deploying federal authority on behalf of employers and railroad corporations against workers demanding fairer conditions. Cleveland justified the Pullman intervention on grounds of protecting mail delivery and interstate commerce, but critics at the time and historians since have argued that the same logic could be — and was — used to criminalize nearly any effective labor action. The use of a federal injunction to jail strike leaders without a jury trial set a precedent for anti-labor injunctions that would be used against workers for decades, fundamentally tilting federal power toward capital in labor disputes.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/cleveland/domestic-affairs', text: 'Miller Center — Grover Cleveland: Domestic Affairs and Labor Policy' },
+                        { url: 'https://www.dol.gov/general/aboutdol/history/pullman', text: 'U.S. Department of Labor — The Pullman Strike and Federal Labor Policy' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Signed the Dawes Act, Stripping Native Americans of 86 Million Acres',
+                    shortLabel: 'Dawes Act',
+                    description: 'Cleveland signed the Dawes Severalty Act in 1887, one of the most destructive pieces of federal legislation ever directed at Native Americans. The law broke up communally held tribal lands into individual allotments assigned to tribal members, then opened the remaining "surplus" land to white settlement. The National Park Service documents how the law deliberately undermined tribal sovereignty and communal land tenure; Native Americans ultimately lost approximately 86 million acres — roughly 62 percent of their pre-1887 landholdings — through the allotment process and subsequent sales. The law also conditioned citizenship and land rights on assimilation, using property as leverage to dismantle tribal identity and governance structures.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/000/dawes-act.htm', text: 'National Park Service — The Dawes Act (1887)' },
+                        { url: 'https://www.archives.gov/research/native-americans/dawes/background.html', text: 'National Archives — The Dawes Act: Background and Records' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Enforced Forced Assimilation of Native Americans',
+                    shortLabel: 'Native Assimilation',
+                    description: 'The Dawes Act was not only a land-seizure mechanism; it was the legal centerpiece of a federal policy of forced cultural assimilation designed to destroy tribal identity. Native people were pressured to abandon communal landholding, take up individual farming on fragmented allotments, and accept citizenship on federal terms that required shedding tribal affiliation. The National Archives describes the law as explicitly treating Native Americans as individuals rather than members of sovereign tribal nations — a deliberate dismantling of the legal and cultural foundations of tribal life. The allotment era produced poverty, land loss, cultural destruction, and the collapse of tribal governance that Native communities spent the following century working to reverse.',
+                    sources: [
+                        { url: 'https://www.archives.gov/research/native-americans/dawes/background.html', text: 'National Archives — Dawes Act and the Allotment Policy' },
+                        { url: 'https://www.britannica.com/topic/Dawes-General-Allotment-Act', text: 'Britannica — Dawes General Allotment Act: Origins and Consequences' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Signed the Scott Act, Stranding Chinese Immigrants Abroad',
+                    shortLabel: 'Scott Act',
+                    description: 'In 1888, Cleveland signed the Scott Act, which barred Chinese laborers who had temporarily left the United States from returning — even those who held valid reentry certificates previously issued by the federal government. The law effectively voided the legal promises the U.S. had made to thousands of Chinese residents who had returned to China to visit family or conduct business in good faith reliance on those certificates. The Miller Center documents that Cleveland\'s own message to Congress made clear the bill\'s purpose was more effective exclusion of Chinese laborers. The Supreme Court upheld the Act in Chae Chan Ping v. United States, establishing the plenary power doctrine that gave Congress virtually unchecked authority over immigration.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/cleveland/domestic-affairs', text: 'Miller Center — Cleveland and the Scott Act' },
+                        { url: 'https://immigrationhistory.org/item/scott-act/', text: 'Immigration History — The Scott Act of 1888' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Mishandled the Panic of 1893 and the Resulting Depression',
+                    shortLabel: 'Panic of 1893',
+                    description: 'Cleveland\'s second term was consumed by the Panic of 1893, one of the worst economic depressions in American history to that point, with unemployment reaching an estimated 18 percent. Cleveland\'s response focused almost entirely on defending the gold standard and stabilizing Treasury reserves rather than addressing the suffering of workers, farmers, and the unemployed. His ideological opposition to direct federal relief left millions without meaningful assistance while he concentrated federal resources on maintaining the monetary system. Farmers and debtors, who had pushed for silver coinage to ease tight credit, felt particularly abandoned by a president who seemed more concerned with Wall Street\'s confidence than rural hardship.',
+                    sources: [
+                        { url: 'https://www.newyorkfed.org/medialibrary/media/research/epr/01v07n2/0111mcna.pdf', text: 'Federal Reserve Bank of New York — The Panic of 1893' },
+                        { url: 'https://millercenter.org/president/cleveland/key-events', text: 'Miller Center — Grover Cleveland: The Panic of 1893' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Arranged Secretive Bond Deal with J.P. Morgan During the Depression',
+                    shortLabel: 'Morgan Bond Deal',
+                    description: 'To replenish the Treasury\'s dwindling gold reserves during the Panic of 1893, Cleveland\'s administration arranged a private bond sale with a syndicate led by financiers J.P. Morgan and August Belmont, borrowing $65 million in gold on terms that allowed the bankers to profit handsomely from the transaction. The deal stabilized the gold reserve but was negotiated in secrecy, bypassing Congress, and created the damaging — and largely accurate — political perception that Cleveland\'s administration was more responsive to the interests of Wall Street banking syndicates than to the millions of ordinary Americans experiencing unemployment, foreclosure, and poverty during the same crisis.',
+                    sources: [
+                        { url: 'https://www.newyorkfed.org/medialibrary/media/research/epr/01v07n2/0111mcna.pdf', text: 'Federal Reserve Bank of New York — The Panic of 1893 and the Morgan Bond Deal' },
+                        { url: 'https://millercenter.org/president/cleveland/key-events', text: 'Miller Center — Cleveland, Morgan, and the Gold Reserve Crisis' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Opposed Federal Relief for Americans During Severe Economic Depression',
+                    shortLabel: 'Denied Depression Relief',
+                    description: 'During the severe depression of the 1890s, with unemployment reaching near-record levels and poverty widespread, Cleveland refused to support direct federal relief for suffering Americans, grounding his opposition in a limited-government philosophy that he believed precluded the federal government from providing charity. He famously vetoed a modest bill to provide seed grain to drought-stricken Texas farmers, writing that "though the people support the Government, the Government should not support the people." While constitutionally principled by the standards of his era, the posture left his administration with no meaningful answer to mass economic suffering and reinforced the perception that federal power would be deployed against workers but not for them.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/cleveland/domestic-affairs', text: 'Miller Center — Cleveland\'s Opposition to Federal Relief' },
+                        { url: 'https://www.presidency.ucsb.edu/documents/veto-message-219', text: 'American Presidency Project — Cleveland\'s Veto of Texas Seed Relief Bill (1887)' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Failed to Restore Hawaiian Sovereignty After U.S.-Backed Overthrow',
+                    shortLabel: 'Hawaii Sovereignty',
+                    description: 'When a group of American business interests and U.S. Marines backed the overthrow of Queen Liliuokalani of Hawaii in 1893, Cleveland — to his credit — refused to proceed with immediate annexation and ordered an investigation that concluded the overthrow had been illegal and that U.S. officials had improperly assisted it. He attempted to restore the queen to her throne but failed to secure congressional cooperation, and ultimately referred the matter to Congress without resolution. Hawaii was not annexed until 1898 under McKinley. Cleveland\'s partial opposition to the coup is a relative credit, but his failure to achieve any meaningful remedy left the illegal overthrow standing and Hawaiian sovereignty permanently extinguished.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1866-1898/hawaii', text: 'U.S. State Department Office of the Historian — Overthrow of the Hawaiian Kingdom' },
+                        { url: 'https://www.archives.gov/exhibits/featured-documents/hawaii-annexation', text: 'National Archives — Hawaiian Annexation Documents' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Limited Civil Rights Leadership Amid Expanding Jim Crow',
+                    shortLabel: 'Civil Rights Inaction',
+                    description: 'Cleveland\'s presidency coincided with the rapid consolidation of Jim Crow across the South — the spread of disfranchisement, legal segregation, and racial terror including a epidemic of lynching. He did not create these systems, but he took no meaningful action to challenge them and actively signed major exclusionary laws targeting other minority groups, including the Scott Act against Chinese immigrants and the Dawes Act against Native Americans. His limited-government philosophy, combined with his dependence on Southern Democratic support, produced a presidency that offered no federal protection to Black Americans facing systematic violence and legal subjugation during one of the most dangerous periods in post-Reconstruction history.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/cleveland/domestic-affairs', text: 'Miller Center — Grover Cleveland: Civil Rights and Race' },
+                        { url: 'https://www.naacp.org/naacp-history-jim-crow-laws/', text: 'NAACP — Jim Crow Laws and the Failure of Federal Protection' }
+                    ]
+                },
+            ]
+        },
+        hayes: {
+            id: 'hayes',
+            firstName: 'Rutherford B.',
+            lastName: 'Hayes',
+            ordinal: 19,
+            party: 'republican',
+            portrait: '/assets/images/hayes.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Ended Reconstruction by Withdrawing Federal Troops from the South',
+                    shortLabel: 'Ended Reconstruction',
+                    description: 'In April 1877, Hayes withdrew the last remaining federal troops from South Carolina and Louisiana, effectively ending Reconstruction and the federal government\'s commitment to protecting the rights of Black Americans in the postwar South. The Hayes Presidential Library identifies this withdrawal as the moment most historians mark as the end of Reconstruction, because those troops had been the last protection sustaining Republican state governments and Black civil rights against violent white-supremacist resistance. What followed was swift and devastating: Southern white Democrats retook control of state governments, Black voters were systematically disfranchised through violence and legal manipulation, and the brief constitutional promise of Black citizenship and political equality was extinguished for nearly a century.',
+                    sources: [
+                        { url: 'https://www.rbhayes.org/research/hayes-and-reconstruction/', text: 'Rutherford B. Hayes Presidential Library — Hayes and the End of Reconstruction' },
+                        { url: 'https://www.nps.gov/subjects/reconstruction/end-of-reconstruction.htm', text: 'National Park Service — The End of Reconstruction' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Gained the Presidency Through the Compromise of 1877',
+                    shortLabel: 'Compromise of 1877',
+                    description: 'Hayes lost the popular vote to Democrat Samuel Tilden in 1876 and the election was thrown into crisis by disputed electoral votes in Florida, Louisiana, and South Carolina. An Electoral Commission awarded Hayes the presidency along partisan lines, and the resolution was accompanied by an informal political settlement in which Republicans agreed to end military protection of Reconstruction governments in the South. History.com documents the consequence: all three disputed states quickly fell to white Democrats, and Reconstruction collapsed. Hayes\'s presidency was therefore inaugurated on a transaction in which Black Americans\' constitutional rights were traded for Democratic acquiescence to a Republican White House — a bargain whose costs were borne entirely by the most vulnerable.',
+                    sources: [
+                        { url: 'https://www.history.com/topics/us-politics/compromise-of-1877', text: 'History.com — The Compromise of 1877' },
+                        { url: 'https://www.archives.gov/legislative/features/compromise-1877', text: 'National Archives — The Compromise of 1877' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Abandoned Federal Protection of Black Civil Rights in the South',
+                    shortLabel: 'Abandoned Black Rights',
+                    description: 'The moral core of Hayes\'s historical failure is not the troop withdrawal as a logistical act but the deliberate abandonment of the federal government\'s constitutional obligation to protect Black citizens\' rights under the Fourteenth and Fifteenth Amendments. His "home rule" policy returned authority over Southern governance to the same white Democratic power structures that had fought a war to preserve slavery and spent Reconstruction using terror and fraud to reassert racial dominance. Hayes sometimes spoke sympathetically about Black education and fair treatment, but his actual governing priority was sectional reconciliation with white Southern elites — a reconciliation purchased at the cost of a generation of Black political rights, physical safety, and economic opportunity.',
+                    sources: [
+                        { url: 'https://www.loc.gov/exhibits/creating-the-united-states/reconstruction.html', text: 'Library of Congress — The Collapse of Reconstruction' },
+                        { url: 'https://www.nps.gov/subjects/reconstruction/end-of-reconstruction.htm', text: 'National Park Service — Reconstruction\'s End and the Rise of Jim Crow' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Sent Federal Troops to Break the Great Railroad Strike of 1877',
+                    shortLabel: 'Railroad Strike',
+                    description: 'The Great Railroad Strike of 1877 began in West Virginia after railroad companies cut wages for the second time in a year and spread rapidly across multiple states in the first major national labor uprising in American history. Hayes issued proclamations and deployed federal troops to West Virginia, Maryland, Pennsylvania, and other states to restore rail operations and suppress the strike. The Library of Congress documents the federal troop deployments across multiple states. While Hayes framed the intervention as protecting mail delivery and interstate commerce rather than taking sides in a labor dispute, the practical effect was that federal military force was used to break a workers\' strike on behalf of railroad corporations — establishing a template that would be repeated for decades.',
+                    sources: [
+                        { url: 'https://www.loc.gov/collections/railroad-maps-1828-to-1900/articles-and-essays/history-of-railroads-and-maps/great-railroad-strike-of-1877/', text: 'Library of Congress — The Great Railroad Strike of 1877' },
+                        { url: 'https://www.dol.gov/general/aboutdol/history/chapter1', text: 'U.S. Department of Labor — History of the Labor Movement: The 1877 Strike' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Established Federal Precedent of Military Force Against Labor',
+                    shortLabel: 'Anti-Labor Precedent',
+                    description: 'Hayes\'s deployment of federal troops during the 1877 railroad strike was not an isolated crisis response; it set a lasting precedent for using federal military power to intervene in labor disputes in ways that consistently favored employers over workers. The argument that troops were protecting commerce rather than breaking strikes provided legal and political cover that subsequent administrations — most notably Cleveland during the Pullman Strike of 1894 — would use again. Labor historians identify the 1877 strike and Hayes\'s response as a foundational moment in the long pattern of federal power being deployed against organized workers during the Gilded Age, fundamentally shaping the terrain on which American labor organizing would struggle for the next half century.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/hayes/domestic-affairs', text: 'Miller Center — Rutherford B. Hayes: Domestic Affairs and Labor' },
+                        { url: 'https://www.epi.org/publication/history-federal-intervention-labor-disputes/', text: 'Economic Policy Institute — Federal Intervention in Labor Disputes: Historical Pattern' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Oversaw the Launch of the Carlisle Indian Boarding School System',
+                    shortLabel: 'Indian Boarding Schools',
+                    description: 'In 1879, during Hayes\'s presidency, Richard Henry Pratt founded the Carlisle Indian Industrial School in Pennsylvania — the first major off-reservation Native American boarding school and the model for a nationwide system that would forcibly separate Native children from their families, languages, cultures, and communities for decades. The Hayes Historical Journal documents that Carlisle began with children taken from the Rosebud and Pine Ridge agencies, with the explicit purpose of "detribalizing" them and assimilating them into white American life. The boarding school system that Carlisle pioneered — operating under the motto "Kill the Indian, Save the Man" — caused intergenerational trauma whose effects Native communities continue to reckon with today.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/000/carlisle-indian-industrial-school.htm', text: 'National Park Service — Carlisle Indian Industrial School' },
+                        { url: 'https://www.doi.gov/sites/doi.gov/files/report-on-federal-indian-boarding-school-initiative-investigative-report.pdf', text: 'Department of the Interior — Federal Indian Boarding School Initiative Investigative Report (2022)' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Pursued Native Assimilation Policy That Attacked Tribal Sovereignty',
+                    shortLabel: 'Native Assimilation',
+                    description: 'Hayes\'s approach to Native American policy centered on assimilation through individual land ownership, English-language education, and citizenship — framed as a benevolent alternative to extermination, but in practice a systematic attack on tribal sovereignty, communal land tenure, and cultural survival. His administration\'s support for policies that would culminate in the Dawes Act of 1887 treated tribal governance and Native cultural practices as obstacles to be dismantled rather than rights to be respected. The Indian Country Today quotation of a Hayes Presidential Library curator confirms the policy was explicitly aimed at shifting Native people away from tribal life and into mainstream American society on terms defined entirely by the federal government.',
+                    sources: [
+                        { url: 'https://www.rbhayes.org/research/hayes-and-native-americans/', text: 'Rutherford B. Hayes Presidential Library — Hayes and Native American Policy' },
+                        { url: 'https://www.nps.gov/articles/000/dawes-act.htm', text: 'National Park Service — The Dawes Act and the Allotment Era' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Presidency Born from a Legitimacy Crisis Tied to Reconstruction\'s Collapse',
+                    shortLabel: 'Legitimacy Crisis',
+                    description: 'Hayes\'s path to the presidency was inseparable from the political settlement that ended Reconstruction. He lost the popular vote, the electoral outcome was disputed in three states, and the Electoral Commission\'s resolution fell along strict partisan lines. Whatever the constitutional legitimacy of the process, the political reality was that Hayes entered the White House as part of a settlement whose central currency was the withdrawal of federal protection for Black Americans in the South. His administration never escaped the moral weight of that origin, and his subsequent governing choices — prioritizing reconciliation with Southern Democrats over enforcement of constitutional rights — confirmed rather than repudiated the terms on which his presidency was founded.',
+                    sources: [
+                        { url: 'https://www.senate.gov/artandhistory/history/common/generic/ElectoralCommission.htm', text: 'U.S. Senate — The Electoral Commission of 1877' },
+                        { url: 'https://millercenter.org/president/hayes/key-events', text: 'Miller Center — Rutherford B. Hayes: Key Events' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Weak Civil Rights Leadership Despite Occasional Sympathetic Rhetoric',
+                    shortLabel: 'Civil Rights Failure',
+                    description: 'Hayes occasionally expressed support for Black education and fair treatment in speeches and messages to Congress, and he appointed a few Black Americans to federal positions. But his actual governing priorities — civil-service reform, currency policy, and above all sectional reconciliation with white Southern Democrats — left no meaningful federal protection for Black citizens facing a rapidly consolidating system of voter suppression, legal segregation, and racial terror. The gap between Hayes\'s occasional sympathetic words and his consistent policy choices in favor of Southern "home rule" represents one of the most consequential failures of presidential moral leadership in American history, enabling the Jim Crow system that would endure for nearly a century.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/hayes/domestic-affairs', text: 'Miller Center — Hayes: Civil Rights and Race Relations' },
+                        { url: 'https://www.naacp.org/naacp-history-jim-crow-laws/', text: 'NAACP — Jim Crow\'s Origins and the Failure of Federal Protection' }
+                    ]
+                },
+                {
+                    severity: 3,
+                    title: 'Paved the Road Toward Chinese Exclusion Despite Vetoing an Early Bill',
+                    shortLabel: 'Chinese Exclusion Path',
+                    description: 'Hayes vetoed an 1879 congressional bill restricting Chinese immigration on the grounds that it violated existing treaty obligations with China — a defensible position that was better than what followed under his successors. However, his administration then renegotiated the Burlingame Treaty with China to give Congress the authority to restrict Chinese immigration, directly enabling the Chinese Exclusion Act of 1882 under Chester Arthur. The State Department\'s historical record documents this renegotiation as a significant step in the political movement toward formal exclusion. Hayes\'s veto was a momentary check; his treaty renegotiation helped open the door that the exclusion movement walked through.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1866-1898/chinese-immigration', text: 'U.S. State Department Office of the Historian — Chinese Immigration and the Chinese Exclusion Act' },
+                        { url: 'https://immigrationhistory.org/item/angell-treaty/', text: 'Immigration History — The Angell Treaty of 1880 and Chinese Exclusion' }
+                    ]
+                },
+            ]
+        },
+        buchanan: {
+            id: 'buchanan',
+            firstName: 'James',
+            lastName: 'Buchanan',
+            ordinal: 15,
+            party: 'democrat',
+            portrait: '/assets/images/buchanan.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Failed to Stop Secession as Southern States Left the Union',
+                    shortLabel: 'Allowed Secession',
+                    description: 'When Southern states began leaving the Union following Lincoln\'s election in November 1860, Buchanan responded with a paralyzing combination of legal positions that effectively guaranteed inaction. He declared secession unconstitutional while simultaneously arguing that the federal government had no legal authority to prevent it — a stance Britannica summarizes as denouncing secession while claiming he had no means to stop it. By February 1861, seven Southern states had seceded and formed the Confederate States of America. Buchanan handed Lincoln an active national dissolution rather than a brewing crisis, having spent the decisive months finding constitutional reasons to do nothing while the country fractured around him.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/buchanan/domestic-affairs', text: 'Miller Center — James Buchanan: Domestic Affairs and the Secession Crisis' },
+                        { url: 'https://www.britannica.com/biography/James-Buchanan/Presidency', text: 'Britannica — James Buchanan: The Presidency and Secession' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Let the Union Collapse Through Paralysis and Indecision',
+                    shortLabel: 'Union Collapse',
+                    description: 'Buchanan was president during the decisive months when the sectional crisis over slavery became an irreversible national rupture, and he responded with a combination of weak rhetoric and genuine inaction that historians consistently identify as catastrophic. The White House\'s own historical summary describes his position as denying states the right to secede while holding that the federal government could not legally prevent them from doing so — a contradiction that paralyzed his administration at the exact moment presidential clarity and resolve were most needed. He neither defused the crisis through leadership nor confronted it through force, instead narrating the Union\'s collapse from the sidelines while waiting for his term to end.',
+                    sources: [
+                        { url: 'https://www.whitehouse.gov/about-the-white-house/presidents/james-buchanan/', text: 'White House — James Buchanan: Presidential Biography' },
+                        { url: 'https://millercenter.org/president/buchanan/key-events', text: 'Miller Center — James Buchanan: Key Events of His Presidency' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Supported the Dred Scott Decision and Hoped It Would Settle Slavery',
+                    shortLabel: 'Dred Scott Support',
+                    description: 'The Supreme Court\'s 1857 Dred Scott v. Sandford decision was one of the most catastrophic judicial rulings in American history — declaring that Black people could never be U.S. citizens, that enslaved people were property, and that Congress had no constitutional authority to ban slavery in federal territories. Buchanan publicly endorsed the decision and hoped it would permanently resolve the slavery controversy in the South\'s favor. The Smithsonian documents that Buchanan referenced the forthcoming decision in his inaugural address and urged Americans to accept it — before the ruling had even been publicly released, revealing how closely he was coordinating with the Court on a decision that would inflame rather than settle the national crisis.',
+                    sources: [
+                        { url: 'https://www.smithsonianmag.com/history/the-dred-scott-decision-103038372/', text: 'Smithsonian Magazine — The Dred Scott Decision and Buchanan\'s Role' },
+                        { url: 'https://www.archives.gov/milestone-documents/dred-scott-v-sandford', text: 'National Archives — Dred Scott v. Sandford: Milestone Documents' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Improperly Influenced the Dred Scott Decision Before It Was Issued',
+                    shortLabel: 'Judicial Manipulation',
+                    description: 'The criticism of Buchanan\'s relationship to Dred Scott goes beyond public endorsement. Historical evidence shows he privately corresponded with Supreme Court justices before the ruling was issued — most significantly with Justice Robert Grier — lobbying for a broader decision that would resolve the territorial slavery question definitively in favor of the South and appear to have cross-sectional rather than merely Southern support. This private presidential interference in pending Supreme Court deliberations represented a serious violation of judicial independence, and it tied Buchanan\'s administration to a ruling that inflamed the sectional crisis it was supposed to resolve. The decision became one of the most widely condemned in the Court\'s history; Buchanan had worked behind the scenes to make it worse.',
+                    sources: [
+                        { url: 'https://www.fjc.gov/history/cases/landmark-judicial-decisions/dred-scott-v-sandford', text: 'Federal Judicial Center — Dred Scott v. Sandford: Case History' },
+                        { url: 'https://millercenter.org/president/buchanan/key-events', text: 'Miller Center — Buchanan and the Dred Scott Decision' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Backed the Pro-Slavery Lecompton Constitution for Kansas',
+                    shortLabel: 'Lecompton Constitution',
+                    description: 'Buchanan supported admitting Kansas to the Union under the Lecompton Constitution — a pro-slavery document produced by a convention that most anti-slavery Kansas settlers had boycotted and that most Kansans opposed. The Truman Library documents the Lecompton Constitution as a pro-slavery framework that would have forced slavery onto a territory where the majority of settlers did not want it. The American Battlefield Trust identifies the Lecompton controversy as a major escalating moment in the sectional crisis. Buchanan\'s insistence on pushing Lecompton through Congress — even as Stephen Douglas and many Northern Democrats broke with him over it — revealed that his administration would subordinate democratic process to pro-slavery political outcomes.',
+                    sources: [
+                        { url: 'https://www.battlefields.org/learn/articles/lecompton-constitution', text: 'American Battlefield Trust — The Lecompton Constitution' },
+                        { url: 'https://www.trumanlibrary.gov/education/presidential-inquiries/kansas-nebraska-act-and-lecompton-constitution', text: 'Truman Presidential Library — The Lecompton Constitution and Kansas' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Betrayed Popular Sovereignty in Kansas to Force a Pro-Slavery Outcome',
+                    shortLabel: 'Popular Sovereignty Betrayal',
+                    description: 'The Democratic Party had promoted "popular sovereignty" — the principle that settlers in a territory would democratically decide whether to permit slavery — as a moderate solution to the sectional crisis. In Kansas, Buchanan discarded that principle the moment its application threatened a pro-slavery result. Anti-slavery settlers in Kansas had boycotted the Lecompton convention, rejected its constitution in a subsequent referendum, and made their preferences clear. Buchanan backed Lecompton anyway, making obvious that his commitment to popular sovereignty was conditional on it producing the outcome the Southern wing of his party demanded. The betrayal split the Democratic Party, alienated Stephen Douglas, and demonstrated that his administration\'s deepest loyalty was to Southern slaveholders rather than democratic process.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/buchanan/domestic-affairs', text: 'Miller Center — Buchanan, Kansas, and Popular Sovereignty' },
+                        { url: 'https://www.battlefields.org/learn/articles/lecompton-constitution', text: 'American Battlefield Trust — Popular Sovereignty and the Lecompton Controversy' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Blamed Northern Antislavery Agitation Rather Than Southern Secessionists',
+                    shortLabel: 'Blamed the North',
+                    description: 'In his December 1860 message to Congress — delivered as Southern states were actively leaving the Union — Buchanan declared secession unconstitutional but attributed the crisis primarily to "the long-continued and intemperate interference of the Northern people with the question of slavery." The Miller Center documents this framing as a fundamental misreading of the moral and political reality: Southern states were seceding explicitly to protect and expand slavery, had said so clearly in their own secession declarations, and had spent years using federal power to enforce the Fugitive Slave Act on Northern states. Buchanan\'s message, at the gravest moment of national crisis, offered moral equivalence between those defending human bondage and those opposing it.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/buchanan/key-events', text: 'Miller Center — Buchanan\'s December 1860 Message to Congress' },
+                        { url: 'https://www.presidency.ucsb.edu/documents/fourth-annual-message-congress-state-the-union-0', text: 'American Presidency Project — Buchanan\'s Fourth Annual Message to Congress (Dec. 1860)' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Split the Democratic Party and Cleared the Path for Lincoln\'s Election',
+                    shortLabel: 'Split Democratic Party',
+                    description: 'By backing the Lecompton Constitution over the objections of Stephen Douglas and Northern Democrats, Buchanan created a fracture in the Democratic Party that proved fatal in the 1860 election. When the party could not unite behind a single candidate — Northern Democrats running Douglas, Southern Democrats running John Breckinridge — the Republican Abraham Lincoln won with a purely regional coalition and without a single electoral vote from the Deep South. The American Battlefield Trust documents that Buchanan\'s actions and inactions aggravated sectional tensions to the point of national dissolution. His systematic prioritization of Southern pro-slavery interests over party unity handed Republicans the presidency and Southern fire-eaters the pretext for secession.',
+                    sources: [
+                        { url: 'https://www.battlefields.org/learn/articles/election-1860', text: 'American Battlefield Trust — The Election of 1860' },
+                        { url: 'https://millercenter.org/president/buchanan/domestic-affairs', text: 'Miller Center — Buchanan and the Fracturing of the Democratic Party' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Botched the Fort Sumter Crisis and Left Lincoln a Military Emergency',
+                    shortLabel: 'Fort Sumter Failure',
+                    description: 'As Confederate forces surrounded Fort Sumter in Charleston Harbor, Buchanan initially did nothing — then, after weeks of hesitation, attempted to resupply and reinforce the garrison by sending the merchant vessel Star of the West in January 1861. Confederate shore batteries fired on the ship and drove it away. The mission failed, the garrison remained besieged, and Buchanan took no further action. He handed Lincoln not a brewing diplomatic problem but an active military standoff with no good options. The Star of the West incident was in some ways the first military engagement of the Civil War, fought on Buchanan\'s watch and resolved in the Confederacy\'s favor because his administration had waited too long to act with adequate force.',
+                    sources: [
+                        { url: 'https://www.battlefields.org/learn/articles/star-of-the-west', text: 'American Battlefield Trust — The Star of the West Incident (Jan. 1861)' },
+                        { url: 'https://www.nps.gov/fosu/learn/historyculture/star-of-the-west.htm', text: 'National Park Service — Fort Sumter: The Star of the West' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Cabinet Disloyal to the Union During the Secession Crisis',
+                    shortLabel: 'Disloyal Cabinet',
+                    description: 'As secession unfolded, Buchanan\'s cabinet included Southern sympathizers who were actively working against Union interests — Secretary of War John Floyd transferred weapons to Southern arsenals before resigning to join the Confederacy, and Treasury Secretary Howell Cobb left to become a Confederate general. Buchanan eventually replaced the most compromised members with stronger Unionists, but only after the damage had been done. The administrative incoherence of a cabinet partly loyal to the secessionist cause and partly to the Union reflected and reinforced the paralysis that defined his final months in office, leaving the federal government\'s response to secession fragmented and ineffective at the moment it most needed to be unified.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/buchanan/key-events', text: 'Miller Center — Buchanan\'s Cabinet and the Secession Crisis' },
+                        { url: 'https://www.britannica.com/biography/James-Buchanan/Presidency', text: 'Britannica — Buchanan\'s Cabinet Disloyalty During Secession' }
+                    ]
+                },
+            ]
+        },
+        harding: {
+            id: 'harding',
+            firstName: 'Warren G.',
+            lastName: 'Harding',
+            ordinal: 29,
+            party: 'republican',
+            portrait: '/assets/images/harding.webp',
+            bars: [
+                {
+                    severity: 9,
+                    title: 'Teapot Dome: The Defining Corruption Scandal of His Administration',
+                    shortLabel: 'Teapot Dome',
+                    description: 'The Teapot Dome scandal became the most notorious symbol of government corruption in American history up to that point. Harding\'s Interior Secretary Albert B. Fall secretly leased federally owned naval oil reserves at Teapot Dome, Wyoming and Elk Hills, California to private oil companies in exchange for cash bribes and no-interest loans. The U.S. Senate documents that Fall became the first former Cabinet official in American history to be imprisoned for crimes committed while in office. Harding was not personally shown to have profited, but the scandal unfolded entirely within his administration, involving a Cabinet member he had personally chosen and trusted with the federal assets Fall proceeded to loot.',
+                    sources: [
+                        { url: 'https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm', text: 'U.S. Senate — Teapot Dome Scandal: Historical Overview' },
+                        { url: 'https://www.archives.gov/education/lessons/teapot-dome', text: 'National Archives — Teapot Dome: Primary Documents in American History' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Transferred Naval Oil Reserves to Interior Department, Enabling the Scandal',
+                    shortLabel: 'Oil Reserve Transfer',
+                    description: 'Before the Teapot Dome scandal fully unfolded, Harding signed Executive Order 3474 on May 21, 1921, transferring control of the strategic naval petroleum reserves from the Navy Department — where they had been held for national security purposes — to the Interior Department under Albert Fall. The Levin Center documents this transfer as the administrative move that gave Fall the authority he needed to lease the reserves corruptly to private oil interests. Whether Harding understood what he was enabling or simply trusted Fall without scrutiny, the executive order was the mechanism that made the scandal possible, and he signed it.',
+                    sources: [
+                        { url: 'https://levin.senate.gov/imo/media/doc/supporting/2012/PSI_OilContractReports_022712.pdf', text: 'Levin Center — Executive Order 3474 and the Naval Oil Reserve Transfer' },
+                        { url: 'https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm', text: 'U.S. Senate — Teapot Dome: The Oil Reserve Transfer' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Filled His Administration with the Corrupt "Ohio Gang"',
+                    shortLabel: 'Ohio Gang',
+                    description: 'Harding staffed his administration with a network of political associates and personal friends from Ohio — known collectively as the "Ohio Gang" — many of whom used their government positions for personal enrichment and fraud. The Miller Center documents that multiple Ohio Gang figures were later charged with defrauding the government, with several imprisoned. Britannica similarly describes the group as betraying the public trust through a series of interlocking scandals. Harding had capable Cabinet members — Hughes, Mellon, and Hoover among them — which makes the Ohio Gang appointments all the more damning as a failure of judgment: he knew what competent, ethical governance looked like and still handed critical positions to men who looted the offices he gave them.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/harding/domestic-affairs', text: 'Miller Center — Warren Harding: The Ohio Gang and Administration Corruption' },
+                        { url: 'https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals', text: 'Britannica — Warren G. Harding: Administration Scandals and the Ohio Gang' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Veterans Bureau Director Looted Funds Meant for World War I Veterans',
+                    shortLabel: 'Veterans Bureau Fraud',
+                    description: 'Charles R. Forbes, whom Harding personally appointed to lead the newly created Veterans Bureau, systematically looted the agency through corrupt contracts for veterans\' hospital construction and supply procurement — stealing funds appropriated by Congress to care for World War I veterans. Britannica documents that Forbes was subsequently convicted of fraud, conspiracy, and bribery. The Veterans Bureau scandal was in many ways morally worse than Teapot Dome: it involved the deliberate theft of resources designated for soldiers who had been wounded or sickened in service to their country. Harding reportedly confronted Forbes personally when rumors reached him, but allowed him to resign and flee to Europe rather than immediately exposing and prosecuting him.',
+                    sources: [
+                        { url: 'https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals', text: 'Britannica — Charles Forbes and the Veterans Bureau Scandal' },
+                        { url: 'https://www.va.gov/opa/publications/celebrate/vetsbureau.pdf', text: 'U.S. Department of Veterans Affairs — History of the Veterans Bureau' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Knew About Corruption but Failed to Expose It',
+                    shortLabel: 'Concealed Corruption',
+                    description: 'The most damning personal charge against Harding is not that he was corrupt himself but that he became aware of serious corruption within his administration and failed to confront it decisively or publicly. Britannica states plainly that while Harding was not personally implicated in Teapot Dome or the other major scandals, he was aware of corrupt behavior by Ohio Gang associates and chose not to expose it. He reportedly told associates in the final months of his life that betrayal by his friends was destroying him — suggesting he understood the scale of what was happening while still prioritizing personal loyalty over public duty. That choice to protect corrupt friends rather than the public interest is a fundamental failure of the presidency.',
+                    sources: [
+                        { url: 'https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals', text: 'Britannica — Harding\'s Awareness of Administration Corruption' },
+                        { url: 'https://millercenter.org/president/harding/key-events', text: 'Miller Center — Warren Harding: Key Events and the Corruption Crisis' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Appointed Harry Daugherty as Attorney General',
+                    shortLabel: 'Daugherty Appointment',
+                    description: 'Harding appointed Harry Daugherty — the Ohio Gang\'s central political operative and the man most responsible for engineering Harding\'s own nomination — as Attorney General of the United States, placing the nation\'s chief law enforcement officer in the hands of a figure deeply embedded in the corrupt network that would define his administration. Daugherty was investigated after Harding\'s death, resigned under pressure during the Coolidge administration, and faced two criminal trials before ultimately escaping conviction on a hung jury. Britannica identifies Daugherty as the Ohio Gang\'s leader. Placing such a figure atop the Justice Department — the institution responsible for prosecuting federal corruption — was a failure of judgment with systemic consequences for the rule of law.',
+                    sources: [
+                        { url: 'https://www.britannica.com/biography/Harry-M-Daugherty', text: 'Britannica — Harry M. Daugherty: Attorney General and Ohio Gang' },
+                        { url: 'https://millercenter.org/president/harding/domestic-affairs', text: 'Miller Center — Harding\'s Cabinet Appointments and Daugherty' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Signed the Emergency Quota Act, Embedding Eugenic Immigration Restriction',
+                    shortLabel: 'Immigration Quota Act',
+                    description: 'Harding signed the Emergency Quota Act of 1921, which introduced national-origin quotas to sharply restrict immigration for the first time in American history. Immigration History documents that the quotas were designed using eugenic research and restrictionist recommendations, structured to heavily favor immigrants from Northern and Western Europe while drastically limiting arrivals from Southern and Eastern Europe — Jews, Italians, Poles, Greeks, and others deemed racially inferior by the eugenicist thinking that undergirded the law. The Act was framed as temporary but established the quota framework that the far harsher Johnson-Reed Act of 1924 would make permanent, reshaping the ethnic composition of American immigration for four decades.',
+                    sources: [
+                        { url: 'https://immigrationhistory.org/item/emergency-quota-act/', text: 'Immigration History — The Emergency Quota Act of 1921' },
+                        { url: 'https://history.state.gov/milestones/1921-1936/immigration-act', text: 'U.S. State Department Office of the Historian — The Immigration Act of 1921' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Used Sweeping Injunction to Crush the 1922 Railroad Strike',
+                    shortLabel: '1922 Railroad Strike',
+                    description: 'When railroad shopmen walked out in July 1922 over wage cuts imposed by the Railroad Labor Board, Harding\'s administration initially attempted mediation but ultimately backed a legal assault on the strike. Attorney General Daugherty obtained one of the most sweeping federal injunctions in American labor history, prohibiting striking, picketing, strike fund payments, and virtually any other form of union support activity. Critics condemned the injunction as an abuse of judicial power in service of the railroads, and labor organizations saw it as the federal government once again using its legal machinery to destroy worker organizing rather than protect workers\' rights to bargain collectively.',
+                    sources: [
+                        { url: 'https://www.dol.gov/general/aboutdol/history/chapter2', text: 'U.S. Department of Labor — The 1922 Railroad Strike and Federal Response' },
+                        { url: 'https://millercenter.org/president/harding/domestic-affairs', text: 'Miller Center — Harding and the 1922 Railroad and Coal Strikes' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Vetoed the World War I Veterans\' Bonus Bill',
+                    shortLabel: 'Veterans Bonus Veto',
+                    description: 'In 1922, Harding vetoed a bill to provide adjusted compensation — commonly called a "bonus" — to World War I veterans who had served at military pay rates far below what civilian war-industry workers had earned during the same period. The House historical record documents the veto; the Miller Center notes Harding argued that balancing the federal budget took priority over the debt owed to veterans. The fiscal argument was not irrational given postwar debt levels, but the veto landed badly alongside the simultaneous corruption of the Veterans Bureau under Forbes — creating the damaging appearance that Harding\'s administration would steal from veterans through Forbes while refusing to compensate them through Congress.',
+                    sources: [
+                        { url: 'https://history.house.gov/Historical-Highlights/1901-1950/The-Bonus-Bill/', text: 'U.S. House of Representatives — The Veterans\' Bonus Bill' },
+                        { url: 'https://millercenter.org/president/harding/domestic-affairs', text: 'Miller Center — Harding\'s Veto of the Veterans\' Bonus' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Lax Presidential Management Allowed Corruption to Flourish',
+                    shortLabel: 'Management Failure',
+                    description: 'Harding\'s administration included genuinely capable figures — Secretary of State Charles Evans Hughes, Treasury Secretary Andrew Mellon, and Commerce Secretary Herbert Hoover were all serious and effective — which makes his management failures elsewhere all the more striking as a matter of deliberate choice. The Miller Center documents that Harding admitted to close friends that the job was beyond him. His governing style was built on personal loyalty and a deep aversion to confrontation, which meant that when associates abused their positions, Harding\'s instinct was to look away rather than act. That temperamental unfitness for the disciplined, skeptical oversight the presidency required allowed the Ohio Gang\'s corruption to metastasize throughout his administration unchecked.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/harding/domestic-affairs', text: 'Miller Center — Harding\'s Presidential Management Style' },
+                        { url: 'https://www.britannica.com/biography/Warren-G-Harding/Presidency', text: 'Britannica — Warren G. Harding: Presidential Leadership and Its Failures' }
+                    ]
+                },
+            ]
+        },
+        fillmore: {
+            id: 'fillmore',
+            firstName: 'Millard',
+            lastName: 'Fillmore',
+            ordinal: 13,
+            party: 'whig',
+            portrait: '/assets/images/fillmore.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Signed the Fugitive Slave Act of 1850',
+                    shortLabel: 'Fugitive Slave Act',
+                    description: 'Fillmore\'s most consequential and morally damning act was signing the Fugitive Slave Act of 1850, which required federal officials and ordinary citizens in free states to actively assist in the capture and return of escaped enslaved people, imposing criminal penalties on anyone who aided or harbored a freedom-seeker. The White House Historical Association documents that abolitionists heavily criticized the signing because it forced the federal government to become the enforcement arm of slave owners pursuing people who had escaped bondage. The Act was not a passive accommodation of slavery in the states where it existed — it was a federal mandate that the machinery of free states be turned against freedom itself, transforming every Northern community into potential territory for slave-catching operations.',
+                    sources: [
+                        { url: 'https://www.whitehousehistory.org/bios/millard-fillmore', text: 'White House Historical Association — Millard Fillmore: Presidential Biography' },
+                        { url: 'https://www.archives.gov/milestone-documents/fugitive-slave-act', text: 'National Archives — Fugitive Slave Act of 1850: Milestone Documents' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Nationalized Slavery Enforcement Into Free States',
+                    shortLabel: 'Slavery Nationalized',
+                    description: 'The Fugitive Slave Act did not merely affect Southern states — it deliberately extended slavery\'s reach into the free North by legally compelling Northern officials, judges, and citizens to participate in the capture and return of escaped enslaved people. Citizens who refused to assist slave-catchers or who helped freedom-seekers could be fined or imprisoned. East Carolina University\'s summary of the Act documents that it gave slave owners "immense powers" to pursue escaped people across state lines with federal backing. The result was that communities in Massachusetts, Ohio, Pennsylvania, and New York — states that had legally abolished slavery — were conscripted into its enforcement. The Act radicalized Northern public opinion, fueled the abolitionist movement, and made the moral reality of slavery impossible to ignore for people who had previously felt insulated from it.',
+                    sources: [
+                        { url: 'https://www.archives.gov/milestone-documents/fugitive-slave-act', text: 'National Archives — Fugitive Slave Act: Text and Historical Context' },
+                        { url: 'https://www.loc.gov/resource/rbpe.14000400/', text: 'Library of Congress — Fugitive Slave Act of 1850: Primary Source Materials' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Backed the Compromise of 1850 as a "Final Settlement" That Settled Nothing',
+                    shortLabel: 'Compromise of 1850',
+                    description: 'Fillmore championed the Compromise of 1850 as a permanent resolution to the sectional crisis over slavery, believing he had averted disunion through statesmanship. The White House\'s own historical biography acknowledges that the compromise produced only an "uneasy sectional truce" rather than a genuine settlement. While the Compromise included provisions that appeared balanced — California entered as a free state, the slave trade was ended in Washington D.C. — the Fugitive Slave Act was so explosive that it overwhelmed any goodwill the other provisions generated. Rather than quieting the slavery debate, the Compromise deepened it by forcing the moral question of slavery into Northern communities that had previously kept it at arm\'s length, accelerating the polarization that ended in secession eleven years later.',
+                    sources: [
+                        { url: 'https://www.whitehouse.gov/about-the-white-house/presidents/millard-fillmore/', text: 'White House — Millard Fillmore: Presidential Biography' },
+                        { url: 'https://millercenter.org/president/fillmore/domestic-affairs', text: 'Miller Center — Millard Fillmore: The Compromise of 1850' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Prioritized Legal Order Over Human Freedom on Slavery',
+                    shortLabel: 'Order Over Freedom',
+                    description: 'Fillmore\'s defenders have long argued that he saw himself as a constitutional officer bound to enforce lawfully enacted legislation, and that the alternative — presidents selectively enforcing laws they agreed with — would have been worse for the rule of law. The problem with that defense is that the law he chose to enforce with particular vigor was one requiring the return of human beings to chattel slavery. Fillmore used federal marshals and troops to enforce the Fugitive Slave Act in high-profile cases that became national flashpoints, signaling to the South that the federal government would be an active partner in slave-catching. His prioritization of legal order and Southern political appeasement over the freedom and humanity of escaped enslaved people is the central moral failure of his presidency.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/fillmore/domestic-affairs', text: 'Miller Center — Fillmore and the Enforcement of the Fugitive Slave Act' },
+                        { url: 'https://www.britannica.com/biography/Millard-Fillmore/Presidency', text: 'Britannica — Millard Fillmore: The Presidency and the Slavery Question' }
+                    ]
+                },
+                {
+                    severity: 8,
+                    title: 'Worsened Sectional Polarization He Intended to Heal',
+                    shortLabel: 'Deepened Sectional Crisis',
+                    description: 'Fillmore signed the Fugitive Slave Act explicitly to calm sectional tensions, but the practical effect was the opposite. The Act galvanized the abolitionist movement, produced dramatic public confrontations when slave-catchers attempted to seize freedom-seekers in Northern cities, inspired Harriet Beecher Stowe to write Uncle Tom\'s Cabin, and drove a wedge through the Whig Party that contributed to its collapse. The archived White House biography documents that Northern Whigs refused to forgive Fillmore for signing the Act and helped deny him his own party\'s 1852 presidential nomination. His attempt to appease the South accelerated the very polarization he sought to prevent, demonstrating that federal complicity in slavery\'s expansion could not purchase durable peace.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/fillmore/key-events', text: 'Miller Center — Fillmore: Consequences of the Fugitive Slave Act' },
+                        { url: 'https://www.britannica.com/biography/Millard-Fillmore/Presidency', text: 'Britannica — Fillmore and the Collapse of the Whig Party' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Failed to Secure Treaty Protections for California Native Nations',
+                    shortLabel: 'California Native Treaties',
+                    description: 'During Fillmore\'s presidency, federal commissioners negotiated eighteen treaties with California Native nations that promised land reservations and protections in exchange for ceding vast territories. The Senate never ratified the treaties, and the Fillmore administration allowed them to be sealed from public view for decades — meaning California Native peoples had ceded their land claims without receiving the promised protections in return, while being legally barred from knowing the treaty terms. The California State University Monterey Bay archive documents the eighteen unratified treaties; the Smithsonian notes individual treaties among them. The failure to secure ratification left California Native communities without federal land protection during the period of most intense settler violence and dispossession following the Gold Rush.',
+                    sources: [
+                        { url: 'https://scholarworks.calstate.edu/concern/publications/h702q636s', text: 'California State University Monterey Bay — The 18 Unratified California Treaties' },
+                        { url: 'https://americanindian.si.edu/nk360/california-gold-rush/treaties.cshtml', text: 'Smithsonian National Museum of the American Indian — California Treaties and the Gold Rush Era' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Governed During the Decimation of California Native Communities',
+                    shortLabel: 'California Native Violence',
+                    description: 'Fillmore\'s presidency coincided with the most catastrophic period of violence against California Native peoples following the Gold Rush, as settler encroachment, state-sanctioned militia campaigns, and federal inaction combined to devastate Native communities across the state. California historians have documented the era as a genocide; the state\'s own Native population collapsed from an estimated 150,000 at the time of the Gold Rush to fewer than 30,000 by 1870. Fillmore did not personally order the violence, but his administration governed during the critical window when federal intervention and ratified land treaties could have provided some protection, and it provided neither. The failure to ratify the eighteen negotiated treaties removed the primary legal mechanism that might have buffered Native communities against the worst excesses of settler expansion.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/california-indian-history.htm', text: 'National Park Service — California Indian History and the Gold Rush Era' },
+                        { url: 'https://www.britannica.com/topic/California-Indian', text: 'Britannica — California Indians: History and the Impact of the Gold Rush' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Authorized Perry\'s Coercive Naval Expedition to Japan',
+                    shortLabel: 'Perry Japan Expedition',
+                    description: 'Fillmore authorized the naval expedition that became Commodore Matthew Perry\'s 1853 mission to Japan, in which Perry arrived with a squadron of heavily armed steam-powered warships — the "Black Ships" — and demanded that Japan open its ports to American trade and diplomatic relations under an implicit threat of force. The State Department documents that Fillmore authorized the formal naval expedition in 1851. The mission is frequently celebrated as a diplomatic achievement that opened Japan to the modern world, but it was a textbook exercise in coercive gunboat diplomacy: a militarily superior power using the threat of destruction to compel a weaker nation to abandon its own sovereign policy choices. Japan\'s subsequent internal upheaval following forced opening contributed to decades of political instability.',
+                    sources: [
+                        { url: 'https://history.state.gov/milestones/1830-1860/opening-to-japan', text: 'U.S. State Department Office of the Historian — Opening to Japan: The Perry Mission' },
+                        { url: 'https://www.britannica.com/event/Convention-of-Kanagawa', text: 'Britannica — Commodore Perry and the Opening of Japan' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Helped Destroy the Whig Party\'s Anti-Slavery Credibility',
+                    shortLabel: 'Whig Party Collapse',
+                    description: 'Fillmore\'s embrace of the Fugitive Slave Act and the Compromise of 1850 exposed an irreconcilable fault line within the Whig Party between its Northern anti-slavery wing and its Southern slaveholder wing. Northern Whigs — including many who became the core of the emerging Republican Party — refused to forgive Fillmore for signing the Act, denying him the 1852 Whig nomination despite his incumbency. The Whig Party never won another presidential election and effectively ceased to exist within a few years. Fillmore\'s presidency did not alone cause the Whig collapse — the party faced structural tensions the slavery issue made permanent — but his signature decisions accelerated the dissolution of the last political organization that had attempted to hold the sectional divide together.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/fillmore/key-events', text: 'Miller Center — The Collapse of the Whig Party Under Fillmore' },
+                        { url: 'https://www.britannica.com/topic/Whig-Party-United-States', text: 'Britannica — Whig Party: Dissolution and the Slavery Crisis' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Ran for President in 1856 on the Know-Nothing Ticket',
+                    shortLabel: 'Know-Nothing Campaign',
+                    description: 'After leaving office, Fillmore accepted the 1856 presidential nomination of the American Party — widely known as the Know-Nothings — a nativist movement built on anti-Catholic and anti-immigrant sentiment that portrayed Catholic immigrants, particularly Irish and German arrivals, as agents of papal conspiracy incompatible with American democracy. Fillmore did not personally embrace the movement\'s most extreme rhetoric, but his willingness to run on its platform lent his presidential credibility to a movement rooted in religious bigotry and ethnic hatred at a moment when the country needed leadership that could address the slavery crisis. He finished third, carrying only Maryland, but the candidacy remains a significant stain on his post-presidential record.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/fillmore/key-events', text: 'Miller Center — Fillmore and the Know-Nothing Party (1856)' },
+                        { url: 'https://www.britannica.com/topic/Know-Nothing-movement', text: 'Britannica — Know-Nothing Movement: Origins and the 1856 Election' }
+                    ]
+                },
+            ]
+        },
+        washington: {
+            id: 'washington',
+            firstName: 'George',
+            lastName: 'Washington',
+            ordinal: 1,
+            party: 'noparty',
+            portrait: '/assets/images/washington.webp',
+            bars: [
+                {
+                    severity: 10,
+                    title: 'Enslaved More Than 300 People at Mount Vernon',
+                    shortLabel: 'Enslaved 300+ People',
+                    description: 'Washington enslaved people from the age of eleven until his death in 1799 — a period spanning nearly his entire life. At Mount Vernon in 1799, there were 317 enslaved people; 123 were legally owned by Washington himself, while the remainder were controlled through Martha Washington\'s dower estate. He relied on their forced, uncompensated labor to build and sustain the wealth, property, and social standing that made his political career possible. Washington did arrange in his will for the people he personally owned to be freed after Martha\'s death — a provision she enacted early — but this freed only those he legally owned and left the dower enslaved people, who were not his to free, bound to the Custis estate. The partial provision does not resolve the fundamental moral fact of a lifetime of slaveholding.',
+                    sources: [
+                        { url: 'https://www.mountvernon.org/george-washington/slavery/', text: 'Mount Vernon — George Washington and Slavery' },
+                        { url: 'https://www.whitehousehistory.org/slavery-in-the-white-house-george-washington', text: 'White House Historical Association — Slavery in the White House: George Washington' }
+                    ]
+                },
+                {
+                    severity: 10,
+                    title: 'Signed the Fugitive Slave Act of 1793',
+                    shortLabel: 'Fugitive Slave Act 1793',
+                    description: 'On February 12, 1793, Washington signed the first federal Fugitive Slave Act into law, creating a legal mechanism by which enslavers could pursue and reclaim escaped enslaved people across state lines and compelling free states to participate in their capture and return. The Act imposed penalties on anyone who harbored or assisted freedom-seekers and denied accused persons the right to a jury trial. As the first major federal legislation to nationalize slavery enforcement, it established a template — expanded and strengthened in 1850 — that made the entire country legally complicit in maintaining the institution of slavery for the next seven decades. Washington signed the Act as both the nation\'s chief executive and as one of its largest enslavers, with a direct personal interest in the legal infrastructure it created.',
+                    sources: [
+                        { url: 'https://www.archives.gov/milestone-documents/fugitive-slave-act', text: 'National Archives — Fugitive Slave Act of 1793: Historical Context' },
+                        { url: 'https://www.loc.gov/item/rbpe.14000400/', text: 'Library of Congress — The Fugitive Slave Act of 1793: Primary Source Materials' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Pursued Ona Judge After She Escaped to Freedom',
+                    shortLabel: 'Pursued Ona Judge',
+                    description: 'In 1796, Ona Judge — an enslaved woman who had served in the Washington household since childhood — escaped from the President\'s House in Philadelphia after learning that Martha Washington intended to give her as a wedding gift to a granddaughter. Rather than accept her freedom, Washington orchestrated multiple attempts to have her captured and returned, using federal customs officials in New Hampshire as instruments of personal slave-catching while he was serving as president of the United States. The National Park Service and Mount Vernon both document her escape and Washington\'s persistent attempts to recover her. Judge evaded recapture, settled in New Hampshire, married, raised a family, and later gave interviews describing her determination never to return to slavery. Washington never stopped attempting to recover her.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/ona-judge-washington-s-runaway-slave.htm', text: 'National Park Service — Ona Judge: Washington\'s Runaway Slave' },
+                        { url: 'https://www.mountvernon.org/library/digitalhistory/digital-encyclopedia/article/ona-judge/', text: 'Mount Vernon — Ona Judge: Digital Encyclopedia Entry' }
+                    ]
+                },
+                {
+                    severity: 9,
+                    title: 'Embodied American Liberty While Denying It to Those He Enslaved',
+                    shortLabel: 'Liberty Contradiction',
+                    description: 'Washington became the defining symbol of American republican virtue and freedom — the indispensable man whose image anchored the new nation\'s identity — while personally enslaving more than 300 people whose forced labor built and maintained the wealth and household that enabled his public life. This contradiction was not incidental or private; it was structural and public. Washington presided over a republic whose founding documents proclaimed universal human equality while its first president\'s home was operated by enslaved workers. His image defined what "American freedom" meant for generations while the people he enslaved were explicitly excluded from its protections, and his status as the national embodiment of liberty lent legitimacy to a social order built on the permanent denial of liberty to others.',
+                    sources: [
+                        { url: 'https://www.mountvernon.org/george-washington/slavery/ten-facts-about-washington-slavery/', text: 'Mount Vernon — Ten Facts About Washington and Slavery' },
+                        { url: 'https://www.loc.gov/exhibits/jefferson/jeffamer.html', text: 'Library of Congress — The Contradiction of Liberty and Slavery in the Founding Era' }
+                    ]
+                },
+                {
+                    severity: 7,
+                    title: 'Northwest Indian War and Forced Cession of Native Lands',
+                    shortLabel: 'Northwest Indian War',
+                    description: 'Washington\'s administration fought the Northwest Indian War against a confederation of Native nations — including the Shawnee, Miami, Delaware, and others — who were resisting U.S. expansion into lands north of the Ohio River. After U.S. forces defeated the confederacy at the Battle of Fallen Timbers in 1794, the 1795 Treaty of Greenville forced Native nations to cede the majority of what became Ohio and significant portions of future Indiana, Illinois, and Michigan. Washington\'s public rhetoric sometimes invoked "justice and humanity" toward Native peoples, but the consistent thrust of his Native policy was the acquisition of their land through military pressure, coerced treaties, and the promotion of debt-based economic dependency — anticipating the more systematic removal policies that followed under later administrations.',
+                    sources: [
+                        { url: 'https://www.nps.gov/articles/northwest-indian-war.htm', text: 'National Park Service — The Northwest Indian War' },
+                        { url: 'https://history.state.gov/milestones/1784-1800/northwest-ordinance', text: 'U.S. State Department Office of the Historian — Northwest Territory and Native Land Cessions' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Purchased Teeth from Enslaved People for His Dentures',
+                    shortLabel: 'Purchased Enslaved Teeth',
+                    description: 'Mount Vernon\'s own records document a 1784 entry in Washington\'s account books recording payment "to Negroes for 9 teeth," associated with a French dentist who was treating Washington. Mount Vernon acknowledges the transaction is documented in the accounts and notes that the practice of purchasing teeth from living people — including enslaved people who had little meaningful ability to refuse — was a known phenomenon of the era. The power dynamics involved in an enslaver purchasing body parts from people he owned render the notion of voluntary sale deeply problematic. Mount Vernon states there is no definitive proof the specific teeth became part of surviving dentures, but the transaction itself stands as a documented example of the ways in which enslaved people\'s bodies were treated as resources available for extraction.',
+                    sources: [
+                        { url: 'https://www.mountvernon.org/george-washington/facts/washingtons-teeth/', text: 'Mount Vernon — George Washington\'s Teeth: The Historical Record' },
+                        { url: 'https://www.mountvernon.org/george-washington/slavery/', text: 'Mount Vernon — Slavery at Mount Vernon: Documentation' }
+                    ]
+                },
+                {
+                    severity: 5,
+                    title: 'Used Federal Military Force to Suppress the Whiskey Rebellion',
+                    shortLabel: 'Whiskey Rebellion',
+                    description: 'In 1794, when frontier farmers in western Pennsylvania resisted the federal excise tax on whiskey — a tax that fell disproportionately on small producers who used whiskey as a practical currency and trading commodity — Washington personally led a militia force of nearly 13,000 men into Pennsylvania to suppress the uprising, the largest military force assembled in the United States since the Revolutionary War. The rebellion collapsed without a major battle and the episode demonstrated that the new federal government could enforce its laws. Critics argued that the overwhelming force deployed against small farmers protesting a regressive tax established a troubling precedent for using federal military power against citizens exercising what they saw as a right of popular resistance.',
+                    sources: [
+                        { url: 'https://www.archives.gov/publications/prologue/1994/fall/whiskey-rebellion.html', text: 'National Archives — The Whiskey Rebellion (Prologue, Fall 1994)' },
+                        { url: 'https://millercenter.org/president/washington/key-events', text: 'Miller Center — George Washington: The Whiskey Rebellion' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Backed a Regressive Whiskey Tax That Burdened Frontier Farmers',
+                    shortLabel: 'Whiskey Tax',
+                    description: 'Washington supported Alexander Hamilton\'s excise tax on whiskey, which was structured in a way that fell most heavily on small frontier distillers rather than large commercial operations. For farmers in western Pennsylvania and other frontier regions, whiskey was not merely a beverage but a practical economic medium — grain was difficult and expensive to transport east, but distilled into whiskey it became portable and tradeable. The tax effectively penalized the economic practices of frontier communities that lacked the infrastructure and cash liquidity of eastern merchants. Washington\'s backing of the policy reflected a Hamiltonian vision of federal fiscal authority that prioritized revenue and creditor confidence over the economic interests of the rural working poor.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/washington/domestic-affairs', text: 'Miller Center — Washington: Domestic Affairs and the Whiskey Tax' },
+                        { url: 'https://www.britannica.com/event/Whiskey-Rebellion', text: 'Britannica — Whiskey Rebellion: Origins and the Excise Tax' }
+                    ]
+                },
+                {
+                    severity: 4,
+                    title: 'Established Strong Executive Precedents That Expanded Presidential Power',
+                    shortLabel: 'Executive Precedents',
+                    description: 'Washington\'s presidency necessarily involved establishing precedents where none existed, and many of his choices expanded executive authority in ways that outlasted their original context. His unilateral declaration of neutrality in the conflict between Britain and France — without consulting Congress — established a precedent for executive foreign policy independence. His assertion of executive privilege during the Jay Treaty debates set a template for presidents withholding information from Congress. His use of military force in the Whiskey Rebellion established federal enforcement power over internal resistance. Many of these precedents were arguably necessary to create a functioning executive, but Anti-Federalist critics at the time warned they were building a presidency more powerful than the Constitution\'s democratic structure could safely accommodate.',
+                    sources: [
+                        { url: 'https://millercenter.org/president/washington/key-events', text: 'Miller Center — George Washington: Key Presidential Precedents' },
+                        { url: 'https://www.britannica.com/biography/George-Washington/Presidency', text: 'Britannica — George Washington: The Presidency and Executive Power' }
+                    ]
+                },
+                {
+                    severity: 6,
+                    title: 'Prioritized National Unity Over Challenging Slavery While President',
+                    shortLabel: 'Silence on Slavery',
+                    description: 'Washington privately grew more uncomfortable with slavery over the course of his life and presidency — his will\'s manumission provision suggests genuine moral unease — but he took no meaningful public action against the institution while president, despite holding the most powerful platform in the new republic. His overriding priority was preserving the fragile Union, and he recognized that any serious federal challenge to slavery would fracture the Southern states\' commitment to it. The result was a deliberate presidential silence that left slavery not merely tolerated but actively protected by the federal legal architecture Washington\'s administration helped construct, including the Fugitive Slave Act of 1793. His caution was politically understandable; its cost was leaving the nation\'s founding moral contradiction unaddressed at the moment it might have been most tractable.',
+                    sources: [
+                        { url: 'https://www.mountvernon.org/george-washington/slavery/washington-and-slavery/', text: 'Mount Vernon — Washington\'s Evolving Views on Slavery' },
+                        { url: 'https://millercenter.org/president/washington/domestic-affairs', text: 'Miller Center — Washington: Slavery and the Limits of Presidential Leadership' }
+                    ]
+                },
+            ]
         }
+
 
     };
 
@@ -963,6 +2066,23 @@
             return n.map(fmt).join(' &amp; ') + ' President';
         }
         return fmt(n) + ' President';
+    }
+
+    /* --------------------------------------------------------------------------
+       formatParty — turn a party id ("democratic-republican") into a
+       display label ("Democratic-Republican"). Title-cases each hyphen-
+       separated segment so any future party id renders correctly without
+       a hardcoded lookup.
+       -------------------------------------------------------------------------- */
+    function formatParty(party) {
+        if (!party) return '';
+        // Special case — Washington and any other unaffiliated executive
+        // render as "Nonpartisan" rather than a literal "Noparty".
+        if (party === 'noparty') return 'Nonpartisan';
+        return party
+            .split('-')
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+            .join('-');
     }
 
     /* --------------------------------------------------------------------------
@@ -1213,6 +2333,7 @@
         const nf = cell.querySelector('.name-first');
         const ln = cell.querySelector('.last-name');
         const nd = cell.querySelector('.name-detail');
+        const np = cell.querySelector('.name-party');
 
         const president = presidents[selection[side]];
         if (!president) {
@@ -1220,6 +2341,7 @@
             if (nf) nf.textContent = '';
             if (ln) ln.textContent = '';
             if (nd) nd.textContent = '';
+            if (np) np.textContent = '';
             if (sideEl) sideEl.setAttribute('aria-label', side === 'left' ? 'Left president' : 'Right president');
             // Fall back to the generic picker label when no president is
             // resolved (e.g. an unknown selection id).
@@ -1233,6 +2355,7 @@
         // innerHTML for the ordinal because formatOrdinal returns markup
         // (sup tags). Safe because the input is author-controlled data.
         if (nd) nd.innerHTML = formatOrdinal(president.ordinal);
+        if (np) np.textContent = formatParty(president.party);
 
         // Rich, dynamic aria-label collapses what would otherwise be two
         // separate screen-reader announcements (label + current option)

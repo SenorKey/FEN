@@ -43,6 +43,38 @@
     --red-glow: #e74154;
     --red-pale: #ff6b78;
 
+    /* Palette — democratic-republican (antique gold).
+       Founding-era neoclassical tones — distinct from dem-blue and
+       rep-red, evoking parchment, Federal-style architecture, and
+       the agrarian republic of Jefferson/Madison/Monroe/JQ Adams. */
+    --gold-deep: #2a1c08;
+    --gold-mid: #5c3f10;
+    --gold-bright: #a87423;
+    --gold-glow: #d9a23f;
+    --gold-pale: #f0c878;
+
+    /* Palette — whig (hunter green).
+       19th-century gentleman's-club / Gothic Revival tones — distinct
+       from dem-blue, rep-red, and dem-rep gold. Evokes the Whig era
+       (1834-1854) of Harrison, Tyler, Taylor, and Fillmore. */
+    --green-deep: #0a2014;
+    --green-mid: #173d28;
+    --green-bright: #2a7a4a;
+    --green-glow: #4ba872;
+    --green-pale: #8fd1a9;
+
+    /* Palette — nonpartisan / noparty (midnight + pewter silver).
+       Reserved for Washington, who refused party affiliation and warned
+       against parties in his Farewell Address. Deep midnight with a
+       silver-pewter accent — distinct from all four party palettes,
+       evoking founding gravitas and statuary marble rather than
+       partisan color. */
+    --night-deep: #06091a;
+    --night-mid: #141a30;
+    --night-bright: #3a4a6e;
+    --night-glow: #7a8db0;
+    --night-pale: #c4d2ea;
+
     /* Neutrals */
     --ink: #f8f5ee;
     --ink-dim: rgba(248, 245, 238, 0.72);
@@ -131,6 +163,53 @@
     --party-pale: var(--red-pale);
     --party-rgb: 231, 65, 84;
     --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>");
+}
+
+[data-party="democratic-republican"] {
+    --party-bg-1: var(--gold-deep);
+    --party-bg-2: var(--gold-mid);
+    --party-bg-3: #4a3210;
+    --party-bg-4: #1c1206;
+    --party-bright: var(--gold-bright);
+    --party-glow: var(--gold-glow);
+    --party-pale: var(--gold-pale);
+    --party-rgb: 217, 162, 63;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><path d='M30,12 L48,30 L30,48 L12,30 Z' fill='none' stroke='white' stroke-opacity='0.07' stroke-width='1'/><circle cx='30' cy='30' r='1.8' fill='white' fill-opacity='0.08'/></svg>");
+}
+
+[data-party="whig"] {
+    --party-bg-1: var(--green-deep);
+    --party-bg-2: var(--green-mid);
+    --party-bg-3: #143424;
+    --party-bg-4: #07180e;
+    --party-bright: var(--green-bright);
+    --party-glow: var(--green-glow);
+    --party-pale: var(--green-pale);
+    --party-rgb: 75, 168, 114;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='white' fill-opacity='0.06'><ellipse cx='30' cy='20' rx='3.5' ry='7'/><ellipse cx='40' cy='30' rx='7' ry='3.5'/><ellipse cx='30' cy='40' rx='3.5' ry='7'/><ellipse cx='20' cy='30' rx='7' ry='3.5'/></g><circle cx='30' cy='30' r='1.6' fill='white' fill-opacity='0.08'/></svg>");
+}
+
+/* Washington's "noparty" theme — a CSS-only "founding seal" over a
+   midnight + pewter palette. Reserved for Washington as the first
+   president and the only one with no party affiliation; the visual
+   language is statuary/coin/seal rather than partisan iconography.
+
+   The tiled motif is a single 5-point star inside two concentric thin
+   rings — reads as a quiet medallion repeated across the field. The
+   richer premium treatment (monument-light halo from the top, faint
+   marble-pillar sheen, pewter edge glow) is layered on top in the
+   Washington-specific .side-bg overrides further down this file. */
+[data-party="noparty"] {
+    --party-bg-1: var(--night-deep);
+    --party-bg-2: var(--night-mid);
+    --party-bg-3: #1a2240;
+    --party-bg-4: #04060f;
+    --party-bright: var(--night-bright);
+    --party-glow: var(--night-glow);
+    --party-pale: var(--night-pale);
+    --party-rgb: 138, 156, 190;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><polygon points='70,60 71.8,65.6 77.6,65.5 72.9,68.9 74.7,74.5 70,71 65.3,74.5 67.2,68.9 62.4,65.5 68.2,65.6' fill='white' fill-opacity='0.09'/><circle cx='70' cy='70' r='30' fill='none' stroke='white' stroke-opacity='0.05' stroke-width='0.75'/><circle cx='70' cy='70' r='40' fill='none' stroke='white' stroke-opacity='0.028' stroke-width='0.5'/></svg>");
+    --party-pattern-size: 140px 140px;
 }
 
 /* --------------------------------------------------------------------------
@@ -437,6 +516,22 @@ body.hydrated .picker-badge {
     margin-left: 1px;
 }
 
+/* Party label — small uppercase chip under the ordinal, tinted with the
+   party color so the badge reinforces the side's theming. Desktop only;
+   hidden inside the @media (max-width: 1000px) block where the badge
+   collapses to a compact sticky bar. */
+.name-party {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--party-glow, var(--ink-faint));
+    margin-top: 6px;
+    opacity: 0.85;
+}
+
 /* --------------------------------------------------------------------------
      Comparison main — two-column split
      -------------------------------------------------------------------------- */
@@ -502,6 +597,7 @@ body.hydrated .picker-badge {
 
 .side-left .side-bg {
     background:
+        linear-gradient(var(--party-pattern-veil, transparent), var(--party-pattern-veil, transparent)),
         var(--party-pattern) repeat,
         linear-gradient(180deg,
             var(--party-bg-1) 0%,
@@ -509,10 +605,12 @@ body.hydrated .picker-badge {
             var(--party-bg-3) 65%,
             var(--party-bg-4) 100%),
         radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
+    background-size: auto, var(--party-pattern-size, auto), auto, auto;
 }
 
 .side-right .side-bg {
     background:
+        linear-gradient(var(--party-pattern-veil, transparent), var(--party-pattern-veil, transparent)),
         var(--party-pattern) repeat,
         linear-gradient(180deg,
             var(--party-bg-1) 0%,
@@ -520,6 +618,43 @@ body.hydrated .picker-badge {
             var(--party-bg-3) 65%,
             var(--party-bg-4) 100%),
         radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
+    background-size: auto, var(--party-pattern-size, auto), auto, auto;
+}
+
+/* Washington-only premium background. Stacks (top to bottom):
+     1. Pewter halo descending from top-center — evokes monument lighting.
+     2. Faint vertical "marble pillar" sheen down the side's midline.
+     3. The seal pattern (star + concentric rings).
+     4. Pewter radial accent at the outer edge (matches party theming).
+     5. Midnight gradient base.
+   Higher specificity than the generic .side-left / .side-right rules,
+   so it replaces them entirely for Washington. */
+.side-left[data-party="noparty"] .side-bg {
+    background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(196, 210, 234, 0.10) 0%, transparent 70%),
+        linear-gradient(90deg, transparent 0%, rgba(196, 210, 234, 0.035) 50%, transparent 100%),
+        var(--party-pattern) repeat,
+        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.28) 0%, transparent 55%),
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%);
+    background-size: auto, auto, var(--party-pattern-size, auto), auto, auto;
+}
+
+.side-right[data-party="noparty"] .side-bg {
+    background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(196, 210, 234, 0.10) 0%, transparent 70%),
+        linear-gradient(90deg, transparent 0%, rgba(196, 210, 234, 0.035) 50%, transparent 100%),
+        var(--party-pattern) repeat,
+        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.28) 0%, transparent 55%),
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%);
+    background-size: auto, auto, var(--party-pattern-size, auto), auto, auto;
 }
 
 /* Subtle grain layer for texture */
@@ -1230,6 +1365,10 @@ body.hydrated .picker-badge {
     .picker-badge .name-detail {
         font-size: 0.65rem;
         margin-top: 3px;
+    }
+
+    .picker-badge .name-party {
+        display: none;
     }
 
     /* Sides become a single column — no more figure header */
