@@ -644,13 +644,14 @@ function ExportMenu(_ref) {
    SAVE BUTTON & LOAD MENU
    ═══════════════════════════════════════════════════════════ */
 function SaveButton(_ref) {
-    var data = _ref.data;
+    var data = _ref.data, onAfterSave = _ref.onAfterSave;
     var _s = useState(false), saved = _s[0], setSaved = _s[1];
     var onClick = function () {
         var entry = saveToLibrary(data);
         if (!entry) return;
         setSaved(true);
         setTimeout(function () { setSaved(false); }, 1400);
+        if (onAfterSave) onAfterSave(entry);
     };
     return (
         <button onClick={onClick} aria-label="Save analysis" style={{
@@ -799,8 +800,20 @@ function App() {
     var tabs = [
         { id: "board", label: "Board", icon: "⚽" },
         { id: "timeline", label: "Timeline", icon: "📊" },
-        { id: "scout", label: "Scout", icon: "📋" }
+        { id: "scout", label: "Scout", icon: "📋" },
+        { id: "plan", label: "Plan", icon: "🗓" }
     ];
+
+    var seedPlannerFromSave = function (entry) {
+        if (typeof spSeedWeekFromMatch !== "function") return;
+        if (!confirm("Create next week's plan from this match?")) return;
+        spSeedWeekFromMatch({
+            summary: entry.data.summary,
+            matchDate: entry.data.match.date,
+            opponent: entry.data.match.opponent,
+        });
+        setTab("plan");
+    };
 
     return (
         <div style={{
@@ -843,27 +856,31 @@ function App() {
                     }}>{clock.minute}'</span>
                     <span style={{ fontSize: 9, color: C.textDim, fontFamily: C.fontCond }}>{clock.half === 1 ? "1H" : "2H"}</span>
                 </div>
-                <SaveButton data={data} />
-                <LoadMenu currentData={data} onLoad={function (d) {
-                    var merged = { ...INITIAL_DATA, ...d };
-                    var idMap = {};
-                    merged.boards = (merged.boards || []).map(function (b) {
-                        var newId = uid();
-                        idMap[b.id] = newId;
-                        return { ...b, id: newId };
-                    });
-                    merged.activeBoard = idMap[merged.activeBoard] || (merged.boards[0] ? merged.boards[0].id : "");
-                    setData(merged);
-                }} />
-                <ExportMenu data={data} />
-                <button onClick={resetAll} aria-label="Reset" style={{
-                    padding: "5px 6px", fontSize: 13, background: "transparent",
-                    border: "1px solid " + C.red + "44", color: C.red, borderRadius: 3,
-                    cursor: "pointer", opacity: 0.7,
-                }}>⟲</button>
+                {tab !== "plan" && (
+                    <>
+                        <SaveButton data={data} onAfterSave={seedPlannerFromSave} />
+                        <LoadMenu currentData={data} onLoad={function (d) {
+                            var merged = { ...INITIAL_DATA, ...d };
+                            var idMap = {};
+                            merged.boards = (merged.boards || []).map(function (b) {
+                                var newId = uid();
+                                idMap[b.id] = newId;
+                                return { ...b, id: newId };
+                            });
+                            merged.activeBoard = idMap[merged.activeBoard] || (merged.boards[0] ? merged.boards[0].id : "");
+                            setData(merged);
+                        }} />
+                        <ExportMenu data={data} />
+                        <button onClick={resetAll} aria-label="Reset" style={{
+                            padding: "5px 6px", fontSize: 13, background: "transparent",
+                            border: "1px solid " + C.red + "44", color: C.red, borderRadius: 3,
+                            cursor: "pointer", opacity: 0.7,
+                        }}>⟲</button>
+                    </>
+                )}
             </div>
 
-            {clock.half === 1 && clock.minute >= 45 && (
+            {tab !== "plan" && clock.half === 1 && clock.minute >= 45 && (
                 <button onClick={clock.startSecondHalf} style={{
                     padding: 7, fontSize: 11, fontFamily: C.fontCond, fontWeight: 700,
                     textTransform: "uppercase", letterSpacing: 1, background: C.yellow + "22",
@@ -888,6 +905,9 @@ function App() {
                         observations={data.observations} onAddObservation={addObservation}
                         onDeleteObservation={deleteObservation} summary={data.summary}
                         onUpdateSummary={updateSummary} clockMinute={clock.minute} />
+                </div>
+                <div style={{ display: tab === "plan" ? "block" : "none", height: "100%", overflowY: "auto" }}>
+                    <SessionPlanning />
                 </div>
             </div>
 

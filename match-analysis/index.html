@@ -81,15 +81,23 @@
         4. timeline.jsx   — MatchTimeline. Uses C, uid, Field
                              from (1).
 
+        5. session-planning.jsx — SessionPlanning (weekly microcycle,
+                             session editor, templates) + the
+                             spSeedWeekFromMatch bridge fn called
+                             from app.jsx's Save handler. Uses C, uid
+                             from (1) via the spTok adapter.
+
         App (defined in step 1) references TacticalBoard, ScoutingForm,
-        and MatchTimeline in its render function — but that function
-        isn't called until the mount script below runs, by which time
-        all four files have executed and those globals exist.
+        MatchTimeline, and SessionPlanning in its render function — but
+        that function isn't called until the mount script below runs,
+        by which time all five files have executed and those globals
+        exist.
     -->
-    <script type="text/babel" src="/match-analysis/app.jsx?v=7"></script>
+    <script type="text/babel" src="/match-analysis/app.jsx?v=8"></script>
     <script type="text/babel" src="/match-analysis/pitch.jsx?v=2"></script>
     <script type="text/babel" src="/match-analysis/scouting-form.jsx?v=8"></script>
     <script type="text/babel" src="/match-analysis/timeline.jsx?v=8"></script>
+    <script type="text/babel" src="/match-analysis/session-planning.jsx?v=1"></script>
 
     <!-- Mount the React app -->
     <script type="text/babel">
