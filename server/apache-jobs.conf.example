@@ -1,0 +1,91 @@
+# ════════════════════════════════════════════════
+#  Apache config snippets for the /jobs page on FEN
+#  ════════════════════════════════════════════════
+#
+#  Add these inside your existing <VirtualHost *:443> block for
+#  frontendneeded.com (the one that already proxies /api/chat to Ollama).
+#
+#  You'll need these Apache modules enabled:
+#    - mod_proxy and mod_proxy_http
+#    - mod_auth_basic and mod_authn_file
+#
+#  Quick enable on Fedora:
+#    sudo dnf install httpd-tools
+#    sudo systemctl enable --now httpd
+#
+#  Generate the password file once (replace 'key' with your username):
+#    sudo htpasswd -c /etc/httpd/fen-jobs.htpasswd key
+#  NEVER serve that file — it must live OUTSIDE the docroot.
+
+# ────────────────────────────────────────────────
+# 1) The page itself — protect with basic auth.
+# ────────────────────────────────────────────────
+<Location "/jobs/">
+    AuthType Basic
+    AuthName "FEN Jobs"
+    AuthUserFile /etc/httpd/fen-jobs.htpasswd
+    Require valid-user
+</Location>
+
+# ────────────────────────────────────────────────
+# 2) The data store API — same auth, reverse-proxy
+#    to the local Flask service on 127.0.0.1:8765.
+# ────────────────────────────────────────────────
+<Location "/api/jobs-data">
+    AuthType Basic
+    AuthName "FEN Jobs"
+    AuthUserFile /etc/httpd/fen-jobs.htpasswd
+    Require valid-user
+</Location>
+
+ProxyPass        "/api/jobs-data/" "http://127.0.0.1:8765/"
+ProxyPassReverse "/api/jobs-data/" "http://127.0.0.1:8765/"
+ProxyPass        "/api/jobs-data"  "http://127.0.0.1:8765/"
+ProxyPassReverse "/api/jobs-data"  "http://127.0.0.1:8765/"
+
+# ────────────────────────────────────────────────
+# 3) The "big" AI endpoint — Ollama on the Windows PC.
+#
+#    REPLACE <WINDOWS_PC_LAN_IP> with your Windows PC's LAN IP.
+#    Pin this in your router's DHCP reservations so it
+#    doesn't change between reboots.
+#
+#    Why the long timeout: the first request after a
+#    Windows boot has to load the model into VRAM. On a
+#    4080, Mistral Small Q4 loads in ~10-20 seconds, but
+#    a cold GPU could take longer. 300s is safety margin.
+#
+#    flushpackets=on is critical for streaming — it
+#    pushes each chunk through to the browser instead
+#    of buffering. Without it, tokens batch up and the
+#    streaming output stutters.
+#
+#    connectiontimeout=5 is intentionally short so that
+#    when the Windows PC is OFF, the browser learns about
+#    it within 5 seconds (502 from Apache) instead of
+#    sitting on a long TCP timeout.
+# ────────────────────────────────────────────────
+<Location "/api/chat-big">
+    AuthType Basic
+    AuthName "FEN Jobs"
+    AuthUserFile /etc/httpd/fen-jobs.htpasswd
+    Require valid-user
+</Location>
+
+ProxyPass        "/api/chat-big" "http://<YOUR_WINDOWS_PC_LAN_IP>:11434/api/chat" connectiontimeout=5 timeout=300 flushpackets=on
+ProxyPassReverse "/api/chat-big" "http://<YOUR_WINDOWS_PC_LAN_IP>:11434/api/chat"
+
+# ────────────────────────────────────────────────
+# 4) (Optional) Also gate /api/chat behind the same
+#    auth so casual scrapers can't burn your Fedora
+#    GPU on the Ollama endpoint. Skip this if you
+#    want the hire-me page to keep calling /api/chat
+#    anonymously — the hire-me chat WILL break if
+#    you enable auth here.
+# ────────────────────────────────────────────────
+# <Location "/api/chat">
+#     AuthType Basic
+#     AuthName "FEN Jobs"
+#     AuthUserFile /etc/httpd/fen-jobs.htpasswd
+#     Require valid-user
+# </Location>

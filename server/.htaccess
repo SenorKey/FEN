@@ -1,0 +1,5 @@
+# Deny web access — these files are the backend service source.
+# They live here in the repo for version control, but get deployed
+# to /opt/fen-jobs/ and /etc/systemd/system/ on the Fedora box.
+# See README.md in this folder for setup steps.
+Require all denied

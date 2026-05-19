@@ -1,0 +1,803 @@
+/* ═══════════════════════════════════════════════
+   jobs.css — Styles specific to /jobs
+   frontendneeded.com
+
+   A private job-application tracker. Two-row layout:
+     gr-top    — workspace (form on left, output on right)
+     gr-bottom — history on left, master resumes on right
+
+   We override the default gr-top (which is a flex column)
+   to be a horizontal split for this page.
+   ═══════════════════════════════════════════════ */
+
+[hidden] {
+    display: none !important;
+}
+
+:root {
+    --accent: #88c0d0;
+    --accent-rgb: 136, 192, 208;
+    --bg: #0c1322;
+    --panel: rgba(255, 255, 255, 0.025);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --field-bg: rgba(255, 255, 255, 0.04);
+    --field-border: rgba(255, 255, 255, 0.1);
+    --field-border-focus: rgba(136, 192, 208, 0.55);
+}
+
+.site-nav {
+    background: #070b15;
+}
+
+.nav-dropdown-menu {
+    background: #070b15;
+}
+
+/* ═══════════════════════════════════════════════
+   Custom gr-top: horizontal split (61.8% / 38.2%)
+   ═══════════════════════════════════════════════ */
+
+.jobs-shell {
+    /* keep the standard column shell, just override gr-top */
+}
+
+.jobs-top {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    overflow: hidden;
+    justify-content: flex-start;
+    /* override gr-top's flex-end alignment */
+}
+
+.jobs-top-left {
+    flex: 0 0 var(--phi-major);
+    padding: 32px 48px;
+    overflow-y: auto;
+    border-right: 1px solid transparent;
+    border-image: linear-gradient(180deg,
+            transparent,
+            rgba(45, 212, 191, 0.4),
+            rgba(196, 181, 253, 0.3),
+            rgba(45, 212, 191, 0.4),
+            transparent) 1;
+    box-shadow: 1px 0 30px rgba(45, 212, 191, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.jobs-top-right {
+    flex: 0 0 var(--phi-minor);
+    padding: 32px 36px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Tighter page title for this dense page */
+.jobs-top-left .page-title {
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    line-height: 1.05;
+}
+
+.jobs-top-left .page-subtitle {
+    margin-top: 8px;
+    font-size: 0.88rem;
+}
+
+/* ═══════════════════════════════════════════════
+   Form fields
+   ═══════════════════════════════════════════════ */
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.field-row .field-label {
+    margin-bottom: 0;
+}
+
+.field-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.field-hint {
+    margin-left: 6px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    color: rgba(240, 249, 255, 0.28);
+    font-size: 9px;
+}
+
+.text-input {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 10px 12px;
+    border: 1px solid var(--field-border);
+    border-radius: 6px;
+    background: var(--field-bg);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.text-input::placeholder {
+    color: rgba(240, 249, 255, 0.28);
+    font-weight: 300;
+}
+
+.text-input:focus {
+    border-color: var(--field-border-focus);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.text-area {
+    resize: vertical;
+    min-height: 140px;
+    max-height: 320px;
+    line-height: 1.5;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.select-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+        linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position:
+        calc(100% - 18px) 50%,
+        calc(100% - 13px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.select-input option {
+    background: #0a0e1a;
+    color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════
+   Buttons
+   ═══════════════════════════════════════════════ */
+
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.primary-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: var(--accent);
+    color: #07101c;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.primary-btn:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.primary-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.primary-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ghost-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    border: 1px solid var(--field-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.ghost-btn:hover:not(:disabled) {
+    border-color: var(--field-border-focus);
+    color: var(--accent);
+}
+
+.ghost-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.small-btn {
+    padding: 6px 12px;
+    font-size: 0.72rem;
+}
+
+.status-line {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+/* ═══════════════════════════════════════════════
+   Output panes
+   ═══════════════════════════════════════════════ */
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.output-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.output-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 18px 0;
+}
+
+.suggestion-box {
+    padding: 10px 14px;
+    background: rgba(136, 192, 208, 0.06);
+    border: 1px solid rgba(136, 192, 208, 0.2);
+    border-radius: 6px;
+}
+
+.suggestion-box .body-text {
+    font-size: 0.82rem;
+}
+
+/* ── Fallback prompt (error: Windows PC unreachable) ── */
+.fallback-prompt {
+    padding: 12px 14px;
+    background: rgba(217, 139, 160, 0.08);
+    border: 1px solid rgba(217, 139, 160, 0.35);
+    border-radius: 6px;
+}
+
+.fallback-prompt-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fallback-prompt-text {
+    font-size: 0.82rem;
+    color: #d98ba0;
+    margin: 0;
+}
+
+.fallback-prompt-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* ── Fallback banner (informational: using fallback model right now) ── */
+.fallback-banner {
+    padding: 8px 12px;
+    background: rgba(255, 200, 80, 0.06);
+    border: 1px solid rgba(255, 200, 80, 0.28);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fallback-banner .body-text {
+    font-size: 0.78rem;
+    color: rgba(255, 217, 130, 0.92);
+    margin: 0;
+}
+
+.fallback-banner-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ffc850;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(255, 200, 80, 0.6);
+}
+
+.output-panes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+}
+
+.output-pane {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.copy-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--field-border);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--field-border-focus);
+}
+
+.copy-btn.copied {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.output-text {
+    flex: 1;
+    margin: 0;
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-y: auto;
+    background: transparent;
+    border: none;
+    max-height: 360px;
+}
+
+/* Streaming caret */
+.output-text.streaming::after {
+    content: '▍';
+    color: var(--accent);
+    animation: caretBlink 1s infinite;
+    margin-left: 1px;
+}
+
+@keyframes caretBlink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   Bottom row layout overrides
+   ═══════════════════════════════════════════════ */
+
+.jobs-bottom {
+    flex: 0 0 var(--phi-minor);
+}
+
+.jobs-history {
+    padding: 22px 36px;
+    padding-right: 36px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.jobs-resumes {
+    padding: 22px 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════
+   History list
+   ═══════════════════════════════════════════════ */
+
+.bottom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.filter-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--field-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-pill:hover {
+    color: var(--ink);
+    border-color: var(--field-border-focus);
+}
+
+.filter-pill.active {
+    color: var(--bg);
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 8px;
+}
+
+.history-item {
+    padding: 12px 14px;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.history-item:hover {
+    border-color: var(--field-border-focus);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.history-item.active {
+    border-color: var(--accent);
+    background: rgba(136, 192, 208, 0.06);
+}
+
+.history-item-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.history-item-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-item-meta {
+    font-size: 0.74rem;
+    color: var(--muted);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.history-item-meta .dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--muted);
+}
+
+.history-item-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.status-pill {
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.status-saved {
+    background: rgba(240, 249, 255, 0.08);
+    color: var(--muted);
+}
+
+.status-applied {
+    background: rgba(136, 192, 208, 0.15);
+    color: var(--accent);
+}
+
+.status-interview {
+    background: rgba(192, 104, 122, 0.18);
+    color: #d98ba0;
+}
+
+.status-closed {
+    background: rgba(240, 249, 255, 0.04);
+    color: rgba(240, 249, 255, 0.35);
+}
+
+.history-item-delete {
+    background: transparent;
+    border: none;
+    color: rgba(240, 249, 255, 0.25);
+    cursor: pointer;
+    font-size: 0.78rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.history-item-delete:hover {
+    color: #d98ba0;
+    background: rgba(217, 139, 160, 0.08);
+}
+
+/* ═══════════════════════════════════════════════
+   Resume tabs / editor
+   ═══════════════════════════════════════════════ */
+
+.resume-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--panel-border);
+    flex-shrink: 0;
+}
+
+.resume-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.resume-tab:hover {
+    color: var(--ink);
+}
+
+.resume-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.resume-drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed var(--field-border);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+.resume-drop:hover,
+.resume-drop:focus {
+    border-color: var(--field-border-focus);
+    color: var(--ink);
+    outline: none;
+}
+
+.resume-drop.dragover {
+    border-color: var(--accent);
+    background: rgba(136, 192, 208, 0.06);
+    color: var(--accent);
+}
+
+.resume-drop.busy {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+.resume-drop-text {
+    font-size: 0.82rem;
+}
+
+.resume-drop-link {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.resume-drop-hint {
+    font-size: 0.72rem;
+    color: rgba(240, 249, 255, 0.4);
+}
+
+.pane-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.resume-save-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.history-item-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.history-item-title-link:hover,
+.history-item-title-link:focus {
+    text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsive — under 1100px the side-by-side gets tight
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1100px) {
+
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .jobs-shell {
+        max-width: 100%;
+    }
+
+    .jobs-top {
+        flex-direction: column;
+        flex: 0 0 auto;
+    }
+
+    .jobs-top-left,
+    .jobs-top-right {
+        flex: 1 1 auto;
+        width: 100%;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .jobs-top-left {
+        border-right: none;
+        border-bottom: 1px solid transparent;
+        border-image: linear-gradient(90deg,
+                transparent,
+                rgba(45, 212, 191, 0.4),
+                rgba(196, 181, 253, 0.3),
+                rgba(45, 212, 191, 0.4),
+                transparent) 1;
+    }
+
+    .jobs-bottom {
+        flex: 0 0 auto;
+        flex-direction: column;
+    }
+
+    .gr-left.jobs-history,
+    .gr-right.jobs-resumes {
+        flex: 1 1 auto;
+        width: 100%;
+        overflow-y: visible;
+        min-height: 320px;
+    }
+
+    .gr-left.jobs-history {
+        border-right: none;
+    }
+
+    .output-text {
+        max-height: none;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .jobs-top-left,
+    .jobs-top-right,
+    .gr-left.jobs-history,
+    .gr-right.jobs-resumes {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .bottom-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+}

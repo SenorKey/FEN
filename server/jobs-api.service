@@ -1,0 +1,34 @@
+[Unit]
+Description=FEN /jobs JSON data API
+After=network.target
+
+[Service]
+Type=simple
+# Adjust user/group to whoever owns /var/lib/fen-jobs/ on your box.
+# Often this is the apache user or a dedicated 'fen' user.
+User=apache
+Group=apache
+
+# Where the service runs from (anywhere works — this is just cwd)
+WorkingDirectory=/opt/fen-jobs
+
+Environment="FEN_JOBS_DATA=/var/lib/fen-jobs/data.json"
+Environment="FEN_JOBS_HOST=127.0.0.1"
+Environment="FEN_JOBS_PORT=8765"
+
+# Use the system python with Flask installed, or a venv. Easiest path:
+#   sudo dnf install python3-flask
+ExecStart=/usr/bin/python3 /opt/fen-jobs/jobs-api.py
+
+Restart=on-failure
+RestartSec=3
+
+# Lightweight hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/var/lib/fen-jobs
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
