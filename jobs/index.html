@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/jobs/jobs.css">
 
     <meta name="description"
-        content="Private job application tracker — paste a job description and get a tailored resume and cover letter from a local AI.">
+        content="Private job application tracker — paste a job description and get a tailored resume from a local AI.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="canonical" href="https://frontendneeded.com/jobs/">
 
@@ -46,181 +46,157 @@
     <main id="main-content" class="gr-shell jobs-shell">
 
         <!-- ─────────────────────────────────────
-             TOP — workspace (input + output)
+             TOP — title (left) + new-job inputs (right)
              ───────────────────────────────────── -->
         <div class="gr-top jobs-top">
-            <!-- LEFT — input form -->
+
             <div class="jobs-top-left">
                 <div class="accent-bar"></div>
                 <h1 class="page-title">Job<br>Tracker</h1>
-                <p class="page-subtitle">Paste a job description. Get a tailored resume and cover letter from the
-                    local model.</p>
+                <p class="page-subtitle">
+                    Paste a job description and its URL. The local AI extracts the company and role and
+                    adds the listing to your saved jobs.
+                </p>
+            </div>
 
-                <p class="section-label" style="margin-top: 22px;">New application</p>
+            <div class="jobs-top-right">
+                <div class="new-listing-head">
+                    <p class="section-label" style="margin: 0;">New listing</p>
+                    <div class="ai-status-row" id="aiStatusRow">
+                        <button class="ai-status-pill" data-ai-test="big" type="button" title="Click to test the Windows AI">
+                            <span class="ai-dot ai-dot-unknown"></span>
+                            <span class="ai-label">Windows AI</span>
+                            <span class="ai-state">checking…</span>
+                        </button>
+                        <button class="ai-status-pill" data-ai-test="local" type="button" title="Click to test the local AI">
+                            <span class="ai-dot ai-dot-unknown"></span>
+                            <span class="ai-label">Local AI</span>
+                            <span class="ai-state">checking…</span>
+                        </button>
+                    </div>
+                </div>
 
                 <div class="field">
-                    <label class="field-label" for="urlInput">Source URL
-                        <span class="field-hint">optional, just for reference</span>
-                    </label>
+                    <label class="field-label" for="urlInput">Job listing URL</label>
                     <input id="urlInput" class="text-input" type="url"
                         placeholder="https://…" autocomplete="off">
                 </div>
 
-                <div class="field">
-                    <label class="field-label" for="jdInput">Job description text
+                <div class="field field-grow">
+                    <label class="field-label" for="jdInput">Job description
                         <span class="field-hint">copy-paste the full posting</span>
                     </label>
                     <textarea id="jdInput" class="text-input text-area"
                         placeholder="Paste the full job description here…"></textarea>
                 </div>
 
-                <div class="field field-row">
-                    <label class="field-label" for="categorySelect" style="flex: 0 0 auto;">Resume base</label>
-                    <select id="categorySelect" class="text-input select-input">
-                        <option value="auto">Let AI suggest</option>
-                        <option value="software">Software developer</option>
-                        <option value="seo">SEO / Web development</option>
-                        <option value="it">General IT / maintenance</option>
-                    </select>
-                </div>
-
                 <div class="action-row">
-                    <button id="generateBtn" class="primary-btn" type="button">
-                        Generate
-                    </button>
+                    <button id="saveJobBtn" class="primary-btn" type="button">Save listing</button>
                     <button id="clearBtn" class="ghost-btn" type="button">Clear</button>
                     <span id="statusLine" class="status-line"></span>
-                </div>
-            </div>
-
-            <!-- RIGHT — generated output -->
-            <div class="jobs-top-right">
-                <div class="output-header">
-                    <p class="section-label" style="margin: 0;">Output</p>
-                    <div class="output-actions" id="outputActions" hidden>
-                        <button id="markAppliedBtn" class="ghost-btn small-btn" type="button">Mark applied</button>
-                        <button id="regenBtn" class="ghost-btn small-btn" type="button">Regenerate</button>
-                    </div>
-                </div>
-
-                <!-- Placeholder when nothing has been generated -->
-                <div id="outputEmpty" class="output-empty">
-                    <p class="body-text" style="color: var(--muted);">
-                        Output will appear here. The AI will pick a base resume (or use the one you picked) and
-                        produce a tailored resume and cover letter, side by side.
-                    </p>
-                    <p class="body-text" style="color: var(--muted); margin-top: 8px; font-size: 0.78rem;">
-                        Reminder: the model rewrites and reorders <em>existing</em> content. It does not invent
-                        skills, jobs, or accomplishments — but always double-check before sending.
-                    </p>
-                </div>
-
-                <!-- Fallback prompt: shown when Windows PC is unreachable -->
-                <div id="fallbackPrompt" class="fallback-prompt" hidden>
-                    <div class="fallback-prompt-body">
-                        <p class="body-text fallback-prompt-text"></p>
-                        <div class="fallback-prompt-actions">
-                            <button id="useFallbackBtn" class="ghost-btn small-btn" type="button">
-                                Use local fallback
-                            </button>
-                            <button id="dismissFallbackBtn" class="ghost-btn small-btn" type="button">
-                                Dismiss
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fallback banner: shown when current output came from the fallback model -->
-                <div id="fallbackBanner" class="fallback-banner" hidden>
-                    <span class="fallback-banner-dot"></span>
-                    <span class="body-text">
-                        Output from the local fallback model (Llama 3). Quality is lower than the Windows model —
-                        review carefully before sending.
-                    </span>
-                </div>
-
-                <!-- AI suggestion (shown after generation) -->
-                <div id="suggestionBox" class="suggestion-box" hidden>
-                    <p class="section-label" style="margin-bottom: 6px;">AI used</p>
-                    <p class="body-text" id="suggestionText"></p>
-                </div>
-
-                <!-- The two output panes -->
-                <div id="outputPanes" class="output-panes" hidden>
-                    <div class="output-pane">
-                        <div class="pane-header">
-                            <p class="section-label" style="margin: 0;">Tailored resume</p>
-                            <div class="pane-actions">
-                                <button class="copy-btn" data-download="pdf" data-source="resumeText" data-kind="resume" type="button">PDF</button>
-                                <button class="copy-btn" data-download="docx" data-source="resumeText" data-kind="resume" type="button">DOCX</button>
-                                <button class="copy-btn" data-copy-target="resumeText" type="button">Copy</button>
-                            </div>
-                        </div>
-                        <pre id="resumeText" class="output-text"></pre>
-                    </div>
-                    <div class="output-pane">
-                        <div class="pane-header">
-                            <p class="section-label" style="margin: 0;">Cover letter</p>
-                            <div class="pane-actions">
-                                <button class="copy-btn" data-download="pdf" data-source="coverText" data-kind="cover" type="button">PDF</button>
-                                <button class="copy-btn" data-download="docx" data-source="coverText" data-kind="cover" type="button">DOCX</button>
-                                <button class="copy-btn" data-copy-target="coverText" type="button">Copy</button>
-                            </div>
-                        </div>
-                        <pre id="coverText" class="output-text"></pre>
-                    </div>
                 </div>
             </div>
         </div>
 
         <!-- ─────────────────────────────────────
-             BOTTOM — history (left) + resumes (right)
+             BOTTOM — master resume + generated resume (left)
+                      saved jobs list (right)
              ───────────────────────────────────── -->
         <div class="gr-bottom jobs-bottom">
 
-            <!-- HISTORY -->
-            <div class="gr-left jobs-history">
-                <div class="bottom-header">
-                    <p class="section-label" style="margin: 0;">Applications</p>
-                    <div class="filter-row">
-                        <button class="filter-pill active" data-filter="all" type="button">All</button>
-                        <button class="filter-pill" data-filter="saved" type="button">Saved</button>
-                        <button class="filter-pill" data-filter="applied" type="button">Applied</button>
-                        <button class="filter-pill" data-filter="interview" type="button">Interview</button>
-                        <button class="filter-pill" data-filter="closed" type="button">Closed</button>
+            <!-- LEFT — master upload (top) + generated resume display (rest) -->
+            <div class="gr-left jobs-resume-view">
+
+                <div class="master-resume-section">
+                    <div class="master-resume-cols">
+                        <div class="master-resume-col">
+                            <div class="master-resume-head">
+                                <p class="section-label" style="margin: 0;">Upload master resume</p>
+                            </div>
+                            <div id="resumeDrop" class="resume-drop" tabindex="0">
+                                <input id="resumeFileInput" type="file" accept=".pdf,application/pdf" hidden>
+                                <span class="resume-drop-text">
+                                    Upload a PDF <span class="resume-drop-link">choose a file</span>
+                                </span>
+                                <span class="resume-drop-hint">The AI references this when tailoring custom resumes.</span>
+                            </div>
+                            <span id="resumeSaveStatus" class="status-line"></span>
+                        </div>
+
+                        <div class="master-resume-col">
+                            <div class="master-resume-head">
+                                <p class="section-label" style="margin: 0;">Current master resume</p>
+                            </div>
+                            <div id="currentResumeCard" class="current-resume-card is-empty">
+                                <span class="current-resume-icon" aria-hidden="true">○</span>
+                                <div class="current-resume-body">
+                                    <div id="currentResumeName" class="current-resume-name">No master resume on file</div>
+                                    <div id="currentResumeMeta" class="current-resume-meta">Upload a PDF on the left.</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="historyList" class="history-list">
-                    <p class="body-text" style="color: var(--muted); margin-top: 14px;">
-                        No applications saved yet.
-                    </p>
+
+                <div class="generated-resume-section">
+                    <div class="output-header">
+                        <p class="section-label" style="margin: 0;">Latest custom resume</p>
+                        <div class="pane-actions" id="resumeActions" hidden>
+                            <button class="copy-btn" data-download="pdf" data-source="customResumeText" data-kind="resume" type="button">PDF</button>
+                            <button class="copy-btn" data-download="docx" data-source="customResumeText" data-kind="resume" type="button">DOCX</button>
+                            <button class="copy-btn" data-copy-target="customResumeText" type="button">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Fallback prompt: shown when Windows PC is unreachable -->
+                    <div id="fallbackPrompt" class="fallback-prompt" hidden>
+                        <div class="fallback-prompt-body">
+                            <p class="body-text fallback-prompt-text"></p>
+                            <div class="fallback-prompt-actions">
+                                <button id="useFallbackBtn" class="ghost-btn small-btn" type="button">
+                                    Use local fallback
+                                </button>
+                                <button id="dismissFallbackBtn" class="ghost-btn small-btn" type="button">
+                                    Dismiss
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fallback banner: shown when current output came from the fallback model -->
+                    <div id="fallbackBanner" class="fallback-banner" hidden>
+                        <span class="fallback-banner-dot"></span>
+                        <span class="body-text">
+                            Output from the local fallback model (Llama 3). Quality is lower than the Windows
+                            model — review carefully before sending.
+                        </span>
+                    </div>
+
+                    <div id="customResumeEmpty" class="output-empty">
+                        <p class="body-text" style="color: var(--muted);">
+                            Generated resumes will appear here. Pick a saved listing on the right and click
+                            “Generate custom resume”.
+                        </p>
+                        <p class="body-text" style="color: var(--muted); margin-top: 8px; font-size: 0.78rem;">
+                            Reminder: the model rewrites and reorders <em>existing</em> content. It does not
+                            invent skills, jobs, or accomplishments — but always double-check before sending.
+                        </p>
+                    </div>
+
+                    <pre id="customResumeText" class="output-text" hidden></pre>
                 </div>
             </div>
 
-            <!-- MASTER RESUMES -->
-            <div class="gr-right jobs-resumes">
-                <p class="section-label">Master resumes</p>
-                <p class="body-text" style="color: var(--muted); font-size: 0.78rem; margin-bottom: 14px;">
-                    Edit your three base resumes here. The AI uses one of these as its template for every new
-                    application.
-                </p>
-
-                <div class="resume-tabs" role="tablist">
-                    <button class="resume-tab active" data-tab="software" role="tab" type="button">Software dev</button>
-                    <button class="resume-tab" data-tab="seo" role="tab" type="button">SEO / Web</button>
-                    <button class="resume-tab" data-tab="it" role="tab" type="button">IT</button>
+            <!-- RIGHT — saved jobs list -->
+            <div class="gr-right jobs-history">
+                <div class="bottom-header">
+                    <p class="section-label" style="margin: 0;">Saved listings</p>
+                    <span id="historyCount" class="status-line"></span>
                 </div>
-
-                <div id="resumeDrop" class="resume-drop" tabindex="0">
-                    <input id="resumeFileInput" type="file" accept=".pdf,application/pdf" hidden>
-                    <span class="resume-drop-text">
-                        Drop a PDF resume here or <span class="resume-drop-link">choose a file</span>
-                    </span>
-                    <span class="resume-drop-hint">Text is extracted and saved automatically.</span>
-                </div>
-
-                <div class="resume-save-row">
-                    <span id="resumeSaveStatus" class="status-line"></span>
+                <div id="historyList" class="history-list">
+                    <p class="body-text" style="color: var(--muted); margin-top: 14px;">
+                        No listings saved yet.
+                    </p>
                 </div>
             </div>
         </div>

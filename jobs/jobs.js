@@ -2,7 +2,8 @@
    jobs.js — Page logic for /jobs
    frontendneeded.com
 
-   Vanilla JS, ES5-friendly. Talks to three endpoints:
+   Vanilla JS. Talks to three endpoints (all kept the same as before,
+   even though the backend now lives on the Fedora / Windows PC):
      /api/chat-big    — Ollama on the Windows PC (big model, may be off)
      /api/chat        — Ollama on the Fedora PC (small fallback, always on)
      /api/jobs-data   — JSON store on the Fedora box
@@ -11,70 +12,62 @@
 (function () {
 
     // ── Endpoint config ──
-    // 'big'   = Mistral Small 22B (Q4_K_M) on the Windows PC (4080).
-    //           Configured to unload from VRAM 1 minute after the last
-    //           request so the PC can be reused for games etc. shortly
-    //           after using /jobs.
-    // 'local' = Llama 3 on the Fedora PC. Used for the metadata extractor
-    //           always, and as the user-initiated fallback for generation
-    //           when the Windows PC is unreachable.
     var ENDPOINTS = {
         big:   { url: '/api/chat-big', model: 'mistral-small:22b-instruct-2409-q4_K_M', label: 'Mistral Small 22B Q4_K_M (Windows)' },
         local: { url: '/api/chat',     model: 'llama3',                                  label: 'Llama 3 (local fallback)' }
     };
 
-    // The classifier is one-shot and trivial — always use local.
+    // Metadata extraction is one-shot and trivial — always use local.
     var CLASSIFIER_ENDPOINT = 'local';
+
+    // The backend still stores resumes under a category key; we map our
+    // single "master" resume into that slot so the data API stays as-is.
+    var MASTER_RESUME_SLOT = 'software';
 
     // ── State ──
     var state = {
-        resumes: {
-            software: '',
-            seo: '',
-            it: ''
-        },
+        masterResume: '',
+        masterResumeFilename: '',
         applications: [],
-        // workspace
-        activeAppId: null,           // null = new, otherwise viewing a saved one
-        activeResumeTab: 'software',
-        activeFilter: 'all',
-        // generation
-        generating: false,
-        lastInput: null              // { company, url, jd, category }
+        activeAppId: null,
+        generatingId: null,        // id of the application currently generating
+        savingNewListing: false,
+        retryingMetaId: null,      // app id currently re-running metadata extraction
+        aiStatus: { big: 'unknown', local: 'unknown' }
     };
+
+    var FILENAME_LS_KEY = 'jobs.masterResumeFilename';
 
     // ── DOM ──
     var $ = function (id) { return document.getElementById(id); };
 
-    var urlInput = $('urlInput');
-    var jdInput = $('jdInput');
-    var categorySelect = $('categorySelect');
-    var generateBtn = $('generateBtn');
-    var clearBtn = $('clearBtn');
-    var statusLine = $('statusLine');
+    var urlInput        = $('urlInput');
+    var jdInput         = $('jdInput');
+    var saveJobBtn      = $('saveJobBtn');
+    var clearBtn        = $('clearBtn');
+    var statusLine      = $('statusLine');
 
-    var outputEmpty = $('outputEmpty');
-    var outputPanes = $('outputPanes');
-    var outputActions = $('outputActions');
-    var suggestionBox = $('suggestionBox');
-    var suggestionText = $('suggestionText');
-    var resumeText = $('resumeText');
-    var coverText = $('coverText');
-    var markAppliedBtn = $('markAppliedBtn');
-    var regenBtn = $('regenBtn');
+    var customResumeText  = $('customResumeText');
+    var customResumeEmpty = $('customResumeEmpty');
+    var resumeActions     = $('resumeActions');
 
-    var fallbackBanner = $('fallbackBanner');
-    var fallbackPrompt = $('fallbackPrompt');
-    var useFallbackBtn = $('useFallbackBtn');
+    var fallbackBanner    = $('fallbackBanner');
+    var fallbackPrompt    = $('fallbackPrompt');
+    var useFallbackBtn    = $('useFallbackBtn');
     var dismissFallbackBtn = $('dismissFallbackBtn');
 
-    var historyList = $('historyList');
-    var filterPills = document.querySelectorAll('.filter-pill');
+    var historyList   = $('historyList');
+    var historyCount  = $('historyCount');
 
-    var resumeTabs = document.querySelectorAll('.resume-tab');
     var resumeSaveStatus = $('resumeSaveStatus');
-    var resumeDrop = $('resumeDrop');
-    var resumeFileInput = $('resumeFileInput');
+    var resumeDrop       = $('resumeDrop');
+    var resumeFileInput  = $('resumeFileInput');
+
+    var currentResumeCard = $('currentResumeCard');
+    var currentResumeName = $('currentResumeName');
+    var currentResumeMeta = $('currentResumeMeta');
+
+    var aiStatusPills = document.querySelectorAll('.ai-status-pill');
 
     // pdf.js worker setup
     if (window.pdfjsLib) {
@@ -99,24 +92,23 @@
         });
     }
 
+    function inferTitleFromJd(jd) {
+        if (!jd) return '';
+        var lines = String(jd).split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (line.length === 0) continue;
+            if (line.length > 70) line = line.substring(0, 67).replace(/\s+\S*$/, '') + '…';
+            return line;
+        }
+        return '';
+    }
+
     function shortDate(iso) {
         if (!iso) return '';
         var d = new Date(iso);
         if (isNaN(d.getTime())) return '';
         return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-    }
-
-    function categoryLabel(c) {
-        return { software: 'Software dev', seo: 'SEO / Web', it: 'IT' }[c] || c;
-    }
-
-    function statusLabel(s) {
-        return {
-            saved: 'Saved',
-            applied: 'Applied',
-            interview: 'Interview',
-            closed: 'Closed'
-        }[s] || s;
     }
 
     // ── Data layer (talks to /api/jobs-data) ──
@@ -138,9 +130,11 @@
     function loadData() {
         return api('/').then(function (data) {
             if (data && data.resumes) {
-                state.resumes.software = data.resumes.software || '';
-                state.resumes.seo = data.resumes.seo || '';
-                state.resumes.it = data.resumes.it || '';
+                state.masterResume = data.resumes[MASTER_RESUME_SLOT] ||
+                                      data.resumes.software ||
+                                      data.resumes.seo ||
+                                      data.resumes.it ||
+                                      '';
             }
             if (data && Array.isArray(data.applications)) {
                 state.applications = data.applications;
@@ -151,8 +145,8 @@
         });
     }
 
-    function saveResume(category, text) {
-        return api('/resumes/' + category, { method: 'PUT', body: { text: text } });
+    function saveMasterResume(text) {
+        return api('/resumes/' + MASTER_RESUME_SLOT, { method: 'PUT', body: { text: text } });
     }
 
     function createApplication(record) {
@@ -167,44 +161,65 @@
         return api('/applications/' + encodeURIComponent(id), { method: 'DELETE' });
     }
 
-    // ── Master resume editor ──
+    // ── Master resume upload ──
 
-    function showResumeTabStatus() {
-        var text = state.resumes[state.activeResumeTab] || '';
-        if (text.trim()) {
-            resumeSaveStatus.textContent = 'Resume loaded — ' + text.length + ' characters.';
+    function showResumeStatus() {
+        var text = state.masterResume || '';
+        var loaded = !!text.trim();
+
+        if (loaded) {
+            resumeSaveStatus.textContent = text.length + ' characters loaded';
         } else {
-            resumeSaveStatus.textContent = 'No resume saved yet — drop a PDF.';
+            resumeSaveStatus.textContent = 'Not uploaded yet';
+        }
+
+        if (!currentResumeCard) return;
+        currentResumeCard.classList.toggle('is-loaded', loaded);
+        currentResumeCard.classList.toggle('is-empty', !loaded);
+
+        var iconEl = currentResumeCard.querySelector('.current-resume-icon');
+        if (iconEl) iconEl.textContent = loaded ? '✓' : '○';
+
+        if (loaded) {
+            currentResumeName.textContent = state.masterResumeFilename || 'Master resume on file';
+            currentResumeMeta.textContent = text.length.toLocaleString() + ' characters · ready to tailor';
+        } else {
+            currentResumeName.textContent = 'No master resume on file';
+            currentResumeMeta.textContent = 'Upload a PDF on the left.';
         }
     }
 
-    function selectResumeTab(category) {
-        state.activeResumeTab = category;
-        resumeTabs.forEach(function (b) {
-            b.classList.toggle('active', b.getAttribute('data-tab') === category);
-        });
-        showResumeTabStatus();
+    function rememberFilename(name) {
+        state.masterResumeFilename = name || '';
+        try {
+            if (name) localStorage.setItem(FILENAME_LS_KEY, name);
+            else localStorage.removeItem(FILENAME_LS_KEY);
+        } catch (e) { /* ignore */ }
     }
 
-    resumeTabs.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            selectResumeTab(btn.getAttribute('data-tab'));
-        });
-    });
-
-    // ── PDF upload (drag/drop + file picker) ──
+    function restoreFilename() {
+        try {
+            state.masterResumeFilename = localStorage.getItem(FILENAME_LS_KEY) || '';
+        } catch (e) {
+            state.masterResumeFilename = '';
+        }
+    }
 
     function extractPdfText(file) {
         if (!window.pdfjsLib) {
             return Promise.reject(new Error('PDF library not loaded'));
         }
+        var pageCount = 0;
+        var totalItems = 0;
         return file.arrayBuffer().then(function (buf) {
             return window.pdfjsLib.getDocument({ data: buf }).promise;
         }).then(function (pdf) {
+            pageCount = pdf.numPages;
             var pagePromises = [];
             for (var i = 1; i <= pdf.numPages; i++) {
                 pagePromises.push(pdf.getPage(i).then(function (page) {
                     return page.getTextContent().then(function (content) {
+                        totalItems += content.items.length;
                         var lines = [];
                         var lastY = null;
                         var line = '';
@@ -230,7 +245,11 @@
             }
             return Promise.all(pagePromises);
         }).then(function (pages) {
-            return pages.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+            return {
+                text: pages.join('\n\n').replace(/\n{3,}/g, '\n\n').trim(),
+                pageCount: pageCount,
+                totalItems: totalItems
+            };
         });
     }
 
@@ -242,15 +261,21 @@
         }
         resumeDrop.classList.add('busy');
         setStatus(resumeSaveStatus, 'Extracting text from ' + file.name + '…');
-        extractPdfText(file).then(function (text) {
+        extractPdfText(file).then(function (result) {
+            var text = result.text;
             if (!text) {
-                setStatus(resumeSaveStatus, 'No text found in that PDF.', 5000);
+                if (result.pageCount > 0 && result.totalItems === 0) {
+                    setStatus(resumeSaveStatus, 'No text layer in this PDF — re-export from Word using File → Save As → PDF.', 10000);
+                } else {
+                    setStatus(resumeSaveStatus, 'No text found in that PDF.', 5000);
+                }
                 return;
             }
-            var cat = state.activeResumeTab;
-            state.resumes[cat] = text;
+            state.masterResume = text;
+            rememberFilename(file.name);
+            showResumeStatus();
             setStatus(resumeSaveStatus, 'Saving…');
-            return saveResume(cat, text).then(function () {
+            return saveMasterResume(text).then(function () {
                 setStatus(resumeSaveStatus, 'Saved — ' + text.length + ' characters from ' + file.name + '.', 4000);
             }).catch(function () {
                 setStatus(resumeSaveStatus, 'Saved locally — data store unreachable.', 5000);
@@ -264,23 +289,18 @@
         });
     }
 
-    resumeDrop.addEventListener('click', function () {
-        resumeFileInput.click();
-    });
-
+    resumeDrop.addEventListener('click', function () { resumeFileInput.click(); });
     resumeDrop.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             resumeFileInput.click();
         }
     });
-
     resumeFileInput.addEventListener('change', function () {
         if (resumeFileInput.files && resumeFileInput.files[0]) {
             handleResumeFile(resumeFileInput.files[0]);
         }
     });
-
     ['dragenter', 'dragover'].forEach(function (evt) {
         resumeDrop.addEventListener(evt, function (e) {
             e.preventDefault();
@@ -288,7 +308,6 @@
             resumeDrop.classList.add('dragover');
         });
     });
-
     ['dragleave', 'drop'].forEach(function (evt) {
         resumeDrop.addEventListener(evt, function (e) {
             e.preventDefault();
@@ -296,23 +315,19 @@
             resumeDrop.classList.remove('dragover');
         });
     });
-
     resumeDrop.addEventListener('drop', function (e) {
         var files = e.dataTransfer && e.dataTransfer.files;
         if (files && files[0]) handleResumeFile(files[0]);
     });
-
-    // Also accept a drop anywhere on the page (but only over the resumes panel)
     ['dragover', 'drop'].forEach(function (evt) {
         document.addEventListener(evt, function (e) {
             if (e.target && resumeDrop.contains(e.target)) return;
-            // Prevent the browser from navigating away if the user misses the zone.
             if (evt === 'dragover') e.preventDefault();
             if (evt === 'drop') e.preventDefault();
         });
     });
 
-    // ── History list ──
+    // ── Saved listings ──
 
     function renderHistory() {
         var items = state.applications.slice();
@@ -320,13 +335,13 @@
             return (b.createdAt || '').localeCompare(a.createdAt || '');
         });
 
-        if (state.activeFilter !== 'all') {
-            items = items.filter(function (it) { return it.status === state.activeFilter; });
-        }
+        historyCount.textContent = items.length === 0
+            ? ''
+            : items.length + (items.length === 1 ? ' listing' : ' listings');
 
         if (items.length === 0) {
             historyList.innerHTML = '<p class="body-text" style="color: var(--muted); margin-top: 14px;">' +
-                'No applications match this filter.</p>';
+                'No listings saved yet.</p>';
             return;
         }
 
@@ -334,49 +349,88 @@
             var company = app.companyName || app.company || '';
             var role = app.roleName || '';
             var title;
+            var needsRedetect = false;
             if (company && role) title = company + ' — ' + role;
             else if (company) title = company;
             else if (role) title = role;
-            else title = '(untitled posting)';
+            else {
+                var inferred = inferTitleFromJd(app.jd);
+                title = inferred || '(awaiting AI extraction)';
+                needsRedetect = true;
+            }
 
-            var meta = [shortDate(app.createdAt), categoryLabel(app.category)].filter(Boolean).join(' • ');
-            var pillClass = 'status-' + (app.status || 'saved');
+            var meta = [shortDate(app.createdAt)].filter(Boolean).join(' • ');
+            var isApplied = app.status === 'applied';
+            var isActive = app.id === state.activeAppId;
+            var isGenerating = state.generatingId === app.id;
+            var isRedetecting = state.retryingMetaId === app.id;
+            var pillClass = 'status-' + (isApplied ? 'applied' : 'saved');
+            var pillLabel = isApplied ? 'Applied' : 'Saved';
             var titleHtml = app.url
                 ? '<a class="history-item-title-link" href="' + escapeHtml(app.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(title) + '</a>'
                 : escapeHtml(title);
+
             return [
-                '<div class="history-item' + (app.id === state.activeAppId ? ' active' : '') + '"',
-                '     data-id="' + escapeHtml(app.id) + '">',
-                '  <div class="history-item-main">',
-                '    <div class="history-item-title">' + titleHtml + '</div>',
-                '    <div class="history-item-meta">' + escapeHtml(meta) + '</div>',
+                '<div class="history-item' +
+                    (isApplied ? ' applied' : '') +
+                    (isActive ? ' active' : '') +
+                    '" data-id="' + escapeHtml(app.id) + '">',
+                '  <div class="history-item-top">',
+                '    <div class="history-item-main">',
+                '      <div class="history-item-title">' + titleHtml + '</div>',
+                '      <div class="history-item-meta">' + escapeHtml(meta) + '</div>',
+                '    </div>',
+                '    <div class="history-item-side">',
+                '      <span class="status-pill ' + pillClass + '">' + pillLabel + '</span>',
+                '      <button class="history-item-delete" data-delete="' + escapeHtml(app.id) + '"',
+                '              aria-label="Delete">×</button>',
+                '    </div>',
                 '  </div>',
-                '  <div class="history-item-side">',
-                '    <span class="status-pill ' + pillClass + '">' + statusLabel(app.status) + '</span>',
-                '    <button class="history-item-delete" data-delete="' + escapeHtml(app.id) + '"',
-                '            aria-label="Delete">×</button>',
+                '  <div class="history-item-actions">',
+                '    <button class="ghost-btn small-btn' + (isGenerating ? ' is-busy' : '') + '"',
+                '            data-generate="' + escapeHtml(app.id) + '"' +
+                            (isGenerating || state.generatingId ? ' disabled' : '') + '>',
+                       isGenerating ? 'Generating…' : 'Generate custom resume',
+                '    </button>',
+                '    <button class="ghost-btn small-btn"',
+                '            data-toggle-applied="' + escapeHtml(app.id) + '">',
+                       isApplied ? 'Unmark applied' : 'Mark applied',
+                '    </button>',
+                needsRedetect
+                    ? ('    <button class="ghost-btn small-btn' + (isRedetecting ? ' is-busy' : '') + '"' +
+                           ' data-redetect="' + escapeHtml(app.id) + '"' +
+                           (isRedetecting ? ' disabled' : '') + '>' +
+                           (isRedetecting ? 'Detecting…' : 'Re-detect title') +
+                       '</button>')
+                    : '',
                 '  </div>',
                 '</div>'
             ].join('\n');
         }).join('');
 
+        // Click on the row body → show this app's resume in gr-left
         Array.prototype.forEach.call(historyList.querySelectorAll('.history-item'), function (el) {
             el.addEventListener('click', function (e) {
-                if (e.target && e.target.hasAttribute('data-delete')) return;
-                if (e.target && e.target.closest && e.target.closest('.history-item-title-link')) return;
-                loadApplication(el.getAttribute('data-id'));
+                if (e.target && e.target.closest && (
+                    e.target.closest('[data-delete]') ||
+                    e.target.closest('[data-generate]') ||
+                    e.target.closest('[data-toggle-applied]') ||
+                    e.target.closest('[data-redetect]') ||
+                    e.target.closest('.history-item-title-link')
+                )) return;
+                viewApplication(el.getAttribute('data-id'));
             });
         });
         Array.prototype.forEach.call(historyList.querySelectorAll('[data-delete]'), function (btn) {
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 var id = btn.getAttribute('data-delete');
-                if (!confirm('Delete this application record?')) return;
+                if (!confirm('Delete this listing?')) return;
                 deleteApplication(id).then(function () {
                     state.applications = state.applications.filter(function (a) { return a.id !== id; });
                     if (state.activeAppId === id) {
                         state.activeAppId = null;
-                        clearWorkspace();
+                        hideGeneratedResume();
                     }
                     renderHistory();
                 }).catch(function () {
@@ -384,72 +438,100 @@
                 });
             });
         });
+        Array.prototype.forEach.call(historyList.querySelectorAll('[data-generate]'), function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-generate');
+                generateForApplication(id);
+            });
+        });
+        Array.prototype.forEach.call(historyList.querySelectorAll('[data-toggle-applied]'), function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var id = btn.getAttribute('data-toggle-applied');
+                toggleApplied(id);
+            });
+        });
+        Array.prototype.forEach.call(historyList.querySelectorAll('[data-redetect]'), function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                redetectMetadata(btn.getAttribute('data-redetect'));
+            });
+        });
     }
 
-    filterPills.forEach(function (pill) {
-        pill.addEventListener('click', function () {
-            state.activeFilter = pill.getAttribute('data-filter');
-            filterPills.forEach(function (p) { p.classList.toggle('active', p === pill); });
+    function redetectMetadata(id) {
+        if (state.retryingMetaId) return;
+        var app = state.applications.filter(function (a) { return a.id === id; })[0];
+        if (!app || !app.jd) return;
+        state.retryingMetaId = id;
+        renderHistory();
+        extractMetadata(app.jd).then(function (meta) {
+            if (!meta.company && !meta.role) {
+                setStatus(statusLine, 'AI could not extract a company or role from this posting.', 5000);
+                return;
+            }
+            var patch = { companyName: meta.company, roleName: meta.role };
+            return updateApplication(app.id, patch).catch(function () {
+                setStatus(statusLine, 'Updated locally — data store unreachable.', 4000);
+            }).then(function () {
+                Object.assign(app, patch);
+            });
+        }).catch(function () {
+            setStatus(statusLine, 'AI unreachable — try again when it comes back online.', 5000);
+        }).then(function () {
+            state.retryingMetaId = null;
             renderHistory();
         });
-    });
+    }
 
-    function loadApplication(id) {
+    function viewApplication(id) {
         var app = state.applications.filter(function (a) { return a.id === id; })[0];
         if (!app) return;
-
         state.activeAppId = id;
-        urlInput.value = app.url || '';
-        jdInput.value = app.jd || '';
-        categorySelect.value = app.category || 'auto';
-
         hideFallbackUI();
-        showOutput(app.resume || '', app.cover || '', app.suggestionReason || '');
-
-        // If this record was generated with the fallback model, surface that.
-        if (app.modelUsed === 'local') {
-            showFallbackBanner();
-        }
-
-        renderHistory();
-    }
-
-    // ── Workspace / output ──
-
-    function clearWorkspace() {
-        state.activeAppId = null;
-        state.lastInput = null;
-        urlInput.value = '';
-        jdInput.value = '';
-        categorySelect.value = 'auto';
-        hideOutput();
-        hideFallbackUI();
-        renderHistory();
-    }
-
-    clearBtn.addEventListener('click', clearWorkspace);
-
-    function hideOutput() {
-        outputEmpty.hidden = false;
-        outputPanes.hidden = true;
-        outputActions.hidden = true;
-        suggestionBox.hidden = true;
-        resumeText.textContent = '';
-        coverText.textContent = '';
-    }
-
-    function showOutput(resume, cover, suggestion) {
-        outputEmpty.hidden = true;
-        outputPanes.hidden = false;
-        outputActions.hidden = false;
-        resumeText.textContent = resume;
-        coverText.textContent = cover;
-        if (suggestion) {
-            suggestionBox.hidden = false;
-            suggestionText.textContent = suggestion;
+        if (app.resume && app.resume.trim()) {
+            showGeneratedResume(app.resume);
+            if (app.modelUsed === 'local') showFallbackBanner();
         } else {
-            suggestionBox.hidden = true;
+            hideGeneratedResume();
         }
+        renderHistory();
+    }
+
+    function toggleApplied(id) {
+        var app = state.applications.filter(function (a) { return a.id === id; })[0];
+        if (!app) return;
+        var next = app.status === 'applied' ? 'saved' : 'applied';
+        var patch = { status: next };
+        if (next === 'applied' && !app.appliedAt) {
+            patch.appliedAt = new Date().toISOString();
+        }
+        updateApplication(app.id, patch).then(function () {
+            Object.assign(app, patch);
+            renderHistory();
+        }).catch(function () {
+            // Update locally anyway so the UI stays responsive
+            Object.assign(app, patch);
+            renderHistory();
+            setStatus(statusLine, 'Saved locally — data store unreachable.', 4000);
+        });
+    }
+
+    // ── Generated resume display (gr-left) ──
+
+    function hideGeneratedResume() {
+        customResumeEmpty.hidden = false;
+        customResumeText.hidden = true;
+        resumeActions.hidden = true;
+        customResumeText.textContent = '';
+    }
+
+    function showGeneratedResume(text) {
+        customResumeEmpty.hidden = true;
+        customResumeText.hidden = false;
+        resumeActions.hidden = false;
+        customResumeText.textContent = text || '';
     }
 
     // ── Fallback UI ──
@@ -460,7 +542,6 @@
     }
 
     function showFallbackPrompt(message) {
-        // The "Windows PC is unreachable, want to use local?" prompt.
         var textEl = fallbackPrompt.querySelector('.fallback-prompt-text');
         if (textEl) textEl.textContent = message;
         fallbackPrompt.hidden = false;
@@ -468,7 +549,6 @@
     }
 
     function showFallbackBanner() {
-        // The "you're currently viewing fallback output" banner.
         fallbackPrompt.hidden = true;
         fallbackBanner.hidden = false;
     }
@@ -478,17 +558,16 @@
     });
 
     useFallbackBtn.addEventListener('click', function () {
-        if (!state.lastInput) return;
-        doGenerate({ reuseInput: true, useFallback: true });
+        if (!state.activeAppId) return;
+        generateForApplication(state.activeAppId, { useFallback: true });
     });
 
-    // ── Copy buttons ──
+    // ── Copy / download buttons ──
 
     document.addEventListener('click', function (e) {
-        var btn = e.target.closest && e.target.closest('.copy-btn');
+        var btn = e.target.closest && e.target.closest('.copy-btn[data-copy-target]');
         if (!btn) return;
-        var targetId = btn.getAttribute('data-copy-target');
-        var target = $(targetId);
+        var target = $(btn.getAttribute('data-copy-target'));
         if (!target) return;
         var text = target.textContent;
         var orig = btn.textContent;
@@ -509,14 +588,22 @@
         }
     });
 
-    // ── Download buttons (plain PDF / docx) ──
+    function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) { }
+        document.body.removeChild(ta);
+    }
 
-    function safeFileBase(kind) {
+    function safeFileBase() {
         var app = state.applications.filter(function (a) { return a.id === state.activeAppId; })[0];
         var raw = (app && (app.companyName || app.company)) || '';
         var company = raw.trim().replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '');
-        var prefix = kind === 'cover' ? 'CoverLetter' : 'Resume';
-        return company ? prefix + '_' + company : prefix;
+        return company ? 'Resume_' + company : 'Resume';
     }
 
     function downloadPdf(text, filename) {
@@ -526,7 +613,7 @@
         }
         var jsPDF = window.jspdf.jsPDF;
         var doc = new jsPDF({ unit: 'pt', format: 'letter' });
-        var margin = 54; // ~0.75"
+        var margin = 54;
         var pageW = doc.internal.pageSize.getWidth();
         var pageH = doc.internal.pageSize.getHeight();
         var maxW = pageW - margin * 2;
@@ -537,9 +624,7 @@
         var paragraphs = String(text || '').split('\n');
         var y = margin;
         for (var i = 0; i < paragraphs.length; i++) {
-            var wrapped = paragraphs[i] === ''
-                ? ['']
-                : doc.splitTextToSize(paragraphs[i], maxW);
+            var wrapped = paragraphs[i] === '' ? [''] : doc.splitTextToSize(paragraphs[i], maxW);
             for (var j = 0; j < wrapped.length; j++) {
                 if (y > pageH - margin) {
                     doc.addPage();
@@ -580,34 +665,78 @@
         var btn = e.target.closest && e.target.closest('[data-download]');
         if (!btn) return;
         var format = btn.getAttribute('data-download');
-        var sourceId = btn.getAttribute('data-source');
-        var kind = btn.getAttribute('data-kind');
-        var source = $(sourceId);
+        var source = $(btn.getAttribute('data-source'));
         if (!source) return;
         var text = source.textContent;
         if (!text.trim()) return;
-        var base = safeFileBase(kind);
-        if (format === 'pdf') {
-            downloadPdf(text, base + '.pdf');
-        } else if (format === 'docx') {
-            downloadDocx(text, base + '.docx');
-        }
+        var base = safeFileBase();
+        if (format === 'pdf') downloadPdf(text, base + '.pdf');
+        else if (format === 'docx') downloadDocx(text, base + '.docx');
     });
 
-    function fallbackCopy(text) {
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); } catch (e) { }
-        document.body.removeChild(ta);
+    // ── AI status indicator ──
+
+    function setAiStatus(key, status) {
+        // status: 'unknown' | 'checking' | 'online' | 'offline'
+        state.aiStatus[key] = status;
+        Array.prototype.forEach.call(aiStatusPills, function (pill) {
+            if (pill.getAttribute('data-ai-test') !== key) return;
+            pill.classList.toggle('is-online',  status === 'online');
+            pill.classList.toggle('is-offline', status === 'offline');
+            var dot = pill.querySelector('.ai-dot');
+            if (dot) {
+                dot.className = 'ai-dot ai-dot-' +
+                    (status === 'online' ? 'online' :
+                     status === 'offline' ? 'offline' :
+                     status === 'checking' ? 'checking' : 'unknown');
+            }
+            var label = pill.querySelector('.ai-state');
+            if (label) {
+                label.textContent =
+                    status === 'online'  ? 'reachable' :
+                    status === 'offline' ? 'unreachable' :
+                    status === 'checking' ? 'checking…' : 'unknown';
+            }
+        });
     }
 
-    // ── AI call: streaming Ollama through a configurable endpoint ──
+    function pingAi(key) {
+        setAiStatus(key, 'checking');
+        // Minimal one-shot request. keep_alive: 0s so the big model
+        // doesn't sit in VRAM after a probe.
+        var ep = ENDPOINTS[key];
+        return fetch(ep.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: ep.model,
+                messages: [
+                    { role: 'system', content: 'Reply with the single word OK.' },
+                    { role: 'user',   content: 'ping' }
+                ],
+                stream: false,
+                keep_alive: '0s'
+            })
+        }).then(function (res) {
+            setAiStatus(key, res.ok ? 'online' : 'offline');
+            return res.ok;
+        }).catch(function () {
+            setAiStatus(key, 'offline');
+            return false;
+        });
+    }
+
+    Array.prototype.forEach.call(aiStatusPills, function (pill) {
+        pill.addEventListener('click', function () {
+            pingAi(pill.getAttribute('data-ai-test'));
+        });
+    });
+
+    // ── AI calls (streaming + one-shot) ──
+
     function chatStream(endpointKey, systemPrompt, userContent, onToken) {
         var ep = ENDPOINTS[endpointKey];
+        setAiStatus(endpointKey, 'checking');
         return fetch(ep.url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -618,24 +747,15 @@
                     { role: 'user', content: userContent }
                 ],
                 stream: true,
-                // Tell Ollama to keep the model loaded in VRAM for 1 minute
-                // after this request, then unload to free the GPU. Lets the
-                // Windows PC be used for games / normal work shortly after.
-                // Server-side OLLAMA_KEEP_ALIVE=1m is the default; this is
-                // a per-request reinforcement so the policy holds even if
-                // the env var isn't picked up.
                 keep_alive: '60s'
             })
         }).then(function (res) {
             if (!res.ok) {
-                // 502 / 503 / 504 = Apache couldn't reach upstream (Windows PC off)
                 var err = new Error('HTTP ' + res.status);
                 err.unreachable = (res.status === 502 || res.status === 503 || res.status === 504);
                 throw err;
             }
-            if (!res.body) {
-                throw new Error('No response body');
-            }
+            if (!res.body) throw new Error('No response body');
             var reader = res.body.getReader();
             var decoder = new TextDecoder('utf-8');
             var buffer = '';
@@ -667,9 +787,7 @@
                                 full += obj.message.content;
                                 onToken(obj.message.content);
                             }
-                            if (obj.error) {
-                                throw new Error('Ollama: ' + obj.error);
-                            }
+                            if (obj.error) throw new Error('Ollama: ' + obj.error);
                         } catch (err) {
                             if (err.message && err.message.indexOf('Ollama:') === 0) throw err;
                             // partial JSON, skip
@@ -678,19 +796,17 @@
                     return pump();
                 });
             }
-            return pump();
+            return pump().then(function (r) { setAiStatus(endpointKey, 'online'); return r; });
         }).catch(function (err) {
-            // Network-level failure (e.g. CORS, DNS, Apache totally down).
-            // Distinguish unreachable here too so the caller can offer fallback.
-            if (!err.unreachable && err.name === 'TypeError') {
-                err.unreachable = true;
-            }
+            if (!err.unreachable && err.name === 'TypeError') err.unreachable = true;
+            setAiStatus(endpointKey, 'offline');
             throw err;
         });
     }
 
     function chatOnce(endpointKey, systemPrompt, userContent) {
         var ep = ENDPOINTS[endpointKey];
+        setAiStatus(endpointKey, 'checking');
         return fetch(ep.url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -703,212 +819,211 @@
                 stream: false
             })
         }).then(function (res) {
-            if (!res.ok) throw new Error('HTTP ' + res.status);
+            if (!res.ok) {
+                setAiStatus(endpointKey, 'offline');
+                throw new Error('HTTP ' + res.status);
+            }
             return res.json();
         }).then(function (data) {
+            setAiStatus(endpointKey, 'online');
             return (data.message && data.message.content) ? data.message.content : '';
+        }).catch(function (err) {
+            setAiStatus(endpointKey, 'offline');
+            throw err;
         });
     }
 
-    // ── Parse streamed output into resume / cover letter ──
-    function makeStreamParser() {
-        var buf = '';
-        var phase = 'pre';
-        var resumeOut = '';
-        var coverOut = '';
-
-        function applyTo(target, text) { target.textContent += text; }
-
-        return {
-            push: function (chunk) {
-                buf += chunk;
-
-                if (phase === 'pre') {
-                    var idx = buf.indexOf('===RESUME===');
-                    if (idx !== -1) {
-                        buf = buf.substring(idx + '===RESUME==='.length).replace(/^[ \t]*\n?/, '');
-                        phase = 'resume';
-                        resumeText.classList.add('streaming');
-                    } else {
-                        if (buf.length > 4000) buf = buf.slice(-2000);
-                        return;
-                    }
-                }
-
-                if (phase === 'resume') {
-                    var idx2 = buf.indexOf('===COVER LETTER===');
-                    if (idx2 !== -1) {
-                        var resumeChunk = buf.substring(0, idx2).replace(/\s+$/, '');
-                        applyTo(resumeText, resumeChunk);
-                        resumeOut += resumeChunk;
-                        resumeText.classList.remove('streaming');
-                        buf = buf.substring(idx2 + '===COVER LETTER==='.length).replace(/^[ \t]*\n?/, '');
-                        phase = 'cover';
-                        coverText.classList.add('streaming');
-                    } else {
-                        var safe = buf.length - 25;
-                        if (safe > 0) {
-                            var out = buf.substring(0, safe);
-                            applyTo(resumeText, out);
-                            resumeOut += out;
-                            buf = buf.substring(safe);
-                        }
-                        return;
-                    }
-                }
-
-                if (phase === 'cover') {
-                    applyTo(coverText, buf);
-                    coverOut += buf;
-                    buf = '';
-                }
-            },
-            finish: function () {
-                if (phase === 'resume' && buf) { applyTo(resumeText, buf); resumeOut += buf; }
-                else if (phase === 'cover' && buf) { applyTo(coverText, buf); coverOut += buf; }
-                resumeText.classList.remove('streaming');
-                coverText.classList.remove('streaming');
-                return { resume: resumeOut.trim(), cover: coverOut.trim() };
-            }
-        };
+    // ── Metadata extraction (company + role) ──
+    function extractMetadata(jd) {
+        return chatOnce(CLASSIFIER_ENDPOINT, METADATA_PROMPT, jd).then(function (raw) {
+            var line = (raw || '').split('\n').filter(function (l) { return l.trim().length > 0; })[0] || '';
+            var parts = line.split('|');
+            var company = (parts[0] || '').trim();
+            var role = (parts[1] || '').trim();
+            if (!company || /^unknown$/i.test(company)) company = '';
+            if (!role || /^unknown$/i.test(role)) role = '';
+            return { company: company, role: role };
+        });
     }
 
-    // ── Generate flow ──
-    // opts: { reuseInput?: bool, useFallback?: bool }
-    function doGenerate(opts) {
-        opts = opts || {};
-        if (state.generating) return;
+    // ── Save a new listing (called by the Save button or auto on paste) ──
 
-        var url, jd, category;
-        if (opts.reuseInput && state.lastInput) {
-            url = state.lastInput.url;
-            jd = state.lastInput.jd;
-            category = state.lastInput.category;
-        } else {
-            url = urlInput.value.trim();
-            jd = jdInput.value.trim();
-            category = categorySelect.value;
-        }
-
+    function saveNewListing() {
+        if (state.savingNewListing) return;
+        var url = urlInput.value.trim();
+        var jd = jdInput.value.trim();
         if (!jd) {
             setStatus(statusLine, 'Paste a job description first.', 4000);
             jdInput.focus();
             return;
         }
 
-        var endpointKey = opts.useFallback ? 'local' : 'big';
-        state.lastInput = { url: url, jd: jd, category: category };
-        state.generating = true;
-        generateBtn.disabled = true;
-        clearBtn.disabled = true;
-        regenBtn.disabled = true;
-        markAppliedBtn.disabled = true;
-        hideFallbackUI();
-        setStatus(statusLine, 'Working…');
+        state.savingNewListing = true;
+        saveJobBtn.disabled = true;
+        setStatus(statusLine, 'Extracting company and role…');
 
-        var chosenCategory = category === 'auto' ? 'software' : category;
-        var detectedCompany = '';
-        var detectedRole = '';
-        var suggestion = '';
-
-        // Metadata extractor always runs on local (fast, lightweight).
-        // It picks the resume category (when set to auto) and pulls the
-        // hiring company name + role title out of the job description.
-        var pickMetadataStep = chatOnce(CLASSIFIER_ENDPOINT, METADATA_PROMPT, jd).then(function (raw) {
-            var line = (raw || '').split('\n').filter(function (l) { return l.trim().length > 0; })[0] || '';
-            var parts = line.split('|');
-            var cat = (parts[0] || '').trim().toLowerCase();
-            var company = (parts[1] || '').trim();
-            var role = (parts[2] || '').trim();
-            var reason = (parts[3] || '').trim();
-            if (['software', 'seo', 'it'].indexOf(cat) === -1) cat = 'software';
-            if (!company || /^unknown$/i.test(company)) company = '';
-            if (!role || /^unknown$/i.test(role)) role = '';
-
-            detectedCompany = company;
-            detectedRole = role;
-            if (category === 'auto') {
-                chosenCategory = cat;
-                suggestion = 'AI detected ' + (company || 'unknown company') + ' — ' + (role || 'unknown role') +
-                    ' • Using ' + categoryLabel(cat) + ' resume' + (reason ? ' (' + reason + ')' : '');
-            } else {
-                suggestion = 'AI detected ' + (company || 'unknown company') + ' — ' + (role || 'unknown role') +
-                    ' • Using ' + categoryLabel(chosenCategory) + ' resume (you picked)';
-            }
-        }).catch(function () {
-            suggestion = 'Metadata extractor unreachable — proceeding without company/role detection.';
-        });
-
-        pickMetadataStep.then(function () {
-            var master = state.resumes[chosenCategory] || '';
-            if (!master.trim()) {
-                setStatus(statusLine, 'No master resume saved for ' + categoryLabel(chosenCategory) + '. Add one on the right.', 8000);
-                throw new Error('NO_MASTER');
-            }
-
-            hideOutput();
-            outputEmpty.hidden = true;
-            outputPanes.hidden = false;
-            outputActions.hidden = false;
-            if (suggestion) {
-                suggestionBox.hidden = false;
-                suggestionText.textContent = suggestion;
-            }
-
-            if (endpointKey === 'local') {
-                showFallbackBanner();
-            }
-
-            var parser = makeStreamParser();
-            var userContent = [
-                'MASTER RESUME:',
-                master,
-                '',
-                'JOB DESCRIPTION:',
-                jd
-            ].join('\n');
-
-            setStatus(statusLine, 'Generating with ' + ENDPOINTS[endpointKey].label + '… first request may be slow if the model is cold.');
-
-            return chatStream(endpointKey, TAILOR_PROMPT, userContent, function (token) {
-                parser.push(token);
-            }).then(function () {
-                var parsed = parser.finish();
-
-                if (!parsed.resume && !parsed.cover) {
-                    parsed.resume = resumeText.textContent;
-                    parsed.cover = '(The model did not output a cover letter section. Try Regenerate.)';
-                    coverText.textContent = parsed.cover;
-                }
-
-                var record = {
-                    companyName: detectedCompany,
-                    roleName: detectedRole,
-                    url: url,
-                    jd: jd,
-                    category: chosenCategory,
-                    suggestionReason: suggestion,
-                    resume: parsed.resume,
-                    cover: parsed.cover,
-                    status: 'saved',
-                    modelUsed: endpointKey,
-                    createdAt: new Date().toISOString()
-                };
-                return createApplication(record).then(function (saved) {
-                    var rec = saved || Object.assign({ id: 'local-' + Date.now() }, record);
-                    state.applications.push(rec);
-                    state.activeAppId = rec.id;
-                    renderHistory();
-                    setStatus(statusLine, 'Done.', 3000);
-                }).catch(function () {
-                    setStatus(statusLine, 'Generated, but could not save to data store.', 6000);
-                });
+        extractMetadata(jd).catch(function () {
+            return { company: '', role: '' };
+        }).then(function (meta) {
+            var record = {
+                companyName: meta.company,
+                roleName: meta.role,
+                url: url,
+                jd: jd,
+                category: MASTER_RESUME_SLOT,
+                resume: '',
+                cover: '',
+                status: 'saved',
+                createdAt: new Date().toISOString()
+            };
+            return createApplication(record).catch(function () {
+                // Backend unreachable — still add locally so the UI is usable
+                setStatus(statusLine, 'Saved locally — data store unreachable.', 5000);
+                return Object.assign({ id: 'local-' + Date.now() }, record);
+            }).then(function (saved) {
+                var rec = saved || Object.assign({ id: 'local-' + Date.now() }, record);
+                state.applications.push(rec);
+                renderHistory();
+                urlInput.value = '';
+                jdInput.value = '';
+                var labelBits = [meta.company, meta.role].filter(Boolean).join(' — ');
+                setStatus(statusLine, labelBits ? 'Saved: ' + labelBits : 'Saved.', 4000);
             });
         }).catch(function (err) {
-            if (err && err.message === 'NO_MASTER') {
-                // already messaged above
-            } else if (err && err.unreachable && endpointKey === 'big') {
-                hideOutput();
+            console.error(err);
+            setStatus(statusLine, 'Could not save: ' + (err && err.message || 'unknown error'), 6000);
+        }).then(function () {
+            state.savingNewListing = false;
+            saveJobBtn.disabled = false;
+        });
+    }
+
+    saveJobBtn.addEventListener('click', saveNewListing);
+    clearBtn.addEventListener('click', function () {
+        urlInput.value = '';
+        jdInput.value = '';
+        setStatus(statusLine, '', 0);
+        jdInput.focus();
+    });
+
+    // Auto-trigger: when both URL and JD have content and the user pauses,
+    // save the listing without requiring a button click.
+    var autoSaveTimer = null;
+    function scheduleAutoSave() {
+        if (autoSaveTimer) clearTimeout(autoSaveTimer);
+        if (!urlInput.value.trim() || !jdInput.value.trim()) return;
+        autoSaveTimer = setTimeout(function () {
+            if (state.savingNewListing) return;
+            if (urlInput.value.trim() && jdInput.value.trim()) saveNewListing();
+        }, 900);
+    }
+    urlInput.addEventListener('input', scheduleAutoSave);
+    jdInput.addEventListener('input', scheduleAutoSave);
+
+    // ── Stream parser (resume-only output) ──
+
+    function makeStreamParser(onChunk) {
+        var buf = '';
+        var phase = 'pre';
+        var resumeOut = '';
+        return {
+            push: function (chunk) {
+                buf += chunk;
+                if (phase === 'pre') {
+                    var idx = buf.indexOf('===RESUME===');
+                    if (idx !== -1) {
+                        buf = buf.substring(idx + '===RESUME==='.length).replace(/^[ \t]*\n?/, '');
+                        phase = 'resume';
+                    } else {
+                        if (buf.length > 4000) buf = buf.slice(-2000);
+                        return;
+                    }
+                }
+                if (phase === 'resume') {
+                    resumeOut += buf;
+                    onChunk(buf);
+                    buf = '';
+                }
+            },
+            finish: function () {
+                if (buf) {
+                    if (phase !== 'resume') {
+                        // No marker ever appeared — treat whole stream as resume.
+                        resumeOut += buf;
+                        onChunk(buf);
+                    } else {
+                        resumeOut += buf;
+                        onChunk(buf);
+                    }
+                    buf = '';
+                }
+                return { resume: resumeOut.trim() };
+            }
+        };
+    }
+
+    // ── Generate a custom resume for a saved listing ──
+
+    function generateForApplication(id, opts) {
+        opts = opts || {};
+        if (state.generatingId) return;
+        var app = state.applications.filter(function (a) { return a.id === id; })[0];
+        if (!app) return;
+
+        if (!state.masterResume.trim()) {
+            setStatus(statusLine, 'Upload a master resume first.', 6000);
+            return;
+        }
+
+        var endpointKey = opts.useFallback ? 'local' : 'big';
+
+        state.generatingId = id;
+        state.activeAppId = id;
+        hideFallbackUI();
+        showGeneratedResume('');
+        customResumeText.classList.add('streaming');
+        renderHistory();
+
+        setStatus(statusLine, 'Generating with ' + ENDPOINTS[endpointKey].label + '…');
+        if (endpointKey === 'local') showFallbackBanner();
+
+        var parser = makeStreamParser(function (chunk) {
+            customResumeText.textContent += chunk;
+        });
+
+        var userContent = [
+            'MASTER RESUME:',
+            state.masterResume,
+            '',
+            'JOB DESCRIPTION:',
+            app.jd || ''
+        ].join('\n');
+
+        chatStream(endpointKey, TAILOR_PROMPT, userContent, function (token) {
+            parser.push(token);
+        }).then(function () {
+            var parsed = parser.finish();
+            customResumeText.classList.remove('streaming');
+
+            var finalResume = parsed.resume || customResumeText.textContent;
+            customResumeText.textContent = finalResume;
+
+            var patch = {
+                resume: finalResume,
+                modelUsed: endpointKey,
+                generatedAt: new Date().toISOString()
+            };
+            return updateApplication(app.id, patch).then(function () {
+                Object.assign(app, patch);
+                setStatus(statusLine, 'Done.', 3000);
+            }).catch(function () {
+                Object.assign(app, patch);
+                setStatus(statusLine, 'Generated, but could not save to data store.', 6000);
+            });
+        }).catch(function (err) {
+            customResumeText.classList.remove('streaming');
+            if (err && err.unreachable && endpointKey === 'big') {
+                hideGeneratedResume();
                 setStatus(statusLine, '');
                 showFallbackPrompt(
                     "Couldn't reach the Windows PC. Is it powered on and is Ollama running? " +
@@ -920,56 +1035,27 @@
                 setStatus(statusLine, 'Generation failed: ' + msg, 8000);
             }
         }).then(function () {
-            state.generating = false;
-            generateBtn.disabled = false;
-            clearBtn.disabled = false;
-            regenBtn.disabled = false;
-            markAppliedBtn.disabled = false;
+            state.generatingId = null;
+            renderHistory();
         });
     }
 
-    generateBtn.addEventListener('click', function () { doGenerate({}); });
-    regenBtn.addEventListener('click', function () {
-        // Regenerate against whichever endpoint produced the visible output.
-        var useFallback = !fallbackBanner.hidden;
-        doGenerate({ reuseInput: true, useFallback: useFallback });
-    });
-
-    // ── Mark applied (cycles through statuses) ──
-
-    var STATUS_CYCLE = ['saved', 'applied', 'interview', 'closed'];
-
-    markAppliedBtn.addEventListener('click', function () {
-        if (!state.activeAppId) return;
-        var app = state.applications.filter(function (a) { return a.id === state.activeAppId; })[0];
-        if (!app) return;
-
-        var idx = STATUS_CYCLE.indexOf(app.status || 'saved');
-        var next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
-
-        var patch = { status: next };
-        if (next === 'applied' && !app.appliedAt) {
-            patch.appliedAt = new Date().toISOString();
-        }
-
-        updateApplication(app.id, patch).then(function () {
-            Object.assign(app, patch);
-            setStatus(statusLine, 'Status → ' + statusLabel(next), 2500);
-            renderHistory();
-        }).catch(function () {
-            setStatus(statusLine, 'Could not update status.', 4000);
-        });
-    });
-
     // ── Init ──
-
-    selectResumeTab('software');
-    hideOutput();
+    hideGeneratedResume();
     hideFallbackUI();
+    restoreFilename();
+    showResumeStatus();
+    setAiStatus('big', 'unknown');
+    setAiStatus('local', 'unknown');
 
     loadData().then(function () {
-        showResumeTabStatus();
+        // Clear any cached filename if we couldn't recover any master text.
+        if (!state.masterResume.trim()) rememberFilename('');
+        showResumeStatus();
         renderHistory();
+        // Probe the local AI (always-on per setup). Don't auto-probe the
+        // Windows AI to avoid waking the PC — user can click the badge.
+        pingAi('local');
     });
 
 })();

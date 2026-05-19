@@ -36,7 +36,7 @@ VALID_STATUSES = {"saved", "applied", "interview", "closed"}
 
 # Fields we accept on application create/update. Anything else is ignored.
 APP_FIELDS = {
-    "company", "url", "jd", "category", "suggestionReason",
+    "company", "companyName", "roleName", "url", "jd", "category", "suggestionReason",
     "resume", "cover", "status", "appliedAt", "notes",
 }
 

@@ -2,12 +2,10 @@
    jobs.css — Styles specific to /jobs
    frontendneeded.com
 
-   A private job-application tracker. Two-row layout:
-     gr-top    — workspace (form on left, output on right)
-     gr-bottom — history on left, master resumes on right
-
-   We override the default gr-top (which is a flex column)
-   to be a horizontal split for this page.
+   Two-row layout:
+     gr-top    — title (left) + new-job inputs (right)
+     gr-bottom — master upload + latest generated resume (left)
+                 + saved listings (right)
    ═══════════════════════════════════════════════ */
 
 [hidden] {
@@ -34,12 +32,8 @@
 }
 
 /* ═══════════════════════════════════════════════
-   Custom gr-top: horizontal split (61.8% / 38.2%)
+   gr-top: horizontal split — title vs new-job inputs
    ═══════════════════════════════════════════════ */
-
-.jobs-shell {
-    /* keep the standard column shell, just override gr-top */
-}
 
 .jobs-top {
     display: flex;
@@ -47,11 +41,10 @@
     padding: 0;
     overflow: hidden;
     justify-content: flex-start;
-    /* override gr-top's flex-end alignment */
 }
 
 .jobs-top-left {
-    flex: 0 0 var(--phi-major);
+    flex: 0 0 var(--phi-minor);
     padding: 32px 48px;
     overflow-y: auto;
     border-right: 1px solid transparent;
@@ -64,25 +57,26 @@
     box-shadow: 1px 0 30px rgba(45, 212, 191, 0.06);
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
 }
 
 .jobs-top-right {
-    flex: 0 0 var(--phi-minor);
-    padding: 32px 36px;
+    flex: 1 1 auto;
+    padding: 32px 48px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
+    min-width: 0;
 }
 
-/* Tighter page title for this dense page */
 .jobs-top-left .page-title {
-    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    font-size: clamp(1.8rem, 4vw, 3rem);
     line-height: 1.05;
 }
 
 .jobs-top-left .page-subtitle {
-    margin-top: 8px;
+    margin-top: 10px;
     font-size: 0.88rem;
 }
 
@@ -91,17 +85,20 @@
    ═══════════════════════════════════════════════ */
 
 .field {
-    margin-bottom: 14px;
+    margin-bottom: 6px;
 }
 
-.field-row {
+.field-grow {
+    flex: 1 1 auto;
     display: flex;
-    align-items: center;
-    gap: 14px;
+    flex-direction: column;
+    min-height: 0;
 }
 
-.field-row .field-label {
-    margin-bottom: 0;
+.field-grow .text-area {
+    flex: 1 1 auto;
+    min-height: 140px;
+    max-height: none;
 }
 
 .field-label {
@@ -149,29 +146,8 @@
 .text-area {
     resize: vertical;
     min-height: 140px;
-    max-height: 320px;
     line-height: 1.5;
     font-family: 'DM Sans', sans-serif;
-}
-
-.select-input {
-    appearance: none;
-    -webkit-appearance: none;
-    background-image:
-        linear-gradient(45deg, transparent 50%, var(--muted) 50%),
-        linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-    background-position:
-        calc(100% - 18px) 50%,
-        calc(100% - 13px) 50%;
-    background-size: 5px 5px, 5px 5px;
-    background-repeat: no-repeat;
-    padding-right: 32px;
-    cursor: pointer;
-}
-
-.select-input option {
-    background: #0a0e1a;
-    color: var(--ink);
 }
 
 /* ═══════════════════════════════════════════════
@@ -182,7 +158,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 6px;
     flex-wrap: wrap;
 }
 
@@ -251,8 +227,248 @@
 }
 
 /* ═══════════════════════════════════════════════
-   Output panes
+   gr-bottom — flip default ordering so the resume
+   view is on the left and saved listings on the right
    ═══════════════════════════════════════════════ */
+
+.jobs-bottom {
+    flex: 0 0 var(--phi-minor);
+    min-height: 0;
+}
+
+/* gr-left = resume view, gr-right = listings — both
+   already follow the global phi widths. Just give them
+   their own padding/scroll behavior. */
+.gr-left.jobs-resume-view {
+    padding: 22px 32px;
+    padding-right: 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 16px;
+}
+
+.gr-right.jobs-history {
+    padding: 22px 28px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════
+   Master resume section (top of gr-left)
+   ═══════════════════════════════════════════════ */
+
+.master-resume-section {
+    flex-shrink: 0;
+}
+
+.master-resume-cols {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.master-resume-col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.master-resume-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.current-resume-card {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--field-border);
+    border-radius: 6px;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.current-resume-card.is-loaded {
+    border-color: rgba(74, 222, 128, 0.45);
+    background: rgba(74, 222, 128, 0.06);
+}
+
+.current-resume-card.is-empty {
+    color: var(--muted);
+}
+
+.current-resume-icon {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--muted);
+}
+
+.current-resume-card.is-loaded .current-resume-icon {
+    background: rgba(74, 222, 128, 0.18);
+    color: #4ade80;
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.current-resume-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.current-resume-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.current-resume-card.is-loaded .current-resume-name {
+    color: #4ade80;
+}
+
+.current-resume-card.is-empty .current-resume-name {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.current-resume-meta {
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════
+   New-listing header + AI status pills
+   ═══════════════════════════════════════════════ */
+
+.new-listing-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.ai-status-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.ai-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--field-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.ai-status-pill:hover {
+    border-color: var(--field-border-focus);
+    color: var(--ink);
+}
+
+.ai-status-pill .ai-label {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.66rem;
+}
+
+.ai-status-pill .ai-state {
+    font-size: 0.7rem;
+    opacity: 0.85;
+}
+
+.ai-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+}
+
+.ai-dot-unknown {
+    background: rgba(240, 249, 255, 0.25);
+    box-shadow: 0 0 6px rgba(240, 249, 255, 0.1);
+}
+
+.ai-dot-online {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
+.ai-dot-offline {
+    background: #f87171;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
+}
+
+.ai-dot-checking {
+    background: #ffc850;
+    box-shadow: 0 0 8px rgba(255, 200, 80, 0.5);
+    animation: aiPing 1.2s ease-in-out infinite;
+}
+
+@keyframes aiPing {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
+.ai-status-pill.is-online {
+    border-color: rgba(74, 222, 128, 0.5);
+    color: #4ade80;
+}
+
+.ai-status-pill.is-offline {
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #f87171;
+}
+
+/* ═══════════════════════════════════════════════
+   Generated resume section
+   ═══════════════════════════════════════════════ */
+
+.generated-resume-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.generated-resume-section .output-header {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--panel-border);
+}
 
 .output-header {
     display: flex;
@@ -261,32 +477,45 @@
     flex-shrink: 0;
 }
 
-.output-actions {
-    display: flex;
-    gap: 6px;
-}
-
 .output-empty {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 18px 0;
+    padding: 18px 22px;
 }
 
-.suggestion-box {
-    padding: 10px 14px;
-    background: rgba(136, 192, 208, 0.06);
-    border: 1px solid rgba(136, 192, 208, 0.2);
-    border-radius: 6px;
+.output-text {
+    flex: 1;
+    margin: 0;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-y: auto;
+    background: transparent;
+    border: none;
+    min-height: 0;
 }
 
-.suggestion-box .body-text {
-    font-size: 0.82rem;
+.output-text.streaming::after {
+    content: '▍';
+    color: var(--accent);
+    animation: caretBlink 1s infinite;
+    margin-left: 1px;
 }
 
-/* ── Fallback prompt (error: Windows PC unreachable) ── */
+@keyframes caretBlink {
+    0%, 50%   { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ── Fallback prompt + banner ── */
 .fallback-prompt {
+    margin: 12px 14px 0;
     padding: 12px 14px;
     background: rgba(217, 139, 160, 0.08);
     border: 1px solid rgba(217, 139, 160, 0.35);
@@ -310,8 +539,8 @@
     gap: 6px;
 }
 
-/* ── Fallback banner (informational: using fallback model right now) ── */
 .fallback-banner {
+    margin: 12px 14px 0;
     padding: 8px 12px;
     background: rgba(255, 200, 80, 0.06);
     border: 1px solid rgba(255, 200, 80, 0.28);
@@ -336,120 +565,8 @@
     box-shadow: 0 0 8px rgba(255, 200, 80, 0.6);
 }
 
-.output-panes {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    flex: 1;
-    min-height: 0;
-}
-
-.output-pane {
-    background: var(--panel);
-    border: 1px solid var(--panel-border);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-}
-
-.pane-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border-bottom: 1px solid var(--panel-border);
-}
-
-.copy-btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border: 1px solid var(--field-border);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-}
-
-.copy-btn:hover {
-    color: var(--accent);
-    border-color: var(--field-border-focus);
-}
-
-.copy-btn.copied {
-    color: var(--accent);
-    border-color: var(--accent);
-}
-
-.output-text {
-    flex: 1;
-    margin: 0;
-    padding: 14px 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--ink);
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow-y: auto;
-    background: transparent;
-    border: none;
-    max-height: 360px;
-}
-
-/* Streaming caret */
-.output-text.streaming::after {
-    content: '▍';
-    color: var(--accent);
-    animation: caretBlink 1s infinite;
-    margin-left: 1px;
-}
-
-@keyframes caretBlink {
-
-    0%,
-    50% {
-        opacity: 1;
-    }
-
-    51%,
-    100% {
-        opacity: 0;
-    }
-}
-
 /* ═══════════════════════════════════════════════
-   Bottom row layout overrides
-   ═══════════════════════════════════════════════ */
-
-.jobs-bottom {
-    flex: 0 0 var(--phi-minor);
-}
-
-.jobs-history {
-    padding: 22px 36px;
-    padding-right: 36px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.jobs-resumes {
-    padding: 22px 32px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-/* ═══════════════════════════════════════════════
-   History list
+   Saved listings (gr-right)
    ═══════════════════════════════════════════════ */
 
 .bottom-header {
@@ -458,38 +575,6 @@
     align-items: center;
     gap: 14px;
     flex-shrink: 0;
-}
-
-.filter-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.filter-pill {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border: 1px solid var(--field-border);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.filter-pill:hover {
-    color: var(--ink);
-    border-color: var(--field-border-focus);
-}
-
-.filter-pill.active {
-    color: var(--bg);
-    background: var(--accent);
-    border-color: var(--accent);
 }
 
 .history-list {
@@ -507,12 +592,10 @@
     background: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: 6px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, opacity 0.2s;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .history-item:hover {
@@ -525,6 +608,17 @@
     background: rgba(136, 192, 208, 0.06);
 }
 
+.history-item.applied {
+    opacity: 0.5;
+}
+
+.history-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
 .history-item-main {
     flex: 1;
     min-width: 0;
@@ -532,7 +626,7 @@
 
 .history-item-title {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--ink);
     margin-bottom: 4px;
@@ -547,6 +641,7 @@
     display: flex;
     gap: 8px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .history-item-meta .dot {
@@ -584,25 +679,16 @@
     color: var(--accent);
 }
 
-.status-interview {
-    background: rgba(192, 104, 122, 0.18);
-    color: #d98ba0;
-}
-
-.status-closed {
-    background: rgba(240, 249, 255, 0.04);
-    color: rgba(240, 249, 255, 0.35);
-}
-
 .history-item-delete {
     background: transparent;
     border: none;
     color: rgba(240, 249, 255, 0.25);
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.95rem;
     padding: 2px 6px;
     border-radius: 4px;
     transition: color 0.2s, background 0.2s;
+    line-height: 1;
 }
 
 .history-item-delete:hover {
@@ -610,42 +696,70 @@
     background: rgba(217, 139, 160, 0.08);
 }
 
-/* ═══════════════════════════════════════════════
-   Resume tabs / editor
-   ═══════════════════════════════════════════════ */
-
-.resume-tabs {
+.history-item-actions {
     display: flex;
-    gap: 4px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid var(--panel-border);
-    flex-shrink: 0;
+    gap: 6px;
+    flex-wrap: wrap;
 }
 
-.resume-tab {
+.history-item-actions .ghost-btn {
+    padding: 5px 10px;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+}
+
+.history-item-actions .ghost-btn.is-busy {
+    opacity: 0.6;
+    cursor: progress;
+}
+
+.history-item-title-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.history-item-title-link:hover,
+.history-item-title-link:focus {
+    text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════
+   Copy / download buttons
+   ═══════════════════════════════════════════════ */
+
+.pane-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.copy-btn {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.74rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 8px 12px;
-    border: none;
+    padding: 4px 10px;
+    border: 1px solid var(--field-border);
+    border-radius: 4px;
     background: transparent;
     color: var(--muted);
     cursor: pointer;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
     transition: color 0.2s, border-color 0.2s;
 }
 
-.resume-tab:hover {
-    color: var(--ink);
+.copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--field-border-focus);
 }
 
-.resume-tab.active {
+.copy-btn.copied {
     color: var(--accent);
-    border-bottom-color: var(--accent);
+    border-color: var(--accent);
 }
+
+/* ═══════════════════════════════════════════════
+   Resume drop zone
+   ═══════════════════════════════════════════════ */
 
 .resume-drop {
     display: flex;
@@ -654,7 +768,6 @@
     justify-content: center;
     gap: 4px;
     padding: 14px 16px;
-    margin-bottom: 10px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px dashed var(--field-border);
     border-radius: 6px;
@@ -662,7 +775,6 @@
     cursor: pointer;
     text-align: center;
     transition: border-color 0.2s, background 0.2s, color 0.2s;
-    flex-shrink: 0;
 }
 
 .resume-drop:hover,
@@ -698,31 +810,8 @@
     color: rgba(240, 249, 255, 0.4);
 }
 
-.pane-actions {
-    display: flex;
-    gap: 6px;
-}
-
-.resume-save-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    flex-shrink: 0;
-}
-
-.history-item-title-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.history-item-title-link:hover,
-.history-item-title-link:focus {
-    text-decoration: underline;
-}
-
 /* ═══════════════════════════════════════════════
-   Responsive — under 1100px the side-by-side gets tight
+   Responsive
    ═══════════════════════════════════════════════ */
 
 @media (max-width: 1100px) {
@@ -765,15 +854,15 @@
         flex-direction: column;
     }
 
-    .gr-left.jobs-history,
-    .gr-right.jobs-resumes {
+    .gr-left.jobs-resume-view,
+    .gr-right.jobs-history {
         flex: 1 1 auto;
         width: 100%;
         overflow-y: visible;
         min-height: 320px;
     }
 
-    .gr-left.jobs-history {
+    .gr-left.jobs-resume-view {
         border-right: none;
     }
 
@@ -782,12 +871,19 @@
     }
 }
 
+@media (max-width: 900px) {
+    .master-resume-cols {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
 @media (max-width: 640px) {
 
     .jobs-top-left,
     .jobs-top-right,
-    .gr-left.jobs-history,
-    .gr-right.jobs-resumes {
+    .gr-left.jobs-resume-view,
+    .gr-right.jobs-history {
         padding-left: 24px;
         padding-right: 24px;
     }
