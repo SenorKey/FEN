@@ -63,14 +63,17 @@
                 <div class="new-listing-head">
                     <p class="section-label" style="margin: 0;">New listing</p>
                     <div class="ai-status-row" id="aiStatusRow">
-                        <button class="ai-status-pill" data-ai-test="big" type="button" title="Click to test the Windows AI">
-                            <span class="ai-dot ai-dot-unknown"></span>
-                            <span class="ai-label">Windows AI</span>
-                            <span class="ai-state">checking…</span>
+                        <button class="ai-status-pill" data-ai-test="big" type="button" title="Click to wake big bro (first wake can take ~30s)">
+                            <span class="ai-dot ai-dot-asleep"></span>
+                            <span class="ai-label">big bro</span>
+                            <span class="ai-state">asleep</span>
                         </button>
-                        <button class="ai-status-pill" data-ai-test="local" type="button" title="Click to test the local AI">
+                        <button class="ai-sleep-btn" id="aiSleepBtn" type="button" disabled
+                            title="Put big bro to sleep — frees the Windows PC's VRAM immediately"
+                            aria-label="Put big bro to sleep">💤</button>
+                        <button class="ai-status-pill" data-ai-test="local" type="button" title="Click to test lil bro">
                             <span class="ai-dot ai-dot-unknown"></span>
-                            <span class="ai-label">Local AI</span>
+                            <span class="ai-label">lil bro</span>
                             <span class="ai-state">checking…</span>
                         </button>
                     </div>
@@ -120,7 +123,6 @@
                                 </span>
                                 <span class="resume-drop-hint">The AI references this when tailoring custom resumes.</span>
                             </div>
-                            <span id="resumeSaveStatus" class="status-line"></span>
                         </div>
 
                         <div class="master-resume-col">

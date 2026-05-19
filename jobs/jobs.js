@@ -28,6 +28,7 @@
     var state = {
         masterResume: '',
         masterResumeFilename: '',
+        masterResumeUploadedAt: '',
         applications: [],
         activeAppId: null,
         generatingId: null,        // id of the application currently generating
@@ -37,6 +38,7 @@
     };
 
     var FILENAME_LS_KEY = 'jobs.masterResumeFilename';
+    var UPLOADED_AT_LS_KEY = 'jobs.masterResumeUploadedAt';
 
     // ── DOM ──
     var $ = function (id) { return document.getElementById(id); };
@@ -59,7 +61,6 @@
     var historyList   = $('historyList');
     var historyCount  = $('historyCount');
 
-    var resumeSaveStatus = $('resumeSaveStatus');
     var resumeDrop       = $('resumeDrop');
     var resumeFileInput  = $('resumeFileInput');
 
@@ -68,6 +69,13 @@
     var currentResumeMeta = $('currentResumeMeta');
 
     var aiStatusPills = document.querySelectorAll('.ai-status-pill');
+    var aiSleepBtn = $('aiSleepBtn');
+
+    // Per-pill mapping from internal status keys to user-visible state text.
+    var AI_LABELS = {
+        big:   { unknown: 'asleep', checking: 'waking…',  online: 'awake', offline: 'asleep' },
+        local: { unknown: 'unknown', checking: 'checking…', online: 'reachable', offline: 'unreachable' }
+    };
 
     // pdf.js worker setup
     if (window.pdfjsLib) {
@@ -167,12 +175,6 @@
         var text = state.masterResume || '';
         var loaded = !!text.trim();
 
-        if (loaded) {
-            resumeSaveStatus.textContent = text.length + ' characters loaded';
-        } else {
-            resumeSaveStatus.textContent = 'Not uploaded yet';
-        }
-
         if (!currentResumeCard) return;
         currentResumeCard.classList.toggle('is-loaded', loaded);
         currentResumeCard.classList.toggle('is-empty', !loaded);
@@ -182,26 +184,49 @@
 
         if (loaded) {
             currentResumeName.textContent = state.masterResumeFilename || 'Master resume on file';
-            currentResumeMeta.textContent = text.length.toLocaleString() + ' characters · ready to tailor';
+            var metaBits = [text.length.toLocaleString() + ' characters'];
+            var uploadedLabel = formatUploadedAt(state.masterResumeUploadedAt);
+            if (uploadedLabel) metaBits.push('uploaded ' + uploadedLabel);
+            metaBits.push('ready to tailor');
+            currentResumeMeta.textContent = metaBits.join(' · ');
         } else {
             currentResumeName.textContent = 'No master resume on file';
             currentResumeMeta.textContent = 'Upload a PDF on the left.';
         }
     }
 
-    function rememberFilename(name) {
+    function rememberFilename(name, uploadedAt) {
         state.masterResumeFilename = name || '';
+        state.masterResumeUploadedAt = name ? (uploadedAt || new Date().toISOString()) : '';
         try {
-            if (name) localStorage.setItem(FILENAME_LS_KEY, name);
-            else localStorage.removeItem(FILENAME_LS_KEY);
+            if (name) {
+                localStorage.setItem(FILENAME_LS_KEY, name);
+                localStorage.setItem(UPLOADED_AT_LS_KEY, state.masterResumeUploadedAt);
+            } else {
+                localStorage.removeItem(FILENAME_LS_KEY);
+                localStorage.removeItem(UPLOADED_AT_LS_KEY);
+            }
         } catch (e) { /* ignore */ }
     }
 
     function restoreFilename() {
         try {
             state.masterResumeFilename = localStorage.getItem(FILENAME_LS_KEY) || '';
+            state.masterResumeUploadedAt = localStorage.getItem(UPLOADED_AT_LS_KEY) || '';
         } catch (e) {
             state.masterResumeFilename = '';
+            state.masterResumeUploadedAt = '';
+        }
+    }
+
+    function formatUploadedAt(iso) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        try {
+            return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        } catch (e) {
+            return d.toDateString();
         }
     }
 
@@ -256,33 +281,33 @@
     function handleResumeFile(file) {
         if (!file) return;
         if (file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)) {
-            setStatus(resumeSaveStatus, 'Only PDF files are supported.', 4000);
+            setStatus(statusLine, 'Only PDF files are supported.', 4000);
             return;
         }
         resumeDrop.classList.add('busy');
-        setStatus(resumeSaveStatus, 'Extracting text from ' + file.name + '…');
+        setStatus(statusLine, 'Extracting text from ' + file.name + '…');
         extractPdfText(file).then(function (result) {
             var text = result.text;
             if (!text) {
                 if (result.pageCount > 0 && result.totalItems === 0) {
-                    setStatus(resumeSaveStatus, 'No text layer in this PDF — re-export from Word using File → Save As → PDF.', 10000);
+                    setStatus(statusLine, 'No text layer in this PDF — re-export from Word using File → Save As → PDF.', 10000);
                 } else {
-                    setStatus(resumeSaveStatus, 'No text found in that PDF.', 5000);
+                    setStatus(statusLine, 'No text found in that PDF.', 5000);
                 }
                 return;
             }
             state.masterResume = text;
             rememberFilename(file.name);
             showResumeStatus();
-            setStatus(resumeSaveStatus, 'Saving…');
+            setStatus(statusLine, 'Saving…');
             return saveMasterResume(text).then(function () {
-                setStatus(resumeSaveStatus, 'Saved — ' + text.length + ' characters from ' + file.name + '.', 4000);
+                setStatus(statusLine, 'Saved — ' + text.length + ' characters from ' + file.name + '.', 4000);
             }).catch(function () {
-                setStatus(resumeSaveStatus, 'Saved locally — data store unreachable.', 5000);
+                setStatus(statusLine, 'Saved locally — data store unreachable.', 5000);
             });
         }).catch(function (err) {
             console.error(err);
-            setStatus(resumeSaveStatus, 'Could not read that PDF: ' + (err.message || 'unknown error'), 6000);
+            setStatus(statusLine, 'Could not read that PDF: ' + (err.message || 'unknown error'), 6000);
         }).then(function () {
             resumeDrop.classList.remove('busy');
             resumeFileInput.value = '';
@@ -682,29 +707,37 @@
         Array.prototype.forEach.call(aiStatusPills, function (pill) {
             if (pill.getAttribute('data-ai-test') !== key) return;
             pill.classList.toggle('is-online',  status === 'online');
-            pill.classList.toggle('is-offline', status === 'offline');
+            pill.classList.toggle('is-offline', status === 'offline' && key !== 'big');
             var dot = pill.querySelector('.ai-dot');
             if (dot) {
-                dot.className = 'ai-dot ai-dot-' +
-                    (status === 'online' ? 'online' :
-                     status === 'offline' ? 'offline' :
-                     status === 'checking' ? 'checking' : 'unknown');
+                var dotState =
+                    status === 'online'   ? 'online'   :
+                    status === 'checking' ? 'checking' :
+                    status === 'offline'  ? (key === 'big' ? 'asleep' : 'offline') :
+                                            (key === 'big' ? 'asleep' : 'unknown');
+                dot.className = 'ai-dot ai-dot-' + dotState;
             }
             var label = pill.querySelector('.ai-state');
             if (label) {
-                label.textContent =
-                    status === 'online'  ? 'reachable' :
-                    status === 'offline' ? 'unreachable' :
-                    status === 'checking' ? 'checking…' : 'unknown';
+                var map = AI_LABELS[key] || AI_LABELS.local;
+                label.textContent = map[status] || map.unknown;
             }
         });
+        if (key === 'big' && aiSleepBtn) {
+            aiSleepBtn.disabled = (status !== 'online');
+        }
     }
 
     function pingAi(key) {
         setAiStatus(key, 'checking');
-        // Minimal one-shot request. keep_alive: 0s so the big model
-        // doesn't sit in VRAM after a probe.
+        // For big bro, the first probe forces a cold model load that can take
+        // 20–40s, so we give it room and keep the model warm afterwards.
+        // For lil bro, the small model is already loaded so we don't pin it.
         var ep = ENDPOINTS[key];
+        var isBig = (key === 'big');
+        var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+        var timeoutMs = isBig ? 90000 : 8000;
+        var timeoutId = controller ? setTimeout(function () { controller.abort(); }, timeoutMs) : null;
         return fetch(ep.url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -715,15 +748,45 @@
                     { role: 'user',   content: 'ping' }
                 ],
                 stream: false,
-                keep_alive: '0s'
-            })
+                keep_alive: isBig ? '5m' : '0s'
+            }),
+            signal: controller ? controller.signal : undefined
         }).then(function (res) {
+            if (timeoutId) clearTimeout(timeoutId);
             setAiStatus(key, res.ok ? 'online' : 'offline');
             return res.ok;
         }).catch(function () {
+            if (timeoutId) clearTimeout(timeoutId);
             setAiStatus(key, 'offline');
             return false;
         });
+    }
+
+    function sleepBigBro() {
+        if (!aiSleepBtn || aiSleepBtn.disabled) return;
+        aiSleepBtn.disabled = true;
+        var ep = ENDPOINTS.big;
+        setAiStatus('big', 'checking');
+        // Posting an empty messages array with keep_alive: 0 tells Ollama
+        // to unload the model from VRAM immediately and return.
+        return fetch(ep.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: ep.model,
+                messages: [],
+                stream: false,
+                keep_alive: 0
+            })
+        }).then(function (res) {
+            setAiStatus('big', res.ok ? 'unknown' : 'offline');
+        }).catch(function () {
+            setAiStatus('big', 'offline');
+        });
+    }
+
+    if (aiSleepBtn) {
+        aiSleepBtn.addEventListener('click', sleepBigBro);
     }
 
     Array.prototype.forEach.call(aiStatusPills, function (pill) {
