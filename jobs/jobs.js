@@ -753,10 +753,18 @@
             signal: controller ? controller.signal : undefined
         }).then(function (res) {
             if (timeoutId) clearTimeout(timeoutId);
-            setAiStatus(key, res.ok ? 'online' : 'offline');
-            return res.ok;
-        }).catch(function () {
+            if (!res.ok) {
+                return res.text().catch(function () { return ''; }).then(function (body) {
+                    console.warn('[pingAi:' + key + '] HTTP ' + res.status + ' from ' + ep.url + ' — body:', body.slice(0, 500));
+                    setAiStatus(key, 'offline');
+                    return false;
+                });
+            }
+            setAiStatus(key, 'online');
+            return true;
+        }).catch(function (err) {
             if (timeoutId) clearTimeout(timeoutId);
+            console.warn('[pingAi:' + key + '] fetch error on ' + ep.url + ':', err && (err.name + ': ' + err.message));
             setAiStatus(key, 'offline');
             return false;
         });
