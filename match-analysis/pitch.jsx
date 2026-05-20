@@ -66,7 +66,7 @@ function ActionMenu(_ref) {
     var items = [
         { label: "↩  Undo", action: onUndo, disabled: !canUndo },
         { label: "↪  Redo", action: onRedo, disabled: !canRedo },
-        { label: "⌫  Clear All", action: onClear, color: C.red },
+        { label: "⌫  Clear All", action: onClear, color: C.danger },
     ];
 
     return (
@@ -119,9 +119,9 @@ function PitchSVG(_ref) {
         >
             <defs>
                 <marker id="ah" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0,10 3.5,0 7" fill={C.yellow} /></marker>
+                    <polygon points="0 0,10 3.5,0 7" fill={C.arrow} /></marker>
                 <marker id="ah-ghost" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0,10 3.5,0 7" fill={C.yellow} opacity="0.5" /></marker>
+                    <polygon points="0 0,10 3.5,0 7" fill={C.arrow} opacity="0.5" /></marker>
             </defs>
             <rect x="30" y="20" width="640" height="420" fill="none" stroke={C.pitchLine} strokeWidth="2" />
             <line x1="350" y1="20" x2="350" y2="440" stroke={C.pitchLine} strokeWidth="2" />
@@ -292,7 +292,7 @@ function TacticalBoard(_ref) {
         { id: "select", label: "Move", icon: "✋" },
         { id: "o", label: "Us", icon: "○", color: C.blue },
         { id: "x", label: "Opp", icon: "✕", color: C.red },
-        { id: "arrow", label: "Arrow", icon: "→", color: C.yellow },
+        { id: "arrow", label: "Arrow", icon: "→", color: C.arrow },
         { id: "erase", label: "Erase", icon: "⌫" },
     ];
 
@@ -347,13 +347,13 @@ function TacticalBoard(_ref) {
                     {cur.arrows.map(function (a) {
                         return (
                             <line key={a.id} x1={a.x1} y1={a.y1} x2={a.x2} y2={a.y2}
-                                stroke={C.yellow} strokeWidth="2.5" markerEnd="url(#ah)"
+                                stroke={C.arrow} strokeWidth="2.5" markerEnd="url(#ah)"
                                 style={{ pointerEvents: tool === "erase" ? "auto" : "none" }} />
                         );
                     })}
                     {arrowDraft && (
                         <line x1={arrowDraft.x1} y1={arrowDraft.y1} x2={arrowDraft.x2} y2={arrowDraft.y2}
-                            stroke={C.yellow} strokeWidth="2.5" opacity="0.5" markerEnd="url(#ah-ghost)" />
+                            stroke={C.arrow} strokeWidth="2.5" opacity="0.5" markerEnd="url(#ah-ghost)" />
                     )}
                     {/* Markers */}
                     {displayMarkers.map(function (m, idx) {

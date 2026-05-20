@@ -9,15 +9,15 @@
 :root {
     --accent: #b8e636;
     --accent-rgb: 184, 230, 54;
-    --bg: #0f1410;
+    --bg: #0c0e11;
 }
 
 .site-nav {
-    background: #0a0f0c;
+    background: #080a0d;
 }
 
 .nav-dropdown-menu {
-    background: #0a0f0c;
+    background: #080a0d;
 }
 
 

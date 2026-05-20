@@ -25,14 +25,17 @@ var { useState, useRef, useCallback, useEffect, useReducer } = React;
    THEME
    ═══════════════════════════════════════════════════════════ */
 var C = {
-    bg: "#0f1410", bgCard: "#161e14", bgInput: "#1a2316", bgHover: "#1e2a1a",
-    border: "#2a3824", borderActive: "#3a4a30",
+    bg: "#0c0e11", bgCard: "#161a20", bgInput: "#1c2128", bgHover: "#232831",
+    border: "#2a313c", borderActive: "#3a424f",
     accent: "#b8e636", accentDim: "rgba(184,230,54,0.15)",
-    blue: "#4a9eff", blueDim: "rgba(74,158,255,0.15)",
+    blue: "#5fa8ff", blueDim: "rgba(95,168,255,0.15)",
     red: "#ff6b5a", redDim: "rgba(255,107,90,0.15)",
     yellow: "#ffd44a",
-    text: "#d0dbc4", textMuted: "#7a8c6c", textDim: "#4a5c3e",
-    pitch: "#1e2e18", pitchLine: "#3a5a2e",
+    amber: "#ff9d3d", amberDim: "rgba(255,157,61,0.15)",
+    danger: "#f15545", dangerDim: "rgba(241,85,69,0.15)",
+    arrow: "#e8eef2",
+    text: "#e3e6ec", textMuted: "#8b94a3", textDim: "#6b7380",
+    pitch: "#15301e", pitchLine: "#3a5a2e",
     font: "'Saira', sans-serif", fontCond: "'Saira Condensed', sans-serif",
 };
 
@@ -609,8 +612,8 @@ function ExportMenu(_ref) {
     return (
         <div ref={ref} style={{ position: "relative" }}>
             <button onClick={function () { setOpen(!open); }} aria-label="Export" style={{
-                padding: "5px 10px", fontSize: 10, background: C.accent, color: C.bg,
-                border: "none", borderRadius: 3, cursor: "pointer", fontWeight: 700,
+                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.textMuted,
+                border: "1px solid " + C.border, borderRadius: 3, cursor: "pointer", fontWeight: 700,
                 fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 0.5,
             }}>Export</button>
             {open && (
@@ -655,7 +658,7 @@ function SaveButton(_ref) {
     return (
         <button onClick={onClick} aria-label="Save analysis" style={{
             padding: "5px 10px", fontSize: 10, background: saved ? C.accent : "transparent",
-            color: saved ? C.bg : C.accent, border: "1px solid " + C.accent, borderRadius: 3,
+            color: saved ? C.bg : C.textMuted, border: "1px solid " + (saved ? C.accent : C.border), borderRadius: 3,
             cursor: "pointer", fontWeight: 700, fontFamily: C.fontCond, textTransform: "uppercase",
             letterSpacing: 0.5, whiteSpace: "nowrap",
         }}>{saved ? "✓ Saved" : "Save"}</button>
@@ -705,8 +708,8 @@ function LoadMenu(_ref) {
     return (
         <div ref={ref} style={{ position: "relative" }}>
             <button onClick={function () { setOpen(!open); }} aria-label="Load saved analysis" style={{
-                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.accent,
-                border: "1px solid " + C.accent, borderRadius: 3, cursor: "pointer", fontWeight: 700,
+                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.textMuted,
+                border: "1px solid " + C.border, borderRadius: 3, cursor: "pointer", fontWeight: 700,
                 fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 0.5, whiteSpace: "nowrap",
             }}>Load</button>
             {open && (
@@ -739,8 +742,8 @@ function LoadMenu(_ref) {
                                     </div>
                                 </div>
                                 <button onClick={function (e) { remove(e, entry); }} aria-label="Delete" style={{
-                                    background: "transparent", border: "1px solid " + C.red + "55",
-                                    color: C.red, borderRadius: 3, padding: "3px 7px", fontSize: 11,
+                                    background: "transparent", border: "1px solid " + C.danger + "55",
+                                    color: C.danger, borderRadius: 3, padding: "3px 7px", fontSize: 11,
                                     cursor: "pointer", flexShrink: 0,
                                 }}>✕</button>
                             </div>
@@ -817,7 +820,7 @@ function App() {
                 <div style={{ flex: 1, minWidth: 0 }}>
                     <h1 style={{
                         margin: 0, fontSize: 15, fontFamily: C.fontCond, fontWeight: 800,
-                        textTransform: "uppercase", letterSpacing: 2, color: C.accent,
+                        textTransform: "uppercase", letterSpacing: 2, color: C.text,
                         whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                     }}>
                         {(data.match.ourTeam || "Our Team") + " vs " + (data.match.opponent || "Opponent")}
@@ -858,7 +861,7 @@ function App() {
                 <ExportMenu data={data} />
                 <button onClick={resetAll} aria-label="Reset" style={{
                     padding: "5px 6px", fontSize: 13, background: "transparent",
-                    border: "1px solid " + C.red + "44", color: C.red, borderRadius: 3,
+                    border: "1px solid " + C.danger + "44", color: C.danger, borderRadius: 3,
                     cursor: "pointer", opacity: 0.7,
                 }}>⟲</button>
             </div>
@@ -893,7 +896,7 @@ function App() {
 
             {/* Tab Bar */}
             <div style={{
-                display: "flex", background: "#0a0f0c", borderTop: "1px solid " + C.border,
+                display: "flex", background: "#080a0d", borderTop: "1px solid " + C.border,
                 flexShrink: 0, padding: "2px 0 env(safe-area-inset-bottom, 2px)",
             }}>
                 {tabs.map(function (t, i) {
