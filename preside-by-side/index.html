@@ -257,17 +257,26 @@
                     <h3 class="faq-question suggest-title">Suggest a Bar</h3>
                     <span class="suggest-tag">meme entries welcome but not considered</span>
                 </div>
-                <form class="suggest-form" onsubmit="return false;">
+                <form class="suggest-form" id="suggest-form" novalidate>
                     <div class="suggest-row">
-                        <input type="text" class="suggest-input" placeholder="President name"
-                            aria-label="President name">
-                        <input type="text" class="suggest-input" placeholder="Event" aria-label="Event">
+                        <input type="text" class="suggest-input" name="president" placeholder="President name"
+                            aria-label="President name" maxlength="80" required>
+                        <input type="text" class="suggest-input" name="event" placeholder="Event"
+                            aria-label="Event" maxlength="200" required>
                     </div>
-                    <input type="text" class="suggest-input" placeholder="Source — optional"
-                        aria-label="Source (optional)">
-                    <input type="text" class="suggest-input" placeholder="Why it matters — optional"
-                        aria-label="Why it matters (optional)">
+                    <input type="url" class="suggest-input" name="source" placeholder="Source — optional"
+                        aria-label="Source (optional)" maxlength="500">
+                    <input type="text" class="suggest-input" name="why" placeholder="Why it matters — optional"
+                        aria-label="Why it matters (optional)" maxlength="600">
+                    <!-- Honeypot: real visitors leave this empty; most bots fill every field.
+                         Hidden via CSS, not type=hidden, so naive bots still see and fill it. -->
+                    <div class="suggest-hp" aria-hidden="true">
+                        <label>Leave this field empty
+                            <input type="text" name="website" tabindex="-1" autocomplete="off">
+                        </label>
+                    </div>
                     <button type="submit" class="suggest-submit">Send suggestion</button>
+                    <p class="suggest-status" id="suggest-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </div>

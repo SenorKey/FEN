@@ -3086,4 +3086,83 @@
             applyLabelTightFit();
         });
     });
+
+    /* --------------------------------------------------------------------------
+       Suggestion box — posts same-origin to /api/suggest.
+
+       The browser never sees the Discord webhook URL. Apache reverse-
+       proxies /api/suggest to a local Python service that (1) appends the
+       submission to a SQLite queue on disk and (2) fires the Discord
+       webhook server-side using a URL held in /etc/preside-by-side/
+       config.env. See preside-by-side/server/suggest.py for the service
+       and apache-snippet.conf for the proxy directives.
+
+       The honeypot field handles the casual-bot case at the browser; the
+       service repeats the check server-side along with an Origin header
+       check, length limits, and URL validation for the source field.
+       -------------------------------------------------------------------------- */
+    const SUGGEST_ENDPOINT = '/api/suggest';
+    const SUGGEST_SUBMIT_COOLDOWN_MS = 4000;
+
+    const suggestForm = document.getElementById('suggest-form');
+    if (suggestForm) {
+        const statusEl = suggestForm.querySelector('#suggest-status');
+        const submitBtn = suggestForm.querySelector('.suggest-submit');
+        let lastSubmitAt = 0;
+
+        function setStatus(text, kind) {
+            statusEl.textContent = text;
+            statusEl.classList.remove('is-error', 'is-success');
+            if (kind) statusEl.classList.add('is-' + kind);
+        }
+
+        suggestForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const now = Date.now();
+            if (now - lastSubmitAt < SUGGEST_SUBMIT_COOLDOWN_MS) return;
+
+            const data = new FormData(suggestForm);
+            // Honeypot — real users leave this empty; if filled, silently
+            // accept-and-discard so bots don't learn they were caught.
+            if ((data.get('website') || '').toString().trim() !== '') {
+                setStatus('Sent. Thank you.', 'success');
+                suggestForm.reset();
+                return;
+            }
+
+            const president = (data.get('president') || '').toString().trim();
+            const event = (data.get('event') || '').toString().trim();
+            const source = (data.get('source') || '').toString().trim();
+            const why = (data.get('why') || '').toString().trim();
+
+            if (!president || !event) {
+                setStatus('President and Event are required.', 'error');
+                return;
+            }
+
+            lastSubmitAt = now;
+            submitBtn.disabled = true;
+            const originalLabel = submitBtn.textContent;
+            submitBtn.textContent = 'Sending…';
+            setStatus('', null);
+
+            try {
+                const res = await fetch(SUGGEST_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ president, event, source, why, website: '' })
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                setStatus('Sent. Thank you.', 'success');
+                suggestForm.reset();
+            } catch (err) {
+                setStatus('Could not send — please try again in a moment.', 'error');
+                lastSubmitAt = 0;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+            }
+        });
+    }
 })();

@@ -1,0 +1,8 @@
+# The real config lives only on the server. config.env.example is tracked.
+config.env
+
+# SQLite queue lives in /var/lib/preside-by-side/ on the server, but guard
+# against accidental local copies landing in the repo.
+*.db
+*.sqlite
+*.sqlite3

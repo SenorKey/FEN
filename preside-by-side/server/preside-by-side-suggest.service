@@ -1,0 +1,24 @@
+[Unit]
+Description=Preside by Side - suggestion intake service
+After=network.target
+
+[Service]
+Type=simple
+User=preside
+Group=preside
+WorkingDirectory=/var/lib/preside-by-side
+Environment=CONFIG_FILE=/etc/preside-by-side/config.env
+ExecStart=/usr/bin/python3 /var/www/frontendneeded.com/preside-by-side/server/suggest.py
+Restart=on-failure
+RestartSec=5
+
+# Hardening — service only needs to read its config and write its DB dir.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/preside-by-side
+ReadOnlyPaths=/etc/preside-by-side
+
+[Install]
+WantedBy=multi-user.target

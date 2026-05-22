@@ -1434,6 +1434,40 @@ body.hydrated .picker-badge {
     transform: translateY(0);
 }
 
+.suggest-submit[disabled] {
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Honeypot — kept in the layout flow for bots that ignore display:none,
+   but pushed offscreen and made non-interactive for real visitors. */
+.suggest-hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.suggest-status {
+    margin: 4px 0 0;
+    min-height: 1em;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    letter-spacing: 0.02em;
+    color: rgba(248, 245, 238, 0.7);
+}
+
+.suggest-status.is-error {
+    color: #f0b4a8;
+}
+
+.suggest-status.is-success {
+    color: #b8e0c2;
+}
+
 @media (max-width: 680px) {
     .footer-faq {
         grid-template-columns: minmax(0, 1fr);
