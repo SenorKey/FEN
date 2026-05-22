@@ -41,6 +41,22 @@ var C = {
 
 var FONT_LINK = "https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=Saira+Condensed:wght@400;500;600;700;800&display=swap";
 
+/* ── Header segmented controls (view tabs + Save/Load/Export) ──
+   Shared styling so both groups look identical. The container's
+   flex-direction is flipped to a column on mobile (see App) so the
+   buttons stack vertically instead of crowding the match clock. */
+var segGroupStyle = {
+    display: "flex", alignItems: "center", gap: 2,
+    background: C.bgInput, border: "1px solid " + C.border,
+    borderRadius: 4, padding: 2,
+};
+var segBtnStyle = {
+    padding: "4px 11px", fontSize: 10, fontFamily: C.fontCond,
+    fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5,
+    whiteSpace: "nowrap", border: "none", borderRadius: 3, cursor: "pointer",
+    transition: "background 0.12s, color 0.12s",
+};
+
 var INITIAL_DATA = {
     match: { opponent: "", ourTeam: "", date: "", formationIn: "", formationOut: "", dangerPlayers: "" },
     boards: [{ id: "b1", name: "Formation", markers: [], arrows: [] }],
@@ -159,6 +175,26 @@ function useMatchClock() {
     var startSecondHalf = function () { setHalf(2); setSeconds(0); setRunning(true); };
 
     return { minute: minute, seconds: seconds % 60, running: running, half: half, toggle: toggle, reset: reset, startSecondHalf: startSecondHalf };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — mobile breakpoint
+   Matches the 768px threshold the Scout/Timeline layouts use in
+   match-analysis.css. Below it, the header's tab + action groups
+   stack their buttons vertically instead of sitting in a row.
+   ═══════════════════════════════════════════════════════════ */
+var MOBILE_BREAKPOINT = 768;
+function useIsMobile() {
+    var query = "(max-width: " + (MOBILE_BREAKPOINT - 0.02) + "px)";
+    var _m = useState(function () { return window.matchMedia(query).matches; });
+    var isMobile = _m[0], setIsMobile = _m[1];
+    useEffect(function () {
+        var mql = window.matchMedia(query);
+        var handler = function (e) { setIsMobile(e.matches); };
+        mql.addEventListener("change", handler);
+        return function () { mql.removeEventListener("change", handler); };
+    }, []);
+    return isMobile;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -569,7 +605,7 @@ function printPDF(data) {
    EXPORT MENU
    ═══════════════════════════════════════════════════════════ */
 function ExportMenu(_ref) {
-    var data = _ref.data;
+    var data = _ref.data, onAction = _ref.onAction;
     var _s = useState(false), open = _s[0], setOpen = _s[1];
     var _c = useState(false), copied = _c[0], setCopied = _c[1];
     var ref = useRef(null);
@@ -586,7 +622,7 @@ function ExportMenu(_ref) {
         try {
             navigator.clipboard.writeText(text).then(function () {
                 setCopied(true);
-                setTimeout(function () { setCopied(false); setOpen(false); }, 1200);
+                setTimeout(function () { setCopied(false); setOpen(false); if (onAction) onAction(); }, 1200);
             });
         } catch (e) {
             var ta = document.createElement("textarea");
@@ -607,14 +643,15 @@ function ExportMenu(_ref) {
         a.download = "analysis-" + (data.match.opponent || "match") + "-" + (data.match.date || new Date().toISOString().slice(0, 10)) + ".txt";
         a.click(); URL.revokeObjectURL(url);
         setOpen(false);
+        if (onAction) onAction();
     };
 
     return (
-        <div ref={ref} style={{ position: "relative" }}>
+        <div ref={ref} style={{ position: "relative", display: "flex", flexDirection: "column" }}>
             <button onClick={function () { setOpen(!open); }} aria-label="Export" style={{
-                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.textMuted,
-                border: "1px solid " + C.border, borderRadius: 3, cursor: "pointer", fontWeight: 700,
-                fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 0.5,
+                ...segBtnStyle,
+                background: open ? C.bgHover : "transparent",
+                color: open ? C.text : C.textMuted,
             }}>Export</button>
             {open && (
                 <div style={{
@@ -632,7 +669,7 @@ function ExportMenu(_ref) {
                         fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
                         borderBottom: "1px solid " + C.border, color: C.text, cursor: "pointer",
                     }}>💾  Download .txt</button>
-                    <button onClick={function () { setOpen(false); printPDF(data); }} style={{
+                    <button onClick={function () { setOpen(false); printPDF(data); if (onAction) onAction(); }} style={{
                         width: "100%", padding: "12px 14px", fontSize: 13, fontFamily: C.fontCond,
                         fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
                         color: C.text, cursor: "pointer",
@@ -647,26 +684,26 @@ function ExportMenu(_ref) {
    SAVE BUTTON & LOAD MENU
    ═══════════════════════════════════════════════════════════ */
 function SaveButton(_ref) {
-    var data = _ref.data;
+    var data = _ref.data, onAction = _ref.onAction;
     var _s = useState(false), saved = _s[0], setSaved = _s[1];
     var onClick = function () {
         var entry = saveToLibrary(data);
         if (!entry) return;
         setSaved(true);
         setTimeout(function () { setSaved(false); }, 1400);
+        if (onAction) onAction();
     };
     return (
         <button onClick={onClick} aria-label="Save analysis" style={{
-            padding: "5px 10px", fontSize: 10, background: saved ? C.accent : "transparent",
-            color: saved ? C.bg : C.textMuted, border: "1px solid " + (saved ? C.accent : C.border), borderRadius: 3,
-            cursor: "pointer", fontWeight: 700, fontFamily: C.fontCond, textTransform: "uppercase",
-            letterSpacing: 0.5, whiteSpace: "nowrap",
+            ...segBtnStyle,
+            background: saved ? C.accent : "transparent",
+            color: saved ? C.bg : C.textMuted,
         }}>{saved ? "✓ Saved" : "Save"}</button>
     );
 }
 
 function LoadMenu(_ref) {
-    var onLoad = _ref.onLoad, currentData = _ref.currentData;
+    var onLoad = _ref.onLoad, currentData = _ref.currentData, onAction = _ref.onAction;
     var _o = useState(false), open = _o[0], setOpen = _o[1];
     var _l = useState([]), lib = _l[0], setLib = _l[1];
     var ref = useRef(null);
@@ -691,6 +728,7 @@ function LoadMenu(_ref) {
         }
         onLoad(entry.data);
         setOpen(false);
+        if (onAction) onAction();
     };
 
     var remove = function (e, entry) {
@@ -706,11 +744,11 @@ function LoadMenu(_ref) {
     };
 
     return (
-        <div ref={ref} style={{ position: "relative" }}>
+        <div ref={ref} style={{ position: "relative", display: "flex", flexDirection: "column" }}>
             <button onClick={function () { setOpen(!open); }} aria-label="Load saved analysis" style={{
-                padding: "5px 10px", fontSize: 10, background: "transparent", color: C.textMuted,
-                border: "1px solid " + C.border, borderRadius: 3, cursor: "pointer", fontWeight: 700,
-                fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 0.5, whiteSpace: "nowrap",
+                ...segBtnStyle,
+                background: open ? C.bgHover : "transparent",
+                color: open ? C.text : C.textMuted,
             }}>Load</button>
             {open && (
                 <div style={{
@@ -756,6 +794,58 @@ function LoadMenu(_ref) {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   ACCORDION PILL
+   Mobile-only: collapses a header button group into a single
+   pill. Tapping it floats the full group upward as an overlay.
+   ═══════════════════════════════════════════════════════════ */
+function AccordionPill(_ref) {
+    var label = _ref.label, open = _ref.open, onToggle = _ref.onToggle,
+        align = _ref.align, children = _ref.children;
+    var ref = useRef(null);
+    var _p = useState(null), pos = _p[0], setPos = _p[1];
+
+    useEffect(function () {
+        if (!open) { setPos(null); return; }
+        // The overlay floats upward from the pill. It uses fixed positioning
+        // so it can extend past the app's clipped (overflow:hidden) bounds.
+        var measure = function () {
+            if (!ref.current) return;
+            var r = ref.current.getBoundingClientRect();
+            var next = { bottom: Math.round(window.innerHeight - r.bottom) };
+            if (align === "right") next.right = Math.round(window.innerWidth - r.right);
+            else next.left = Math.round(r.left);
+            setPos(next);
+        };
+        measure();
+        var handler = function (e) {
+            if (ref.current && !ref.current.contains(e.target)) onToggle(false);
+        };
+        document.addEventListener("pointerdown", handler);
+        window.addEventListener("resize", measure);
+        return function () {
+            document.removeEventListener("pointerdown", handler);
+            window.removeEventListener("resize", measure);
+        };
+    }, [open, align]);
+
+    return (
+        <div ref={ref} style={{ position: "relative" }}>
+            <button onClick={function () { onToggle(!open); }} aria-expanded={open}
+                style={{
+                    ...segBtnStyle, padding: "10px 14px", background: C.bgInput,
+                    border: "1px solid " + C.border, borderRadius: 4, color: C.text,
+                    visibility: (open && pos) ? "hidden" : "visible",
+                }}>{label}</button>
+            {open && pos && (
+                <div style={{ position: "fixed", zIndex: 1000, ...pos }}>
+                    {children}
+                </div>
+            )}
+        </div>
+    );
+}
+
+/* ═══════════════════════════════════════════════════════════
    MAIN APP
    ═══════════════════════════════════════════════════════════ */
 function App() {
@@ -763,6 +853,8 @@ function App() {
     var _t = useState("board"), tab = _t[0], setTab = _t[1];
     var _l = useState(false), loaded = _l[0], setLoaded = _l[1];
     var clock = useMatchClock();
+    var isMobile = useIsMobile();
+    var _om = useState(null), openMenu = _om[0], setOpenMenu = _om[1];
 
     useEffect(function () {
         var saved = loadSaved();
@@ -800,10 +892,62 @@ function App() {
     };
 
     var tabs = [
-        { id: "board", label: "Board", icon: "⚽" },
-        { id: "timeline", label: "Timeline", icon: "📊" },
-        { id: "scout", label: "Scout", icon: "📋" }
+        { id: "board", label: "Board" },
+        { id: "timeline", label: "Timeline" },
+        { id: "scout", label: "Scout" }
     ];
+
+    var activeViewLabel = (tabs.find(function (t) { return t.id === tab; }) || tabs[0]).label;
+    var closeMenus = function () { setOpenMenu(null); };
+
+    var tabGroup = (
+        <div style={{
+            ...segGroupStyle,
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "stretch" : "center",
+        }}>
+            {tabs.map(function (t) {
+                var active = tab === t.id;
+                return (
+                    <button key={t.id}
+                        onClick={function () { setTab(t.id); closeMenus(); }}
+                        aria-label={t.label} aria-current={active ? "page" : undefined}
+                        style={{
+                            ...segBtnStyle,
+                            background: active ? C.accent : "transparent",
+                            color: active ? C.bg : C.textDim,
+                        }}>{t.label}</button>
+                );
+            })}
+        </div>
+    );
+
+    var actionGroup = (
+        <div style={{
+            ...segGroupStyle,
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "stretch" : "center",
+        }}>
+            <SaveButton data={data} onAction={closeMenus} />
+            <LoadMenu currentData={data} onAction={closeMenus} onLoad={function (d) {
+                var merged = { ...INITIAL_DATA, ...d };
+                var idMap = {};
+                merged.boards = (merged.boards || []).map(function (b) {
+                    var newId = uid();
+                    idMap[b.id] = newId;
+                    return { ...b, id: newId };
+                });
+                merged.activeBoard = idMap[merged.activeBoard] || (merged.boards[0] ? merged.boards[0].id : "");
+                setData(merged);
+            }} />
+            <ExportMenu data={data} onAction={closeMenus} />
+            <button onClick={function () { resetAll(); closeMenus(); }} aria-label="Reset" style={{
+                ...segBtnStyle,
+                background: "transparent",
+                color: C.danger,
+            }}>Reset</button>
+        </div>
+    );
 
     return (
         <div style={{
@@ -814,56 +958,74 @@ function App() {
 
             {/* Header */}
             <div style={{
-                display: "flex", alignItems: "center", padding: "8px 10px",
+                display: "flex", flexDirection: "column",
+                padding: isMobile ? "8px 10px 4px" : "8px 10px",
                 background: C.bgCard, borderBottom: "1px solid " + C.border, gap: 8, flexShrink: 0,
             }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                    <h1 style={{
-                        margin: 0, fontSize: 15, fontFamily: C.fontCond, fontWeight: 800,
-                        textTransform: "uppercase", letterSpacing: 2, color: C.text,
-                        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-                    }}>
-                        {(data.match.ourTeam || "Our Team") + " vs " + (data.match.opponent || "Opponent")}
-                    </h1>
-                </div>
-                <div style={{
-                    display: "flex", alignItems: "center", gap: 5, background: C.bg,
-                    padding: "4px 8px", borderRadius: 4, border: "1px solid " + C.border,
+                <h1 style={{
+                    margin: 0, fontSize: 15, fontFamily: C.fontCond, fontWeight: 800,
+                    textTransform: "uppercase", letterSpacing: 2, color: C.text,
+                    whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                    textAlign: "center",
                 }}>
-                    <button onClick={clock.toggle} aria-label={clock.running ? "Pause" : "Start"}
-                        style={{
-                            width: 26, height: 26,
-                            background: clock.running ? C.red + "33" : C.accent + "33",
-                            border: "1px solid " + (clock.running ? C.red : C.accent),
-                            color: clock.running ? C.red : C.accent,
-                            borderRadius: 3, cursor: "pointer", fontSize: 10,
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                        }}>{clock.running ? "❚❚" : "▶"}</button>
-                    <span style={{
-                        fontFamily: C.fontCond, fontWeight: 700, fontSize: 17,
-                        color: clock.running ? C.accent : C.textMuted,
-                        minWidth: 36, textAlign: "center", fontVariantNumeric: "tabular-nums",
-                    }}>{clock.minute}'</span>
-                    <span style={{ fontSize: 9, color: C.textDim, fontFamily: C.fontCond }}>{clock.half === 1 ? "1H" : "2H"}</span>
+                    {(data.match.ourTeam || "Our Team") + " vs " + (data.match.opponent || "Opponent")}
+                </h1>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    {/* Left zone — view tabs (stacks vertically on mobile).
+                        Bottom-aligned on mobile so the tabs sit close to the
+                        header's lower border, even though the action group is
+                        one Reset row taller. */}
+                    <div style={{
+                        flex: "1 1 0", minWidth: 0, display: "flex",
+                        justifyContent: "flex-start", alignItems: "center",
+                        alignSelf: isMobile ? "flex-end" : "center",
+                    }}>
+                        {isMobile ? (
+                            <AccordionPill label={activeViewLabel} align="left"
+                                open={openMenu === "tabs"}
+                                onToggle={function (v) { setOpenMenu(v ? "tabs" : null); }}>
+                                {tabGroup}
+                            </AccordionPill>
+                        ) : tabGroup}
+                    </div>
+                    {/* Center zone — match clock. Bottom-aligned on mobile so
+                        it sits near the lower border like the button groups. */}
+                    <div style={{
+                        flexShrink: 0, display: "flex", alignItems: "center", gap: 5, background: C.bg,
+                        padding: "4px 8px", borderRadius: 4, border: "1px solid " + C.border,
+                        alignSelf: isMobile ? "flex-end" : "center",
+                    }}>
+                        <button onClick={clock.toggle} aria-label={clock.running ? "Pause" : "Start"}
+                            style={{
+                                width: 26, height: 26,
+                                background: clock.running ? C.red + "33" : C.accent + "33",
+                                border: "1px solid " + (clock.running ? C.red : C.accent),
+                                color: clock.running ? C.red : C.accent,
+                                borderRadius: 3, cursor: "pointer", fontSize: 10,
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                            }}>{clock.running ? "❚❚" : "▶"}</button>
+                        <span style={{
+                            fontFamily: C.fontCond, fontWeight: 700, fontSize: 17,
+                            color: clock.running ? C.accent : C.textMuted,
+                            minWidth: 36, textAlign: "center", fontVariantNumeric: "tabular-nums",
+                        }}>{clock.minute}'</span>
+                        <span style={{ fontSize: 9, color: C.textDim, fontFamily: C.fontCond }}>{clock.half === 1 ? "1H" : "2H"}</span>
+                    </div>
+                    {/* Right zone — actions. Reset is the final segment of the
+                        Save/Load/Export group; the group stacks on mobile. */}
+                    <div style={{
+                        flex: "1 1 0", minWidth: 0, display: "flex",
+                        justifyContent: "flex-end", alignItems: "center",
+                    }}>
+                        {isMobile ? (
+                            <AccordionPill label="Actions" align="right"
+                                open={openMenu === "actions"}
+                                onToggle={function (v) { setOpenMenu(v ? "actions" : null); }}>
+                                {actionGroup}
+                            </AccordionPill>
+                        ) : actionGroup}
+                    </div>
                 </div>
-                <SaveButton data={data} />
-                <LoadMenu currentData={data} onLoad={function (d) {
-                    var merged = { ...INITIAL_DATA, ...d };
-                    var idMap = {};
-                    merged.boards = (merged.boards || []).map(function (b) {
-                        var newId = uid();
-                        idMap[b.id] = newId;
-                        return { ...b, id: newId };
-                    });
-                    merged.activeBoard = idMap[merged.activeBoard] || (merged.boards[0] ? merged.boards[0].id : "");
-                    setData(merged);
-                }} />
-                <ExportMenu data={data} />
-                <button onClick={resetAll} aria-label="Reset" style={{
-                    padding: "5px 6px", fontSize: 13, background: "transparent",
-                    border: "1px solid " + C.danger + "44", color: C.danger, borderRadius: 3,
-                    cursor: "pointer", opacity: 0.7,
-                }}>⟲</button>
             </div>
 
             {clock.half === 1 && clock.minute >= 45 && (
@@ -892,30 +1054,6 @@ function App() {
                         onDeleteObservation={deleteObservation} summary={data.summary}
                         onUpdateSummary={updateSummary} clockMinute={clock.minute} />
                 </div>
-            </div>
-
-            {/* Tab Bar */}
-            <div style={{
-                display: "flex", background: "#080a0d", borderTop: "1px solid " + C.border,
-                flexShrink: 0, padding: "2px 0 env(safe-area-inset-bottom, 2px)",
-            }}>
-                {tabs.map(function (t, i) {
-                    return (
-                        <button key={t.id} onClick={function () { setTab(t.id); }} aria-label={t.label}
-                            aria-current={tab === t.id ? "page" : undefined}
-                            style={{
-                                flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
-                                gap: 1, padding: "7px 0", background: "transparent",
-                                border: "none",
-                                borderRight: i < tabs.length - 1 ? "1px solid " + C.border : "none",
-                                cursor: "pointer", color: tab === t.id ? C.accent : C.textDim,
-                                transition: "color 0.12s",
-                            }}>
-                            <span style={{ fontSize: 17 }}>{t.icon}</span>
-                            <span style={{ fontSize: 9, fontFamily: C.fontCond, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{t.label}</span>
-                        </button>
-                    );
-                })}
             </div>
         </div>
     );

@@ -2048,19 +2048,21 @@
        Callers must use innerHTML, not textContent. The data is author-
        controlled (defined above in this file), so this is safe.
        -------------------------------------------------------------------------- */
+    // Ordinal suffix for a number — 'st', 'nd', 'rd', or 'th'.
+    // 11/12/13 are the special cases that don't follow the last-digit
+    // rule — they all take 'th'.
+    function ordinalSuffix(num) {
+        const lastDigit = num % 10;
+        const lastTwo = num % 100;
+        if (lastDigit === 1 && lastTwo !== 11) return 'st';
+        if (lastDigit === 2 && lastTwo !== 12) return 'nd';
+        if (lastDigit === 3 && lastTwo !== 13) return 'rd';
+        return 'th';
+    }
+
     function formatOrdinal(n) {
-        function suffix(num) {
-            const lastDigit = num % 10;
-            const lastTwo = num % 100;
-            // 11/12/13 are the special cases that don't follow the
-            // last-digit rule — they all take 'th'.
-            if (lastDigit === 1 && lastTwo !== 11) return 'st';
-            if (lastDigit === 2 && lastTwo !== 12) return 'nd';
-            if (lastDigit === 3 && lastTwo !== 13) return 'rd';
-            return 'th';
-        }
         function fmt(num) {
-            return num + '<sup>' + suffix(num) + '</sup>';
+            return num + '<sup>' + ordinalSuffix(num) + '</sup>';
         }
         if (Array.isArray(n)) {
             return n.map(fmt).join(' &amp; ') + ' President';
@@ -2166,18 +2168,16 @@
 
         // Build the sources list with createElement so the href is set
         // via the DOM API (not interpolated into an HTML string) and the
-        // link text is set via textContent. Anchor.href accepts any string
-        // — the browser URL-parses it but does not execute it — and
-        // textContent cannot introduce markup, so the list is safe even
-        // if a source ever carries hostile text or a `javascript:` URL
-        // (the latter would still be a concern at click time; a future
-        // hardening pass can validate the scheme here).
+        // link text is set via textContent. The href is also scheme-checked
+        // so a hostile `javascript:` URL cannot execute at click time.
         const sourcesList = node.querySelector('.sources-list');
         bar.sources.forEach(function (src) {
             const li = document.createElement('li');
             const a = document.createElement('a');
-            a.href = src.url;
-            a.rel = 'noopener';
+            const safeUrl = /^https?:\/\//i.test(src.url) ? src.url : '#';
+            a.href = safeUrl;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
             a.textContent = src.text;
             li.appendChild(a);
             sourcesList.appendChild(li);
@@ -2481,15 +2481,7 @@
     // ordinals so each fits in the narrow ordinal column without
     // overlapping the name; the CSS uses white-space: pre-line.
     function formatOrdinalShort(n) {
-        function suffix(num) {
-            const lastDigit = num % 10;
-            const lastTwo = num % 100;
-            if (lastDigit === 1 && lastTwo !== 11) return 'st';
-            if (lastDigit === 2 && lastTwo !== 12) return 'nd';
-            if (lastDigit === 3 && lastTwo !== 13) return 'rd';
-            return 'th';
-        }
-        function fmt(num) { return num + suffix(num); }
+        function fmt(num) { return num + ordinalSuffix(num); }
         if (Array.isArray(n)) return n.map(fmt).join('\n&\n');
         return fmt(n);
     }
