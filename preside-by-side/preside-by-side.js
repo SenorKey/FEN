@@ -2465,6 +2465,11 @@
         img.onload = function () {
             img.setAttribute('data-loaded', '');
         };
+        img.onerror = function () {
+            img.removeAttribute('src');
+            img.removeAttribute('data-loaded');
+            img.alt = '';
+        };
         img.src = president.portrait;
         // Some browsers cache the image and skip onload — handle that.
         if (img.complete && img.naturalWidth > 0) {

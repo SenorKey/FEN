@@ -298,8 +298,6 @@ body {
     opacity: 0;
     pointer-events: none;
     z-index: 1;
-    /* Render quality on scaled-down portraits */
-    image-rendering: -webkit-optimize-contrast;
 }
 
 .portrait-left {
