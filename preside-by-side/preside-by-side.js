@@ -2031,13 +2031,45 @@
 
     /* --------------------------------------------------------------------------
        Selection — which president is currently shown on each side. The
-       pickers mutate this. Could later be persisted (localStorage, URL
-       params) but right now it just resets to the default on each load.
+       pickers mutate this. These are the defaults; a matchup encoded in
+       the URL (?left=<id>&right=<id>) overrides them on load — see
+       readSelectionFromUrl below.
        -------------------------------------------------------------------------- */
     const selection = {
         left: 'biden',
         right: 'trump'
     };
+
+    /* --------------------------------------------------------------------------
+       URL persistence — a matchup can be shared or bookmarked via
+       ?left=<id>&right=<id> search params. On load we read them, ignoring
+       unknown ids and any pairing that would put the same president on
+       both sides (the picker forbids that, so the URL must too). On every
+       picker change syncSelectionToUrl writes the current selection back
+       with history.replaceState, keeping the address bar in sync without
+       stacking entries on the back button.
+       -------------------------------------------------------------------------- */
+    (function readSelectionFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const left = params.get('left');
+        const right = params.get('right');
+        if (left && presidents[left]) selection.left = left;
+        // The right side may not duplicate whatever left just resolved to.
+        if (right && presidents[right] && right !== selection.left) {
+            selection.right = right;
+        }
+    })();
+
+    function syncSelectionToUrl() {
+        const params = new URLSearchParams(window.location.search);
+        params.set('left', selection.left);
+        params.set('right', selection.right);
+        history.replaceState(
+            null,
+            '',
+            window.location.pathname + '?' + params.toString() + window.location.hash
+        );
+    }
 
     /* --------------------------------------------------------------------------
        formatOrdinal — turn 46 into "46<sup>th</sup> President" or
@@ -2700,6 +2732,7 @@
         if (!presidents[newId]) return;            // defensive: unknown id
 
         selection[side] = newId;
+        syncSelectionToUrl();
         renderSide(side);
         renderNameBadge(side);
         renderPortrait(side);
