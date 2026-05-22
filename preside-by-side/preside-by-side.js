@@ -55,7 +55,7 @@
                 {
                     severity: 10,
                     title: 'Attempted to Overturn the 2020 Election',
-                    shortLabel: 'Election Overturn long label test',
+                    shortLabel: 'Election Overturn',
                     description: 'Following his 2020 defeat, Trump pushed false election-fraud claims, pressured state officials to alter results, coordinated alternate-elector schemes in multiple states, and pressured Vice President Pence to refuse certification of the Electoral College vote. The House January 6th Committee concluded Trump was the central cause of the effort to subvert the transfer of power. The DOJ later indicted him on four federal counts related to the scheme.',
                     sources: [
                         { url: 'https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf', text: 'House Select Committee Final Report — U.S. Government Publishing Office (2022)' },
