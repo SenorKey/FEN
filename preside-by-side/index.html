@@ -70,7 +70,7 @@
 
         <p class="site-eyebrow">A Comparison</p>
         <h1 class="site-title">Preside <em>by</em> Side</h1>
-        <p class="site-tagline">Side by side, bar by bar — comparing the faults of two presidents.</p>
+        <p class="site-tagline">Choose a president — Compare their faults</p>
         <div class="header-rule" aria-hidden="true"></div>
     </header>
 
@@ -192,9 +192,85 @@
     </dialog>
 
     <footer class="site-footer">
-        <p class="footer-disclaimer"><strong>About this comparison.</strong> Placeholder text for methodology and
-            disclaimers. This space will explain how items are selected, how severity is assigned, and the editorial
-            limits of the comparison. The visual symmetry is structural, not a claim of equivalence.</p>
+        <h2 class="footer-faq-heading">Notes on Method</h2>
+        <div class="footer-faq">
+            <div class="faq-item">
+                <h3 class="faq-question">What this comparison is.</h3>
+                <p class="faq-answer">Preside by Side documents instances of presidential misconduct, legal jeopardy,
+                    policy failure, and overreach drawn from primary government sources, court records, inspector
+                    general reports, and established journalism. It is not a full accounting of any presidency. Every
+                    president featured here also holds a record of legislative achievements, policy successes, and
+                    historical contributions that this project does not weigh. The intent is a structured look at the
+                    documented faults of these administrations, not a verdict on the people who led them.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">On the framing of this project.</h3>
+                <p class="faq-answer">Readers will undoubtedly notice that Preside by Side is presented in a deliberately charged,
+                    instigative frame. Its setup is certainly incendiary by design. That provocation is presentational, not
+                    editorial. Beneath it, the project aims to document the significant and relevant negative actions
+                    of all presidents, regardless of party affiliation or personal philosophy. The goal that matters
+                    is that each bar rests on an unbiased, quality, source-backed description; the charged packaging does
+                    not lower the standard the underlying evidence is held to.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">How events are selected.</h3>
+                <p class="faq-answer">Events are included when they are supported by credible primary or institutional
+                    sources (congressional findings, federal court rulings, agency inspector general reports, or
+                    established reporting from recognized outlets). Political controversy, contested opinion, and events
+                    without documented factual grounding are excluded. Each bar links to its primary sources so readers
+                    can evaluate the evidence directly rather than taking this project's framing on faith.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">How severity is rated.</h3>
+                <p class="faq-answer">Severity scores (1–10) were assigned with AI assistance, weighing each event's
+                    scale of harm, legal significance, and lasting consequence by present-day standards (an act like
+                    slaveholding drew little controversy in its era, yet is rated severely here because the rights it
+                    violated are now held as absolute). These are a best-faith estimate, not an authoritative judgment:
+                    AI tools carry biases, scores can reasonably be disputed, and where you'd weigh things differently,
+                    the linked sources are there for you to do so.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">On visual symmetry.</h3>
+                <p class="faq-answer">Each side of the comparison displays the same number of bars as a design
+                    decision. It keeps the layout balanced and consistent across all possible pairings. It is not an
+                    editorial claim that any two presidents' actions are equivalent in their conduct, the gravity of their
+                    records, or their place in history. The bar lengths, driven by severity scores, carry the
+                    comparative weight; the count does not.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">Sources and corrections.</h3>
+                <p class="faq-answer">All source links point to publicly available primary documents or institutional
+                    reporting as of the dates cited. If you believe a source is mischaracterized, a severity score is
+                    clearly indefensible, or a significant documented event has been omitted, this project welcomes that
+                    feedback.</p>
+            </div>
+            <div class="faq-item">
+                <h3 class="faq-question">What's planned next.</h3>
+                <p class="faq-answer">Preside by Side is an evolving project. Planned additions include reader voting on
+                    severity, a way to register where you'd weigh an event differently from its AI-assisted score, and
+                    a suggestion box for documented events or topics you feel the project has overlooked. The goal is to
+                    keep the comparison accountable to the evidence and open to correction, rather than fixed on any one
+                    reading of the record.</p>
+            </div>
+            <div class="faq-item faq-suggest">
+                <div class="suggest-head">
+                    <h3 class="faq-question suggest-title">Suggest a Bar</h3>
+                    <span class="suggest-tag">meme entries welcome but not considered</span>
+                </div>
+                <form class="suggest-form" onsubmit="return false;">
+                    <div class="suggest-row">
+                        <input type="text" class="suggest-input" placeholder="President name"
+                            aria-label="President name">
+                        <input type="text" class="suggest-input" placeholder="Event" aria-label="Event">
+                    </div>
+                    <input type="text" class="suggest-input" placeholder="Source — optional"
+                        aria-label="Source (optional)">
+                    <input type="text" class="suggest-input" placeholder="Why it matters — optional"
+                        aria-label="Why it matters (optional)">
+                    <button type="submit" class="suggest-submit">Send suggestion</button>
+                </form>
+            </div>
+        </div>
     </footer>
 </body>
 

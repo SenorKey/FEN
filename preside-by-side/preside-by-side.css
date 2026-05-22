@@ -1286,22 +1286,161 @@ body.hydrated .picker-badge {
     background: linear-gradient(180deg, #14141f 0%, #0a0a14 100%);
 }
 
-.footer-disclaimer {
+.footer-faq-heading {
     font-family: var(--font-display);
-    font-style: italic;
-    font-size: 0.92rem;
-    line-height: 1.65;
-    color: var(--ink-dim);
-    max-width: 680px;
-    margin: 0 auto;
-    font-variation-settings: 'opsz' 14;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 auto 28px;
 }
 
-.footer-disclaimer strong {
-    font-style: normal;
+.footer-faq {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 48px;
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-item {
+    border-top: 1px solid rgba(248, 245, 238, 0.1);
+    padding-top: 14px;
+}
+
+.faq-question {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
     font-weight: 700;
-    color: var(--ink);
     letter-spacing: 0.02em;
+    color: var(--ink);
+    margin: 0 0 6px;
+}
+
+.faq-answer {
+    font-family: var(--font-body);
+    font-size: 0.64rem;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    margin: 0;
+}
+
+/* Suggestion box — a special FAQ entry styled as a card with a CSS
+   US flag background, so it draws the eye while staying close in
+   footprint to a normal faq-item. The flag SVG is stretched to the
+   card (preserveAspectRatio='none') and dimmed by an overlay so the
+   form fields and title stay legible against the dark footer. */
+.faq-suggest {
+    border-top: none;
+    padding: 15px 16px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(248, 245, 238, 0.55);
+    background-image:
+        linear-gradient(rgba(6, 8, 18, 0.52), rgba(6, 8, 18, 0.66)),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1235 650' preserveAspectRatio='none'><rect width='1235' height='650' fill='rgb(244,242,236)'/><rect y='0' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='100' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='200' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='300' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='400' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='500' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='600' width='1235' height='50' fill='rgb(178,34,52)'/><rect width='494' height='350' fill='rgb(54,53,99)'/><defs><polygon id='s' points='0,-16 4,-5 15,-5 6,2 9,13 0,6 -9,13 -6,2 -15,-5 -4,-5' fill='rgb(244,242,236)'/></defs><use href='%23s' x='41' y='35'/><use href='%23s' x='124' y='35'/><use href='%23s' x='206' y='35'/><use href='%23s' x='288' y='35'/><use href='%23s' x='370' y='35'/><use href='%23s' x='453' y='35'/><use href='%23s' x='82' y='70'/><use href='%23s' x='165' y='70'/><use href='%23s' x='247' y='70'/><use href='%23s' x='329' y='70'/><use href='%23s' x='412' y='70'/><use href='%23s' x='41' y='105'/><use href='%23s' x='124' y='105'/><use href='%23s' x='206' y='105'/><use href='%23s' x='288' y='105'/><use href='%23s' x='370' y='105'/><use href='%23s' x='453' y='105'/><use href='%23s' x='82' y='140'/><use href='%23s' x='165' y='140'/><use href='%23s' x='247' y='140'/><use href='%23s' x='329' y='140'/><use href='%23s' x='412' y='140'/><use href='%23s' x='41' y='175'/><use href='%23s' x='124' y='175'/><use href='%23s' x='206' y='175'/><use href='%23s' x='288' y='175'/><use href='%23s' x='370' y='175'/><use href='%23s' x='453' y='175'/><use href='%23s' x='82' y='210'/><use href='%23s' x='165' y='210'/><use href='%23s' x='247' y='210'/><use href='%23s' x='329' y='210'/><use href='%23s' x='412' y='210'/><use href='%23s' x='41' y='245'/><use href='%23s' x='124' y='245'/><use href='%23s' x='206' y='245'/><use href='%23s' x='288' y='245'/><use href='%23s' x='370' y='245'/><use href='%23s' x='453' y='245'/><use href='%23s' x='82' y='280'/><use href='%23s' x='165' y='280'/><use href='%23s' x='247' y='280'/><use href='%23s' x='329' y='280'/><use href='%23s' x='412' y='280'/><use href='%23s' x='41' y='315'/><use href='%23s' x='124' y='315'/><use href='%23s' x='206' y='315'/><use href='%23s' x='288' y='315'/><use href='%23s' x='370' y='315'/><use href='%23s' x='453' y='315'/></svg>");
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, top left;
+    background-repeat: no-repeat, no-repeat;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+}
+
+.suggest-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 6px 10px;
+    flex-wrap: wrap;
+    margin-bottom: 11px;
+}
+
+.suggest-title {
+    margin: 0;
+    font-size: 1.18rem;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    font-variation-settings: 'opsz' 144;
+    color: var(--ink);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 0, 0, 0.6);
+}
+
+.suggest-tag {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    font-style: italic;
+    color: var(--ink-faint);
+    white-space: nowrap;
+}
+
+.suggest-form {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.suggest-row {
+    display: flex;
+    gap: 7px;
+}
+
+.suggest-row .suggest-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.suggest-input {
+    box-sizing: border-box;
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    color: var(--ink);
+    background: rgba(6, 8, 16, 0.86);
+    border: 1px solid rgba(248, 245, 238, 0.24);
+    border-radius: 6px;
+    padding: 6px 9px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.suggest-input::placeholder {
+    color: var(--ink-faint);
+}
+
+.suggest-input:focus {
+    outline: none;
+    border-color: var(--blue-glow);
+    box-shadow: 0 0 0 2px rgba(77, 127, 255, 0.28);
+}
+
+.suggest-submit {
+    align-self: flex-start;
+    margin-top: 2px;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #14141f;
+    background: linear-gradient(180deg, #faf7f0, #e0d9c8);
+    border: 1px solid rgba(248, 245, 238, 0.65);
+    border-radius: 6px;
+    padding: 6px 14px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.suggest-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(248, 245, 238, 0.28);
+}
+
+.suggest-submit:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 680px) {
+    .footer-faq {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
 }
 
 /* --------------------------------------------------------------------------
