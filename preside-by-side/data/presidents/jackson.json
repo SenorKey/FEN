@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Signed the Indian Removal Act",
+    "shortLabel": "Indian Removal Act",
+    "description": "On May 28, 1830, Jackson signed the Indian Removal Act into law, authorizing the federal government to forcibly relocate Native nations living east of the Mississippi River to lands farther west. The National Archives describes it as the first major legislative step in forcing American Indians westward, driven by white settler demand for Native land. The law set in motion the systematic dispossession of dozens of tribes — including the Cherokee, Choctaw, Creek, Chickasaw, and Seminole — from territories they had inhabited for generations, through a combination of coercion, fraudulent treaties, and military force.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/education/lessons/indian-removal-act",
+        "text": "National Archives — Indian Removal Act: Primary Documents in American History (1830)"
+      },
+      {
+        "url": "https://history.state.gov/milestones/1830-1860/indian-treaties",
+        "text": "U.S. State Department Office of the Historian — Indian Treaties and the Removal Act"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Trail of Tears and Mass Death of Native People",
+    "shortLabel": "Trail of Tears",
+    "description": "The most catastrophic consequence of Jackson's removal policy was the forced march now known as the Trail of Tears. In 1838, thousands of federal soldiers and Georgia volunteers forcibly relocated the Cherokee Nation, with some Cherokees hunted, imprisoned, assaulted, or killed in the process. Survivors were forced on a roughly 1,000-mile march with inadequate food, shelter, or medical care. Approximately 4,000 Cherokee died — roughly one in four — along the route. Similar forced removals devastated the Choctaw, Creek, Chickasaw, and Seminole nations. Although the 1838 march occurred after Jackson left office, his policy, his treaties, and his deliberate refusal to protect tribal sovereignty directly created the conditions that made it inevitable.",
+    "sources": [
+      {
+        "url": "https://www.loc.gov/collections/trail-of-tears/about-this-collection/",
+        "text": "Library of Congress — Trail of Tears: About This Collection"
+      },
+      {
+        "url": "https://www.nps.gov/trte/learn/historyculture/facts.htm",
+        "text": "National Park Service — Trail of Tears: Facts"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Pressuring, Bribing, and Threatening Tribes into Removal Treaties",
+    "shortLabel": "Coerced Removal Treaties",
+    "description": "Jackson's removal policy was not a voluntary land exchange. The State Department's Office of the Historian documents that once the Indian Removal Act was law, Jackson and his allies were free to \"persuade, bribe, and threaten\" Native nations into signing removal treaties. Federal agents exploited internal tribal divisions, recognized fraudulent splinter factions as official negotiating parties, and pressured leaders under duress. The Treaty of New Echota — the legal instrument used to justify Cherokee removal — was signed by a small unauthorized faction and was repudiated by the vast majority of the Cherokee Nation and its elected government, yet the administration treated it as binding.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1830-1860/indian-treaties",
+        "text": "U.S. State Department Office of the Historian — Indian Treaties and the Removal Act"
+      },
+      {
+        "url": "https://www.archives.gov/files/education/lessons/georgia-cherokee/images/white-plains-treaty-1837.pdf",
+        "text": "National Archives — Treaty of New Echota and Cherokee Removal Documents"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Refused to Enforce Worcester v. Georgia",
+    "shortLabel": "Defied Supreme Court",
+    "description": "In Worcester v. Georgia (1832), the Supreme Court under Chief Justice John Marshall ruled that Georgia's laws had no force within Cherokee territory, affirming tribal sovereignty and striking down state efforts to seize Native lands. Jackson refused to enforce the decision. The Federal Judicial Center confirms he \"took no action to force Georgia's compliance,\" allowing the state to continue its seizure of Cherokee territory and its campaign of harassment against tribal members. The defiance of a Supreme Court ruling in order to enable the dispossession of Native peoples represents one of the most flagrant abuses of executive power in American presidential history.",
+    "sources": [
+      {
+        "url": "https://www.fjc.gov/history/cases/landmark-judicial-decisions/worcester-v-georgia",
+        "text": "Federal Judicial Center — Worcester v. Georgia: Landmark Case History"
+      },
+      {
+        "url": "https://supreme.justia.com/cases/federal/us/31/515/",
+        "text": "Worcester v. Georgia — Supreme Court Opinion, 31 U.S. 515 (1832)"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Enslaved More Than 150 People and Profited from Their Labor",
+    "shortLabel": "Slavery",
+    "description": "Jackson was a major enslaver throughout his life and presidency. The Hermitage — Jackson's plantation — records that he owned approximately 150 enslaved people at the time of his death, and researchers have identified more than 500 individuals enslaved at The Hermitage or descended from those held there. In 1829, just before entering the White House, Jackson ordered an inventory listing 95 enslaved people at The Hermitage; he brought enslaved workers with him to serve in the executive mansion. His wealth, his political career, and his plantation were all built on the forced, uncompensated labor of enslaved Black people.",
+    "sources": [
+      {
+        "url": "https://thehermitage.com/learn/andrew-jackson/people-of-the-hermitage/enslaved-community/",
+        "text": "The Hermitage — The Enslaved Community at The Hermitage"
+      },
+      {
+        "url": "https://www.whitehousehistory.org/slavery-in-the-white-house-andrew-jackson",
+        "text": "White House Historical Association — Slavery in the White House: Andrew Jackson"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Advertised Brutal Punishment of Escaped Enslaved Person",
+    "shortLabel": "Runaway Slave Ad",
+    "description": "In 1804, Jackson placed a newspaper advertisement seeking the capture of an enslaved man who had escaped, offering a reward for his return and an additional payment for each hundred lashes inflicted on him — up to three hundred lashes total. The advertisement, documented by the University of Glasgow's Runaway Slaves in Britain project and discussed in the Tennessee Historical Quarterly, reveals not merely passive participation in the institution of slavery but active, explicit cruelty. The offer of financial incentive for brutal corporal punishment reflects both Jackson's personal character and the systemic violence on which slavery depended.",
+    "sources": [
+      {
+        "url": "https://www.runaways.gla.ac.uk/database/",
+        "text": "University of Glasgow — Runaway Slaves in Britain: Advertisement Database"
+      },
+      {
+        "url": "https://www.tnhistoricalsociety.org/tennessee-historical-quarterly/",
+        "text": "Tennessee Historical Quarterly — Documentation of Jackson Runaway Slave Advertisement"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Bank War and Destabilization of the Financial System",
+    "shortLabel": "Bank War",
+    "description": "Jackson waged a sustained campaign against the Second Bank of the United States, vetoing its recharter in 1832 and then removing federal deposits from it and distributing them among state-chartered \"pet banks.\" The Bank's president Nicholas Biddle responded by contracting credit sharply, contributing to a financial downturn. While the Bank had legitimate critics — it did concentrate financial power and had engaged in political lending — Jackson's abrupt and destabilizing approach to dismantling it helped create the conditions for the broader financial crisis that followed. Most economic historians treat Jackson's handling of the Bank as reckless regardless of whether the institution deserved to survive.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/topic/Bank-War",
+        "text": "Britannica — Bank War: Jackson and the Second Bank of the United States"
+      },
+      {
+        "url": "https://www.federalreservehistory.org/essays/bank-war",
+        "text": "Federal Reserve History — The Bank War"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Specie Circular and the Panic of 1837",
+    "shortLabel": "Panic of 1837",
+    "description": "In 1836, Jackson issued the Specie Circular, an executive order requiring that payments for federal public lands be made exclusively in gold or silver rather than bank-issued paper currency. The order was intended to curtail land speculation, but it had the effect of draining specie from eastern banks, tightening credit, and puncturing an already overinflated land bubble. When the bubble burst in 1837, banks across the country failed, businesses collapsed, and a severe economic depression followed. The Panic of 1837 had multiple causes — including British credit contraction and falling cotton prices — but Jackson's hard-money policy was a major and widely recognized contributing factor.",
+    "sources": [
+      {
+        "url": "https://dp.la/primary-source-sets/the-panic-of-1837",
+        "text": "Digital Public Library of America — The Panic of 1837: Primary Source Set"
+      },
+      {
+        "url": "https://www.britannica.com/event/Panic-of-1837",
+        "text": "Britannica — Panic of 1837"
+      }
+    ]
+  },
+  {
+    "severity": 3,
+    "title": "Entrenching the Spoils System in Federal Government",
+    "shortLabel": "Spoils System",
+    "description": "Jackson aggressively expanded the practice of awarding federal government positions to political supporters and loyalists rather than on the basis of competence or merit — a practice that became known as the \"spoils system.\" He replaced a significant portion of the existing federal workforce with his own allies, arguing this democratized government by breaking up entrenched elites. Critics at the time and since have argued it replaced one form of favoritism with another, prioritized loyalty over ability, and created incentives for corruption and patronage politics that plagued American government for decades until civil service reform began with the Pendleton Act of 1883.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/topic/spoils-system",
+        "text": "Britannica — Spoils System: Origins and Jackson's Role"
+      },
+      {
+        "url": "https://www.opm.gov/policy-data-oversight/data-analysis-documentation/federal-employment-reports/historical-tables/total-government-employment-since-1962/",
+        "text": "Office of Personnel Management — History of Federal Civil Service Reform"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Nullification Crisis and Threat of Military Force Against a State",
+    "shortLabel": "Nullification Crisis",
+    "description": "When South Carolina declared federal tariff laws null and void within its borders in 1832 — threatening to secede if the federal government attempted to collect them — Jackson responded by declaring nullification treasonous and asking Congress for authority to use military force to compel compliance. Congress passed the Force Bill, authorizing armed federal enforcement of tariff collection. While Jackson was constitutionally correct that states cannot unilaterally nullify federal law, the confrontation brought the country to the brink of armed conflict between federal troops and a state. A last-minute compromise tariff defused the crisis, but it previewed the sectional tensions that would eventually lead to the Civil War.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/event/Nullification-Crisis",
+        "text": "Britannica — Nullification Crisis (1832–1833)"
+      },
+      {
+        "url": "https://millercenter.org/president/jackson/the-nullification-crisis",
+        "text": "Miller Center — Andrew Jackson: The Nullification Crisis"
+      }
+    ]
+  }
+]

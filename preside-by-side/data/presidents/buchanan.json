@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Failed to Stop Secession as Southern States Left the Union",
+    "shortLabel": "Allowed Secession",
+    "description": "When Southern states began leaving the Union following Lincoln's election in November 1860, Buchanan responded with a paralyzing combination of legal positions that effectively guaranteed inaction. He declared secession unconstitutional while simultaneously arguing that the federal government had no legal authority to prevent it — a stance Britannica summarizes as denouncing secession while claiming he had no means to stop it. By February 1861, seven Southern states had seceded and formed the Confederate States of America. Buchanan handed Lincoln an active national dissolution rather than a brewing crisis, having spent the decisive months finding constitutional reasons to do nothing while the country fractured around him.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/buchanan/domestic-affairs",
+        "text": "Miller Center — James Buchanan: Domestic Affairs and the Secession Crisis"
+      },
+      {
+        "url": "https://www.britannica.com/biography/James-Buchanan/Presidency",
+        "text": "Britannica — James Buchanan: The Presidency and Secession"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Let the Union Collapse Through Paralysis and Indecision",
+    "shortLabel": "Union Collapse",
+    "description": "Buchanan was president during the decisive months when the sectional crisis over slavery became an irreversible national rupture, and he responded with a combination of weak rhetoric and genuine inaction that historians consistently identify as catastrophic. The White House's own historical summary describes his position as denying states the right to secede while holding that the federal government could not legally prevent them from doing so — a contradiction that paralyzed his administration at the exact moment presidential clarity and resolve were most needed. He neither defused the crisis through leadership nor confronted it through force, instead narrating the Union's collapse from the sidelines while waiting for his term to end.",
+    "sources": [
+      {
+        "url": "https://www.whitehouse.gov/about-the-white-house/presidents/james-buchanan/",
+        "text": "White House — James Buchanan: Presidential Biography"
+      },
+      {
+        "url": "https://millercenter.org/president/buchanan/key-events",
+        "text": "Miller Center — James Buchanan: Key Events of His Presidency"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Supported the Dred Scott Decision and Hoped It Would Settle Slavery",
+    "shortLabel": "Dred Scott Support",
+    "description": "The Supreme Court's 1857 Dred Scott v. Sandford decision was one of the most catastrophic judicial rulings in American history — declaring that Black people could never be U.S. citizens, that enslaved people were property, and that Congress had no constitutional authority to ban slavery in federal territories. Buchanan publicly endorsed the decision and hoped it would permanently resolve the slavery controversy in the South's favor. The Smithsonian documents that Buchanan referenced the forthcoming decision in his inaugural address and urged Americans to accept it — before the ruling had even been publicly released, revealing how closely he was coordinating with the Court on a decision that would inflame rather than settle the national crisis.",
+    "sources": [
+      {
+        "url": "https://www.smithsonianmag.com/history/the-dred-scott-decision-103038372/",
+        "text": "Smithsonian Magazine — The Dred Scott Decision and Buchanan's Role"
+      },
+      {
+        "url": "https://www.archives.gov/milestone-documents/dred-scott-v-sandford",
+        "text": "National Archives — Dred Scott v. Sandford: Milestone Documents"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Improperly Influenced the Dred Scott Decision Before It Was Issued",
+    "shortLabel": "Judicial Manipulation",
+    "description": "The criticism of Buchanan's relationship to Dred Scott goes beyond public endorsement. Historical evidence shows he privately corresponded with Supreme Court justices before the ruling was issued — most significantly with Justice Robert Grier — lobbying for a broader decision that would resolve the territorial slavery question definitively in favor of the South and appear to have cross-sectional rather than merely Southern support. This private presidential interference in pending Supreme Court deliberations represented a serious violation of judicial independence, and it tied Buchanan's administration to a ruling that inflamed the sectional crisis it was supposed to resolve. The decision became one of the most widely condemned in the Court's history; Buchanan had worked behind the scenes to make it worse.",
+    "sources": [
+      {
+        "url": "https://www.fjc.gov/history/cases/landmark-judicial-decisions/dred-scott-v-sandford",
+        "text": "Federal Judicial Center — Dred Scott v. Sandford: Case History"
+      },
+      {
+        "url": "https://millercenter.org/president/buchanan/key-events",
+        "text": "Miller Center — Buchanan and the Dred Scott Decision"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Backed the Pro-Slavery Lecompton Constitution for Kansas",
+    "shortLabel": "Lecompton Constitution",
+    "description": "Buchanan supported admitting Kansas to the Union under the Lecompton Constitution — a pro-slavery document produced by a convention that most anti-slavery Kansas settlers had boycotted and that most Kansans opposed. The Truman Library documents the Lecompton Constitution as a pro-slavery framework that would have forced slavery onto a territory where the majority of settlers did not want it. The American Battlefield Trust identifies the Lecompton controversy as a major escalating moment in the sectional crisis. Buchanan's insistence on pushing Lecompton through Congress — even as Stephen Douglas and many Northern Democrats broke with him over it — revealed that his administration would subordinate democratic process to pro-slavery political outcomes.",
+    "sources": [
+      {
+        "url": "https://www.battlefields.org/learn/articles/lecompton-constitution",
+        "text": "American Battlefield Trust — The Lecompton Constitution"
+      },
+      {
+        "url": "https://www.trumanlibrary.gov/education/presidential-inquiries/kansas-nebraska-act-and-lecompton-constitution",
+        "text": "Truman Presidential Library — The Lecompton Constitution and Kansas"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Betrayed Popular Sovereignty in Kansas to Force a Pro-Slavery Outcome",
+    "shortLabel": "Popular Sovereignty Betrayal",
+    "description": "The Democratic Party had promoted \"popular sovereignty\" — the principle that settlers in a territory would democratically decide whether to permit slavery — as a moderate solution to the sectional crisis. In Kansas, Buchanan discarded that principle the moment its application threatened a pro-slavery result. Anti-slavery settlers in Kansas had boycotted the Lecompton convention, rejected its constitution in a subsequent referendum, and made their preferences clear. Buchanan backed Lecompton anyway, making obvious that his commitment to popular sovereignty was conditional on it producing the outcome the Southern wing of his party demanded. The betrayal split the Democratic Party, alienated Stephen Douglas, and demonstrated that his administration's deepest loyalty was to Southern slaveholders rather than democratic process.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/buchanan/domestic-affairs",
+        "text": "Miller Center — Buchanan, Kansas, and Popular Sovereignty"
+      },
+      {
+        "url": "https://www.battlefields.org/learn/articles/lecompton-constitution",
+        "text": "American Battlefield Trust — Popular Sovereignty and the Lecompton Controversy"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Blamed Northern Antislavery Agitation Rather Than Southern Secessionists",
+    "shortLabel": "Blamed the North",
+    "description": "In his December 1860 message to Congress — delivered as Southern states were actively leaving the Union — Buchanan declared secession unconstitutional but attributed the crisis primarily to \"the long-continued and intemperate interference of the Northern people with the question of slavery.\" The Miller Center documents this framing as a fundamental misreading of the moral and political reality: Southern states were seceding explicitly to protect and expand slavery, had said so clearly in their own secession declarations, and had spent years using federal power to enforce the Fugitive Slave Act on Northern states. Buchanan's message, at the gravest moment of national crisis, offered moral equivalence between those defending human bondage and those opposing it.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/buchanan/key-events",
+        "text": "Miller Center — Buchanan's December 1860 Message to Congress"
+      },
+      {
+        "url": "https://www.presidency.ucsb.edu/documents/fourth-annual-message-congress-state-the-union-0",
+        "text": "American Presidency Project — Buchanan's Fourth Annual Message to Congress (Dec. 1860)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Split the Democratic Party and Cleared the Path for Lincoln's Election",
+    "shortLabel": "Split Democratic Party",
+    "description": "By backing the Lecompton Constitution over the objections of Stephen Douglas and Northern Democrats, Buchanan created a fracture in the Democratic Party that proved fatal in the 1860 election. When the party could not unite behind a single candidate — Northern Democrats running Douglas, Southern Democrats running John Breckinridge — the Republican Abraham Lincoln won with a purely regional coalition and without a single electoral vote from the Deep South. The American Battlefield Trust documents that Buchanan's actions and inactions aggravated sectional tensions to the point of national dissolution. His systematic prioritization of Southern pro-slavery interests over party unity handed Republicans the presidency and Southern fire-eaters the pretext for secession.",
+    "sources": [
+      {
+        "url": "https://www.battlefields.org/learn/articles/election-1860",
+        "text": "American Battlefield Trust — The Election of 1860"
+      },
+      {
+        "url": "https://millercenter.org/president/buchanan/domestic-affairs",
+        "text": "Miller Center — Buchanan and the Fracturing of the Democratic Party"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Botched the Fort Sumter Crisis and Left Lincoln a Military Emergency",
+    "shortLabel": "Fort Sumter Failure",
+    "description": "As Confederate forces surrounded Fort Sumter in Charleston Harbor, Buchanan initially did nothing — then, after weeks of hesitation, attempted to resupply and reinforce the garrison by sending the merchant vessel Star of the West in January 1861. Confederate shore batteries fired on the ship and drove it away. The mission failed, the garrison remained besieged, and Buchanan took no further action. He handed Lincoln not a brewing diplomatic problem but an active military standoff with no good options. The Star of the West incident was in some ways the first military engagement of the Civil War, fought on Buchanan's watch and resolved in the Confederacy's favor because his administration had waited too long to act with adequate force.",
+    "sources": [
+      {
+        "url": "https://www.battlefields.org/learn/articles/star-of-the-west",
+        "text": "American Battlefield Trust — The Star of the West Incident (Jan. 1861)"
+      },
+      {
+        "url": "https://www.nps.gov/fosu/learn/historyculture/star-of-the-west.htm",
+        "text": "National Park Service — Fort Sumter: The Star of the West"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Cabinet Disloyal to the Union During the Secession Crisis",
+    "shortLabel": "Disloyal Cabinet",
+    "description": "As secession unfolded, Buchanan's cabinet included Southern sympathizers who were actively working against Union interests — Secretary of War John Floyd transferred weapons to Southern arsenals before resigning to join the Confederacy, and Treasury Secretary Howell Cobb left to become a Confederate general. Buchanan eventually replaced the most compromised members with stronger Unionists, but only after the damage had been done. The administrative incoherence of a cabinet partly loyal to the secessionist cause and partly to the Union reflected and reinforced the paralysis that defined his final months in office, leaving the federal government's response to secession fragmented and ineffective at the moment it most needed to be unified.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/buchanan/key-events",
+        "text": "Miller Center — Buchanan's Cabinet and the Secession Crisis"
+      },
+      {
+        "url": "https://www.britannica.com/biography/James-Buchanan/Presidency",
+        "text": "Britannica — Buchanan's Cabinet Disloyalty During Secession"
+      }
+    ]
+  }
+]

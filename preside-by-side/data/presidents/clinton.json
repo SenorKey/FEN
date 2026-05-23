@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 8,
+    "title": "Failure to Intervene in the Rwandan Genocide",
+    "shortLabel": "Rwanda Genocide",
+    "description": "In 1994, an estimated 800,000 people — the vast majority of them Tutsi — were killed in Rwanda over roughly 100 days. The Clinton administration actively avoided using the word \"genocide,\" a designation that would have triggered international legal obligations, and took no meaningful steps to intervene or to support a stronger U.N. response. Documents later obtained by the National Security Archive showed that administration officials were advised early that a genocide was underway. Clinton later traveled to Rwanda and publicly acknowledged that the U.S. and international community failed, calling it one of his greatest regrets.",
+    "sources": [
+      {
+        "url": "https://nsarchive.gwu.edu/briefing-book/africa/2004-03-24/rwandan-genocide-us-knew",
+        "text": "National Security Archive — The Rwandan Genocide and the United States (Mar. 2004)"
+      },
+      {
+        "url": "https://www.hrw.org/reports/1999/rwanda/Geno15-8-01.htm",
+        "text": "Human Rights Watch — Leave None to Tell the Story: Genocide in Rwanda (Mar. 1999)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Perjury and Obstruction in the Lewinsky Scandal",
+    "shortLabel": "Perjury/Obstruction",
+    "description": "Clinton had a sexual relationship with White House intern Monica Lewinsky and denied it under oath during the Paula Jones civil deposition — a denial later contradicted by physical evidence. He was impeached by the House of Representatives in December 1998 on charges of perjury and obstruction of justice, making him only the second president in U.S. history to be impeached. The Senate acquitted him along largely partisan lines. Clinton subsequently accepted a five-year suspension of his Arkansas law license and paid a $25,000 fine as part of an agreement with the independent counsel.",
+    "sources": [
+      {
+        "url": "https://www.congress.gov/105/bills/hres611/BILLS-105hres611eh.pdf",
+        "text": "House Articles of Impeachment Against President Clinton — 105th Congress (Dec. 1998)"
+      },
+      {
+        "url": "https://www.independent-counsel.gov/starr-report.htm",
+        "text": "Office of the Independent Counsel — The Starr Report (Sep. 1998)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "The 1994 Crime Bill and Mass Incarceration",
+    "shortLabel": "1994 Crime Bill",
+    "description": "Clinton signed the Violent Crime Control and Law Enforcement Act of 1994, the largest federal crime bill in U.S. history. It provided funding for 100,000 new police officers and 100,000 new prison beds, established mandatory \"three strikes\" sentencing for federal offenses, expanded the federal death penalty to dozens of new offenses, and included financial incentives that pushed states toward harsher sentencing regimes. The ACLU, Brennan Center, and other criminal-justice researchers have documented the law's contribution to record U.S. incarceration rates, with its impacts falling disproportionately on Black communities. Clinton himself later said the law put \"too many people in prison.\"",
+    "sources": [
+      {
+        "url": "https://www.brennancenter.org/our-work/analysis-opinion/revisiting-1994-crime-bill",
+        "text": "Brennan Center for Justice — Revisiting the 1994 Crime Bill (Apr. 2019)"
+      },
+      {
+        "url": "https://www.aclu.org/report/tale-two-countries-racially-targeted-arrests-era-marijuana-reform",
+        "text": "ACLU — Racial Disparities in U.S. Criminal Justice"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Signed the Defense of Marriage Act",
+    "shortLabel": "DOMA",
+    "description": "Clinton signed the Defense of Marriage Act in 1996, which defined marriage for all federal purposes as the union of one man and one woman and explicitly permitted states to refuse to recognize same-sex marriages performed in other states. The law denied federal recognition, benefits, and protections to same-sex couples for nearly two decades. The Supreme Court struck down the core federal definition provision in United States v. Windsor in 2013, with the majority opinion describing it as motivated by a desire to impose inequality. Clinton later said signing it was a mistake and called for its repeal.",
+    "sources": [
+      {
+        "url": "https://www.govinfo.gov/content/pkg/PLAW-104publ199/pdf/PLAW-104publ199.pdf",
+        "text": "Defense of Marriage Act — Public Law 104-199 (Sep. 1996)"
+      },
+      {
+        "url": "https://supreme.justia.com/cases/federal/us/570/744/",
+        "text": "United States v. Windsor — Supreme Court Opinion (Jun. 2013)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Welfare Reform and the Weakening of the Safety Net",
+    "shortLabel": "Welfare Reform",
+    "description": "Clinton signed the Personal Responsibility and Work Opportunity Reconciliation Act of 1996, replacing the federal entitlement program Aid to Families with Dependent Children with the block-grant program Temporary Assistance for Needy Families. The law imposed strict work requirements, a five-year lifetime limit on federal assistance, and gave states broad discretion to reduce benefits. Supporters credited it with reducing welfare rolls; critics, including three administration officials who resigned in protest, argued it removed a critical safety net and left the poorest families more exposed during economic downturns. Research by the Urban Institute and others documented sharp increases in extreme poverty following the reform.",
+    "sources": [
+      {
+        "url": "https://www.urban.org/research/publication/welfare-reform-ten-years-later",
+        "text": "Urban Institute — Welfare Reform Ten Years Later (Aug. 2006)"
+      },
+      {
+        "url": "https://www.cbpp.org/research/family-income-support/temporary-assistance-for-needy-families",
+        "text": "Center on Budget and Policy Priorities — TANF at 25: Still Failing the Poorest Families"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Iraq Sanctions and Humanitarian Harm",
+    "shortLabel": "Iraq Sanctions",
+    "description": "The Clinton administration was the primary driver of maintaining comprehensive U.N. economic sanctions on Iraq throughout the 1990s. The exact mortality figures were disputed — some widely-cited numbers originated from Iraqi government sources — but contemporaneous U.S. State Department documents acknowledged a serious child-mortality crisis linked to degraded water treatment, medical supply shortages, and infrastructure deterioration. When Secretary of State Madeleine Albright was asked on 60 Minutes in 1996 whether the deaths of half a million Iraqi children were \"worth it,\" she replied that it was \"a very hard choice\" but \"we think the price is worth it.\" That exchange remains one of the most criticized moments of the era's foreign policy.",
+    "sources": [
+      {
+        "url": "https://nsarchive.gwu.edu/briefing-book/iraq/2020-02-25/us-iraq-sanctions-1990s-controversy-mortality-data",
+        "text": "National Security Archive — U.S.-Iraq Sanctions and the Mortality Controversy (Feb. 2020)"
+      },
+      {
+        "url": "https://www.unicef.org/newsline/99pr29.htm",
+        "text": "UNICEF — Child and Maternal Mortality Survey in Iraq (Aug. 1999)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Bombing the Al-Shifa Pharmaceutical Factory in Sudan",
+    "shortLabel": "Al-Shifa Strike",
+    "description": "Following the 1998 U.S. embassy bombings in Kenya and Tanzania, Clinton ordered cruise missile strikes against targets in Afghanistan and Sudan. The Sudan target, the Al-Shifa pharmaceutical plant in Khartoum, was publicly described by the administration as linked to al-Qaeda and to chemical weapons production. Those justifications were subsequently challenged by American and international investigators who found no credible evidence of either link. The plant had been one of Sudan's primary sources of medicines for humans and animals; its destruction had real humanitarian consequences. No administration official was held accountable for the intelligence failure.",
+    "sources": [
+      {
+        "url": "https://www.theguardian.com/world/1999/oct/17/theobserver",
+        "text": "The Observer — The Bombing of Al-Shifa: How the Evidence Failed (Oct. 1999)"
+      },
+      {
+        "url": "https://nsarchive.gwu.edu/briefing-book/sudan/2016-08-22/al-shifa-pharmaceutical-plant-bombing-1998",
+        "text": "National Security Archive — Al-Shifa Pharmaceutical Plant Bombing (Aug. 2016)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Financial Deregulation via Gramm-Leach-Bliley",
+    "shortLabel": "Financial Deregulation",
+    "description": "Clinton signed the Gramm-Leach-Bliley Act in 1999, repealing core provisions of the Glass-Steagall Act that had separated commercial banking from investment banking since the New Deal. The law enabled the formation of massive financial conglomerates combining banking, securities, and insurance activities. Whether Gramm-Leach-Bliley directly caused the 2008 financial crisis is genuinely debated among economists, but there is broad agreement that it contributed to the deregulatory environment and the growth of financial institutions considered \"too big to fail\" — several of which required enormous government bailouts in 2008.",
+    "sources": [
+      {
+        "url": "https://www.fdic.gov/regulations/applications/srletters/1999/sr9928a1.pdf",
+        "text": "FDIC — Overview of the Gramm-Leach-Bliley Act (1999)"
+      },
+      {
+        "url": "https://www.brookings.edu/articles/did-gramm-leach-bliley-contribute-to-the-financial-crisis/",
+        "text": "Brookings Institution — Did Gramm-Leach-Bliley Contribute to the Financial Crisis?"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "NAFTA and U.S. Manufacturing Job Losses",
+    "shortLabel": "NAFTA",
+    "description": "Clinton championed the North American Free Trade Agreement and signed its implementing legislation in 1993. Supporters argue the agreement lowered consumer prices, deepened supply-chain integration, and grew total trade. Critics argue it accelerated manufacturing outsourcing and devastated communities dependent on industries such as textiles, auto parts, and electronics. The Economic Policy Institute estimated that NAFTA-related trade deficits displaced roughly 700,000 U.S. jobs by 2010. The real harm was geographically concentrated, falling hardest on working-class communities in the Midwest and South that had few alternative economic options.",
+    "sources": [
+      {
+        "url": "https://www.epi.org/publication/nafta-at-20/",
+        "text": "Economic Policy Institute — NAFTA at 20: One Million U.S. Jobs Lost, Higher Income Inequality (Oct. 2013)"
+      },
+      {
+        "url": "https://crsreports.congress.gov/product/pdf/R/R42965",
+        "text": "Congressional Research Service — NAFTA at 20: Accomplishments and Challenges (Feb. 2014)"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "\"Don't Ask, Don't Tell\" Military Policy",
+    "shortLabel": "Don't Ask Don't Tell",
+    "description": "Clinton campaigned in 1992 on allowing gay and lesbian people to serve openly in the military. After taking office he faced fierce military and congressional resistance. The resulting compromise, \"Don't Ask, Don't Tell,\" prohibited the military from asking about sexual orientation but still required gay, lesbian, and bisexual service members to conceal their identity or face discharge. Over the 17 years before its repeal in 2010, more than 14,000 service members were discharged under the policy. It is now broadly recognized as discriminatory. Clinton later said he signed it because he believed it was the best achievable outcome at the time, but acknowledged its harmful consequences.",
+    "sources": [
+      {
+        "url": "https://www.gao.gov/assets/gao-05-299.pdf",
+        "text": "GAO — Military Personnel: Financial Costs and Loss of Critical Skills Due to DOD's Homosexual Conduct Policy (Feb. 2005)"
+      },
+      {
+        "url": "https://www.congress.gov/111/plaws/publ321/PLAW-111publ321.pdf",
+        "text": "Don't Ask, Don't Tell Repeal Act of 2010 — Public Law 111-321"
+      }
+    ]
+  }
+]

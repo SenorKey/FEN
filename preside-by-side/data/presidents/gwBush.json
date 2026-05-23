@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Invaded Iraq Based on False WMD Claims",
+    "shortLabel": "Iraq WMD War",
+    "description": "The Bush administration made the case for invading Iraq in 2003 primarily on the claim that Saddam Hussein possessed weapons of mass destruction and posed an imminent threat. No such weapons were found. A Senate Intelligence Committee report concluded that major prewar intelligence judgments were overstated or unsupported by underlying evidence, and that the public case for war went beyond what the intelligence actually showed. Brown University's Costs of War project estimates hundreds of thousands of deaths across post-9/11 wars. It remains one of the most consequential foreign policy decisions in modern American history.",
+    "sources": [
+      {
+        "url": "https://www.intelligence.senate.gov/sites/default/files/publications/108301.pdf",
+        "text": "Senate Intelligence Committee — Report on Prewar Intelligence Assessments About Iraq (Jul. 2004)"
+      },
+      {
+        "url": "https://watson.brown.edu/costsofwar/figures/2021/irdirect-war-deaths",
+        "text": "Brown University Costs of War Project — Iraq War Death Toll Estimates"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Iraq War Civilian Death Toll and Regional Destabilization",
+    "shortLabel": "Iraq Civilian Deaths",
+    "description": "Separate from the false WMD justification, the Iraq War itself caused catastrophic civilian harm and geopolitical instability. Brown University's Costs of War project estimated at least 134,000 Iraqi civilians killed by direct war violence from 2003 to 2013, acknowledging this likely undercounts indirect deaths from displacement, infrastructure destruction, and disease. The war fueled sectarian violence, displaced millions, and created conditions that contributed directly to the rise of extremist groups including ISIS. The region's instability persisted for decades.",
+    "sources": [
+      {
+        "url": "https://watson.brown.edu/costsofwar/files/cow/imce/papers/2013/Civilians%20in%20Iraq%27s%20War%2C%20Hagopian%20et%20al%2C%20Costs%20of%20War.pdf",
+        "text": "Brown University Costs of War — Civilian Deaths in Iraq (2013)"
+      },
+      {
+        "url": "https://www.ibc.org/",
+        "text": "Iraq Body Count — Documented Civilian Deaths Database"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "CIA Torture and \"Enhanced Interrogation\" Program",
+    "shortLabel": "CIA Torture",
+    "description": "The Bush administration authorized a CIA detention and interrogation program that included waterboarding, sleep deprivation extended to 180 hours, confinement in small boxes, stress positions, and other techniques widely classified as torture under international law. The Senate Intelligence Committee's 2014 torture report — based on review of over six million internal documents — concluded that the techniques were more brutal than the CIA had represented to policymakers, that the program was not an effective means of acquiring actionable intelligence, and that the CIA actively misled Congress and the White House about its scope and results.",
+    "sources": [
+      {
+        "url": "https://www.intelligence.senate.gov/sites/default/files/publications/CRPT-113srpt288.pdf",
+        "text": "Senate Intelligence Committee — Report on the CIA's Detention and Interrogation Program (Dec. 2014)"
+      },
+      {
+        "url": "https://www.aclu.org/report/torture-report",
+        "text": "ACLU — Summary of the Senate CIA Torture Report"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Abu Ghraib Prisoner Abuse",
+    "shortLabel": "Abu Ghraib",
+    "description": "In 2004, photographs became public showing U.S. military personnel abusing, humiliating, and torturing Iraqi detainees at the Abu Ghraib prison. Acts included sexual humiliation, physical assault, and degrading treatment. While Bush condemned the abuse and several low-ranking soldiers were prosecuted, the Army's own Taguba Report found the abuses were not isolated and reflected broader failures in command oversight and detention policy. Human Rights Watch argued that administration decisions to sidestep the Geneva Conventions helped create the permissive climate in which the abuse occurred.",
+    "sources": [
+      {
+        "url": "https://www.thetorturedatabase.org/files/foia_subsite/pdfs/DODDOA019464.pdf",
+        "text": "Army Taguba Report — Investigation of the 800th Military Police Brigade (May 2004)"
+      },
+      {
+        "url": "https://www.hrw.org/report/2005/09/25/getting-away-torture/bush-administration-and-mistreatment-detainees",
+        "text": "Human Rights Watch — Getting Away with Torture (Sep. 2005)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Warrantless NSA Surveillance Program",
+    "shortLabel": "Warrantless Wiretaps",
+    "description": "Shortly after September 11, Bush secretly authorized the NSA to conduct warrantless surveillance of communications involving people inside the United States, bypassing the Foreign Intelligence Surveillance Act court process established by Congress in 1978. The program was exposed by the New York Times in 2005. Bush acknowledged and defended it as a wartime necessity, but legal scholars, civil-liberties organizations, and members of Congress from both parties argued it was an illegal exercise of executive power and a violation of the statutory framework Congress had specifically created for this purpose.",
+    "sources": [
+      {
+        "url": "https://www.aclu.org/cases/aclu-v-nsa-challenge-illegal-spying",
+        "text": "ACLU — ACLU v. NSA: Legal Challenge to Warrantless Wiretapping"
+      },
+      {
+        "url": "https://www.nytimes.com/2005/12/16/politics/bush-lets-us-spy-on-callers-without-courts.html",
+        "text": "New York Times — Bush Lets U.S. Spy on Callers Without Courts (Dec. 2005)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "USA PATRIOT Act and Expansion of Surveillance Powers",
+    "shortLabel": "PATRIOT Act",
+    "description": "Weeks after September 11, Bush signed the USA PATRIOT Act into law, dramatically expanding government surveillance authorities. The law broadened access to business records, permitted \"roving\" wiretaps, reduced judicial oversight requirements, and expanded the definition of domestic terrorism. Civil-liberties organizations argued the Act enabled mass surveillance and undermined constitutional protections. Sections of the law later became central to NSA bulk collection controversies under subsequent administrations, and Congress eventually allowed several provisions to expire or be significantly reformed.",
+    "sources": [
+      {
+        "url": "https://www.aclu.org/report/surveillance-under-usa-patriot-act",
+        "text": "ACLU — Surveillance Under the USA PATRIOT Act"
+      },
+      {
+        "url": "https://crsreports.congress.gov/product/pdf/RL/RL31377",
+        "text": "Congressional Research Service — The USA PATRIOT Act: A Legal Analysis (Apr. 2002)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Hurricane Katrina Federal Response Failure",
+    "shortLabel": "Katrina Response",
+    "description": "When Hurricane Katrina struck the Gulf Coast in August 2005 and the levee system protecting New Orleans catastrophically failed, the federal response was widely condemned as slow, disorganized, and inadequate. Over 1,800 people died. Thousands were stranded for days at the Superdome and Convention Center without adequate food, water, or medical care. Even the Bush White House's own post-storm review — \"The Federal Response to Hurricane Katrina: Lessons Learned\" — acknowledged major failures in preparation, coordination, and execution across federal agencies, including FEMA.",
+    "sources": [
+      {
+        "url": "https://georgewbush-whitehouse.archives.gov/reports/katrina-lessons-learned/",
+        "text": "Bush White House — The Federal Response to Hurricane Katrina: Lessons Learned (Feb. 2006)"
+      },
+      {
+        "url": "https://www.dhs.gov/xlibrary/assets/katrina/Katrina-OIG-0706.pdf",
+        "text": "DHS Office of Inspector General — A Performance Review of FEMA's Disaster Management Activities (Mar. 2006)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Failure to Act on Pre-9/11 Intelligence Warnings",
+    "shortLabel": "Pre-9/11 Warnings",
+    "description": "On August 6, 2001, Bush received a Presidential Daily Brief titled \"Bin Ladin Determined To Strike in US,\" warning of al-Qaeda's intention to conduct attacks inside the country, potentially including hijackings. No significant new action was taken in response. The 9/11 Commission documented widespread intelligence, coordination, and policy failures across multiple agencies in the months before the attacks, and concluded that the government did not marshal the institutional response the threat level demanded. While failures spanned multiple administrations, Bush was president when the warnings arrived and when the attacks occurred.",
+    "sources": [
+      {
+        "url": "https://govinfo.library.unt.edu/911/report/911Report.pdf",
+        "text": "9/11 Commission Final Report (Jul. 2004)"
+      },
+      {
+        "url": "https://www.archives.gov/declassification/iscap/pdf/2004-022-doc11.pdf",
+        "text": "Presidential Daily Brief — Bin Ladin Determined To Strike in US (Aug. 6, 2001, declassified 2004)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Fiscal Damage from Tax Cuts and War Spending",
+    "shortLabel": "Deficit & Tax Cuts",
+    "description": "Bush inherited a federal budget surplus and left office with a structural deficit, driven by two major tax cut packages in 2001 and 2003 combined with the costs of two wars and the Medicare prescription drug benefit — all largely unpaid for. The tax cuts disproportionately benefited higher earners and were not offset by spending reductions. Brookings Institution and the Congressional Budget Office documented the long-run revenue loss and deficit impact. The national debt roughly doubled during his presidency, from approximately $5.7 trillion to $10.6 trillion.",
+    "sources": [
+      {
+        "url": "https://www.brookings.edu/articles/the-fiscal-legacy-of-the-bush-tax-cuts/",
+        "text": "Brookings Institution — The Fiscal Legacy of the Bush Tax Cuts"
+      },
+      {
+        "url": "https://www.cbo.gov/sites/default/files/110th-congress-2007-2008/reports/01-07-budgetoutlook.pdf",
+        "text": "Congressional Budget Office — Budget and Economic Outlook (Jan. 2008)"
+      }
+    ]
+  },
+  {
+    "severity": 3,
+    "title": "No Child Left Behind Testing and Accountability Failures",
+    "shortLabel": "No Child Left Behind",
+    "description": "Bush's signature education law, No Child Left Behind, passed with broad bipartisan support in 2001 and aimed to improve accountability and close achievement gaps. In practice it became widely criticized for incentivizing states to lower academic standards to meet benchmarks, narrowing curricula toward tested subjects, and applying punitive labels to struggling schools without sufficient support. The backlash was significant enough that Congress replaced much of the law through the Every Student Succeeds Act in 2015, returning authority to states. The law's legacy is one of well-intentioned policy with damaging implementation consequences.",
+    "sources": [
+      {
+        "url": "https://www.edweek.org/policy-politics/no-child-left-behind-an-overview/2015/04",
+        "text": "Education Week — No Child Left Behind: An Overview (Apr. 2015)"
+      },
+      {
+        "url": "https://www.brookings.edu/articles/ten-years-of-no-child-left-behind/",
+        "text": "Brookings Institution — Ten Years of No Child Left Behind"
+      }
+    ]
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Signed the Fugitive Slave Act of 1850",
+    "shortLabel": "Fugitive Slave Act",
+    "description": "Fillmore's most consequential and morally damning act was signing the Fugitive Slave Act of 1850, which required federal officials and ordinary citizens in free states to actively assist in the capture and return of escaped enslaved people, imposing criminal penalties on anyone who aided or harbored a freedom-seeker. The White House Historical Association documents that abolitionists heavily criticized the signing because it forced the federal government to become the enforcement arm of slave owners pursuing people who had escaped bondage. The Act was not a passive accommodation of slavery in the states where it existed — it was a federal mandate that the machinery of free states be turned against freedom itself, transforming every Northern community into potential territory for slave-catching operations.",
+    "sources": [
+      {
+        "url": "https://www.whitehousehistory.org/bios/millard-fillmore",
+        "text": "White House Historical Association — Millard Fillmore: Presidential Biography"
+      },
+      {
+        "url": "https://www.archives.gov/milestone-documents/fugitive-slave-act",
+        "text": "National Archives — Fugitive Slave Act of 1850: Milestone Documents"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Nationalized Slavery Enforcement Into Free States",
+    "shortLabel": "Slavery Nationalized",
+    "description": "The Fugitive Slave Act did not merely affect Southern states — it deliberately extended slavery's reach into the free North by legally compelling Northern officials, judges, and citizens to participate in the capture and return of escaped enslaved people. Citizens who refused to assist slave-catchers or who helped freedom-seekers could be fined or imprisoned. East Carolina University's summary of the Act documents that it gave slave owners \"immense powers\" to pursue escaped people across state lines with federal backing. The result was that communities in Massachusetts, Ohio, Pennsylvania, and New York — states that had legally abolished slavery — were conscripted into its enforcement. The Act radicalized Northern public opinion, fueled the abolitionist movement, and made the moral reality of slavery impossible to ignore for people who had previously felt insulated from it.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/milestone-documents/fugitive-slave-act",
+        "text": "National Archives — Fugitive Slave Act: Text and Historical Context"
+      },
+      {
+        "url": "https://www.loc.gov/resource/rbpe.14000400/",
+        "text": "Library of Congress — Fugitive Slave Act of 1850: Primary Source Materials"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Backed the Compromise of 1850 as a \"Final Settlement\" That Settled Nothing",
+    "shortLabel": "Compromise of 1850",
+    "description": "Fillmore championed the Compromise of 1850 as a permanent resolution to the sectional crisis over slavery, believing he had averted disunion through statesmanship. The White House's own historical biography acknowledges that the compromise produced only an \"uneasy sectional truce\" rather than a genuine settlement. While the Compromise included provisions that appeared balanced — California entered as a free state, the slave trade was ended in Washington D.C. — the Fugitive Slave Act was so explosive that it overwhelmed any goodwill the other provisions generated. Rather than quieting the slavery debate, the Compromise deepened it by forcing the moral question of slavery into Northern communities that had previously kept it at arm's length, accelerating the polarization that ended in secession eleven years later.",
+    "sources": [
+      {
+        "url": "https://www.whitehouse.gov/about-the-white-house/presidents/millard-fillmore/",
+        "text": "White House — Millard Fillmore: Presidential Biography"
+      },
+      {
+        "url": "https://millercenter.org/president/fillmore/domestic-affairs",
+        "text": "Miller Center — Millard Fillmore: The Compromise of 1850"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Prioritized Legal Order Over Human Freedom on Slavery",
+    "shortLabel": "Order Over Freedom",
+    "description": "Fillmore's defenders have long argued that he saw himself as a constitutional officer bound to enforce lawfully enacted legislation, and that the alternative — presidents selectively enforcing laws they agreed with — would have been worse for the rule of law. The problem with that defense is that the law he chose to enforce with particular vigor was one requiring the return of human beings to chattel slavery. Fillmore used federal marshals and troops to enforce the Fugitive Slave Act in high-profile cases that became national flashpoints, signaling to the South that the federal government would be an active partner in slave-catching. His prioritization of legal order and Southern political appeasement over the freedom and humanity of escaped enslaved people is the central moral failure of his presidency.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/fillmore/domestic-affairs",
+        "text": "Miller Center — Fillmore and the Enforcement of the Fugitive Slave Act"
+      },
+      {
+        "url": "https://www.britannica.com/biography/Millard-Fillmore/Presidency",
+        "text": "Britannica — Millard Fillmore: The Presidency and the Slavery Question"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Worsened Sectional Polarization He Intended to Heal",
+    "shortLabel": "Deepened Sectional Crisis",
+    "description": "Fillmore signed the Fugitive Slave Act explicitly to calm sectional tensions, but the practical effect was the opposite. The Act galvanized the abolitionist movement, produced dramatic public confrontations when slave-catchers attempted to seize freedom-seekers in Northern cities, inspired Harriet Beecher Stowe to write Uncle Tom's Cabin, and drove a wedge through the Whig Party that contributed to its collapse. The archived White House biography documents that Northern Whigs refused to forgive Fillmore for signing the Act and helped deny him his own party's 1852 presidential nomination. His attempt to appease the South accelerated the very polarization he sought to prevent, demonstrating that federal complicity in slavery's expansion could not purchase durable peace.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/fillmore/key-events",
+        "text": "Miller Center — Fillmore: Consequences of the Fugitive Slave Act"
+      },
+      {
+        "url": "https://www.britannica.com/biography/Millard-Fillmore/Presidency",
+        "text": "Britannica — Fillmore and the Collapse of the Whig Party"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Failed to Secure Treaty Protections for California Native Nations",
+    "shortLabel": "California Native Treaties",
+    "description": "During Fillmore's presidency, federal commissioners negotiated eighteen treaties with California Native nations that promised land reservations and protections in exchange for ceding vast territories. The Senate never ratified the treaties, and the Fillmore administration allowed them to be sealed from public view for decades — meaning California Native peoples had ceded their land claims without receiving the promised protections in return, while being legally barred from knowing the treaty terms. The California State University Monterey Bay archive documents the eighteen unratified treaties; the Smithsonian notes individual treaties among them. The failure to secure ratification left California Native communities without federal land protection during the period of most intense settler violence and dispossession following the Gold Rush.",
+    "sources": [
+      {
+        "url": "https://scholarworks.calstate.edu/concern/publications/h702q636s",
+        "text": "California State University Monterey Bay — The 18 Unratified California Treaties"
+      },
+      {
+        "url": "https://americanindian.si.edu/nk360/california-gold-rush/treaties.cshtml",
+        "text": "Smithsonian National Museum of the American Indian — California Treaties and the Gold Rush Era"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Governed During the Decimation of California Native Communities",
+    "shortLabel": "California Native Violence",
+    "description": "Fillmore's presidency coincided with the most catastrophic period of violence against California Native peoples following the Gold Rush, as settler encroachment, state-sanctioned militia campaigns, and federal inaction combined to devastate Native communities across the state. California historians have documented the era as a genocide; the state's own Native population collapsed from an estimated 150,000 at the time of the Gold Rush to fewer than 30,000 by 1870. Fillmore did not personally order the violence, but his administration governed during the critical window when federal intervention and ratified land treaties could have provided some protection, and it provided neither. The failure to ratify the eighteen negotiated treaties removed the primary legal mechanism that might have buffered Native communities against the worst excesses of settler expansion.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/articles/california-indian-history.htm",
+        "text": "National Park Service — California Indian History and the Gold Rush Era"
+      },
+      {
+        "url": "https://www.britannica.com/topic/California-Indian",
+        "text": "Britannica — California Indians: History and the Impact of the Gold Rush"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Authorized Perry's Coercive Naval Expedition to Japan",
+    "shortLabel": "Perry Japan Expedition",
+    "description": "Fillmore authorized the naval expedition that became Commodore Matthew Perry's 1853 mission to Japan, in which Perry arrived with a squadron of heavily armed steam-powered warships — the \"Black Ships\" — and demanded that Japan open its ports to American trade and diplomatic relations under an implicit threat of force. The State Department documents that Fillmore authorized the formal naval expedition in 1851. The mission is frequently celebrated as a diplomatic achievement that opened Japan to the modern world, but it was a textbook exercise in coercive gunboat diplomacy: a militarily superior power using the threat of destruction to compel a weaker nation to abandon its own sovereign policy choices. Japan's subsequent internal upheaval following forced opening contributed to decades of political instability.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1830-1860/opening-to-japan",
+        "text": "U.S. State Department Office of the Historian — Opening to Japan: The Perry Mission"
+      },
+      {
+        "url": "https://www.britannica.com/event/Convention-of-Kanagawa",
+        "text": "Britannica — Commodore Perry and the Opening of Japan"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Helped Destroy the Whig Party's Anti-Slavery Credibility",
+    "shortLabel": "Whig Party Collapse",
+    "description": "Fillmore's embrace of the Fugitive Slave Act and the Compromise of 1850 exposed an irreconcilable fault line within the Whig Party between its Northern anti-slavery wing and its Southern slaveholder wing. Northern Whigs — including many who became the core of the emerging Republican Party — refused to forgive Fillmore for signing the Act, denying him the 1852 Whig nomination despite his incumbency. The Whig Party never won another presidential election and effectively ceased to exist within a few years. Fillmore's presidency did not alone cause the Whig collapse — the party faced structural tensions the slavery issue made permanent — but his signature decisions accelerated the dissolution of the last political organization that had attempted to hold the sectional divide together.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/fillmore/key-events",
+        "text": "Miller Center — The Collapse of the Whig Party Under Fillmore"
+      },
+      {
+        "url": "https://www.britannica.com/topic/Whig-Party-United-States",
+        "text": "Britannica — Whig Party: Dissolution and the Slavery Crisis"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Ran for President in 1856 on the Know-Nothing Ticket",
+    "shortLabel": "Know-Nothing Campaign",
+    "description": "After leaving office, Fillmore accepted the 1856 presidential nomination of the American Party — widely known as the Know-Nothings — a nativist movement built on anti-Catholic and anti-immigrant sentiment that portrayed Catholic immigrants, particularly Irish and German arrivals, as agents of papal conspiracy incompatible with American democracy. Fillmore did not personally embrace the movement's most extreme rhetoric, but his willingness to run on its platform lent his presidential credibility to a movement rooted in religious bigotry and ethnic hatred at a moment when the country needed leadership that could address the slavery crisis. He finished third, carrying only Maryland, but the candidacy remains a significant stain on his post-presidential record.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/fillmore/key-events",
+        "text": "Miller Center — Fillmore and the Know-Nothing Party (1856)"
+      },
+      {
+        "url": "https://www.britannica.com/topic/Know-Nothing-movement",
+        "text": "Britannica — Know-Nothing Movement: Origins and the 1856 Election"
+      }
+    ]
+  }
+]

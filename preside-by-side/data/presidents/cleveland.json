@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 8,
+    "title": "Sent Federal Troops to Break the Pullman Strike",
+    "shortLabel": "Pullman Strike",
+    "description": "In 1894, when workers at the Pullman Palace Car Company walked off the job over wage cuts and were joined in a sympathy boycott by members of the American Railway Union, Cleveland's administration obtained a sweeping federal injunction against the strike and deployed federal troops to Chicago over the objection of Illinois Governor John Altgeld, who had not requested them. Violence followed the troop deployment; National Guardsmen fired into crowds, killing between 4 and 30 people depending on the account. The strike collapsed, ARU leader Eugene Debs was imprisoned for contempt of the injunction, and Cleveland was broadly seen as having used the full machinery of federal government — courts, injunctions, and military force — to destroy organized labor on behalf of railroad corporations.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/event/Pullman-Strike",
+        "text": "Britannica — The Pullman Strike (1894)"
+      },
+      {
+        "url": "https://www.nlrb.gov/about-nlrb/who-we-are/our-history/1894-pullman-strike",
+        "text": "National Labor Relations Board — The 1894 Pullman Strike"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Used Federal Power Systematically Against Organized Labor",
+    "shortLabel": "Anti-Labor Policy",
+    "description": "The Pullman Strike was the most dramatic episode, but it reflected a broader pattern in Cleveland's presidency of deploying federal authority on behalf of employers and railroad corporations against workers demanding fairer conditions. Cleveland justified the Pullman intervention on grounds of protecting mail delivery and interstate commerce, but critics at the time and historians since have argued that the same logic could be — and was — used to criminalize nearly any effective labor action. The use of a federal injunction to jail strike leaders without a jury trial set a precedent for anti-labor injunctions that would be used against workers for decades, fundamentally tilting federal power toward capital in labor disputes.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/cleveland/domestic-affairs",
+        "text": "Miller Center — Grover Cleveland: Domestic Affairs and Labor Policy"
+      },
+      {
+        "url": "https://www.dol.gov/general/aboutdol/history/pullman",
+        "text": "U.S. Department of Labor — The Pullman Strike and Federal Labor Policy"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Signed the Dawes Act, Stripping Native Americans of 86 Million Acres",
+    "shortLabel": "Dawes Act",
+    "description": "Cleveland signed the Dawes Severalty Act in 1887, one of the most destructive pieces of federal legislation ever directed at Native Americans. The law broke up communally held tribal lands into individual allotments assigned to tribal members, then opened the remaining \"surplus\" land to white settlement. The National Park Service documents how the law deliberately undermined tribal sovereignty and communal land tenure; Native Americans ultimately lost approximately 86 million acres — roughly 62 percent of their pre-1887 landholdings — through the allotment process and subsequent sales. The law also conditioned citizenship and land rights on assimilation, using property as leverage to dismantle tribal identity and governance structures.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/articles/000/dawes-act.htm",
+        "text": "National Park Service — The Dawes Act (1887)"
+      },
+      {
+        "url": "https://www.archives.gov/research/native-americans/dawes/background.html",
+        "text": "National Archives — The Dawes Act: Background and Records"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Enforced Forced Assimilation of Native Americans",
+    "shortLabel": "Native Assimilation",
+    "description": "The Dawes Act was not only a land-seizure mechanism; it was the legal centerpiece of a federal policy of forced cultural assimilation designed to destroy tribal identity. Native people were pressured to abandon communal landholding, take up individual farming on fragmented allotments, and accept citizenship on federal terms that required shedding tribal affiliation. The National Archives describes the law as explicitly treating Native Americans as individuals rather than members of sovereign tribal nations — a deliberate dismantling of the legal and cultural foundations of tribal life. The allotment era produced poverty, land loss, cultural destruction, and the collapse of tribal governance that Native communities spent the following century working to reverse.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/research/native-americans/dawes/background.html",
+        "text": "National Archives — Dawes Act and the Allotment Policy"
+      },
+      {
+        "url": "https://www.britannica.com/topic/Dawes-General-Allotment-Act",
+        "text": "Britannica — Dawes General Allotment Act: Origins and Consequences"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Signed the Scott Act, Stranding Chinese Immigrants Abroad",
+    "shortLabel": "Scott Act",
+    "description": "In 1888, Cleveland signed the Scott Act, which barred Chinese laborers who had temporarily left the United States from returning — even those who held valid reentry certificates previously issued by the federal government. The law effectively voided the legal promises the U.S. had made to thousands of Chinese residents who had returned to China to visit family or conduct business in good faith reliance on those certificates. The Miller Center documents that Cleveland's own message to Congress made clear the bill's purpose was more effective exclusion of Chinese laborers. The Supreme Court upheld the Act in Chae Chan Ping v. United States, establishing the plenary power doctrine that gave Congress virtually unchecked authority over immigration.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/cleveland/domestic-affairs",
+        "text": "Miller Center — Cleveland and the Scott Act"
+      },
+      {
+        "url": "https://immigrationhistory.org/item/scott-act/",
+        "text": "Immigration History — The Scott Act of 1888"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Mishandled the Panic of 1893 and the Resulting Depression",
+    "shortLabel": "Panic of 1893",
+    "description": "Cleveland's second term was consumed by the Panic of 1893, one of the worst economic depressions in American history to that point, with unemployment reaching an estimated 18 percent. Cleveland's response focused almost entirely on defending the gold standard and stabilizing Treasury reserves rather than addressing the suffering of workers, farmers, and the unemployed. His ideological opposition to direct federal relief left millions without meaningful assistance while he concentrated federal resources on maintaining the monetary system. Farmers and debtors, who had pushed for silver coinage to ease tight credit, felt particularly abandoned by a president who seemed more concerned with Wall Street's confidence than rural hardship.",
+    "sources": [
+      {
+        "url": "https://www.newyorkfed.org/medialibrary/media/research/epr/01v07n2/0111mcna.pdf",
+        "text": "Federal Reserve Bank of New York — The Panic of 1893"
+      },
+      {
+        "url": "https://millercenter.org/president/cleveland/key-events",
+        "text": "Miller Center — Grover Cleveland: The Panic of 1893"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Arranged Secretive Bond Deal with J.P. Morgan During the Depression",
+    "shortLabel": "Morgan Bond Deal",
+    "description": "To replenish the Treasury's dwindling gold reserves during the Panic of 1893, Cleveland's administration arranged a private bond sale with a syndicate led by financiers J.P. Morgan and August Belmont, borrowing $65 million in gold on terms that allowed the bankers to profit handsomely from the transaction. The deal stabilized the gold reserve but was negotiated in secrecy, bypassing Congress, and created the damaging — and largely accurate — political perception that Cleveland's administration was more responsive to the interests of Wall Street banking syndicates than to the millions of ordinary Americans experiencing unemployment, foreclosure, and poverty during the same crisis.",
+    "sources": [
+      {
+        "url": "https://www.newyorkfed.org/medialibrary/media/research/epr/01v07n2/0111mcna.pdf",
+        "text": "Federal Reserve Bank of New York — The Panic of 1893 and the Morgan Bond Deal"
+      },
+      {
+        "url": "https://millercenter.org/president/cleveland/key-events",
+        "text": "Miller Center — Cleveland, Morgan, and the Gold Reserve Crisis"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Opposed Federal Relief for Americans During Severe Economic Depression",
+    "shortLabel": "Denied Depression Relief",
+    "description": "During the severe depression of the 1890s, with unemployment reaching near-record levels and poverty widespread, Cleveland refused to support direct federal relief for suffering Americans, grounding his opposition in a limited-government philosophy that he believed precluded the federal government from providing charity. He famously vetoed a modest bill to provide seed grain to drought-stricken Texas farmers, writing that \"though the people support the Government, the Government should not support the people.\" While constitutionally principled by the standards of his era, the posture left his administration with no meaningful answer to mass economic suffering and reinforced the perception that federal power would be deployed against workers but not for them.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/cleveland/domestic-affairs",
+        "text": "Miller Center — Cleveland's Opposition to Federal Relief"
+      },
+      {
+        "url": "https://www.presidency.ucsb.edu/documents/veto-message-219",
+        "text": "American Presidency Project — Cleveland's Veto of Texas Seed Relief Bill (1887)"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Failed to Restore Hawaiian Sovereignty After U.S.-Backed Overthrow",
+    "shortLabel": "Hawaii Sovereignty",
+    "description": "When a group of American business interests and U.S. Marines backed the overthrow of Queen Liliuokalani of Hawaii in 1893, Cleveland — to his credit — refused to proceed with immediate annexation and ordered an investigation that concluded the overthrow had been illegal and that U.S. officials had improperly assisted it. He attempted to restore the queen to her throne but failed to secure congressional cooperation, and ultimately referred the matter to Congress without resolution. Hawaii was not annexed until 1898 under McKinley. Cleveland's partial opposition to the coup is a relative credit, but his failure to achieve any meaningful remedy left the illegal overthrow standing and Hawaiian sovereignty permanently extinguished.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1866-1898/hawaii",
+        "text": "U.S. State Department Office of the Historian — Overthrow of the Hawaiian Kingdom"
+      },
+      {
+        "url": "https://www.archives.gov/exhibits/featured-documents/hawaii-annexation",
+        "text": "National Archives — Hawaiian Annexation Documents"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Limited Civil Rights Leadership Amid Expanding Jim Crow",
+    "shortLabel": "Civil Rights Inaction",
+    "description": "Cleveland's presidency coincided with the rapid consolidation of Jim Crow across the South — the spread of disfranchisement, legal segregation, and racial terror including a epidemic of lynching. He did not create these systems, but he took no meaningful action to challenge them and actively signed major exclusionary laws targeting other minority groups, including the Scott Act against Chinese immigrants and the Dawes Act against Native Americans. His limited-government philosophy, combined with his dependence on Southern Democratic support, produced a presidency that offered no federal protection to Black Americans facing systematic violence and legal subjugation during one of the most dangerous periods in post-Reconstruction history.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/cleveland/domestic-affairs",
+        "text": "Miller Center — Grover Cleveland: Civil Rights and Race"
+      },
+      {
+        "url": "https://www.naacp.org/naacp-history-jim-crow-laws/",
+        "text": "NAACP — Jim Crow Laws and the Failure of Federal Protection"
+      }
+    ]
+  }
+]

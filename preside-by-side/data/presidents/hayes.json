@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Ended Reconstruction by Withdrawing Federal Troops from the South",
+    "shortLabel": "Ended Reconstruction",
+    "description": "In April 1877, Hayes withdrew the last remaining federal troops from South Carolina and Louisiana, effectively ending Reconstruction and the federal government's commitment to protecting the rights of Black Americans in the postwar South. The Hayes Presidential Library identifies this withdrawal as the moment most historians mark as the end of Reconstruction, because those troops had been the last protection sustaining Republican state governments and Black civil rights against violent white-supremacist resistance. What followed was swift and devastating: Southern white Democrats retook control of state governments, Black voters were systematically disfranchised through violence and legal manipulation, and the brief constitutional promise of Black citizenship and political equality was extinguished for nearly a century.",
+    "sources": [
+      {
+        "url": "https://www.rbhayes.org/research/hayes-and-reconstruction/",
+        "text": "Rutherford B. Hayes Presidential Library — Hayes and the End of Reconstruction"
+      },
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/end-of-reconstruction.htm",
+        "text": "National Park Service — The End of Reconstruction"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Gained the Presidency Through the Compromise of 1877",
+    "shortLabel": "Compromise of 1877",
+    "description": "Hayes lost the popular vote to Democrat Samuel Tilden in 1876 and the election was thrown into crisis by disputed electoral votes in Florida, Louisiana, and South Carolina. An Electoral Commission awarded Hayes the presidency along partisan lines, and the resolution was accompanied by an informal political settlement in which Republicans agreed to end military protection of Reconstruction governments in the South. History.com documents the consequence: all three disputed states quickly fell to white Democrats, and Reconstruction collapsed. Hayes's presidency was therefore inaugurated on a transaction in which Black Americans' constitutional rights were traded for Democratic acquiescence to a Republican White House — a bargain whose costs were borne entirely by the most vulnerable.",
+    "sources": [
+      {
+        "url": "https://www.history.com/topics/us-politics/compromise-of-1877",
+        "text": "History.com — The Compromise of 1877"
+      },
+      {
+        "url": "https://www.archives.gov/legislative/features/compromise-1877",
+        "text": "National Archives — The Compromise of 1877"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Abandoned Federal Protection of Black Civil Rights in the South",
+    "shortLabel": "Abandoned Black Rights",
+    "description": "The moral core of Hayes's historical failure is not the troop withdrawal as a logistical act but the deliberate abandonment of the federal government's constitutional obligation to protect Black citizens' rights under the Fourteenth and Fifteenth Amendments. His \"home rule\" policy returned authority over Southern governance to the same white Democratic power structures that had fought a war to preserve slavery and spent Reconstruction using terror and fraud to reassert racial dominance. Hayes sometimes spoke sympathetically about Black education and fair treatment, but his actual governing priority was sectional reconciliation with white Southern elites — a reconciliation purchased at the cost of a generation of Black political rights, physical safety, and economic opportunity.",
+    "sources": [
+      {
+        "url": "https://www.loc.gov/exhibits/creating-the-united-states/reconstruction.html",
+        "text": "Library of Congress — The Collapse of Reconstruction"
+      },
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/end-of-reconstruction.htm",
+        "text": "National Park Service — Reconstruction's End and the Rise of Jim Crow"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Sent Federal Troops to Break the Great Railroad Strike of 1877",
+    "shortLabel": "Railroad Strike",
+    "description": "The Great Railroad Strike of 1877 began in West Virginia after railroad companies cut wages for the second time in a year and spread rapidly across multiple states in the first major national labor uprising in American history. Hayes issued proclamations and deployed federal troops to West Virginia, Maryland, Pennsylvania, and other states to restore rail operations and suppress the strike. The Library of Congress documents the federal troop deployments across multiple states. While Hayes framed the intervention as protecting mail delivery and interstate commerce rather than taking sides in a labor dispute, the practical effect was that federal military force was used to break a workers' strike on behalf of railroad corporations — establishing a template that would be repeated for decades.",
+    "sources": [
+      {
+        "url": "https://www.loc.gov/collections/railroad-maps-1828-to-1900/articles-and-essays/history-of-railroads-and-maps/great-railroad-strike-of-1877/",
+        "text": "Library of Congress — The Great Railroad Strike of 1877"
+      },
+      {
+        "url": "https://www.dol.gov/general/aboutdol/history/chapter1",
+        "text": "U.S. Department of Labor — History of the Labor Movement: The 1877 Strike"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Established Federal Precedent of Military Force Against Labor",
+    "shortLabel": "Anti-Labor Precedent",
+    "description": "Hayes's deployment of federal troops during the 1877 railroad strike was not an isolated crisis response; it set a lasting precedent for using federal military power to intervene in labor disputes in ways that consistently favored employers over workers. The argument that troops were protecting commerce rather than breaking strikes provided legal and political cover that subsequent administrations — most notably Cleveland during the Pullman Strike of 1894 — would use again. Labor historians identify the 1877 strike and Hayes's response as a foundational moment in the long pattern of federal power being deployed against organized workers during the Gilded Age, fundamentally shaping the terrain on which American labor organizing would struggle for the next half century.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/hayes/domestic-affairs",
+        "text": "Miller Center — Rutherford B. Hayes: Domestic Affairs and Labor"
+      },
+      {
+        "url": "https://www.epi.org/publication/history-federal-intervention-labor-disputes/",
+        "text": "Economic Policy Institute — Federal Intervention in Labor Disputes: Historical Pattern"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Oversaw the Launch of the Carlisle Indian Boarding School System",
+    "shortLabel": "Indian Boarding Schools",
+    "description": "In 1879, during Hayes's presidency, Richard Henry Pratt founded the Carlisle Indian Industrial School in Pennsylvania — the first major off-reservation Native American boarding school and the model for a nationwide system that would forcibly separate Native children from their families, languages, cultures, and communities for decades. The Hayes Historical Journal documents that Carlisle began with children taken from the Rosebud and Pine Ridge agencies, with the explicit purpose of \"detribalizing\" them and assimilating them into white American life. The boarding school system that Carlisle pioneered — operating under the motto \"Kill the Indian, Save the Man\" — caused intergenerational trauma whose effects Native communities continue to reckon with today.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/articles/000/carlisle-indian-industrial-school.htm",
+        "text": "National Park Service — Carlisle Indian Industrial School"
+      },
+      {
+        "url": "https://www.doi.gov/sites/doi.gov/files/report-on-federal-indian-boarding-school-initiative-investigative-report.pdf",
+        "text": "Department of the Interior — Federal Indian Boarding School Initiative Investigative Report (2022)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Pursued Native Assimilation Policy That Attacked Tribal Sovereignty",
+    "shortLabel": "Native Assimilation",
+    "description": "Hayes's approach to Native American policy centered on assimilation through individual land ownership, English-language education, and citizenship — framed as a benevolent alternative to extermination, but in practice a systematic attack on tribal sovereignty, communal land tenure, and cultural survival. His administration's support for policies that would culminate in the Dawes Act of 1887 treated tribal governance and Native cultural practices as obstacles to be dismantled rather than rights to be respected. The Indian Country Today quotation of a Hayes Presidential Library curator confirms the policy was explicitly aimed at shifting Native people away from tribal life and into mainstream American society on terms defined entirely by the federal government.",
+    "sources": [
+      {
+        "url": "https://www.rbhayes.org/research/hayes-and-native-americans/",
+        "text": "Rutherford B. Hayes Presidential Library — Hayes and Native American Policy"
+      },
+      {
+        "url": "https://www.nps.gov/articles/000/dawes-act.htm",
+        "text": "National Park Service — The Dawes Act and the Allotment Era"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Presidency Born from a Legitimacy Crisis Tied to Reconstruction's Collapse",
+    "shortLabel": "Legitimacy Crisis",
+    "description": "Hayes's path to the presidency was inseparable from the political settlement that ended Reconstruction. He lost the popular vote, the electoral outcome was disputed in three states, and the Electoral Commission's resolution fell along strict partisan lines. Whatever the constitutional legitimacy of the process, the political reality was that Hayes entered the White House as part of a settlement whose central currency was the withdrawal of federal protection for Black Americans in the South. His administration never escaped the moral weight of that origin, and his subsequent governing choices — prioritizing reconciliation with Southern Democrats over enforcement of constitutional rights — confirmed rather than repudiated the terms on which his presidency was founded.",
+    "sources": [
+      {
+        "url": "https://www.senate.gov/artandhistory/history/common/generic/ElectoralCommission.htm",
+        "text": "U.S. Senate — The Electoral Commission of 1877"
+      },
+      {
+        "url": "https://millercenter.org/president/hayes/key-events",
+        "text": "Miller Center — Rutherford B. Hayes: Key Events"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Weak Civil Rights Leadership Despite Occasional Sympathetic Rhetoric",
+    "shortLabel": "Civil Rights Failure",
+    "description": "Hayes occasionally expressed support for Black education and fair treatment in speeches and messages to Congress, and he appointed a few Black Americans to federal positions. But his actual governing priorities — civil-service reform, currency policy, and above all sectional reconciliation with white Southern Democrats — left no meaningful federal protection for Black citizens facing a rapidly consolidating system of voter suppression, legal segregation, and racial terror. The gap between Hayes's occasional sympathetic words and his consistent policy choices in favor of Southern \"home rule\" represents one of the most consequential failures of presidential moral leadership in American history, enabling the Jim Crow system that would endure for nearly a century.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/hayes/domestic-affairs",
+        "text": "Miller Center — Hayes: Civil Rights and Race Relations"
+      },
+      {
+        "url": "https://www.naacp.org/naacp-history-jim-crow-laws/",
+        "text": "NAACP — Jim Crow's Origins and the Failure of Federal Protection"
+      }
+    ]
+  },
+  {
+    "severity": 3,
+    "title": "Paved the Road Toward Chinese Exclusion Despite Vetoing an Early Bill",
+    "shortLabel": "Chinese Exclusion Path",
+    "description": "Hayes vetoed an 1879 congressional bill restricting Chinese immigration on the grounds that it violated existing treaty obligations with China — a defensible position that was better than what followed under his successors. However, his administration then renegotiated the Burlingame Treaty with China to give Congress the authority to restrict Chinese immigration, directly enabling the Chinese Exclusion Act of 1882 under Chester Arthur. The State Department's historical record documents this renegotiation as a significant step in the political movement toward formal exclusion. Hayes's veto was a momentary check; his treaty renegotiation helped open the door that the exclusion movement walked through.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1866-1898/chinese-immigration",
+        "text": "U.S. State Department Office of the Historian — Chinese Immigration and the Chinese Exclusion Act"
+      },
+      {
+        "url": "https://immigrationhistory.org/item/angell-treaty/",
+        "text": "Immigration History — The Angell Treaty of 1880 and Chinese Exclusion"
+      }
+    ]
+  }
+]

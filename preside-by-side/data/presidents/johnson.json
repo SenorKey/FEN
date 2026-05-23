@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Undermined Reconstruction and Restored Confederate Power",
+    "shortLabel": "Sabotaged Reconstruction",
+    "description": "Johnson's approach to Reconstruction was the defining catastrophe of his presidency. Rather than using federal authority to protect the rights of four million formerly enslaved people and restructure the postwar South, he moved rapidly to restore Southern states with minimal conditions, allowing former Confederate leaders to reestablish political control almost immediately. The National Park Service documents how Johnson's lenient plan let Southern states set up new governments that quickly passed Black Codes restricting Black freedom and reasserted white supremacy. His systematic resistance to congressional Reconstruction — including multiple vetoes and open political warfare against Radical Republicans — helped doom what was one of the most important democratic opportunities in American history.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/andrew-johnson.htm",
+        "text": "National Park Service — Andrew Johnson and Reconstruction"
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/creating-the-united-states/reconstruction.html",
+        "text": "Library of Congress — Reconstruction: Creating the United States"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Vetoed the Civil Rights Act of 1866",
+    "shortLabel": "Civil Rights Veto",
+    "description": "Johnson vetoed the Civil Rights Act of 1866, which defined U.S. citizenship and guaranteed basic civil rights to formerly enslaved people — the first major federal civil-rights legislation in American history. In his veto message, Johnson argued the bill discriminated \"in favor of the Negro,\" revealing the openly racial character of his opposition. Congress overrode his veto, the first time in U.S. history a major piece of legislation was enacted over a presidential veto. The Act's core provisions were later incorporated into the Fourteenth Amendment precisely because Congress feared a future president or court might otherwise undo them.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/milestone-documents/civil-rights-act-of-1866",
+        "text": "National Archives — Civil Rights Act of 1866: Milestone Documents"
+      },
+      {
+        "url": "https://history.house.gov/Historical-Highlights/1800-1850/The-Civil-Rights-Bill-of-1866/",
+        "text": "U.S. House of Representatives — Historical Highlights: The Civil Rights Bill of 1866"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Vetoed the Freedmen's Bureau Expansion",
+    "shortLabel": "Freedmen's Bureau Veto",
+    "description": "The Freedmen's Bureau was the primary federal agency responsible for helping formerly enslaved people navigate the transition from bondage to freedom, providing labor contracts, legal protection, education, and emergency relief. Johnson vetoed legislation to extend and strengthen it, arguing it was an unconstitutional federal intrusion into state affairs. His veto came at the most vulnerable moment in freedpeople's lives — immediately after emancipation, with no land, resources, or legal standing — and exposed them to exploitation by the same planter class that had enslaved them. Congress eventually overrode him, but Johnson's resistance significantly hampered the Bureau's effectiveness and reach.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/freedmens-bureau.htm",
+        "text": "National Park Service — The Freedmen's Bureau"
+      },
+      {
+        "url": "https://www.archives.gov/research/african-americans/freedmens-bureau",
+        "text": "National Archives — Records of the Bureau of Refugees, Freedmen, and Abandoned Lands"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Issued More Than 13,000 Pardons to Former Confederates",
+    "shortLabel": "Confederate Pardons",
+    "description": "Johnson issued pardons to more than 13,000 former Confederates, restoring their political and property rights and allowing ex-rebel leaders to return to power with remarkable speed. His Christmas 1868 proclamation extended sweeping amnesty to top Confederate officials, including Jefferson Davis. Rather than treating rebellion against the United States as a disqualifying act for political leadership, Johnson's pardon policy helped restore the antebellum planter class to dominance across the South. The result was that the men who had launched the deadliest war in American history against the federal government were back in state legislatures, governor's offices, and eventually Congress within years of their defeat.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/andrew-johnson.htm",
+        "text": "National Park Service — Andrew Johnson and Reconstruction"
+      },
+      {
+        "url": "https://millercenter.org/president/johnson/key-events",
+        "text": "Miller Center — Andrew Johnson: Key Events of His Presidency"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Allowed Black Codes to Take Root Across the South",
+    "shortLabel": "Black Codes",
+    "description": "Following Johnson's rapid restoration of Southern state governments, those governments enacted Black Codes — comprehensive systems of laws designed to keep formerly enslaved people in conditions as close to slavery as possible. The codes restricted where Black people could live and work, criminalized unemployment, imposed curfews, denied the right to bear arms, and created systems of forced labor through vagrancy laws. Johnson did not write these laws, but his deliberate dismantling of federal oversight and his hostility to civil-rights enforcement created the political space in which they flourished. The Black Codes were a direct preview of the Jim Crow system that would follow Reconstruction's collapse.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/research/african-americans/freedmens-bureau",
+        "text": "National Archives — Black Codes and Freedmen's Bureau Records"
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/creating-the-united-states/reconstruction.html",
+        "text": "Library of Congress — Reconstruction Era: Black Codes"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Opposed the Fourteenth Amendment",
+    "shortLabel": "Opposed 14th Amendment",
+    "description": "Johnson actively opposed the Fourteenth Amendment, which established birthright citizenship, equal protection under the law, and due process rights — protections that became the constitutional foundation for American civil rights for the next 150 years. The Library of Congress documents his opposition to the amendment. Johnson urged Southern states not to ratify it, and most former Confederate states initially refused. Congress responded by requiring ratification as a condition of readmission to the Union. That Johnson positioned himself against what became one of the most consequential constitutional achievements in American history — in the immediate aftermath of slavery — encapsulates the moral character of his presidency.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/milestone-documents/14th-amendment",
+        "text": "National Archives — 14th Amendment to the U.S. Constitution: Milestone Documents"
+      },
+      {
+        "url": "https://constitution.congress.gov/constitution/amendment-14/",
+        "text": "Congress.gov — Fourteenth Amendment: Text, Annotations, and History"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Racist Rhetoric and Political Agitation Against Reconstruction",
+    "shortLabel": "Racist Rhetoric",
+    "description": "During his 1866 \"Swing Around the Circle\" speaking tour, Johnson openly appealed to white racial grievance, attacked Radical Republicans as traitors, and argued against extending equal rights to Black Americans. His conduct on the tour — including undignified public arguments with hecklers — badly damaged his standing and inflamed political tensions at a moment when the country needed leadership capable of unifying around equal citizenship. Johnson's speeches explicitly framed Reconstruction as a threat to white Americans rather than a moral obligation to freedpeople, lending presidential legitimacy to white-supremacist resistance at its most critical and violent period.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/johnson/campaigns-and-elections",
+        "text": "Miller Center — Andrew Johnson: Swing Around the Circle and Political Agitation"
+      },
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/1866-congressional-elections.htm",
+        "text": "National Park Service — The 1866 Elections and Johnson's Speaking Tour"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Failed to Protect Black Americans from White-Supremacist Massacres",
+    "shortLabel": "Racial Massacre Inaction",
+    "description": "In 1866, white mobs carried out large-scale massacres of Black residents and Union veterans in Memphis and New Orleans, killing dozens and injuring hundreds in each city. Congressional investigations documented the scale and brutality of the violence. Johnson's broader resistance to federal civil-rights enforcement — his dismantling of Reconstruction machinery and his rhetorical alignment with white Southern interests — created the political environment in which perpetrators believed they would face no federal consequences. He did not personally order the violence, but his policies and rhetoric strengthened the forces carrying it out rather than the federal authority that might have stopped it.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/memphis-massacre.htm",
+        "text": "National Park Service — The Memphis Massacre of 1866"
+      },
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/new-orleans-massacre.htm",
+        "text": "National Park Service — The New Orleans Massacre of 1866"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Triggered a Constitutional Crisis and Was Impeached",
+    "shortLabel": "Impeachment",
+    "description": "Johnson became the first U.S. president to be impeached when the House voted in 1868 to charge him with violating the Tenure of Office Act by removing Secretary of War Edwin Stanton without Senate approval. The immediate trigger was one personnel decision, but the impeachment was the culmination of a prolonged constitutional war between Johnson and Congress over Reconstruction authority. He survived removal in the Senate by a single vote. While historians debate whether the Tenure of Office Act charges alone justified removal, the impeachment was the institutional expression of how completely Johnson had broken with Congress's efforts to implement a meaningful postwar settlement.",
+    "sources": [
+      {
+        "url": "https://history.house.gov/Historical-Highlights/1851-1900/Andrew-Johnson-Impeachment/",
+        "text": "U.S. House of Representatives — Andrew Johnson Impeachment: Historical Highlights"
+      },
+      {
+        "url": "https://www.senate.gov/artandhistory/history/common/briefing/Impeachment_Johnson.htm",
+        "text": "U.S. Senate — Impeachment of Andrew Johnson"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Prioritized White Southern Reconciliation Over Justice for Freedpeople",
+    "shortLabel": "White Reconciliation Over Justice",
+    "description": "Taken together, every major decision of Johnson's presidency pointed in the same direction: restore the antebellum South's white political structure as quickly as possible and leave Black civil rights to the states that had just fought a war to preserve slavery. His rapid pardons, his vetoes of civil-rights and Freedmen's Bureau legislation, his opposition to the Fourteenth Amendment, his tolerance of Black Codes, and his inflammatory rhetoric all served that single priority. The consequences were generational: Reconstruction's failure under Johnson's obstruction laid the groundwork for a century of Jim Crow, disfranchisement, and racial terror. Historians consistently rank his presidency among the worst in American history for precisely these reasons.",
+    "sources": [
+      {
+        "url": "https://www.nps.gov/subjects/reconstruction/failure-of-reconstruction.htm",
+        "text": "National Park Service — The Failure of Reconstruction"
+      },
+      {
+        "url": "https://www.loc.gov/exhibits/creating-the-united-states/reconstruction.html",
+        "text": "Library of Congress — The Legacy of Reconstruction"
+      }
+    ]
+  }
+]

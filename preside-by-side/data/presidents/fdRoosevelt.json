@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Japanese American Internment",
+    "shortLabel": "Japanese Internment",
+    "description": "In February 1942, Roosevelt signed Executive Order 9066, authorizing the creation of military exclusion zones that led to the forced removal and mass incarceration of approximately 125,000 people of Japanese ancestry — the majority of them U.S.-born citizens who had committed no crime. Families were given days to dispose of their homes and businesses before being transported to remote camps surrounded by barbed wire and armed guards, where they were held for years. The National Archives documents the order's direct role in the removals. In 1988, Congress formally acknowledged the internment as a \"grave injustice\" driven by \"racial prejudice, war hysteria, and a failure of political leadership\" and paid reparations to survivors.",
+    "sources": [
+      {
+        "url": "https://www.archives.gov/milestone-documents/executive-order-9066",
+        "text": "National Archives — Executive Order 9066: Milestone Documents"
+      },
+      {
+        "url": "https://www.densho.org/executive-order-9066/",
+        "text": "Densho Encyclopedia — Executive Order 9066 and Japanese American Incarceration"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Refused Jewish Refugees Aboard the St. Louis",
+    "shortLabel": "St. Louis Refugees",
+    "description": "In May 1939, the German ocean liner St. Louis departed Hamburg carrying 937 passengers, nearly all of them Jewish refugees fleeing Nazi persecution. After Cuba refused entry, the ship sailed along the U.S. coastline seeking asylum. The Roosevelt administration declined to admit the passengers, citing immigration quotas and State Department restrictions, even as the ship waited within sight of Miami. The vessel was forced to return to Europe. The U.S. Holocaust Memorial Museum documents that 254 of those passengers were subsequently murdered in the Holocaust. The episode remains one of the most documented instances of the administration's failure to act when action was possible.",
+    "sources": [
+      {
+        "url": "https://encyclopedia.ushmm.org/content/en/article/the-voyage-of-the-st-louis",
+        "text": "U.S. Holocaust Memorial Museum — The Voyage of the St. Louis"
+      },
+      {
+        "url": "https://www.archives.gov/research/holocaust",
+        "text": "National Archives — Holocaust-Era Records and U.S. Policy"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Broader Failure to Admit Jewish Refugees During the Holocaust",
+    "shortLabel": "Holocaust Refugees",
+    "description": "The St. Louis was the most visible case, but the broader failure of FDR's administration to use available executive authority to ease immigration restrictions and rescue Jews fleeing Nazi persecution is a sustained and documented criticism. The State Department under Secretary Cordell Hull actively obstructed refugee admissions and suppressed reports of mass killings. The War Refugee Board — which FDR eventually created in January 1944 — came years after the scale of the Holocaust was known inside the administration. Historians including David Wyman have argued that earlier, more aggressive action could have saved hundreds of thousands of lives, and that domestic antisemitism and political calculation drove the inaction more than true legal constraint.",
+    "sources": [
+      {
+        "url": "https://encyclopedia.ushmm.org/content/en/article/the-united-states-and-the-holocaust",
+        "text": "U.S. Holocaust Memorial Museum — The United States and the Holocaust"
+      },
+      {
+        "url": "https://www.archives.gov/research/holocaust/article.html",
+        "text": "National Archives — America and the Holocaust: Documenting the Failure"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Tried to Pack the Supreme Court",
+    "shortLabel": "Court-Packing Plan",
+    "description": "After the Supreme Court struck down several major New Deal programs, FDR proposed the Judicial Procedures Reform Bill of 1937, which would have allowed him to appoint an additional justice for every sitting justice over the age of 70 — potentially expanding the Court to 15 members. The Federal Judicial Center states plainly that his motive was to reshape the Court's ideological balance to stop it from invalidating his legislation. The plan was rejected even by a Congress dominated by his own party, with members of both parties condemning it as an assault on judicial independence. It remains one of the most direct attempts by a president to subordinate the judiciary to executive will.",
+    "sources": [
+      {
+        "url": "https://www.fjc.gov/history/courts/packing-supreme-court",
+        "text": "Federal Judicial Center — FDR's Court-Packing Plan"
+      },
+      {
+        "url": "https://www.archives.gov/exhibits/new-deal",
+        "text": "National Archives — The New Deal and the Supreme Court Conflict"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "New Deal Housing Policy Entrenched Racial Segregation",
+    "shortLabel": "Redlining & Segregation",
+    "description": "New Deal housing programs helped millions of white Americans build generational wealth through homeownership, but the same federal apparatus systematically excluded Black Americans. The Home Owners' Loan Corporation produced color-coded maps — the origin of \"redlining\" — that designated Black and immigrant neighborhoods as high-risk, denying residents access to federally backed mortgages. The Federal Housing Administration then reinforced segregation by refusing to insure mortgages in integrated neighborhoods and explicitly requiring racially restrictive covenants in new developments. The National Community Reinvestment Coalition has documented how these policies created racial wealth gaps that persisted for generations. The New Deal's most transformative domestic benefit was deliberately structured to exclude Black Americans.",
+    "sources": [
+      {
+        "url": "https://ncrc.org/holc/",
+        "text": "National Community Reinvestment Coalition — HOLC Redlining Maps"
+      },
+      {
+        "url": "https://www.npr.org/2017/05/03/526655831/a-forgotten-history-of-how-the-u-s-government-segregated-america",
+        "text": "NPR — A Forgotten History of How the U.S. Government Segregated America (May 2017)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "New Deal Excluded Most Black Workers from Key Protections",
+    "shortLabel": "Black Workers Excluded",
+    "description": "The Social Security Act of 1935 and the National Labor Relations Act deliberately excluded agricultural workers and domestic servants from their protections — categories that encompassed the majority of Black workers in the South. This was not accidental: the exclusions were conditions demanded by Southern Democratic congressmen whose support FDR needed to pass the legislation. The result was that the New Deal's most durable economic protections — retirement insurance, unemployment benefits, and the right to organize — were structurally denied to Black Americans at the moment they were extended to the broader workforce, deepening racial economic inequality for generations.",
+    "sources": [
+      {
+        "url": "https://www.ssa.gov/history/reports/acsim/ACSIMonline.pdf",
+        "text": "Social Security Administration — Historical Context of the Social Security Act and Racial Exclusions"
+      },
+      {
+        "url": "https://www.epi.org/publication/new-deal-left-out-black-workers/",
+        "text": "Economic Policy Institute — How the New Deal Left Out Black Workers"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Firebombing Campaigns Against Civilian-Dense Cities",
+    "shortLabel": "Civilian Firebombing",
+    "description": "As commander in chief, FDR bore command responsibility for the Allied strategic bombing campaigns of World War II, which increasingly targeted civilian-dense urban areas. The March 9–10, 1945 firebombing of Tokyo — the single deadliest air raid in history — killed an estimated 80,000 to 100,000 civilians in a single night, destroying sixteen square miles of the city. Similar area-bombing campaigns devastated Dresden and dozens of other German cities. Military historians debate the strategic necessity and distribution of responsibility across Allied command, but the campaigns represented a deliberate shift toward targeting civilian infrastructure and population centers that caused mass noncombatant death.",
+    "sources": [
+      {
+        "url": "https://www.afhistory.af.mil/News/Article-Display/Article/458980/the-bombing-of-japan/",
+        "text": "Air Force Historical Research Agency — Strategic Bombing of Japan"
+      },
+      {
+        "url": "https://www.britannica.com/event/firebombing-of-Tokyo",
+        "text": "Britannica — Firebombing of Tokyo (March 1945)"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Yalta Concessions and Soviet Domination of Eastern Europe",
+    "shortLabel": "Yalta Concessions",
+    "description": "At the Yalta Conference in February 1945, a visibly ill FDR negotiated postwar arrangements with Churchill and Stalin that critics have long argued were excessively favorable to Soviet interests. The agreements effectively acknowledged Soviet influence over Poland and much of Eastern Europe, with democratic election pledges that Stalin promptly ignored. The State Department's own historical office notes that critics accused FDR of \"handing over\" Eastern Europe and parts of Northeast Asia, though defenders argue his negotiating position was constrained by Soviet military realities on the ground and the need for Soviet entry into the Pacific war. The debate remains genuinely contested among historians.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1937-1945/yalta-conf",
+        "text": "U.S. State Department Office of the Historian — The Yalta Conference (1945)"
+      },
+      {
+        "url": "https://www.britannica.com/event/Yalta-Conference",
+        "text": "Britannica — Yalta Conference: Outcomes and Legacy"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Mass Incarceration System Beyond the Initial Order",
+    "shortLabel": "Internment Infrastructure",
+    "description": "Executive Order 9066 was not a one-time decision but the foundation for a large administrative apparatus of mass incarceration that expanded over years. The Truman Library documents that more than 100,000 Japanese Americans were placed into internment camps in the six months following the order, held in facilities administered by the War Relocation Authority across desolate sites in California, Arizona, Idaho, Wyoming, Colorado, Utah, and Arkansas. Internees lost homes, businesses, farms, and savings. The incarceration continued until 1945, and the Supreme Court upheld it in Korematsu v. United States — a ruling not formally repudiated until 2018.",
+    "sources": [
+      {
+        "url": "https://www.trumanlibrary.gov/education/presidential-inquiries/japanese-american-internment",
+        "text": "Truman Presidential Library — Japanese American Internment"
+      },
+      {
+        "url": "https://encyclopedia.densho.org/War_Relocation_Authority/",
+        "text": "Densho Encyclopedia — War Relocation Authority"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Dramatic and Contested Expansion of Executive Power",
+    "shortLabel": "Executive Power Expansion",
+    "description": "FDR transformed the American presidency, expanding its reach through emergency banking actions, the creation of dozens of New Deal agencies, wartime executive authority, and a four-term tenure that reshaped expectations of presidential power. Many of these expansions addressed genuine crises and produced lasting public benefits. But critics across the political spectrum have argued that FDR normalized a model of executive governance that bypassed Congress, pushed constitutional boundaries, and built a federal administrative state with limited democratic accountability. The court-packing plan was the most overt expression of this tendency, but it ran throughout his presidency.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/fdroosevelt/key-events",
+        "text": "Miller Center — Franklin D. Roosevelt: Key Events and Executive Power"
+      },
+      {
+        "url": "https://www.brookings.edu/articles/fdr-and-the-modern-presidency/",
+        "text": "Brookings Institution — FDR and the Modern Presidency"
+      }
+    ]
+  }
+]

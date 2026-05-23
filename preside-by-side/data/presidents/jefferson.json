@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Enslaved More Than 600 People Over His Lifetime",
+    "shortLabel": "Enslaved 600+ People",
+    "description": "Over the course of his life, Jefferson enslaved more than 600 people. Monticello's own research documents that he freed only ten people in total — all from the same family — while hundreds of others remained enslaved or were sold after his death to satisfy his debts. He lived in luxury at Monticello through the forced, uncompensated labor of enslaved people, including skilled artisans, domestic workers, and agricultural laborers. The scale of his slaveholding places him among the largest enslavers among American presidents, and the near-total failure to free those he enslaved — even upon his death — stands in direct and irreconcilable contradiction to his most celebrated political writing.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/thomas-jefferson/jefferson-slavery/",
+        "text": "Monticello — Thomas Jefferson and Slavery"
+      },
+      {
+        "url": "https://www.whitehousehistory.org/slavery-in-the-white-house-thomas-jefferson",
+        "text": "White House Historical Association — Slavery in the White House: Thomas Jefferson"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Fathered Children with Sally Hemings, a Woman He Enslaved",
+    "shortLabel": "Sally Hemings",
+    "description": "The Thomas Jefferson Foundation at Monticello considers it settled historical fact that Jefferson fathered six children with Sally Hemings, an enslaved woman who was also the half-sister of his late wife. Hemings was legally his property, had no right to refuse, and had no standing to leave. The relationship existed entirely within a structure of absolute power — she could be sold, separated from her children, or punished at his discretion. Modern ethical frameworks cannot treat this as consensual in any meaningful sense. Jefferson never freed Hemings during his lifetime; she obtained her freedom only informally after his death through his son Madison.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/thomas-jefferson/jefferson-slavery/thomas-jefferson-and-sally-hemings-a-brief-account/",
+        "text": "Monticello — Thomas Jefferson and Sally Hemings: A Brief Account"
+      },
+      {
+        "url": "https://www.smithsonianmag.com/history/the-truth-about-jefferson-180975789/",
+        "text": "Smithsonian Magazine — The Truth About Jefferson and Sally Hemings"
+      }
+    ]
+  },
+  {
+    "severity": 10,
+    "title": "Failed to Act Against Slavery Despite Acknowledging It Was Wrong",
+    "shortLabel": "Slavery Hypocrisy",
+    "description": "Jefferson repeatedly acknowledged in his private writings and public statements that slavery was a moral evil and a danger to the republic, yet he continued to profit from it his entire life, freed almost none of the people he enslaved, and did not use his extraordinary political influence — as the author of the Declaration of Independence, as Secretary of State, as Vice President, and as a two-term president — to advance any serious program of abolition. His intellectual prestige made this failure especially consequential: more than almost any figure in the early republic, Jefferson had the credibility to push against slavery's expansion and chose not to. The gap between his stated principles and his actions helped normalize the contradiction at the heart of American democracy.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/thomas-jefferson/jefferson-slavery/jefferson-s-attitudes-toward-slavery/",
+        "text": "Monticello — Jefferson's Attitudes Toward Slavery"
+      },
+      {
+        "url": "https://www.loc.gov/collections/thomas-jefferson-papers/articles-and-essays/jefferson-and-slavery/",
+        "text": "Library of Congress — Jefferson and Slavery"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Promoted Racist Theories of Black Inferiority",
+    "shortLabel": "Racist Ideology",
+    "description": "In Notes on the State of Virginia, Jefferson wrote at length that Black people were inferior to white people in \"body and mind\" — deficient in reason, imagination, and beauty. He presented these views not as prejudice but as considered scientific observation, lending the authority of one of America's foremost intellectuals to white supremacist ideology at the moment the nation's racial order was being constructed. Because Jefferson was the era's most influential American political thinker, his racial theories carried exceptional legitimating weight — helping to provide intellectual scaffolding for the defense of slavery and, later, for scientific racism and segregationist ideology throughout the nineteenth and twentieth centuries.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/notes-state-virginia/",
+        "text": "Monticello — Notes on the State of Virginia"
+      },
+      {
+        "url": "https://www.loc.gov/resource/mtj1.024_0368_0380/",
+        "text": "Library of Congress — Notes on the State of Virginia: Original Text"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Louisiana Purchase Expanded Territory for Slavery and Native Dispossession",
+    "shortLabel": "Louisiana Purchase",
+    "description": "The Louisiana Purchase of 1803 doubled the size of the United States and is widely celebrated as a diplomatic achievement, but it also opened an enormous new continental interior to westward expansion, the dispossession of Native nations, and the spread of slavery. The purchase intensified the sectional crisis over whether slavery would expand into new territories — a conflict that culminated in the Civil War. Jefferson also knew the purchase sat uneasily with his own strict-constructionist constitutional principles, privately admitting it exceeded his reading of presidential authority but proceeding anyway, prioritizing political expediency over the constitutional limits he had spent his career championing.",
+    "sources": [
+      {
+        "url": "https://history.state.gov/milestones/1801-1829/louisiana-purchase",
+        "text": "U.S. State Department Office of the Historian — The Louisiana Purchase (1803)"
+      },
+      {
+        "url": "https://www.archives.gov/exhibits/american_originals/louistxt.html",
+        "text": "National Archives — Louisiana Purchase Treaty"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Laid Groundwork for Native American Removal Through Debt and Coercion",
+    "shortLabel": "Native Removal Groundwork",
+    "description": "Jefferson's Native American policy promoted \"civilization\" programs and land cession treaties as official federal strategy, but his private correspondence reveals a more deliberate and coercive design. He wrote to government officials that encouraging Native nations to accumulate debt through federal trading posts would pressure them into selling land to repay what they owed — a strategy of engineered economic dependency used to extract territorial concessions. While Jefferson's policies were less immediately violent than Andrew Jackson's forced removal program, historians recognize them as a direct intellectual and policy predecessor to the Indian Removal Act of 1830, providing the framework and justifications that later administrations built upon.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/thomas-jefferson/jefferson-and-native-americans/",
+        "text": "Monticello — Thomas Jefferson and Native Americans"
+      },
+      {
+        "url": "https://history.state.gov/milestones/1801-1829/native-american-diplomacy",
+        "text": "U.S. State Department — Jefferson's Native American Policy"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "The Embargo Act Devastated American Commerce",
+    "shortLabel": "Embargo Act",
+    "description": "Jefferson's Embargo Act of 1807 prohibited American ships from engaging in foreign trade in an attempt to economically pressure Britain and France to respect U.S. neutral shipping rights during the Napoleonic Wars. The policy failed entirely as a diplomatic instrument — neither Britain nor France changed course — while inflicting severe economic damage on American merchants, sailors, farmers, and port communities, particularly in New England. The embargo is widely regarded as one of the most damaging peacetime economic policies in early American history. Jefferson eventually acknowledged its failure and signed its repeal three days before leaving office.",
+    "sources": [
+      {
+        "url": "https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/embargo-act-1807/",
+        "text": "Monticello — The Embargo Act of 1807"
+      },
+      {
+        "url": "https://history.state.gov/milestones/1801-1829/embargo-act",
+        "text": "U.S. State Department Office of the Historian — The Embargo Act of 1807"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Enforced the Embargo with Sweeping Federal Powers He Opposed in Principle",
+    "shortLabel": "Embargo Enforcement",
+    "description": "The enforcement of the Embargo Act required the kind of intrusive federal authority over commerce and individual behavior that Jefferson had spent his political career condemning as tyrannical. To suppress widespread smuggling — particularly in New England and along the Canadian border — his administration obtained broad enforcement powers, authorized warrantless searches of vessels and warehouses, and deployed military force against American citizens engaged in trade. The spectacle of Jefferson, the great champion of limited government and states' rights, presiding over an aggressive federal enforcement regime against his own citizens was politically devastating and exposed a deep contradiction between his constitutional principles and his exercise of presidential power.",
+    "sources": [
+      {
+        "url": "https://www.loc.gov/law/help/statutes-at-large/10th-congress/session-2/c10s2ch5.pdf",
+        "text": "Library of Congress — Embargo Act Enforcement Legislation (1808)"
+      },
+      {
+        "url": "https://www.britannica.com/event/Embargo-Act",
+        "text": "Britannica — Embargo Act: Enforcement and Consequences"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Constitutional Flexibility Contradicted His Own Principles",
+    "shortLabel": "Constitutional Hypocrisy",
+    "description": "Jefferson built his political identity in large part on strict constitutional construction — the argument that the federal government could exercise only powers explicitly granted to it by the Constitution. As president, he abandoned this principle when it suited him, most visibly with the Louisiana Purchase, for which he privately acknowledged there was no clear constitutional authority. He chose to proceed rather than seek a constitutional amendment, prioritizing the political and strategic opportunity over his stated principles. The pattern of Jefferson invoking constitutional limits against his opponents while disregarding them when in power is one of the most consistently noted contradictions of his presidency.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/jefferson/key-events",
+        "text": "Miller Center — Thomas Jefferson: Key Events of His Presidency"
+      },
+      {
+        "url": "https://www.britannica.com/biography/Thomas-Jefferson/President-of-the-United-States",
+        "text": "Britannica — Thomas Jefferson: The Presidency"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Democratic Ideals Built on Deliberate Exclusion",
+    "shortLabel": "Exclusionary Democracy",
+    "description": "Jefferson's contributions to American democratic language — most powerfully \"all men are created equal\" — are foundational, but his actual vision of political life systematically excluded the majority of people living in the republic he helped create. Enslaved people, free Black people, Native Americans, women, and landless white men were excluded from the political equality Jefferson articulated. This was not accidental or merely a reflection of his era — Jefferson actively defended and sustained the institutions, laws, and ideological frameworks that kept these groups outside the polity. The result was a nation whose founding language promised universal human equality and whose founding institutions were deliberately structured to deny it, a contradiction Jefferson did more than almost anyone to both create and entrench.",
+    "sources": [
+      {
+        "url": "https://www.loc.gov/exhibits/jefferson/jeffamer.html",
+        "text": "Library of Congress — Jefferson's Vision for America"
+      },
+      {
+        "url": "https://www.monticello.org/research-education/thomas-jefferson-encyclopedia/liberty-and-slavery/",
+        "text": "Monticello — Liberty and Slavery: The Paradox of Jefferson"
+      }
+    ]
+  }
+]

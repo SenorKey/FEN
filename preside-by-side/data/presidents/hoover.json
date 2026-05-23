@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 9,
+    "title": "Failed to Respond Adequately to the Great Depression",
+    "shortLabel": "Depression Response",
+    "description": "Hoover did not cause the Great Depression, but his response to it — rooted in a philosophical commitment to voluntarism, private charity, and local relief over direct federal action — left millions of Americans without meaningful help during the worst economic collapse in the nation's history. Unemployment reached 25 percent, banks failed by the thousands, and farm incomes collapsed while Hoover resisted direct federal relief on the grounds that it would undermine individual character and expand government inappropriately. The Miller Center notes his Depression response has defined his historical legacy. When federal intervention did come, it was too limited and too late to prevent catastrophic human suffering or his landslide electoral defeat.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/hoover/domestic-affairs",
+        "text": "Miller Center — Herbert Hoover: Domestic Affairs and the Great Depression"
+      },
+      {
+        "url": "https://hoover.archives.gov/info/depression.html",
+        "text": "Herbert Hoover Presidential Library — Hoover and the Great Depression"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Withheld Direct Federal Relief from Unemployed and Hungry Americans",
+    "shortLabel": "Denied Federal Relief",
+    "description": "Throughout the early years of the Depression, Hoover refused to authorize direct federal relief for unemployed and destitute Americans, insisting that local governments, charities, and voluntary cooperation were the appropriate response to mass unemployment and hunger. Private charity and state resources were catastrophically overwhelmed. He eventually signed the Emergency Relief and Construction Act in July 1932 — allowing the Reconstruction Finance Corporation to lend $300 million to states for relief purposes — but this came nearly three years into the Depression and months before he left office. By then, Hoovervilles had become a national symbol of his administration's inadequate response to the scale of the crisis.",
+    "sources": [
+      {
+        "url": "https://www.federalreservehistory.org/essays/reconstruction-finance-corp",
+        "text": "Federal Reserve History — The Reconstruction Finance Corporation"
+      },
+      {
+        "url": "https://hoover.archives.gov/info/depression.html",
+        "text": "Herbert Hoover Presidential Library — Relief Policy During the Depression"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Signed the Smoot-Hawley Tariff",
+    "shortLabel": "Smoot-Hawley Tariff",
+    "description": "In June 1930, Hoover signed the Smoot-Hawley Tariff Act, raising import duties on more than 20,000 goods to record levels at precisely the moment the global economy was contracting. More than 1,000 economists signed a public petition urging him to veto it. Trading partners retaliated with their own tariffs, global trade collapsed, and the international economic contraction deepened. While the Great Depression had many causes and Smoot-Hawley alone did not create it, economists and historians widely regard the Act as a serious policy error that worsened and prolonged the downturn by choking off international trade at the worst possible moment.",
+    "sources": [
+      {
+        "url": "https://www.senate.gov/artandhistory/history/minute/Smoot_Hawley_Tariff.htm",
+        "text": "U.S. Senate — Smoot-Hawley Tariff: Historical Minute Essay"
+      },
+      {
+        "url": "https://www.econlib.org/library/Enc/SmootHawleyTariff.html",
+        "text": "Library of Economics and Liberty — Smoot-Hawley Tariff"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Ordered the Forcible Eviction of the Bonus Army",
+    "shortLabel": "Bonus Army Eviction",
+    "description": "In the summer of 1932, roughly 43,000 people — including World War I veterans, their families, and supporters — marched on Washington to demand early payment of service bonuses promised for 1945. After Congress rejected the bonus bill, Hoover ordered federal troops to clear veterans from occupied federal property. General Douglas MacArthur exceeded those orders, driving veterans and their families from all their camps with cavalry, infantry, and tanks, burning their shelters to the ground. Images of the U.S. Army turning on desperate veterans who had fought in the World War were politically devastating and morally damning, becoming one of the defining moments of Hoover's presidency.",
+    "sources": [
+      {
+        "url": "https://www.history.com/topics/great-depression/bonus-army",
+        "text": "History.com — The Bonus Army: World War I Veterans' March on Washington"
+      },
+      {
+        "url": "https://www.archives.gov/publications/prologue/2006/summer/bonus-army.html",
+        "text": "National Archives — The Bonus Army (Prologue, Summer 2006)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Rescued Banks While Leaving Ordinary Americans Without Help",
+    "shortLabel": "Banks Over People",
+    "description": "Hoover's Reconstruction Finance Corporation, created in January 1932, provided emergency loans to banks, railroads, insurance companies, and other large financial institutions. While financial system stabilization had genuine economic logic, the political and human reality was stark: institutions deemed too important to fail received federal assistance while millions of unemployed Americans were told direct relief was not the government's responsibility. The Federal Reserve History notes the RFC's mandate was emergency financing for financial institutions; the theory that RFC loans would flow through banks and businesses to workers proved wrong in practice — banks hoarded capital and businesses did not hire. The contrast between institutional rescue and individual abandonment became the defining image of Hoover's failure.",
+    "sources": [
+      {
+        "url": "https://www.federalreservehistory.org/essays/reconstruction-finance-corp",
+        "text": "Federal Reserve History — The Reconstruction Finance Corporation"
+      },
+      {
+        "url": "https://www.trumanlibrary.gov/education/presidential-inquiries/reconstruction-finance-corporation",
+        "text": "Truman Presidential Library — The Reconstruction Finance Corporation"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Raised Taxes During the Depression",
+    "shortLabel": "Depression-Era Tax Hike",
+    "description": "In 1932, Hoover signed the Revenue Act, which sharply increased income tax rates — raising the top marginal rate from 25 percent to 63 percent — along with new taxes on corporations, estates, and a broad range of consumer goods, in an effort to balance the federal budget and preserve the government's credit. The balanced-budget impulse was conventional wisdom among policymakers of the era, but in hindsight the Revenue Act was deeply contractionary: raising taxes during a collapsing economy withdrew purchasing power from a system already in freefall, reducing demand and deepening the contraction. Most economic historians view it as one of the worst fiscal policy decisions of the Depression era.",
+    "sources": [
+      {
+        "url": "https://www.taxfoundation.org/revenue-act-1932/",
+        "text": "Tax Foundation — The Revenue Act of 1932"
+      },
+      {
+        "url": "https://www.cbo.gov/sites/default/files/cbofiles/ftpdocs/83xx/doc8366/maintext.3.1.shtml",
+        "text": "Congressional Budget Office — Historical Tax Policy: The 1932 Revenue Act in Context"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Presided Over Mass Deportation of Mexicans and Mexican Americans",
+    "shortLabel": "Mexican Repatriation",
+    "description": "During Hoover's presidency, a coordinated campaign of federal deportations and local coercion pressured hundreds of thousands of people of Mexican origin to leave the United States, including large numbers of U.S.-born citizens with full legal rights. The Labor Department under Hoover's appointee William Doak intensified deportation enforcement, and federal action created political cover for state and local campaigns of intimidation and forced removal. Digital History documents that 82,400 people were involuntarily deported by federal authorities, while local pressure drove many more to leave. Decades later, the state of California formally apologized for its role in what it acknowledged were unconstitutional deportations of American citizens.",
+    "sources": [
+      {
+        "url": "https://www.digitalhistory.uh.edu/disp_textbook.cfm?smtID=2&psid=3479",
+        "text": "Digital History — Mexican Repatriation During the Great Depression"
+      },
+      {
+        "url": "https://www.loc.gov/item/2021387543/",
+        "text": "Library of Congress — Mexican Repatriation: Primary Source Documentation"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Nominated John J. Parker to the Supreme Court",
+    "shortLabel": "Parker Nomination",
+    "description": "In 1930, Hoover nominated Judge John J. Parker of North Carolina to the Supreme Court. Parker was opposed by the American Federation of Labor over a ruling that upheld \"yellow dog\" contracts barring workers from joining unions, and by the NAACP over statements he had made opposing Black political participation in elections. The Senate rejected the nomination 41–39 in a significant early defeat for Hoover. The episode was a meaningful failure of political judgment that damaged Hoover's standing with both organized labor and Black voters — constituencies whose support Republicans could not afford to lose heading into a difficult economic and electoral environment.",
+    "sources": [
+      {
+        "url": "https://www.senate.gov/artandhistory/history/common/generic/nominations_parker.htm",
+        "text": "U.S. Senate — Rejection of the John J. Parker Nomination (1930)"
+      },
+      {
+        "url": "https://www.fjc.gov/history/judges/parker-john-johnston",
+        "text": "Federal Judicial Center — John J. Parker: Biographical Data"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Weak Civil Rights Leadership During a Period of Severe Racial Inequality",
+    "shortLabel": "Civil Rights Failure",
+    "description": "Hoover did not make racial equality a meaningful presidential priority, and his relationship with Black Americans — who had been a significant Republican constituency since Reconstruction — deteriorated sharply during his presidency. The Parker nomination was the most visible symbol of this failure. More broadly, Black Americans experienced the Depression in its most severe form, routinely excluded from local relief programs by discriminatory administrators, denied agricultural assistance, and shut out of public works jobs. Hoover's limited federal relief approach left Black communities exposed to exactly these local discriminatory systems without meaningful federal protection or redress.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/hoover/domestic-affairs",
+        "text": "Miller Center — Hoover's Civil Rights Record"
+      },
+      {
+        "url": "https://www.naacp.org/naacp-history-and-the-great-depression/",
+        "text": "NAACP — Civil Rights and the Great Depression Era"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Persistently Underestimated the Scale and Duration of the Crisis",
+    "shortLabel": "Crisis Underestimation",
+    "description": "Throughout the Depression's early years, Hoover repeatedly predicted imminent recovery and framed the crisis as a manageable disruption that could be addressed through confidence-building, voluntary cooperation, and limited credit interventions. His public optimism — including statements that \"prosperity is just around the corner\" — became politically toxic as conditions worsened and millions remained destitute. Whether rooted in genuine belief or a calculated attempt to prevent panic, the persistent gap between Hoover's reassurances and the lived reality of Americans losing homes, farms, and livelihoods contributed to the collapse of public trust in his administration and the perception that he was fundamentally detached from the scale of national suffering.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/hoover/key-events",
+        "text": "Miller Center — Herbert Hoover: Key Events of His Presidency"
+      },
+      {
+        "url": "https://hoover.archives.gov/info/depression.html",
+        "text": "Herbert Hoover Presidential Library — Hoover's Public Statements on the Depression"
+      }
+    ]
+  }
+]

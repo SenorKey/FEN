@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 9,
+    "title": "Teapot Dome: The Defining Corruption Scandal of His Administration",
+    "shortLabel": "Teapot Dome",
+    "description": "The Teapot Dome scandal became the most notorious symbol of government corruption in American history up to that point. Harding's Interior Secretary Albert B. Fall secretly leased federally owned naval oil reserves at Teapot Dome, Wyoming and Elk Hills, California to private oil companies in exchange for cash bribes and no-interest loans. The U.S. Senate documents that Fall became the first former Cabinet official in American history to be imprisoned for crimes committed while in office. Harding was not personally shown to have profited, but the scandal unfolded entirely within his administration, involving a Cabinet member he had personally chosen and trusted with the federal assets Fall proceeded to loot.",
+    "sources": [
+      {
+        "url": "https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm",
+        "text": "U.S. Senate — Teapot Dome Scandal: Historical Overview"
+      },
+      {
+        "url": "https://www.archives.gov/education/lessons/teapot-dome",
+        "text": "National Archives — Teapot Dome: Primary Documents in American History"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Transferred Naval Oil Reserves to Interior Department, Enabling the Scandal",
+    "shortLabel": "Oil Reserve Transfer",
+    "description": "Before the Teapot Dome scandal fully unfolded, Harding signed Executive Order 3474 on May 21, 1921, transferring control of the strategic naval petroleum reserves from the Navy Department — where they had been held for national security purposes — to the Interior Department under Albert Fall. The Levin Center documents this transfer as the administrative move that gave Fall the authority he needed to lease the reserves corruptly to private oil interests. Whether Harding understood what he was enabling or simply trusted Fall without scrutiny, the executive order was the mechanism that made the scandal possible, and he signed it.",
+    "sources": [
+      {
+        "url": "https://levin.senate.gov/imo/media/doc/supporting/2012/PSI_OilContractReports_022712.pdf",
+        "text": "Levin Center — Executive Order 3474 and the Naval Oil Reserve Transfer"
+      },
+      {
+        "url": "https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm",
+        "text": "U.S. Senate — Teapot Dome: The Oil Reserve Transfer"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Filled His Administration with the Corrupt \"Ohio Gang\"",
+    "shortLabel": "Ohio Gang",
+    "description": "Harding staffed his administration with a network of political associates and personal friends from Ohio — known collectively as the \"Ohio Gang\" — many of whom used their government positions for personal enrichment and fraud. The Miller Center documents that multiple Ohio Gang figures were later charged with defrauding the government, with several imprisoned. Britannica similarly describes the group as betraying the public trust through a series of interlocking scandals. Harding had capable Cabinet members — Hughes, Mellon, and Hoover among them — which makes the Ohio Gang appointments all the more damning as a failure of judgment: he knew what competent, ethical governance looked like and still handed critical positions to men who looted the offices he gave them.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/harding/domestic-affairs",
+        "text": "Miller Center — Warren Harding: The Ohio Gang and Administration Corruption"
+      },
+      {
+        "url": "https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals",
+        "text": "Britannica — Warren G. Harding: Administration Scandals and the Ohio Gang"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Veterans Bureau Director Looted Funds Meant for World War I Veterans",
+    "shortLabel": "Veterans Bureau Fraud",
+    "description": "Charles R. Forbes, whom Harding personally appointed to lead the newly created Veterans Bureau, systematically looted the agency through corrupt contracts for veterans' hospital construction and supply procurement — stealing funds appropriated by Congress to care for World War I veterans. Britannica documents that Forbes was subsequently convicted of fraud, conspiracy, and bribery. The Veterans Bureau scandal was in many ways morally worse than Teapot Dome: it involved the deliberate theft of resources designated for soldiers who had been wounded or sickened in service to their country. Harding reportedly confronted Forbes personally when rumors reached him, but allowed him to resign and flee to Europe rather than immediately exposing and prosecuting him.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals",
+        "text": "Britannica — Charles Forbes and the Veterans Bureau Scandal"
+      },
+      {
+        "url": "https://www.va.gov/opa/publications/celebrate/vetsbureau.pdf",
+        "text": "U.S. Department of Veterans Affairs — History of the Veterans Bureau"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Knew About Corruption but Failed to Expose It",
+    "shortLabel": "Concealed Corruption",
+    "description": "The most damning personal charge against Harding is not that he was corrupt himself but that he became aware of serious corruption within his administration and failed to confront it decisively or publicly. Britannica states plainly that while Harding was not personally implicated in Teapot Dome or the other major scandals, he was aware of corrupt behavior by Ohio Gang associates and chose not to expose it. He reportedly told associates in the final months of his life that betrayal by his friends was destroying him — suggesting he understood the scale of what was happening while still prioritizing personal loyalty over public duty. That choice to protect corrupt friends rather than the public interest is a fundamental failure of the presidency.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/biography/Warren-G-Harding/Administration-and-scandals",
+        "text": "Britannica — Harding's Awareness of Administration Corruption"
+      },
+      {
+        "url": "https://millercenter.org/president/harding/key-events",
+        "text": "Miller Center — Warren Harding: Key Events and the Corruption Crisis"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Appointed Harry Daugherty as Attorney General",
+    "shortLabel": "Daugherty Appointment",
+    "description": "Harding appointed Harry Daugherty — the Ohio Gang's central political operative and the man most responsible for engineering Harding's own nomination — as Attorney General of the United States, placing the nation's chief law enforcement officer in the hands of a figure deeply embedded in the corrupt network that would define his administration. Daugherty was investigated after Harding's death, resigned under pressure during the Coolidge administration, and faced two criminal trials before ultimately escaping conviction on a hung jury. Britannica identifies Daugherty as the Ohio Gang's leader. Placing such a figure atop the Justice Department — the institution responsible for prosecuting federal corruption — was a failure of judgment with systemic consequences for the rule of law.",
+    "sources": [
+      {
+        "url": "https://www.britannica.com/biography/Harry-M-Daugherty",
+        "text": "Britannica — Harry M. Daugherty: Attorney General and Ohio Gang"
+      },
+      {
+        "url": "https://millercenter.org/president/harding/domestic-affairs",
+        "text": "Miller Center — Harding's Cabinet Appointments and Daugherty"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Signed the Emergency Quota Act, Embedding Eugenic Immigration Restriction",
+    "shortLabel": "Immigration Quota Act",
+    "description": "Harding signed the Emergency Quota Act of 1921, which introduced national-origin quotas to sharply restrict immigration for the first time in American history. Immigration History documents that the quotas were designed using eugenic research and restrictionist recommendations, structured to heavily favor immigrants from Northern and Western Europe while drastically limiting arrivals from Southern and Eastern Europe — Jews, Italians, Poles, Greeks, and others deemed racially inferior by the eugenicist thinking that undergirded the law. The Act was framed as temporary but established the quota framework that the far harsher Johnson-Reed Act of 1924 would make permanent, reshaping the ethnic composition of American immigration for four decades.",
+    "sources": [
+      {
+        "url": "https://immigrationhistory.org/item/emergency-quota-act/",
+        "text": "Immigration History — The Emergency Quota Act of 1921"
+      },
+      {
+        "url": "https://history.state.gov/milestones/1921-1936/immigration-act",
+        "text": "U.S. State Department Office of the Historian — The Immigration Act of 1921"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Used Sweeping Injunction to Crush the 1922 Railroad Strike",
+    "shortLabel": "1922 Railroad Strike",
+    "description": "When railroad shopmen walked out in July 1922 over wage cuts imposed by the Railroad Labor Board, Harding's administration initially attempted mediation but ultimately backed a legal assault on the strike. Attorney General Daugherty obtained one of the most sweeping federal injunctions in American labor history, prohibiting striking, picketing, strike fund payments, and virtually any other form of union support activity. Critics condemned the injunction as an abuse of judicial power in service of the railroads, and labor organizations saw it as the federal government once again using its legal machinery to destroy worker organizing rather than protect workers' rights to bargain collectively.",
+    "sources": [
+      {
+        "url": "https://www.dol.gov/general/aboutdol/history/chapter2",
+        "text": "U.S. Department of Labor — The 1922 Railroad Strike and Federal Response"
+      },
+      {
+        "url": "https://millercenter.org/president/harding/domestic-affairs",
+        "text": "Miller Center — Harding and the 1922 Railroad and Coal Strikes"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Vetoed the World War I Veterans' Bonus Bill",
+    "shortLabel": "Veterans Bonus Veto",
+    "description": "In 1922, Harding vetoed a bill to provide adjusted compensation — commonly called a \"bonus\" — to World War I veterans who had served at military pay rates far below what civilian war-industry workers had earned during the same period. The House historical record documents the veto; the Miller Center notes Harding argued that balancing the federal budget took priority over the debt owed to veterans. The fiscal argument was not irrational given postwar debt levels, but the veto landed badly alongside the simultaneous corruption of the Veterans Bureau under Forbes — creating the damaging appearance that Harding's administration would steal from veterans through Forbes while refusing to compensate them through Congress.",
+    "sources": [
+      {
+        "url": "https://history.house.gov/Historical-Highlights/1901-1950/The-Bonus-Bill/",
+        "text": "U.S. House of Representatives — The Veterans' Bonus Bill"
+      },
+      {
+        "url": "https://millercenter.org/president/harding/domestic-affairs",
+        "text": "Miller Center — Harding's Veto of the Veterans' Bonus"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Lax Presidential Management Allowed Corruption to Flourish",
+    "shortLabel": "Management Failure",
+    "description": "Harding's administration included genuinely capable figures — Secretary of State Charles Evans Hughes, Treasury Secretary Andrew Mellon, and Commerce Secretary Herbert Hoover were all serious and effective — which makes his management failures elsewhere all the more striking as a matter of deliberate choice. The Miller Center documents that Harding admitted to close friends that the job was beyond him. His governing style was built on personal loyalty and a deep aversion to confrontation, which meant that when associates abused their positions, Harding's instinct was to look away rather than act. That temperamental unfitness for the disciplined, skeptical oversight the presidency required allowed the Ohio Gang's corruption to metastasize throughout his administration unchecked.",
+    "sources": [
+      {
+        "url": "https://millercenter.org/president/harding/domestic-affairs",
+        "text": "Miller Center — Harding's Presidential Management Style"
+      },
+      {
+        "url": "https://www.britannica.com/biography/Warren-G-Harding/Presidency",
+        "text": "Britannica — Warren G. Harding: Presidential Leadership and Its Failures"
+      }
+    ]
+  }
+]

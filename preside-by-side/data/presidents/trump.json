@@ -1,0 +1,162 @@
+[
+  {
+    "severity": 10,
+    "title": "Attempted to Overturn the 2020 Election",
+    "shortLabel": "Election Overturn",
+    "description": "Following his 2020 defeat, Trump pushed false election-fraud claims, pressured state officials to alter results, coordinated alternate-elector schemes in multiple states, and pressured Vice President Pence to refuse certification of the Electoral College vote. The House January 6th Committee concluded Trump was the central cause of the effort to subvert the transfer of power. The DOJ later indicted him on four federal counts related to the scheme.",
+    "sources": [
+      {
+        "url": "https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf",
+        "text": "House Select Committee Final Report — U.S. Government Publishing Office (2022)"
+      },
+      {
+        "url": "https://www.justice.gov/storage/US_v_Trump_23_cr_257.pdf",
+        "text": "United States v. Trump — Federal Indictment, DOJ (Aug. 2023)"
+      }
+    ]
+  },
+  {
+    "severity": 9,
+    "title": "Conduct on January 6th",
+    "shortLabel": "Jan. 6 Capitol",
+    "description": "On January 6, 2021, Trump summoned supporters to Washington D.C., addressed them with continued false election claims, and directed them to march to the Capitol. After the building was breached, he waited roughly three hours before issuing a public statement asking the crowd to leave, during which time legislators were sheltering from rioters. The House Jan. 6 Committee found he was aware of the violence and took no meaningful action to stop it.",
+    "sources": [
+      {
+        "url": "https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf",
+        "text": "House Select Committee Final Report — U.S. Government Publishing Office (2022)"
+      },
+      {
+        "url": "https://www.congress.gov/117/bills/hres851/BILLS-117hres851eh.pdf",
+        "text": "House Resolution Impeaching Trump for Incitement of Insurrection (Jan. 2021)"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Family Separation at the Border",
+    "shortLabel": "Family Separation",
+    "description": "The Trump administration's \"zero tolerance\" policy, implemented in 2018, resulted in more than 3,000 children being separated from their parents at the southern border. A DOJ Office of Inspector General report found that the administration had failed to plan for the separations and did not establish an adequate system to track or reunite families. Many separations occurred even when parents had no criminal history beyond the civil immigration crossing.",
+    "sources": [
+      {
+        "url": "https://oig.justice.gov/reports/2020/e21012.pdf",
+        "text": "DOJ Office of Inspector General Report on Family Separation (Jan. 2021)"
+      },
+      {
+        "url": "https://www.aclu.org/report/family-separation-aclu-report",
+        "text": "ACLU Report: Family Separation by the Numbers"
+      }
+    ]
+  },
+  {
+    "severity": 8,
+    "title": "Withheld Ukraine Aid to Pressure Political Investigations",
+    "shortLabel": "Ukraine Aid Freeze",
+    "description": "In 2019, Trump withheld congressionally approved military aid to Ukraine while his administration pressed Ukrainian officials to publicly announce investigations into Joe Biden and his son Hunter. The Government Accountability Office concluded that the Office of Management and Budget violated the Impoundment Control Act by withholding the funds. Trump was impeached by the House over the matter; the Senate acquitted him largely along party lines.",
+    "sources": [
+      {
+        "url": "https://www.gao.gov/assets/gao-20-254.pdf",
+        "text": "GAO Decision: OMB Violated Impoundment Control Act (Jan. 2020)"
+      },
+      {
+        "url": "https://www.congress.gov/116/bills/hres755/BILLS-116hres755enr.pdf",
+        "text": "House Articles of Impeachment — 116th Congress (Dec. 2019)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Mishandled Classified Documents and Obstructed Retrieval",
+    "shortLabel": "Classified Docs",
+    "description": "After leaving office, Trump retained hundreds of classified and national-defense documents at his Mar-a-Lago residence. Federal prosecutors alleged in a 37-count indictment that he refused to return the materials when requested, directed aides to move boxes to conceal them from investigators, and showed documents to unauthorized individuals. The case was ultimately dismissed on procedural grounds related to the special counsel's appointment, but the underlying evidence and indictment remain a matter of public record.",
+    "sources": [
+      {
+        "url": "https://www.justice.gov/storage/US_v_Trump_23_cr_80101.pdf",
+        "text": "United States v. Trump — Classified Documents Indictment, DOJ (Jun. 2023)"
+      },
+      {
+        "url": "https://www.archives.gov/files/foia/pdfs/2022-nara-trump-referral.pdf",
+        "text": "National Archives Referral to DOJ Regarding Presidential Records (Feb. 2022)"
+      }
+    ]
+  },
+  {
+    "severity": 7,
+    "title": "Convicted of 34 Felony Counts of Falsifying Business Records",
+    "shortLabel": "Felony Conviction",
+    "description": "In May 2024, Trump was convicted by a Manhattan jury on all 34 felony counts of falsifying business records in the first degree. The charges stemmed from payments made to adult film actress Stormy Daniels before the 2016 election, recorded as legal expenses to conceal their true nature. He was sentenced in January 2025 to an unconditional discharge — no prison, probation, or fine — but the criminal conviction stands while he pursues appeals.",
+    "sources": [
+      {
+        "url": "https://www.nycourts.gov/courts/1jd/supctmanh/index.shtml",
+        "text": "New York Supreme Court — People v. Trump, Case No. 71543-23"
+      },
+      {
+        "url": "https://apnews.com/article/trump-hush-money-trial-verdict-conviction-2024",
+        "text": "Associated Press — Trump Convicted on All 34 Counts (May 2024)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Found Liable for Sexual Abuse and Defamation",
+    "shortLabel": "E. Jean Carroll",
+    "description": "In May 2023, a federal civil jury found Trump liable for sexually abusing writer E. Jean Carroll and for defaming her after she went public with her account, awarding her $5 million. In a separate January 2024 defamation trial, a second jury awarded Carroll $83.3 million after Trump continued to deny the abuse publicly. Trump has appealed both verdicts. The jury findings constitute formal civil court determinations of liability.",
+    "sources": [
+      {
+        "url": "https://www.courtlistener.com/docket/6452284/carroll-v-trump/",
+        "text": "Carroll v. Trump — Federal Court Docket, S.D.N.Y."
+      },
+      {
+        "url": "https://apnews.com/article/trump-carroll-defamation-verdict-83-million-2024",
+        "text": "Associated Press — Jury Awards Carroll $83.3 Million (Jan. 2024)"
+      }
+    ]
+  },
+  {
+    "severity": 6,
+    "title": "Found Liable for Years of Civil Business Fraud",
+    "shortLabel": "Business Fraud",
+    "description": "A New York judge found Trump, his adult sons, and the Trump Organization liable for persistent civil fraud involving years of inflated asset valuations used to obtain favorable loan terms and insurance rates. The trial court initially ordered more than $450 million in penalties including interest. An appellate court later reduced the bond requirement while the case proceeds on appeal, but the underlying factual findings of fraudulent financial statements have not been overturned.",
+    "sources": [
+      {
+        "url": "https://ag.ny.gov/sites/default/files/2024-02/trump-judgment.pdf",
+        "text": "New York AG — Final Judgment, People v. Trump Organization (Feb. 2024)"
+      },
+      {
+        "url": "https://apnews.com/article/trump-fraud-trial-verdict-new-york-2024",
+        "text": "Associated Press — Judge Orders $355 Million Penalty (Feb. 2024)"
+      }
+    ]
+  },
+  {
+    "severity": 4,
+    "title": "Used Pardon Power for Political Allies and Personal Associates",
+    "shortLabel": "Loyalty Pardons",
+    "description": "Trump used his presidential clemency power to pardon or commute sentences for a number of individuals with direct personal or political ties to him, including Michael Flynn, Roger Stone, Paul Manafort, and Steve Bannon — all of whom had been convicted or charged in connection with matters that touched on Trump's own conduct or political interests. Legal scholars and former officials noted the pattern raised serious concerns about self-interested use of the pardon power, even though presidents hold broad constitutional authority over clemency.",
+    "sources": [
+      {
+        "url": "https://www.justice.gov/pardon/pardons-granted-president-donald-trump-2017-2021",
+        "text": "DOJ — Pardons Granted by President Donald Trump (2017–2021)"
+      },
+      {
+        "url": "https://www.brookings.edu/articles/trump-pardons-and-clemency/",
+        "text": "Brookings Institution — Analysis of Trump Clemency Grants"
+      }
+    ]
+  },
+  {
+    "severity": 5,
+    "title": "Travel Ban Targeting Primarily Muslim-Majority Countries",
+    "shortLabel": "Travel Ban",
+    "description": "Shortly after taking office in 2017, Trump signed executive orders restricting travel from several countries, the majority of which were Muslim-majority nations. Earlier versions were blocked in courts; a later revised version was upheld 5–4 by the Supreme Court in Trump v. Hawaii (2018). Critics pointed to Trump's own campaign statements calling for a \"Muslim ban\" as evidence of discriminatory intent. The ban separated families, blocked refugees, and affected students, workers, and travelers with legal visas.",
+    "sources": [
+      {
+        "url": "https://supreme.justia.com/cases/federal/us/585/18-280/",
+        "text": "Trump v. Hawaii — Supreme Court Opinion (Jun. 2018)"
+      },
+      {
+        "url": "https://www.aclu.org/cases/trump-v-hawaii",
+        "text": "ACLU — Trump v. Hawaii Case Summary"
+      }
+    ]
+  }
+]
