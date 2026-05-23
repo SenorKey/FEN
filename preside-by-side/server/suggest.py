@@ -124,15 +124,18 @@ def suggest():
     why = (data.get('why') or '').strip()
 
     if not president or not event:
+        log.info('rejected: missing required fields (president=%r event=%r)', president[:30], event[:30])
         return jsonify(ok=False, error='president and event are required'), 400
 
     for name, val in (('president', president), ('event', event), ('source', source), ('why', why)):
         if len(val) > MAX_LENGTHS[name]:
+            log.info('rejected: %s exceeds %d chars (len=%d)', name, MAX_LENGTHS[name], len(val))
             return jsonify(ok=False, error=f'{name} exceeds {MAX_LENGTHS[name]} chars'), 400
 
     if source:
         u = urlparse(source)
         if u.scheme not in ('http', 'https') or not u.netloc:
+            log.info('rejected: invalid source URL %r', source[:100])
             return jsonify(ok=False, error='source must be a valid http(s) URL'), 400
 
     ua = request.headers.get('User-Agent', '')[:300]
