@@ -39,8 +39,6 @@ var C = {
     font: "'Saira', sans-serif", fontCond: "'Saira Condensed', sans-serif",
 };
 
-var FONT_LINK = "https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700;800&family=Saira+Condensed:wght@400;500;600;700;800&display=swap";
-
 /* ── Header segmented controls (view tabs + Save/Load/Export) ──
    Shared styling so both groups look identical. The container's
    flex-direction is flipped to a column on mobile (see App) so the
@@ -88,6 +86,17 @@ function writeLibrary(items) {
     try { localStorage.setItem(LIBRARY_KEY, JSON.stringify(items)); } catch (e) { console.warn("Library save failed", e); }
 }
 
+function findDuplicateLabel(data) {
+    var opp = data.match.opponent || "";
+    var our = data.match.ourTeam || "";
+    var dt = data.match.date || "";
+    var match = loadLibrary().find(function (e) {
+        return e.opponent === opp && e.ourTeam === our && e.date === dt;
+    });
+    if (!match) return null;
+    return (match.ourTeam || "Our Team") + " vs " + (match.opponent || "Opponent") + (match.date ? " (" + match.date + ")" : "");
+}
+
 function saveToLibrary(data) {
     var lib = loadLibrary();
     var entry = {
@@ -101,13 +110,7 @@ function saveToLibrary(data) {
     var idx = lib.findIndex(function (e) {
         return e.opponent === entry.opponent && e.ourTeam === entry.ourTeam && e.date === entry.date;
     });
-    if (idx > -1) {
-        var label = (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent") + (entry.date ? " (" + entry.date + ")" : "");
-        if (!confirm("An analysis for " + label + " already exists. Overwrite it?")) return null;
-        lib[idx] = entry;
-    } else {
-        lib.unshift(entry);
-    }
+    if (idx > -1) { lib[idx] = entry; } else { lib.unshift(entry); }
     writeLibrary(lib);
     return entry;
 }
@@ -154,6 +157,96 @@ function clearSaved() {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   CONFIRM MODAL
+   Replaces native window.confirm() — promise-based so callers can
+   `.then(ok => ...)`. Mount the returned `modal` once in the tree
+   and call `confirm({ message, ... })` to await a user decision.
+   ═══════════════════════════════════════════════════════════ */
+function ConfirmModal(props) {
+    useEffect(function () {
+        var onKey = function (e) {
+            if (e.key === "Escape") { e.preventDefault(); props.onCancel(); }
+            else if (e.key === "Enter") { e.preventDefault(); props.onConfirm(); }
+        };
+        document.addEventListener("keydown", onKey);
+        return function () { document.removeEventListener("keydown", onKey); };
+    }, [props.onCancel, props.onConfirm]);
+
+    return (
+        <div role="dialog" aria-modal="true" aria-label={props.title || "Confirm"}
+            onClick={props.onCancel}
+            style={{
+                position: "fixed", inset: 0, zIndex: 2000,
+                background: "rgba(0,0,0,0.6)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                padding: 16, fontFamily: C.font,
+            }}>
+            <div onClick={function (e) { e.stopPropagation(); }} style={{
+                background: C.bgCard, border: "1px solid " + C.borderActive,
+                borderRadius: 6, padding: 20, maxWidth: 380, width: "100%",
+                color: C.text, boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
+            }}>
+                <div style={{
+                    fontSize: 11, fontFamily: C.fontCond, fontWeight: 800,
+                    textTransform: "uppercase", letterSpacing: 2,
+                    color: props.danger ? C.danger : C.textMuted, marginBottom: 10,
+                }}>{props.title || "Confirm"}</div>
+                <div style={{ fontSize: 14, lineHeight: 1.4, marginBottom: 18 }}>
+                    {props.message}
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+                    <button onClick={props.onCancel} style={{
+                        ...segBtnStyle, padding: "8px 14px",
+                        background: "transparent", color: C.textMuted,
+                        border: "1px solid " + C.border,
+                    }}>{props.cancelLabel || "Cancel"}</button>
+                    <button onClick={props.onConfirm} autoFocus style={{
+                        ...segBtnStyle, padding: "8px 14px",
+                        background: props.danger ? C.danger : C.accent,
+                        color: props.danger ? "#fff" : C.bg,
+                    }}>{props.confirmLabel || "Confirm"}</button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function useConfirm() {
+    var _s = useState(null), state = _s[0], setState = _s[1];
+
+    var confirm = useCallback(function (opts) {
+        return new Promise(function (resolve) {
+            setState({
+                title: opts.title,
+                message: opts.message,
+                confirmLabel: opts.confirmLabel,
+                cancelLabel: opts.cancelLabel,
+                danger: !!opts.danger,
+                resolve: resolve,
+            });
+        });
+    }, []);
+
+    var handleCancel = function () {
+        if (state) { state.resolve(false); setState(null); }
+    };
+    var handleConfirm = function () {
+        if (state) { state.resolve(true); setState(null); }
+    };
+
+    var modal = state ? (
+        <ConfirmModal
+            title={state.title} message={state.message}
+            confirmLabel={state.confirmLabel} cancelLabel={state.cancelLabel}
+            danger={state.danger}
+            onCancel={handleCancel} onConfirm={handleConfirm}
+        />
+    ) : null;
+
+    return { confirm: confirm, modal: modal };
+}
+
+/* ═══════════════════════════════════════════════════════════
    MATCH CLOCK
    ═══════════════════════════════════════════════════════════ */
 function useMatchClock() {
@@ -171,7 +264,7 @@ function useMatchClock() {
 
     var minute = Math.floor(seconds / 60) + (half === 2 ? 45 : 0);
     var toggle = function () { setRunning(function (r) { return !r; }); };
-    var reset = function () { setSeconds(0); setRunning(false); };
+    var reset = function () { setSeconds(0); setRunning(false); setHalf(1); };
     var startSecondHalf = function () { setHalf(2); setSeconds(0); setRunning(true); };
 
     return { minute: minute, seconds: seconds % 60, running: running, half: half, toggle: toggle, reset: reset, startSecondHalf: startSecondHalf };
@@ -684,14 +777,22 @@ function ExportMenu(_ref) {
    SAVE BUTTON & LOAD MENU
    ═══════════════════════════════════════════════════════════ */
 function SaveButton(_ref) {
-    var data = _ref.data, onAction = _ref.onAction;
+    var data = _ref.data, onAction = _ref.onAction, confirm = _ref.confirm;
     var _s = useState(false), saved = _s[0], setSaved = _s[1];
-    var onClick = function () {
-        var entry = saveToLibrary(data);
-        if (!entry) return;
+    var commit = function () {
+        saveToLibrary(data);
         setSaved(true);
         setTimeout(function () { setSaved(false); }, 1400);
         if (onAction) onAction();
+    };
+    var onClick = function () {
+        var dupLabel = findDuplicateLabel(data);
+        if (!dupLabel) { commit(); return; }
+        confirm({
+            title: "Overwrite saved analysis",
+            message: "An analysis for " + dupLabel + " already exists. Overwrite it?",
+            confirmLabel: "Overwrite",
+        }).then(function (ok) { if (ok) commit(); });
     };
     return (
         <button onClick={onClick} aria-label="Save analysis" style={{
@@ -703,7 +804,7 @@ function SaveButton(_ref) {
 }
 
 function LoadMenu(_ref) {
-    var onLoad = _ref.onLoad, currentData = _ref.currentData, onAction = _ref.onAction;
+    var onLoad = _ref.onLoad, currentData = _ref.currentData, onAction = _ref.onAction, confirm = _ref.confirm;
     var _o = useState(false), open = _o[0], setOpen = _o[1];
     var _l = useState([]), lib = _l[0], setLib = _l[1];
     var ref = useRef(null);
@@ -722,21 +823,34 @@ function LoadMenu(_ref) {
             (d.summary && (d.summary.problems || d.summary.opportunities || d.summary.notes))));
     };
 
-    var load = function (entry) {
-        if (hasContent(currentData)) {
-            if (!confirm("Replace the current analysis with " + (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent") + "?")) return;
-        }
+    var doLoad = function (entry) {
         onLoad(entry.data);
         setOpen(false);
         if (onAction) onAction();
     };
 
+    var load = function (entry) {
+        if (!hasContent(currentData)) { doLoad(entry); return; }
+        confirm({
+            title: "Replace current analysis",
+            message: "Replace the current analysis with " + (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent") + "?",
+            confirmLabel: "Replace",
+        }).then(function (ok) { if (ok) doLoad(entry); });
+    };
+
     var remove = function (e, entry) {
         e.stopPropagation();
         var label = (entry.ourTeam || "Our Team") + " vs " + (entry.opponent || "Opponent");
-        if (!confirm("Delete saved analysis: " + label + "?")) return;
-        deleteFromLibrary(entry.id);
-        setLib(loadLibrary());
+        confirm({
+            title: "Delete saved analysis",
+            message: "Delete saved analysis: " + label + "?",
+            confirmLabel: "Delete",
+            danger: true,
+        }).then(function (ok) {
+            if (!ok) return;
+            deleteFromLibrary(entry.id);
+            setLib(loadLibrary());
+        });
     };
 
     var fmtSavedAt = function (iso) {
@@ -855,6 +969,7 @@ function App() {
     var clock = useMatchClock();
     var isMobile = useIsMobile();
     var _om = useState(null), openMenu = _om[0], setOpenMenu = _om[1];
+    var _cf = useConfirm(), confirm = _cf.confirm, confirmModal = _cf.modal;
 
     useEffect(function () {
         var saved = loadSaved();
@@ -888,7 +1003,16 @@ function App() {
     var updateSummary = function (key, val) { setData(function (d) { return { ...d, summary: { ...d.summary, [key]: val } }; }); };
 
     var resetAll = function () {
-        if (confirm("Clear all data and start fresh?")) { setData(INITIAL_DATA); clearSaved(); }
+        confirm({
+            title: "Reset all data",
+            message: "Clear all data and start fresh?",
+            confirmLabel: "Reset",
+            danger: true,
+        }).then(function (ok) {
+            if (!ok) return;
+            setData(INITIAL_DATA);
+            clearSaved();
+        });
     };
 
     var tabs = [
@@ -928,8 +1052,8 @@ function App() {
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "stretch" : "center",
         }}>
-            <SaveButton data={data} onAction={closeMenus} />
-            <LoadMenu currentData={data} onAction={closeMenus} onLoad={function (d) {
+            <SaveButton data={data} onAction={closeMenus} confirm={confirm} />
+            <LoadMenu currentData={data} onAction={closeMenus} confirm={confirm} onLoad={function (d) {
                 var merged = { ...INITIAL_DATA, ...d };
                 var idMap = {};
                 merged.boards = (merged.boards || []).map(function (b) {
@@ -954,8 +1078,7 @@ function App() {
             display: "flex", flexDirection: "column", background: C.bg, fontFamily: C.font, color: C.text,
             overflow: "hidden", height: "100%",
         }}>
-            <link href={FONT_LINK} rel="stylesheet" />
-
+            {confirmModal}
             {/* Header */}
             <div style={{
                 display: "flex", flexDirection: "column",
