@@ -1410,6 +1410,12 @@ body.hydrated .picker-badge {
     box-shadow: 0 0 0 2px rgba(77, 127, 255, 0.28);
 }
 
+.suggest-input.is-invalid,
+.suggest-input.is-invalid:focus {
+    border-color: var(--red-glow);
+    box-shadow: 0 0 0 2px rgba(231, 65, 84, 0.28);
+}
+
 .suggest-submit {
     align-self: flex-start;
     margin-top: 2px;

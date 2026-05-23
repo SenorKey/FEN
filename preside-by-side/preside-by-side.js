@@ -3108,6 +3108,9 @@
     if (suggestForm) {
         const statusEl = suggestForm.querySelector('#suggest-status');
         const submitBtn = suggestForm.querySelector('.suggest-submit');
+        const sourceInput = suggestForm.querySelector('input[name="source"]');
+        const defaultSubmitLabel = submitBtn.textContent;
+        const invalidSubmitLabel = 'Fix link or clear it';
         let lastSubmitAt = 0;
 
         function setStatus(text, kind) {
@@ -3116,8 +3119,50 @@
             if (kind) statusEl.classList.add('is-' + kind);
         }
 
+        // Heuristic: value looks like a bare domain (e.g. "foo.com",
+        // "www.nytimes.com/article") that's just missing the scheme.
+        function looksLikeBareDomain(s) {
+            return /^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)*\.[a-z]{2,}(\/.*)?$/i.test(s);
+        }
+
+        function setSourceInvalid(invalid) {
+            if (invalid) {
+                sourceInput.classList.add('is-invalid');
+                submitBtn.textContent = invalidSubmitLabel;
+                submitBtn.disabled = true;
+            } else {
+                sourceInput.classList.remove('is-invalid');
+                if (submitBtn.textContent === invalidSubmitLabel) {
+                    submitBtn.textContent = defaultSubmitLabel;
+                }
+                submitBtn.disabled = false;
+            }
+        }
+
+        sourceInput.addEventListener('blur', () => {
+            const v = sourceInput.value.trim();
+            if (!v) { setSourceInvalid(false); return; }
+            if (/^https?:\/\//i.test(v)) { setSourceInvalid(false); return; }
+            if (looksLikeBareDomain(v)) {
+                sourceInput.value = 'https://' + v;
+                setSourceInvalid(false);
+                return;
+            }
+            setSourceInvalid(true);
+        });
+
+        // Editing after a failed blur clears the red so the user isn't
+        // scolded mid-correction; blur will re-check.
+        sourceInput.addEventListener('input', () => {
+            if (sourceInput.classList.contains('is-invalid')) setSourceInvalid(false);
+        });
+
+        suggestForm.addEventListener('reset', () => setSourceInvalid(false));
+
         suggestForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (sourceInput.classList.contains('is-invalid')) return;
 
             const now = Date.now();
             if (now - lastSubmitAt < SUGGEST_SUBMIT_COOLDOWN_MS) return;
