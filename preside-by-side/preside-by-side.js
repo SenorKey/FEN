@@ -3153,11 +3153,24 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ president, event, source, why, website: '' })
                 });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
+                if (!res.ok) {
+                    // Surface the server's structured error message when present
+                    // (e.g. "source must be a valid http(s) URL") so the user can
+                    // self-correct instead of getting a generic "try again".
+                    let serverMsg = '';
+                    try {
+                        const body = await res.json();
+                        if (body && body.error) serverMsg = body.error;
+                    } catch (_) { /* not JSON; fall through to generic */ }
+                    throw new Error(serverMsg || ('HTTP ' + res.status));
+                }
                 setStatus('Sent. Thank you.', 'success');
                 suggestForm.reset();
             } catch (err) {
-                setStatus('Could not send — please try again in a moment.', 'error');
+                const msg = err && err.message
+                    ? 'Could not send — ' + err.message
+                    : 'Could not send — please try again in a moment.';
+                setStatus(msg, 'error');
                 lastSubmitAt = 0;
             } finally {
                 submitBtn.disabled = false;

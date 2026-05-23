@@ -224,10 +224,12 @@ Most likely causes:
   this; if it didn't, the request body shape changed. Inspect the request
   payload in DevTools.
 - **403 `Forbidden`** — `Origin` header missing or doesn't match
-  `ALLOWED_ORIGIN` in `/etc/preside-by-side/config.env`. Browser requests
-  from the live site should always send the right Origin. If you've added
-  a new hostname (e.g. `www.` variant or a staging site), update
-  `ALLOWED_ORIGIN` (comma-separate multiple) and restart the service.
+  `ALLOWED_ORIGIN` in `/etc/preside-by-side/config.env`. The config ships
+  with both `https://frontendneeded.com` and `https://www.frontendneeded.com`
+  enabled; if you've added a new hostname (staging, additional domain),
+  add it to `ALLOWED_ORIGIN` (comma-separated, no spaces) and restart the
+  service. The journal will print the exact Origin string the browser sent
+  on each rejection — that's what to paste into the config.
 - **502 / 503** — Apache reached out to `127.0.0.1:8787` and got nothing.
   Check `systemctl status preside-by-side-suggest`. If the service is
   down, restart it. If it's up, check SELinux (see below).
