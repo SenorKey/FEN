@@ -960,6 +960,54 @@ function AccordionPill(_ref) {
 }
 
 /* ═══════════════════════════════════════════════════════════
+   ERROR BOUNDARY
+   A class component because that's the only way React lets us
+   catch render errors. Wraps each tab panel so one section
+   crashing doesn't blank the whole app — the scout's notes live
+   in localStorage and survive a render error.
+   ═══════════════════════════════════════════════════════════ */
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { error: null };
+        this.handleRetry = this.handleRetry.bind(this);
+    }
+    static getDerivedStateFromError(error) {
+        return { error: error };
+    }
+    componentDidCatch(error, info) {
+        console.error("ErrorBoundary caught error in " + (this.props.section || "section") + ":", error, info);
+    }
+    handleRetry() {
+        this.setState({ error: null });
+    }
+    render() {
+        if (!this.state.error) return this.props.children;
+        var section = this.props.section || "this section";
+        return (
+            <div role="alert" style={{
+                padding: 24, height: "100%", display: "flex",
+                flexDirection: "column", alignItems: "center", justifyContent: "center",
+                textAlign: "center", color: C.text, fontFamily: C.font, gap: 14,
+            }}>
+                <div style={{
+                    fontSize: 11, fontFamily: C.fontCond, fontWeight: 800,
+                    textTransform: "uppercase", letterSpacing: 2, color: C.danger,
+                }}>Something went wrong</div>
+                <div style={{ fontSize: 14, lineHeight: 1.4, maxWidth: 360, color: C.textMuted }}>
+                    The {section} view hit an error and stopped rendering.
+                    Your saved work is safe — it's stored locally and untouched by this crash.
+                </div>
+                <button onClick={this.handleRetry} style={{
+                    ...segBtnStyle, padding: "8px 16px",
+                    background: C.accent, color: C.bg,
+                }}>Reload this section</button>
+            </div>
+        );
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
    MAIN APP
    ═══════════════════════════════════════════════════════════ */
 function App() {
@@ -1163,19 +1211,25 @@ function App() {
             {/* Content */}
             <div style={{ flex: 1, overflow: "hidden" }}>
                 <div style={{ display: tab === "board" ? "flex" : "none", flexDirection: "column", height: "100%" }}>
-                    <TacticalBoard boards={data.boards} activeBoard={data.activeBoard}
-                        onUpdate={updateBoard} onSetActive={setActiveBoard}
-                        onAddBoard={addBoard} onRenameBoard={renameBoard} onDeleteBoard={deleteBoard} />
+                    <ErrorBoundary section="tactical board">
+                        <TacticalBoard boards={data.boards} activeBoard={data.activeBoard}
+                            onUpdate={updateBoard} onSetActive={setActiveBoard}
+                            onAddBoard={addBoard} onRenameBoard={renameBoard} onDeleteBoard={deleteBoard} />
+                    </ErrorBoundary>
                 </div>
                 <div style={{ display: tab === "scout" ? "block" : "none", height: "100%", overflowY: "auto" }}>
-                    <ScoutingForm data={data.scouting} matchInfo={data.match}
-                        onUpdateMatch={updateMatch} onUpdateSection={updateSection} onUpdateSetPieces={updateSetPieces} />
+                    <ErrorBoundary section="scouting form">
+                        <ScoutingForm data={data.scouting} matchInfo={data.match}
+                            onUpdateMatch={updateMatch} onUpdateSection={updateSection} onUpdateSetPieces={updateSetPieces} />
+                    </ErrorBoundary>
                 </div>
                 <div style={{ display: tab === "timeline" ? "block" : "none", height: "100%", overflowY: "auto" }}>
-                    <MatchTimeline momentum={data.momentum} onMomentumChange={updateMomentum}
-                        observations={data.observations} onAddObservation={addObservation}
-                        onDeleteObservation={deleteObservation} summary={data.summary}
-                        onUpdateSummary={updateSummary} clockMinute={clock.minute} />
+                    <ErrorBoundary section="timeline">
+                        <MatchTimeline momentum={data.momentum} onMomentumChange={updateMomentum}
+                            observations={data.observations} onAddObservation={addObservation}
+                            onDeleteObservation={deleteObservation} summary={data.summary}
+                            onUpdateSummary={updateSummary} clockMinute={clock.minute} />
+                    </ErrorBoundary>
                 </div>
             </div>
         </div>
