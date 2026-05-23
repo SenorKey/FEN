@@ -2736,6 +2736,14 @@
         if (selection[side] === newId) return;     // no-op
         if (!presidents[newId]) return;            // defensive: unknown id
 
+        // renderSide() below detaches all bars on this side. Drop the
+        // reference so toggleExpand doesn't later call collapseBar on a
+        // ghost node and leak a transitionend listener.
+        if (currentlyExpanded && currentlyExpanded.dataset.side === side) {
+            currentlyExpanded.classList.remove('expanded');
+            currentlyExpanded = null;
+        }
+
         selection[side] = newId;
         syncSelectionToUrl();
         renderSide(side);
