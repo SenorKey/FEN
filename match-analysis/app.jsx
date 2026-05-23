@@ -712,18 +712,21 @@ function ExportMenu(_ref) {
 
     var copyToClipboard = function () {
         var text = generateReport(data);
-        try {
-            navigator.clipboard.writeText(text).then(function () {
-                setCopied(true);
-                setTimeout(function () { setCopied(false); setOpen(false); if (onAction) onAction(); }, 1200);
-            });
-        } catch (e) {
+        var onSuccess = function () {
+            setCopied(true);
+            setTimeout(function () { setCopied(false); setOpen(false); if (onAction) onAction(); }, 1200);
+        };
+        var fallback = function () {
             var ta = document.createElement("textarea");
             ta.value = text; document.body.appendChild(ta);
             ta.select(); document.execCommand("copy");
             document.body.removeChild(ta);
-            setCopied(true);
-            setTimeout(function () { setCopied(false); setOpen(false); }, 1200);
+            onSuccess();
+        };
+        try {
+            navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
+        } catch (e) {
+            fallback();
         }
     };
 
