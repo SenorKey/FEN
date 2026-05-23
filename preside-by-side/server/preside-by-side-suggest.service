@@ -8,7 +8,7 @@ User=preside
 Group=preside
 WorkingDirectory=/var/lib/preside-by-side
 Environment=CONFIG_FILE=/etc/preside-by-side/config.env
-ExecStart=/usr/bin/python3 /var/www/frontendneeded.com/preside-by-side/server/suggest.py
+ExecStart=/usr/bin/gunicorn --workers 2 --bind 127.0.0.1:8787 --chdir /var/www/frontendneeded.com/preside-by-side/server suggest:app
 Restart=on-failure
 RestartSec=5
 

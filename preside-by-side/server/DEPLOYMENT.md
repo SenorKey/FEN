@@ -43,7 +43,7 @@ Browser ──POST /api/suggest──> Apache ──proxy──> Python service 
 | File | Purpose |
 |---|---|
 | `suggest.py` | The Flask service. One endpoint, `POST /suggest`. |
-| `requirements.txt` | `flask`, `requests`. |
+| `requirements.txt` | `flask`, `gunicorn`, `requests`. |
 | `config.env.example` | Template for `/etc/preside-by-side/config.env`. |
 | `preside-by-side-suggest.service` | systemd unit. |
 | `apache-snippet.conf` | Reference copy of the Apache directives. |
@@ -71,7 +71,7 @@ on the Fedora box and the new code has been pulled.
 
 ```bash
 # 1. Python deps (prefer dnf over pip on Fedora — PEP 668).
-sudo dnf install -y python3-flask python3-requests sqlite
+sudo dnf install -y python3-flask python3-gunicorn python3-requests sqlite
 
 # 2. Service user + dirs.
 sudo useradd --system --no-create-home --shell /sbin/nologin preside
@@ -294,10 +294,16 @@ Common causes:
   `-rw-r----- root preside`. Fix:
   `sudo chown root:preside /etc/preside-by-side/config.env && sudo chmod 640 /etc/preside-by-side/config.env`
 - **`Address already in use`** — something else is on `:8787`. Find it:
-  `sudo ss -tlnp | grep 8787`. Either stop that process or change
-  `LISTEN_PORT` in `config.env` (and update the Apache `ProxyPass` to match).
-- **`ModuleNotFoundError: No module named 'flask'`** — Python deps not
-  installed system-wide. Re-run `sudo dnf install -y python3-flask python3-requests`.
+  `sudo ss -tlnp | grep 8787`. Either stop that process or change the
+  `--bind` arg in the systemd unit's `ExecStart` (and update the Apache
+  `ProxyPass` to match). Note: gunicorn binds from the `ExecStart` flag,
+  not `LISTEN_HOST`/`LISTEN_PORT` in `config.env` — those vars only
+  affect the `python3 suggest.py` dev path.
+- **`ModuleNotFoundError: No module named 'flask'` (or `'gunicorn'`)** —
+  Python deps not installed system-wide. Re-run
+  `sudo dnf install -y python3-flask python3-gunicorn python3-requests`.
+- **`gunicorn: command not found`** — same fix; `python3-gunicorn`
+  installs the `/usr/bin/gunicorn` binary the unit calls.
 
 ### Discord embeds stop appearing but submissions still succeed
 
