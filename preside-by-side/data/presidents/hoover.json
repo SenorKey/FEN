@@ -1,5 +1,6 @@
 [
   {
+    "id": "6JCY4TDSAM",
     "severity": 9,
     "title": "Failed to Respond Adequately to the Great Depression",
     "shortLabel": "Depression Response",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "DM35TM3FKK",
     "severity": 8,
     "title": "Withheld Direct Federal Relief from Unemployed and Hungry Americans",
     "shortLabel": "Denied Federal Relief",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "YSHV4H94TR",
     "severity": 8,
     "title": "Signed the Smoot-Hawley Tariff",
     "shortLabel": "Smoot-Hawley Tariff",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "V6D49Z5LDD",
     "severity": 8,
     "title": "Ordered the Forcible Eviction of the Bonus Army",
     "shortLabel": "Bonus Army Eviction",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "2LBSL2B472",
     "severity": 6,
     "title": "Rescued Banks While Leaving Ordinary Americans Without Help",
     "shortLabel": "Banks Over People",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "YHN8WBX7FL",
     "severity": 6,
     "title": "Raised Taxes During the Depression",
     "shortLabel": "Depression-Era Tax Hike",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "F54UXEMVGC",
     "severity": 7,
     "title": "Presided Over Mass Deportation of Mexicans and Mexican Americans",
     "shortLabel": "Mexican Repatriation",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "9APK3T9MFW",
     "severity": 5,
     "title": "Nominated John J. Parker to the Supreme Court",
     "shortLabel": "Parker Nomination",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "P59TAW85JQ",
     "severity": 5,
     "title": "Weak Civil Rights Leadership During a Period of Severe Racial Inequality",
     "shortLabel": "Civil Rights Failure",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "WWMUU8M8CH",
     "severity": 5,
     "title": "Persistently Underestimated the Scale and Duration of the Crisis",
     "shortLabel": "Crisis Underestimation",

@@ -46,7 +46,12 @@
        data cost for presidents they actually open.
 
        Bar schema (in the JSON files):
-         severity:    Number (1–10)
+         id:          String — stable 10-char identifier from the unambiguous
+                      alphabet [23456789ABCDEFGHJKLMNPQRSTUVWXYZ]. Used as
+                      the key for reader severity ratings on the server side.
+                      Assigned once by server/backfill_bar_ids.py; new bars
+                      added by hand must get a fresh id (re-run the script).
+         severity:    Number (1–10) — author rating
          title:       String — full title (detail panel + modal heading)
          shortLabel:  String — 2–3 words max, shown on the bar on every breakpoint
          description: String — long-form text in the expanded panel / modal
@@ -432,6 +437,15 @@
         bar.sources.forEach(function (src) {
             appendSourceItem(sourcesList, src);
         });
+
+        // Hydrate the inline panel's reader-rating block (mirrors the
+        // modal hydration in openModal). Done at render time rather than
+        // expand time so the buttons + average line are ready the instant
+        // the panel slides open — and so the ratings fetch for this
+        // president has likely landed by the time the user expands a bar.
+        // The fetch itself is deduped per president, so doing it once
+        // per bar costs no extra requests.
+        setupRatingUi(bar, selection[side], node.querySelector('.bar-rating'));
 
         // Right-side bars need the outer label AFTER the bar in DOM
         // order so it ends up on the outside edge (away from the
@@ -1133,6 +1147,372 @@
     const modalSeverity = document.getElementById('modal-severity');
     const modalSourcesList = document.getElementById('modal-sources-list');
 
+    /* --------------------------------------------------------------------------
+       Reader severity ratings — same .bar-rating block lives in TWO
+       surfaces:
+         - The mobile modal sheet (singleton, hydrated on openModal)
+         - Each desktop inline detail panel (one per rendered bar,
+           hydrated by renderBar)
+
+       Both surfaces share the same JS path: setupRatingUi(bar, pid, el)
+       takes the .bar-rating container, fills its scale/status/average
+       descendants, and tags the scale with data-president-id /
+       data-bar-id so a single document-level click delegate can dispatch
+       the POST regardless of which surface was clicked.
+
+       Per-president averages are fetched lazily and cached for the rest
+       of the session. The server only returns bars whose non-quarantined
+       vote count meets its display threshold, so a missing entry is the
+       cue to hide the average line entirely — we don't know whether the
+       bar has 0 or 4 votes underneath the threshold.
+
+       Failed fetches resolve to an empty map rather than throwing — a
+       ratings outage shouldn't break a bar, just suppress the line.
+       -------------------------------------------------------------------------- */
+    const RATINGS_ENDPOINT = '/api/ratings/';
+    const RATE_ENDPOINT = '/api/rate';
+    const RATING_MIN_DISPLAY = 5;
+    const ratingsData = Object.create(null);     // pid -> { bar_id: {avg,count} }
+    const ratingsLoading = Object.create(null);  // pid -> Promise
+
+    function loadRatings(pid) {
+        if (ratingsData[pid]) return Promise.resolve(ratingsData[pid]);
+        if (ratingsLoading[pid]) return ratingsLoading[pid];
+        const p = fetch(RATINGS_ENDPOINT + encodeURIComponent(pid), {
+            credentials: 'same-origin'
+        })
+            .then(function (r) { return r.ok ? r.json() : {}; })
+            .catch(function () { return {}; })
+            .then(function (data) {
+                // Server returns plain object; clone into a null-proto map
+                // so accidental prototype-name bar_ids ("constructor", etc.)
+                // can't trip lookups. Belt-and-suspenders — bar IDs come
+                // from a fixed alphabet that excludes those names.
+                const safe = Object.create(null);
+                if (data && typeof data === 'object') {
+                    Object.keys(data).forEach(function (k) { safe[k] = data[k]; });
+                }
+                ratingsData[pid] = safe;
+                delete ratingsLoading[pid];
+                return safe;
+            });
+        ratingsLoading[pid] = p;
+        return p;
+    }
+
+    /* --------------------------------------------------------------------------
+       Per-user vote memory — localStorage. The server tracks votes per
+       (bar, IP-hash); this is purely UI state so the user's selected
+       button stays highlighted across panel/modal opens and page reloads.
+       If localStorage is unavailable (private mode, blocked storage),
+       the UI gracefully degrades to "no remembered selection" — the
+       server is still the source of truth for counted votes.
+       -------------------------------------------------------------------------- */
+    const VOTE_STORAGE_PREFIX = 'pbs:rating:';
+
+    function getMyVote(barId) {
+        try {
+            const v = localStorage.getItem(VOTE_STORAGE_PREFIX + barId);
+            if (v == null) return null;
+            const n = parseInt(v, 10);
+            return (n >= 1 && n <= 10) ? n : null;
+        } catch (_) { return null; }
+    }
+
+    function setMyVote(barId, n) {
+        try { localStorage.setItem(VOTE_STORAGE_PREFIX + barId, String(n)); }
+        catch (_) { /* quota / private mode — survive silently */ }
+    }
+
+    // Populate an empty .bar-rating-scale with ten 1–10 buttons. Idempotent
+    // — if the scale already has children, returns immediately. Called from
+    // setupRatingUi so the cost is paid lazily on each container's first
+    // hydration, not at module init.
+    function ensureRatingButtons(scaleEl) {
+        if (!scaleEl || scaleEl.firstElementChild) return;
+        const frag = document.createDocumentFragment();
+        for (let n = 1; n <= 10; n++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'bar-rating-btn';
+            btn.dataset.value = String(n);
+            btn.textContent = String(n);
+            btn.setAttribute('role', 'radio');
+            btn.setAttribute('aria-checked', 'false');
+            btn.setAttribute('aria-label', n + ' out of 10');
+            frag.appendChild(btn);
+        }
+        scaleEl.appendChild(frag);
+    }
+
+    function setRatingStatus(containerEl, text, kind) {
+        const statusEl = containerEl && containerEl.querySelector('.bar-rating-status');
+        if (!statusEl) return;
+        statusEl.textContent = text || '';
+        statusEl.classList.remove('is-error', 'is-success');
+        if (kind) statusEl.classList.add('is-' + kind);
+    }
+
+    function renderAverageForContainer(containerEl) {
+        if (!containerEl) return;
+        const scaleEl = containerEl.querySelector('.bar-rating-scale');
+        const avgEl = containerEl.querySelector('.bar-rating-average');
+        if (!scaleEl || !avgEl) return;
+        const pid = scaleEl.dataset.presidentId;
+        const barId = scaleEl.dataset.barId;
+        if (!pid || !barId) {
+            avgEl.hidden = true;
+            avgEl.textContent = '';
+            return;
+        }
+        const map = ratingsData[pid];
+        const entry = map && map[barId];
+        // Server's HAVING n >= MIN_DISPLAY filter means entry won't exist
+        // for under-threshold bars; the count check below is defensive
+        // in case the server threshold is ever lowered.
+        if (!entry || entry.count < RATING_MIN_DISPLAY) {
+            avgEl.hidden = true;
+            avgEl.textContent = '';
+            return;
+        }
+        // innerHTML for the <strong> wrapper around the number. Bar IDs
+        // and numbers are not user-controlled strings, so no escaping
+        // concern here.
+        avgEl.innerHTML =
+            'users rate this <strong>' + entry.avg.toFixed(1) +
+            '</strong> on average · ' + entry.count + ' votes';
+        avgEl.hidden = false;
+    }
+
+    function applyVoteHighlight(scaleEl, value) {
+        if (!scaleEl) return;
+        Array.prototype.forEach.call(scaleEl.children, function (btn) {
+            const v = parseInt(btn.dataset.value, 10);
+            btn.setAttribute('aria-checked', (value === v) ? 'true' : 'false');
+            btn.disabled = false;
+        });
+    }
+
+    // State machine — three logical states owned via classes on the
+    // .bar-rating container; CSS handles the visibility transitions.
+    //   'idle'       no pending selection, no thanks shown
+    //   'pending'    user has tapped a number, submit button visible
+    //   'submitted'  POST landed (or stored vote on re-open); thanks shown
+    function setRatingState(containerEl, state) {
+        if (!containerEl) return;
+        containerEl.classList.remove('has-pending', 'is-submitted');
+        if (state === 'pending') containerEl.classList.add('has-pending');
+        else if (state === 'submitted') containerEl.classList.add('is-submitted');
+    }
+
+    function updateThanksMessage(containerEl, rating) {
+        const txt = containerEl && containerEl.querySelector('.bar-rating-thanks-text');
+        if (!txt) return;
+        // innerHTML for the <strong> wrap around the user's number; the
+        // rating is a 1–10 integer parsed by JS, never a raw user string.
+        txt.innerHTML =
+            'Thanks — your rating of <strong>' + rating +
+            '</strong> has been recorded.';
+    }
+
+    // Wire one .bar-rating container to a (president, bar). Called from
+    // openModal for the modal's block and from renderBar for each inline
+    // panel's block. Idempotent — re-calling with a different bar swaps
+    // the data-* tags, resets pending state, and re-renders.
+    function setupRatingUi(bar, presidentId, containerEl) {
+        if (!containerEl || !bar) return;
+        const scaleEl = containerEl.querySelector('.bar-rating-scale');
+        if (!scaleEl) return;
+
+        ensureRatingButtons(scaleEl);
+        scaleEl.dataset.presidentId = presidentId || '';
+        scaleEl.dataset.barId = bar.id || '';
+
+        setRatingStatus(containerEl, '', null);
+        containerEl._pendingVote = null;
+
+        const stored = getMyVote(bar.id);
+        // Highlight the stored value on the scale so a "Change my rating"
+        // toggle (or a quick state-transition glance) shows the user's
+        // current pick. New voters get no highlight.
+        applyVoteHighlight(scaleEl, stored);
+        if (stored != null) {
+            updateThanksMessage(containerEl, stored);
+            setRatingState(containerEl, 'submitted');
+        } else {
+            setRatingState(containerEl, 'idle');
+        }
+
+        renderAverageForContainer(containerEl);
+
+        if (bar.id && presidentId) {
+            loadRatings(presidentId).then(function () {
+                // Bail if the container has been re-hydrated for a
+                // different bar before the fetch returned (modal swap,
+                // president re-render).
+                if (scaleEl.dataset.barId !== bar.id) return;
+                renderAverageForContainer(containerEl);
+            });
+        }
+    }
+
+    function updateAverageOptimistic(presidentId, barId, oldVote, newVote) {
+        const map = ratingsData[presidentId];
+        if (!map) return;
+        const entry = map[barId];
+        // Below-threshold bars aren't in the response. We can't safely
+        // promote them to displayable here — the user might be 5th vote
+        // but they might also be 2nd, and faking an average would mislead.
+        if (!entry) return;
+        let sum = entry.avg * entry.count;
+        if (oldVote != null) {
+            sum = sum - oldVote + newVote;
+        } else {
+            sum = sum + newVote;
+            entry.count = entry.count + 1;
+        }
+        entry.avg = Math.round((sum / entry.count) * 10) / 10;
+    }
+
+    // After a successful vote, mirror UI changes into every other
+    // .bar-rating block currently displaying the same bar — the modal
+    // and the bar's own inline panel can both reference the same id
+    // simultaneously. Each matching container snaps to the submitted
+    // state with the up-to-date thanks message and average line.
+    function syncAllSurfacesForBar(presidentId, barId) {
+        const scales = document.querySelectorAll(
+            '.bar-rating-scale[data-bar-id="' + barId + '"]'
+        );
+        const stored = getMyVote(barId);
+        Array.prototype.forEach.call(scales, function (scaleEl) {
+            // Skip scales pointing at a different president — rare but
+            // possible if two presidents reference the same id string.
+            if (scaleEl.dataset.presidentId !== presidentId) return;
+            const container = scaleEl.closest('.bar-rating');
+            if (!container) return;
+            applyVoteHighlight(scaleEl, stored);
+            renderAverageForContainer(container);
+            if (stored != null) {
+                updateThanksMessage(container, stored);
+                container._pendingVote = null;
+                setRatingState(container, 'submitted');
+            }
+        });
+    }
+
+    // One document-level click delegate covers every .bar-rating block
+    // — the modal sheet's and every inline panel's. It dispatches three
+    // distinct controls based on which element the user actually hit:
+    //   .bar-rating-btn      — pre-submit selection (no network)
+    //   .bar-rating-submit   — commits the pending pick (POST)
+    //   .bar-rating-change   — reverts a submitted block to scale-visible
+    document.addEventListener('click', async function (e) {
+
+        // --- Pre-submit number selection ----------------------------
+        const numBtn = e.target.closest('.bar-rating-btn');
+        if (numBtn && !numBtn.disabled) {
+            const scaleEl = numBtn.closest('.bar-rating-scale');
+            if (!scaleEl) return;
+            const container = scaleEl.closest('.bar-rating');
+            const newVote = parseInt(numBtn.dataset.value, 10);
+            if (!(newVote >= 1 && newVote <= 10)) return;
+            const barId = scaleEl.dataset.barId;
+            if (!barId) return;
+
+            container._pendingVote = newVote;
+            applyVoteHighlight(scaleEl, newVote);
+            setRatingStatus(container, '', null);
+
+            // Only show the submit button when the pending pick differs
+            // from what's already stored — re-clicking the user's prior
+            // value just goes back to idle (no committable change).
+            const stored = getMyVote(barId);
+            setRatingState(container, newVote === stored ? 'idle' : 'pending');
+            return;
+        }
+
+        // --- Submit pending pick ------------------------------------
+        const submitBtn = e.target.closest('.bar-rating-submit');
+        if (submitBtn && !submitBtn.disabled) {
+            const container = submitBtn.closest('.bar-rating');
+            if (!container) return;
+            const scaleEl = container.querySelector('.bar-rating-scale');
+            if (!scaleEl) return;
+            const newVote = container._pendingVote;
+            if (!(newVote >= 1 && newVote <= 10)) return;
+            const presidentId = scaleEl.dataset.presidentId;
+            const barId = scaleEl.dataset.barId;
+            if (!presidentId || !barId) return;
+
+            const oldVote = getMyVote(barId);
+            // If the pending pick already matches what's stored (e.g.
+            // user re-clicked their existing vote then submit, racing
+            // around the idle/pending boundary), skip the POST and just
+            // flip to submitted — the server would silent-success under
+            // the per-(bar,IP) write cap anyway.
+            if (oldVote === newVote) {
+                container._pendingVote = null;
+                updateThanksMessage(container, newVote);
+                setRatingState(container, 'submitted');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            const scaleButtons = scaleEl.children;
+            Array.prototype.forEach.call(scaleButtons, function (b) { b.disabled = true; });
+            setRatingStatus(container, '', null);
+
+            try {
+                const res = await fetch(RATE_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        president: presidentId,
+                        bar_id: barId,
+                        rating: newVote
+                    })
+                });
+                if (!res.ok) {
+                    let serverMsg = '';
+                    try {
+                        const body = await res.json();
+                        if (body && body.error) serverMsg = body.error;
+                    } catch (_) { /* not JSON */ }
+                    throw new Error(serverMsg || ('HTTP ' + res.status));
+                }
+                setMyVote(barId, newVote);
+                updateAverageOptimistic(presidentId, barId, oldVote, newVote);
+                // syncAllSurfacesForBar flips state to 'submitted' on
+                // this container too (it matches the selector), so we
+                // don't have to repeat that work locally.
+                syncAllSurfacesForBar(presidentId, barId);
+            } catch (err) {
+                const msg = err && err.message
+                    ? 'Couldn’t save — ' + err.message
+                    : 'Couldn’t save — try again in a moment.';
+                setRatingStatus(container, msg, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                Array.prototype.forEach.call(scaleButtons, function (b) { b.disabled = false; });
+            }
+            return;
+        }
+
+        // --- Revert submitted → idle so the scale is interactive again
+        const changeBtn = e.target.closest('.bar-rating-change');
+        if (changeBtn) {
+            const container = changeBtn.closest('.bar-rating');
+            if (!container) return;
+            const scaleEl = container.querySelector('.bar-rating-scale');
+            const stored = scaleEl ? getMyVote(scaleEl.dataset.barId) : null;
+            container._pendingVote = null;
+            setRatingStatus(container, '', null);
+            applyVoteHighlight(scaleEl, stored);
+            setRatingState(container, 'idle');
+            return;
+        }
+    });
+
     // Track currently expanded bar (desktop) so we can collapse it
     let currentlyExpanded = null;
     // Element that had focus before the modal opened, restored on close
@@ -1230,6 +1610,17 @@
 
         modalSourcesList.replaceChildren();
         bar.sources.forEach((src) => appendSourceItem(modalSourcesList, src));
+
+        // Hydrate the reader-rating block: button highlight from
+        // localStorage, average line from the cached ratings map (or
+        // populated on its next resolve). Done after the other text
+        // populates so an exception in the ratings path doesn't strand
+        // the rest of the modal half-populated.
+        setupRatingUi(
+            bar,
+            selection[barEl.dataset.side],
+            modal.querySelector('.bar-rating')
+        );
 
         // Capture focus so we can restore it when the modal closes
         lastFocusedBeforeModal = document.activeElement;

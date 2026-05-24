@@ -1,5 +1,6 @@
 [
   {
+    "id": "9874VG6J2R",
     "severity": 9,
     "title": "Teapot Dome: The Defining Corruption Scandal of His Administration",
     "shortLabel": "Teapot Dome",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "8NUEJF6YNE",
     "severity": 7,
     "title": "Transferred Naval Oil Reserves to Interior Department, Enabling the Scandal",
     "shortLabel": "Oil Reserve Transfer",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "23MABFFDN5",
     "severity": 8,
     "title": "Filled His Administration with the Corrupt \"Ohio Gang\"",
     "shortLabel": "Ohio Gang",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "SYEH7Y5DPS",
     "severity": 8,
     "title": "Veterans Bureau Director Looted Funds Meant for World War I Veterans",
     "shortLabel": "Veterans Bureau Fraud",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "6J2LSCUWDM",
     "severity": 7,
     "title": "Knew About Corruption but Failed to Expose It",
     "shortLabel": "Concealed Corruption",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "LX5VGFTQNN",
     "severity": 6,
     "title": "Appointed Harry Daugherty as Attorney General",
     "shortLabel": "Daugherty Appointment",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "G3V8N8Z5TU",
     "severity": 6,
     "title": "Signed the Emergency Quota Act, Embedding Eugenic Immigration Restriction",
     "shortLabel": "Immigration Quota Act",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "8VS8TJEC98",
     "severity": 5,
     "title": "Used Sweeping Injunction to Crush the 1922 Railroad Strike",
     "shortLabel": "1922 Railroad Strike",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "SN2W8J95MG",
     "severity": 4,
     "title": "Vetoed the World War I Veterans' Bonus Bill",
     "shortLabel": "Veterans Bonus Veto",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "CMXQWAGJSG",
     "severity": 5,
     "title": "Lax Presidential Management Allowed Corruption to Flourish",
     "shortLabel": "Management Failure",

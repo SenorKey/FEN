@@ -1,5 +1,6 @@
 [
   {
+    "id": "6STAJPVU3G",
     "severity": 8,
     "title": "Expanded Drone Warfare with Civilian Casualties",
     "shortLabel": "Drone Strikes",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "BJ67C5L36R",
     "severity": 7,
     "title": "Libya Intervention and Collapse into Instability",
     "shortLabel": "Libya Intervention",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "YCBGF7HNTW",
     "severity": 7,
     "title": "NSA Bulk Surveillance of Americans' Phone Records",
     "shortLabel": "NSA Surveillance",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "TCC884ENT7",
     "severity": 5,
     "title": "IRS Targeting of Conservative Tax-Exempt Applications",
     "shortLabel": "IRS Targeting",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "5GURQ7BA3S",
     "severity": 5,
     "title": "Operation Fast and Furious",
     "shortLabel": "Fast & Furious",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "VL4KFJYLTX",
     "severity": 4,
     "title": "HealthCare.gov Rollout Failure and \"Keep Your Plan\" Broken Promise",
     "shortLabel": "ACA Rollout",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "95S9NVGTJH",
     "severity": 5,
     "title": "Record-High Deportations and Immigration Enforcement",
     "shortLabel": "Mass Deportations",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "ZLVZN25K5Q",
     "severity": 6,
     "title": "VA Wait-Time Scandal",
     "shortLabel": "VA Scandal",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "A639KJM4Q5",
     "severity": 5,
     "title": "Aggressive Leak Investigations and Press Freedom Concerns",
     "shortLabel": "Press Surveillance",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "H68SC93AX3",
     "severity": 4,
     "title": "Failed to Close Guantánamo Bay",
     "shortLabel": "Guantánamo",

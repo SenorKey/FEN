@@ -24,26 +24,30 @@ There are now **two** webhooks the service uses:
 
 ```
 Browser ──POST /api/suggest──> Apache ──proxy──> Python service (Flask)
-                               :443             127.0.0.1:8787
-                                                   │
+        ──POST /api/rate────>  :443             127.0.0.1:8787
+        ──GET  /api/ratings/X─>                    │
                                         ┌──────────┼──────────┐
                                         ▼                     ▼
-                                  SQLite queue          Discord webhook
+                                  SQLite                Discord webhook
                                   /var/lib/...          (Paul Revere embed)
 ```
 
-- The browser POSTs same-origin to `/api/suggest` with JSON. The page never
-  sees the Discord webhook URL.
-- Apache reverse-proxies `/api/suggest` → `http://127.0.0.1:8787/suggest`
+- The browser POSTs same-origin to `/api/suggest` (suggestions) or
+  `/api/rate` (severity ratings), and GETs aggregate averages from
+  `/api/ratings/<president>`. The page never sees the Discord webhook URL.
+- Apache reverse-proxies all three paths to `http://127.0.0.1:8787/...`
   inside the existing `frontendneeded.com` SSL vhost. Same pattern as
   `/api/chat` → Ollama.
 - The Flask service validates the payload (Origin header, honeypot, length
-  caps, URL scheme on `source`), inserts a row into SQLite, and fires the
-  Discord embed best-effort. A Discord outage does **not** fail the user
-  request — the row is already durable on disk.
-- The SQLite row's `status` column starts at `pending` so a downstream AI
-  consumer can claim rows and flip them through `processing` →
-  `reviewed`/`rejected`/`added`.
+  caps, URL scheme on `source`, bar-id alphabet on ratings), writes to
+  SQLite, and (for `/suggest`) fires the Discord embed best-effort. A
+  Discord outage does **not** fail the user request — the row is already
+  durable on disk.
+- Suggestions: `status` column lifecycles `pending` → `processing` →
+  `reviewed`/`rejected`/`added` for the (future) AI consumer.
+- Ratings: stored one row per `(bar_id, ip_hash)`; updates upsert and
+  bump `write_count`. The public aggregate endpoint only surfaces bars
+  whose non-quarantined vote count meets `RATING_MIN_DISPLAY` (default 5).
 
 ---
 
@@ -53,7 +57,8 @@ Browser ──POST /api/suggest──> Apache ──proxy──> Python service 
 
 | File | Purpose |
 |---|---|
-| `suggest.py` | The Flask service. One endpoint, `POST /suggest`. |
+| `suggest.py` | The Flask service. Routes: `POST /suggest`, `POST /rate`, `GET /ratings/<president>`. |
+| `backfill_bar_ids.py` | One-off (idempotent) script: assigns stable 10-char `id`s to bars in `data/presidents/*.json` so the ratings table has a stable foreign key. Re-run after authoring new bars. |
 | `requirements.txt` | `flask`, `gunicorn`, `requests`. |
 | `config.env.example` | Template for `/etc/preside-by-side/config.env`. |
 | `preside-by-side-suggest.service` | systemd unit. |
@@ -68,7 +73,7 @@ Browser ──POST /api/suggest──> Apache ──proxy──> Python service 
 | `/var/www/frontendneeded.com/preside-by-side/` | normal repo perms | The repo (git pull target). |
 | `/etc/systemd/system/preside-by-side-suggest.service` | `root:root 0644` | systemd unit (copy of the repo file). |
 | `/etc/preside-by-side/config.env` | `root:preside 0640` | Real webhook URL + service config. |
-| `/var/lib/preside-by-side/suggestions.db` | `preside:preside 0644` | SQLite queue. |
+| `/var/lib/preside-by-side/suggestions.db` | `preside:preside 0644` | SQLite — `suggestions` queue **and** `ratings` table. Single file; same DB connection. |
 | `/etc/httpd/conf.d/frontendneeded.com-le-ssl.conf` | system | Apache vhost (manually edited to add `<Location /api/suggest>`). |
 
 The service runs as the unprivileged `preside` system user (no shell, no home).
@@ -112,6 +117,14 @@ sudo systemctl enable --now preside-by-side-suggest
 #            ProxyPassReverse http://127.0.0.1:8787/suggest
 #            Require all granted
 #        </Location>
+#        <Location /api/rate>
+#            ProxyPass http://127.0.0.1:8787/rate
+#            ProxyPassReverse http://127.0.0.1:8787/rate
+#            Require all granted
+#        </Location>
+#        # ratings has a path parameter; ProxyPassMatch forwards <president>.
+#        ProxyPassMatch ^/api/ratings/(.*)$ http://127.0.0.1:8787/ratings/$1
+#        ProxyPassReverse /api/ratings/ http://127.0.0.1:8787/ratings/
 #
 #        <Directory /var/www/frontendneeded.com/preside-by-side/server>
 #            Require all denied
@@ -121,6 +134,12 @@ sudo systemctl reload httpd
 
 # 6. SELinux boolean (one-time; almost certainly already on from Ollama).
 sudo setsebool -P httpd_can_network_connect 1
+
+# 7. One-time: assign stable bar IDs to every bar in data/presidents/*.json.
+#    Idempotent — only writes files that have bars missing an `id`. Re-run
+#    after authoring new bars (or let the future suggestion processor call
+#    it). Commit the resulting JSON changes so production has the ids.
+python3 server/backfill_bar_ids.py
 ```
 
 Smoke test:
@@ -132,6 +151,21 @@ curl -ik -X POST https://localhost/api/suggest \
      -H 'Content-Type: application/json' \
      -d '{"president":"Test","event":"smoke test"}'
 # Expect: HTTP/1.1 200 OK, body {"ok":true}, embed in Discord, row in DB.
+
+# Pick a real bar id from data/presidents/biden.json (the `id` field)
+# before running these — the server rejects unknown-format ids:
+curl -ik -X POST https://localhost/api/rate \
+     -H 'Host: frontendneeded.com' \
+     -H 'Origin: https://frontendneeded.com' \
+     -H 'Content-Type: application/json' \
+     -d '{"president":"biden","bar_id":"AAAAAAAAAA","rating":7}'
+# Expect: 200 {"ok":true} (row in ratings table) — or 400 if bar_id is
+# not in the alphabet [23456789A-HJ-NP-Z].
+
+curl -ik https://localhost/api/ratings/biden \
+     -H 'Host: frontendneeded.com'
+# Expect: 200 {} early on; once 5+ non-quarantined votes exist for a bar,
+# its entry appears as {"<bar_id>":{"avg":7.4,"count":12}}.
 ```
 
 ---
@@ -176,6 +210,40 @@ sudo -u preside sqlite3 /var/lib/preside-by-side/suggestions.db
 sqlite> SELECT id, received_at, status, president, substr(event,1,40) FROM suggestions ORDER BY id DESC LIMIT 20;
 sqlite> SELECT status, COUNT(*) FROM suggestions GROUP BY status;
 sqlite> SELECT * FROM suggestions WHERE id = 42;
+```
+
+### Inspect the ratings table
+
+```bash
+sudo -u preside sqlite3 /var/lib/preside-by-side/suggestions.db
+
+# Per-bar aggregates as the public endpoint sees them (non-quarantined only).
+sqlite> SELECT bar_id, ROUND(AVG(rating),1) AS avg, COUNT(*) AS n
+   ...> FROM ratings WHERE quarantined=0 AND president='biden'
+   ...> GROUP BY bar_id ORDER BY n DESC;
+
+# How many votes are sitting in quarantine and why.
+sqlite> SELECT quarantine_reason, COUNT(*) FROM ratings WHERE quarantined=1
+   ...> GROUP BY quarantine_reason;
+
+# Spot-check one IP's full history (ip_hash is HMAC-SHA256 truncated to 16 hex chars).
+sqlite> SELECT bar_id, rating, write_count, updated_at, quarantined
+   ...> FROM ratings WHERE ip_hash='abcdef1234567890' ORDER BY updated_at DESC;
+
+# Manually un-quarantine a batch you've reviewed and believe is legitimate.
+sqlite> UPDATE ratings SET quarantined=0, quarantine_reason=NULL
+   ...> WHERE bar_id='AAAAAAAAAA' AND quarantine_reason='burst';
+```
+
+`RATING_IP_HASH_SECRET` in `config.env` must be set before the first
+production rating, otherwise the service runs on a per-process random
+key (the startup WARN in the alerts channel says so) and every restart
+shifts the rate-limit buckets. Generate one with:
+
+```bash
+python3 -c 'import secrets; print(secrets.token_hex(32))'
+sudoedit /etc/preside-by-side/config.env       # paste into RATING_IP_HASH_SECRET=
+sudo systemctl restart preside-by-side-suggest
 ```
 
 ### Mark a suggestion processed (manual, before the AI consumer exists)

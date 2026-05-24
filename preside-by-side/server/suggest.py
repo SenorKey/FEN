@@ -29,11 +29,14 @@ to /etc/preside-by-side/config.env). Keys:
 
 import atexit
 import datetime
+import hashlib
+import hmac
 import logging
 import os
 import pathlib
 import queue
 import re
+import secrets
 import sqlite3
 import sys
 import threading
@@ -98,6 +101,71 @@ ORIGIN_REJECT_THRESHOLD = int(os.environ.get('ORIGIN_REJECT_THRESHOLD', '20'))
 ORIGIN_REJECT_WINDOW_SEC = int(os.environ.get('ORIGIN_REJECT_WINDOW_SEC', '3600'))
 
 LOG_WEBHOOK_URL = os.environ.get('LOG_WEBHOOK_URL', '').strip()
+
+# --- Severity ratings (/rate, /ratings/<president>) ------------------------
+#
+# A user can rate any bar 1–10. The displayed average uses only the latest
+# vote per (bar_id, ip_hash), so a user changing their mind doesn't get to
+# count their old vote AND their new one.
+#
+# Three ceilings, in increasing order of how-determined-an-attacker-must-be:
+#
+#   (a) per (bar, IP) per RATING_BAR_IP_WRITE_WINDOW_SEC: max
+#       RATING_BAR_IP_WRITES writes. Default = 2 per 24h, giving the user
+#       one initial vote + one change-of-mind per day.
+#   (b) per IP per RATING_IP_WINDOW_SEC: max RATING_IP_MAX votes. Caps a
+#       single person carpet-bombing every bar in the dataset.
+#   (c) global per RATING_GLOBAL_WINDOW_SEC: max RATING_GLOBAL_MAX votes
+#       service-wide. Mirrors the /suggest global gate — protects against
+#       CGNAT/VPN-pool brigades that defeat per-IP limits.
+#
+# Anything past (a)/(b)/(c) is rejected with 429. The user sees nothing
+# special — same response shape as success — so probes can't tune their
+# rate against the visible error.
+#
+# Quarantine: separate from the ceilings. If a single bar receives
+# RATING_BURST_THRESHOLD votes from distinct ip_hashes within
+# RATING_BURST_WINDOW_SEC, every rating arriving on that bar for the next
+# RATING_BURST_SUPPRESS_SEC is stored with quarantined=1 (audit trail,
+# attackers can't probe what made it through) and excluded from the
+# computed average. One Discord WARN per trigger.
+RATING_BAR_IP_WRITES = int(os.environ.get('RATING_BAR_IP_WRITES', '2'))
+RATING_BAR_IP_WRITE_WINDOW_SEC = int(os.environ.get('RATING_BAR_IP_WRITE_WINDOW_SEC', '86400'))
+RATING_IP_MAX = int(os.environ.get('RATING_IP_MAX', '40'))
+RATING_IP_WINDOW_SEC = int(os.environ.get('RATING_IP_WINDOW_SEC', '86400'))
+RATING_GLOBAL_MAX = int(os.environ.get('RATING_GLOBAL_MAX', '60'))
+RATING_GLOBAL_WINDOW_SEC = int(os.environ.get('RATING_GLOBAL_WINDOW_SEC', '60'))
+RATING_BURST_THRESHOLD = int(os.environ.get('RATING_BURST_THRESHOLD', '8'))
+RATING_BURST_WINDOW_SEC = int(os.environ.get('RATING_BURST_WINDOW_SEC', '60'))
+RATING_BURST_SUPPRESS_SEC = int(os.environ.get('RATING_BURST_SUPPRESS_SEC', '1800'))
+
+# Minimum number of (non-quarantined) votes before the public aggregate
+# endpoint will report a bar's average. Below this, the bar is omitted
+# entirely — n=1 averages are misleading and easy to manipulate.
+RATING_MIN_DISPLAY = int(os.environ.get('RATING_MIN_DISPLAY', '5'))
+
+# HMAC key for hashing IPs in the ratings table. Set in config.env. If
+# unset, a per-process random key is generated and a WARN is logged —
+# the service still works but the hash changes across restarts (which
+# loosens rate limits temporarily; data stays consistent because the
+# UNIQUE(bar_id, ip_hash) just sees new hashes as new IPs).
+_RATING_IP_HASH_SECRET = os.environ.get('RATING_IP_HASH_SECRET', '').strip()
+if not _RATING_IP_HASH_SECRET:
+    _RATING_IP_HASH_SECRET = secrets.token_hex(32)
+    _ip_hash_secret_ephemeral = True
+else:
+    _ip_hash_secret_ephemeral = False
+_RATING_IP_HASH_KEY = _RATING_IP_HASH_SECRET.encode('utf-8')
+
+# Format the ID backfill script writes: 10 chars from a 32-char
+# unambiguous alphabet. Used to validate inbound bar_id values so we
+# never insert garbage that could never have come from our own JSON.
+_BAR_ID_RE = re.compile(r'^[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{10}$')
+
+# President slug as it appears in data/presidents/<slug>.json. Letters
+# only (kept narrow on purpose); used to validate the path segment on
+# the public /ratings/<president> endpoint.
+_PRESIDENT_RE = re.compile(r'^[A-Za-z]{1,40}$')
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('suggest')
@@ -283,6 +351,21 @@ _rate_lock = threading.Lock()
 _rate_buckets = {}  # ip -> deque[float] of monotonic timestamps
 _global_bucket = deque()  # monotonic timestamps of accepted submissions
 
+# Rating-specific rate-limit state. Separate from the /suggest gates so a
+# noisy ratings flood can't starve the suggest channel and vice versa.
+# Note: in-memory, so per gunicorn worker; effective ceilings are ~Nx the
+# configured value with N workers. Same caveat as the suggest gates.
+_rating_rate_lock = threading.Lock()
+_rating_ip_buckets = {}      # ip -> deque[float]
+_rating_global_bucket = deque()
+
+# Per-bar burst tracker. Each entry holds a deque of (ts, ip_hash) tuples
+# for recent votes on that bar, and a `suppress_until` timestamp; while
+# suppress_until is in the future, every incoming vote on that bar lands
+# with quarantined=1 and is invisible to the average.
+_burst_lock = threading.Lock()
+_burst_state = {}  # bar_id -> {'events': deque[(ts, ip_hash)], 'suppress_until': float}
+
 # Per-IP origin-rejection tracking. Buckets hold timestamps of recent
 # rejections; the *_alerted dict remembers when we last fired an alert
 # for that IP so we don't spam Discord every request once an IP crosses
@@ -393,6 +476,99 @@ def rate_limit_check(ip):
     return True, None
 
 
+def hash_ip(ip):
+    """Stable HMAC-SHA256 of an IP, truncated to 16 hex chars (64 bits).
+
+    Truncation is fine — we never need to invert the hash, only group
+    by it, and 64 bits is far more than enough to make per-IP collisions
+    negligible at our scale. Storing the raw IP would be the simpler
+    thing, but a long-lived ratings table with raw IPs is exactly the
+    sort of data exposure to avoid by default.
+    """
+    if not ip:
+        ip = ''
+    return hmac.new(_RATING_IP_HASH_KEY, ip.encode('utf-8'), hashlib.sha256).hexdigest()[:16]
+
+
+def rating_rate_limit_check(ip_hash):
+    """Two-gate check for /rate. Returns (ok, reason). Mirrors the shape
+    of rate_limit_check but with rating-specific buckets and windows so
+    /suggest and /rate don't share a ceiling.
+    """
+    now = time.monotonic()
+    with _rating_rate_lock:
+        gcut = now - RATING_GLOBAL_WINDOW_SEC
+        while _rating_global_bucket and _rating_global_bucket[0] < gcut:
+            _rating_global_bucket.popleft()
+        if len(_rating_global_bucket) >= RATING_GLOBAL_MAX:
+            return False, 'global'
+
+        if ip_hash:
+            icut = now - RATING_IP_WINDOW_SEC
+            bucket = _rating_ip_buckets.get(ip_hash)
+            if bucket is None:
+                bucket = deque()
+                _rating_ip_buckets[ip_hash] = bucket
+            while bucket and bucket[0] < icut:
+                bucket.popleft()
+            if len(bucket) >= RATING_IP_MAX:
+                return False, 'ip'
+            bucket.append(now)
+            if len(_rating_ip_buckets) > 4096:
+                for k in [k for k, v in _rating_ip_buckets.items() if not v]:
+                    del _rating_ip_buckets[k]
+
+        _rating_global_bucket.append(now)
+    return True, None
+
+
+def note_rating_and_check_burst(bar_id, ip_hash):
+    """Record this vote on the per-bar burst tracker. Returns
+    (quarantined, fired_alert). `quarantined` is True if the bar is
+    currently inside a suppression window OR this vote crossed the
+    burst threshold and *opened* a new window. `fired_alert` is True
+    only on the transition into a new window — used by the caller to
+    emit exactly one Discord WARN per trip.
+    """
+    now = time.monotonic()
+    cutoff = now - RATING_BURST_WINDOW_SEC
+    with _burst_lock:
+        state = _burst_state.get(bar_id)
+        if state is None:
+            state = {'events': deque(), 'suppress_until': 0.0}
+            _burst_state[bar_id] = state
+
+        if state['suppress_until'] > now:
+            # Still in a suppression window from a prior burst — don't
+            # bother trimming the events deque (it's not informative
+            # while suppressed). The new vote is quarantined silently.
+            return True, False
+
+        events = state['events']
+        while events and events[0][0] < cutoff:
+            events.popleft()
+        events.append((now, ip_hash))
+
+        distinct = {h for _, h in events}
+        if len(distinct) >= RATING_BURST_THRESHOLD:
+            state['suppress_until'] = now + RATING_BURST_SUPPRESS_SEC
+            # Drop the events deque so a *second* burst after the
+            # suppression window has to re-cross the threshold from
+            # scratch; otherwise old events would still be in the deque
+            # 30 min from now and re-trigger immediately on the first
+            # legitimate vote.
+            state['events'].clear()
+            # Opportunistic GC to keep _burst_state bounded.
+            if len(_burst_state) > 1024:
+                stale = [k for k, s in _burst_state.items()
+                         if not s['events'] and s['suppress_until'] < now]
+                for k in stale:
+                    del _burst_state[k]
+            return True, True
+
+        return False, False
+
+
 def db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -421,6 +597,34 @@ with db() as conn:
         """
     )
     conn.execute('CREATE INDEX IF NOT EXISTS idx_status ON suggestions(status)')
+
+    # Severity ratings — one current row per (bar_id, ip_hash). Updates
+    # to an existing row use ON CONFLICT to flip the rating, bump
+    # updated_at, and increment write_count; the write_count guard in
+    # the route enforces "max RATING_BAR_IP_WRITES per window".
+    #
+    # `quarantined=1` rows still live here (auditability) but are
+    # excluded from the aggregate query that powers the public endpoint.
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS ratings (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            received_at   TEXT    NOT NULL,
+            updated_at    TEXT    NOT NULL,
+            president     TEXT    NOT NULL,
+            bar_id        TEXT    NOT NULL,
+            rating        INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 10),
+            ip_hash       TEXT    NOT NULL,
+            user_agent    TEXT,
+            write_count   INTEGER NOT NULL DEFAULT 1,
+            quarantined   INTEGER NOT NULL DEFAULT 0,
+            quarantine_reason TEXT,
+            UNIQUE(bar_id, ip_hash)
+        )
+        """
+    )
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_ratings_president ON ratings(president)')
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_ratings_president_bar ON ratings(president, bar_id)')
 
 
 app = Flask(__name__)
@@ -451,6 +655,15 @@ def _on_unhandled(exc):
 # will emit N "starting" events on boot. That's intentional: confirms
 # every worker came up rather than just the first.
 notify.info('service starting (pid=%d)', os.getpid())
+
+if _ip_hash_secret_ephemeral:
+    # WARN rather than INFO so it's visible in the alerts channel —
+    # forgetting to set the secret silently weakens rate limits across
+    # restarts and shouldn't be a silent failure.
+    notify.warning(
+        'RATING_IP_HASH_SECRET not set — using per-process random key. '
+        'Rate limits will reset every restart. Set the env var in config.env.'
+    )
 
 
 @atexit.register
@@ -548,6 +761,154 @@ def suggest():
         notify.warning('discord notify failed for #%d: %s', sid, exc)
 
     return jsonify(ok=True)
+
+
+@app.route('/rate', methods=['POST'])
+def rate():
+    """Cast or update a single severity rating (1–10) for a bar.
+
+    Body: {"president": "<slug>", "bar_id": "<10-char id>", "rating": 1..10}
+
+    Returns {"ok": true} on success, on silent-discard (honeypot-style
+    burst quarantine), and on per-(bar,ip) write limit hits — see below
+    for why we don't surface those distinctly. Returns 400 on validation
+    failure, 403 on bad origin, 429 on rate-limit trip.
+    """
+    origin = request.headers.get('Origin', '')
+    if origin not in ALLOWED_ORIGINS:
+        probe_ip = get_client_ip()
+        log.info('rate: rejected bad origin %r ip=%r', origin, probe_ip)
+        if note_origin_rejection(probe_ip):
+            notify.warning(
+                'probe alert: %d+ origin rejections from %s in last hour '
+                '(latest origin=%r)',
+                ORIGIN_REJECT_THRESHOLD, probe_ip, origin[:120],
+            )
+        abort(403)
+
+    ip = get_client_ip()
+    ip_hash = hash_ip(ip)
+
+    ok, reason = rating_rate_limit_check(ip_hash)
+    if not ok:
+        log.info('rate: rate limited (%s) ip=%r', reason, ip)
+        if reason == 'global':
+            notify.warning(
+                'ratings global rate limit tripped (cap=%d/%ds)',
+                RATING_GLOBAL_MAX, RATING_GLOBAL_WINDOW_SEC,
+            )
+        return jsonify(ok=False, error='too many requests — try again later'), 429
+
+    data = request.get_json(silent=True) or {}
+    president = clean_input(data.get('president'))
+    bar_id = clean_input(data.get('bar_id'))
+    rating = data.get('rating')
+
+    if not _PRESIDENT_RE.match(president or ''):
+        return jsonify(ok=False, error='invalid president'), 400
+    if not _BAR_ID_RE.match(bar_id or ''):
+        return jsonify(ok=False, error='invalid bar_id'), 400
+    try:
+        rating = int(rating)
+    except (TypeError, ValueError):
+        return jsonify(ok=False, error='rating must be an integer 1..10'), 400
+    if rating < 1 or rating > 10:
+        return jsonify(ok=False, error='rating must be between 1 and 10'), 400
+
+    quarantined, fired_alert = note_rating_and_check_burst(bar_id, ip_hash)
+    if fired_alert:
+        notify.warning(
+            'ratings burst suppression engaged: bar_id=%s (>=%d distinct IPs in %ds); '
+            'votes for this bar will be quarantined for the next %ds',
+            bar_id, RATING_BURST_THRESHOLD, RATING_BURST_WINDOW_SEC,
+            RATING_BURST_SUPPRESS_SEC,
+        )
+
+    ua = request.headers.get('User-Agent', '')[:300]
+    now_iso = now_utc_iso()
+    quarantine_reason = 'burst' if quarantined else None
+    q_int = 1 if quarantined else 0
+
+    with db() as conn:
+        existing = conn.execute(
+            'SELECT id, updated_at, write_count FROM ratings WHERE bar_id=? AND ip_hash=?',
+            (bar_id, ip_hash),
+        ).fetchone()
+
+        if existing:
+            # Existing vote — enforce the (bar, ip) write cap within
+            # its rolling window before we'd UPDATE. Parsing the prior
+            # ISO timestamp tells us whether the window has rolled over.
+            try:
+                prior_dt = datetime.datetime.fromisoformat(existing['updated_at'])
+            except (TypeError, ValueError):
+                prior_dt = None
+            now_dt = datetime.datetime.now(datetime.timezone.utc)
+            within_window = (
+                prior_dt is not None
+                and (now_dt - prior_dt).total_seconds() < RATING_BAR_IP_WRITE_WINDOW_SEC
+            )
+            if within_window and existing['write_count'] >= RATING_BAR_IP_WRITES:
+                log.info('rate: per-(bar,ip) write cap hit bar_id=%s', bar_id)
+                # Silent-success shape — the public response shouldn't
+                # let a caller distinguish "got through" from "capped"
+                # for the same reason the suggest honeypot is silent:
+                # don't teach abusers what works.
+                return jsonify(ok=True)
+
+            new_write_count = existing['write_count'] + 1 if within_window else 1
+            conn.execute(
+                'UPDATE ratings SET rating=?, updated_at=?, user_agent=?, '
+                'write_count=?, quarantined=?, quarantine_reason=? WHERE id=?',
+                (rating, now_iso, ua, new_write_count, q_int,
+                 quarantine_reason, existing['id']),
+            )
+        else:
+            conn.execute(
+                'INSERT INTO ratings '
+                '(received_at, updated_at, president, bar_id, rating, ip_hash, '
+                 'user_agent, write_count, quarantined, quarantine_reason) '
+                'VALUES (?,?,?,?,?,?,?,?,?,?)',
+                (now_iso, now_iso, president, bar_id, rating, ip_hash, ua,
+                 1, q_int, quarantine_reason),
+            )
+
+    log.info(
+        'rate: %s bar_id=%s rating=%d%s',
+        'updated' if existing else 'new', bar_id, rating,
+        ' (quarantined)' if quarantined else '',
+    )
+    return jsonify(ok=True)
+
+
+@app.route('/ratings/<president>', methods=['GET'])
+def ratings(president):
+    """Aggregate (avg, count) per bar for one president.
+
+    Returns {"<bar_id>": {"avg": 7.4, "count": 12}, ...}, including only
+    bars whose non-quarantined vote count is >= RATING_MIN_DISPLAY. Bars
+    below that threshold are omitted entirely — callers should treat a
+    missing key as "not enough votes yet" and render nothing.
+
+    GET, so no Origin/honeypot/rate-limit gates — it's a read of public
+    aggregate data and Apache can cache it freely if needed later.
+    """
+    if not _PRESIDENT_RE.match(president or ''):
+        abort(400)
+
+    with db() as conn:
+        rows = conn.execute(
+            'SELECT bar_id, AVG(rating) AS avg, COUNT(*) AS n '
+            'FROM ratings WHERE president=? AND quarantined=0 '
+            'GROUP BY bar_id HAVING n >= ?',
+            (president, RATING_MIN_DISPLAY),
+        ).fetchall()
+
+    # Round to one decimal place — matches what the UI displays. Doing
+    # it server-side keeps client math trivial and means the wire format
+    # is the displayed format.
+    out = {r['bar_id']: {'avg': round(r['avg'], 1), 'count': r['n']} for r in rows}
+    return jsonify(out)
 
 
 def post_to_discord(sid, president, event, source, why):

@@ -1,5 +1,6 @@
 [
   {
+    "id": "ZSJXFJUEEM",
     "severity": 10,
     "title": "Enslaved More Than 300 People at Mount Vernon",
     "shortLabel": "Enslaved 300+ People",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "9BV8Q8CTT4",
     "severity": 10,
     "title": "Signed the Fugitive Slave Act of 1793",
     "shortLabel": "Fugitive Slave Act 1793",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "V2NCFSGW4L",
     "severity": 9,
     "title": "Pursued Ona Judge After She Escaped to Freedom",
     "shortLabel": "Pursued Ona Judge",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "YSEP9QFG2X",
     "severity": 9,
     "title": "Embodied American Liberty While Denying It to Those He Enslaved",
     "shortLabel": "Liberty Contradiction",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "VNQMDTLWWS",
     "severity": 7,
     "title": "Northwest Indian War and Forced Cession of Native Lands",
     "shortLabel": "Northwest Indian War",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "C5ULBCE373",
     "severity": 5,
     "title": "Purchased Teeth from Enslaved People for His Dentures",
     "shortLabel": "Purchased Enslaved Teeth",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "K973Z62UY3",
     "severity": 5,
     "title": "Used Federal Military Force to Suppress the Whiskey Rebellion",
     "shortLabel": "Whiskey Rebellion",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "MHDJZ7A384",
     "severity": 4,
     "title": "Backed a Regressive Whiskey Tax That Burdened Frontier Farmers",
     "shortLabel": "Whiskey Tax",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "GABD2RY853",
     "severity": 4,
     "title": "Established Strong Executive Precedents That Expanded Presidential Power",
     "shortLabel": "Executive Precedents",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "L5KMMSH6ZJ",
     "severity": 6,
     "title": "Prioritized National Unity Over Challenging Slavery While President",
     "shortLabel": "Silence on Slavery",

@@ -1619,6 +1619,219 @@ body.hydrated .picker-badge {
     margin: 0 0 28px;
 }
 
+/* --------------------------------------------------------------------------
+   Reader rating — 1–10 scale. Used in two surfaces with identical markup:
+   the mobile modal sheet and the desktop inline detail panel below each
+   bar. Both surfaces sit on a dark backdrop (modal sheet gradient and
+   .bar-detail-inner's rgba(0,0,0,0.45) respectively), so a single set of
+   styles works for both. The block is placed AFTER the sources section
+   in both surfaces, with its own top divider and padding mirroring
+   .modal-sources / .detail-sources so it reads as a peer section.
+   -------------------------------------------------------------------------- */
+.bar-rating {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 18px;
+    margin-top: 18px;
+}
+
+.bar-rating-prompt {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin: 0 0 12px;
+}
+
+/* flex with grow-to-fill so the row spans the full content width on wide
+   panels and shrinks gracefully on narrow phones. aspect-ratio:1 keeps
+   the buttons square at whatever size flex resolves to. max-width caps
+   them on wide screens so they don't get oversized on a 720px container. */
+.bar-rating-scale {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.bar-rating-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: 1;
+    max-width: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--ink-dim);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+.bar-rating-btn:hover:not([aria-checked="true"]):not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--ink);
+}
+
+.bar-rating-btn:active:not(:disabled) {
+    transform: scale(0.94);
+}
+
+/* Selected state — fill with the party color (inherited via --party-glow
+   from the nearest ancestor with [data-party] set: the modal in modal
+   context, the .side-{left,right} in inline-panel context). */
+.bar-rating-btn[aria-checked="true"] {
+    background: var(--party-glow, rgba(255, 255, 255, 0.25));
+    border-color: var(--party-glow, rgba(255, 255, 255, 0.35));
+    color: #0f0f18;
+}
+
+.bar-rating-btn:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+/* Submit / thanks state machine.
+   The block has three logical states driven by class on .bar-rating:
+     (default)        idle           — scale visible, submit hidden, thanks hidden
+     .has-pending     pending        — scale visible, submit visible, thanks hidden
+     .is-submitted    submitted      — prompt/scale/submit hidden, thanks visible
+   CSS owns the visibility transitions; JS only flips classes. */
+.bar-rating-submit,
+.bar-rating-thanks {
+    display: none;
+}
+
+.bar-rating.has-pending .bar-rating-submit {
+    display: inline-block;
+    margin-top: 4px;
+    animation: ratingSubmitFade 0.2s var(--ease-soft);
+}
+
+.bar-rating-submit {
+    padding: 9px 18px;
+    border: 1px solid var(--party-glow, rgba(255, 255, 255, 0.35));
+    background: var(--party-glow, rgba(255, 255, 255, 0.18));
+    color: #0f0f18;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.bar-rating-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.bar-rating-submit:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.bar-rating-submit:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+@keyframes ratingSubmitFade {
+    from { opacity: 0; transform: translateY(-3px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* When submitted, the prompt + scale + submit all collapse so the
+   thanks message visually replaces them in place. */
+.bar-rating.is-submitted .bar-rating-prompt,
+.bar-rating.is-submitted .bar-rating-scale,
+.bar-rating.is-submitted .bar-rating-submit {
+    display: none;
+}
+
+.bar-rating.is-submitted .bar-rating-thanks {
+    display: block;
+    animation: ratingThanksFade 0.35s var(--ease-soft);
+}
+
+@keyframes ratingThanksFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.bar-rating-thanks-text {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--ink-dim);
+    margin: 0 0 8px;
+}
+
+.bar-rating-thanks-text strong {
+    color: var(--party-glow, var(--ink));
+    font-weight: 700;
+}
+
+/* "Change my rating" — deliberately subdued so it reads as a secondary
+   action under the thanks message, not a CTA competing with the
+   confirmation it sits beneath. */
+.bar-rating-change {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.bar-rating-change:hover {
+    color: var(--ink-dim);
+}
+
+.bar-rating-status {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    margin: 0 0 6px;
+    min-height: 1em;
+}
+
+.bar-rating-status.is-error {
+    color: #d68b8b;
+}
+
+.bar-rating-status.is-success {
+    color: var(--party-glow, var(--ink-dim));
+}
+
+/* Average line — deliberately quieter than the description text, per the
+   spec ("smaller font with less prominent coloring"). The number itself
+   gets a slightly stronger color so it doesn't disappear inside the
+   italic body. */
+.bar-rating-average {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--ink-faint);
+    margin: 0;
+}
+
+.bar-rating-average strong {
+    font-weight: 600;
+    font-style: normal;
+    color: var(--ink-dim);
+}
+
 .modal-sources {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: 18px;

@@ -1,5 +1,6 @@
 [
   {
+    "id": "4MRWZSZVT4",
     "severity": 10,
     "title": "Ended Reconstruction by Withdrawing Federal Troops from the South",
     "shortLabel": "Ended Reconstruction",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "GE53TAWS22",
     "severity": 9,
     "title": "Gained the Presidency Through the Compromise of 1877",
     "shortLabel": "Compromise of 1877",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "UP2TZF2LDB",
     "severity": 10,
     "title": "Abandoned Federal Protection of Black Civil Rights in the South",
     "shortLabel": "Abandoned Black Rights",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "LK87BE57RW",
     "severity": 7,
     "title": "Sent Federal Troops to Break the Great Railroad Strike of 1877",
     "shortLabel": "Railroad Strike",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "496AU45Y3S",
     "severity": 6,
     "title": "Established Federal Precedent of Military Force Against Labor",
     "shortLabel": "Anti-Labor Precedent",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "M6XM5WHEW6",
     "severity": 7,
     "title": "Oversaw the Launch of the Carlisle Indian Boarding School System",
     "shortLabel": "Indian Boarding Schools",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "KJNJHM6SBN",
     "severity": 6,
     "title": "Pursued Native Assimilation Policy That Attacked Tribal Sovereignty",
     "shortLabel": "Native Assimilation",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "ESMMVQZAXD",
     "severity": 5,
     "title": "Presidency Born from a Legitimacy Crisis Tied to Reconstruction's Collapse",
     "shortLabel": "Legitimacy Crisis",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "8KYCMQQNDC",
     "severity": 4,
     "title": "Weak Civil Rights Leadership Despite Occasional Sympathetic Rhetoric",
     "shortLabel": "Civil Rights Failure",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "GSLPX7LHK5",
     "severity": 3,
     "title": "Paved the Road Toward Chinese Exclusion Despite Vetoing an Early Bill",
     "shortLabel": "Chinese Exclusion Path",

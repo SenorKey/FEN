@@ -1,5 +1,6 @@
 [
   {
+    "id": "75MN3CZ8L4",
     "severity": 10,
     "title": "Signed the Fugitive Slave Act of 1850",
     "shortLabel": "Fugitive Slave Act",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "CQ6UVFQB3G",
     "severity": 10,
     "title": "Nationalized Slavery Enforcement Into Free States",
     "shortLabel": "Slavery Nationalized",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "CSAPXKJTG7",
     "severity": 8,
     "title": "Backed the Compromise of 1850 as a \"Final Settlement\" That Settled Nothing",
     "shortLabel": "Compromise of 1850",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "KSPRDPD8XH",
     "severity": 7,
     "title": "Prioritized Legal Order Over Human Freedom on Slavery",
     "shortLabel": "Order Over Freedom",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "53RCXENJJQ",
     "severity": 8,
     "title": "Worsened Sectional Polarization He Intended to Heal",
     "shortLabel": "Deepened Sectional Crisis",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "B7HSPKSUHZ",
     "severity": 7,
     "title": "Failed to Secure Treaty Protections for California Native Nations",
     "shortLabel": "California Native Treaties",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "TPB3W3VGVD",
     "severity": 6,
     "title": "Governed During the Decimation of California Native Communities",
     "shortLabel": "California Native Violence",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "H7NL7A7N4C",
     "severity": 5,
     "title": "Authorized Perry's Coercive Naval Expedition to Japan",
     "shortLabel": "Perry Japan Expedition",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "5GD2P6FW5T",
     "severity": 5,
     "title": "Helped Destroy the Whig Party's Anti-Slavery Credibility",
     "shortLabel": "Whig Party Collapse",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "7SJJ6S9L6P",
     "severity": 4,
     "title": "Ran for President in 1856 on the Know-Nothing Ticket",
     "shortLabel": "Know-Nothing Campaign",

@@ -1,5 +1,6 @@
 [
   {
+    "id": "VR63AURMGF",
     "severity": 10,
     "title": "Undermined Reconstruction and Restored Confederate Power",
     "shortLabel": "Sabotaged Reconstruction",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "N63G64UJD2",
     "severity": 10,
     "title": "Vetoed the Civil Rights Act of 1866",
     "shortLabel": "Civil Rights Veto",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "YMPR4J9PVQ",
     "severity": 10,
     "title": "Vetoed the Freedmen's Bureau Expansion",
     "shortLabel": "Freedmen's Bureau Veto",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "RYZBUAP6PK",
     "severity": 9,
     "title": "Issued More Than 13,000 Pardons to Former Confederates",
     "shortLabel": "Confederate Pardons",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "MYP9ZP8Y2D",
     "severity": 10,
     "title": "Allowed Black Codes to Take Root Across the South",
     "shortLabel": "Black Codes",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "XD6CWQPRVP",
     "severity": 10,
     "title": "Opposed the Fourteenth Amendment",
     "shortLabel": "Opposed 14th Amendment",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "4DPEFDG5EW",
     "severity": 8,
     "title": "Racist Rhetoric and Political Agitation Against Reconstruction",
     "shortLabel": "Racist Rhetoric",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "2Q5P733NF6",
     "severity": 9,
     "title": "Failed to Protect Black Americans from White-Supremacist Massacres",
     "shortLabel": "Racial Massacre Inaction",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "7CZU8TUEKR",
     "severity": 6,
     "title": "Triggered a Constitutional Crisis and Was Impeached",
     "shortLabel": "Impeachment",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "NWYAEHQY32",
     "severity": 10,
     "title": "Prioritized White Southern Reconciliation Over Justice for Freedpeople",
     "shortLabel": "White Reconciliation Over Justice",

@@ -1,5 +1,6 @@
 [
   {
+    "id": "8GAYMNUQH5",
     "severity": 10,
     "title": "Attempted to Overturn the 2020 Election",
     "shortLabel": "Election Overturn",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "BCKPHYN2BD",
     "severity": 9,
     "title": "Conduct on January 6th",
     "shortLabel": "Jan. 6 Capitol",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "RLGDYP4YVP",
     "severity": 8,
     "title": "Family Separation at the Border",
     "shortLabel": "Family Separation",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "N3CFKBZFLB",
     "severity": 8,
     "title": "Withheld Ukraine Aid to Pressure Political Investigations",
     "shortLabel": "Ukraine Aid Freeze",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "CE4P5MDWRN",
     "severity": 7,
     "title": "Mishandled Classified Documents and Obstructed Retrieval",
     "shortLabel": "Classified Docs",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "JG6WUAJXH9",
     "severity": 7,
     "title": "Convicted of 34 Felony Counts of Falsifying Business Records",
     "shortLabel": "Felony Conviction",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "BJ3JW6BRDS",
     "severity": 6,
     "title": "Found Liable for Sexual Abuse and Defamation",
     "shortLabel": "E. Jean Carroll",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "HQA5BGRQ84",
     "severity": 6,
     "title": "Found Liable for Years of Civil Business Fraud",
     "shortLabel": "Business Fraud",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "WC9UXU9ZJ5",
     "severity": 4,
     "title": "Used Pardon Power for Political Allies and Personal Associates",
     "shortLabel": "Loyalty Pardons",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "UE5L2Q9PLF",
     "severity": 5,
     "title": "Travel Ban Targeting Primarily Muslim-Majority Countries",
     "shortLabel": "Travel Ban",

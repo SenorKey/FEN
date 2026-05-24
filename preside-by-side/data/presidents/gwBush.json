@@ -1,5 +1,6 @@
 [
   {
+    "id": "WUKN48E82D",
     "severity": 10,
     "title": "Invaded Iraq Based on False WMD Claims",
     "shortLabel": "Iraq WMD War",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "2ZJUDSKPKX",
     "severity": 9,
     "title": "Iraq War Civilian Death Toll and Regional Destabilization",
     "shortLabel": "Iraq Civilian Deaths",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "3TFYLTD9QB",
     "severity": 9,
     "title": "CIA Torture and \"Enhanced Interrogation\" Program",
     "shortLabel": "CIA Torture",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "EXXRJXMDCC",
     "severity": 7,
     "title": "Abu Ghraib Prisoner Abuse",
     "shortLabel": "Abu Ghraib",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "WFZ9NKZ9Q4",
     "severity": 7,
     "title": "Warrantless NSA Surveillance Program",
     "shortLabel": "Warrantless Wiretaps",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "U5U54EG94U",
     "severity": 5,
     "title": "USA PATRIOT Act and Expansion of Surveillance Powers",
     "shortLabel": "PATRIOT Act",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "YK5QEEP355",
     "severity": 7,
     "title": "Hurricane Katrina Federal Response Failure",
     "shortLabel": "Katrina Response",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "8JBGWQBM3T",
     "severity": 6,
     "title": "Failure to Act on Pre-9/11 Intelligence Warnings",
     "shortLabel": "Pre-9/11 Warnings",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "3SPWKK8QTT",
     "severity": 5,
     "title": "Fiscal Damage from Tax Cuts and War Spending",
     "shortLabel": "Deficit & Tax Cuts",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "RVZ7NB8S23",
     "severity": 3,
     "title": "No Child Left Behind Testing and Accountability Failures",
     "shortLabel": "No Child Left Behind",

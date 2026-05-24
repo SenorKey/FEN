@@ -1,5 +1,6 @@
 [
   {
+    "id": "77ZYWD6L2X",
     "severity": 8,
     "title": "Chaotic Afghanistan Withdrawal",
     "shortLabel": "Afghanistan Exit",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "X6L4UWS8JX",
     "severity": 7,
     "title": "Pardoned Hunter Biden After Promising Not to Interfere",
     "shortLabel": "Hunter Pardon",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "9EZGA2HNNN",
     "severity": 6,
     "title": "Mishandled Classified Documents After Vice Presidency",
     "shortLabel": "Classified Docs",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "WF8A8G2LTP",
     "severity": 5,
     "title": "Student Loan Cancellation Exceeded Executive Authority",
     "shortLabel": "Loan Overreach",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "WHSKH2JE2V",
     "severity": 5,
     "title": "OSHA Vaccine Mandate Blocked as Executive Overreach",
     "shortLabel": "Vaccine Mandate",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "RPZQJ9MAQH",
     "severity": 4,
     "title": "Extended Eviction Moratorium Without Congressional Authorization",
     "shortLabel": "Eviction Moratorium",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "W237K523ZS",
     "severity": 5,
     "title": "American Rescue Plan Contributed to Inflation",
     "shortLabel": "ARP Inflation",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "L83BM22VP8",
     "severity": 5,
     "title": "Sustained U.S. Weapons Support to Israel During Gaza Conflict",
     "shortLabel": "Gaza Arms Support",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "RS5F8G69N8",
     "severity": 4,
     "title": "Repeated Failures in Border and Immigration Management",
     "shortLabel": "Border Failures",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "YWDQKCZ9S9",
     "severity": 3,
     "title": "Fossil Fuel Leasing Pauses Challenged in Court",
     "shortLabel": "Energy Leasing Pause",

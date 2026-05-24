@@ -1,5 +1,6 @@
 [
   {
+    "id": "2XEP5GB27X",
     "severity": 8,
     "title": "Sent Federal Troops to Break the Pullman Strike",
     "shortLabel": "Pullman Strike",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "8N8XSVUFSG",
     "severity": 7,
     "title": "Used Federal Power Systematically Against Organized Labor",
     "shortLabel": "Anti-Labor Policy",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "U6QJUQJMCR",
     "severity": 9,
     "title": "Signed the Dawes Act, Stripping Native Americans of 86 Million Acres",
     "shortLabel": "Dawes Act",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "HC5Y9FD355",
     "severity": 8,
     "title": "Enforced Forced Assimilation of Native Americans",
     "shortLabel": "Native Assimilation",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "Z6Z8GERNBB",
     "severity": 7,
     "title": "Signed the Scott Act, Stranding Chinese Immigrants Abroad",
     "shortLabel": "Scott Act",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "8PMKM5B7SW",
     "severity": 6,
     "title": "Mishandled the Panic of 1893 and the Resulting Depression",
     "shortLabel": "Panic of 1893",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "ZMZZGSQJ8X",
     "severity": 6,
     "title": "Arranged Secretive Bond Deal with J.P. Morgan During the Depression",
     "shortLabel": "Morgan Bond Deal",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "87N7R3KBU9",
     "severity": 5,
     "title": "Opposed Federal Relief for Americans During Severe Economic Depression",
     "shortLabel": "Denied Depression Relief",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "NQ3Z7DC4MQ",
     "severity": 4,
     "title": "Failed to Restore Hawaiian Sovereignty After U.S.-Backed Overthrow",
     "shortLabel": "Hawaii Sovereignty",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "7ZHVFJBZKQ",
     "severity": 4,
     "title": "Limited Civil Rights Leadership Amid Expanding Jim Crow",
     "shortLabel": "Civil Rights Inaction",

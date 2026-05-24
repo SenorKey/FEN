@@ -1,5 +1,6 @@
 [
   {
+    "id": "QRLGVWF599",
     "severity": 9,
     "title": "Iran-Contra: Secret Arms Sales and Illegal Contra Funding",
     "shortLabel": "Iran-Contra",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "XV37NSL48R",
     "severity": 7,
     "title": "Backing the Contras and Fueling Nicaragua's Civil War",
     "shortLabel": "Contra Support",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "AWW6H6ZHWB",
     "severity": 7,
     "title": "Slow Response to the AIDS Crisis",
     "shortLabel": "AIDS Crisis",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "FFEQUFMJYH",
     "severity": 6,
     "title": "Escalating the Drug War and Creating Crack/Cocaine Sentencing Disparity",
     "shortLabel": "Drug War & Sentencing",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "HADTBY3DBK",
     "severity": 7,
     "title": "Vetoed Sanctions Against Apartheid South Africa",
     "shortLabel": "Apartheid Veto",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "DY65TV9ZMN",
     "severity": 4,
     "title": "Firing 11,000 Striking Air Traffic Controllers",
     "shortLabel": "PATCO Strike",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "YEHCVZKZ5U",
     "severity": 5,
     "title": "Savings and Loan Deregulation and the S&L Crisis",
     "shortLabel": "S&L Crisis",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "N73LRBQ7E8",
     "severity": 5,
     "title": "Housing and Social Program Cuts Amid Rising Homelessness",
     "shortLabel": "Housing & Social Cuts",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "Q7BCF6TUYW",
     "severity": 4,
     "title": "Dismantling Federal Mental Health Policy",
     "shortLabel": "Mental Health Cuts",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "4WWLSVRWW6",
     "severity": 4,
     "title": "Tax Cuts That Increased Deficits and Favored Higher Earners",
     "shortLabel": "Reagan Tax Cuts",

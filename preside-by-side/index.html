@@ -147,6 +147,42 @@
                         <h4 class="sources-heading">Sources</h4>
                         <ol class="sources-list"></ol>
                     </div>
+                    <!--
+                      Reader rating block — same structure used by the
+                      mobile modal. JS populates .bar-rating-scale with
+                      ten 1–10 buttons on first encounter, then re-uses
+                      them across re-renders. data-president-id and
+                      data-bar-id on the scale element pair the click
+                      back to the right (president, bar) for POST /rate.
+                    -->
+                    <div class="bar-rating">
+                        <p class="bar-rating-prompt">What severity would you give this?</p>
+                        <div class="bar-rating-scale" role="radiogroup"
+                            aria-label="Your severity rating, 1 to 10"></div>
+                        <!--
+                          Submit button — CSS hides it by default and reveals
+                          it when the .bar-rating element carries the
+                          has-pending state class (set by the click delegate
+                          when a 1–10 button is chosen). Deferring the POST
+                          to an explicit submit lets users click around
+                          freely without burning their per-(bar,IP) write cap.
+                        -->
+                        <button class="bar-rating-submit" type="button">Submit rating</button>
+                        <!--
+                          Thanks confirmation — replaces the prompt + scale +
+                          submit once the vote has actually landed (or when
+                          a stored vote is found on re-open). The "Change my
+                          rating" button reverts the block to the idle state
+                          so the scale is interactive again within the
+                          server-side daily edit cap.
+                        -->
+                        <div class="bar-rating-thanks">
+                            <p class="bar-rating-thanks-text"></p>
+                            <button class="bar-rating-change" type="button">Change my rating</button>
+                        </div>
+                        <p class="bar-rating-status" role="status" aria-live="polite"></p>
+                        <p class="bar-rating-average" hidden></p>
+                    </div>
                 </div>
             </div>
         </article>
@@ -187,6 +223,30 @@
             <div class="modal-sources">
                 <h4 class="sources-heading">Sources</h4>
                 <ol class="sources-list" id="modal-sources-list"></ol>
+            </div>
+            <!--
+              Reader rating block — same markup pattern lives inside the
+              bar-template's inline detail panel, so the rating JS finds
+              .bar-rating-* via class on both surfaces. The 1–10 button
+              row is populated by JS rather than shipped as ten near-
+              identical <button>s; role="radiogroup" + role="radio"
+              gives screen readers the right "pick one of N" semantics.
+              The status line is polite-live so submit feedback is
+              announced without yanking focus. The average line stays
+              hidden until JS confirms the server-side count meets the
+              display threshold (5 by default).
+            -->
+            <div class="bar-rating">
+                <p class="bar-rating-prompt">What severity would you give this?</p>
+                <div class="bar-rating-scale" role="radiogroup"
+                    aria-label="Your severity rating, 1 to 10"></div>
+                <button class="bar-rating-submit" type="button">Submit rating</button>
+                <div class="bar-rating-thanks">
+                    <p class="bar-rating-thanks-text"></p>
+                    <button class="bar-rating-change" type="button">Change my rating</button>
+                </div>
+                <p class="bar-rating-status" role="status" aria-live="polite"></p>
+                <p class="bar-rating-average" hidden></p>
             </div>
         </div>
     </dialog>

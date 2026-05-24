@@ -1,5 +1,6 @@
 [
   {
+    "id": "YH52V8CMNY",
     "severity": 8,
     "title": "Failure to Intervene in the Rwandan Genocide",
     "shortLabel": "Rwanda Genocide",
@@ -16,6 +17,7 @@
     ]
   },
   {
+    "id": "LSW4PRUNV4",
     "severity": 6,
     "title": "Perjury and Obstruction in the Lewinsky Scandal",
     "shortLabel": "Perjury/Obstruction",
@@ -32,6 +34,7 @@
     ]
   },
   {
+    "id": "PDW5M7DTLQ",
     "severity": 6,
     "title": "The 1994 Crime Bill and Mass Incarceration",
     "shortLabel": "1994 Crime Bill",
@@ -48,6 +51,7 @@
     ]
   },
   {
+    "id": "BBBJGGCFAC",
     "severity": 5,
     "title": "Signed the Defense of Marriage Act",
     "shortLabel": "DOMA",
@@ -64,6 +68,7 @@
     ]
   },
   {
+    "id": "2AHX88MZ4Y",
     "severity": 5,
     "title": "Welfare Reform and the Weakening of the Safety Net",
     "shortLabel": "Welfare Reform",
@@ -80,6 +85,7 @@
     ]
   },
   {
+    "id": "CMMQKP8DP9",
     "severity": 5,
     "title": "Iraq Sanctions and Humanitarian Harm",
     "shortLabel": "Iraq Sanctions",
@@ -96,6 +102,7 @@
     ]
   },
   {
+    "id": "P6V7F8RJ79",
     "severity": 5,
     "title": "Bombing the Al-Shifa Pharmaceutical Factory in Sudan",
     "shortLabel": "Al-Shifa Strike",
@@ -112,6 +119,7 @@
     ]
   },
   {
+    "id": "YRCRF8EL3M",
     "severity": 5,
     "title": "Financial Deregulation via Gramm-Leach-Bliley",
     "shortLabel": "Financial Deregulation",
@@ -128,6 +136,7 @@
     ]
   },
   {
+    "id": "94BFJB3SMF",
     "severity": 4,
     "title": "NAFTA and U.S. Manufacturing Job Losses",
     "shortLabel": "NAFTA",
@@ -144,6 +153,7 @@
     ]
   },
   {
+    "id": "A6NHD87S3M",
     "severity": 4,
     "title": "\"Don't Ask, Don't Tell\" Military Policy",
     "shortLabel": "Don't Ask Don't Tell",
