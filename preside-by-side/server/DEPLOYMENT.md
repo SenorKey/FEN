@@ -7,6 +7,17 @@ or diagnose it without having to reverse-engineer the moving parts.
 The webhook URL itself is never in this file or anywhere in the repo — it
 lives only in `/etc/preside-by-side/config.env` on the server.
 
+There are now **two** webhooks the service uses:
+
+- `DISCORD_WEBHOOK_URL` — the suggestions queue channel ("Paul Revere" embeds).
+- `LOG_WEBHOOK_URL` — *optional* alerts channel: service start/stop, global
+  rate-limit trips, suggestion-webhook failures, origin-probe alerts (one IP
+  exceeding `ORIGIN_REJECT_THRESHOLD` bad-Origin requests in
+  `ORIGIN_REJECT_WINDOW_SEC`), and unhandled exceptions. Put this in a
+  *different* channel with a *different* webhook URL so the two can be
+  rotated independently. If unset, the service runs identically but with
+  journalctl as the only log sink.
+
 ---
 
 ## Architecture
@@ -139,6 +150,22 @@ curl -ik -X POST https://localhost/api/suggest \
 
 No code change, no deploy, no git commit. The leaked URL is dead the moment
 you delete it in Discord — anyone who scraped it can no longer post.
+
+### Set up or rotate the alerts webhook
+
+Same procedure as the suggestions webhook, but pointed at a *different*
+channel (private to you) and stored in `LOG_WEBHOOK_URL`:
+
+```bash
+sudoedit /etc/preside-by-side/config.env       # paste LOG_WEBHOOK_URL=...
+sudo systemctl restart preside-by-side-suggest
+```
+
+You should see two "service starting" embeds appear within a second (one per
+gunicorn worker). If those don't show, the URL is wrong or the channel
+permissions are off — check `sudo journalctl -u preside-by-side-suggest -n 50`
+for a clue. Leaving `LOG_WEBHOOK_URL` blank is supported — the service runs
+fine with only journalctl as a sink.
 
 ### Inspect the queue
 

@@ -10,18 +10,29 @@ proxies /api/suggest on the public site to this service on localhost.
 Config is loaded from the file at $CONFIG_FILE (set by the systemd unit
 to /etc/preside-by-side/config.env). Keys:
 
-    DISCORD_WEBHOOK_URL  required
-    DB_PATH              default /var/lib/preside-by-side/suggestions.db
-    LISTEN_HOST          default 127.0.0.1
-    LISTEN_PORT          default 8787
-    ALLOWED_ORIGIN       default https://frontendneeded.com
-                         comma-separated for multiple
+    DISCORD_WEBHOOK_URL          required — suggestion-queue channel
+    LOG_WEBHOOK_URL              optional — alerts channel (separate webhook
+                                 so it can be rotated independently of the
+                                 suggestions one). If unset, Discord-bound
+                                 alerts are silently disabled and the
+                                 service still logs to journalctl as before.
+    DB_PATH                      default /var/lib/preside-by-side/suggestions.db
+    LISTEN_HOST                  default 127.0.0.1
+    LISTEN_PORT                  default 8787
+    ALLOWED_ORIGIN               default https://frontendneeded.com
+                                 comma-separated for multiple
+    RATE_LIMIT_MAX / _WINDOW_SEC          per-IP submission ceiling
+    GLOBAL_RATE_LIMIT_MAX / _WINDOW_SEC   service-wide submission ceiling
+    ORIGIN_REJECT_THRESHOLD / _WINDOW_SEC origin-rejections from one IP
+                                          before a probe alert fires
 """
 
+import atexit
 import datetime
 import logging
 import os
 import pathlib
+import queue
 import re
 import sqlite3
 import sys
@@ -32,6 +43,7 @@ from urllib.parse import urlparse
 
 import requests
 from flask import Flask, abort, jsonify, request
+from werkzeug.exceptions import HTTPException
 
 
 def load_env_file(path):
@@ -69,8 +81,190 @@ MAX_LENGTHS = {'president': 80, 'event': 200, 'source': 500, 'why': 600}
 RATE_LIMIT_MAX = int(os.environ.get('RATE_LIMIT_MAX', '10'))
 RATE_LIMIT_WINDOW_SEC = int(os.environ.get('RATE_LIMIT_WINDOW_SEC', '3600'))
 
+# Global rolling-window ceiling across all IPs. The per-IP cap alone can be
+# defeated by a CGNAT crowd or a small VPN pool — 1000 unique IPs each sending
+# RATE_LIMIT_MAX still floods the Discord queue. This second gate caps the
+# total submissions the service will accept per window, so a coordinated
+# brigade is bounded by *one* number regardless of how many IPs they spread
+# across. The on-disk queue is unaffected; rejected requests never insert.
+GLOBAL_RATE_LIMIT_MAX = int(os.environ.get('GLOBAL_RATE_LIMIT_MAX', '60'))
+GLOBAL_RATE_LIMIT_WINDOW_SEC = int(os.environ.get('GLOBAL_RATE_LIMIT_WINDOW_SEC', '3600'))
+
+# Probe alert — fire one WARNING per IP per window when origin rejections
+# from that IP exceed the threshold. Below threshold is uninteresting
+# (curl smoke tests, misconfigured staging hosts); above threshold looks
+# like someone is fuzzing the endpoint.
+ORIGIN_REJECT_THRESHOLD = int(os.environ.get('ORIGIN_REJECT_THRESHOLD', '20'))
+ORIGIN_REJECT_WINDOW_SEC = int(os.environ.get('ORIGIN_REJECT_WINDOW_SEC', '3600'))
+
+LOG_WEBHOOK_URL = os.environ.get('LOG_WEBHOOK_URL', '').strip()
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger('suggest')
+
+# Dedicated logger for Discord-bound alerts. Keeping these on their own
+# logger means routine INFO chatter (per-request validation rejections,
+# queued-suggestion lines) stays in journalctl and only the events we
+# explicitly route here reach Discord — even if someone later raises the
+# root log level. propagate=True so journalctl still gets them too.
+notify = logging.getLogger('preside.notify')
+notify.setLevel(logging.INFO)
+notify.propagate = True
+
+
+# --- Discord log handler ----------------------------------------------------
+
+class DiscordWebhookHandler(logging.Handler):
+    """Async log handler that POSTs records to a Discord webhook as embeds.
+
+    Design notes:
+
+      * Records go onto a bounded queue. On overflow we drop the oldest
+        entry to make room — during an error storm the latest record is
+        usually the most diagnostic, and journalctl still has the full
+        history. The Discord channel is for "look at this now", not
+        forensic replay.
+
+      * A single daemon worker thread drains the queue, lingering briefly
+        after the first record so a burst of N events coalesces into one
+        embed with N fields instead of N separate POSTs. Discord webhooks
+        are capped at ~30 req/min; coalescing keeps us comfortably under.
+
+      * 429 responses honor Retry-After so we don't get the webhook
+        kicked by Discord during a sustained incident.
+
+      * All network failures are swallowed — the local stderr/journald
+        handler from logging.basicConfig is the source of truth for what
+        actually happened. Logging must never become a way for a Discord
+        outage to surface as a service error.
+    """
+
+    COLOR_INFO = 0x4F8FCB     # blue   — service start/stop, healthy events
+    COLOR_WARN = 0xE5A93B     # gold   — probe alerts, rate trips, retries
+    COLOR_ERROR = 0xCC3B3B    # red    — unhandled exceptions
+    BATCH_MAX = 10            # Discord allows 25 fields; 10 stays readable
+    BATCH_LINGER_SEC = 0.5
+    QUEUE_MAX = 200
+    HTTP_TIMEOUT = 5
+
+    _STOP = object()  # sentinel pushed by close() to drain the worker
+
+    def __init__(self, webhook_url, username='Preside Logs'):
+        super().__init__(level=logging.INFO)
+        # Default Formatter appends the traceback when exc_info is set,
+        # so notify.exception(...) calls land in Discord with the stack.
+        self.setFormatter(logging.Formatter('%(message)s'))
+        self._url = webhook_url
+        self._username = username
+        self._q = queue.Queue(maxsize=self.QUEUE_MAX)
+        self._thread = threading.Thread(
+            target=self._worker, name='discord-log', daemon=True,
+        )
+        self._thread.start()
+
+    def emit(self, record):
+        try:
+            self._q.put_nowait(record)
+        except queue.Full:
+            # Drop oldest to make room. Two get/put attempts so a racing
+            # worker drain doesn't leave us silently dropping the new one.
+            try:
+                self._q.get_nowait()
+            except queue.Empty:
+                pass
+            try:
+                self._q.put_nowait(record)
+            except queue.Full:
+                pass
+
+    def close(self):
+        try:
+            self._q.put_nowait(self._STOP)
+        except queue.Full:
+            pass
+        self._thread.join(timeout=3)
+        super().close()
+
+    def _worker(self):
+        while True:
+            first = self._q.get()
+            if first is self._STOP:
+                return
+            batch = [first]
+            deadline = time.monotonic() + self.BATCH_LINGER_SEC
+            while len(batch) < self.BATCH_MAX:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    break
+                try:
+                    item = self._q.get(timeout=remaining)
+                except queue.Empty:
+                    break
+                if item is self._STOP:
+                    self._send(batch)
+                    return
+                batch.append(item)
+            self._send(batch)
+
+    def _send(self, records):
+        if not records:
+            return
+        worst = max(r.levelno for r in records)
+        if worst >= logging.ERROR:
+            color = self.COLOR_ERROR
+        elif worst >= logging.WARNING:
+            color = self.COLOR_WARN
+        else:
+            color = self.COLOR_INFO
+
+        fields = []
+        for r in records:
+            msg = self.format(r)
+            # Discord caps field values at 1024 chars. Tracebacks blow
+            # past that easily; keep the head so the failure location is
+            # visible and trust journalctl for the tail.
+            if len(msg) > 1024:
+                msg = msg[:1021] + '...'
+            fields.append({
+                'name': r.levelname,
+                'value': msg or '(no message)',
+                'inline': False,
+            })
+
+        title = ('%d events' % len(records)) if len(records) > 1 else 'Log event'
+        payload = {
+            'username': self._username,
+            'embeds': [{
+                'title': title,
+                'color': color,
+                'fields': fields,
+                'timestamp': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            }],
+        }
+        try:
+            resp = requests.post(self._url, json=payload, timeout=self.HTTP_TIMEOUT)
+            if resp.status_code == 429:
+                # Discord asks us to back off. Sleep for the suggested
+                # window (capped) before pulling the next batch.
+                retry = 1.0
+                try:
+                    retry = float(resp.headers.get('Retry-After', '1'))
+                except (TypeError, ValueError):
+                    pass
+                time.sleep(min(max(retry, 0.0), 30.0))
+        except Exception:
+            # Local handler still has it — never surface to the caller.
+            pass
+
+
+if LOG_WEBHOOK_URL:
+    _discord_handler = DiscordWebhookHandler(LOG_WEBHOOK_URL)
+    notify.addHandler(_discord_handler)
+    # Best-effort flush on process exit so the "service stopping" event
+    # we emit from atexit actually leaves the queue before we die.
+    atexit.register(_discord_handler.close)
+else:
+    log.info('LOG_WEBHOOK_URL not set — Discord alerts disabled')
 
 
 # --- Helpers ----------------------------------------------------------------
@@ -87,6 +281,15 @@ _DISCORD_MD_RE = re.compile(r'([\\`*_~|\[\]()>])')
 
 _rate_lock = threading.Lock()
 _rate_buckets = {}  # ip -> deque[float] of monotonic timestamps
+_global_bucket = deque()  # monotonic timestamps of accepted submissions
+
+# Per-IP origin-rejection tracking. Buckets hold timestamps of recent
+# rejections; the *_alerted dict remembers when we last fired an alert
+# for that IP so we don't spam Discord every request once an IP crosses
+# the threshold — one alert per IP per window is enough signal.
+_origin_lock = threading.Lock()
+_origin_buckets = {}
+_origin_alerted = {}
 
 
 def clean_input(s):
@@ -108,28 +311,86 @@ def get_client_ip():
     return request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
 
 
-def rate_limit_check(ip):
-    """Return True if the request is within budget; False if over."""
+def note_origin_rejection(ip):
+    """Record a bad-Origin rejection from `ip`. Return True iff this is
+    the rejection that crossed (or re-crossed) the alert threshold and
+    no alert has fired for this IP within the current window.
+
+    Returning True at most once per IP per window keeps the Discord
+    channel signal — "someone is probing the endpoint" — instead of
+    flooding it with one ping per request once the threshold is met.
+    """
     if not ip:
-        return True  # don't penalize when we can't identify the caller
+        return False
     now = time.monotonic()
-    cutoff = now - RATE_LIMIT_WINDOW_SEC
-    with _rate_lock:
-        bucket = _rate_buckets.get(ip)
+    cutoff = now - ORIGIN_REJECT_WINDOW_SEC
+    with _origin_lock:
+        bucket = _origin_buckets.get(ip)
         if bucket is None:
             bucket = deque()
-            _rate_buckets[ip] = bucket
+            _origin_buckets[ip] = bucket
         while bucket and bucket[0] < cutoff:
             bucket.popleft()
-        if len(bucket) >= RATE_LIMIT_MAX:
-            return False
         bucket.append(now)
-        # Opportunistic GC: drop any other empty buckets we happen to see.
-        # Keeps the dict from growing unboundedly with one-shot visitors.
-        if len(_rate_buckets) > 1024:
-            for k in [k for k, v in _rate_buckets.items() if not v]:
-                del _rate_buckets[k]
-    return True
+
+        if len(bucket) < ORIGIN_REJECT_THRESHOLD:
+            return False
+
+        last_alert = _origin_alerted.get(ip, 0.0)
+        if last_alert >= cutoff:
+            return False  # already alerted within the current window
+        _origin_alerted[ip] = now
+
+        # Opportunistic GC mirroring rate_limit_check — keeps both
+        # dicts from growing unboundedly with one-shot visitors.
+        if len(_origin_buckets) > 1024:
+            for k in [k for k, v in _origin_buckets.items() if not v]:
+                del _origin_buckets[k]
+                _origin_alerted.pop(k, None)
+        return True
+
+
+def rate_limit_check(ip):
+    """Check both gates. Returns (ok, reason) — reason is 'global' or 'ip'
+    when ok is False, so the caller can log which ceiling tripped.
+
+    Global is checked first: if the channel is already at its ceiling, no
+    individual IP — identifiable or not — gets through. Per-IP is only
+    checked when we can identify the caller; unidentifiable callers still
+    count against the global budget so they can't bypass it.
+    """
+    now = time.monotonic()
+    with _rate_lock:
+        # Global gate — bounds total Discord embeds per window regardless of
+        # how many distinct IPs are submitting.
+        global_cutoff = now - GLOBAL_RATE_LIMIT_WINDOW_SEC
+        while _global_bucket and _global_bucket[0] < global_cutoff:
+            _global_bucket.popleft()
+        if len(_global_bucket) >= GLOBAL_RATE_LIMIT_MAX:
+            return False, 'global'
+
+        # Per-IP gate — only meaningful when we can identify the caller.
+        if ip:
+            ip_cutoff = now - RATE_LIMIT_WINDOW_SEC
+            bucket = _rate_buckets.get(ip)
+            if bucket is None:
+                bucket = deque()
+                _rate_buckets[ip] = bucket
+            while bucket and bucket[0] < ip_cutoff:
+                bucket.popleft()
+            if len(bucket) >= RATE_LIMIT_MAX:
+                return False, 'ip'
+            bucket.append(now)
+            # Opportunistic GC: drop any other empty buckets we happen to see.
+            # Keeps the dict from growing unboundedly with one-shot visitors.
+            if len(_rate_buckets) > 1024:
+                for k in [k for k, v in _rate_buckets.items() if not v]:
+                    del _rate_buckets[k]
+
+        # Both gates passed (or IP unknown with global headroom). Record the
+        # submission against the global budget so it counts toward the cap.
+        _global_bucket.append(now)
+    return True, None
 
 
 def db():
@@ -170,18 +431,70 @@ def now_utc_iso():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
+@app.errorhandler(Exception)
+def _on_unhandled(exc):
+    """Last-ditch catcher for exceptions that escape the route handler.
+
+    HTTPException subclasses (abort(403), 404 from no-route, etc.) are
+    Flask raising on purpose; let those flow through with their intended
+    status. Anything else is unexpected — log it with traceback and
+    return a generic 500 so we don't leak internals.
+    """
+    if isinstance(exc, HTTPException):
+        return exc
+    notify.error('unhandled exception: %s', exc, exc_info=True)
+    return jsonify(ok=False, error='internal error'), 500
+
+
+# Startup announcement. Gunicorn forks one worker per --workers, and each
+# worker imports this module separately — so a service with N workers
+# will emit N "starting" events on boot. That's intentional: confirms
+# every worker came up rather than just the first.
+notify.info('service starting (pid=%d)', os.getpid())
+
+
+@atexit.register
+def _on_shutdown():
+    # Fires on graceful exit (SIGTERM from systemd, Ctrl+C in dev). Not
+    # guaranteed under SIGKILL — that's acceptable; the absence of a
+    # "stopping" message after a "starting" is itself diagnostic.
+    try:
+        notify.info('service stopping (pid=%d)', os.getpid())
+    except Exception:
+        pass
+
+
 @app.route('/suggest', methods=['POST'])
 def suggest():
     # Origin check — same-origin browser POSTs include Origin. Curl / bots
     # that omit or spoof it to anything outside the allowlist get rejected.
     origin = request.headers.get('Origin', '')
     if origin not in ALLOWED_ORIGINS:
-        log.info('rejected: bad origin %r', origin)
+        probe_ip = get_client_ip()
+        log.info('rejected: bad origin %r ip=%r', origin, probe_ip)
+        if note_origin_rejection(probe_ip):
+            notify.warning(
+                'probe alert: %d+ origin rejections from %s in last hour '
+                '(latest origin=%r)',
+                ORIGIN_REJECT_THRESHOLD, probe_ip, origin[:120],
+            )
         abort(403)
 
     ip = get_client_ip()
-    if not rate_limit_check(ip):
-        log.info('rate limited: ip=%r', ip)
+    ok, reason = rate_limit_check(ip)
+    if not ok:
+        log.info('rate limited (%s): ip=%r', reason, ip)
+        if reason == 'global':
+            # Brigade signal — the per-IP cap can be sailed past by a
+            # CGNAT crowd / VPN pool, so the global trip is the one
+            # worth waking a phone for. One ping per trip is enough;
+            # subsequent global trips within the window will still fire
+            # (no suppression here, by design — sustained pressure
+            # should keep nudging).
+            notify.warning(
+                'global rate limit tripped (ip=%r, cap=%d/%ds)',
+                ip, GLOBAL_RATE_LIMIT_MAX, GLOBAL_RATE_LIMIT_WINDOW_SEC,
+            )
         return jsonify(ok=False, error='too many requests — try again later'), 429
 
     data = request.get_json(silent=True) or {}
@@ -228,7 +541,11 @@ def suggest():
     try:
         post_to_discord(sid, president, event, source, why)
     except Exception as exc:
-        log.warning('discord notify failed for #%d: %s', sid, exc)
+        # Routed through notify (not log) so the *alerts* channel learns
+        # the suggestions-channel webhook is broken. If both webhooks
+        # share an outage, the alerts handler will silently drop and
+        # journalctl is still the source of truth.
+        notify.warning('discord notify failed for #%d: %s', sid, exc)
 
     return jsonify(ok=True)
 
