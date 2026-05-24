@@ -144,6 +144,14 @@ RATING_BURST_SUPPRESS_SEC = int(os.environ.get('RATING_BURST_SUPPRESS_SEC', '180
 # entirely — n=1 averages are misleading and easy to manipulate.
 RATING_MIN_DISPLAY = int(os.environ.get('RATING_MIN_DISPLAY', '5'))
 
+# Stream each accepted rating to the alerts webhook (the LOG_WEBHOOK_URL
+# channel). Default on. Set to 0/false to suppress — useful when a
+# traffic spike would otherwise push genuinely-urgent alerts out of the
+# bounded notify queue.
+RATING_LOG_TO_DISCORD = os.environ.get(
+    'RATING_LOG_TO_DISCORD', '1'
+).strip().lower() not in ('0', 'false', 'no', '')
+
 # HMAC key for hashing IPs in the ratings table. Set in config.env. If
 # unset, a per-process random key is generated and a WARN is logged —
 # the service still works but the hash changes across restarts (which
@@ -626,6 +634,34 @@ with db() as conn:
     conn.execute('CREATE INDEX IF NOT EXISTS idx_ratings_president ON ratings(president)')
     conn.execute('CREATE INDEX IF NOT EXISTS idx_ratings_president_bar ON ratings(president, bar_id)')
 
+    # Append-only audit log — one row per accepted rating write (insert
+    # OR update). The `ratings` table tracks the *current* state per
+    # (bar_id, ip_hash); this table preserves every value ever submitted,
+    # so we can later reconstruct how a bar's average moved over time or
+    # see whether a specific (hashed) voter flipped their score.
+    #
+    # Silently-capped writes (third+ within the 24h per-(bar,IP) window)
+    # do NOT land here — they never affected real state, and recording
+    # them would inflate "user activity" with no-ops. Quarantined writes
+    # DO land (quarantined=1) so a future de-quarantine pass can include
+    # them retroactively.
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS ratings_history (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            happened_at   TEXT    NOT NULL,
+            president     TEXT    NOT NULL,
+            bar_id        TEXT    NOT NULL,
+            rating        INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 10),
+            ip_hash       TEXT    NOT NULL,
+            action        TEXT    NOT NULL CHECK(action IN ('insert','update')),
+            quarantined   INTEGER NOT NULL DEFAULT 0
+        )
+        """
+    )
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_history_bar_time ON ratings_history(bar_id, happened_at)')
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_history_president_time ON ratings_history(president, happened_at)')
+
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024  # 8 KB cap on request bodies
@@ -853,7 +889,10 @@ def rate():
                 # Silent-success shape — the public response shouldn't
                 # let a caller distinguish "got through" from "capped"
                 # for the same reason the suggest honeypot is silent:
-                # don't teach abusers what works.
+                # don't teach abusers what works. We do NOT log this to
+                # ratings_history either: the write never landed, so
+                # recording it would inflate user-activity metrics with
+                # nothing-happened rows.
                 return jsonify(ok=True)
 
             new_write_count = existing['write_count'] + 1 if within_window else 1
@@ -863,6 +902,7 @@ def rate():
                 (rating, now_iso, ua, new_write_count, q_int,
                  quarantine_reason, existing['id']),
             )
+            action = 'update'
         else:
             conn.execute(
                 'INSERT INTO ratings '
@@ -872,12 +912,33 @@ def rate():
                 (now_iso, now_iso, president, bar_id, rating, ip_hash, ua,
                  1, q_int, quarantine_reason),
             )
+            action = 'insert'
 
-    log.info(
-        'rate: %s bar_id=%s rating=%d%s',
-        'updated' if existing else 'new', bar_id, rating,
-        ' (quarantined)' if quarantined else '',
+        # Append-only audit log. Inside the same `with` block so the
+        # implicit commit covers both writes atomically — a power loss
+        # mid-transaction can't produce a current-state row without its
+        # matching history entry.
+        conn.execute(
+            'INSERT INTO ratings_history '
+            '(happened_at, president, bar_id, rating, ip_hash, action, quarantined) '
+            'VALUES (?,?,?,?,?,?,?)',
+            (now_iso, president, bar_id, rating, ip_hash, action, q_int),
+        )
+
+    # Same message goes to journalctl always, and to the Discord alerts
+    # channel when streaming is enabled. Format is greppable on both
+    # sinks: `rating: <pres>/<bar_id> score=<n> (<action>[, QUARANTINED]) ip=<8 hex>`.
+    # Truncated ip_hash keeps the Discord embed compact while still
+    # letting us spot same-voter patterns across consecutive events.
+    event_msg = 'rating: %s/%s score=%d (%s%s) ip=%s' % (
+        president, bar_id, rating, action,
+        ', QUARANTINED' if quarantined else '',
+        ip_hash[:8],
     )
+    if RATING_LOG_TO_DISCORD:
+        notify.info(event_msg)
+    else:
+        log.info(event_msg)
     return jsonify(ok=True)
 
 

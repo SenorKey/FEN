@@ -235,6 +235,42 @@ sqlite> UPDATE ratings SET quarantined=0, quarantine_reason=NULL
    ...> WHERE bar_id='AAAAAAAAAA' AND quarantine_reason='burst';
 ```
 
+### Trend-over-time queries (ratings_history)
+
+The `ratings` table only stores each (bar_id, ip_hash)'s *current* value
+— a change-of-mind overwrites the row in place. The append-only
+`ratings_history` table preserves every accepted write (insert or
+update), so you can reconstruct how a bar's average moved over time.
+
+```bash
+sudo -u preside sqlite3 /var/lib/preside-by-side/suggestions.db
+
+# Daily average + vote count for one bar, non-quarantined only.
+sqlite> SELECT substr(happened_at,1,10) AS day,
+   ...>        ROUND(AVG(rating),2) AS avg, COUNT(*) AS n
+   ...> FROM ratings_history
+   ...> WHERE bar_id='AAAAAAAAAA' AND quarantined=0
+   ...> GROUP BY day ORDER BY day;
+
+# Running average for one bar (vote-by-vote drift over time).
+sqlite> SELECT happened_at,
+   ...>        ROUND(AVG(rating) OVER (ORDER BY happened_at), 2) AS running_avg,
+   ...>        COUNT(*) OVER (ORDER BY happened_at) AS n
+   ...> FROM ratings_history WHERE bar_id='AAAAAAAAAA' AND quarantined=0
+   ...> ORDER BY happened_at;
+
+# How often did one hashed-IP change their mind on a given bar?
+sqlite> SELECT happened_at, rating, action FROM ratings_history
+   ...> WHERE bar_id='AAAAAAAAAA' AND ip_hash='abcdef1234567890'
+   ...> ORDER BY happened_at;
+```
+
+Silently-capped writes (third+ within the per-(bar,IP) write window)
+don't appear in `ratings_history` — they never affected real state,
+so logging them would inflate counts with nothing-happened rows.
+Quarantined writes do appear (`quarantined=1`), so a later de-
+quarantine pass can retroactively re-include them in your trend math.
+
 `RATING_IP_HASH_SECRET` in `config.env` must be set before the first
 production rating, otherwise the service runs on a per-process random
 key (the startup WARN in the alerts channel says so) and every restart
