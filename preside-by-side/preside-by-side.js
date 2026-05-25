@@ -103,7 +103,7 @@
             id: 'reagan',
             firstName: 'Ronald W.',
             lastName: 'Reagan',
-            ordinal: [40],
+            ordinal: 40,
             party: 'republican'
         },
         jackson: {
