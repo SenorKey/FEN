@@ -24,11 +24,11 @@
     "description": "Separate from the false WMD justification, the Iraq War itself caused catastrophic civilian harm and geopolitical instability. Brown University's Costs of War project estimated at least 134,000 Iraqi civilians killed by direct war violence from 2003 to 2013, acknowledging this likely undercounts indirect deaths from displacement, infrastructure destruction, and disease. The war fueled sectarian violence, displaced millions, and created conditions that contributed directly to the rise of extremist groups including ISIS. The region's instability persisted for decades.",
     "sources": [
       {
-        "url": "https://watson.brown.edu/costsofwar/files/cow/imce/papers/2013/Civilians%20in%20Iraq%27s%20War%2C%20Hagopian%20et%20al%2C%20Costs%20of%20War.pdf",
-        "text": "Brown University Costs of War — Civilian Deaths in Iraq (2013)"
+        "url": "https://journals.plos.org/plosmedicine/article?id=10.1371/journal.pmed.1001533",
+        "text": "Hagopian et al., PLOS Medicine — Mortality in Iraq Associated with the 2003–2011 War and Occupation (2013)"
       },
       {
-        "url": "https://www.ibc.org/",
+        "url": "https://www.iraqbodycount.org/",
         "text": "Iraq Body Count — Documented Civilian Deaths Database"
       }
     ]
@@ -45,8 +45,8 @@
         "text": "Senate Intelligence Committee — Report on the CIA's Detention and Interrogation Program (Dec. 2014)"
       },
       {
-        "url": "https://www.aclu.org/report/torture-report",
-        "text": "ACLU — Summary of the Senate CIA Torture Report"
+        "url": "https://www.aclu.org/publications/senate-torture-report",
+        "text": "ACLU — The Senate Torture Report (publications hub)"
       }
     ]
   },
@@ -58,12 +58,12 @@
     "description": "In 2004, photographs became public showing U.S. military personnel abusing, humiliating, and torturing Iraqi detainees at the Abu Ghraib prison. Acts included sexual humiliation, physical assault, and degrading treatment. While Bush condemned the abuse and several low-ranking soldiers were prosecuted, the Army's own Taguba Report found the abuses were not isolated and reflected broader failures in command oversight and detention policy. Human Rights Watch argued that administration decisions to sidestep the Geneva Conventions helped create the permissive climate in which the abuse occurred.",
     "sources": [
       {
-        "url": "https://www.thetorturedatabase.org/files/foia_subsite/pdfs/DODDOA019464.pdf",
-        "text": "Army Taguba Report — Investigation of the 800th Military Police Brigade (May 2004)"
+        "url": "https://irp.fas.org/agency/dod/taguba.pdf",
+        "text": "Army Taguba Report — AR 15-6 Investigation of the 800th Military Police Brigade (May 2004)"
       },
       {
-        "url": "https://www.hrw.org/report/2005/09/25/getting-away-torture/bush-administration-and-mistreatment-detainees",
-        "text": "Human Rights Watch — Getting Away with Torture (Sep. 2005)"
+        "url": "https://www.hrw.org/report/2011/07/12/getting-away-torture/bush-administration-and-mistreatment-detainees",
+        "text": "Human Rights Watch — Getting Away with Torture: The Bush Administration and Mistreatment of Detainees (2011)"
       }
     ]
   },
@@ -92,7 +92,7 @@
     "description": "Weeks after September 11, Bush signed the USA PATRIOT Act into law, dramatically expanding government surveillance authorities. The law broadened access to business records, permitted \"roving\" wiretaps, reduced judicial oversight requirements, and expanded the definition of domestic terrorism. Civil-liberties organizations argued the Act enabled mass surveillance and undermined constitutional protections. Sections of the law later became central to NSA bulk collection controversies under subsequent administrations, and Congress eventually allowed several provisions to expire or be significantly reformed.",
     "sources": [
       {
-        "url": "https://www.aclu.org/report/surveillance-under-usa-patriot-act",
+        "url": "https://www.aclu.org/documents/surveillance-under-usapatriot-act",
         "text": "ACLU — Surveillance Under the USA PATRIOT Act"
       },
       {
@@ -113,8 +113,8 @@
         "text": "Bush White House — The Federal Response to Hurricane Katrina: Lessons Learned (Feb. 2006)"
       },
       {
-        "url": "https://www.dhs.gov/xlibrary/assets/katrina/Katrina-OIG-0706.pdf",
-        "text": "DHS Office of Inspector General — A Performance Review of FEMA's Disaster Management Activities (Mar. 2006)"
+        "url": "https://www.oig.dhs.gov/reports/2006-03/performance-review-femas-disaster-management-activities-response-hurricane-katrina",
+        "text": "DHS Office of Inspector General — A Performance Review of FEMA's Disaster Management Activities in Response to Hurricane Katrina (Mar. 2006)"
       }
     ]
   },
@@ -130,8 +130,8 @@
         "text": "9/11 Commission Final Report (Jul. 2004)"
       },
       {
-        "url": "https://www.archives.gov/declassification/iscap/pdf/2004-022-doc11.pdf",
-        "text": "Presidential Daily Brief — Bin Ladin Determined To Strike in US (Aug. 6, 2001, declassified 2004)"
+        "url": "https://irp.fas.org/cia/product/pdb080601.pdf",
+        "text": "Presidential Daily Brief — Bin Ladin Determined To Strike in US (Aug. 6, 2001, declassified 2004; archived by FAS)"
       }
     ]
   },
@@ -143,8 +143,8 @@
     "description": "Bush inherited a federal budget surplus and left office with a structural deficit, driven by two major tax cut packages in 2001 and 2003 combined with the costs of two wars and the Medicare prescription drug benefit — all largely unpaid for. The tax cuts disproportionately benefited higher earners and were not offset by spending reductions. Brookings Institution and the Congressional Budget Office documented the long-run revenue loss and deficit impact. The national debt roughly doubled during his presidency, from approximately $5.7 trillion to $10.6 trillion.",
     "sources": [
       {
-        "url": "https://www.brookings.edu/articles/the-fiscal-legacy-of-the-bush-tax-cuts/",
-        "text": "Brookings Institution — The Fiscal Legacy of the Bush Tax Cuts"
+        "url": "https://www.brookings.edu/articles/the-cost-of-tax-cuts/",
+        "text": "Brookings Institution — The Cost of Tax Cuts (Gale and Orszag, on the Bush tax cuts)"
       },
       {
         "url": "https://www.cbo.gov/sites/default/files/110th-congress-2007-2008/reports/01-07-budgetoutlook.pdf",
@@ -164,8 +164,8 @@
         "text": "Education Week — No Child Left Behind: An Overview (Apr. 2015)"
       },
       {
-        "url": "https://www.brookings.edu/articles/ten-years-of-no-child-left-behind/",
-        "text": "Brookings Institution — Ten Years of No Child Left Behind"
+        "url": "https://www.brookings.edu/articles/the-impact-of-no-child-left-behind-on-students-teachers-and-schools-with-comments-and-discussion/",
+        "text": "Brookings Institution — The Impact of No Child Left Behind on Students, Teachers, and Schools"
       }
     ]
   }

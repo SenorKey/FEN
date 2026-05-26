@@ -7,8 +7,8 @@
     "description": "In 1994, an estimated 800,000 people — the vast majority of them Tutsi — were killed in Rwanda over roughly 100 days. The Clinton administration actively avoided using the word \"genocide,\" a designation that would have triggered international legal obligations, and took no meaningful steps to intervene or to support a stronger U.N. response. Documents later obtained by the National Security Archive showed that administration officials were advised early that a genocide was underway. Clinton later traveled to Rwanda and publicly acknowledged that the U.S. and international community failed, calling it one of his greatest regrets.",
     "sources": [
       {
-        "url": "https://nsarchive.gwu.edu/briefing-book/africa/2004-03-24/rwandan-genocide-us-knew",
-        "text": "National Security Archive — The Rwandan Genocide and the United States (Mar. 2004)"
+        "url": "https://nsarchive2.gwu.edu/NSAEBB/NSAEBB117/index.htm",
+        "text": "National Security Archive — The U.S. and the Genocide in Rwanda 1994: Information, Intelligence and the U.S. Response"
       },
       {
         "url": "https://www.hrw.org/reports/1999/rwanda/Geno15-8-01.htm",
@@ -28,8 +28,8 @@
         "text": "House Articles of Impeachment Against President Clinton — 105th Congress (Dec. 1998)"
       },
       {
-        "url": "https://www.independent-counsel.gov/starr-report.htm",
-        "text": "Office of the Independent Counsel — The Starr Report (Sep. 1998)"
+        "url": "https://www.govinfo.gov/content/pkg/CDOC-105hdoc310/pdf/CDOC-105hdoc310.pdf",
+        "text": "Office of the Independent Counsel (Kenneth W. Starr) — Referral to the U.S. House (\"Starr Report\"), H. Doc. 105-310 (Sep. 1998)"
       }
     ]
   },
@@ -41,8 +41,8 @@
     "description": "Clinton signed the Violent Crime Control and Law Enforcement Act of 1994, the largest federal crime bill in U.S. history. It provided funding for 100,000 new police officers and 100,000 new prison beds, established mandatory \"three strikes\" sentencing for federal offenses, expanded the federal death penalty to dozens of new offenses, and included financial incentives that pushed states toward harsher sentencing regimes. The ACLU, Brennan Center, and other criminal-justice researchers have documented the law's contribution to record U.S. incarceration rates, with its impacts falling disproportionately on Black communities. Clinton himself later said the law put \"too many people in prison.\"",
     "sources": [
       {
-        "url": "https://www.brennancenter.org/our-work/analysis-opinion/revisiting-1994-crime-bill",
-        "text": "Brennan Center for Justice — Revisiting the 1994 Crime Bill (Apr. 2019)"
+        "url": "https://www.brennancenter.org/our-work/analysis-opinion/complex-history-controversial-1994-crime-bill",
+        "text": "Brennan Center for Justice — The Complex History of the Controversial 1994 Crime Bill"
       },
       {
         "url": "https://www.aclu.org/report/tale-two-countries-racially-targeted-arrests-era-marijuana-reform",
@@ -92,12 +92,12 @@
     "description": "The Clinton administration was the primary driver of maintaining comprehensive U.N. economic sanctions on Iraq throughout the 1990s. The exact mortality figures were disputed — some widely-cited numbers originated from Iraqi government sources — but contemporaneous U.S. State Department documents acknowledged a serious child-mortality crisis linked to degraded water treatment, medical supply shortages, and infrastructure deterioration. When Secretary of State Madeleine Albright was asked on 60 Minutes in 1996 whether the deaths of half a million Iraqi children were \"worth it,\" she replied that it was \"a very hard choice\" but \"we think the price is worth it.\" That exchange remains one of the most criticized moments of the era's foreign policy.",
     "sources": [
       {
-        "url": "https://nsarchive.gwu.edu/briefing-book/iraq/2020-02-25/us-iraq-sanctions-1990s-controversy-mortality-data",
-        "text": "National Security Archive — U.S.-Iraq Sanctions and the Mortality Controversy (Feb. 2020)"
+        "url": "https://nsarchive.gwu.edu/project/iraq-project",
+        "text": "National Security Archive — The Iraq Project (declassified documents on Iraq policy)"
       },
       {
-        "url": "https://www.unicef.org/newsline/99pr29.htm",
-        "text": "UNICEF — Child and Maternal Mortality Survey in Iraq (Aug. 1999)"
+        "url": "https://reliefweb.int/report/iraq/unicef-report-sanctions-severely-affect-iraqi-children",
+        "text": "UNICEF / ReliefWeb — Iraq Child and Maternal Mortality Survey: Sanctions Severely Affect Iraqi Children (Aug. 1999)"
       }
     ]
   },
@@ -113,8 +113,8 @@
         "text": "The Observer — The Bombing of Al-Shifa: How the Evidence Failed (Oct. 1999)"
       },
       {
-        "url": "https://nsarchive.gwu.edu/briefing-book/sudan/2016-08-22/al-shifa-pharmaceutical-plant-bombing-1998",
-        "text": "National Security Archive — Al-Shifa Pharmaceutical Plant Bombing (Aug. 2016)"
+        "url": "https://www.nonproliferation.org/wp-content/uploads/npr/barlet61.pdf",
+        "text": "Nonproliferation Review (Fall 1998) — Chemical Weapons in the Sudan: Allegations and Evidence on the Al-Shifa Bombing"
       }
     ]
   },
@@ -126,12 +126,12 @@
     "description": "Clinton signed the Gramm-Leach-Bliley Act in 1999, repealing core provisions of the Glass-Steagall Act that had separated commercial banking from investment banking since the New Deal. The law enabled the formation of massive financial conglomerates combining banking, securities, and insurance activities. Whether Gramm-Leach-Bliley directly caused the 2008 financial crisis is genuinely debated among economists, but there is broad agreement that it contributed to the deregulatory environment and the growth of financial institutions considered \"too big to fail\" — several of which required enormous government bailouts in 2008.",
     "sources": [
       {
-        "url": "https://www.fdic.gov/regulations/applications/srletters/1999/sr9928a1.pdf",
-        "text": "FDIC — Overview of the Gramm-Leach-Bliley Act (1999)"
+        "url": "https://www.fdic.gov/laws-and-regulations/chronology-selected-banking-laws",
+        "text": "FDIC — Chronology of Selected Banking Laws (incl. Gramm-Leach-Bliley repeal of Glass-Steagall)"
       },
       {
-        "url": "https://www.brookings.edu/articles/did-gramm-leach-bliley-contribute-to-the-financial-crisis/",
-        "text": "Brookings Institution — Did Gramm-Leach-Bliley Contribute to the Financial Crisis?"
+        "url": "https://www.federalreservehistory.org/essays/gramm-leach-bliley-act",
+        "text": "Federal Reserve History — The Financial Services Modernization Act of 1999 (Gramm-Leach-Bliley)"
       }
     ]
   },

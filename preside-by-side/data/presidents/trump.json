@@ -7,7 +7,7 @@
     "description": "Following his 2020 defeat, Trump pushed false election-fraud claims, pressured state officials to alter results, coordinated alternate-elector schemes in multiple states, and pressured Vice President Pence to refuse certification of the Electoral College vote. The House January 6th Committee concluded Trump was the central cause of the effort to subvert the transfer of power. The DOJ later indicted him on four federal counts related to the scheme.",
     "sources": [
       {
-        "url": "https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf",
+        "url": "https://www.govinfo.gov/app/details/GPO-J6-REPORT",
         "text": "House Select Committee Final Report — U.S. Government Publishing Office (2022)"
       },
       {
@@ -24,7 +24,7 @@
     "description": "On January 6, 2021, Trump summoned supporters to Washington D.C., addressed them with continued false election claims, and directed them to march to the Capitol. After the building was breached, he waited roughly three hours before issuing a public statement asking the crowd to leave, during which time legislators were sheltering from rioters. The House Jan. 6 Committee found he was aware of the violence and took no meaningful action to stop it.",
     "sources": [
       {
-        "url": "https://www.govinfo.gov/content/pkg/GPO-J6-REPORT/pdf/GPO-J6-REPORT.pdf",
+        "url": "https://www.govinfo.gov/app/details/GPO-J6-REPORT",
         "text": "House Select Committee Final Report — U.S. Government Publishing Office (2022)"
       },
       {
@@ -41,12 +41,12 @@
     "description": "The Trump administration's \"zero tolerance\" policy, implemented in 2018, resulted in more than 3,000 children being separated from their parents at the southern border. A DOJ Office of Inspector General report found that the administration had failed to plan for the separations and did not establish an adequate system to track or reunite families. Many separations occurred even when parents had no criminal history beyond the civil immigration crossing.",
     "sources": [
       {
-        "url": "https://oig.justice.gov/reports/2020/e21012.pdf",
-        "text": "DOJ Office of Inspector General Report on Family Separation (Jan. 2021)"
+        "url": "https://oig.justice.gov/reports/review-department-justices-planning-and-implementation-its-zero-tolerance-policy-and-its",
+        "text": "DOJ Office of Inspector General — Review of Zero Tolerance Policy and Family Separation (Jan. 2021)"
       },
       {
-        "url": "https://www.aclu.org/report/family-separation-aclu-report",
-        "text": "ACLU Report: Family Separation by the Numbers"
+        "url": "https://www.aclu.org/press-releases/aclu-comment-scathing-new-government-report-trump-family-separation-policy",
+        "text": "ACLU — Comment on the DOJ OIG Family Separation Report"
       }
     ]
   },
@@ -75,12 +75,12 @@
     "description": "After leaving office, Trump retained hundreds of classified and national-defense documents at his Mar-a-Lago residence. Federal prosecutors alleged in a 37-count indictment that he refused to return the materials when requested, directed aides to move boxes to conceal them from investigators, and showed documents to unauthorized individuals. The case was ultimately dismissed on procedural grounds related to the special counsel's appointment, but the underlying evidence and indictment remain a matter of public record.",
     "sources": [
       {
-        "url": "https://www.justice.gov/storage/US_v_Trump_23_cr_80101.pdf",
-        "text": "United States v. Trump — Classified Documents Indictment, DOJ (Jun. 2023)"
+        "url": "https://www.justice.gov/storage/US-v-Trump-Nauta-De-Oliveira-23-80101.pdf",
+        "text": "United States v. Trump, Nauta, De Oliveira — Superseding Indictment, DOJ (Jul. 2023)"
       },
       {
-        "url": "https://www.archives.gov/files/foia/pdfs/2022-nara-trump-referral.pdf",
-        "text": "National Archives Referral to DOJ Regarding Presidential Records (Feb. 2022)"
+        "url": "https://www.archives.gov/press/press-releases/2022/nr22-001",
+        "text": "National Archives — Press Statement on Trump Presidential Records (Feb. 2022)"
       }
     ]
   },
@@ -92,12 +92,12 @@
     "description": "In May 2024, Trump was convicted by a Manhattan jury on all 34 felony counts of falsifying business records in the first degree. The charges stemmed from payments made to adult film actress Stormy Daniels before the 2016 election, recorded as legal expenses to conceal their true nature. He was sentenced in January 2025 to an unconditional discharge — no prison, probation, or fine — but the criminal conviction stands while he pursues appeals.",
     "sources": [
       {
-        "url": "https://www.nycourts.gov/courts/1jd/supctmanh/index.shtml",
-        "text": "New York Supreme Court — People v. Trump, Case No. 71543-23"
+        "url": "https://manhattanda.org/d-a-bragg-announces-34-count-felony-trial-conviction-of-donald-j-trump/",
+        "text": "Manhattan DA — Announcement of 34-Count Felony Trial Conviction of Donald J. Trump (May 30, 2024)"
       },
       {
-        "url": "https://apnews.com/article/trump-hush-money-trial-verdict-conviction-2024",
-        "text": "Associated Press — Trump Convicted on All 34 Counts (May 2024)"
+        "url": "https://www.cbsnews.com/news/trump-charges-conviction-guilty-verdict/",
+        "text": "CBS News — What Trump Was Convicted of: The 34 Counts and Guilty Verdict"
       }
     ]
   },
@@ -113,8 +113,8 @@
         "text": "Carroll v. Trump — Federal Court Docket, S.D.N.Y."
       },
       {
-        "url": "https://apnews.com/article/trump-carroll-defamation-verdict-83-million-2024",
-        "text": "Associated Press — Jury Awards Carroll $83.3 Million (Jan. 2024)"
+        "url": "https://www.cbsnews.com/news/trump-e-jean-carroll-trial-closing-arguments-courtroom/",
+        "text": "CBS News — Jury Orders Trump to Pay Carroll $83.3 Million in Defamation Case (Jan. 2024)"
       }
     ]
   },
@@ -126,12 +126,12 @@
     "description": "A New York judge found Trump, his adult sons, and the Trump Organization liable for persistent civil fraud involving years of inflated asset valuations used to obtain favorable loan terms and insurance rates. The trial court initially ordered more than $450 million in penalties including interest. An appellate court later reduced the bond requirement while the case proceeds on appeal, but the underlying factual findings of fraudulent financial statements have not been overturned.",
     "sources": [
       {
-        "url": "https://ag.ny.gov/sites/default/files/2024-02/trump-judgment.pdf",
-        "text": "New York AG — Final Judgment, People v. Trump Organization (Feb. 2024)"
+        "url": "https://ag.ny.gov/sites/default/files/decisions/trump-decision.pdf",
+        "text": "New York AG — Judge Engoron's Decision, People v. Trump (Feb. 2024)"
       },
       {
-        "url": "https://apnews.com/article/trump-fraud-trial-verdict-new-york-2024",
-        "text": "Associated Press — Judge Orders $355 Million Penalty (Feb. 2024)"
+        "url": "https://www.cnn.com/2024/02/16/politics/takeaways-donald-trump-fraud-ruling/index.html",
+        "text": "CNN — Takeaways from the $355 Million Civil Fraud Ruling Against Trump (Feb. 2024)"
       }
     ]
   },
@@ -143,12 +143,12 @@
     "description": "Trump used his presidential clemency power to pardon or commute sentences for a number of individuals with direct personal or political ties to him, including Michael Flynn, Roger Stone, Paul Manafort, and Steve Bannon — all of whom had been convicted or charged in connection with matters that touched on Trump's own conduct or political interests. Legal scholars and former officials noted the pattern raised serious concerns about self-interested use of the pardon power, even though presidents hold broad constitutional authority over clemency.",
     "sources": [
       {
-        "url": "https://www.justice.gov/pardon/pardons-granted-president-donald-trump-2017-2021",
-        "text": "DOJ — Pardons Granted by President Donald Trump (2017–2021)"
+        "url": "https://www.justice.gov/pardon/pardons-granted-president-donald-j-trump-2017-2021",
+        "text": "DOJ Office of the Pardon Attorney — Pardons Granted by President Donald J. Trump (2017–2021)"
       },
       {
-        "url": "https://www.brookings.edu/articles/trump-pardons-and-clemency/",
-        "text": "Brookings Institution — Analysis of Trump Clemency Grants"
+        "url": "https://protectdemocracy.org/work/understanding-trump-pardon-abuses/",
+        "text": "Protect Democracy — Understanding Trump's Pardon Abuses"
       }
     ]
   },
@@ -160,12 +160,12 @@
     "description": "Shortly after taking office in 2017, Trump signed executive orders restricting travel from several countries, the majority of which were Muslim-majority nations. Earlier versions were blocked in courts; a later revised version was upheld 5–4 by the Supreme Court in Trump v. Hawaii (2018). Critics pointed to Trump's own campaign statements calling for a \"Muslim ban\" as evidence of discriminatory intent. The ban separated families, blocked refugees, and affected students, workers, and travelers with legal visas.",
     "sources": [
       {
-        "url": "https://supreme.justia.com/cases/federal/us/585/18-280/",
-        "text": "Trump v. Hawaii — Supreme Court Opinion (Jun. 2018)"
+        "url": "https://www.supremecourt.gov/opinions/17pdf/17-965_h315.pdf",
+        "text": "Trump v. Hawaii — Supreme Court Opinion PDF (Jun. 2018)"
       },
       {
-        "url": "https://www.aclu.org/cases/trump-v-hawaii",
-        "text": "ACLU — Trump v. Hawaii Case Summary"
+        "url": "https://www.oyez.org/cases/2017/17-965",
+        "text": "Oyez — Trump v. Hawaii Case Summary"
       }
     ]
   }

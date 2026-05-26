@@ -7,8 +7,8 @@
     "description": "Reagan's administration secretly sold arms to Iran — in violation of a U.S. arms embargo and the administration's own public policy against negotiating with terrorism-sponsoring states — and then illegally diverted the proceeds to fund Contra rebels in Nicaragua in defiance of explicit congressional restrictions. The independent counsel's final report concluded that Reagan chose to proceed \"in the utmost secrecy\" and personally disregarded the administration's stated policies. Reagan eventually acknowledged on national television that the operation had \"deteriorated\" into trading arms for hostages. Eleven administration officials were convicted; several were later pardoned by President George H.W. Bush.",
     "sources": [
       {
-        "url": "https://fas.org/irp/offdocs/walsh/execsum.htm",
-        "text": "Independent Counsel Lawrence Walsh — Iran-Contra Final Report Executive Summary (Aug. 1993)"
+        "url": "https://irp.fas.org/offdocs/walsh/",
+        "text": "Independent Counsel Lawrence Walsh — Final Report on Iran/Contra Matters (Aug. 1993, FAS archive)"
       },
       {
         "url": "https://www.brown.edu/Research/Understanding_the_Iran_Contra_Affair/documents.php",
@@ -28,8 +28,8 @@
         "text": "International Court of Justice — Nicaragua v. United States (Jun. 1986)"
       },
       {
-        "url": "https://www.hrw.org/reports/1989/nicaragua.pdf",
-        "text": "Human Rights Watch — Human Rights Abuses by the Contras in Nicaragua (1989)"
+        "url": "https://www.hrw.org/reports/pdfs/n/nicaraga/nicaragu.89n/nicar89nfull.pdf",
+        "text": "Americas Watch / Human Rights Watch — The Killings in Northern Nicaragua (Nov. 1989)"
       }
     ]
   },
@@ -45,8 +45,8 @@
         "text": "CDC MMWR — Pneumocystis Pneumonia, First AIDS Report (Jun. 1981)"
       },
       {
-        "url": "https://www.ucsf.edu/news/2011/11/10918/reagan-aids-crisis-and-real-story-about-white-house-and-epidemic",
-        "text": "UCSF — Reagan, AIDS, and the Real Story About the White House and the Epidemic (Nov. 2011)"
+        "url": "https://www.ucsf.edu/news/2011/06/104134/thirty-years-aids-timeline-epidemic",
+        "text": "UCSF — Thirty Years of AIDS: A Timeline of the Epidemic (Jun. 2011)"
       }
     ]
   },
@@ -58,12 +58,12 @@
     "description": "Reagan dramatically expanded the federal drug war, prioritizing criminal punishment over treatment. The Anti-Drug Abuse Act of 1986 established mandatory minimum sentences for drug offenses and created a 100-to-1 sentencing disparity between crack cocaine and powder cocaine — meaning someone caught with five grams of crack received the same mandatory minimum as someone with 500 grams of powder. Because crack was more prevalent in Black communities, the disparity drove racially skewed incarceration rates that the U.S. Sentencing Commission later described as unjustified. The disparity remained law for 24 years until partially reformed by the Fair Sentencing Act of 2010.",
     "sources": [
       {
-        "url": "https://www.ussc.gov/sites/default/files/pdf/news/congressional-testimony-and-reports/drug-topics/199504_RtC_Cocaine_Sentencing_Policy.pdf",
-        "text": "U.S. Sentencing Commission — Cocaine and Federal Sentencing Policy (Feb. 1995)"
+        "url": "https://www.ussc.gov/research/congressional-reports/1995-report-congress-cocaine-and-federal-sentencing-policy",
+        "text": "U.S. Sentencing Commission — 1995 Report to Congress: Cocaine and Federal Sentencing Policy"
       },
       {
-        "url": "https://www.brennancenter.org/our-work/analysis-opinion/how-war-drugs-affected-incarceration-rates",
-        "text": "Brennan Center for Justice — How the War on Drugs Affected Incarceration Rates"
+        "url": "https://www.brennancenter.org/our-work/analysis-opinion/race-mass-incarceration-and-disastrous-war-drugs",
+        "text": "Brennan Center for Justice — Race, Mass Incarceration, and the Disastrous War on Drugs"
       }
     ]
   },
@@ -79,8 +79,8 @@
         "text": "Comprehensive Anti-Apartheid Act of 1986 — Congressional Record, 99th Congress"
       },
       {
-        "url": "https://www.reaganlibrary.gov/archives/speech/message-house-representatives-returning-without-approval-legislation-imposing",
-        "text": "Reagan Presidential Library — Veto Message on Anti-Apartheid Legislation (Sep. 1986)"
+        "url": "https://www.reaganlibrary.gov/archives/speech/message-house-representatives-returning-without-approval-bill-concerning-apartheid",
+        "text": "Reagan Presidential Library — Veto Message on the Comprehensive Anti-Apartheid Act (Sep. 1986)"
       }
     ]
   },
@@ -109,8 +109,8 @@
     "description": "Reagan signed the Garn-St. Germain Depository Institutions Act in 1982, which dramatically expanded the investment powers of savings and loan institutions while loosening federal oversight, allowing them to offer adjustable-rate mortgages and invest in riskier assets. In combination with earlier deregulation and inadequate federal supervision, these changes contributed to widespread fraud and reckless lending across the S&L industry. By the time the crisis peaked in the late 1980s and early 1990s, roughly 1,000 institutions had failed. The federal bailout ultimately cost taxpayers an estimated $124 billion, with total losses to the economy considerably higher.",
     "sources": [
       {
-        "url": "https://www.fdic.gov/bank/historical/history/167_188.pdf",
-        "text": "FDIC — History of the Eighties: The Savings and Loan Crisis (1997)"
+        "url": "https://www.fdic.gov/resources/publications/history-eighties/volume-1/history-80s-volume-1-part1-04.pdf",
+        "text": "FDIC — History of the Eighties, Vol. 1, Ch. 4: The Savings and Loan Crisis and Its Relationship to Banking (1997)"
       },
       {
         "url": "https://www.gao.gov/assets/160/151363.pdf",
@@ -143,12 +143,12 @@
     "description": "Reagan signed the Omnibus Budget Reconciliation Act of 1981, which effectively repealed the Mental Health Systems Act passed under Carter and converted federal mental health funding into block grants to states, with significantly reduced total funding. While deinstitutionalization of psychiatric patients had begun decades earlier, the Reagan shift eliminated the promised federal community-care infrastructure meant to replace institutionalization. A Milbank Quarterly analysis described Reagan's inauguration as prompting an \"immediate reversal\" of federal mental health policy. Critics argue the resulting gap in care contributed to the cycles of homelessness, incarceration, and untreated illness that persist today.",
     "sources": [
       {
-        "url": "https://www.milbank.org/quarterly/articles/the-political-context-for-the-reagan-administration-mental-health-policy/",
-        "text": "Milbank Quarterly — The Political Context for Reagan Administration Mental Health Policy"
+        "url": "https://www.milbank.org/quarterly/articles/government-and-mental-health-policy-a-structural-analysis/",
+        "text": "Milbank Quarterly — Government and Mental Health Policy: A Structural Analysis (Grob)"
       },
       {
-        "url": "https://www.treatmentadvocacycenter.org/the-consequences-of-ignoring-mental-illness",
-        "text": "Treatment Advocacy Center — The Consequences of Ignoring Mental Illness"
+        "url": "https://www.tac.org/criminalization/",
+        "text": "Treatment Advocacy Center — Criminalization of Severe Mental Illness After Deinstitutionalization"
       }
     ]
   },
@@ -160,8 +160,8 @@
     "description": "Reagan's Economic Recovery Tax Act of 1981 reduced the top marginal income tax rate from 70% to 50%, with further cuts later in his presidency bringing it to 28%. Proponents argued the cuts would stimulate growth sufficient to offset lost revenue — a theory known as supply-side or \"trickle-down\" economics. In practice, federal deficits increased substantially during Reagan's presidency, and the national debt tripled from roughly $994 billion to $2.9 trillion. Brookings Institution has stated plainly that the Reagan tax cut \"didn't pay for itself.\" Independent analyses found the benefits of the cuts accrued disproportionately to higher-income households.",
     "sources": [
       {
-        "url": "https://www.brookings.edu/articles/the-reagan-tax-cuts-lessons-for-tax-reform/",
-        "text": "Brookings Institution — The Reagan Tax Cuts: Lessons for Tax Reform"
+        "url": "https://www.brookings.edu/articles/what-we-learned-from-reagans-tax-cuts/",
+        "text": "Brookings Institution — What We Learned from Reagan's Tax Cuts"
       },
       {
         "url": "https://www.cbpp.org/research/federal-tax/the-legacy-of-the-reagan-tax-cuts",

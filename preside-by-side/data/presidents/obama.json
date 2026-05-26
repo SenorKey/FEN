@@ -41,12 +41,12 @@
     "description": "Disclosures by NSA contractor Edward Snowden in 2013 revealed that under Obama the agency had been collecting bulk telephone metadata on millions of Americans under Section 215 of the Patriot Act. The Privacy and Civil Liberties Oversight Board later concluded that the Section 215 program lacked a viable legal foundation and had produced minimal counterterrorism value that could not have been obtained through less intrusive means. The program became one of the most significant civil-liberties controversies of the Obama era.",
     "sources": [
       {
-        "url": "https://www.pclob.gov/library/215-Report_on_the_Telephone_Records_Program.pdf",
+        "url": "https://documents.pclob.gov/prod/Documents/OversightReport/ec542143-1079-424a-84b3-acc354698560/215-Report_on_the_Telephone_Records_Program.pdf",
         "text": "Privacy and Civil Liberties Oversight Board — Report on the Section 215 Telephone Records Program (Jan. 2014)"
       },
       {
-        "url": "https://www.aclu.org/cases/aclu-v-clapper",
-        "text": "ACLU — ACLU v. Clapper: NSA Mass Phone Surveillance Challenge"
+        "url": "https://www.aclu.org/cases/aclu-v-clapper-challenge-nsa-mass-call-tracking-program",
+        "text": "ACLU — ACLU v. Clapper: Challenge to NSA Mass Call-Tracking Program"
       }
     ]
   },
@@ -62,8 +62,8 @@
         "text": "Treasury Inspector General for Tax Administration — IRS Exempt Organizations Targeting Report (May 2013)"
       },
       {
-        "url": "https://www.justice.gov/opa/pr/justice-department-closes-investigation-irs-processing-tea-party-applications",
-        "text": "DOJ — Statement on Closing IRS Targeting Investigation (Oct. 2015)"
+        "url": "https://www.npr.org/sections/thetwo-way/2015/10/23/451250865/justice-department-says-no-criminal-charges-in-irs-tea-party-investigation",
+        "text": "NPR — Justice Department Says No Criminal Charges in IRS Tea Party Investigation (Oct. 2015)"
       }
     ]
   },
@@ -75,12 +75,12 @@
     "description": "An ATF operation called Fast and Furious allowed illegal firearms purchases to proceed with the intention of tracking weapons to Mexican cartel networks, but agents lost track of approximately 2,000 guns. Weapons from the operation later turned up at crime scenes in both the U.S. and Mexico, including near the murder scene of U.S. Border Patrol Agent Brian Terry. A DOJ Inspector General review found serious failures in oversight, judgment, and internal communication within ATF and DOJ leadership.",
     "sources": [
       {
-        "url": "https://oig.justice.gov/reports/2012/s1209.pdf",
-        "text": "DOJ Office of Inspector General — A Review of ATF's Operation Fast and Furious (Sep. 2012)"
+        "url": "https://oig.justice.gov/reports/review-atfs-operation-fast-and-furious-and-related-matters",
+        "text": "DOJ Office of Inspector General — A Review of ATF's Operation Fast and Furious and Related Matters (Sep. 2012)"
       },
       {
-        "url": "https://oversight.house.gov/report/final-report-operation-fast-furious/",
-        "text": "House Oversight Committee — Final Report on Operation Fast and Furious (Jul. 2012)"
+        "url": "https://oversight.house.gov/wp-content/uploads/2012/07/7-31-12-FF-Part-I-FINAL-REPORT.pdf",
+        "text": "House Oversight Committee — Fast and Furious: The Anatomy of a Failed Operation, Part I Final Report (Jul. 2012)"
       }
     ]
   },
@@ -126,8 +126,8 @@
     "description": "In 2014, investigations revealed that VA medical facilities — most prominently in Phoenix — had systematically falsified appointment wait-time data to conceal how long veterans were waiting for care. The VA Inspector General identified gross mismanagement, widespread data manipulation, and links to patient harm. At least 40 veterans died while waiting for appointments at the Phoenix VA alone, though the IG noted causal attribution was difficult to establish definitively. Obama accepted the resignation of VA Secretary Eric Shinseki and signed reform legislation, but the scandal exposed deep systemic failures.",
     "sources": [
       {
-        "url": "https://www.va.gov/oig/pubs/VAOIG-14-02603-267.pdf",
-        "text": "VA Office of Inspector General — Phoenix VA Health Care System Patient Wait Times (Aug. 2014)"
+        "url": "https://www.vaoig.gov/sites/default/files/reports/2014-08/VAOIG-14-02603-267.pdf",
+        "text": "VA Office of Inspector General — Review of Alleged Patient Deaths, Wait Times, and Scheduling Practices at the Phoenix VA Health Care System (Aug. 2014)"
       },
       {
         "url": "https://www.congress.gov/113/plaws/publ146/PLAW-113publ146.pdf",
@@ -147,8 +147,8 @@
         "text": "Committee to Protect Journalists — The Obama Administration and the Press (Oct. 2013)"
       },
       {
-        "url": "https://apnews.com/article/government-and-politics-ap-top-news-north-america-media-us-news-f5e36d0f87b14e96a7c2f8e5d3b9b40f",
-        "text": "Associated Press — Statement on DOJ Phone Records Seizure (May 2013)"
+        "url": "https://www.npr.org/2013/05/14/183810320/justice-department-secretly-obtains-ap-phone-records",
+        "text": "NPR — Justice Department Secretly Obtains AP Phone Records (May 2013)"
       }
     ]
   },
@@ -160,8 +160,8 @@
     "description": "Obama signed an executive order in his first week in office directing the closure of the Guantánamo Bay detention facility within one year. He never achieved it. While he reduced the detainee population significantly — from 242 when he took office to 41 when he left — Congress passed legislation blocking detainee transfers to the U.S. and impeding closures. Critics across the political spectrum faulted him: civil libertarians saw the continued detention of uncharged prisoners as a fundamental rights failure; others argued he lacked the political will to fight for closure when it mattered most.",
     "sources": [
       {
-        "url": "https://www.aclu.org/report/closing-guantanamo-obamas-failed-promise",
-        "text": "ACLU — Closing Guantánamo: Obama's Failed Promise"
+        "url": "https://www.aclu.org/press-releases/obama-administration-misses-deadline-close-guantanamo",
+        "text": "ACLU — Obama Administration Misses Deadline to Close Guantánamo"
       },
       {
         "url": "https://crsreports.congress.gov/product/pdf/R/R40139",
