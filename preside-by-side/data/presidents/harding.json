@@ -7,12 +7,12 @@
     "description": "The Teapot Dome scandal became the most notorious symbol of government corruption in American history up to that point. Harding's Interior Secretary Albert B. Fall secretly leased federally owned naval oil reserves at Teapot Dome, Wyoming and Elk Hills, California to private oil companies in exchange for cash bribes and no-interest loans. The U.S. Senate documents that Fall became the first former Cabinet official in American history to be imprisoned for crimes committed while in office. Harding was not personally shown to have profited, but the scandal unfolded entirely within his administration, involving a Cabinet member he had personally chosen and trusted with the federal assets Fall proceeded to loot.",
     "sources": [
       {
-        "url": "https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm",
+        "url": "https://www.senate.gov/artandhistory/senate-stories/one-hundred-years-since-teapot-dome.htm",
         "text": "U.S. Senate — Teapot Dome Scandal: Historical Overview"
       },
       {
-        "url": "https://www.archives.gov/education/lessons/teapot-dome",
-        "text": "National Archives — Teapot Dome: Primary Documents in American History"
+        "url": "https://www.britannica.com/event/Teapot-Dome-Scandal",
+        "text": "Encyclopædia Britannica — Teapot Dome Scandal: Definition, Facts, and Significance"
       }
     ]
   },
@@ -24,11 +24,11 @@
     "description": "Before the Teapot Dome scandal fully unfolded, Harding signed Executive Order 3474 on May 21, 1921, transferring control of the strategic naval petroleum reserves from the Navy Department — where they had been held for national security purposes — to the Interior Department under Albert Fall. The Levin Center documents this transfer as the administrative move that gave Fall the authority he needed to lease the reserves corruptly to private oil interests. Whether Harding understood what he was enabling or simply trusted Fall without scrutiny, the executive order was the mechanism that made the scandal possible, and he signed it.",
     "sources": [
       {
-        "url": "https://levin.senate.gov/imo/media/doc/supporting/2012/PSI_OilContractReports_022712.pdf",
-        "text": "Levin Center — Executive Order 3474 and the Naval Oil Reserve Transfer"
+        "url": "https://www.presidency.ucsb.edu/documents/executive-order-3474-transferring-naval-petroleum-reserves-california-and-wyoming-and",
+        "text": "American Presidency Project — Executive Order 3474 Transferring Naval Petroleum Reserves to the Interior Secretary (May 1921)"
       },
       {
-        "url": "https://www.senate.gov/artandhistory/history/common/investigations/TeapotDome.htm",
+        "url": "https://www.senate.gov/artandhistory/senate-stories/one-hundred-years-since-teapot-dome.htm",
         "text": "U.S. Senate — Teapot Dome: The Oil Reserve Transfer"
       }
     ]
@@ -62,8 +62,8 @@
         "text": "Britannica — Charles Forbes and the Veterans Bureau Scandal"
       },
       {
-        "url": "https://www.va.gov/opa/publications/celebrate/vetsbureau.pdf",
-        "text": "U.S. Department of Veterans Affairs — History of the Veterans Bureau"
+        "url": "https://department.va.gov/history/featured-stories/veterans-bureau/",
+        "text": "U.S. Department of Veterans Affairs — The Creation of the Veterans Bureau (incl. Forbes scandal)"
       }
     ]
   },
@@ -92,8 +92,8 @@
     "description": "Harding appointed Harry Daugherty — the Ohio Gang's central political operative and the man most responsible for engineering Harding's own nomination — as Attorney General of the United States, placing the nation's chief law enforcement officer in the hands of a figure deeply embedded in the corrupt network that would define his administration. Daugherty was investigated after Harding's death, resigned under pressure during the Coolidge administration, and faced two criminal trials before ultimately escaping conviction on a hung jury. Britannica identifies Daugherty as the Ohio Gang's leader. Placing such a figure atop the Justice Department — the institution responsible for prosecuting federal corruption — was a failure of judgment with systemic consequences for the rule of law.",
     "sources": [
       {
-        "url": "https://www.britannica.com/biography/Harry-M-Daugherty",
-        "text": "Britannica — Harry M. Daugherty: Attorney General and Ohio Gang"
+        "url": "https://www.britannica.com/biography/Harry-Micajah-Daugherty",
+        "text": "Encyclopædia Britannica — Harry Micajah Daugherty: Attorney General and Ohio Gang Leader"
       },
       {
         "url": "https://millercenter.org/president/harding/domestic-affairs",
@@ -109,8 +109,8 @@
     "description": "Harding signed the Emergency Quota Act of 1921, which introduced national-origin quotas to sharply restrict immigration for the first time in American history. Immigration History documents that the quotas were designed using eugenic research and restrictionist recommendations, structured to heavily favor immigrants from Northern and Western Europe while drastically limiting arrivals from Southern and Eastern Europe — Jews, Italians, Poles, Greeks, and others deemed racially inferior by the eugenicist thinking that undergirded the law. The Act was framed as temporary but established the quota framework that the far harsher Johnson-Reed Act of 1924 would make permanent, reshaping the ethnic composition of American immigration for four decades.",
     "sources": [
       {
-        "url": "https://immigrationhistory.org/item/emergency-quota-act/",
-        "text": "Immigration History — The Emergency Quota Act of 1921"
+        "url": "https://en.wikipedia.org/wiki/Emergency_Quota_Act",
+        "text": "Wikipedia — Emergency Quota Act of 1921 (national-origin quotas based on eugenic research)"
       },
       {
         "url": "https://history.state.gov/milestones/1921-1936/immigration-act",
@@ -143,8 +143,8 @@
     "description": "In 1922, Harding vetoed a bill to provide adjusted compensation — commonly called a \"bonus\" — to World War I veterans who had served at military pay rates far below what civilian war-industry workers had earned during the same period. The House historical record documents the veto; the Miller Center notes Harding argued that balancing the federal budget took priority over the debt owed to veterans. The fiscal argument was not irrational given postwar debt levels, but the veto landed badly alongside the simultaneous corruption of the Veterans Bureau under Forbes — creating the damaging appearance that Harding's administration would steal from veterans through Forbes while refusing to compensate them through Congress.",
     "sources": [
       {
-        "url": "https://history.house.gov/Historical-Highlights/1901-1950/The-Bonus-Bill/",
-        "text": "U.S. House of Representatives — The Veterans' Bonus Bill"
+        "url": "https://history.house.gov/Historical-Highlights/1901-1950/A-bonus-for-World-War-I-veterans/",
+        "text": "U.S. House of Representatives — A Bonus for World War I Veterans (Historical Highlights)"
       },
       {
         "url": "https://millercenter.org/president/harding/domestic-affairs",

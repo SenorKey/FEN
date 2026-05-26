@@ -7,8 +7,8 @@
     "description": "On May 28, 1830, Jackson signed the Indian Removal Act into law, authorizing the federal government to forcibly relocate Native nations living east of the Mississippi River to lands farther west. The National Archives describes it as the first major legislative step in forcing American Indians westward, driven by white settler demand for Native land. The law set in motion the systematic dispossession of dozens of tribes — including the Cherokee, Choctaw, Creek, Chickasaw, and Seminole — from territories they had inhabited for generations, through a combination of coercion, fraudulent treaties, and military force.",
     "sources": [
       {
-        "url": "https://www.archives.gov/education/lessons/indian-removal-act",
-        "text": "National Archives — Indian Removal Act: Primary Documents in American History (1830)"
+        "url": "https://www.archives.gov/milestone-documents/jacksons-message-to-congress-on-indian-removal",
+        "text": "National Archives — Jackson's Message to Congress \"On Indian Removal\" (1830, Milestone Document)"
       },
       {
         "url": "https://history.state.gov/milestones/1830-1860/indian-treaties",
@@ -28,8 +28,8 @@
         "text": "Library of Congress — Trail of Tears: About This Collection"
       },
       {
-        "url": "https://www.nps.gov/trte/learn/historyculture/facts.htm",
-        "text": "National Park Service — Trail of Tears: Facts"
+        "url": "https://www.nps.gov/trte/learn/historyculture/what-happened-on-the-trail-of-tears.htm",
+        "text": "National Park Service — What Happened on the Trail of Tears"
       }
     ]
   },
@@ -45,8 +45,8 @@
         "text": "U.S. State Department Office of the Historian — Indian Treaties and the Removal Act"
       },
       {
-        "url": "https://www.archives.gov/files/education/lessons/georgia-cherokee/images/white-plains-treaty-1837.pdf",
-        "text": "National Archives — Treaty of New Echota and Cherokee Removal Documents"
+        "url": "https://www.britannica.com/event/Treaty-of-New-Echota",
+        "text": "Encyclopædia Britannica — Treaty of New Echota (1835): The Document Used to Justify Cherokee Removal"
       }
     ]
   },
@@ -62,8 +62,8 @@
         "text": "Federal Judicial Center — Worcester v. Georgia: Landmark Case History"
       },
       {
-        "url": "https://supreme.justia.com/cases/federal/us/31/515/",
-        "text": "Worcester v. Georgia — Supreme Court Opinion, 31 U.S. 515 (1832)"
+        "url": "https://www.law.cornell.edu/supremecourt/text/31/515",
+        "text": "Cornell Law (LII) — Worcester v. Georgia, 31 U.S. 515 (1832), Full Opinion"
       }
     ]
   },
@@ -75,12 +75,12 @@
     "description": "Jackson was a major enslaver throughout his life and presidency. The Hermitage — Jackson's plantation — records that he owned approximately 150 enslaved people at the time of his death, and researchers have identified more than 500 individuals enslaved at The Hermitage or descended from those held there. In 1829, just before entering the White House, Jackson ordered an inventory listing 95 enslaved people at The Hermitage; he brought enslaved workers with him to serve in the executive mansion. His wealth, his political career, and his plantation were all built on the forced, uncompensated labor of enslaved Black people.",
     "sources": [
       {
-        "url": "https://thehermitage.com/learn/andrew-jackson/people-of-the-hermitage/enslaved-community/",
-        "text": "The Hermitage — The Enslaved Community at The Hermitage"
+        "url": "https://thehermitage.com/enslaved-community",
+        "text": "Andrew Jackson's Hermitage — The Enslaved Community"
       },
       {
-        "url": "https://www.whitehousehistory.org/slavery-in-the-white-house-andrew-jackson",
-        "text": "White House Historical Association — Slavery in the White House: Andrew Jackson"
+        "url": "https://www.whitehousehistory.org/slavery-in-the-andrew-jackson-white-house",
+        "text": "White House Historical Association — The Enslaved Household of President Andrew Jackson"
       }
     ]
   },
@@ -92,12 +92,12 @@
     "description": "In 1804, Jackson placed a newspaper advertisement seeking the capture of an enslaved man who had escaped, offering a reward for his return and an additional payment for each hundred lashes inflicted on him — up to three hundred lashes total. The advertisement, documented by the University of Glasgow's Runaway Slaves in Britain project and discussed in the Tennessee Historical Quarterly, reveals not merely passive participation in the institution of slavery but active, explicit cruelty. The offer of financial incentive for brutal corporal punishment reflects both Jackson's personal character and the systemic violence on which slavery depended.",
     "sources": [
       {
-        "url": "https://www.runaways.gla.ac.uk/database/",
-        "text": "University of Glasgow — Runaway Slaves in Britain: Advertisement Database"
+        "url": "https://en.wikipedia.org/wiki/Andrew_Jackson_and_slavery",
+        "text": "Wikipedia — Andrew Jackson and Slavery (incl. 1804 Tennessee Gazette runaway ad with lashes reward)"
       },
       {
-        "url": "https://www.tnhistoricalsociety.org/tennessee-historical-quarterly/",
-        "text": "Tennessee Historical Quarterly — Documentation of Jackson Runaway Slave Advertisement"
+        "url": "https://www.historynewsnetwork.org/article/hunting-down-runaway-slaves-the-cruel-ads-of-andre",
+        "text": "History News Network — Hunting Down Runaway Slaves: The Cruel Ads of Andrew Jackson"
       }
     ]
   },
@@ -147,8 +147,8 @@
         "text": "Britannica — Spoils System: Origins and Jackson's Role"
       },
       {
-        "url": "https://www.opm.gov/policy-data-oversight/data-analysis-documentation/federal-employment-reports/historical-tables/total-government-employment-since-1962/",
-        "text": "Office of Personnel Management — History of Federal Civil Service Reform"
+        "url": "https://www.archives.gov/milestone-documents/pendleton-act",
+        "text": "National Archives — Pendleton Civil Service Reform Act (1883): Milestone Document Ending the Spoils System"
       }
     ]
   },
@@ -164,8 +164,8 @@
         "text": "Britannica — Nullification Crisis (1832–1833)"
       },
       {
-        "url": "https://millercenter.org/president/jackson/the-nullification-crisis",
-        "text": "Miller Center — Andrew Jackson: The Nullification Crisis"
+        "url": "https://millercenter.org/the-presidency/presidential-speeches/december-10-1832-nullification-proclamation",
+        "text": "Miller Center — Jackson's Nullification Proclamation (Dec. 10, 1832)"
       }
     ]
   }

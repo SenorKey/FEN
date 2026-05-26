@@ -11,8 +11,8 @@
         "text": "White House Historical Association — Millard Fillmore: Presidential Biography"
       },
       {
-        "url": "https://www.archives.gov/milestone-documents/fugitive-slave-act",
-        "text": "National Archives — Fugitive Slave Act of 1850: Milestone Documents"
+        "url": "https://constitutioncenter.org/the-constitution/historic-document-library/detail/the-fugitive-slave-act-1850",
+        "text": "National Constitution Center — The Fugitive Slave Act of 1850 (full text and historical context)"
       }
     ]
   },
@@ -24,12 +24,12 @@
     "description": "The Fugitive Slave Act did not merely affect Southern states — it deliberately extended slavery's reach into the free North by legally compelling Northern officials, judges, and citizens to participate in the capture and return of escaped enslaved people. Citizens who refused to assist slave-catchers or who helped freedom-seekers could be fined or imprisoned. East Carolina University's summary of the Act documents that it gave slave owners \"immense powers\" to pursue escaped people across state lines with federal backing. The result was that communities in Massachusetts, Ohio, Pennsylvania, and New York — states that had legally abolished slavery — were conscripted into its enforcement. The Act radicalized Northern public opinion, fueled the abolitionist movement, and made the moral reality of slavery impossible to ignore for people who had previously felt insulated from it.",
     "sources": [
       {
-        "url": "https://www.archives.gov/milestone-documents/fugitive-slave-act",
-        "text": "National Archives — Fugitive Slave Act: Text and Historical Context"
+        "url": "https://www.archives.gov/milestone-documents/compromise-of-1850",
+        "text": "National Archives — Compromise of 1850 (incl. Fugitive Slave Act): Milestone Document"
       },
       {
-        "url": "https://www.loc.gov/resource/rbpe.14000400/",
-        "text": "Library of Congress — Fugitive Slave Act of 1850: Primary Source Materials"
+        "url": "https://www.archives.gov/education/lessons/fugitive-slaves.html",
+        "text": "National Archives — Fugitive Slaves and the Underground Railroad (Lesson)"
       }
     ]
   },
@@ -41,8 +41,8 @@
     "description": "Fillmore championed the Compromise of 1850 as a permanent resolution to the sectional crisis over slavery, believing he had averted disunion through statesmanship. The White House's own historical biography acknowledges that the compromise produced only an \"uneasy sectional truce\" rather than a genuine settlement. While the Compromise included provisions that appeared balanced — California entered as a free state, the slave trade was ended in Washington D.C. — the Fugitive Slave Act was so explosive that it overwhelmed any goodwill the other provisions generated. Rather than quieting the slavery debate, the Compromise deepened it by forcing the moral question of slavery into Northern communities that had previously kept it at arm's length, accelerating the polarization that ended in secession eleven years later.",
     "sources": [
       {
-        "url": "https://www.whitehouse.gov/about-the-white-house/presidents/millard-fillmore/",
-        "text": "White House — Millard Fillmore: Presidential Biography"
+        "url": "https://bidenwhitehouse.archives.gov/about-the-white-house/presidents/millard-fillmore/",
+        "text": "The White House (archived) — Millard Fillmore: Presidential Biography"
       },
       {
         "url": "https://millercenter.org/president/fillmore/domestic-affairs",
@@ -109,8 +109,8 @@
     "description": "Fillmore's presidency coincided with the most catastrophic period of violence against California Native peoples following the Gold Rush, as settler encroachment, state-sanctioned militia campaigns, and federal inaction combined to devastate Native communities across the state. California historians have documented the era as a genocide; the state's own Native population collapsed from an estimated 150,000 at the time of the Gold Rush to fewer than 30,000 by 1870. Fillmore did not personally order the violence, but his administration governed during the critical window when federal intervention and ratified land treaties could have provided some protection, and it provided neither. The failure to ratify the eighteen negotiated treaties removed the primary legal mechanism that might have buffered Native communities against the worst excesses of settler expansion.",
     "sources": [
       {
-        "url": "https://www.nps.gov/articles/california-indian-history.htm",
-        "text": "National Park Service — California Indian History and the Gold Rush Era"
+        "url": "https://www.history.com/news/californias-little-known-genocide",
+        "text": "History.com — California's Little-Known Genocide (1850s violence against Native communities)"
       },
       {
         "url": "https://www.britannica.com/topic/California-Indian",
@@ -130,8 +130,8 @@
         "text": "U.S. State Department Office of the Historian — Opening to Japan: The Perry Mission"
       },
       {
-        "url": "https://www.britannica.com/event/Convention-of-Kanagawa",
-        "text": "Britannica — Commodore Perry and the Opening of Japan"
+        "url": "https://www.britannica.com/event/Treaty-of-Kanagawa",
+        "text": "Encyclopædia Britannica — Treaty of Kanagawa: Commodore Perry and the Opening of Japan (1854)"
       }
     ]
   },
@@ -147,8 +147,8 @@
         "text": "Miller Center — The Collapse of the Whig Party Under Fillmore"
       },
       {
-        "url": "https://www.britannica.com/topic/Whig-Party-United-States",
-        "text": "Britannica — Whig Party: Dissolution and the Slavery Crisis"
+        "url": "https://www.britannica.com/topic/Whig-Party",
+        "text": "Encyclopædia Britannica — Whig Party: History, Beliefs, and Dissolution"
       }
     ]
   },
@@ -164,8 +164,8 @@
         "text": "Miller Center — Fillmore and the Know-Nothing Party (1856)"
       },
       {
-        "url": "https://www.britannica.com/topic/Know-Nothing-movement",
-        "text": "Britannica — Know-Nothing Movement: Origins and the 1856 Election"
+        "url": "https://www.britannica.com/topic/Know-Nothing-party",
+        "text": "Encyclopædia Britannica — Know-Nothing Party: Origins, Platform, and 1856 Election"
       }
     ]
   }

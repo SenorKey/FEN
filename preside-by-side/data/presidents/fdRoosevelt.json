@@ -24,8 +24,8 @@
     "description": "In May 1939, the German ocean liner St. Louis departed Hamburg carrying 937 passengers, nearly all of them Jewish refugees fleeing Nazi persecution. After Cuba refused entry, the ship sailed along the U.S. coastline seeking asylum. The Roosevelt administration declined to admit the passengers, citing immigration quotas and State Department restrictions, even as the ship waited within sight of Miami. The vessel was forced to return to Europe. The U.S. Holocaust Memorial Museum documents that 254 of those passengers were subsequently murdered in the Holocaust. The episode remains one of the most documented instances of the administration's failure to act when action was possible.",
     "sources": [
       {
-        "url": "https://encyclopedia.ushmm.org/content/en/article/the-voyage-of-the-st-louis",
-        "text": "U.S. Holocaust Memorial Museum — The Voyage of the St. Louis"
+        "url": "https://encyclopedia.ushmm.org/content/en/article/voyage-of-the-st-louis",
+        "text": "U.S. Holocaust Memorial Museum — Voyage of the St. Louis"
       },
       {
         "url": "https://www.archives.gov/research/holocaust",
@@ -45,8 +45,8 @@
         "text": "U.S. Holocaust Memorial Museum — The United States and the Holocaust"
       },
       {
-        "url": "https://www.archives.gov/research/holocaust/article.html",
-        "text": "National Archives — America and the Holocaust: Documenting the Failure"
+        "url": "https://exhibitions.ushmm.org/americans-and-the-holocaust",
+        "text": "U.S. Holocaust Memorial Museum — Americans and the Holocaust (Exhibition on U.S. Response)"
       }
     ]
   },
@@ -62,8 +62,8 @@
         "text": "Federal Judicial Center — FDR's Court-Packing Plan"
       },
       {
-        "url": "https://www.archives.gov/exhibits/new-deal",
-        "text": "National Archives — The New Deal and the Supreme Court Conflict"
+        "url": "https://www.history.com/this-day-in-history/february-5/roosevelt-announces-court-packing-plan",
+        "text": "History.com — Roosevelt Announces the Court-Packing Plan (Feb. 5, 1937)"
       }
     ]
   },
@@ -109,12 +109,12 @@
     "description": "As commander in chief, FDR bore command responsibility for the Allied strategic bombing campaigns of World War II, which increasingly targeted civilian-dense urban areas. The March 9–10, 1945 firebombing of Tokyo — the single deadliest air raid in history — killed an estimated 80,000 to 100,000 civilians in a single night, destroying sixteen square miles of the city. Similar area-bombing campaigns devastated Dresden and dozens of other German cities. Military historians debate the strategic necessity and distribution of responsibility across Allied command, but the campaigns represented a deliberate shift toward targeting civilian infrastructure and population centers that caused mass noncombatant death.",
     "sources": [
       {
-        "url": "https://www.afhistory.af.mil/News/Article-Display/Article/458980/the-bombing-of-japan/",
-        "text": "Air Force Historical Research Agency — Strategic Bombing of Japan"
+        "url": "https://www.britannica.com/event/Bombing-of-Tokyo",
+        "text": "Encyclopædia Britannica — Bombing of Tokyo (1945): WWII Firebombing, Casualties, Legacy"
       },
       {
-        "url": "https://www.britannica.com/event/firebombing-of-Tokyo",
-        "text": "Britannica — Firebombing of Tokyo (March 1945)"
+        "url": "https://www.nationalww2museum.org/war/articles/hellfire-earth-operation-meetinghouse",
+        "text": "The National WWII Museum — Hellfire on Earth: Operation Meetinghouse (Mar. 9–10, 1945 Tokyo firebombing)"
       }
     ]
   },
@@ -164,8 +164,8 @@
         "text": "Miller Center — Franklin D. Roosevelt: Key Events and Executive Power"
       },
       {
-        "url": "https://www.brookings.edu/articles/fdr-and-the-modern-presidency/",
-        "text": "Brookings Institution — FDR and the Modern Presidency"
+        "url": "https://millercenter.org/president/fdroosevelt/impact-and-legacy",
+        "text": "Miller Center — Franklin D. Roosevelt: Impact and Legacy (Modern Presidency)"
       }
     ]
   }

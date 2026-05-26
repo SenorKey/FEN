@@ -11,8 +11,8 @@
         "text": "Miller Center — Herbert Hoover: Domestic Affairs and the Great Depression"
       },
       {
-        "url": "https://hoover.archives.gov/info/depression.html",
-        "text": "Herbert Hoover Presidential Library — Hoover and the Great Depression"
+        "url": "https://hoover.archives.gov/exhibits/great-depression",
+        "text": "Herbert Hoover Presidential Library — The Great Depression exhibit"
       }
     ]
   },
@@ -28,8 +28,8 @@
         "text": "Federal Reserve History — The Reconstruction Finance Corporation"
       },
       {
-        "url": "https://hoover.archives.gov/info/depression.html",
-        "text": "Herbert Hoover Presidential Library — Relief Policy During the Depression"
+        "url": "https://hoover.archives.gov/exhibits/great-depression",
+        "text": "Herbert Hoover Presidential Library — Relief Policy During the Depression (Great Depression exhibit)"
       }
     ]
   },
@@ -45,8 +45,8 @@
         "text": "U.S. Senate — Smoot-Hawley Tariff: Historical Minute Essay"
       },
       {
-        "url": "https://www.econlib.org/library/Enc/SmootHawleyTariff.html",
-        "text": "Library of Economics and Liberty — Smoot-Hawley Tariff"
+        "url": "https://www.britannica.com/topic/Smoot-Hawley-Tariff-Act",
+        "text": "Encyclopædia Britannica — Smoot-Hawley Tariff Act: History, Effects, and Facts"
       }
     ]
   },
@@ -58,12 +58,12 @@
     "description": "In the summer of 1932, roughly 43,000 people — including World War I veterans, their families, and supporters — marched on Washington to demand early payment of service bonuses promised for 1945. After Congress rejected the bonus bill, Hoover ordered federal troops to clear veterans from occupied federal property. General Douglas MacArthur exceeded those orders, driving veterans and their families from all their camps with cavalry, infantry, and tanks, burning their shelters to the ground. Images of the U.S. Army turning on desperate veterans who had fought in the World War were politically devastating and morally damning, becoming one of the defining moments of Hoover's presidency.",
     "sources": [
       {
-        "url": "https://www.history.com/topics/great-depression/bonus-army",
-        "text": "History.com — The Bonus Army: World War I Veterans' March on Washington"
+        "url": "https://www.nps.gov/articles/the-1932-bonus-army.htm",
+        "text": "National Park Service — The 1932 Bonus Army"
       },
       {
-        "url": "https://www.archives.gov/publications/prologue/2006/summer/bonus-army.html",
-        "text": "National Archives — The Bonus Army (Prologue, Summer 2006)"
+        "url": "https://prologue.blogs.archives.gov/2020/07/15/the-1932-bonus-army-black-and-white-americans-unite-in-march-on-washington/",
+        "text": "National Archives Prologue — The 1932 Bonus Army: Black and White Americans Unite in March on Washington (Jul. 2020)"
       }
     ]
   },
@@ -92,12 +92,12 @@
     "description": "In 1932, Hoover signed the Revenue Act, which sharply increased income tax rates — raising the top marginal rate from 25 percent to 63 percent — along with new taxes on corporations, estates, and a broad range of consumer goods, in an effort to balance the federal budget and preserve the government's credit. The balanced-budget impulse was conventional wisdom among policymakers of the era, but in hindsight the Revenue Act was deeply contractionary: raising taxes during a collapsing economy withdrew purchasing power from a system already in freefall, reducing demand and deepening the contraction. Most economic historians view it as one of the worst fiscal policy decisions of the Depression era.",
     "sources": [
       {
-        "url": "https://www.taxfoundation.org/revenue-act-1932/",
-        "text": "Tax Foundation — The Revenue Act of 1932"
+        "url": "https://www.britannica.com/topic/Revenue-Act-United-States-1932",
+        "text": "Encyclopædia Britannica — Revenue Act of 1932"
       },
       {
-        "url": "https://www.cbo.gov/sites/default/files/cbofiles/ftpdocs/83xx/doc8366/maintext.3.1.shtml",
-        "text": "Congressional Budget Office — Historical Tax Policy: The 1932 Revenue Act in Context"
+        "url": "https://en.wikipedia.org/wiki/Revenue_Act_of_1932",
+        "text": "Wikipedia — Revenue Act of 1932 (largest peacetime tax increase in U.S. history)"
       }
     ]
   },
@@ -109,12 +109,12 @@
     "description": "During Hoover's presidency, a coordinated campaign of federal deportations and local coercion pressured hundreds of thousands of people of Mexican origin to leave the United States, including large numbers of U.S.-born citizens with full legal rights. The Labor Department under Hoover's appointee William Doak intensified deportation enforcement, and federal action created political cover for state and local campaigns of intimidation and forced removal. Digital History documents that 82,400 people were involuntarily deported by federal authorities, while local pressure drove many more to leave. Decades later, the state of California formally apologized for its role in what it acknowledged were unconstitutional deportations of American citizens.",
     "sources": [
       {
-        "url": "https://www.digitalhistory.uh.edu/disp_textbook.cfm?smtID=2&psid=3479",
-        "text": "Digital History — Mexican Repatriation During the Great Depression"
+        "url": "https://www.history.com/articles/great-depression-repatriation-drives-mexico-deportation",
+        "text": "History.com — The Deportation Campaigns of the Great Depression"
       },
       {
-        "url": "https://www.loc.gov/item/2021387543/",
-        "text": "Library of Congress — Mexican Repatriation: Primary Source Documentation"
+        "url": "https://hoover.blogs.archives.gov/2016/08/04/hoover-on-immigration/",
+        "text": "Herbert Hoover Presidential Library blog — Hoover on Immigration (incl. Doak deportation campaign)"
       }
     ]
   },
@@ -147,8 +147,8 @@
         "text": "Miller Center — Hoover's Civil Rights Record"
       },
       {
-        "url": "https://www.naacp.org/naacp-history-and-the-great-depression/",
-        "text": "NAACP — Civil Rights and the Great Depression Era"
+        "url": "https://www.loc.gov/exhibits/naacp/the-great-depression.html",
+        "text": "Library of Congress — NAACP: A Century in the Fight for Freedom — The Great Depression"
       }
     ]
   },
@@ -164,8 +164,8 @@
         "text": "Miller Center — Herbert Hoover: Key Events of His Presidency"
       },
       {
-        "url": "https://hoover.archives.gov/info/depression.html",
-        "text": "Herbert Hoover Presidential Library — Hoover's Public Statements on the Depression"
+        "url": "https://hoover.archives.gov/exhibits/great-depression",
+        "text": "Herbert Hoover Presidential Library — Hoover's Public Statements on the Depression (Great Depression exhibit)"
       }
     ]
   }
