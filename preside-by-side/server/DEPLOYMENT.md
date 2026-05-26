@@ -195,8 +195,9 @@ sudoedit /etc/preside-by-side/config.env       # paste LOG_WEBHOOK_URL=...
 sudo systemctl restart preside-by-side-suggest
 ```
 
-You should see two "service starting" embeds appear within a second (one per
-gunicorn worker). If those don't show, the URL is wrong or the channel
+You should see a "service starting" embed appear within a second (one per
+gunicorn worker — the unit pins `--workers 1` so it'll be exactly one). If
+that doesn't show, the URL is wrong or the channel
 permissions are off — check `sudo journalctl -u preside-by-side-suggest -n 50`
 for a clue. Leaving `LOG_WEBHOOK_URL` blank is supported — the service runs
 fine with only journalctl as a sink.

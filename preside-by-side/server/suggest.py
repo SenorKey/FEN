@@ -355,14 +355,23 @@ _CTRL_RE = re.compile(r'[\x00-\x1f\x7f]')
 # the queue channel instead of as clickable phishing links.
 _DISCORD_MD_RE = re.compile(r'([\\`*_~|\[\]()>])')
 
+# All rate-limit / burst-suppression state below is per-process and shared
+# only across threads in this process — the deques live in module-level
+# memory and the threading.Lock()s serialize access within the process.
+# That means the configured ceilings ONLY hold if the service runs as a
+# single gunicorn worker (use --threads for concurrency). The systemd
+# unit pins --workers 1 --threads 4 for exactly this reason. Bumping
+# --workers to N silently multiplies every ceiling here (per-IP, global,
+# rating, burst threshold) by N because each worker tracks state
+# independently — don't do it without moving this state to Redis/SQLite
+# or putting a sticky-by-IP layer in front of gunicorn.
 _rate_lock = threading.Lock()
 _rate_buckets = {}  # ip -> deque[float] of monotonic timestamps
 _global_bucket = deque()  # monotonic timestamps of accepted submissions
 
 # Rating-specific rate-limit state. Separate from the /suggest gates so a
 # noisy ratings flood can't starve the suggest channel and vice versa.
-# Note: in-memory, so per gunicorn worker; effective ceilings are ~Nx the
-# configured value with N workers. Same caveat as the suggest gates.
+# Same single-worker assumption as the suggest gates above.
 _rating_rate_lock = threading.Lock()
 _rating_ip_buckets = {}      # ip -> deque[float]
 _rating_global_bucket = deque()
@@ -580,11 +589,22 @@ def note_rating_and_check_burst(bar_id, ip_hash):
 def db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
+    # synchronous is per-connection (not stored in the DB header like
+    # journal_mode), so it has to be re-set every time. NORMAL is the
+    # documented safe pairing with WAL: a power loss can lose the last
+    # committed transaction but the database stays consistent.
+    conn.execute('PRAGMA synchronous=NORMAL')
     return conn
 
 
 pathlib.Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
 with db() as conn:
+    # WAL lets /ratings/<president> reads run concurrently with /rate
+    # writes instead of blocking on the database-level write lock the
+    # default "delete" journal mode takes. Persistent — written into
+    # the DB header, so this PRAGMA only needs to run once ever, but
+    # re-asserting it on every boot is cheap and self-documenting.
+    conn.execute('PRAGMA journal_mode=WAL')
     # status lifecycle: pending -> processing -> reviewed | rejected | added
     # The local AI flips status as it works the queue; notes holds its findings.
     conn.execute(
@@ -665,6 +685,31 @@ with db() as conn:
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024  # 8 KB cap on request bodies
+
+
+@app.after_request
+def _security_headers(response):
+    # Apache adds its own defensive headers on the public path, but this
+    # service is the actual origin — if anything ever bypasses the proxy
+    # (misconfigured vhost, direct localhost curl from a compromised
+    # neighbor, future deployment shape) the raw responses shouldn't be
+    # the weak link. All four are cheap, well-supported, and safe for a
+    # JSON-only API:
+    #
+    #   nosniff:   block MIME sniffing — our responses are application/json
+    #              and shouldn't be reinterpreted as anything else.
+    #   DENY:      a JSON endpoint has no legitimate framing use case;
+    #              denying outright is stricter than SAMEORIGIN at no cost.
+    #   no-referrer: this service never wants the caller's Referer leaked
+    #              to anything downstream (none of our responses link out).
+    #   CSP default-src 'none': belt-and-suspenders for the unlikely case
+    #              a response is ever rendered as a document — nothing
+    #              loads, nothing executes.
+    response.headers.setdefault('X-Content-Type-Options', 'nosniff')
+    response.headers.setdefault('X-Frame-Options', 'DENY')
+    response.headers.setdefault('Referrer-Policy', 'no-referrer')
+    response.headers.setdefault('Content-Security-Policy', "default-src 'none'")
+    return response
 
 
 def now_utc_iso():
