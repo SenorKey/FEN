@@ -1172,7 +1172,7 @@
     const RATINGS_ENDPOINT = '/api/ratings/';
     const RATE_ENDPOINT = '/api/rate';
     const RATING_MIN_DISPLAY = 5;
-    const ratingsData = Object.create(null);     // pid -> { bar_id: {avg,count} }
+    const ratingsData = Object.create(null);     // pid -> { bar_id: {avg,count,sum} }
     const ratingsLoading = Object.create(null);  // pid -> Promise
 
     function loadRatings(pid) {
@@ -1364,14 +1364,29 @@
         // promote them to displayable here — the user might be 5th vote
         // but they might also be 2nd, and faking an average would mislead.
         if (!entry) return;
-        let sum = entry.avg * entry.count;
+        // Work off the integer running total the server sent (entry.sum)
+        // instead of reconstructing it as `entry.avg * entry.count`. The
+        // reconstruction is lossy — avg arrives already rounded to one
+        // decimal, so a bar with avg=7.3 count=100 would have its sum
+        // recomputed as 729.9999... and the displayed average would
+        // drift further from the server's truth on every subsequent vote
+        // until the next page-load re-fetched and snapped it back.
+        //
+        // Fallback for transient mismatches (new JS vs. cached pre-`sum`
+        // server response, or any browser that loaded the page during a
+        // deploy): seed sum from the rounded reconstruction once. Drift
+        // is bounded to whatever this one vote introduces; subsequent
+        // votes work off the integer sum we just stored.
+        if (typeof entry.sum !== 'number') {
+            entry.sum = Math.round(entry.avg * entry.count);
+        }
         if (oldVote != null) {
-            sum = sum - oldVote + newVote;
+            entry.sum = entry.sum - oldVote + newVote;
         } else {
-            sum = sum + newVote;
+            entry.sum = entry.sum + newVote;
             entry.count = entry.count + 1;
         }
-        entry.avg = Math.round((sum / entry.count) * 10) / 10;
+        entry.avg = Math.round((entry.sum / entry.count) * 10) / 10;
     }
 
     // After a successful vote, mirror UI changes into every other

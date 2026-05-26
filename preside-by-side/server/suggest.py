@@ -1004,12 +1004,18 @@ def rate():
 
 @app.route('/ratings/<president>', methods=['GET'])
 def ratings(president):
-    """Aggregate (avg, count) per bar for one president.
+    """Aggregate (avg, count, sum) per bar for one president.
 
-    Returns {"<bar_id>": {"avg": 7.4, "count": 12}, ...}, including only
-    bars whose non-quarantined vote count is >= RATING_MIN_DISPLAY. Bars
-    below that threshold are omitted entirely — callers should treat a
-    missing key as "not enough votes yet" and render nothing.
+    Returns {"<bar_id>": {"avg": 7.4, "count": 12, "sum": 88}, ...},
+    including only bars whose non-quarantined vote count is >=
+    RATING_MIN_DISPLAY. Bars below that threshold are omitted entirely —
+    callers should treat a missing key as "not enough votes yet" and
+    render nothing.
+
+    `sum` is the exact integer total of all (non-quarantined) ratings so
+    the client can do lossless optimistic-update math (sum±vote, then
+    divide by count) instead of reconstructing the running total from
+    the already-rounded `avg` and drifting on every vote.
 
     GET, so no Origin/honeypot/rate-limit gates — it's a read of public
     aggregate data and Apache can cache it freely if needed later.
@@ -1019,16 +1025,21 @@ def ratings(president):
 
     with db() as conn:
         rows = conn.execute(
-            'SELECT bar_id, AVG(rating) AS avg, COUNT(*) AS n '
+            'SELECT bar_id, AVG(rating) AS avg, COUNT(*) AS n, '
+            'SUM(rating) AS total '
             'FROM ratings WHERE president=? AND quarantined=0 '
             'GROUP BY bar_id HAVING n >= ?',
             (president, RATING_MIN_DISPLAY),
         ).fetchall()
 
-    # Round to one decimal place — matches what the UI displays. Doing
-    # it server-side keeps client math trivial and means the wire format
-    # is the displayed format.
-    out = {r['bar_id']: {'avg': round(r['avg'], 1), 'count': r['n']} for r in rows}
+    # Round avg to one decimal place — matches what the UI displays.
+    # Doing it server-side keeps client math trivial and means the wire
+    # format is the displayed format. `sum` stays unrounded so optimistic
+    # updates can recompute a fresh avg from an exact running total.
+    out = {
+        r['bar_id']: {'avg': round(r['avg'], 1), 'count': r['n'], 'sum': r['total']}
+        for r in rows
+    }
     return jsonify(out)
 
 
