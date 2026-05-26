@@ -7,12 +7,12 @@
     "description": "Biden's execution of the U.S. withdrawal from Afghanistan in August 2021 resulted in the rapid collapse of the Afghan government, the Taliban retaking power within days, and a desperate evacuation from Kabul's airport. The Abbey Gate suicide bombing killed 13 U.S. service members and over 170 Afghan civilians. The Biden White House's own after-action review acknowledged serious planning failures, even while noting that the constraints of the Trump-era Doha Agreement limited options. Biden owned the final decisions on timing and execution.",
     "sources": [
       {
-        "url": "https://www.whitehouse.gov/wp-content/uploads/2023/04/afghanistan-war-lessons-learned.pdf",
-        "text": "White House Afghanistan Lessons Learned Report (Apr. 2023)"
+        "url": "https://bidenwhitehouse.archives.gov/wp-content/uploads/2023/04/US-Withdrawal-from-Afghanistan.pdf",
+        "text": "White House NSC — U.S. Withdrawal from Afghanistan After-Action Review (Apr. 2023)"
       },
       {
-        "url": "https://www.defense.gov/News/Releases/Release/Article/2806648/",
-        "text": "DOD Statement on Abbey Gate Bombing Investigation (Feb. 2022)"
+        "url": "https://www.cbsnews.com/news/afghanistan-kabul-airport-bombing-us-troops-pentagon/",
+        "text": "CBS News — Pentagon Releases Report on Abbey Gate Bombing Investigation (Feb. 2022)"
       }
     ]
   },
@@ -24,12 +24,12 @@
     "description": "Throughout his presidency, Biden repeatedly and publicly stated he would not interfere with Department of Justice decisions regarding his son Hunter Biden, who faced federal gun and tax charges. In December 2024, Biden issued a sweeping preemptive pardon covering Hunter's conduct from January 1, 2014 through December 1, 2024 — one of the broadest pardons in scope ever issued for a family member by a sitting president. The action directly contradicted his prior public commitments and presented an obvious conflict of interest regardless of one's view of the underlying prosecutions.",
     "sources": [
       {
-        "url": "https://www.justice.gov/pardon/grant-of-clemency-robert-hunter-biden",
-        "text": "DOJ — Grant of Clemency for Robert Hunter Biden (Dec. 2024)"
+        "url": "https://www.justice.gov/pardon/pardons-granted-president-joseph-biden-2021-2025",
+        "text": "DOJ Office of the Pardon Attorney — Pardons Granted by President Joseph Biden (incl. Hunter Biden, Dec. 1, 2024)"
       },
       {
-        "url": "https://apnews.com/article/hunter-biden-pardon-president-joe-biden-2024",
-        "text": "Associated Press — Biden Pardons Son Hunter (Dec. 2024)"
+        "url": "https://www.cbsnews.com/news/hunter-biden-pardon-joe-biden-statement/",
+        "text": "CBS News — Hunter Biden's Pardon and Biden's Full Statement (Dec. 2024)"
       }
     ]
   },
@@ -41,12 +41,12 @@
     "description": "Special Counsel Robert Hur's 2024 report concluded that Biden \"willfully retained and disclosed classified materials\" after leaving the vice presidency, including sensitive documents related to Afghanistan found at his Delaware home and a Washington think tank. Hur declined to recommend criminal charges, citing factors including that a jury would likely find Biden sympathetic and that evidence of criminal intent fell short of proof beyond a reasonable doubt. The report nonetheless documented serious mishandling of national-security materials spanning years.",
     "sources": [
       {
-        "url": "https://www.justice.gov/storage/report-of-special-counsel-robert-k-hur.pdf",
-        "text": "Special Counsel Robert Hur — Report on Biden Classified Documents (Feb. 2024)"
+        "url": "https://www.justice.gov/storage/report-from-special-counsel-robert-k-hur-february-2024.pdf",
+        "text": "Special Counsel Robert K. Hur — Report on Biden Classified Documents (Feb. 2024)"
       },
       {
-        "url": "https://apnews.com/article/biden-classified-documents-hur-report-2024",
-        "text": "Associated Press — Hur Report Summary (Feb. 2024)"
+        "url": "https://www.npr.org/2024/02/08/1229805332/special-counsel-report-biden-classified-documents",
+        "text": "NPR — Special Counsel's Report on Biden's Handling of Classified Documents (Feb. 2024)"
       }
     ]
   },
@@ -126,12 +126,12 @@
     "description": "Following the October 7, 2023 Hamas attacks, Biden backed Israel strongly and continued major arms transfers throughout the conflict. As the civilian death toll in Gaza exceeded 30,000 and humanitarian conditions deteriorated severely, the Biden administration's own State Department assessment in 2024 concluded it was \"reasonable to assess\" that Israel had used U.S.-provided weapons in ways inconsistent with international humanitarian law — but stopped short of a definitive finding that would have triggered statutory aid restrictions. The administration continued the transfers while the assessment was ongoing.",
     "sources": [
       {
-        "url": "https://www.state.gov/report-to-congress-pursuant-to-national-security-memorandum-20/",
-        "text": "State Department — NSM-20 Report to Congress on Israel Arms Use (May 2024)"
+        "url": "https://www.lawfaremedia.org/article/state-department-issues-arms-transfer-assurance-report",
+        "text": "Lawfare — State Department NSM-20 Arms Transfer Assurance Report on Israel (May 2024)"
       },
       {
-        "url": "https://apnews.com/article/israel-us-weapons-humanitarian-law-biden-2024",
-        "text": "Associated Press — U.S. Report on Israeli Weapons Use (May 2024)"
+        "url": "https://www.cbsnews.com/news/israeli-forces-in-gaza-u-s-assessment-says/",
+        "text": "CBS News — U.S. Assessment Says Weapons May Have Been Used 'Inconsistent' with International Law (May 2024)"
       }
     ]
   },
@@ -147,8 +147,8 @@
         "text": "CBP — Nationwide Encounters Data (2021–2024)"
       },
       {
-        "url": "https://www.dhs.gov/sites/default/files/2024-06/24_0604_s1-southwest-border-report.pdf",
-        "text": "DHS — Southwest Border Report (2024)"
+        "url": "https://www.dhs.gov/archive/news/2024/06/04/fact-sheet-dhs-continues-strengthen-border-security-reduce-irregular-migration-and",
+        "text": "DHS — Fact Sheet on Border Security and Irregular Migration (Jun. 2024)"
       }
     ]
   },
@@ -160,12 +160,12 @@
     "description": "Early in his term, Biden signed an executive order pausing new oil and gas leasing on federal lands as part of a broader climate agenda. Federal courts blocked the pause, finding Biden had likely exceeded his statutory authority under the Mineral Leasing Act. Later in his term, the administration also paused approval of new LNG export terminals, which industry groups challenged as economically harmful and beyond agency authority. Courts and critics across the political spectrum questioned whether these moves fell within the executive's unilateral power.",
     "sources": [
       {
-        "url": "https://www.doi.gov/pressreleases/court-blocks-biden-administration-pause-oil-gas-leasing",
-        "text": "DOI — Statement on Leasing Pause Court Order (Jun. 2021)"
+        "url": "https://www.doi.gov/pressreleases/interior-department-issues-statement-oil-and-gas-leasing-program",
+        "text": "Interior Department — Statement on Oil and Gas Leasing Program and Court Injunction"
       },
       {
-        "url": "https://apnews.com/article/biden-lng-exports-pause-climate-2024",
-        "text": "Associated Press — Biden Pauses LNG Export Approvals (Jan. 2024)"
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/statements-releases/2024/01/26/fact-sheet-biden-harris-administration-announces-temporary-pause-on-pending-approvals-of-liquefied-natural-gas-exports/",
+        "text": "White House — Fact Sheet on Temporary Pause on LNG Export Approvals (Jan. 2024)"
       }
     ]
   }
