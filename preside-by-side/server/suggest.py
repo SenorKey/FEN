@@ -871,7 +871,32 @@ def rate():
             (bar_id, ip_hash),
         ).fetchone()
 
-        if existing:
+        action = None
+        if not existing:
+            # First-time vote for this (bar, ip). Each gunicorn worker
+            # holds its own SQLite connection, so two simultaneous
+            # first-time votes can both observe existing=None and both
+            # try to INSERT — the second trips the UNIQUE(bar_id, ip_hash)
+            # constraint. Catch that and re-read so the loser's vote
+            # still lands via the UPDATE branch below.
+            try:
+                conn.execute(
+                    'INSERT INTO ratings '
+                    '(received_at, updated_at, president, bar_id, rating, ip_hash, '
+                     'user_agent, write_count, quarantined, quarantine_reason) '
+                    'VALUES (?,?,?,?,?,?,?,?,?,?)',
+                    (now_iso, now_iso, president, bar_id, rating, ip_hash, ua,
+                     1, q_int, quarantine_reason),
+                )
+                action = 'insert'
+            except sqlite3.IntegrityError:
+                existing = conn.execute(
+                    'SELECT id, updated_at, write_count FROM ratings '
+                    'WHERE bar_id=? AND ip_hash=?',
+                    (bar_id, ip_hash),
+                ).fetchone()
+
+        if existing and action is None:
             # Existing vote — enforce the (bar, ip) write cap within
             # its rolling window before we'd UPDATE. Parsing the prior
             # ISO timestamp tells us whether the window has rolled over.
@@ -903,16 +928,6 @@ def rate():
                  quarantine_reason, existing['id']),
             )
             action = 'update'
-        else:
-            conn.execute(
-                'INSERT INTO ratings '
-                '(received_at, updated_at, president, bar_id, rating, ip_hash, '
-                 'user_agent, write_count, quarantined, quarantine_reason) '
-                'VALUES (?,?,?,?,?,?,?,?,?,?)',
-                (now_iso, now_iso, president, bar_id, rating, ip_hash, ua,
-                 1, q_int, quarantine_reason),
-            )
-            action = 'insert'
 
         # Append-only audit log. Inside the same `with` block so the
         # implicit commit covers both writes atomically — a power loss
