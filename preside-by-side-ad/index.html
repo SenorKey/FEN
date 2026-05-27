@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/preside-by-side-ad/preside-by-side-ad.css">
+
+    <meta name="description"
+        content="Preside by Side — a side-by-side comparison of presidential misconduct, weighted visually by severity. A project on frontendneeded.com.">
+    <link rel="canonical" href="https://frontendneeded.com/preside-by-side-ad/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/preside-by-side-ad/">
+    <meta property="og:title" content="Preside by Side — A Presidential Comparison">
+    <meta property="og:description"
+        content="A side-by-side comparison of presidential misconduct, weighted visually by severity.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-pbs.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Preside by Side</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad" class="active">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/trtbench">Trtbench</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/fresh-pull">Fresh Pull</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content" class="gr-shell">
+
+        <div class="gr-top">
+            <div class="accent-bar"></div>
+            <h1 class="page-title">Preside by Side</h1>
+            <p class="page-subtitle">A side-by-side comparison of presidential misconduct, weighted visually by
+                severity.</p>
+
+            <!-- Photo gallery — same component used on /wfpc and the home page,
+                 stripped to a single image for now. Aspect ratio is hard-coded
+                 inline (1200×751 = og-pbs.webp) so the frame can render without
+                 gallery.js, since there's nothing to advance through yet. -->
+            <div class="photo-gallery">
+                <div class="photo-frame" style="aspect-ratio: 1200 / 751;">
+                    <img class="photo-img active" src="/assets/images/og-pbs.webp"
+                        alt="Preside by Side — presidential comparison preview" fetchpriority="high">
+                </div>
+            </div>
+        </div>
+
+        <div class="gr-bottom">
+            <div class="gr-left">
+                <h2 class="sub">A presidential comparison, rendered as bars.</h2>
+                <p class="body-text">Pick any two American presidents and stack their faults side by side. Each one's
+                    misconduct is rendered as a bar — wider, brighter, and louder when the severity is higher.</p>
+                <p class="body-text">It is deliberately a partial view. Every president here also holds achievements
+                    this project sets aside on purpose, the better to see the low points laid out next to each other
+                    across parties and eras.</p>
+
+                <h2 class="sub">How it works</h2>
+                <p class="body-text">Every bar is a documented controversy, scandal, or policy failure — anchored to
+                    primary government documents, court rulings, inspector general reports, and established journalism.
+                    Initial 1–10 severity scores are AI-assisted estimates; readers submit their own, and the
+                    visualization re-weights from the running average.</p>
+            </div>
+            <div class="gr-right">
+                <div class="cta-copy">
+                    <p class="section-label">Launch</p>
+                    <h2 class="cta-headline">See the comparison.</h2>
+                    <p class="cta-body">Pick any two presidents and watch their faults stack up — weighted by
+                        severity, anchored to primary sources, rated by readers.</p>
+                </div>
+                <a href="/preside-by-side" class="cta-button">
+                    <span class="cta-button-label">Open Preside by Side</span>
+                    <span class="cta-button-chev" aria-hidden="true">›</span>
+                </a>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

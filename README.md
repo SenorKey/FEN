@@ -24,7 +24,6 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/tarella-notes/` — iOS app showcase
 - `/tarella-privacy-policy/` — Privacy policy for Tarella Notes
 - `/wfpc/` — Warframe Price Checker
-- `/pental/` — Five-dimensional tactical battle game
 - `/match-analysis-ad/` — Promo page for the Match Analysis tool
 
 **Hidden / unlisted** (excluded from sitemap and disallowed in robots.txt):

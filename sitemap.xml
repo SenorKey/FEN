@@ -26,12 +26,6 @@
   </url>
 
   <url>
-    <loc>https://frontendneeded.com/pental/</loc>
-    <lastmod>2026-03-24</lastmod>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
     <loc>https://frontendneeded.com/match-analysis-ad/</loc>
     <lastmod>2026-04-26</lastmod>
     <priority>0.7</priority>
@@ -41,6 +35,24 @@
     <loc>https://frontendneeded.com/hire-me/</loc>
     <lastmod>2026-03-24</lastmod>
     <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/preside-by-side-ad/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/fresh-pull/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/trtbench/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <priority>0.7</priority>
   </url>
 
 </urlset>

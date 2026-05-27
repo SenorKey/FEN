@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/trtbench/trtbench.css">
+
+    <!-- JetBrains Mono for numbers, labels, tables, and code blocks —
+         the rest of the page rides the shared Playfair / DM Sans stack. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="trtbench — benchmarking YOLOv8n object detection across PyTorch, ONNX Runtime, and TensorRT on consumer NVIDIA hardware. A project on frontendneeded.com.">
+    <link rel="canonical" href="https://frontendneeded.com/trtbench/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/trtbench/">
+    <meta property="og:title" content="trtbench">
+    <meta property="og:description"
+        content="Benchmarking YOLOv8n across PyTorch, ONNX Runtime, and TensorRT on consumer NVIDIA hardware.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>trtbench</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/trtbench" class="active">Trtbench</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/fresh-pull">Fresh Pull</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content" class="gr-shell">
+
+        <div class="gr-top">
+            <div class="accent-bar"></div>
+            <p class="tech-eyebrow">YOLOv8n &middot; PyTorch &middot; ONNX Runtime &middot; TensorRT</p>
+            <h1 class="page-title">TRTBench</h1>
+            <p class="page-subtitle">Benchmarking YOLOv8n object detection across PyTorch, ONNX Runtime, and TensorRT
+                on consumer NVIDIA hardware.</p>
+        </div>
+
+        <div class="gr-bottom">
+            <!-- ─────────────────────────────────────────────────────
+                 gr-left — README content, rendered as HTML.
+                 Mirrors README.md section-for-section so the page is
+                 the canonical write-up of the project, not a teaser.
+                 ───────────────────────────────────────────────────── -->
+            <div class="gr-left">
+                <h2 class="sub tb-readme-heading">README</h2>
+                <p class="body-text">This project builds a deployment pipeline for a pretrained real-time object
+                    detector and quantifies its inference performance across three runtimes spanning the
+                    eager-execution-to-ahead-of-time-compilation spectrum. Each runtime executes the same model on the
+                    same hardware and the same fixed input; only the execution strategy differs. The benchmark uses
+                    warmup runs, explicit CUDA synchronization, and reports <span class="mono-inline">p50/p95/p99</span>
+                    latencies over 200 timed iterations per configuration. The headline result: TensorRT FP16 reaches
+                    <strong>1,211 fps with a p99 latency of 1.15 ms</strong> on an RTX 4080, a 3.0&times; throughput
+                    improvement over PyTorch eager-mode CUDA on identical inputs.</p>
+
+                <h2 class="sub">Headline results</h2>
+                <p class="body-text">All measurements on an RTX 4080 (Ada Lovelace, 16 GB), Windows 11, with YOLOv8n at
+                    640&times;640 input resolution and batch size 1. Each row is 200 timed iterations after 20 warmup
+                    iterations, with explicit CUDA synchronization around the timed region. Times are pure model
+                    forward pass, exclusive of preprocessing and NMS postprocessing.</p>
+
+                <div class="tb-table-wrap">
+                    <table class="tb-table">
+                        <thead>
+                            <tr>
+                                <th>Runtime</th>
+                                <th>Precision</th>
+                                <th>p50 (ms)</th>
+                                <th>p95 (ms)</th>
+                                <th>p99 (ms)</th>
+                                <th>Throughput (fps)</th>
+                                <th>Speedup vs PyTorch CUDA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tb-row-highlight">
+                                <td>TensorRT (CUDA)</td>
+                                <td>FP16</td>
+                                <td>0.83</td>
+                                <td>0.90</td>
+                                <td>1.15</td>
+                                <td>1211</td>
+                                <td><strong>3.01&times;</strong></td>
+                            </tr>
+                            <tr>
+                                <td>TensorRT (CUDA)</td>
+                                <td>FP32</td>
+                                <td>1.17</td>
+                                <td>1.38</td>
+                                <td>1.54</td>
+                                <td>854</td>
+                                <td>2.12&times;</td>
+                            </tr>
+                            <tr>
+                                <td>PyTorch (CUDA)</td>
+                                <td>FP32</td>
+                                <td>2.49</td>
+                                <td>3.05</td>
+                                <td>3.97</td>
+                                <td>402</td>
+                                <td>1.00&times;</td>
+                            </tr>
+                            <tr>
+                                <td>ONNX Runtime (CUDA)</td>
+                                <td>FP32</td>
+                                <td>2.57</td>
+                                <td>3.01</td>
+                                <td>3.53</td>
+                                <td>389</td>
+                                <td>0.97&times;</td>
+                            </tr>
+                            <tr>
+                                <td>ONNX Runtime (CPU)</td>
+                                <td>FP32</td>
+                                <td>7.31</td>
+                                <td>9.58</td>
+                                <td>11.28</td>
+                                <td>137</td>
+                                <td>0.34&times;</td>
+                            </tr>
+                            <tr>
+                                <td>PyTorch (CPU)</td>
+                                <td>FP32</td>
+                                <td>10.26</td>
+                                <td>12.22</td>
+                                <td>15.90</td>
+                                <td>97</td>
+                                <td>0.24&times;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="body-text">The progression top-to-bottom matches the spectrum the project set out to measure.
+                    PyTorch eager mode and ONNX Runtime perform within 3% of each other on CUDA — both leave Python
+                    interpreter overhead behind, but neither applies whole-program compilation. The 2.1&times; jump to
+                    TensorRT FP32 is the cost of moving from load-time graph optimization to ahead-of-time kernel
+                    compilation against the specific GPU architecture, visible as both faster medians <em>and</em>
+                    substantially tighter distributions: TensorRT picks one optimal kernel implementation at build
+                    time, so every inference runs the same code path. The further 1.4&times; to TensorRT FP16 is the
+                    Tensor Core dividend on Ada Lovelace — the same compiled engine, re-emitted in reduced precision,
+                    dispatched to dedicated hardware. On CPU, ONNX Runtime beats PyTorch eager by 1.4&times;, the only
+                    configuration where the two diverge meaningfully, with both showing long right tails characteristic
+                    of CPU scheduling jitter on Windows.</p>
+
+                <h2 class="sub">Methodology</h2>
+
+                <h3 class="sub tb-sub-h3">Benchmark protocol</h3>
+                <p class="body-text">Each configuration is benchmarked with the same procedure to make the results
+                    directly comparable across runtimes.</p>
+
+                <p class="body-text"><strong>What's measured.</strong> The timing window contains only the model
+                    forward pass on a tensor that already lives on the target device. Input preparation
+                    (host-to-device transfer, dtype casting for FP16 engines) is done once before the timing loop.
+                    Postprocessing — non-maximum suppression, box decoding, label assignment — is excluded entirely.
+                    This isolates what the runtimes actually do differently. End-to-end pipeline performance is a
+                    separate concern, dominated in this configuration by NMS rather than by the model itself.</p>
+
+                <p class="body-text"><strong>Warmup.</strong> Each configuration runs 20 untimed iterations before
+                    timing begins. First inferences are unrepresentative: cuDNN autotuners select kernels on first
+                    call, GPU clocks ramp from idle, lazy initialization paths execute, and any JIT compilation
+                    happens. Including these in the measured distribution would bias the mean upward and inflate the
+                    apparent tail. Twenty iterations is enough for all of the above to settle on this hardware; the
+                    warmup loop is invariant across runtimes.</p>
+
+                <p class="body-text"><strong>GPU synchronization.</strong> For CUDA backends,
+                    <span class="mono-inline">torch.cuda.synchronize()</span> is called immediately before reading the
+                    start time and again before reading the end time. CUDA kernel launches are asynchronous: a naive
+                    <span class="mono-inline">time.perf_counter()</span> call around <span class="mono-inline">model(x)</span>
+                    measures only the launch overhead, not the actual GPU work. The TensorRT backend uses an explicit
+                    CUDA stream and synchronizes on the stream rather than the global context, which is the correct
+                    primitive for stream-bound execution.</p>
+
+                <p class="body-text"><strong>Sample size.</strong> Each timed measurement is the median (p50) and tail
+                    (p95, p99) over 200 iterations. The mean alone is uninformative for distributions with long right
+                    tails — which most inference workloads have. p99 specifically is the metric production systems
+                    care about, because tail latencies dominate user-visible behavior and SLA compliance.</p>
+
+                <p class="body-text"><strong>Fixed input.</strong> All configurations evaluate the same NumPy tensor —
+                    shape <span class="mono-inline">(1, 3, 640, 640)</span>, seeded random values, FP32 source —
+                    generated once per run. The TensorRT FP16 backend casts to FP16 inside its input-preparation step,
+                    outside the timing window. This ensures any performance difference reflects the runtime, not the
+                    input.</p>
+
+                <p class="body-text"><strong>Configuration metadata.</strong> Each results file includes a
+                    <span class="mono-inline">system</span> block recording the PyTorch version, CUDA version, ONNX
+                    Runtime version, TensorRT version, GPU device, OS, and a UTC timestamp. This is the record of what
+                    software actually ran when the data was collected, and it is what makes the benchmark reproducible
+                    after the fact.</p>
+
+                <h3 class="sub tb-sub-h3">Verifying runtime parity</h3>
+                <p class="body-text">Before benchmarking, the ONNX export was verified to produce numerically
+                    equivalent outputs to the source PyTorch model. The parity check compares both raw output tensors
+                    and final detections (post-NMS) on a set of test inputs; differences fall within floating-point
+                    tolerance (~1e-4 on raw outputs, identical detections at standard confidence thresholds).</p>
+
+                <p class="body-text">The TensorRT engines were validated functionally rather than numerically: both
+                    the FP32 and FP16 engines produce identical detection results (persons and bus counts) to the
+                    PyTorch reference on the Ultralytics sample image. Strict numerical parity between PyTorch and
+                    TensorRT FP32 is a reasonable extension and is noted in Future work below.</p>
+
+                <h3 class="sub tb-sub-h3">Software stack</h3>
+                <p class="body-text">Windows benchmark results in this README were collected in a single session under
+                    the following stack:</p>
+
+                <div class="tb-table-wrap">
+                    <table class="tb-table tb-table-narrow">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>OS</td>
+                                <td>Windows 11 (build 26200)</td>
+                            </tr>
+                            <tr>
+                                <td>Python</td>
+                                <td>3.12.5</td>
+                            </tr>
+                            <tr>
+                                <td>PyTorch</td>
+                                <td>2.12.0+cu126</td>
+                            </tr>
+                            <tr>
+                                <td>ONNX Runtime</td>
+                                <td>1.26.0 (CUDA EP)</td>
+                            </tr>
+                            <tr>
+                                <td>TensorRT</td>
+                                <td>10.16.1.11</td>
+                            </tr>
+                            <tr>
+                                <td>NVIDIA driver</td>
+                                <td>596.49</td>
+                            </tr>
+                            <tr>
+                                <td>Ultralytics</td>
+                                <td>8.4.51</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="body-text">macOS results were collected on a separate machine running Python 3.14.3 with
+                    PyTorch 2.12.0 (MPS backend) and ONNX Runtime 1.26.0 (CPU execution provider). Full system metadata
+                    is captured inline in each results JSON file under the <span class="mono-inline">system</span> key.
+                </p>
+
+                <h3 class="sub tb-sub-h3">Hardware</h3>
+                <p class="body-text"><strong>Windows (primary benchmark target):</strong> NVIDIA RTX 4080 (Ada
+                    Lovelace, 16 GB VRAM), AMD Ryzen 7 9800X3D, Windows 11. This is the configuration the TensorRT
+                    engines were built and tuned for.</p>
+
+                <p class="body-text"><strong>macOS (cross-platform baseline):</strong> MacBook Air M2 (8-core CPU,
+                    8-core GPU), used for CPU and MPS results. TensorRT is NVIDIA-only and is not available on this
+                    machine.</p>
+
+                <h2 class="sub">What's in this repo</h2>
+                <pre class="tb-code"><code>detect_live.py          Live PyTorch inference on webcam or video with FPS overlay
+export_onnx.py          Export YOLOv8n PyTorch weights to ONNX
+export_trt.py           Build FP32 and FP16 TensorRT engines from the ONNX model
+parity_check.py         Verify ONNX Runtime outputs match PyTorch within tolerance
+bench.py                Benchmark harness: warmup, sync, p50/p95/p99 across runtimes
+make_table.py           Combine per-machine results JSONs into a unified comparison table
+make_chart.py           Render two-panel latency distribution chart from a results JSON</code></pre>
+
+                <p class="body-text">Results from the benchmark runs live in
+                    <span class="mono-inline">results_win.json</span> and
+                    <span class="mono-inline">results_mac.json</span>. Both files include a
+                    <span class="mono-inline">system</span> block with the full software stack used to collect that
+                    data.</p>
+
+                <h2 class="sub">Reproducing the results</h2>
+
+                <h3 class="sub tb-sub-h3">Install</h3>
+                <p class="body-text">Clone the repository and create a virtual environment:</p>
+                <pre class="tb-code"><code>git clone https://github.com/senorkey/trtbench.git
+cd trtbench
+python -m venv .venv
+source .venv/bin/activate              # Windows: .venv\Scripts\activate
+pip install -r requirements.txt</code></pre>
+
+                <p class="body-text">For CUDA acceleration on Windows or Linux, install PyTorch from the PyTorch index
+                    <em>before</em> (or <em>separately from</em>) installing other packages, because the CUDA wheels
+                    are not on PyPI:</p>
+                <pre class="tb-code"><code>pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126</code></pre>
+
+                <p class="body-text">For TensorRT (Windows or Linux with NVIDIA GPU):</p>
+                <pre class="tb-code"><code>pip install tensorrt</code></pre>
+
+                <p class="body-text tb-gotcha"><strong>Gotcha:</strong> Installing
+                    <span class="mono-inline">tensorrt</span> after a CUDA-enabled PyTorch can silently replace
+                    <span class="mono-inline">torch</span> with the CPU-only PyPI wheel. If
+                    <span class="mono-inline">torch.cuda.is_available()</span> returns
+                    <span class="mono-inline">False</span> after a TensorRT install, reinstall PyTorch from the CUDA
+                    index URL above. The metadata block in <span class="mono-inline">bench.py</span>'s output makes
+                    this kind of regression visible after the fact.</p>
+
+                <h3 class="sub tb-sub-h3">Export the model artifacts</h3>
+                <p class="body-text">The benchmark needs three model files: the original PyTorch weights, an ONNX
+                    export, and (for GPU machines) two TensorRT engines.</p>
+                <pre class="tb-code"><code># ONNX export from yolov8n.pt
+python export_onnx.py
+
+# TensorRT engines (Windows/Linux + NVIDIA GPU only)
+python export_trt.py</code></pre>
+
+                <p class="body-text">The PyTorch weights (<span class="mono-inline">yolov8n.pt</span>) are downloaded
+                    automatically by Ultralytics on first use. TensorRT engines are GPU-architecture-specific and tuned
+                    for the build host; the engines in this repository's results were built on an RTX 4080 and would
+                    need to be rebuilt for other GPU families.</p>
+
+                <h3 class="sub tb-sub-h3">Run the benchmark</h3>
+                <pre class="tb-code"><code># Everything available on this machine:
+python bench.py --out results.json
+
+# Restrict to one runtime / device / precision:
+python bench.py --backend tensorrt --variant fp16 --out results.json</code></pre>
+
+                <p class="body-text">The harness automatically detects which configurations can run on the current
+                    machine (PyTorch CPU/CUDA/MPS, ONNX Runtime CPU/CUDA, TensorRT FP32/FP16) and skips the rest. Each
+                    timed configuration takes about ten seconds; the full six-configuration sweep on the RTX 4080
+                    takes roughly a minute.</p>
+
+                <p class="body-text">To combine results across machines and render the comparison table and chart:</p>
+                <pre class="tb-code"><code>python make_table.py results_win.json results_mac.json
+python make_chart.py results_win.json --out latency_distributions.png</code></pre>
+
+                <h2 class="sub">Scope and limitations</h2>
+                <p class="body-text">This project benchmarks <strong>single-image inference latency at fixed input
+                    resolution on consumer hardware.</strong> Specifically out of scope:</p>
+                <ul class="tb-list">
+                    <li><strong>No model training.</strong> Uses pretrained Ultralytics YOLOv8n COCO weights unchanged.
+                        The focus is the deployment and benchmarking pipeline, not model accuracy or task-specific
+                        fine-tuning.</li>
+                    <li><strong>Batch size 1 only.</strong> Throughput would scale differently with larger batches;
+                        multi-batch behavior is a separate measurement.</li>
+                    <li><strong>Single input resolution (640&times;640).</strong> Different resolutions trade accuracy
+                        for speed and would produce a different comparison.</li>
+                    <li><strong>No INT8 quantization benchmark.</strong> INT8 with proper calibration is a natural
+                        next step but requires a calibration dataset and a numerical-accuracy delta measurement to be
+                        defensible. Listed in Future work.</li>
+                    <li><strong>No edge or embedded benchmarks.</strong> All results are on x86 desktop hardware.
+                        Jetson and similar embedded NVIDIA targets are out of scope.</li>
+                    <li><strong>Pure model inference, not end-to-end pipeline.</strong> Preprocessing and
+                        postprocessing (NMS) are excluded from timing. End-to-end pipeline throughput in a real
+                        application is bounded by these stages and would not match the raw inference numbers reported
+                        here.</li>
+                </ul>
+
+                <h2 class="sub">Future work</h2>
+                <ul class="tb-list">
+                    <li><strong>TensorRT INT8 quantization</strong> with calibration on a COCO subset, plus measured
+                        accuracy delta on a validation set.</li>
+                    <li><strong>Numerical parity check between TensorRT FP32 engine and PyTorch source model</strong>
+                        (currently verified only functionally via identical detection counts on sample images).</li>
+                    <li><strong>Edge GPU benchmark on Jetson Orin Nano</strong> to extend the runtime spectrum to
+                        embedded NVIDIA hardware.</li>
+                    <li><strong>End-to-end pipeline benchmark</strong> including preprocessing and NMS, with GPU NMS
+                        kernels where the runtime supports them.</li>
+                    <li><strong>Multi-batch throughput measurement</strong> to characterize how the inference-per-image
+                        cost scales with batch size on each runtime.</li>
+                    <li><strong>Domain-specific fine-tuning</strong> on a representative dataset, to extend the
+                        project from "deployment pipeline for a stock model" to "deployment pipeline for a trained
+                        model".</li>
+                </ul>
+            </div>
+
+            <!-- ─────────────────────────────────────────────────────
+                 gr-right — focused CTA pointing at the GitHub repo.
+                 Datasheet card style: corner ticks, mono labels,
+                 copy at top + button pinned bottom-right.
+                 ───────────────────────────────────────────────────── -->
+            <div class="gr-right">
+                <p class="gh-label">Repository</p>
+                <p class="gh-body">All scripts, the benchmark harness, both results JSONs, and the full write-up live
+                    on GitHub. Reproducible from a clean clone on Windows, Linux, or macOS.</p>
+
+                <ul class="gh-meta">
+                    <li><span class="gh-meta-key">Language</span><span class="gh-meta-val">Python</span></li>
+                    <li><span class="gh-meta-key">License</span><span class="gh-meta-val">MIT</span></li>
+                    <li><span class="gh-meta-key">Stack</span><span class="gh-meta-val">PyTorch &middot; ORT &middot; TensorRT</span></li>
+                </ul>
+
+                <a href="https://github.com/SenorKey/trtbench" class="gh-button" target="_blank" rel="noopener">
+                    <svg class="gh-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="currentColor"
+                            d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1.16-.02-2.11-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.68.8.56C20.22 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" />
+                    </svg>
+                    <span class="gh-button-label">View on GitHub</span>
+                    <span class="gh-button-chev" aria-hidden="true">›</span>
+                </a>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+/* ═══════════════════════════════════════════════
+   trtbench.css — Styles specific to /trtbench
+   frontendneeded.com
+
+   NVIDIA / TensorRT heritage: near-black field with
+   a faint warm-green tint, NVIDIA green as the
+   accent, JetBrains Mono for numbers, labels, and
+   code. The page is a long README rendered as HTML,
+   so the type system needs to handle prose, tables,
+   code blocks, and a CTA card cleanly.
+   ═══════════════════════════════════════════════ */
+
+:root {
+    --accent: #76b900;
+    --accent-rgb: 118, 185, 0;
+    --bg: #0a0d09;
+
+    /* Override the shared cool-blue --ink with a neutral
+       off-white so it doesn't fight the warm-green field. */
+    --ink: #e8eae6;
+    --muted: rgba(232, 234, 230, 0.5);
+
+    --tb-rule: rgba(118, 185, 0, 0.18);
+    --tb-rule-strong: rgba(118, 185, 0, 0.32);
+    --tb-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ═══════════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════════ */
+
+.site-nav {
+    background: #050805;
+    border-image: linear-gradient(90deg,
+            transparent,
+            rgba(118, 185, 0, 0.35),
+            rgba(118, 185, 0, 0.15),
+            rgba(118, 185, 0, 0.35),
+            transparent) 1;
+    box-shadow: 0 1px 12px rgba(118, 185, 0, 0.06);
+}
+
+.nav-dropdown-menu {
+    background: #050805;
+}
+
+/* ═══════════════════════════════════════════════
+   GR-SHELL — subtle dot grid backdrop
+   ═══════════════════════════════════════════════ */
+
+body {
+    background-color: var(--bg);
+    background-image: radial-gradient(circle at center,
+            rgba(118, 185, 0, 0.07) 1px,
+            transparent 1.5px);
+    background-size: 24px 24px;
+}
+
+.gr-top,
+.gr-left,
+.gr-right {
+    background: transparent;
+}
+
+/* gr-left gets more vertical padding and a tighter
+   right gutter than the shared default — the README
+   content is long-form and benefits from breathing room
+   without losing too much line length. */
+.gr-left {
+    padding-right: 8%;
+}
+
+/* Re-tint the golden-ratio dividers in green to match
+   the accent. */
+.gr-top {
+    border-image: linear-gradient(90deg,
+            transparent,
+            rgba(118, 185, 0, 0.45),
+            rgba(118, 185, 0, 0.7),
+            rgba(118, 185, 0, 0.45),
+            transparent) 1;
+    box-shadow:
+        0 1px 30px rgba(118, 185, 0, 0.10),
+        0 1px 60px rgba(118, 185, 0, 0.05);
+}
+
+.gr-left {
+    border-image: linear-gradient(180deg,
+            transparent,
+            rgba(118, 185, 0, 0.45),
+            rgba(118, 185, 0, 0.7),
+            rgba(118, 185, 0, 0.45),
+            transparent) 1;
+    box-shadow:
+        1px 0 30px rgba(118, 185, 0, 0.10),
+        1px 0 60px rgba(118, 185, 0, 0.05);
+}
+
+@media (max-width: 1000px) {
+    .gr-left {
+        border-image: linear-gradient(90deg,
+                transparent,
+                rgba(118, 185, 0, 0.45),
+                rgba(118, 185, 0, 0.7),
+                rgba(118, 185, 0, 0.45),
+                transparent) 1;
+        box-shadow:
+            0 1px 30px rgba(118, 185, 0, 0.10),
+            0 1px 60px rgba(118, 185, 0, 0.05);
+    }
+}
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY — eyebrow chip, title glow, body type
+   ═══════════════════════════════════════════════ */
+
+.tech-eyebrow {
+    font-family: var(--tb-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    opacity: 0.85;
+}
+
+.page-title {
+    font-family: var(--tb-mono);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-shadow:
+        0 0 4px rgba(232, 234, 230, 0.5),
+        0 0 18px rgba(118, 185, 0, 0.25),
+        0 0 40px rgba(118, 185, 0, 0.12);
+}
+
+.page-subtitle {
+    max-width: 52ch;
+}
+
+/* "README" heading at the top of gr-left — bigger and
+   monospace so it reads as the title of the long-form
+   write-up that follows, not just another section
+   heading. Bordered underline keeps it anchored to the
+   page rhythm without competing with the page-title. */
+.tb-readme-heading {
+    font-family: var(--tb-mono) !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase;
+    color: var(--accent) !important;
+    margin-top: 0 !important;
+    margin-bottom: 18px !important;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--tb-rule-strong);
+    text-shadow:
+        0 0 12px rgba(118, 185, 0, 0.25),
+        0 0 28px rgba(118, 185, 0, 0.1);
+}
+
+/* The shared h2.sub / h3.sub still drive heading color
+   via var(--accent), which is green now. Distinguish h3
+   from h2 so the methodology subsections feel like
+   children of their parent. */
+.tb-sub-h3 {
+    font-size: 0.95rem !important;
+    margin-top: 24px;
+    opacity: 0.88;
+    letter-spacing: 0.02em;
+}
+
+.mono-inline {
+    font-family: var(--tb-mono);
+    font-size: 0.88em;
+    color: var(--accent);
+    background: rgba(118, 185, 0, 0.08);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(118, 185, 0, 0.18);
+    white-space: nowrap;
+}
+
+.body-text strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.body-text em {
+    color: var(--ink);
+    font-style: italic;
+}
+
+/* Gotcha callout — same body-text scale but warned with
+   a left rule so it reads as a sidebar note. */
+.tb-gotcha {
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    background: rgba(118, 185, 0, 0.04);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 12px;
+    margin-top: 8px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Accent bar — short solid green stripe with a soft glow,
+   like a status LED above the title. */
+.accent-bar {
+    width: 64px;
+    height: 3px;
+    background: var(--accent);
+    box-shadow:
+        0 0 8px rgba(118, 185, 0, 0.55),
+        0 0 22px rgba(118, 185, 0, 0.25);
+}
+
+/* ═══════════════════════════════════════════════
+   TABLES — the headline-results and software-stack
+   blocks. Mono numbers + hairline green rules so the
+   table feels like a measurement readout, not a
+   spreadsheet.
+   ═══════════════════════════════════════════════ */
+
+.tb-table-wrap {
+    overflow-x: auto;
+    margin: 14px 0 18px;
+    border: 1px solid var(--tb-rule);
+    border-radius: 4px;
+    background: rgba(118, 185, 0, 0.02);
+}
+
+.tb-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--tb-mono);
+    font-size: 0.78rem;
+    color: var(--ink);
+}
+
+.tb-table thead th {
+    background: rgba(118, 185, 0, 0.08);
+    color: var(--accent);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    border-bottom: 1px solid var(--tb-rule-strong);
+    white-space: nowrap;
+}
+
+.tb-table tbody td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--tb-rule);
+    letter-spacing: 0.01em;
+}
+
+.tb-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tb-table tbody tr:hover {
+    background: rgba(118, 185, 0, 0.04);
+}
+
+/* Highlight the headline row (TensorRT FP16) with a
+   stronger green tint so the 1211 fps line jumps. */
+.tb-row-highlight td {
+    background: rgba(118, 185, 0, 0.06);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.tb-row-highlight td strong {
+    color: var(--accent);
+}
+
+.tb-table-narrow {
+    font-size: 0.78rem;
+    max-width: 460px;
+}
+
+/* ═══════════════════════════════════════════════
+   CODE BLOCKS — file listing + bash commands
+   ═══════════════════════════════════════════════ */
+
+.tb-code {
+    font-family: var(--tb-mono);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--ink);
+    background: rgba(5, 8, 5, 0.55);
+    border: 1px solid var(--tb-rule);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    padding: 14px 16px;
+    margin: 12px 0 16px;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.tb-code code {
+    font-family: inherit;
+    background: none;
+    padding: 0;
+    border: none;
+    color: inherit;
+}
+
+/* ═══════════════════════════════════════════════
+   LISTS — scope & future work
+   ═══════════════════════════════════════════════ */
+
+.tb-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.tb-list li {
+    position: relative;
+    padding-left: 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.tb-list li::before {
+    content: "›";
+    position: absolute;
+    left: 4px;
+    top: 0;
+    color: var(--accent);
+    font-family: var(--tb-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.tb-list li strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════
+   GR-RIGHT — GitHub CTA
+
+   gr-right hosts the CTA layout directly — no inner
+   card wrapper. Children stack in a flex column; the
+   button gets margin-top:auto + align-self:flex-end
+   to pin to the bottom-right of the panel. Shared
+   .gr-right padding (32px 36px) provides the
+   breathing room from gr-right's own border.
+   ═══════════════════════════════════════════════ */
+
+.gr-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.gh-label {
+    font-family: var(--tb-mono);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+}
+
+.gh-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0 0 14px;
+    max-width: 34ch;
+}
+
+.gh-meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--tb-rule);
+}
+
+.gh-meta li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--tb-rule);
+    font-family: var(--tb-mono);
+}
+
+.gh-meta-key {
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gh-meta-val {
+    font-size: 0.78rem;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+/* Button pinned to the bottom-right of the card.
+   margin-top:auto pushes it to the bottom of the flex
+   column; align-self:flex-end pulls it to the right
+   edge. The card now fills gr-right's full height
+   (height:100%), so this distributes the empty space
+   into the gap above the button. */
+.gh-button {
+    margin-top: auto;
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--tb-mono);
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--bg);
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 10px 16px;
+    text-decoration: none;
+    box-shadow:
+        0 4px 16px rgba(118, 185, 0, 0.28),
+        0 0 0 1px rgba(118, 185, 0, 0.35);
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+}
+
+.gh-button:hover {
+    transform: translateY(-2px);
+    background: #8ed004;
+    box-shadow:
+        0 8px 22px rgba(118, 185, 0, 0.45),
+        0 0 0 1px rgba(118, 185, 0, 0.55);
+}
+
+.gh-button:active {
+    transform: translateY(0);
+}
+
+.gh-icon {
+    flex-shrink: 0;
+    color: var(--bg);
+}
+
+.gh-button-chev {
+    font-size: 1.05rem;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE — shared <=1000px breakpoint
+   ═══════════════════════════════════════════════ */
+
+@media (max-width: 1000px) {
+    .gr-left {
+        padding-right: 28px;
+    }
+
+    .gh-cta {
+        padding: 22px 22px 20px;
+    }
+
+    .tb-table {
+        font-size: 0.72rem;
+    }
+}

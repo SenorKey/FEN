@@ -2126,3 +2126,22 @@ body.hydrated .picker-badge {
         --bar-step: 7.3%;
     }
 }
+/* ═══════════════════════════════════════════════
+   BUILT-BY — tiny unlinked credit in the footer
+
+   Sits at the very bottom of .site-footer, below the
+   FAQ grid + suggestion form. Deliberately small,
+   muted, uppercase tracking — a quiet maker's mark
+   that doesn't compete with the page's content and
+   doesn't leak users out to the rest of FEN.
+   ═══════════════════════════════════════════════ */
+.built-by {
+    margin: 36px 0 0;
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+}

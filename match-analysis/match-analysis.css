@@ -253,3 +253,29 @@ body {
         width: 100%;
     }
 }
+/* ═══════════════════════════════════════════════
+   BUILT-BY — tiny unlinked credit in the corner
+
+   The React app fills the viewport, so this credit
+   is fixed to the bottom-right corner where it stays
+   out of the workflow. pointer-events:none means it
+   never intercepts clicks on the SVG pitch or form
+   controls underneath. Deliberately unlinked —
+   curious users can find the maker through the
+   /match-analysis-ad portfolio page rather than a
+   leak link out of the app.
+   ═══════════════════════════════════════════════ */
+.built-by {
+    position: fixed;
+    bottom: 6px;
+    right: 10px;
+    margin: 0;
+    font-family: 'Saira', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.28);
+    pointer-events: none;
+    z-index: 1;
+}

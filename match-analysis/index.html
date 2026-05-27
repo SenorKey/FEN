@@ -30,26 +30,18 @@
 </head>
 
 <body>
-    <a href="#main-content" class="skip-link">Skip to content</a>
-    <nav class="site-nav">
-        <a href="/" class="nav-home">FEN</a>
-        <div class="nav-dropdown">
-            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
-            <div class="nav-dropdown-menu">
-                <a href="/wfpc">WF Price Checker</a>
-                <a href="/preside-by-side">Preside by Side</a>
-                <a href="/tarella-notes">Tarella Notes</a>
-                <a href="/match-analysis-ad" class="active">Match Analysis</a>
-                <a href="/fresh-pull">Fresh Pull</a>
-                <a href="/pental">Pental</a>
-            </div>
-        </div>
-        <a href="/hire-me">Hire Me</a>
-    </nav>
-
     <main id="main-content">
         <div id="match-analysis-root"></div>
     </main>
+
+    <!--
+      Tiny credit pinned to the bottom-right of the viewport.
+      Deliberately unlinked: this page is a standalone product
+      and shouldn't leak users out to the rest of FEN. pointer-events
+      none keeps it from intercepting clicks on the React app
+      below it.
+    -->
+    <p class="built-by" aria-hidden="true">Built by Key</p>
 
     <!-- React from CDN — no npm, no build step. Babel compiles JSX in-browser. -->
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
