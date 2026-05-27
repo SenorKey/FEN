@@ -993,6 +993,7 @@ body.hydrated .picker-badge {
     letter-spacing: -0.01em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
@@ -2054,6 +2055,7 @@ body.hydrated .picker-badge {
         overflow: hidden;
         word-break: break-word;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         flex: 1 1 0;
         min-width: 0;
