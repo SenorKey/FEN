@@ -25,12 +25,15 @@ to /etc/preside-by-side/config.env). Keys:
     GLOBAL_RATE_LIMIT_MAX / _WINDOW_SEC   service-wide submission ceiling
     ORIGIN_REJECT_THRESHOLD / _WINDOW_SEC origin-rejections from one IP
                                           before a probe alert fires
+    RATING_LOG_ENRICH            add bar label + device summary to rating logs
+    PRESIDENTS_DIR               override path to data/presidents/*.json
 """
 
 import atexit
 import datetime
 import hashlib
 import hmac
+import json
 import logging
 import os
 import pathlib
@@ -151,6 +154,25 @@ RATING_MIN_DISPLAY = int(os.environ.get('RATING_MIN_DISPLAY', '5'))
 RATING_LOG_TO_DISCORD = os.environ.get(
     'RATING_LOG_TO_DISCORD', '1'
 ).strip().lower() not in ('0', 'false', 'no', '')
+
+# Enrich each rating log line with extra context: a human-readable bar
+# label and a parsed device/OS/browser summary. Default on. Both are
+# local, cheap, and best-effort — a missing/unreadable JSON or an
+# unrecognizable User-Agent just omits that piece; it never blocks or
+# fails the vote. Set to 0 to fall back to the terse one-line format.
+RATING_LOG_ENRICH = os.environ.get(
+    'RATING_LOG_ENRICH', '1'
+).strip().lower() not in ('0', 'false', 'no', '')
+
+# Where the per-president bar JSON lives, for bar_id -> shortLabel lookups.
+# Same resolution as backfill_bar_ids.py: <repo>/data/presidents. The
+# deployed service is --chdir'd into <repo>/server, so this sibling dir is
+# present and readable (ProtectSystem=strict mounts it read-only, which is
+# all a label lookup needs). Override with PRESIDENTS_DIR if layout differs.
+PRESIDENTS_DIR = pathlib.Path(
+    os.environ.get('PRESIDENTS_DIR')
+    or pathlib.Path(__file__).resolve().parent.parent / 'data' / 'presidents'
+)
 
 # HMAC key for hashing IPs in the ratings table. Set in config.env. If
 # unset, a per-process random key is generated and a WARN is logged —
@@ -391,6 +413,12 @@ _origin_lock = threading.Lock()
 _origin_buckets = {}
 _origin_alerted = {}
 
+# Bar-label cache: president slug -> {bar_id: shortLabel}. The JSON files
+# are static curated content, so we load each president once and keep it.
+# Bounded by the number of president files (~dozens).
+_label_lock = threading.Lock()
+_label_cache = {}
+
 
 def clean_input(s):
     """Trim whitespace and strip ASCII control chars from user-supplied text."""
@@ -409,6 +437,82 @@ def escape_discord_md(s):
 def get_client_ip():
     """First hop from X-Forwarded-For if present, else the socket peer."""
     return request.headers.get('X-Forwarded-For', request.remote_addr or '').split(',')[0].strip()
+
+
+def bar_short_label(president, bar_id):
+    """Curated shortLabel for (president, bar_id), or '' if the JSON can't
+    be read or the id isn't present. Cached per president; the data files
+    are static curated content (not user input), so a one-time load per
+    slug is enough. Never raises — a missing/malformed file just yields ''
+    and we log the id alone."""
+    if not president or not bar_id or not _PRESIDENT_RE.match(president):
+        return ''
+    with _label_lock:
+        labels = _label_cache.get(president)
+    if labels is None:
+        labels = {}
+        try:
+            with open(PRESIDENTS_DIR / (president + '.json'), encoding='utf-8') as f:
+                for bar in json.load(f):
+                    bid = bar.get('id')
+                    if bid:
+                        labels[bid] = (bar.get('shortLabel') or bar.get('title') or '')[:120]
+        except Exception:
+            # Missing/unreadable/malformed — cache the empty map so we don't
+            # stat the file on every vote, and just log without a label.
+            pass
+        with _label_lock:
+            _label_cache[president] = labels
+    return labels.get(bar_id, '')
+
+
+def parse_user_agent(ua):
+    """Dependency-free UA summary -> 'Device · OS · Browser'. We emit only
+    tokens we recognize (never the raw UA), so nothing user-controlled ever
+    reaches the log line. Returns '' if nothing is recognizable."""
+    if not ua:
+        return ''
+    s = ua.lower()
+    if any(b in s for b in ('bot', 'crawl', 'spider', 'slurp')):
+        device = 'Bot'
+    elif 'ipad' in s or 'tablet' in s or ('android' in s and 'mobile' not in s):
+        device = 'Tablet'
+    elif 'mobi' in s or 'iphone' in s or 'ipod' in s or 'android' in s:
+        device = 'Mobile'
+    else:
+        device = 'Desktop'
+
+    if 'iphone' in s or 'ipad' in s or 'ipod' in s:
+        osname = 'iOS'
+    elif 'android' in s:
+        osname = 'Android'
+    elif 'windows' in s:
+        osname = 'Windows'
+    elif 'mac os' in s or 'macintosh' in s:
+        osname = 'macOS'
+    elif 'cros' in s:
+        osname = 'ChromeOS'
+    elif 'linux' in s:
+        osname = 'Linux'
+    else:
+        osname = ''
+
+    # Order matters: Edge/Opera/Chrome UAs all contain 'chrome'; iOS
+    # browsers wrap WebKit and advertise 'safari' regardless of brand.
+    if 'edg' in s:
+        browser = 'Edge'
+    elif 'opr' in s or 'opera' in s:
+        browser = 'Opera'
+    elif 'firefox' in s or 'fxios' in s:
+        browser = 'Firefox'
+    elif 'crios' in s or 'chrome' in s:
+        browser = 'Chrome'
+    elif 'safari' in s:
+        browser = 'Safari'
+    else:
+        browser = ''
+
+    return ' · '.join(p for p in (device, osname, browser) if p)
 
 
 def note_origin_rejection(ip):
@@ -844,6 +948,30 @@ def suggest():
     return jsonify(ok=True)
 
 
+def _rating_log_head(president, bar_id, rating, action, quarantined, ip_hash, label=''):
+    """Stable, greppable first line shared by the plain and enriched paths."""
+    return 'rating: %s/%s%s score=%d (%s%s) ip=%s' % (
+        president, bar_id,
+        ' "%s"' % label if label else '',
+        rating, action,
+        ', QUARANTINED' if quarantined else '',
+        ip_hash[:8],
+    )
+
+
+def _build_rating_log(president, bar_id, rating, action, quarantined, ip_hash, ua):
+    """Multi-line enriched rating log: the greppable head plus a device
+    line. Both enrichments are local, cheap, and best-effort (the helpers
+    never raise) — a missing label or unrecognizable UA just shortens the
+    message. Returns a single string ready to hand to a logger."""
+    label = bar_short_label(president, bar_id)
+    lines = [_rating_log_head(president, bar_id, rating, action, quarantined, ip_hash, label)]
+    device = parse_user_agent(ua)
+    if device:
+        lines.append('• device: %s' % device)
+    return '\n'.join(lines)
+
+
 @app.route('/rate', methods=['POST'])
 def rate():
     """Cast or update a single severity rating (1–10) for a bar.
@@ -986,19 +1114,17 @@ def rate():
         )
 
     # Same message goes to journalctl always, and to the Discord alerts
-    # channel when streaming is enabled. Format is greppable on both
-    # sinks: `rating: <pres>/<bar_id> score=<n> (<action>[, QUARANTINED]) ip=<8 hex>`.
-    # Truncated ip_hash keeps the Discord embed compact while still
-    # letting us spot same-voter patterns across consecutive events.
-    event_msg = 'rating: %s/%s score=%d (%s%s) ip=%s' % (
-        president, bar_id, rating, action,
-        ', QUARANTINED' if quarantined else '',
-        ip_hash[:8],
-    )
-    if RATING_LOG_TO_DISCORD:
-        notify.info(event_msg)
+    # channel when streaming is enabled. The greppable first line is stable
+    # on both sinks: `rating: <pres>/<bar_id>[ "label"] score=<n>
+    # (<action>[, QUARANTINED]) ip=<8 hex>`. Truncated ip_hash keeps the
+    # embed compact while still letting us spot same-voter patterns.
+    # Enrichment (bar label + device line) is local and cheap, so it runs
+    # inline; RATING_LOG_ENRICH=0 falls back to the bare head.
+    if RATING_LOG_ENRICH:
+        event_msg = _build_rating_log(president, bar_id, rating, action, quarantined, ip_hash, ua)
     else:
-        log.info(event_msg)
+        event_msg = _rating_log_head(president, bar_id, rating, action, quarantined, ip_hash)
+    (notify.info if RATING_LOG_TO_DISCORD else log.info)(event_msg)
     return jsonify(ok=True)
 
 

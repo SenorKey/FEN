@@ -156,6 +156,21 @@ function clearSaved() {
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
 }
 
+/* Merge a loaded/saved blob over INITIAL_DATA. A plain top-level spread
+   isn't enough: if `saved.scouting` exists it would wholesale-replace
+   INITIAL_DATA.scouting, dropping any keys added after that save was made
+   (e.g. setPieces). Components then crash on s.setPieces.map(...). So we
+   also merge the nested objects one level down to keep their defaults. */
+function mergeWithDefaults(saved) {
+    saved = saved || {};
+    return {
+        ...INITIAL_DATA, ...saved,
+        match: { ...INITIAL_DATA.match, ...(saved.match || {}) },
+        scouting: { ...INITIAL_DATA.scouting, ...(saved.scouting || {}) },
+        summary: { ...INITIAL_DATA.summary, ...(saved.summary || {}) },
+    };
+}
+
 /* ═══════════════════════════════════════════════════════════
    CONFIRM MODAL
    Replaces native window.confirm() — promise-based so callers can
@@ -1024,7 +1039,7 @@ function App() {
 
     useEffect(function () {
         var saved = loadSaved();
-        if (saved) setData(function () { return { ...INITIAL_DATA, ...saved }; });
+        if (saved) setData(function () { return mergeWithDefaults(saved); });
         setLoaded(true);
     }, []);
 
@@ -1105,7 +1120,7 @@ function App() {
         }}>
             <SaveButton data={data} onAction={closeMenus} confirm={confirm} />
             <LoadMenu currentData={data} onAction={closeMenus} confirm={confirm} onLoad={function (d) {
-                var merged = { ...INITIAL_DATA, ...d };
+                var merged = mergeWithDefaults(d);
                 var idMap = {};
                 merged.boards = (merged.boards || []).map(function (b) {
                     var newId = uid();
