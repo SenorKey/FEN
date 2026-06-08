@@ -24,7 +24,11 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/tarella-notes/` — iOS app showcase
 - `/tarella-privacy-policy/` — Privacy policy for Tarella Notes
 - `/wfpc/` — Warframe Price Checker
+- `/wfpc-privacy-policy/` — Privacy policy for Warframe Price Checker
 - `/match-analysis-ad/` — Promo page for the Match Analysis tool
+- `/preside-by-side-ad/` — Promo page for Preside by Side (presidential misconduct comparison)
+- `/fresh-pull/` — One-click browsing data cleaner for Chrome
+- `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
 
 **Hidden / unlisted** (excluded from sitemap and disallowed in robots.txt):
 

@@ -3,37 +3,43 @@
 
   <url>
     <loc>https://frontendneeded.com/</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/tarella-notes/</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/tarella-privacy-policy/</loc>
-    <lastmod>2026-03-11</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/wfpc/</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
+    <loc>https://frontendneeded.com/wfpc-privacy-policy/</loc>
+    <lastmod>2026-05-27</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://frontendneeded.com/match-analysis-ad/</loc>
-    <lastmod>2026-04-26</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/hire-me/</loc>
-    <lastmod>2026-03-24</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <priority>0.9</priority>
   </url>
 
