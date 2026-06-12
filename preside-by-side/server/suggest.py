@@ -143,9 +143,11 @@ RATING_BURST_WINDOW_SEC = int(os.environ.get('RATING_BURST_WINDOW_SEC', '60'))
 RATING_BURST_SUPPRESS_SEC = int(os.environ.get('RATING_BURST_SUPPRESS_SEC', '1800'))
 
 # Minimum number of (non-quarantined) votes before the public aggregate
-# endpoint will report a bar's average. Below this, the bar is omitted
-# entirely — n=1 averages are misleading and easy to manipulate.
-RATING_MIN_DISPLAY = int(os.environ.get('RATING_MIN_DISPLAY', '5'))
+# endpoint will report a bar's average. Default 1: the others' ratings
+# view shows every bar that has any votes at all, with the vote count
+# displayed alongside the average so a thin sample reads as one. Raise
+# this if early-vote manipulation ever becomes a real problem.
+RATING_MIN_DISPLAY = int(os.environ.get('RATING_MIN_DISPLAY', '1'))
 
 # Stream each accepted rating to the alerts webhook (the LOG_WEBHOOK_URL
 # channel). Default on. Set to 0/false to suppress — useful when a
@@ -1134,9 +1136,9 @@ def ratings(president):
 
     Returns {"<bar_id>": {"avg": 7.4, "count": 12, "sum": 88}, ...},
     including only bars whose non-quarantined vote count is >=
-    RATING_MIN_DISPLAY. Bars below that threshold are omitted entirely —
-    callers should treat a missing key as "not enough votes yet" and
-    render nothing.
+    RATING_MIN_DISPLAY (default 1, i.e. every bar with votes). A missing
+    key means "no votes yet" — the others' ratings view renders those
+    as empty rails.
 
     `sum` is the exact integer total of all (non-quarantined) ratings so
     the client can do lossless optimistic-update math (sum±vote, then

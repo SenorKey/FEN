@@ -3,7 +3,19 @@
    - Presidents keyed by id; each owns its own bars.
    - `selection` decides which president appears on each side.
    - JS renders bars, name badges, AND the picker dropdowns from these.
-   - Desktop: bar click toggles inline expansion (same-side bars push down).
+   - Three views (body[data-view], toggled by the centerline pill):
+       'user' (default)  every event is an unrated track; the visitor
+                         hovers/clicks to set their own 1–10 severity
+                         (desktop) or rates via the modal scale (mobile).
+                         No AI score is shown — including sort order.
+       'others'          the community averages — each bar sized by the
+                         mean of all reader votes (with the vote count
+                         beside it), zero-vote bars shown as empty rails.
+       'ai'              the AI-assisted bars, with the visitor's own
+                         ratings overlaid as "you · n" markers.
+   - Desktop: bar click toggles inline expansion (same-side bars push
+     down) — except unrated bars in the user view, where the bar is the
+     rating control and the event label opens the panel instead.
    - Mobile:  bar click opens a native <dialog> modal.
    ========================================================================== */
 
@@ -281,6 +293,48 @@
     }
 
     /* --------------------------------------------------------------------------
+       View mode — which severity the bars display.
+
+         'user' (default)  every event renders as an unrated track until
+                           the visitor rates it themselves; no AI score
+                           is visible anywhere (including sort order —
+                           see the --order-user notes in renderSide).
+         'others'          the community averages from /api/ratings/,
+                           sized by mean reader vote with the count
+                           shown beside it. Zero-vote bars stay rails.
+         'ai'              the original AI-assisted bars, with the
+                           visitor's own ratings overlaid as markers.
+
+       The default is deliberately 'user': the page wants the reader's
+       judgment before it shows anyone else's — the AI's or the crowd's.
+       ?view=ai / ?view=others in the URL override (shareable), and the
+       toggle keeps the param in sync the same way the pickers sync
+       ?left/?right. The body[data-view] attribute is what CSS keys
+       every mode difference off; it's set here, before the first
+       render, so bars never flash the wrong mode.
+       -------------------------------------------------------------------------- */
+    let viewMode = 'user';
+    (function readViewFromUrl() {
+        const fromUrl = new URLSearchParams(window.location.search).get('view');
+        if (fromUrl === 'ai' || fromUrl === 'others') {
+            viewMode = fromUrl;
+        }
+    })();
+    document.body.dataset.view = viewMode;
+
+    function syncViewToUrl() {
+        const params = new URLSearchParams(window.location.search);
+        if (viewMode === 'user') params.delete('view');
+        else params.set('view', viewMode);
+        const qs = params.toString();
+        history.replaceState(
+            null,
+            '',
+            window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
+        );
+    }
+
+    /* --------------------------------------------------------------------------
        formatOrdinal — turn 46 into "46<sup>th</sup> President" or
        [45, 47] into "45<sup>th</sup> & 47<sup>th</sup> President".
 
@@ -381,7 +435,7 @@
         listEl.appendChild(li);
     }
 
-    function renderBar(bar, index, side) {
+    function renderBar(bar, index, side, userOrder) {
         // Clone the <article class="bar"> sub-tree from the template's
         // DocumentFragment. firstElementChild skips any whitespace text
         // nodes the HTML parser left around our <article>.
@@ -396,11 +450,16 @@
         node._barData = bar;
 
         node.dataset.side = side;
-        // Expose the bar's ordinal position to CSS; the entrance
-        // animation-delay rules in preside-by-side.css read this via
-        // var(--bar-index) and inherit it to .bar-fill / .severity-number /
-        // .bar-label-outer. JS owns the index, CSS owns the timing.
-        node.style.setProperty('--bar-index', index);
+        // Lets the rating sync path find every rendered instance of this
+        // event without walking _barData on each node.
+        node.dataset.barId = bar.id || '';
+        // Expose the bar's ordinal positions to CSS. --bar-index-ai is
+        // the DOM (AI severity) position, --order-user the neutral
+        // alphabetical one; the stylesheet derives both the flex `order`
+        // and the entrance-stagger --bar-index from whichever matches
+        // the active view. JS owns the indexes, CSS owns the timing.
+        node.style.setProperty('--bar-index-ai', index);
+        node.style.setProperty('--order-user', userOrder);
 
         // Per-side ID prefix so the left and right columns never collide
         // on label/detail ids — they share a single document.
@@ -411,16 +470,22 @@
         const labelOuter = node.querySelector('.bar-label-outer');
         labelOuter.id = labelId;
         labelOuter.textContent = bar.shortLabel;
+        // The label is a button that toggles the same detail panel the
+        // fill controls — the only route to the panel for unrated bars
+        // in the rating view, where the fill is busy being a rating
+        // control.
+        labelOuter.setAttribute('aria-controls', detailId);
+        labelOuter.setAttribute('aria-expanded', 'false');
 
         const fill = node.querySelector('.bar-fill');
         fill.setAttribute('aria-controls', detailId);
         fill.setAttribute('aria-labelledby', labelId);
-        // --severity is read by the bar's clip-path reveal width in CSS,
-        // so this single custom property drives both the visual length
-        // and the on-bar number.
-        fill.style.setProperty('--severity', bar.severity);
+        // The AI score feeds --severity-ai; the visitor's own rating (if
+        // any) feeds --severity-user via updateBarRatingState below. CSS
+        // resolves whichever the active view reads into --severity,
+        // which drives both the width calc and the rail fallback.
+        fill.style.setProperty('--severity-ai', bar.severity);
 
-        node.querySelector('.severity-number').textContent = bar.severity;
         node.querySelector('.bar-label-inner').textContent = bar.shortLabel;
 
         const detail = node.querySelector('.bar-detail');
@@ -440,12 +505,20 @@
 
         // Hydrate the inline panel's reader-rating block (mirrors the
         // modal hydration in openModal). Done at render time rather than
-        // expand time so the buttons + average line are ready the instant
-        // the panel slides open — and so the ratings fetch for this
-        // president has likely landed by the time the user expands a bar.
-        // The fetch itself is deduped per president, so doing it once
-        // per bar costs no extra requests.
+        // expand time so the buttons + stored-vote state are ready the
+        // instant the panel slides open.
         setupRatingUi(bar, selection[side], node.querySelector('.bar-rating'));
+
+        // Hover/keyboard handlers for the rating track (the click side
+        // of the interaction is delegated at the document level with
+        // everything else). No-ops outside the user view / on rated
+        // bars / on mobile — the guards live in the handlers so a bar
+        // rated mid-session sheds the behavior without re-wiring.
+        wireRatingTrack(node, fill);
+
+        // Resolve rated/unrated state, the displayed number, the AI-view
+        // marker, and the fill's accessibility role for the current view.
+        updateBarRatingState(node);
 
         // Right-side bars need the outer label AFTER the bar in DOM
         // order so it ends up on the outside edge (away from the
@@ -577,20 +650,43 @@
             if (renderTokens[side] !== token) return;
 
             // Sort by severity descending — source order in the JSON file
-            // doesn't matter for layout.
+            // doesn't matter for layout. This stays the DOM order (and
+            // the AI view's visual order).
             const sorted = bars.slice().sort(function (a, b) {
                 return b.severity - a.severity;
             });
 
+            // The reader-rating view must not leak the AI's ranking
+            // through row order, so it re-sorts alphabetically via the
+            // CSS `order` property — a neutral, deterministic shuffle
+            // that stays stable across visits and doesn't reflow as the
+            // visitor rates. Computed here once and written to each bar
+            // as --order-user.
+            const alpha = bars.slice().sort(function (a, b) {
+                return (a.shortLabel || '').localeCompare(b.shortLabel || '');
+            });
+            const userOrderById = {};
+            alpha.forEach(function (b, i) { userOrderById[b.id] = i; });
+
             const frag = document.createDocumentFragment();
             sorted.forEach(function (bar, i) {
-                frag.appendChild(renderBar(bar, i, side));
+                const userOrder = userOrderById[bar.id] != null ? userOrderById[bar.id] : i;
+                frag.appendChild(renderBar(bar, i, side, userOrder));
             });
 
             container.replaceChildren(frag);
             // Bars are now in the DOM with measurable widths — re-fit
             // labels for this side. Cheap and idempotent.
             applyLabelTightFit();
+
+            // Community averages arrive on their own fetch (deduped +
+            // cached per president). Once they land, stamp this side's
+            // bars with their others-view width/number/order. The token
+            // check repeats because this resolves later than the bars.
+            loadRatings(presidentId).then(function () {
+                if (renderTokens[side] !== token) return;
+                applyOthersRatings(container, presidentId);
+            });
         }).catch(function () {
             if (renderTokens[side] !== token) return;
             // Network or parse failure — leave the column empty rather
@@ -1103,11 +1199,15 @@
     });
 
     // Closing on Escape from anywhere — handy when focus has drifted
-    // off the menu (e.g. after a tab out).
+    // off the menu (e.g. after a tab out). With no picker open, Escape
+    // instead backs out of any pending (unconfirmed) bar rating.
     document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && openSide) {
+        if (e.key !== 'Escape') return;
+        if (openSide) {
             closePicker(openSide);
+            return;
         }
+        cancelAllPendingRatings();
     });
 
     // Mobile-query setup hoisted above the initial render so
@@ -1155,23 +1255,23 @@
            hydrated by renderBar)
 
        Both surfaces share the same JS path: setupRatingUi(bar, pid, el)
-       takes the .bar-rating container, fills its scale/status/average
+       takes the .bar-rating container, fills its scale/status
        descendants, and tags the scale with data-president-id /
        data-bar-id so a single document-level click delegate can dispatch
        the POST regardless of which surface was clicked.
 
-       Per-president averages are fetched lazily and cached for the rest
-       of the session. The server only returns bars whose non-quarantined
-       vote count meets its display threshold, so a missing entry is the
-       cue to hide the average line entirely — we don't know whether the
-       bar has 0 or 4 votes underneath the threshold.
+       Per-president averages are fetched once per side (renderSide) and
+       cached for the rest of the session — they feed the "others" view's
+       bar widths and the modal's average, not these rating blocks. The
+       server returns every bar with at least one non-quarantined vote,
+       so a missing entry simply means nobody has rated it yet.
 
        Failed fetches resolve to an empty map rather than throwing — a
-       ratings outage shouldn't break a bar, just suppress the line.
+       ratings outage shouldn't break a bar, just leave the others view
+       showing empty rails.
        -------------------------------------------------------------------------- */
     const RATINGS_ENDPOINT = '/api/ratings/';
     const RATE_ENDPOINT = '/api/rate';
-    const RATING_MIN_DISPLAY = 5;
     const ratingsData = Object.create(null);     // pid -> { bar_id: {avg,count,sum} }
     const ratingsLoading = Object.create(null);  // pid -> Promise
 
@@ -1201,28 +1301,83 @@
     }
 
     /* --------------------------------------------------------------------------
-       Per-user vote memory — localStorage. The server tracks votes per
-       (bar, IP-hash); this is purely UI state so the user's selected
-       button stays highlighted across panel/modal opens and page reloads.
-       If localStorage is unavailable (private mode, blocked storage),
-       the UI gracefully degrades to "no remembered selection" — the
-       server is still the source of truth for counted votes.
+       Per-user vote memory — localStorage, expiring after a week. The
+       server tracks votes per (bar, IP-hash) for the aggregates; this is
+       purely UI state so the visitor's own ratings (bar lengths in the
+       default view, highlighted scale buttons, "you" markers) survive
+       across visits. Device-local storage was chosen over an IP-keyed
+       server lookup deliberately: it's exact (shared/rotating IPs would
+       surface someone else's ratings), and it costs the server nothing
+       as the audience grows.
+
+       Entries are stored as {"v": <1-10>, "t": <epoch ms>} and expire
+       VOTE_TTL_MS after their last write — getMyVote self-cleans on
+       read, and the purge pass below sweeps anything not re-read. The
+       pre-TTL format was a bare number; those migrate in place with a
+       fresh timestamp on first read. If localStorage is unavailable
+       (private mode, blocked storage), everything degrades to "no
+       remembered ratings" — the server still counted the votes.
        -------------------------------------------------------------------------- */
     const VOTE_STORAGE_PREFIX = 'pbs:rating:';
+    const VOTE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
     function getMyVote(barId) {
         try {
-            const v = localStorage.getItem(VOTE_STORAGE_PREFIX + barId);
-            if (v == null) return null;
-            const n = parseInt(v, 10);
-            return (n >= 1 && n <= 10) ? n : null;
+            const key = VOTE_STORAGE_PREFIX + barId;
+            const raw = localStorage.getItem(key);
+            if (raw == null) return null;
+
+            let value;
+            let savedAt;
+            if (raw.charAt(0) === '{') {
+                const parsed = JSON.parse(raw);
+                value = parseInt(parsed.v, 10);
+                savedAt = typeof parsed.t === 'number' ? parsed.t : 0;
+            } else {
+                // Legacy bare-number entry — migrate with a fresh clock
+                // so it gets a full week from today rather than dying
+                // immediately for lack of a timestamp.
+                value = parseInt(raw, 10);
+                savedAt = Date.now();
+                if (value >= 1 && value <= 10) {
+                    localStorage.setItem(key, JSON.stringify({ v: value, t: savedAt }));
+                }
+            }
+
+            if (!(value >= 1 && value <= 10)) return null;
+            if (Date.now() - savedAt > VOTE_TTL_MS) {
+                localStorage.removeItem(key);
+                return null;
+            }
+            return value;
         } catch (_) { return null; }
     }
 
     function setMyVote(barId, n) {
-        try { localStorage.setItem(VOTE_STORAGE_PREFIX + barId, String(n)); }
-        catch (_) { /* quota / private mode — survive silently */ }
+        try {
+            localStorage.setItem(
+                VOTE_STORAGE_PREFIX + barId,
+                JSON.stringify({ v: n, t: Date.now() })
+            );
+        } catch (_) { /* quota / private mode — survive silently */ }
     }
+
+    // One sweep per page load: read every stored vote so expired entries
+    // delete themselves (getMyVote handles the removal). Keys are
+    // snapshotted first because removing while iterating localStorage
+    // shifts the index ordering out from under localStorage.key(i).
+    (function purgeExpiredVotes() {
+        try {
+            const keys = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.indexOf(VOTE_STORAGE_PREFIX) === 0) keys.push(key);
+            }
+            keys.forEach(function (key) {
+                getMyVote(key.slice(VOTE_STORAGE_PREFIX.length));
+            });
+        } catch (_) { /* storage unavailable — nothing to purge */ }
+    })();
 
     // Populate an empty .bar-rating-scale with ten 1–10 buttons. Idempotent
     // — if the scale already has children, returns immediately. Called from
@@ -1251,37 +1406,6 @@
         statusEl.textContent = text || '';
         statusEl.classList.remove('is-error', 'is-success');
         if (kind) statusEl.classList.add('is-' + kind);
-    }
-
-    function renderAverageForContainer(containerEl) {
-        if (!containerEl) return;
-        const scaleEl = containerEl.querySelector('.bar-rating-scale');
-        const avgEl = containerEl.querySelector('.bar-rating-average');
-        if (!scaleEl || !avgEl) return;
-        const pid = scaleEl.dataset.presidentId;
-        const barId = scaleEl.dataset.barId;
-        if (!pid || !barId) {
-            avgEl.hidden = true;
-            avgEl.textContent = '';
-            return;
-        }
-        const map = ratingsData[pid];
-        const entry = map && map[barId];
-        // Server's HAVING n >= MIN_DISPLAY filter means entry won't exist
-        // for under-threshold bars; the count check below is defensive
-        // in case the server threshold is ever lowered.
-        if (!entry || entry.count < RATING_MIN_DISPLAY) {
-            avgEl.hidden = true;
-            avgEl.textContent = '';
-            return;
-        }
-        // innerHTML for the <strong> wrapper around the number. Bar IDs
-        // and numbers are not user-controlled strings, so no escaping
-        // concern here.
-        avgEl.innerHTML =
-            'users rate this <strong>' + entry.avg.toFixed(1) +
-            '</strong> on average · ' + entry.count + ' votes';
-        avgEl.hidden = false;
     }
 
     function applyVoteHighlight(scaleEl, value) {
@@ -1342,28 +1466,23 @@
         } else {
             setRatingState(containerEl, 'idle');
         }
-
-        renderAverageForContainer(containerEl);
-
-        if (bar.id && presidentId) {
-            loadRatings(presidentId).then(function () {
-                // Bail if the container has been re-hydrated for a
-                // different bar before the fetch returned (modal swap,
-                // president re-render).
-                if (scaleEl.dataset.barId !== bar.id) return;
-                renderAverageForContainer(containerEl);
-            });
-        }
     }
 
     function updateAverageOptimistic(presidentId, barId, oldVote, newVote) {
         const map = ratingsData[presidentId];
         if (!map) return;
         const entry = map[barId];
-        // Below-threshold bars aren't in the response. We can't safely
-        // promote them to displayable here — the user might be 5th vote
-        // but they might also be 2nd, and faking an average would mislead.
-        if (!entry) return;
+        // No entry means zero votes (the server returns every bar with
+        // at least one) — this vote is the first, so create the entry
+        // and the bar materializes in the others view immediately. If
+        // the cache and localStorage disagree (oldVote exists but the
+        // entry is missing — stale fetch racing a vote elsewhere), a
+        // single-vote entry is still the best local guess; the next
+        // page load re-fetches the truth.
+        if (!entry) {
+            map[barId] = { avg: newVote, count: 1, sum: newVote };
+            return;
+        }
         // Work off the integer running total the server sent (entry.sum)
         // instead of reconstructing it as `entry.avg * entry.count`. The
         // reconstruction is lossy — avg arrives already rounded to one
@@ -1389,6 +1508,46 @@
         entry.avg = Math.round((entry.sum / entry.count) * 10) / 10;
     }
 
+    /* --------------------------------------------------------------------------
+       applyOthersRatings — stamp one side's bars with the community
+       averages once they've loaded: width/number/count via
+       updateBarRatingState, plus the others-view row order. Bars rank
+       by average descending (mirroring the AI view's severity-sorted
+       chart), zero-vote bars sink to the bottom, and ties fall back to
+       the alphabetical order so the result is deterministic. The order
+       is computed here — at render/ratings-load time — and deliberately
+       NOT recomputed on optimistic votes, so rows don't jump around
+       under the cursor as the visitor rates.
+       -------------------------------------------------------------------------- */
+    function applyOthersRatings(container, presidentId) {
+        const map = ratingsData[presidentId] || {};
+        const nodes = Array.prototype.slice.call(container.querySelectorAll('.bar'));
+        nodes.forEach(updateBarRatingState);
+
+        const label = function (node) {
+            return (node._barData && node._barData.shortLabel) || '';
+        };
+        const ranked = nodes.slice().sort(function (a, b) {
+            const ea = map[a.dataset.barId];
+            const eb = map[b.dataset.barId];
+            if (ea && eb && eb.avg !== ea.avg) return eb.avg - ea.avg;
+            if (ea && !eb) return -1;
+            if (!ea && eb) return 1;
+            return label(a).localeCompare(label(b));
+        });
+        ranked.forEach(function (node, i) {
+            node.style.setProperty('--order-others', i);
+        });
+
+        // Widths just changed if the others view is active — re-fit the
+        // outer labels once the 0.55s width transition settles.
+        if (viewMode === 'others') setTimeout(applyLabelTightFit, 620);
+
+        // The modal could be sitting open on one of these bars showing
+        // its em-dash placeholder; fill the number in now that we know.
+        if (modal.open) renderModalSeverity();
+    }
+
     // After a successful vote, mirror UI changes into every other
     // .bar-rating block currently displaying the same bar — the modal
     // and the bar's own inline panel can both reference the same id
@@ -1406,13 +1565,334 @@
             const container = scaleEl.closest('.bar-rating');
             if (!container) return;
             applyVoteHighlight(scaleEl, stored);
-            renderAverageForContainer(container);
             if (stored != null) {
                 updateThanksMessage(container, stored);
                 container._pendingVote = null;
                 setRatingState(container, 'submitted');
             }
         });
+
+        // The bar itself is a rating surface now too — refresh its
+        // rated/unrated state, displayed number, and AI-view marker so
+        // a vote cast in the detail panel or modal reshapes the bar.
+        const barNodes = document.querySelectorAll('.bar[data-bar-id="' + barId + '"]');
+        Array.prototype.forEach.call(barNodes, function (node) {
+            if (selection[node.dataset.side] !== presidentId) return;
+            updateBarRatingState(node);
+        });
+
+        // And the modal's big number, if it's open on this event.
+        if (modal.open && modal.dataset.barId === barId) {
+            renderModalSeverity();
+        }
+
+        // A new rating changes a bar's width in the user view, which
+        // changes the outer label's available gutter. Re-fit once the
+        // width transition has settled; cheap and idempotent.
+        setTimeout(applyLabelTightFit, 620);
+    }
+
+    /* --------------------------------------------------------------------------
+       submitVote — the one POST /rate path, shared by the detail-panel /
+       modal 1–10 scales and the bar-track confirm flow. Persists to
+       localStorage, nudges the cached average, and fans the new state
+       out to every surface. Throws on failure (with the server's
+       message when it sent one) so each caller can render the error in
+       its own status slot.
+       -------------------------------------------------------------------------- */
+    async function submitVote(presidentId, barId, newVote) {
+        const oldVote = getMyVote(barId);
+        if (oldVote === newVote) {
+            // Nothing to commit — just make sure every surface agrees.
+            syncAllSurfacesForBar(presidentId, barId);
+            return;
+        }
+        const res = await fetch(RATE_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                president: presidentId,
+                bar_id: barId,
+                rating: newVote
+            })
+        });
+        if (!res.ok) {
+            let serverMsg = '';
+            try {
+                const body = await res.json();
+                if (body && body.error) serverMsg = body.error;
+            } catch (_) { /* not JSON */ }
+            throw new Error(serverMsg || ('HTTP ' + res.status));
+        }
+        setMyVote(barId, newVote);
+        updateAverageOptimistic(presidentId, barId, oldVote, newVote);
+        syncAllSurfacesForBar(presidentId, barId);
+    }
+
+    /* --------------------------------------------------------------------------
+       Bar-track rating — the default view's direct-manipulation flow.
+
+       State lives on each .bar node:
+         node._pendingSev        the clicked-but-unconfirmed 1–10 value
+         .is-pending (class)     confirm/cancel chips + notch visible
+         .is-saving  (class)     POST in flight; chips inert
+         data-user-rated (attr)  a stored vote exists; the fill is a real
+                                 bar again and clicks toggle the detail
+
+       The fill's pointer handlers translate cursor X into a snapped
+       severity by inverting the same --bar-base/--bar-step width
+       formula CSS uses (read live from computed style so retuning the
+       chart geometry never desyncs the math).
+       -------------------------------------------------------------------------- */
+
+    // Is this bar currently acting as a rating track? All three guards
+    // matter: AI view shows finished bars, rated bars have graduated to
+    // normal bar behavior, and mobile rates through the modal's scale.
+    function railActive(node) {
+        return viewMode === 'user' &&
+            !node.hasAttribute('data-user-rated') &&
+            !isMobile();
+    }
+
+    function severityFromPointer(node, fill, clientX) {
+        const rect = fill.getBoundingClientRect();
+        if (!rect.width) return null;
+        // Fraction of the track between the centerline edge (0) and the
+        // outer edge (1) — sides mirror, so measure from opposite ends.
+        const frac = node.dataset.side === 'left'
+            ? (rect.right - clientX) / rect.width
+            : (clientX - rect.left) / rect.width;
+        const styles = getComputedStyle(fill);
+        const base = parseFloat(styles.getPropertyValue('--bar-base')) || 13.33;
+        const step = parseFloat(styles.getPropertyValue('--bar-step')) || 6.67;
+        const trackMax = base + 10 * step;
+        const sev = Math.round((frac * trackMax - base) / step);
+        return Math.min(10, Math.max(1, sev));
+    }
+
+    function setPreview(fill, sev) {
+        fill.style.setProperty('--preview-sev', sev);
+        const num = fill.querySelector('.rate-number');
+        if (num) num.textContent = sev;
+    }
+
+    function setRateStatus(node, text, kind) {
+        const el = node.querySelector('.rate-status');
+        if (!el) return;
+        el.textContent = text || '';
+        el.classList.remove('is-error');
+        if (kind) el.classList.add('is-' + kind);
+    }
+
+    function setPendingRating(node, sev) {
+        const fill = node.querySelector('.bar-fill');
+        if (!fill) return;
+        node._pendingSev = sev;
+        node.classList.add('is-pending');
+        fill.style.setProperty('--pending-sev', sev);
+        setPreview(fill, sev);
+        const confirmBtn = node.querySelector('.rate-confirm');
+        if (confirmBtn) confirmBtn.textContent = 'Confirm ' + sev;
+        setRateStatus(node, '', null);
+        updateRailAria(node);
+    }
+
+    function cancelPendingRating(node) {
+        node._pendingSev = null;
+        node.classList.remove('is-pending', 'is-saving');
+        const fill = node.querySelector('.bar-fill');
+        if (fill) fill.classList.remove('is-previewing');
+        setRateStatus(node, '', null);
+        updateRailAria(node);
+    }
+
+    function cancelAllPendingRatings() {
+        document.querySelectorAll('.bar.is-pending').forEach(cancelPendingRating);
+    }
+
+    async function confirmPendingRating(node) {
+        const sev = node._pendingSev;
+        if (!(sev >= 1 && sev <= 10)) return;
+        if (node.classList.contains('is-saving')) return;
+        const bar = node._barData;
+        const presidentId = selection[node.dataset.side];
+        if (!bar || !bar.id || !presidentId) return;
+
+        node.classList.add('is-saving');
+        try {
+            await submitVote(presidentId, bar.id, sev);
+            // submitVote → syncAllSurfacesForBar already flipped this
+            // node to its rated state; just retire the pending UI.
+            node._pendingSev = null;
+            node.classList.remove('is-pending', 'is-saving');
+            const fill = node.querySelector('.bar-fill');
+            if (fill) fill.classList.remove('is-previewing');
+            setRateStatus(node, '', null);
+        } catch (err) {
+            // Keep the pending state so the visitor can simply hit
+            // confirm again once the hiccup passes.
+            node.classList.remove('is-saving');
+            const msg = err && err.message
+                ? 'Couldn’t save — ' + err.message
+                : 'Couldn’t save — try again in a moment.';
+            setRateStatus(node, msg, 'error');
+        }
+    }
+
+    function wireRatingTrack(node, fill) {
+        fill.addEventListener('pointermove', function (e) {
+            if (!railActive(node)) return;
+            const sev = severityFromPointer(node, fill, e.clientX);
+            if (sev == null) return;
+            fill.classList.add('is-previewing');
+            setPreview(fill, sev);
+        });
+
+        fill.addEventListener('pointerleave', function () {
+            fill.classList.remove('is-previewing');
+            // With a pending pick, the preview snaps back to the clicked
+            // value instead of vanishing — the .is-pending CSS keeps it
+            // visible at that width.
+            if (node.classList.contains('is-pending') && node._pendingSev != null) {
+                setPreview(fill, node._pendingSev);
+            }
+        });
+
+        // Slider-style keyboard support while the fill is a rating
+        // track. Enter/Space are intercepted here (preventDefault stops
+        // the button's synthetic click, whose coordinates would be
+        // garbage) — arrows nudge, Enter confirms, Escape backs out.
+        fill.addEventListener('keydown', function (e) {
+            if (!railActive(node)) return;
+            const current = node._pendingSev;
+            switch (e.key) {
+                case 'ArrowRight':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    setPendingRating(node, Math.min(10, (current == null ? 4 : current) + 1));
+                    break;
+                case 'ArrowLeft':
+                case 'ArrowDown':
+                    e.preventDefault();
+                    setPendingRating(node, Math.max(1, (current == null ? 6 : current) - 1));
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    if (current != null) confirmPendingRating(node);
+                    else setPendingRating(node, 5);
+                    break;
+                case 'Escape':
+                    if (current != null) {
+                        e.preventDefault();
+                        cancelPendingRating(node);
+                    }
+                    break;
+            }
+        });
+    }
+
+    /* --------------------------------------------------------------------------
+       updateBarRatingState — resolve one bar's presentation from the
+       stored vote + active view. Called at render, after every vote
+       (via syncAllSurfacesForBar), and for all bars on a view toggle
+       or breakpoint crossing.
+       -------------------------------------------------------------------------- */
+    function updateBarRatingState(node) {
+        const bar = node._barData;
+        if (!bar) return;
+        const fill = node.querySelector('.bar-fill');
+        if (!fill) return;
+        const vote = bar.id ? getMyVote(bar.id) : null;
+
+        if (vote != null) {
+            node.setAttribute('data-user-rated', '');
+            fill.style.setProperty('--severity-user', vote);
+        } else {
+            node.removeAttribute('data-user-rated');
+            fill.style.removeProperty('--severity-user');
+        }
+
+        // Community average for this bar, if the per-president ratings
+        // fetch has landed. Mirrors the vote handling above: the entry
+        // feeds --severity-others (the others-view width — fractional
+        // averages are fine, the width calc() doesn't care) and
+        // data-others-rated gates the rated/ghost-rail presentation the
+        // same way data-user-rated does for the reader view.
+        const othersMap = ratingsData[selection[node.dataset.side]];
+        const others = (bar.id && othersMap) ? othersMap[bar.id] : null;
+        if (others) {
+            node.setAttribute('data-others-rated', '');
+            fill.style.setProperty('--severity-others', others.avg);
+        } else {
+            node.removeAttribute('data-others-rated');
+            fill.style.removeProperty('--severity-others');
+        }
+
+        // The big number at the bar's tip: the AI score in the AI view,
+        // the community average in the others view, the visitor's own
+        // rating in the user view (CSS hides the element entirely while
+        // unrated there). toFixed(1) so an average reads as an average
+        // — "7.0" says aggregate where "7" would claim a single voice.
+        const num = node.querySelector('.severity-number');
+        if (num) {
+            num.textContent = viewMode === 'ai'
+                ? bar.severity
+                : viewMode === 'others'
+                    ? (others ? others.avg.toFixed(1) : '')
+                    : (vote != null ? vote : '');
+        }
+
+        // "n votes" tag beside the average — a 1-vote average is honest
+        // data but shouldn't masquerade as consensus, so the sample size
+        // stays on screen with it. Doubles as the "no ratings yet" hint
+        // on zero-vote rails. CSS shows it only in the others view.
+        const votesTag = node.querySelector('.others-votes');
+        if (votesTag) {
+            votesTag.textContent = others
+                ? others.count + (others.count === 1 ? ' vote' : ' votes')
+                : 'no ratings yet';
+        }
+
+        // "you · n" marker for the AI view (CSS keeps it display:none
+        // outside that view / without a vote).
+        const marker = node.querySelector('.user-marker');
+        if (marker && vote != null) {
+            marker.style.setProperty('--marker-sev', vote);
+            const tag = marker.querySelector('.user-marker-tag');
+            if (tag) tag.textContent = 'you · ' + vote;
+        }
+
+        updateRailAria(node);
+    }
+
+    // The fill button wears two hats: detail-panel toggle (AI view,
+    // rated bars, mobile) and rating track (user view, unrated,
+    // desktop). Swap its announced semantics to match. aria-labelledby
+    // must be removed in track mode because it would override the
+    // aria-label that carries the slider instructions.
+    function updateRailAria(node) {
+        const fill = node.querySelector('.bar-fill');
+        const bar = node._barData;
+        if (!fill || !bar) return;
+
+        if (railActive(node)) {
+            fill.removeAttribute('aria-expanded');
+            fill.removeAttribute('aria-labelledby');
+            const pending = node._pendingSev;
+            fill.setAttribute('aria-label',
+                'Rate severity for ' + bar.shortLabel + (pending != null
+                    ? ' — pending ' + pending + ' of 10. Press Enter to confirm, Escape to cancel.'
+                    : '. Use arrow keys to choose 1 to 10, then Enter to confirm.'));
+        } else {
+            fill.removeAttribute('aria-label');
+            const labelOuter = node.querySelector('.bar-label-outer');
+            if (labelOuter && labelOuter.id) {
+                fill.setAttribute('aria-labelledby', labelOuter.id);
+            }
+            fill.setAttribute('aria-expanded',
+                node.classList.contains('expanded') ? 'true' : 'false');
+        }
     }
 
     // One document-level click delegate covers every .bar-rating block
@@ -1478,29 +1958,12 @@
             setRatingStatus(container, '', null);
 
             try {
-                const res = await fetch(RATE_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        president: presidentId,
-                        bar_id: barId,
-                        rating: newVote
-                    })
-                });
-                if (!res.ok) {
-                    let serverMsg = '';
-                    try {
-                        const body = await res.json();
-                        if (body && body.error) serverMsg = body.error;
-                    } catch (_) { /* not JSON */ }
-                    throw new Error(serverMsg || ('HTTP ' + res.status));
-                }
-                setMyVote(barId, newVote);
-                updateAverageOptimistic(presidentId, barId, oldVote, newVote);
-                // syncAllSurfacesForBar flips state to 'submitted' on
-                // this container too (it matches the selector), so we
-                // don't have to repeat that work locally.
-                syncAllSurfacesForBar(presidentId, barId);
+                // Shared POST path (also used by the bar-track confirm
+                // flow). On success it persists the vote, nudges the
+                // cached average, and calls syncAllSurfacesForBar —
+                // which flips this container to 'submitted' too (it
+                // matches the selector), so no local state work needed.
+                await submitVote(presidentId, barId, newVote);
             } catch (err) {
                 const msg = err && err.message
                     ? 'Couldn’t save — ' + err.message
@@ -1539,6 +2002,32 @@
        without needing to re-bind handlers.
        -------------------------------------------------------------------------- */
     document.addEventListener('click', (e) => {
+        // Confirm / cancel chips for a pending bar-track rating.
+        const confirmBtn = e.target.closest('.rate-confirm');
+        if (confirmBtn) {
+            const pendingBar = confirmBtn.closest('.bar');
+            if (pendingBar) confirmPendingRating(pendingBar);
+            return;
+        }
+        const cancelBtn = e.target.closest('.rate-cancel');
+        if (cancelBtn) {
+            const pendingBar = cancelBtn.closest('.bar');
+            if (pendingBar) cancelPendingRating(pendingBar);
+            return;
+        }
+
+        // Event-name label — opens the detail panel in every view, and
+        // is the only route to it for unrated bars in the rating view
+        // (where the fill below is busy being a rating control).
+        const labelBtn = e.target.closest('.bar-label-outer');
+        if (labelBtn) {
+            const labelBar = labelBtn.closest('.bar');
+            if (!labelBar) return;
+            if (isMobile()) openModal(labelBar);
+            else toggleExpand(labelBar);
+            return;
+        }
+
         const fill = e.target.closest('.bar-fill');
         if (!fill) return;
         const bar = fill.closest('.bar');
@@ -1546,9 +2035,22 @@
 
         if (isMobile()) {
             openModal(bar);
-        } else {
-            toggleExpand(bar);
+            return;
         }
+
+        // Default view, unrated: a click on the track parks a pending
+        // rating at the clicked position. Keyboard activations arrive
+        // as clicks with no usable coordinates (e.detail === 0) — the
+        // fill's keydown handler owns that path and already
+        // preventDefault()s, so the guard is belt-and-suspenders.
+        if (railActive(bar)) {
+            if (e.detail === 0) return;
+            const sev = severityFromPointer(bar, fill, e.clientX);
+            if (sev != null) setPendingRating(bar, sev);
+            return;
+        }
+
+        toggleExpand(bar);
     });
 
     /* --------------------------------------------------------------------------
@@ -1570,6 +2072,12 @@
         } else {
             bar.classList.add('expanded');
             fill.setAttribute('aria-expanded', 'true');
+            const labelBtn = bar.querySelector('.bar-label-outer');
+            if (labelBtn) labelBtn.setAttribute('aria-expanded', 'true');
+            // When the fill is acting as a rating track its expanded
+            // state belongs to the label button alone — strip the
+            // attribute we just set rather than fork the logic above.
+            updateRailAria(bar);
             if (detail) detail.removeAttribute('hidden');
             currentlyExpanded = bar;
         }
@@ -1580,6 +2088,9 @@
         const detail = bar.querySelector('.bar-detail');
         bar.classList.remove('expanded');
         fill.setAttribute('aria-expanded', 'false');
+        const labelBtn = bar.querySelector('.bar-label-outer');
+        if (labelBtn) labelBtn.setAttribute('aria-expanded', 'false');
+        updateRailAria(bar);
 
         if (detail) {
             // The detail has THREE concurrent transitions (max-height,
@@ -1603,6 +2114,45 @@
     /* --------------------------------------------------------------------------
        Mobile: native <dialog> modal
        -------------------------------------------------------------------------- */
+
+    // The modal's headline number, per view. data-empty drives the
+    // quiet placeholder styling; the ::before eyebrow ("Your severity" /
+    // "Others' average" / "AI severity") follows body[data-view] in
+    // CSS, and data-votes feeds the others view's count suffix the same
+    // way (CSS attr() — set here, rendered there).
+    function renderModalSeverity() {
+        const bar = modal._severityBar;
+        if (!bar) return;
+        modalSeverity.removeAttribute('data-votes');
+        if (viewMode === 'ai') {
+            modalSeverity.textContent = bar.severity;
+            modalSeverity.removeAttribute('data-empty');
+            return;
+        }
+        if (viewMode === 'others') {
+            const map = ratingsData[modal._severityPid];
+            const entry = (bar.id && map) ? map[bar.id] : null;
+            if (entry) {
+                modalSeverity.textContent = entry.avg.toFixed(1);
+                modalSeverity.setAttribute('data-votes',
+                    entry.count + (entry.count === 1 ? ' vote' : ' votes'));
+                modalSeverity.removeAttribute('data-empty');
+            } else {
+                modalSeverity.textContent = '—';
+                modalSeverity.setAttribute('data-empty', '');
+            }
+            return;
+        }
+        const vote = bar.id ? getMyVote(bar.id) : null;
+        if (vote != null) {
+            modalSeverity.textContent = vote;
+            modalSeverity.removeAttribute('data-empty');
+        } else {
+            modalSeverity.textContent = '—';
+            modalSeverity.setAttribute('data-empty', '');
+        }
+    }
+
     function openModal(barEl) {
         // renderBar stashes the canonical bar object on the node, so we
         // populate the modal straight from data rather than scraping it
@@ -1621,16 +2171,24 @@
 
         modalTitle.textContent = bar.title;
         modalDescription.textContent = bar.description;
-        modalSeverity.textContent = bar.severity;
+        // The big number mirrors the active view: the AI score, the
+        // community average, or the visitor's own rating (an em-dash
+        // placeholder until they use the scale below — at which point
+        // syncAllSurfacesForBar calls renderModalSeverity again and the
+        // number fills in live). The president id rides along so the
+        // others branch can find the right ratings map.
+        modal.dataset.barId = bar.id || '';
+        modal._severityBar = bar;
+        modal._severityPid = selection[barEl.dataset.side];
+        renderModalSeverity();
 
         modalSourcesList.replaceChildren();
         bar.sources.forEach((src) => appendSourceItem(modalSourcesList, src));
 
-        // Hydrate the reader-rating block: button highlight from
-        // localStorage, average line from the cached ratings map (or
-        // populated on its next resolve). Done after the other text
-        // populates so an exception in the ratings path doesn't strand
-        // the rest of the modal half-populated.
+        // Hydrate the reader-rating block: button highlight + thanks
+        // state from localStorage. Done after the other text populates
+        // so an exception in the ratings path doesn't strand the rest
+        // of the modal half-populated.
         setupRatingUi(
             bar,
             selection[barEl.dataset.side],
@@ -1723,6 +2281,11 @@
         if (modal.open) {
             closeModal();
         }
+        // The bar-track rating flow is desktop-only (mobile rates in
+        // the modal) — drop any half-made picks and re-resolve each
+        // fill's semantics for the new breakpoint.
+        cancelAllPendingRatings();
+        document.querySelectorAll('.bar').forEach(updateBarRatingState);
         // Crossing the breakpoint flips outer/inner labels — clear or
         // re-apply tight-fit accordingly.
         applyLabelTightFit();
@@ -1741,6 +2304,53 @@
             applyLabelTightFit();
         });
     });
+
+    /* --------------------------------------------------------------------------
+       View toggle — flips body[data-view] between the reader-rating
+       default, the community averages, and the AI scores. Most of the
+       visual change is pure CSS (widths morph via the .bar-fill width
+       transition, rails appear, markers fade in); JS re-resolves each
+       bar's number text + ARIA role, refreshes the caption, and mirrors
+       the mode to the URL.
+       -------------------------------------------------------------------------- */
+    const VIEW_CAPTIONS = {
+        user: 'Every event starts unrated — hover a track, click where you’d put it, confirm to save.',
+        others: 'How other readers rate these events on average — vote counts ride each bar’s tip.',
+        ai: 'AI-assisted severity shown — white notches mark your own ratings.'
+    };
+
+    function updateViewToggleUi() {
+        document.querySelectorAll('.view-toggle-btn').forEach(function (btn) {
+            btn.setAttribute('aria-pressed', btn.dataset.mode === viewMode ? 'true' : 'false');
+        });
+        const caption = document.querySelector('.view-caption');
+        if (caption) caption.textContent = VIEW_CAPTIONS[viewMode] || '';
+    }
+
+    function setViewMode(mode) {
+        if (mode !== 'user' && mode !== 'others' && mode !== 'ai') return;
+        if (viewMode === mode) return;
+        // A half-made pick has no meaning in the AI view — clear before
+        // the rails it lived on restyle out from under it.
+        cancelAllPendingRatings();
+        viewMode = mode;
+        document.body.dataset.view = mode;
+        updateViewToggleUi();
+        document.querySelectorAll('.bar').forEach(updateBarRatingState);
+        syncViewToUrl();
+        // Bar widths animate between views (0.55s) — re-fit the outer
+        // labels once the geometry has settled.
+        setTimeout(applyLabelTightFit, 620);
+    }
+
+    document.querySelectorAll('.view-toggle-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            setViewMode(btn.dataset.mode);
+        });
+    });
+    // The static markup defaults to the user view; reconcile in case
+    // ?view=ai overrode the default before render.
+    updateViewToggleUi();
 
     /* --------------------------------------------------------------------------
        Suggestion box — posts same-origin to /api/suggest.

@@ -765,6 +765,119 @@ body.hydrated .picker-badge {
 }
 
 /* --------------------------------------------------------------------------
+     View toggle — "Your ratings" / "AI ratings".
+
+     Sits on the centerline at the header/comparison boundary, between
+     the two picker badges (which live at 25% / 75%). Same glass-dark
+     voice as the badges, but party-neutral: the active segment uses the
+     paper/cream of .suggest-submit so neither side's color claims it.
+     The caption beneath explains whichever mode is active (JS owns the
+     copy). Hidden until hydration alongside the badges.
+     -------------------------------------------------------------------------- */
+.view-toggle-cell {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    z-index: 26;
+    text-align: center;
+}
+
+.view-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+body.hydrated .view-toggle {
+    opacity: 1;
+}
+
+.view-toggle-btn {
+    border: 0;
+    background: transparent;
+    color: var(--ink-faint);
+    font-family: var(--font-body);
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: color 0.18s, background-color 0.18s, box-shadow 0.18s;
+}
+
+.view-toggle-btn:hover {
+    color: var(--ink);
+}
+
+.view-toggle-btn:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+}
+
+.view-toggle-btn[aria-pressed="true"] {
+    background: linear-gradient(180deg, #faf7f0, #e0d9c8);
+    color: #14141f;
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile swaps the full labels for the short ones (see media query). */
+.vt-label-short {
+    display: none;
+}
+
+/* Three full-length labels no longer clear the picker badges on
+   narrower desktops — the pill is absolutely centered and the badges
+   sit at each half's center, so they'd start overlapping a little
+   below ~1210px. Swap to the short labels early; the sub-1000px
+   mobile block makes the same swap with its own sizing. */
+@media (max-width: 1220px) {
+    .vt-label-full {
+        display: none;
+    }
+
+    .vt-label-short {
+        display: inline;
+    }
+}
+
+.view-caption {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease 0.1s;
+}
+
+body.hydrated .view-caption {
+    opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
      Comparison main — two-column split
      -------------------------------------------------------------------------- */
 .comparison {
@@ -930,6 +1043,24 @@ body.hydrated .picker-badge {
     gap: var(--bar-gap);
     width: 100%;
     min-width: 0;
+
+    /* Severity-to-width geometry, declared here (not on .bar-fill) so
+       every piece of bar furniture inherits the same constants: the
+       fill's width calc, the AI-view "you" marker offset, and the
+       rating track's ghost rail all read --bar-base / --bar-step.
+
+       --rail-base / --rail-step are the same anchors re-expressed as
+       fractions of the full track (severity-10 width) instead of the
+       row, for elements that live INSIDE the track (the rating
+       preview fill and pending notch, whose % widths resolve against
+       the track element). Desktop track max = 13.33 + 10 × 6.67 =
+       80.03% of the row, so rail-base = 13.33 / 80.03 and rail-step =
+       6.67 / 80.03. The mobile media queries override all four
+       together. */
+    --bar-base: 13.33%;
+    --bar-step: 6.67%;
+    --rail-base: 16.656%;
+    --rail-step: 8.3344%;
 }
 
 /* Each .bar is a column: row + (hidden) detail */
@@ -938,10 +1069,35 @@ body.hydrated .picker-badge {
     flex-direction: column;
     width: 100%;
     min-width: 0;
+    /* The entrance-stagger index. JS writes --bar-index-ai (DOM order,
+       which is AI-severity order) and --order-user (neutral alphabetical
+       order) inline on each .bar; the view decides which one drives the
+       choreography so bars always enter top-to-bottom as displayed. */
+    --bar-index: var(--bar-index-ai, 0);
 }
 
-/* The bar row — the visible bar + outer label */
+/* In the reader-rating view the bars keep their DOM order (AI severity,
+   which must not leak) only in markup — flex `order` re-sorts them
+   alphabetically on screen, and the stagger index follows suit. */
+body[data-view="user"] .bar {
+    order: var(--order-user, 0);
+    --bar-index: var(--order-user, 0);
+}
+
+/* The others view ranks by community average, descending (JS writes
+   --order-others once per ratings load — see applyOthersRatings). Until
+   that fetch lands, fall back to the neutral alphabetical order rather
+   than the AI's ranking, which must not leak here either. */
+body[data-view="others"] .bar {
+    order: var(--order-others, var(--order-user, 0));
+    --bar-index: var(--order-others, var(--order-user, 0));
+}
+
+/* The bar row — the visible bar + outer label. position:relative anchors
+   the absolutely-positioned rating furniture (confirm chips, status
+   line, "you" marker, ghost rail). */
 .bar-row {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 18px;
@@ -969,6 +1125,16 @@ body.hydrated .picker-badge {
    animation is attached to the label, it slots into the existing
    choreography without a separate timing scheme. */
 .bar-label-outer {
+    /* Now a real <button> (it opens the detail panel — the only path
+       to it for unrated bars in the rating view, a convenient second
+       path everywhere else). Strip the UA button chrome so it renders
+       and measures exactly like the <span> it used to be. */
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.05rem;
@@ -978,7 +1144,17 @@ body.hydrated .picker-badge {
     font-variation-settings: 'opsz' 36;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     flex-shrink: 0;
+    transition: color 0.15s var(--ease-soft);
     animation-delay: calc(var(--bar-label-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
+}
+
+.bar-label-outer:hover {
+    color: var(--party-pale, var(--ink));
+}
+
+.bar-label-outer:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
 }
 
 /* Per-label fallback — applied by JS when a single label would clip
@@ -1009,11 +1185,16 @@ body.hydrated .picker-badge {
    constant across selections so the chart's silhouette doesn't
    reflow when a different president is picked. */
 .bar-fill {
-    --bar-base: 13.33%;
-    --bar-step: 6.67%;
+    /* Which severity drives the width depends on the view: the AI view
+       reads the author/AI score, the reader view reads the visitor's
+       own rating — and falls back to 10 (the full track) when they
+       haven't rated yet, which is exactly the unrated rail. JS writes
+       --severity-ai and --severity-user inline; CSS picks. */
+    --severity: var(--severity-ai, 1);
     --bar-width: calc(var(--bar-base) + (var(--severity) * var(--bar-step)));
     width: var(--bar-width);
     height: var(--bar-height);
+    box-sizing: border-box;
     border: none;
     position: relative;
     display: flex;
@@ -1021,10 +1202,16 @@ body.hydrated .picker-badge {
     cursor: pointer;
     flex-shrink: 0;
 
+    /* width is in the transition list so toggling views (and confirming
+       a rating) morphs each bar between its AI and reader lengths
+       instead of snapping. */
     transition:
+        width 0.55s var(--ease-out),
         transform 0.35s var(--ease-soft),
         filter 0.25s var(--ease-soft),
-        box-shadow 0.35s var(--ease-soft);
+        box-shadow 0.35s var(--ease-soft),
+        background-color 0.3s var(--ease-soft),
+        border-color 0.3s var(--ease-soft);
 
     /* Page-load entrance animation.
 
@@ -1050,6 +1237,20 @@ body.hydrated .picker-badge {
        longhand below replaces it with the staggered value. */
     animation: barReveal 0.95s var(--ease-out) backwards;
     animation-delay: calc(var(--bar-fill-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
+}
+
+/* Reader-rating view — the visitor's own severity (or the unrated
+   full-width rail via the fallback) replaces the AI width. */
+body[data-view="user"] .bar-fill {
+    --severity: var(--severity-user, 10);
+}
+
+/* Others view — the community average (often fractional; the width
+   calc() takes it in stride). No votes yet means no --severity-others,
+   and the fallback renders the same full-width rail as an unrated bar
+   in the reader view — an empty scale waiting for data. */
+body[data-view="others"] .bar-fill {
+    --severity: var(--severity-others, 10);
 }
 
 .bar-fill:focus-visible {
@@ -1159,6 +1360,428 @@ body.hydrated .picker-badge {
 /* Inner label — hidden on desktop, shown on mobile */
 .bar-label-inner {
     display: none;
+}
+
+/* --------------------------------------------------------------------------
+     Reader rating track — the default "your ratings" view.
+
+     Until the visitor rates an event, its .bar-fill renders as a rail:
+     a recessed, ticked channel spanning the full severity-10 track.
+     Hovering it (desktop) grows a party-tinted preview fill out from
+     the centerline, snapped to the 1–10 steps, with the value riding
+     the tip; clicking parks a pending notch + confirm/cancel chips;
+     confirming POSTs the vote and the rail collapses into a real bar
+     at the chosen severity. On mobile the rail is a plain tap target —
+     the modal's existing 1–10 scale does the rating there.
+     -------------------------------------------------------------------------- */
+
+/* The unrated rail itself — replaces the party gradient + shadows.
+   The others view borrows the exact same rail for zero-vote bars (an
+   empty scale waiting for data), minus the crosshair: there the fill
+   is a plain detail-panel toggle, not a rating control. */
+body[data-view="user"] .bar:not([data-user-rated]) .bar-fill,
+body[data-view="others"] .bar:not([data-others-rated]) .bar-fill {
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+        inset 0 2px 8px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(0, 0, 0, 0.2);
+    cursor: crosshair;
+}
+
+body[data-view="others"] .bar:not([data-others-rated]) .bar-fill {
+    cursor: pointer;
+}
+
+body[data-view="user"] .bar:not([data-user-rated]) .bar-fill:hover,
+body[data-view="others"] .bar:not([data-others-rated]) .bar-fill:hover {
+    border-color: rgba(255, 255, 255, 0.32);
+    filter: none;
+}
+
+/* Step ticks — the element spans exactly the severity 1→10 range
+   (9 × rail-step from the outer edge), so nine equal divisions of its
+   own width land a tick on every whole severity. Anchored at the outer
+   edge on both sides because that edge IS severity 10. */
+body[data-view="user"] .bar:not([data-user-rated]) .bar-fill::before,
+body[data-view="others"] .bar:not([data-others-rated]) .bar-fill::before {
+    content: '';
+    position: absolute;
+    top: 9px;
+    bottom: 9px;
+    width: calc(9 * var(--rail-step));
+    background-image: repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.13) 0,
+            rgba(255, 255, 255, 0.13) 1px,
+            transparent 1px,
+            transparent calc(100% / 9));
+    pointer-events: none;
+}
+
+body[data-view="user"] .side-left .bar:not([data-user-rated]) .bar-fill::before,
+body[data-view="others"] .side-left .bar:not([data-others-rated]) .bar-fill::before {
+    left: 0;
+}
+
+body[data-view="user"] .side-right .bar:not([data-user-rated]) .bar-fill::before,
+body[data-view="others"] .side-right .bar:not([data-others-rated]) .bar-fill::before {
+    right: 0;
+}
+
+/* Hover/pending preview fill — grows from the centerline, width snapped
+   to the hovered step. Visible only while previewing or pending, and
+   only on unrated bars in the rating view. */
+.rate-preview {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc(var(--rail-base) + var(--preview-sev, 5) * var(--rail-step));
+    opacity: 0;
+    pointer-events: none;
+    transition: width 0.1s var(--ease-soft), opacity 0.18s var(--ease-soft);
+}
+
+.side-left .rate-preview {
+    right: 0;
+    border-radius: 2px 0 0 2px;
+    background: linear-gradient(90deg,
+            rgba(var(--party-rgb), 0.34) 0%,
+            rgba(var(--party-rgb), 0.62) 100%);
+    border-left: 2px solid var(--party-pale);
+    box-shadow: -6px 0 18px rgba(var(--party-rgb), 0.3);
+}
+
+.side-right .rate-preview {
+    left: 0;
+    border-radius: 0 2px 2px 0;
+    background: linear-gradient(270deg,
+            rgba(var(--party-rgb), 0.34) 0%,
+            rgba(var(--party-rgb), 0.62) 100%);
+    border-right: 2px solid var(--party-pale);
+    box-shadow: 6px 0 18px rgba(var(--party-rgb), 0.3);
+}
+
+body[data-view="user"] .bar:not([data-user-rated]) .bar-fill.is-previewing .rate-preview,
+body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-preview {
+    opacity: 1;
+}
+
+/* The 1–10 value riding the preview's tip — same display voice as the
+   severity number it will become once confirmed. */
+.rate-number {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 144;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.side-left .rate-number {
+    left: 14px;
+}
+
+.side-right .rate-number {
+    right: 14px;
+}
+
+/* Pending notch — marks the clicked value while the preview keeps
+   following the cursor, so "where I clicked" never gets lost. */
+.rate-notch {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    border-radius: 1px;
+    background: var(--ink);
+    box-shadow: 0 0 10px rgba(248, 245, 238, 0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s var(--ease-soft);
+}
+
+.side-left .rate-notch {
+    right: calc(var(--rail-base) + var(--pending-sev, 1) * var(--rail-step) - 1px);
+}
+
+.side-right .rate-notch {
+    left: calc(var(--rail-base) + var(--pending-sev, 1) * var(--rail-step) - 1px);
+}
+
+body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-notch {
+    opacity: 0.95;
+}
+
+/* Confirm / cancel chips — surface at the centerline end of the track
+   once a pending value exists. Dark glass so they read on top of the
+   preview fill's brightest end. */
+.rate-actions {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+}
+
+.side-left .rate-actions {
+    right: 12px;
+}
+
+.side-right .rate-actions {
+    left: 12px;
+    flex-direction: row-reverse;
+}
+
+.bar.is-pending .rate-actions {
+    display: flex;
+    animation: ratingSubmitFade 0.18s var(--ease-soft);
+}
+
+.rate-confirm {
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+    background: rgba(10, 10, 18, 0.82);
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: transform 0.12s, border-color 0.15s, background-color 0.15s;
+}
+
+.rate-confirm::before {
+    content: '\2713\00a0\00a0';
+    color: var(--party-pale, var(--ink));
+}
+
+.rate-confirm:hover {
+    transform: translateY(-1px);
+    border-color: var(--ink);
+    background: rgba(10, 10, 18, 0.95);
+}
+
+.rate-cancel {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(10, 10, 18, 0.7);
+    color: var(--ink-dim);
+    font-size: 0.8rem;
+    line-height: 1;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.rate-cancel:hover {
+    color: var(--ink);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.rate-confirm:focus-visible,
+.rate-cancel:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+}
+
+.bar.is-saving .rate-confirm,
+.bar.is-saving .rate-cancel {
+    opacity: 0.55;
+    cursor: wait;
+    pointer-events: none;
+}
+
+/* Inline save-error line — sits in the gap under the row, anchored to
+   the same centerline end as the chips it reports on. */
+.rate-status {
+    position: absolute;
+    top: calc(100% + 3px);
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.side-left .rate-status {
+    right: 12px;
+}
+
+.side-right .rate-status {
+    left: 12px;
+}
+
+.rate-status.is-error {
+    color: #d68b8b;
+}
+
+/* Once rated (reader view), the visitor's number takes the severity
+   slot — skip the load-time fade choreography so it appears the moment
+   a confirm lands mid-session. The others view does the same: no entry
+   means no number (the rail's "no ratings yet" tag speaks instead),
+   and an average that exists shows up without re-running the fade. */
+body[data-view="user"] .bar:not([data-user-rated]) .severity-number,
+body[data-view="others"] .bar:not([data-others-rated]) .severity-number {
+    display: none;
+}
+
+body[data-view="user"] .bar[data-user-rated] .severity-number,
+body[data-view="others"] .bar[data-others-rated] .severity-number {
+    animation: none;
+    opacity: 1;
+}
+
+/* The "← severity level" hint is keyed to :first-child, which is DOM
+   (AI) order — in the re-sorted reader and others views it would
+   annotate an arbitrary row, and the unrated rails carry their own
+   affordances. */
+body[data-view="user"] .bar:first-child .bar-fill::after,
+body[data-view="others"] .bar:first-child .bar-fill::after {
+    content: none;
+}
+
+/* Ghost rail behind rated bars (reader + others views) — a faint
+   outline of the full track so a confirmed bar still reads as a value
+   on a scale. */
+body[data-view="user"] .bar[data-user-rated] .bar-row::before,
+body[data-view="others"] .bar[data-others-rated] .bar-row::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: var(--bar-height);
+    box-sizing: border-box;
+    width: calc(var(--bar-base) + 10 * var(--bar-step));
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    pointer-events: none;
+}
+
+body[data-view="user"] .side-left .bar[data-user-rated] .bar-row::before,
+body[data-view="others"] .side-left .bar[data-others-rated] .bar-row::before {
+    right: 0;
+    border-radius: 2px 0 0 2px;
+}
+
+body[data-view="user"] .side-right .bar[data-user-rated] .bar-row::before,
+body[data-view="others"] .side-right .bar[data-others-rated] .bar-row::before {
+    left: 0;
+    border-radius: 0 2px 2px 0;
+}
+
+/* --------------------------------------------------------------------------
+     "you · n" marker — AI view only.
+
+     A slim ink notch crossing the bar at the position of the reader's
+     own rating, with a whisper of a caption in the gap below. Anchored
+     to the row (same --bar-base/--bar-step geometry as the fill widths)
+     so a reader rating beyond the AI's score sits past the fill's tip.
+     -------------------------------------------------------------------------- */
+.user-marker {
+    position: absolute;
+    top: 7px;
+    bottom: 7px;
+    width: 2px;
+    border-radius: 1px;
+    background: rgba(248, 245, 238, 0.95);
+    box-shadow: 0 0 8px rgba(248, 245, 238, 0.55);
+    display: none;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.side-left .user-marker {
+    right: calc(var(--bar-base) + var(--marker-sev, 1) * var(--bar-step) - 1px);
+}
+
+.side-right .user-marker {
+    left: calc(var(--bar-base) + var(--marker-sev, 1) * var(--bar-step) - 1px);
+}
+
+/* Shown in the AI view AND the others view — both compare the
+   visitor's own rating against someone else's judgment. */
+body[data-view="ai"] .bar[data-user-rated] .user-marker,
+body[data-view="others"] .bar[data-user-rated] .user-marker {
+    display: block;
+    /* Slot into the same stagger window as the severity numbers so a
+       view toggle reveals the marks as part of the choreography. */
+    animation: fadeIn 0.5s var(--ease-soft) both;
+    animation-delay: calc(var(--bar-number-base-delay) + var(--bar-index, 0) * var(--bar-stagger));
+}
+
+.user-marker-tag {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-body);
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+     "n votes" tag — others view only.
+
+     Rides inside the fill beside the average at the bar's tip, in the
+     same whisper voice as the user-marker tag. On zero-vote rails it
+     carries the "no ratings yet" hint instead (the severity number is
+     hidden there, so the tag sits at the tip alone). A flex sibling of
+     the severity number, not absolutely positioned — it should push
+     inward with the tip, never overhang the fill's edge.
+     -------------------------------------------------------------------------- */
+.others-votes {
+    display: none;
+    font-family: var(--font-body);
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+body[data-view="others"] .others-votes {
+    display: inline-block;
+}
+
+/* The number sits at the outer tip on both sides; the tag tucks just
+   inside it. Left-side fills lay out from the tip inward already; on
+   the right side flex order pulls the tag ahead of the number so the
+   mirror holds. */
+.side-left .others-votes {
+    margin-left: 10px;
+}
+
+.side-right .others-votes {
+    order: -1;
+    margin-right: 10px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1592,6 +2215,25 @@ body.hydrated .picker-badge {
     margin-bottom: 4px;
 }
 
+/* The eyebrow names whichever score the big number is showing. */
+body[data-view="user"] .modal-severity::before {
+    content: 'Your severity ';
+}
+
+body[data-view="others"] .modal-severity::before {
+    content: 'Others’ average ';
+}
+
+body[data-view="ai"] .modal-severity::before {
+    content: 'AI severity ';
+}
+
+/* Unrated (reader view) — the em-dash placeholder goes quiet until the
+   scale below has been used. */
+.modal-severity[data-empty] {
+    color: var(--ink-faint);
+}
+
 .modal-severity::after {
     content: '/10';
     font-family: var(--font-display);
@@ -1600,6 +2242,13 @@ body.hydrated .picker-badge {
     color: var(--ink-faint);
     letter-spacing: -0.01em;
     margin-left: 2px;
+}
+
+/* Others view appends the sample size — JS stamps data-votes ("3
+   votes") on the element and attr() renders it, so the count shows up
+   only when an average actually exists. */
+body[data-view="others"] .modal-severity[data-votes]::after {
+    content: '/10 · ' attr(data-votes);
 }
 
 .modal-title {
@@ -1816,24 +2465,6 @@ body.hydrated .picker-badge {
     color: var(--party-glow, var(--ink-dim));
 }
 
-/* Average line — deliberately quieter than the description text, per the
-   spec ("smaller font with less prominent coloring"). The number itself
-   gets a slightly stronger color so it doesn't disappear inside the
-   italic body. */
-.bar-rating-average {
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    font-style: italic;
-    color: var(--ink-faint);
-    margin: 0;
-}
-
-.bar-rating-average strong {
-    font-weight: 600;
-    font-style: normal;
-    color: var(--ink-dim);
-}
-
 .modal-sources {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: 18px;
@@ -2019,6 +2650,54 @@ body.hydrated .picker-badge {
         display: none;
     }
 
+    /* View toggle joins the sticky row as a compact center pill between
+       the two badges; the caption has no room here (the modal's rating
+       block carries the guidance on mobile). */
+    .view-toggle-cell {
+        position: relative;
+        left: auto;
+        transform: none;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .view-toggle {
+        padding: 3px;
+    }
+
+    .view-toggle-btn {
+        padding: 7px 10px;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+    }
+
+    .vt-label-full {
+        display: none;
+    }
+
+    .vt-label-short {
+        display: inline;
+    }
+
+    .view-caption {
+        display: none;
+    }
+
+    /* The marker notch survives on mobile AI view, but its caption
+       would crowd the tighter 12px bar gap. */
+    .user-marker-tag {
+        display: none;
+    }
+
+    /* Vote counts come off the bars on mobile too (the severity number
+       is already gone here) — the modal carries both. The body[data-view]
+       selector matches the desktop show-rule's specificity, which a bare
+       .others-votes inside this media query would lose to. */
+    body[data-view="others"] .others-votes {
+        display: none;
+    }
+
     /* Sides become a single column — no more figure header */
     .side-left,
     .side-right {
@@ -2090,10 +2769,14 @@ body.hydrated .picker-badge {
 
     /* Tighter bar widths on mobile so everything fits. Mobile uses
        inner labels, so the .label-tight fallback isn't relevant
-       here — these percentages stand on their own. */
-    .bar-fill {
+       here — these percentages stand on their own. Track max =
+       20 + 10 × 7.5 = 95%, so the rail fractions are 20/95 and
+       7.5/95. */
+    .bars-container {
         --bar-base: 20%;
         --bar-step: 7.5%;
+        --rail-base: 21.0526%;
+        --rail-step: 7.8947%;
     }
 
     /* Hide inline detail on mobile — modal takes over */
@@ -2124,9 +2807,12 @@ body.hydrated .picker-badge {
         font-size: 0.7rem;
     }
 
-    .bar-fill {
+    /* Track max = 22 + 10 × 7.3 = 95% → rail fractions 22/95, 7.3/95. */
+    .bars-container {
         --bar-base: 22%;
         --bar-step: 7.3%;
+        --rail-base: 23.1579%;
+        --rail-step: 7.6842%;
     }
 }
 /* ═══════════════════════════════════════════════

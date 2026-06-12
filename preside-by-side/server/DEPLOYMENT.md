@@ -47,7 +47,9 @@ Browser ──POST /api/suggest──> Apache ──proxy──> Python service 
   `reviewed`/`rejected`/`added` for the (future) AI consumer.
 - Ratings: stored one row per `(bar_id, ip_hash)`; updates upsert and
   bump `write_count`. The public aggregate endpoint only surfaces bars
-  whose non-quarantined vote count meets `RATING_MIN_DISPLAY` (default 5).
+  whose non-quarantined vote count meets `RATING_MIN_DISPLAY` (default 1
+  — every bar with votes is reported; the others' ratings view shows
+  the vote count next to each average).
 
 ---
 

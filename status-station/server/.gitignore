@@ -1,0 +1,8 @@
+# Dev-mode events DB (created when /var/lib/status-station isn't writable).
+events-dev.db
+events-dev.db-wal
+events-dev.db-shm
+# Never commit a real config.
+config.env
+__pycache__/
+.venv/

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEN Status Station</title>
+    <link rel="stylesheet" href="/dashboard/station.css">
+    <script src="/dashboard/station.js" defer></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <h1>FEN Status Station</h1>
+        <span id="updated" class="updated">connecting&hellip;</span>
+    </header>
+
+    <main class="grid">
+        <section class="panel panel-services">
+            <h2>Services</h2>
+            <div class="tiles" id="service-tiles"></div>
+            <h2>systemd units</h2>
+            <div class="tiles tiles-units" id="unit-tiles"></div>
+        </section>
+
+        <section class="panel panel-counters">
+            <h2>Today</h2>
+            <div class="counters" id="counters"></div>
+        </section>
+
+        <section class="panel panel-feed">
+            <h2>Service feed <span class="sub">journal / Discord-bound events</span></h2>
+            <ul class="feed" id="journal-feed"></ul>
+            <p class="feed-note" id="journal-status"></p>
+        </section>
+
+        <section class="panel panel-feed">
+            <h2>Page interactions <span class="sub">live beacons</span></h2>
+            <ul class="feed" id="event-feed"></ul>
+        </section>
+    </main>
+</body>
+
+</html>

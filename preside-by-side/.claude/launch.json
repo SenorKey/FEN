@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pbs-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8742", "--directory", "/Users/keypanzarella/FEN"],
+      "port": 8742
+    },
+    {
+      "name": "pbs-stub-api",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/tmp/pbs-preview-server.py"],
+      "port": 8743
+    }
+  ]
+}

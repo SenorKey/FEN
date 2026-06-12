@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/preside-by-side/preside-by-side.css">
     <script src="/preside-by-side/preside-by-side.js" defer></script>
+    <script src="/assets/js/beacon.js" defer></script>
 
     <meta name="description"
         content="Preside by Side — a side-by-side comparison of presidential misconduct, weighted visually by severity. A project on frontendneeded.com.">
@@ -82,6 +83,39 @@
             <div id="picker-menu-left" class="picker-menu" role="listbox" tabindex="-1"
                 aria-label="Choose left president" hidden></div>
         </div>
+        <!--
+          View toggle — sits on the centerline between the two pickers.
+          Default is the reader's own ratings (every bar starts as an
+          empty track to be scored by the visitor); the middle option
+          shows the community averages (each bar sized by the mean of
+          all reader votes, with the vote count beside it); the AI side
+          of the switch restores the AI-assisted severity bars with the
+          reader's own marks overlaid as notches. JS owns aria-pressed
+          and the caption copy under the pill. The buttons carry
+          aria-labels because the visible text swaps to a short form
+          (display:none'd) on mobile and would otherwise lose its
+          accessible name.
+        -->
+        <div class="view-toggle-cell">
+            <div class="view-toggle" role="group" aria-label="Severity ratings view">
+                <button type="button" class="view-toggle-btn" data-mode="user" aria-pressed="true"
+                    aria-label="Show your ratings">
+                    <span class="vt-label-full" aria-hidden="true">Your ratings</span>
+                    <span class="vt-label-short" aria-hidden="true">You</span>
+                </button>
+                <button type="button" class="view-toggle-btn" data-mode="others" aria-pressed="false"
+                    aria-label="Show others’ ratings">
+                    <span class="vt-label-full" aria-hidden="true">Others’ ratings</span>
+                    <span class="vt-label-short" aria-hidden="true">Others</span>
+                </button>
+                <button type="button" class="view-toggle-btn" data-mode="ai" aria-pressed="false"
+                    aria-label="Show AI ratings">
+                    <span class="vt-label-full" aria-hidden="true">AI ratings</span>
+                    <span class="vt-label-short" aria-hidden="true">AI</span>
+                </button>
+            </div>
+            <p class="view-caption"></p>
+        </div>
         <div class="picker-cell" data-side="right" data-party="republican">
             <button id="picker-right" type="button" class="picker-badge" aria-haspopup="listbox" aria-expanded="false"
                 aria-controls="picker-menu-right" aria-label="Pick president for the right side">
@@ -112,11 +146,60 @@
     <template id="bar-template">
         <article class="bar">
             <div class="bar-row">
-                <span class="bar-label-outer"></span>
+                <!--
+                  Outer label is a real <button> — in the default "your
+                  ratings" view the bar itself is the rating control, so
+                  the event name becomes the way into the detail panel.
+                  In the AI view it simply offers a second path to the
+                  same panel the bar click already opens.
+                -->
+                <button class="bar-label-outer" type="button"></button>
                 <button class="bar-fill" type="button" aria-expanded="false">
+                    <!--
+                      Rating-track furniture for the default "your
+                      ratings" view. .rate-preview is the party-tinted
+                      fill that follows the cursor across an unrated
+                      track, with the snapped 1–10 value riding its tip;
+                      .rate-notch marks the clicked (pending) value while
+                      the preview keeps tracking the cursor. Both are
+                      inert decoration to assistive tech — the fill
+                      button itself carries slider-style key handling
+                      and a descriptive aria-label in that state.
+                    -->
+                    <span class="rate-preview" aria-hidden="true">
+                        <span class="rate-number"></span>
+                    </span>
+                    <span class="rate-notch" aria-hidden="true"></span>
                     <span class="severity-number"></span>
+                    <!--
+                      Vote-count tag for the others' ratings view — rides
+                      beside the average at the bar's tip ("3 votes"), and
+                      carries the "no ratings yet" hint on zero-vote
+                      rails. CSS keeps it display:none in every other
+                      view; JS owns the text.
+                    -->
+                    <span class="others-votes" aria-hidden="true"></span>
                     <span class="bar-label-inner"></span>
                 </button>
+                <!--
+                  "you · n" marker — AI view only. Positioned against the
+                  row (not the fill) so a reader who rated an event higher
+                  than the AI did can sit beyond the fill's tip.
+                -->
+                <span class="user-marker" aria-hidden="true">
+                    <span class="user-marker-tag"></span>
+                </span>
+                <!--
+                  Confirm / cancel chips for a pending bar rating. They
+                  live beside the fill (absolutely positioned at the
+                  centerline end of the track) because a <button> cannot
+                  nest inside the .bar-fill button.
+                -->
+                <span class="rate-actions">
+                    <button class="rate-confirm" type="button"></button>
+                    <button class="rate-cancel" type="button" aria-label="Cancel rating">✕</button>
+                </span>
+                <p class="rate-status" role="status" aria-live="polite"></p>
             </div>
             <div class="bar-detail" hidden>
                 <div class="bar-detail-inner">
@@ -160,7 +243,6 @@
                             <button class="bar-rating-change" type="button">Change my rating</button>
                         </div>
                         <p class="bar-rating-status" role="status" aria-live="polite"></p>
-                        <p class="bar-rating-average" hidden></p>
                     </div>
                 </div>
             </div>
@@ -211,9 +293,7 @@
               identical <button>s; role="radiogroup" + role="radio"
               gives screen readers the right "pick one of N" semantics.
               The status line is polite-live so submit feedback is
-              announced without yanking focus. The average line stays
-              hidden until JS confirms the server-side count meets the
-              display threshold (5 by default).
+              announced without yanking focus.
             -->
             <div class="bar-rating">
                 <p class="bar-rating-prompt">What severity would you give this?</p>
@@ -224,7 +304,6 @@
                     <button class="bar-rating-change" type="button">Change my rating</button>
                 </div>
                 <p class="bar-rating-status" role="status" aria-live="polite"></p>
-                <p class="bar-rating-average" hidden></p>
             </div>
         </div>
     </dialog>
@@ -264,12 +343,18 @@
             </div>
             <div class="faq-item">
                 <h3 class="faq-question">How severity is rated.</h3>
-                <p class="faq-answer">Severity scores (1–10) were assigned with AI assistance, weighing each event's
+                <p class="faq-answer">By default, it isn't — not until you weigh in. The page opens with every event
+                    as an unrated track: hover one, click where you think it lands, and confirm to set your own 1–10
+                    severity. Your ratings are kept on your device for about a week, so they're waiting if you come
+                    back. The "Others' ratings" toggle shows how readers as a group have scored each event — a plain
+                    average of every vote, alongside how many votes it rests on. Early on those averages sit on a
+                    handful of votes and will swing easily; that's expected, and the count is shown so you can judge
+                    the weight yourself. The "AI ratings" toggle reveals scores assigned with AI assistance, weighing each event's
                     scale of harm, legal significance, and lasting consequence by present-day standards (an act like
                     slaveholding drew little controversy in its era, yet is rated severely here because the rights it
-                    violated are now held as absolute). These are a best-faith estimate, not an authoritative judgment:
-                    AI tools carry biases, scores can reasonably be disputed, and where you'd weigh things differently,
-                    the linked sources are there for you to do so.</p>
+                    violated are now held as absolute). Those are a best-faith estimate, not an authoritative judgment:
+                    AI tools carry biases, scores can reasonably be disputed, and the linked sources are there for you
+                    to weigh things differently.</p>
             </div>
             <div class="faq-item">
                 <h3 class="faq-question">A work in progress.</h3>
@@ -288,11 +373,12 @@
             </div>
             <div class="faq-item">
                 <h3 class="faq-question">What's planned next.</h3>
-                <p class="faq-answer">Preside by Side is an evolving project. Planned additions include reader voting on
-                    severity, a way to register where you'd weigh an event differently from its AI-assisted score, and
-                    a suggestion box for documented events or topics you feel the project has overlooked. The goal is to
-                    keep the comparison accountable to the evidence and open to correction, rather than fixed on any one
-                    reading of the record.</p>
+                <p class="faq-answer">Preside by Side is an evolving project. Reader ratings are now the front door —
+                    the page opens unscored so your read on each event comes before anyone else's — and the suggestion
+                    box below collects what the project has overlooked. Planned additions include a community view
+                    comparing reader averages against the AI-assisted scores, more presidents, and deeper sourcing on
+                    existing entries. The goal is to keep the comparison accountable to the evidence and open to
+                    correction, rather than fixed on any one reading of the record.</p>
             </div>
             <div class="faq-item faq-suggest">
                 <div class="suggest-head">
