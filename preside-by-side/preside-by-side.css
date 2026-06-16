@@ -2580,10 +2580,18 @@ body[data-view="others"] .modal-severity[data-votes]::after {
        looking at" anchor while scrolling through bars. */
     .picker-row {
         position: sticky;
-        top: 40px;
-        /* sits below the 40px FEN navbar */
+        top: 0;
+        /* Standalone app — no site navbar above it, so the sticky row
+           pins flush to the viewport top. (A non-zero offset would leave
+           an empty band above it that page content scrolls through.) */
         height: auto;
         display: flex;
+        /* Wrap so the view toggle can drop onto its own line below the
+           two badges instead of splitting the row's width with them —
+           on narrow phones the centered pill was squishing the badges
+           horizontally. The badges (flex: 1, basis 0) share the top
+           line; the toggle-cell (basis 100%, order 1) wraps beneath. */
+        flex-wrap: wrap;
         gap: 10px;
         padding: 10px 12px;
         background: linear-gradient(180deg, #14141f 0%, #0e0e18 100%);
@@ -2657,9 +2665,13 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         position: relative;
         left: auto;
         transform: none;
-        flex: 0 0 auto;
+        /* Full-width on its own line above the badges (order pulls it
+           ahead of both picker-cells). Flip to order: 1 to sit it below. */
+        flex: 0 0 100%;
+        order: -1;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .view-toggle {
