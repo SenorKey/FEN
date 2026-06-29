@@ -97,7 +97,7 @@ function ScoutingForm(_ref) {
             <Section title="Set Pieces" description="Corners, free kicks & throw-in routines" icon="🎯" isOpen={openSection === "setPieces"} onToggle={function () { toggle("setPieces"); }} color={C.yellow}>
                 {s.setPieces.map(function (sp, i) {
                     return (
-                        <div key={i} style={{ padding: 10, background: C.bgHover, borderRadius: 6, marginBottom: 6 }}>
+                        <div key={sp.id} style={{ padding: 10, background: C.bgHover, borderRadius: 6, marginBottom: 6 }}>
                             <div style={{ fontSize: 11, color: C.textDim, fontFamily: C.fontCond, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>
                                 Set Piece #{i + 1}</div>
                             <Label>Type</Label>
@@ -115,7 +115,7 @@ function ScoutingForm(_ref) {
                         </div>
                     );
                 })}
-                <button onClick={function () { onUpdateSetPieces(s.setPieces.concat([{ type: null, side: null, notes: "", minute: "" }])); }}
+                <button onClick={function () { onUpdateSetPieces(s.setPieces.concat([{ id: uid(), type: null, side: null, notes: "", minute: "" }])); }}
                     style={{
                         width: "100%", padding: 10, fontSize: 12, border: "1px dashed " + C.border,
                         background: "transparent", color: C.textMuted, borderRadius: 6, cursor: "pointer",

@@ -55,6 +55,9 @@ var segBtnStyle = {
     transition: "background 0.12s, color 0.12s",
 };
 
+var _id = Date.now();
+var uid = function () { return "" + (++_id); };
+
 var INITIAL_DATA = {
     match: { opponent: "", ourTeam: "", date: "", formationIn: "", formationOut: "", dangerPlayers: "" },
     boards: [{ id: "b1", name: "Formation", markers: [], arrows: [] }],
@@ -62,15 +65,12 @@ var INITIAL_DATA = {
     scouting: {
         buildUp: {}, progression: {}, pressing: {}, block: {},
         posTransition: {}, negTransition: {},
-        setPieces: [{ type: null, side: null, notes: "", minute: "" }],
+        setPieces: [{ id: uid(), type: null, side: null, notes: "", minute: "" }],
     },
     momentum: {},
     observations: [],
     summary: { problems: "", opportunities: "", notes: "" },
 };
-
-var _id = Date.now();
-var uid = function () { return "" + (++_id); };
 
 var STORAGE_KEY = "match-analysis-v3";
 var LIBRARY_KEY = "match-analysis-library-v1";
@@ -163,12 +163,16 @@ function clearSaved() {
    also merge the nested objects one level down to keep their defaults. */
 function mergeWithDefaults(saved) {
     saved = saved || {};
-    return {
+    var merged = {
         ...INITIAL_DATA, ...saved,
         match: { ...INITIAL_DATA.match, ...(saved.match || {}) },
         scouting: { ...INITIAL_DATA.scouting, ...(saved.scouting || {}) },
         summary: { ...INITIAL_DATA.summary, ...(saved.summary || {}) },
     };
+    merged.scouting.setPieces = (merged.scouting.setPieces || []).map(function (sp) {
+        return sp.id ? sp : { id: uid(), ...sp };
+    });
+    return merged;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -716,6 +720,7 @@ function ExportMenu(_ref) {
     var data = _ref.data, onAction = _ref.onAction;
     var _s = useState(false), open = _s[0], setOpen = _s[1];
     var _c = useState(false), copied = _c[0], setCopied = _c[1];
+    var _er = useState(false), copyErr = _er[0], setCopyErr = _er[1];
     var ref = useRef(null);
 
     useEffect(function () {
@@ -731,18 +736,12 @@ function ExportMenu(_ref) {
             setCopied(true);
             setTimeout(function () { setCopied(false); setOpen(false); if (onAction) onAction(); }, 1200);
         };
-        var fallback = function () {
-            var ta = document.createElement("textarea");
-            ta.value = text; document.body.appendChild(ta);
-            ta.select(); document.execCommand("copy");
-            document.body.removeChild(ta);
-            onSuccess();
+        var onError = function () {
+            setCopyErr(true);
+            setTimeout(function () { setCopyErr(false); }, 2500);
         };
-        try {
-            navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
-        } catch (e) {
-            fallback();
-        }
+        if (!navigator.clipboard) { onError(); return; }
+        navigator.clipboard.writeText(text).then(onSuccess).catch(onError);
     };
 
     var downloadText = function () {
@@ -773,8 +772,9 @@ function ExportMenu(_ref) {
                     <button onClick={copyToClipboard} style={{
                         width: "100%", padding: "12px 14px", fontSize: 13, fontFamily: C.fontCond,
                         fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
-                        borderBottom: "1px solid " + C.border, color: copied ? C.accent : C.text, cursor: "pointer",
-                    }}>{copied ? "✓  Copied!" : "📋  Copy to Clipboard"}</button>
+                        borderBottom: "1px solid " + C.border,
+                        color: copyErr ? C.danger : copied ? C.accent : C.text, cursor: "pointer",
+                    }}>{copyErr ? "✕  Copy failed — HTTPS required" : copied ? "✓  Copied!" : "📋  Copy to Clipboard"}</button>
                     <button onClick={downloadText} style={{
                         width: "100%", padding: "12px 14px", fontSize: 13, fontFamily: C.fontCond,
                         fontWeight: 600, textAlign: "left", background: "transparent", border: "none",
