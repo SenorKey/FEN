@@ -27,6 +27,7 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/wfpc-privacy-policy/` — Privacy policy for Warframe Price Checker
 - `/match-analysis-ad/` — Promo page for the Match Analysis tool
 - `/preside-by-side-ad/` — Promo page for Preside by Side (presidential misconduct comparison)
+- `/preside-by-side/` — Side-by-side presidential misconduct comparison app
 - `/fresh-pull/` — One-click browsing data cleaner for Chrome
 - `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
 
