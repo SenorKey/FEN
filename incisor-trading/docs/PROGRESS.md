@@ -25,6 +25,21 @@ re-raises the same item.
 - **N1 — Data provider choice.** Comes out of T0. The routine researches and
   recommends; picking one means creating an account and accepting terms, which is
   Key's. Meanwhile everything is built against fixtures, so nothing waits.
+- **N1a — Alpha Vantage display permission (from T0, 2026-08-27).** No free tier
+  from any commercial provider clearly permits public display of market data on a
+  website; display is a separate paid licence layer everywhere. Alpha Vantage is
+  the only one whose bar is scoped to *commercial* activity rather than stated
+  flatly, so it is the recommendation — **conditional on a written yes**. One free
+  email to `premium@alphavantage.co` (free, ad-free, non-commercial educational
+  page; delayed data labeled; attribution as they require) settles it. Full
+  reasoning and the quoted clauses are in `docs/DATA-PROVIDER.md`. *Meanwhile:*
+  the routine stays in fixture mode and builds on, exactly as guide §10 directs.
+- **N1b — SEC EDGAR needs nothing from Key (from T0).** `data.sec.gov` is public
+  domain, requires no API key, no account, and no acceptance of terms, so it is
+  inside the routine's bounds and it will be used for fundamentals (T11) without
+  further input. It has no prices, so it does not replace N1a — it just means
+  fundamentals never spend Alpha Vantage's 25-calls-a-day quota. Recorded here as
+  a note, not a question.
 - **N2 — Disclaimer wording.** The routine ships the wording in guide §11
   verbatim ("Educational only. Not investment advice. Delayed data. No real money
   is involved."). If Key wants different legal phrasing, that's his to set.
@@ -92,3 +107,37 @@ and the protocol names which to read in full versus from the tail.
 **Notes:** The anti-loop mechanism is `DECISIONS.md`. Add to it in the same
 session as the work, never "next time" — an undocumented dead end is
 indistinguishable from an untried idea.
+
+## 2026-08-27 — T0 Data provider due diligence
+**Outcome:** shipped
+**Changed:** `incisor-trading/docs/DATA-PROVIDER.md` (new), `BACKLOG.md` (T0
+checked), `DECISIONS.md` (three entries), `PROGRESS.md` (N1a, N1b)
+**Verified:** against the T0 acceptance criteria — the file exists; **eight**
+providers are compared against the required three; every "public display
+permitted?" cell quotes the operative clause with its section number and links
+the source; a recommendation is stated with reasoning and a fallback. No account
+was created, no terms accepted, no API key requested, and no upstream call made.
+No code, as the task specifies. `git status` shows changes only under
+`incisor-trading/`.
+**Notes:** The research produced one finding that outranks the provider choice
+itself: **market data is licensed in two layers — access and display — and free
+tiers only ever grant access.** Finnhub, Massive (Polygon.io, rebranded October
+2025), Twelve Data, Tiingo and FMP each forbid public display in plain language;
+marketstack fails on volume alone at 100 requests/month. Alpha Vantage is the
+only near-miss, because its restriction is scoped to *commercial* activity, and
+this page is permanently non-commercial by guide §4 — hence the conditional
+recommendation in N1a rather than a pick.
+
+Two consequences the next sessions should carry:
+
+1. **SEC EDGAR is usable immediately** and needs nothing from Key — no key, no
+   account, no terms. Fundamentals (T11) should come from it, which also keeps
+   them off Alpha Vantage's quota.
+2. **25 requests/day is the binding constraint**, not the licence. It means the
+   dashboard is end-of-day-oriented and honestly labeled, not a live ticker, and
+   it makes T4's caching and T9's watchlist cap load-bearing rather than nice to
+   have. Design for that from T6 onward instead of discovering it at T9.
+
+Fixtures will be hand-written to Alpha Vantage's documented response shapes in
+T3. That is deliberately reversible: T3's parser module is the only code that
+ever sees provider JSON, so a different provider changes one file.

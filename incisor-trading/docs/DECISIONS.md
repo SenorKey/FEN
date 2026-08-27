@@ -44,6 +44,10 @@ need repeating here — this table is for the routine's own calls.
 | Date | Decision | Why | Superseded by |
 |---|---|---|---|
 | 2026-08-27 | Docs split four ways: stable guide, ordered backlog, journal, memory | A single planning file means the routine rewrites its own instructions and drifts | — |
+| 2026-08-27 | Market data is licensed in **two layers — access and display** — and no commercial free tier grants display | Checked eight providers for T0. Finnhub, Massive (ex-Polygon.io), Twelve Data, Tiingo and FMP each forbid public display outright; the exchanges charge for the display layer, so this is structural, not a gap to shop around for. Stop re-searching for a free tier that allows it — there isn't one. | — |
+| 2026-08-27 | Recommend **Alpha Vantage**, conditional on written permission; stay in fixture mode until it exists | The only free tier whose bar is scoped to *commercial* activity (ToS §2.a.iii) rather than stated flatly, and this page is permanently non-commercial (guide §4). Ambiguous is not permitted (guide §10), so live mode waits on a written yes. Coverage matches T6–T12 from one provider. | — |
+| 2026-08-27 | **SEC EDGAR (`data.sec.gov`) for fundamentals**, separate from the quote provider | Public domain, 10 req/**second**, and — decisively — no key, no account, no terms to accept, so it is inside the routine's bounds with no input from Key. Has no prices, so it supplements rather than replaces a quote provider, and keeps fundamentals off Alpha Vantage's 25/day quota. Requires a `User-Agent` naming the app and a contact email or it 403s. | — |
+| 2026-08-27 | Design the dashboard as **end-of-day-oriented, honestly labeled**, not a live ticker | Alpha Vantage free is 25 requests/**day**, 5/min. That is the binding constraint on the whole dashboard, tighter than the licence question. T4's caching and T9's watchlist cap are load-bearing because of it. Decide this at T6, not by discovering it at T9. | — |
 
 ---
 
@@ -54,7 +58,11 @@ condition has genuinely changed.
 
 | Date | Tried | Why it failed | Revisit if | Branch |
 |---|---|---|---|---|
-| — | _(none yet)_ | | | |
+| 2026-08-27 | Finnhub as the quote provider (best free limit found: 60 req/min) | ToS *Redistribution Rights and Personal Use* forbids redistributing or sharing data "with anyone or any 3rd party" without written approval. Site visitors are third parties. Rate limit is irrelevant if the licence forbids the use. | Finnhub grants written approval, or ships a display tier that is free | — |
+| 2026-08-27 | Twelve Data (800 req/day) | Free tier is licensed "solely for Internal Use" (§2.2(a)); external display needs a paid Redistribution Rights Add-On (§2.4), and §2.3(l) bars free-tier commercial use. | The add-on becomes free | — |
+| 2026-08-27 | Tiingo | Redistribution is "only available upon special request … and comes with additional fees" (§7.3); §1.4(h) bars publishing analysis publicly. Worse, §1.6(a) limits free plans to transient in-memory data only — which **forbids the server-side cache T4 requires**. | Tiingo offers a free display licence *and* relaxes the caching bar — both, not either | — |
+| 2026-08-27 | Massive, formerly Polygon.io (rebranded Oct 2025) | Market Data Terms §2 bars data being "publicly displayed"; §1 bars building "an application intended for use by end users other than you". The most explicit prohibition of the eight. | Never, on the free tier | — |
+| 2026-08-27 | marketstack | 100 requests per **month**. Four ETF proxies refreshed daily is 120/month — over budget before a visitor searches anything. Disqualified on volume before terms mattered. | The free quota grows by orders of magnitude | — |
 
 ---
 

@@ -12,7 +12,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ## Phase 0 — Foundations
 
-- [ ] **T0 · Data provider due diligence**
+- [x] **T0 · Data provider due diligence**
   Research free-tier US equity data providers. Produce `docs/DATA-PROVIDER.md`
   with a comparison table: rate limit, delay, whether the terms permit **public
   display on a website**, required attribution, coverage (quotes / historical /
