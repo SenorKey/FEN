@@ -19,6 +19,7 @@ import service_fixture  # noqa: F401  — configures the service before import
 import incisor  # noqa: E402
 import provider  # noqa: E402
 import source  # noqa: E402
+import store  # noqa: E402
 
 # The symbols the committed fixture set answers for. Listed rather than derived
 # from the directory, so deleting a fixture fails a test instead of quietly
@@ -153,11 +154,6 @@ class TestSourceLayer(unittest.TestCase):
                 with self.assertRaises(source.SourceUnavailable):
                     source.load_fixture(endpoint, 'SPY')
 
-    def test_live_mode_fails_closed_until_the_fetcher_exists(self):
-        """Better a logged 503 than a route that pretends to work."""
-        with self.assertRaises(source.SourceUnavailable):
-            source.fetch(source.QUOTE, 'SPY', 'live')
-
     def test_the_newest_dated_fixture_wins(self):
         """Refreshing a fixture is a drop-in; the older file stays as evidence."""
         folder = os.path.join(source.FIXTURE_ROOT, source.QUOTE)
@@ -178,6 +174,15 @@ class TestSourceLayer(unittest.TestCase):
 
 class TestNoNetworkAccess(RouteTestCase):
     """The T3 acceptance criterion, asserted rather than assumed."""
+
+    def setUp(self):
+        super().setUp()
+        # Empty the snapshot cache first. A cached answer would satisfy these
+        # assertions from SQLite without ever opening a fixture, which is a
+        # weaker claim than the one this class exists to make.
+        with store.connect() as connection:
+            for table in ('quotes', 'daily_bars', 'daily_series'):
+                connection.execute('DELETE FROM %s' % table)
 
     def test_the_fixture_path_never_imports_the_http_client(self):
         """`requests` is the only HTTP client we ship, so its absence is the

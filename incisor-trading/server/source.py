@@ -3,14 +3,16 @@
 Incisor Trading — where a provider payload comes from.
 
 One seam between the routes and the outside world. In fixture mode it reads
-committed JSON off disk and touches nothing else; in live mode it will call the
-cached fetcher, which is the next backlog task (T4). Routes ask this module for
-a payload and never care which of the two answered.
+committed JSON off disk; in live mode it calls the provider over HTTPS. Callers
+ask for a payload and never care which of the two answered.
 
-Fixture mode is the default and is what every session, test run and fresh
-checkout uses, so `INCISOR_DATA_SOURCE=fixture` genuinely makes network access
-impossible rather than merely unlikely: there is no HTTP client in this file to
-call.
+In fixture mode `requests` is never imported, so
+`INCISOR_DATA_SOURCE=fixture` makes network access impossible rather than
+merely unlikely — the import happens inside the live branch, which is the one
+thing in this project that opens a socket.
+
+Nothing here caches, counts or rations. fetcher.py does all three, and it is
+the only module that may call fetch().
 
 Layout under fixtures/:
 
@@ -26,6 +28,19 @@ import json
 import os
 
 from provider import ProviderError
+
+UPSTREAM_URL = 'https://www.alphavantage.co/query'
+
+# Our endpoint names mapped to the provider's `function` parameter. A caller
+# cannot name a provider function directly; it can only pick one of these.
+UPSTREAM_FUNCTIONS = {
+    'global-quote': 'GLOBAL_QUOTE',
+    'time-series-daily': 'TIME_SERIES_DAILY',
+}
+
+# Long enough for a slow upstream, short enough that a hung request does not
+# hold a worker thread while the dashboard waits.
+UPSTREAM_TIMEOUT_SEC = 10
 
 QUOTE = 'global-quote'
 DAILY = 'time-series-daily'
@@ -88,19 +103,77 @@ def load_fixture(endpoint, symbol):
         raise SourceUnavailable('unreadable fixture %s: %s' % (path, exc))
 
 
-def fetch(endpoint, symbol, data_source):
+def upstream_url_parameters(endpoint, symbol, api_key):
+    """The query parameters for one upstream call.
+
+    Split out from the call itself so the URL construction can be tested
+    without a network, which is the only way it ever gets tested: live mode
+    has never run (docs/DATA-PROVIDER.md).
+    """
+    if endpoint not in UPSTREAM_FUNCTIONS:
+        raise SourceUnavailable('unknown endpoint %r' % endpoint)
+    parameters = {
+        'function': UPSTREAM_FUNCTIONS[endpoint],
+        'symbol': symbol,
+        'apikey': api_key,
+    }
+    if endpoint == 'time-series-daily':
+        # 100 sessions, against `full`'s 20+ years. The dashboard's longest
+        # range is 1Y and the payload is a fraction of the size.
+        parameters['outputsize'] = 'compact'
+    return parameters
+
+
+def fetch_live(endpoint, symbol, api_key):
+    """Call the provider once. The only outbound request in the project.
+
+    `requests` is imported here rather than at module scope so that fixture
+    mode genuinely cannot reach the network — there is no HTTP client loaded
+    to reach it with. tests/test_fixture_layer.py asserts exactly that.
+    """
+    import requests
+
+    parameters = upstream_url_parameters(endpoint, symbol, api_key)
+    try:
+        response = requests.get(
+            UPSTREAM_URL, params=parameters, timeout=UPSTREAM_TIMEOUT_SEC)
+    except requests.RequestException as exc:
+        # str(exc) can contain the full URL, and the URL contains the key.
+        # Only the exception's type is safe to repeat.
+        raise SourceUnavailable('upstream request failed: %s' % type(exc).__name__)
+
+    if response.status_code != 200:
+        raise SourceUnavailable('upstream returned HTTP %d' % response.status_code)
+
+    try:
+        return response.json()
+    except ValueError:
+        # Upstream answers a malformed request with an HTML page often enough
+        # that this is a normal path, not an exceptional one.
+        raise SourceUnavailable('upstream returned a non-JSON body')
+
+
+def fetch(endpoint, symbol, data_source, api_key=''):
     """Get a raw provider payload for one endpoint and symbol.
 
-    `data_source` is the service's INCISOR_DATA_SOURCE value, passed in rather
-    than read from the environment here so this module stays testable and has
-    exactly one caller deciding the mode.
+    `data_source` and `api_key` are passed in rather than read from the
+    environment here, so this module stays testable and exactly one caller
+    decides the mode. Call it through fetcher.py, never directly: this
+    function has no cache and no budget behind it.
     """
     if data_source == 'fixture':
         return load_fixture(endpoint, symbol)
-    # Live mode is configurable today because the service has always accepted
-    # it, but the thing that would make the call — the cached, quota-counted
-    # fetcher — is T4. Until then live mode fails closed and says so, which is
-    # the honest behaviour: the alternative is a route that looks like it works
-    # and silently serves nothing.
-    raise SourceUnavailable(
-        'live mode has no fetcher yet; it lands with the snapshot cache (T4)')
+    if not api_key:
+        raise SourceUnavailable('live mode requires an upstream API key')
+    return fetch_live(endpoint, symbol, api_key)
+
+
+def redact(text_with_key, api_key):
+    """Remove a key from anything about to be logged.
+
+    Upstream echoes the key back in some error bodies and it appears in every
+    URL we build, so the log line is the realistic place for it to escape.
+    """
+    if not api_key:
+        return text_with_key
+    return text_with_key.replace(api_key, '[redacted]')

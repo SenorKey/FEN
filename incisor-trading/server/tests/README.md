@@ -11,7 +11,9 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
 Everything runs in fixture mode against a temporary database, so no test
-touches the network, the real data directory, or upstream quota.
+touches the network, the real data directory, or upstream quota. Live mode is
+covered only where it can be without a network — URL construction, failing
+closed without a key, and key redaction.
 
 - **`test_incisor.py`** — behaviour through Flask's test client: `/health`,
   origin checking, both rate-limit gates, symbol validation, and response
@@ -23,6 +25,10 @@ touches the network, the real data directory, or upstream quota.
   including the T3 acceptance criterion: `TestNoNetworkAccess` replaces every
   socket constructor with one that raises and drives a full request through the
   real route stack, so "no network access" is asserted rather than assumed.
+- **`test_cache.py`** — the snapshot cache, the price store and the daily call
+  budget. `TestOneCallPerSymbol` is the T4 acceptance criterion, including the
+  concurrent version: four threads asking for one symbol at once must still
+  produce a single call.
 - **`test_http_smoke.py`** — the same service on a real socket, driven with
   real HTTP. A WSGI app can satisfy every test-client assertion and still fail
   to boot; this is what proves it serves.

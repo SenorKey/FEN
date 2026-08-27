@@ -2,10 +2,14 @@
 """
 Incisor Trading — market data service.
 
-Config loading, the SQLite store, origin checking, two-tier rate limiting,
-GET /health, and the two read routes: GET /quote and GET /history. In fixture
-mode both are served from committed JSON and make no network call at all; the
-cached live fetcher behind them is the next task (T4).
+Config loading, origin checking, two-tier rate limiting, GET /health, and the
+two read routes: GET /quote and GET /history.
+
+This file is the edge. Storage lives in store.py, provider parsing in
+provider.py, payload retrieval in source.py, and the cache and quota budget in
+fetcher.py — which is the only module permitted to reach upstream. A route's
+whole job is to check who is asking, validate the symbol, ask the fetcher, and
+say nothing extra when something goes wrong.
 
 Run under systemd; see incisor-trading.service. Apache reverse-proxies
 /api/incisor/* on the public site to this service on localhost. /health is
@@ -33,9 +37,7 @@ touching a secret.
 import datetime
 import logging
 import os
-import pathlib
 import re
-import sqlite3
 import sys
 import threading
 import time
@@ -44,8 +46,10 @@ from collections import deque
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 
+import fetcher
 import provider
 import source
+import store
 
 
 def load_env_file(path):
@@ -73,7 +77,9 @@ UPSTREAM_API_KEY = os.environ.get('UPSTREAM_API_KEY', '').strip()
 if DATA_SOURCE == 'live' and not UPSTREAM_API_KEY:
     sys.exit('UPSTREAM_API_KEY is required when INCISOR_DATA_SOURCE=live')
 
-DB_PATH = os.environ.get('DB_PATH', '/var/lib/incisor-trading/incisor.db')
+# store.py owns the database, DB_PATH included. Re-exported here because the
+# startup log line and the tests both reach for incisor.DB_PATH.
+DB_PATH = store.DB_PATH
 LISTEN_HOST = os.environ.get('LISTEN_HOST', '127.0.0.1')
 LISTEN_PORT = int(os.environ.get('LISTEN_PORT', '8789'))
 
@@ -199,61 +205,6 @@ def origin_is_allowed(strict):
     return origin in ALLOWED_ORIGINS
 
 
-# --- Database ---------------------------------------------------------------
-
-def db():
-    connection = sqlite3.connect(DB_PATH)
-    connection.row_factory = sqlite3.Row
-    # Per-connection, unlike journal_mode, so it has to be set every time.
-    # NORMAL is the documented safe pairing with WAL.
-    connection.execute('PRAGMA synchronous=NORMAL')
-    return connection
-
-
-def init_db():
-    """Create the schema if it isn't there. Safe to run on every boot."""
-    pathlib.Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    with db() as connection:
-        # WAL so reads never block behind the cache writer.
-        connection.execute('PRAGMA journal_mode=WAL')
-        # The only table the skeleton needs: a record of what we asked
-        # upstream for and when. Quotes, bars and fundamentals get their
-        # own tables in T4, but the call log has to exist first — free-tier
-        # quota is the binding constraint on this whole project, so it is
-        # never not being counted.
-        connection.execute(
-            """
-            -- Exists before there is any fetcher to log into it, on purpose:
-            -- the free tier's 25-calls-a-day ceiling is the binding constraint
-            -- on the project, and if the counter did not predate the first
-            -- fetcher then the first version that forgets to record a call
-            -- would go unnoticed. T4 builds its budgeting on this table.
-            CREATE TABLE IF NOT EXISTS upstream_calls (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                called_at   TEXT NOT NULL,
-                endpoint    TEXT NOT NULL,
-                symbol      TEXT,
-                status      TEXT NOT NULL,
-                source      TEXT NOT NULL
-            )
-            """
-        )
-        connection.execute(
-            'CREATE INDEX IF NOT EXISTS idx_calls_at ON upstream_calls(called_at)')
-
-
-def db_is_reachable():
-    try:
-        with db() as connection:
-            connection.execute('SELECT 1').fetchone()
-        return True
-    except sqlite3.Error:
-        # The reason is logged, never returned — an error string from the
-        # storage layer is not something a caller needs to see.
-        log.exception('health: database unreachable')
-        return False
-
-
 # --- Request plumbing -------------------------------------------------------
 
 @app.after_request
@@ -304,7 +255,7 @@ def health():
         log.info('health: rate limited (%s) ip=%r', reason, get_client_ip())
         return jsonify(error='rate_limited'), 429
 
-    storage_ok = db_is_reachable()
+    storage_ok = store.is_reachable()
     return jsonify(
         status='ok' if storage_ok else 'degraded',
         service='incisor-trading',
@@ -360,26 +311,34 @@ def error_for(route, symbol, exc):
 
     The upstream message is logged and never returned: it is prose we did not
     write, and on the live path it can contain our own API key. The caller gets
-    a token and a status code.
+    a token and a status code. Even the log line is redacted — upstream echoes
+    the key back in some error bodies, and the journal is the realistic place
+    for it to escape.
     """
-    if isinstance(exc, source.SourceUnavailable):
+    if isinstance(exc, (source.SourceUnavailable, fetcher.Unavailable)):
         log.error('%s: source unavailable for %s: %s', route, symbol, exc)
         return jsonify(error='data_unavailable'), 503
 
     if exc.reason == 'not_found':
         return jsonify(error='symbol_not_found'), 404
     if exc.reason == 'malformed':
-        log.error('%s: unparseable payload for %s: %s', route, symbol, exc.detail)
+        log.error('%s: unparseable payload for %s: %s', route, symbol,
+                  source.redact(exc.detail, UPSTREAM_API_KEY))
         return jsonify(error='data_unavailable'), 502
     # rate_limited and quota_exhausted are both upstream saying no. They are
-    # worth logging loudly — on a 25-calls-a-day tier, seeing one means the
-    # caching in T4 is not doing its job.
+    # worth logging loudly — on a 25-calls-a-day tier, reaching one means the
+    # cache in fetcher.py is not doing its job.
     log.warning('%s: upstream refused (%s) for %s', route, exc.reason, symbol)
     return jsonify(error='data_unavailable'), 503
 
 
-def read_route(route, endpoint, parse):
-    """Shared body of the read routes: gate, validate, load, parse, envelope."""
+def read_route(route, endpoint):
+    """Shared body of the read routes: gate, validate, ask the fetcher, wrap.
+
+    The envelope carries how old the data is as well as what it is. A page
+    that shows a price without saying when it was taken is the failure mode
+    guide section 10 is written to prevent.
+    """
     rejection = gate(route)
     if rejection is not None:
         return rejection
@@ -389,15 +348,17 @@ def read_route(route, endpoint, parse):
         return jsonify(error='invalid_symbol'), 400
 
     try:
-        payload = source.fetch(endpoint, symbol, DATA_SOURCE)
-        data = parse(payload, symbol)
-    except (provider.ProviderError, source.SourceUnavailable) as exc:
+        data, meta = fetcher.get(endpoint, symbol, DATA_SOURCE, UPSTREAM_API_KEY)
+    except (provider.ProviderError, source.SourceUnavailable,
+            fetcher.Unavailable) as exc:
         return error_for(route, symbol, exc)
 
     return jsonify(
         symbol=symbol,
         source=DATA_SOURCE,
         delay=DELAY_LABEL,
+        stale=meta['stale'],
+        fetched_at=meta['fetched_at'],
         served_at=now_utc_iso(),
         **{route: data},
     ), 200
@@ -406,22 +367,22 @@ def read_route(route, endpoint, parse):
 @app.route('/quote', methods=['GET'])
 def quote():
     """Latest daily bar for one symbol: GET /quote?symbol=SPY."""
-    return read_route('quote', source.QUOTE, provider.parse_quote)
+    return read_route('quote', source.QUOTE)
 
 
 @app.route('/history', methods=['GET'])
 def history():
     """Daily bars for one symbol, oldest first: GET /history?symbol=SPY.
 
-    The whole committed series is returned and the client slices it into the
+    The whole cached series is returned and the client slices it into the
     ranges it offers. Serving one series and reusing it across every range is
-    also what keeps the upstream call count at one per symbol per day, which
-    on a 25-a-day tier is the difference between working and not.
+    what keeps the upstream call count at one per symbol per day, which on a
+    25-a-day tier is the difference between working and not.
     """
-    return read_route('history', source.DAILY, provider.parse_daily_history)
+    return read_route('history', source.DAILY)
 
 
-init_db()
+store.init()
 log.info('incisor-trading ready on %s:%d (source=%s)',
          LISTEN_HOST, LISTEN_PORT, DATA_SOURCE)
 
