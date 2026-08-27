@@ -1,9 +1,12 @@
 /* App shell for /incisor-trading.
  *
- * Right now this is only the tab controller for the three page modes
- * (Dashboard / Trade / Learn). Data fetching, the portfolio and the market
- * clock arrive in later tasks and get their own modules under js/ once this
- * file outgrows one screen.
+ * Two things: the tab controller for the three page modes (Dashboard / Trade /
+ * Learn), and the view that drives the market clock. The clock's logic is not
+ * here — js/market-clock.js owns that and is pure, so it can be tested without
+ * a DOM. This file only decides what to put on screen and when.
+ *
+ * Data fetching and the portfolio arrive in later tasks and get their own
+ * modules under js/.
  *
  * Contract with the markup: a .inc-tablist containing [role=tab] buttons,
  * each with aria-controls pointing at a [role=tabpanel]. Exactly one tab
@@ -22,6 +25,67 @@
 
 (function () {
     'use strict';
+
+    /* ── Market clock ───────────────────────────────────────────── */
+
+    /* Reticks every second. That is only visibly busy in the last hour before
+     * an event, because formatCountdown drops to whole minutes above that —
+     * and the DOM is only written when the string actually changed, so the
+     * common case is a comparison and nothing else. */
+    var CLOCK_TICK_MS = 1000;
+
+    function startMarketClock() {
+        var clock = document.querySelector('[data-clock]');
+        var api = window.IncisorMarketClock;
+
+        // No clock on the page, or the module failed to load. Either way the
+        // served markup already says something true about market hours, so
+        // leaving it alone is the correct degradation.
+        if (!clock || !api) return;
+
+        var stateNode = clock.querySelector('[data-clock-state]');
+        var detailNode = clock.querySelector('[data-clock-detail]');
+        if (!stateNode || !detailNode) return;
+
+        function detailFor(session) {
+            if (session.holiday) {
+                return session.holiday + ' \u00b7 opens in '
+                    + api.formatCountdown(session.next.seconds);
+            }
+            var verb = session.next.event === 'close' ? 'Closes in ' : 'Opens in ';
+            var detail = verb + api.formatCountdown(session.next.seconds);
+            // Worth saying out loud: on an early-close day the market shuts at
+            // 1pm, and a countdown that just runs out is a confusing way to
+            // find that out.
+            return session.isEarlyClose ? detail + ' \u00b7 early close' : detail;
+        }
+
+        function render() {
+            var session = api.sessionAt(new Date());
+            if (!session.next) return;
+
+            var detail = detailFor(session);
+
+            // Text only, never markup — and compared before writing, so a
+            // once-a-second tick is not a once-a-second reflow.
+            if (stateNode.textContent !== session.label) {
+                stateNode.textContent = session.label;
+            }
+            if (detailNode.textContent !== detail) {
+                detailNode.textContent = detail;
+            }
+            if (clock.getAttribute('data-phase') !== session.phase) {
+                clock.setAttribute('data-phase', session.phase);
+            }
+        }
+
+        render();
+        window.setInterval(render, CLOCK_TICK_MS);
+    }
+
+    startMarketClock();
+
+    /* ── Tabs ───────────────────────────────────────────────────── */
 
     var tablist = document.querySelector('.inc-tablist');
     if (!tablist) return;

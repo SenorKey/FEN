@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/incisor-trading/incisor.css">
+    <script src="/incisor-trading/js/market-clock.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
@@ -79,10 +80,21 @@
             Sample data. Nothing on this page is a real quote yet.
         </p>
 
-        <!-- Market clock lands here in T5. Space is reserved so it cannot shift the layout. -->
-        <div class="inc-clock" data-placeholder="market-clock">
-            <span class="inc-clock-state">Market status</span>
-            <span class="inc-clock-detail">Clock arrives with T5</span>
+        <!--
+          Market clock. The served text is the static, always-true version of
+          what this says, so the page is correct before the script runs and
+          stays correct if it never does. js/market-clock.js upgrades it to the
+          live session and a countdown.
+
+          Deliberately not a live region: the countdown reticks every second,
+          and role="status" would have a screen reader announce it every second
+          along with it. It reads normally when navigated to.
+        -->
+        <div class="inc-clock" data-clock>
+            <span class="inc-clock-dot" aria-hidden="true"></span>
+            <span class="inc-clock-state" data-clock-state>US market</span>
+            <span class="inc-clock-detail" data-clock-detail>Regular hours 9:30am
+                &ndash; 4:00pm ET, Monday to Friday</span>
         </div>
 
         <div class="inc-tabs">

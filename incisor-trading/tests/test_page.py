@@ -12,14 +12,22 @@ and the 375px pass still need eyes on a browser.
     python3 -m unittest discover incisor-trading/tests
 """
 
+import os
 import re
 import unittest
 
-from page_model import Page, classes, read
+from page_model import PAGE_DIR, Page, classes, read
 
 HTML = read('index.html')
 CSS = read('incisor.css')
-JS = read('incisor.js')
+# Every script this page serves, concatenated. The security greps below are
+# deliberately blunt substring checks, so they have to be pointed at all of the
+# shipped JavaScript rather than just the shell — a rule that only covers one
+# file stops being a rule the moment a second one appears.
+JS_FILES = ('incisor.js',) + tuple(
+    os.path.join('js', name) for name in sorted(os.listdir(os.path.join(PAGE_DIR, 'js')))
+    if name.endswith('.js'))
+JS = '\n'.join(read(name) for name in JS_FILES)
 PAGE = Page(HTML)
 
 

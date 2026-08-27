@@ -160,6 +160,51 @@ body.incisor .nav-dropdown-menu {
     font-family: var(--inc-mono);
     font-size: 0.74rem;
     color: var(--muted);
+    /* The countdown reticks every second and its width changes with the
+       digits. Reserving the width stops the text beside it twitching. */
+    min-width: 12ch;
+}
+
+/* The dot is the fastest read of the four states, so it carries colour —
+   but never alone. The state word next to it says the same thing in
+   words, which is what survives greyscale and colour blindness (§13). */
+.inc-clock-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--inc-flat);
+    /* Baseline-aligned flex row, so nudge the dot onto the text's baseline. */
+    align-self: center;
+    flex: none;
+}
+
+.inc-clock[data-phase="open"] .inc-clock-dot {
+    background: var(--inc-up);
+    animation: inc-clock-pulse 2.4s ease-in-out infinite;
+}
+
+.inc-clock[data-phase="pre"] .inc-clock-dot,
+.inc-clock[data-phase="post"] .inc-clock-dot {
+    background: var(--accent);
+}
+
+.inc-clock[data-phase="closed"] .inc-clock-dot {
+    background: var(--inc-flat);
+}
+
+.inc-clock[data-phase="open"] .inc-clock-state {
+    color: var(--inc-up);
+}
+
+@keyframes inc-clock-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inc-clock[data-phase="open"] .inc-clock-dot {
+        animation: none;
+    }
 }
 
 /* ═══════════════════════════════════════════════

@@ -121,8 +121,14 @@ function run(argv) {
      * eval'd against this scope: JavaScriptCore's strict-mode eval does not
      * expose the surrounding variables, and being explicit documents the only
      * global incisor.js actually depends on. */
+    /* The shell also starts the market clock, which needs a window. Neither
+     * the clock module nor a [data-clock] element exists in this stub, so the
+     * clock bows out on its own — which is itself worth proving: the tab
+     * controller must not depend on the clock having loaded. */
+    var windowStub = { setInterval: function () { return 0; } };
+
     try {
-        (new Function('document', source))(documentStub);
+        (new Function('document', 'window', source))(documentStub, windowStub);
         check('incisor.js parses and runs', true);
     } catch (error) {
         check('incisor.js parses and runs', false, String(error));
