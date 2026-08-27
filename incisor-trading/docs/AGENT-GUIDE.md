@@ -79,8 +79,10 @@ Absolute. Violating one is worse than shipping nothing that day.
    `REPLACE_ME` placeholders. If a real key appears anywhere, stop and note it.
 7. **Nothing that costs money** — see §4. This includes free trials that convert
    to paid, and anything requiring a credit card to register.
-8. **One backlog task per session.** Finish it, or leave it clearly unfinished
-   with a note. Do not start a second task because the first went quickly.
+8. **One task at a time, up to the session cap.** The routine's instructions set
+   how many backlog tasks a session may complete. Fully finish, verify, and
+   commit one before starting the next — never leave two half-built. If the cap
+   is reached mid-task, finish that task, commit, and stop.
 9. **Never exceed a documented free-tier rate limit.** Development runs on
    fixtures (§10), not live quota.
 10. **No new runtime dependencies.** Vanilla HTML/CSS/JS on the front end;
@@ -459,7 +461,8 @@ requirement on every task, not a phase at the end.
 9. Check the task off in `BACKLOG.md`, append to `PROGRESS.md`, add any `For Key`
    notes, register any new look branch in `DESIGN-BRANCHES.md`, and **add a
    `DECISIONS.md` entry for anything chosen or abandoned** (§16).
-10. **Stop.**
+10. If the session cap has not been reached, return to step 4 for the next task.
+    Otherwise **stop.**
 
 A session that makes no progress still writes a `PROGRESS.md` entry saying so and
 why. A clear "blocked, here's the reason" is a successful session.
