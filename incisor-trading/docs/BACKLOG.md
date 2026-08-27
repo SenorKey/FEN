@@ -59,21 +59,30 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   every socket constructor, and confirmed again on a real socket with the
   `upstream_calls` counter still at zero.
 
-- [ ] **T4 · Snapshot cache + price store**
+- [x] **T4 · Snapshot cache + price store**
   SQLite schema for quotes, daily bars, and fundamentals. A single fetcher module
   that is the only code allowed to call upstream, with per-endpoint TTLs and a
   call counter written to the DB.
   *Accept:* two rapid requests for the same symbol produce exactly one upstream
   call (assert against a stub). Quota counter is queryable.
+  *Done 2026-08-27.* `store.py` and `fetcher.py`; the database moved out of
+  `incisor.py` entirely. Four concurrent requests for one symbol also produce
+  one call. **No fundamentals table** — its shape and its upstream both belong
+  to T11, so building it now would be schema with no writer; see `DECISIONS.md`
+  and the note under *For Key*.
 
 ---
 
 ## Phase 1 — Dashboard
 
-- [ ] **T5 · Market clock** — open / pre / post / closed, with weekends and the US
+- [x] **T5 · Market clock** — open / pre / post / closed, with weekends and the US
   market holiday calendar. Pure client-side, no data needed. Countdown to next
   open or close. *Accept:* correct for a hardcoded set of test datetimes including
   a half-day and a holiday.
+  *Done 2026-08-27.* `js/market-clock.js`, pure, with the view in `incisor.js`.
+  Holidays are computed from their rules rather than listed, so the calendar
+  does not expire. 59 checks in JavaScriptCore; screenshots in
+  `docs/shots/t5-market-clock/`.
 
 - [ ] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
   percent change, sparkline. Labeled as ETF proxies, not index levels.

@@ -411,3 +411,124 @@ it is already read in full every session, and audits generate tasks anyway.
 Working oldest-first is what stops one feature being re-audited while another
 has never been looked at.
 
+
+## 2026-08-27 — T4 · Snapshot cache + price store
+**Outcome:** shipped
+**Changed:** `server/store.py`, `server/fetcher.py` (both new),
+`server/incisor.py`, `server/source.py`, `server/config.env.example`,
+`server/tests/test_cache.py` (new), `server/tests/test_fixture_layer.py`,
+`server/tests/README.md`
+**Verified:** 100 service tests and 34 page tests green. Against the running
+service, seven HTTP requests produced three upstream reads and four produced
+two; the reported age of a quote is now identical across the fetch and every
+later cache hit.
+
+The database left `incisor.py` for `store.py`, and `incisor.py` is now only the
+edge: check who is asking, validate the symbol, ask the fetcher, and say nothing
+extra when it fails. Five modules with one job each — edge, storage, cache,
+retrieval, parsing.
+
+**`fetcher.py` is the only module allowed upstream**, because it is where the
+two things that keep this project alive happen. The cache means a page refresh
+costs nothing. The freshness check is repeated *inside* the per-symbol lock
+rather than trusted from before the wait, which is the difference between one
+call and four when several requests arrive together — there is a test that
+starts four threads on a barrier to prove it.
+
+The budget is the other half, and it is a design decision as much as a limit.
+25 calls a day is the ceiling, so the service stops at 22 and degrades in the
+order that keeps a page on the screen: fresh cache, then refresh, then **serve
+stale and say so**, and only then fail. An upstream error with something cached
+takes the same path — a hiccup should not blank a dashboard that already has
+data. `stale` and `fetched_at` ride in every response so the page can label what
+it is showing rather than quietly presenting old numbers as current.
+
+Every attempt is logged, failures included, because a failed call still spent
+quota and a budget that counts only successes is optimistic in exactly the
+situation where it must not be. Fixture reads are logged too — they are real
+cache misses and worth seeing — but excluded from the count, since letting a
+session's fixture traffic eat the live allowance would make the number lie in
+both directions.
+
+**Live mode is now wired end to end and has still never run.** What can be
+checked without a network is: URL construction, failing closed with no key, and
+redacting the key from anything logged. That last one is not theoretical —
+upstream echoes the key back in some error bodies, and the journal is the
+realistic place for it to escape.
+
+**One deliberate deviation.** T4 asks for a fundamentals table and there is not
+one. Its shape is undefined until T11 and its upstream is SEC EDGAR rather than
+the quote provider, so building it now would be schema with no writer and a
+migration to come. Recorded in `DECISIONS.md` and flagged below.
+
+## 2026-08-27 — T5 · Market clock
+**Outcome:** shipped
+**Changed:** `js/market-clock.js` (new), `incisor.js`, `index.html`,
+`incisor.css`, `tests/clock_model.jxa.js` and `tests/test_market_clock.py`
+(new), `tests/tab_model.jxa.js`, `tests/test_page.py`
+**Verified:** 59 checks in JavaScriptCore covering every phase boundary, both
+sides of daylight saving, a weekend, a full holiday, an early-close half day and
+the view's own wordings. 39 page tests and 100 service tests green. `shoot.py`
+reports no console errors and no horizontal overflow at 1440, 768 or 390, and
+the screenshots in `docs/shots/t5-market-clock/` show the clock live in its
+pre-market state — the script genuinely upgraded the served text.
+
+**Holidays are computed, not listed.** A hardcoded table is correct until the
+year it isn't, and it goes stale silently: the page would simply claim the market
+was open on Thanksgiving. Every NYSE closure has a rule — a fixed date, an nth
+weekday, or Good Friday, which is Easter minus two days and the reason there is
+now an Easter computation in a trading page. Checked against published calendars
+for 2026, 2027, 2028 and 2033.
+
+Two edges worth naming, because both look like bugs and neither is. When
+1 January falls on a Saturday the exchange does **not** close on the preceding
+Friday, so that year has nine closures rather than ten — written out explicitly
+rather than left to the observance rule, which would otherwise compute a
+"January 0th" and give the right answer for the wrong reason. And a full holiday
+outranks an early close, which is what makes an observed 3 July shut rather than
+short.
+
+Eastern time comes from `Intl` rather than a fixed offset, so the open is 13:30Z
+in summer and 14:30Z in winter without this project tracking daylight saving.
+
+**The page is correct before the script runs.** The served markup states regular
+market hours — always true — and the script upgrades that rather than replacing
+a placeholder, so a failed script leaves something useful rather than "Loading…"
+forever. There is a test for that path. The clock is deliberately not a live
+region: the countdown reticks every second, and `role="status"` would have a
+screen reader announce it every second too. The coloured dot never carries the
+state alone; the word beside it says the same thing.
+
+**One thing fixed in passing.** The page-level security greps — no `innerHTML`,
+no `eval`, no network calls — only ever read `incisor.js`. They are blunt
+substring checks by design, and a rule covering one file stopped being a rule
+the moment `js/` appeared, so they now read every shipped script.
+
+## 2026-08-27 — Session close
+**Outcome:** session cap reached — T3, T4 and T5 shipped and committed
+**Verified:** all three suites green (100 service, 39 page, 59 clock checks);
+`shoot.py` green with screenshots reviewed by eye at desktop and mobile;
+`git status` shows nothing outside `incisor-trading/`; no branch pushed, nothing
+merged, nothing installed, **no upstream call made**, no account created and no
+terms accepted.
+
+Phase 0 is complete and Phase 1 is open. The top of the backlog is **T6, the
+index summary strip**, which is unblocked and now well supplied: `/quote` and
+`/history` serve all four ETF proxies from fixtures, the tiles have real numbers
+to bind to, and the clock is already sitting above them.
+
+### For Key
+
+- **No fundamentals table was created, though T4 names one.** Its shape is
+  undefined until T11 and its upstream is SEC EDGAR rather than the quote
+  provider, so it would have been a table with no writer and a migration to
+  come. If you would rather the schema landed up front the way `upstream_calls`
+  did, say so and it will be added — the argument for doing it early is the same
+  one that applied there.
+- **The fixture prices are invented, and the API says so.** Every response
+  carries `"source": "fixture"`, and `T6` should surface that on the page as
+  something a visitor can see. Flagging it because it is the one honesty
+  property that would be easy to drop by accident while making the tiles look
+  good.
+- **`DECISIONS.md` is at 86 lines again**, the same drift the last close-out
+  flagged. **S6 is worth taking soon.**
