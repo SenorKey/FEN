@@ -35,13 +35,16 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   checked, because a scheduled session cannot start the dev server. Split out as
   **D1** rather than left implied.
 
-- [ ] **T2 · Flask service skeleton**
+- [x] **T2 · Flask service skeleton**
   Clone the structure of `preside-by-side/server/`: `incisor.py` with a `/health`
   endpoint, origin checking, per-IP and global rate limiting, config loading from
   `$CONFIG_FILE`, SQLite init. Plus `requirements.txt`, `config.env.example`,
   `incisor-trading.service`, `apache-snippet.conf`. Port 8789.
   *Accept:* runs locally, `/health` returns JSON, rejects a bad Origin, rate limit
   trips under a loop. Deploy files written but **not installed**.
+  *Done 2026-08-27.* 28 tests, all four criteria verified over a real socket as
+  well as through the test client. Nothing installed, nothing touched on the
+  server. `/health` is deliberately not reverse-proxied.
 
 - [ ] **T3 · Fixture layer**
   `INCISOR_DATA_SOURCE=fixture|live`, defaulting to fixture. `server/fixtures/`

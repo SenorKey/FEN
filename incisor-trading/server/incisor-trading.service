@@ -1,0 +1,29 @@
+[Unit]
+Description=Incisor Trading - market data service
+After=network.target
+
+[Service]
+Type=simple
+User=incisor
+Group=incisor
+WorkingDirectory=/var/lib/incisor-trading
+Environment=CONFIG_FILE=/etc/incisor-trading/config.env
+ExecStart=/usr/bin/gunicorn --workers 1 --threads 4 --bind 127.0.0.1:8789 --chdir /var/www/frontendneeded.com/incisor-trading/server incisor:app
+Restart=on-failure
+RestartSec=5
+
+# One worker on purpose. The rate-limit buckets and the upstream-call budget
+# live in process memory, and a second worker would quietly double both
+# ceilings. Threads give the concurrency; the shared state stays single-copy.
+
+# Hardening - the service reads its config and writes its database directory,
+# and needs nothing else on the filesystem.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/incisor-trading
+ReadOnlyPaths=/etc/incisor-trading
+
+[Install]
+WantedBy=multi-user.target

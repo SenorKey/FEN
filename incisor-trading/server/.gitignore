@@ -1,0 +1,14 @@
+# The real config lives only on the server. config.env.example is tracked.
+config.env
+
+# The database lives in /var/lib/incisor-trading/ on the server; guard
+# against a local copy landing in the repo.
+*.db
+*.sqlite
+*.sqlite3
+*-wal
+*-shm
+
+# Local development virtualenv.
+.venv/
+__pycache__/

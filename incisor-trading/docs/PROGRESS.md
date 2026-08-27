@@ -50,6 +50,21 @@ re-raises the same item.
   that gap itself,* the options are an attended session, leaving `python3 -m
   http.server 8765` running, or installing a headless browser — his call, and
   the work continues either way.
+- **N4 — The `incisor-api` launch config is Key's to add (from T2, 2026-08-27).**
+  Guide §15 asks for one once the service exists. It now does, but
+  `.claude/launch.json` sits outside `incisor-trading/`, and hard rule 1 makes
+  every file outside this folder off-limits — so this is not a thing the routine
+  asks permission for, it is simply not its file. The entry Key would add:
+
+  ```json
+  { "name": "incisor-api",
+    "runtimeExecutable": "incisor-trading/server/.venv/bin/python",
+    "runtimeArgs": ["incisor-trading/server/incisor.py"],
+    "port": 8789, "autoPort": false }
+  ```
+
+  *Meanwhile:* the service is fully exercised by its own test suite, including
+  over a real socket, so nothing is blocked on this.
 - **N2 — Disclaimer wording.** The routine ships the wording in guide §11
   verbatim ("Educational only. Not investment advice. Delayed data. No real money
   is involved."). If Key wants different legal phrasing, that's his to set.
@@ -196,3 +211,57 @@ Two things worth carrying forward:
 
 No `gtag` here, unlike the rest of the site: guide §4 forbids third-party script
 tags on this page and the T13 CSP would block it. Deliberate, not an oversight.
+
+## 2026-08-27 — T2 Flask service skeleton
+**Outcome:** shipped
+**Changed:** `incisor-trading/server/` (all new) — `incisor.py`,
+`requirements.txt`, `config.env.example`, `incisor-trading.service`,
+`apache-snippet.conf`, `.gitignore`, and `tests/` with `service_fixture.py`,
+`test_incisor.py`, `test_http_smoke.py`, `README.md`. Plus `BACKLOG.md` (T2
+checked), `DECISIONS.md` (six entries), `PROGRESS.md` (N4).
+**Verified:** `.venv/bin/python -m unittest discover tests` — **28 tests, all
+passing, in under a second.** Every T2 criterion is checked twice, once through
+Flask's test client and once against a **real HTTP socket**, because a WSGI app
+can satisfy every test-client assertion and still fail to boot:
+
+- *runs locally* — the app serves on a real port and answers.
+- */health returns JSON* — 200, `application/json`, expected keys, and asserted
+  to leak no path, version or key state.
+- *rejects a bad Origin* — 403 for a foreign origin, and separately for three
+  lookalikes (`frontendneeded.com.evil.test`, `notfrontendneeded.com`, and the
+  `http://` variant) that substring matching would have let through.
+- *rate limit trips under a loop* — the per-IP gate trips at exactly its
+  ceiling; the global gate is shown to bound 620 requests from 620 *distinct*
+  IPs, which is the case the per-IP gate cannot catch.
+
+Also covered: symbol validation against injection-shaped inputs, generic error
+bodies, JSON 404s, and the four security headers over the wire. Nothing was
+installed and nothing on the server was touched. `git status` shows changes only
+under `incisor-trading/`.
+
+**Notes:** Three departures from `preside-by-side/server`, each deliberate:
+
+1. **It starts with no credentials.** Copying `suggest.py`'s exit-if-no-webhook
+   would mean no session and no fresh checkout could run the service without a
+   secret. Fixture mode is the default and never calls upstream, so a missing
+   key is fatal only when live mode is explicitly requested.
+2. **Origin policy varies by method.** Browsers omit `Origin` on same-origin
+   GETs, so a read endpoint can only reject an origin that is *present and not
+   allowlisted* — demanding one would break the requests we exist to serve.
+   `origin_is_allowed(strict=)` holds both policies and data routes will use
+   the strict one.
+3. **`/health` is not reverse-proxied.** It is a local diagnostic; the public
+   internet has no reason to ask this service how it is feeling. The Apache
+   snippet ships with the data-route proxy lines commented out, so the file
+   grows one line per route as they land and nothing is ever exposed early.
+
+The `upstream_calls` table exists already, before there is anything to call.
+That is on purpose: 25 requests a day is the binding constraint on this whole
+project, and if the counter does not predate the first fetcher then the first
+version that forgets to log a call will not be noticed. T4 builds on it.
+
+The systemd unit pins **one worker with four threads**. The rate-limit buckets
+and the call budget live in process memory, so a second worker would silently
+double both ceilings — on a 25-a-day quota that is the difference between
+working and not. The comment in the unit says so, because it looks like a
+performance mistake otherwise.
