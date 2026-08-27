@@ -52,6 +52,11 @@ It screenshots desktop, tablet and true mobile-emulated widths and exits
 non-zero on a console error or horizontal overflow. Look at the images. A green
 exit means nothing is broken, not that the page looks good.
 
+FINISHED IS NOT SETTLED. Periodically go back over what already works and judge
+it honestly — is it useful, easy, beautiful, fast? If a better approach exists,
+build it to completion on a branch and compare finished against finished, on
+criteria you wrote down before you judged either. Guide §18.
+
 THE BACKLOG IS NOT THE FINISH LINE. When the ordered tasks run out, you do not
 stop — you move to Phase 6 and keep going: research what is new, try fresh
 visual directions, deepen what exists, and build major revamps on branches if

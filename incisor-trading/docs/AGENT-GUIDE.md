@@ -608,3 +608,90 @@ Everything else still holds: the same bounds (§3), the same security standard
 (§5), the same cost rules (§4), the same branch and commit conventions (§7).
 Ambition is unlimited inside those; the bounds do not loosen because the backlog
 is empty.
+
+---
+
+## 18. Auditing what already works
+
+Shipping a feature settles nothing. Everything built early was judged against
+the standard that existed then, and the standard keeps moving — so the page
+needs someone to go back and ask, honestly, whether each part of it is still
+good enough. That someone is the routine, and nobody has to ask it to.
+
+This is not the same as fixing bugs. A feature can pass every test, have no
+defects, and still be the wrong feature.
+
+### The four questions
+
+Audit **one feature at a time**, and answer all four in writing. Vague praise is
+not an answer; each one wants a specific observation.
+
+1. **Useful.** Does this answer a question a visitor actually has? If it
+   vanished tomorrow, would anyone notice? Is it teaching something, or is it
+   here because dashboards usually have one?
+2. **Easy.** Can someone use it without being told how? How many actions does
+   the common case take? Does it work by keyboard, on a phone, at 375px, for
+   someone who cannot distinguish red from green?
+3. **Beautiful.** Does it hold up next to the best part of the page, or is it
+   the part you would crop out of a screenshot? Look at the actual images from
+   `tools/shoot.py` — do not audit a feature from its source code.
+4. **Performing.** How fast does it become useful? Does it block anything else
+   rendering? What does it cost in upstream calls against a 25-a-day budget?
+
+### The four verdicts
+
+Every audit ends in exactly one, recorded in the audit log at the bottom of
+`BACKLOG.md` so the same feature is not audited again next week:
+
+- **Keep.** It is good. Say why, note the date, move on. This is a real and
+  common outcome — an audit that changes nothing is not a wasted session.
+- **Minor edits.** It is the right feature, imperfectly done. Fix it in place on
+  `incisor-dev`. Same rigour as any task: state what was wrong, change it,
+  re-run the suites and `shoot.py`, record what improved. Small does not mean
+  unverified.
+- **Challenge it.** The idea itself may be wrong and you can name something
+  better. Build the replacement — see below.
+- **Retire it.** It is not useful. Remove it. A feature that fails question one
+  should be deleted, not improved; improving it only makes the page longer. Note
+  what was removed and why, because deletion is the change most likely to be
+  quietly undone later.
+
+### Challenging a feature — the protocol
+
+When you think a fundamentally different approach would be better, prove it.
+
+1. **Write down the criteria first.** Before building anything, state in the
+   `incisor-try/*` branch's first commit what would make the challenger better,
+   and how you will tell. Deciding the criteria *after* seeing both results is
+   how you talk yourself into whichever one you enjoyed building — and you will
+   have built both, so that bias is real and it is yours.
+2. **Build it on `incisor-try/<feature>-<approach>`,** branched from
+   `incisor-dev`.
+3. **Finish it.** This is the part that matters. Compare finished to finished —
+   an unfinished challenger always loses, for reasons that have nothing to do
+   with whether the idea was better. Finished means it meets the same acceptance
+   criteria the incumbent meets, passes the same suites, has its own
+   `shoot.py` screenshots, and handles the same empty, loading and error states.
+   A challenger that cannot be finished is itself a finding: record why.
+4. **Compare on the stated criteria, with evidence.** Screenshots of both side
+   by side, numbers wherever numbers exist. Answer the four questions for the
+   challenger exactly as you did for the incumbent.
+5. **Decide, and record the decision in `DECISIONS.md`** with the reasoning. The
+   loser becomes a dead end entry, so nobody rebuilds it in six weeks.
+6. **If the challenger wins,** merge it into `incisor-dev` and delete nothing —
+   leave the branch in place as the record.
+
+**Who decides.** A comparison about function, usability or performance is the
+routine's own call under §3 — decide it and write down why. A comparison that is
+purely about *how the page looks overall* stays Key's: register it in
+`DESIGN-BRANCHES.md` as an `incisor-look/*` direction and leave it for him.
+When a challenge is both — a new interaction model that also looks different —
+decide the functional half, and register the visual half for Key.
+
+### Cadence
+
+- Audit a feature no sooner than a few sessions after it ships, so there is
+  something to judge, and no later than the end of the phase it belongs to.
+- Once the backlog is done, work through the page a feature at a time,
+  continuously, oldest audit first. The audit log makes that order obvious.
+- Re-audit anything a major revamp touches, regardless of when it was last done.

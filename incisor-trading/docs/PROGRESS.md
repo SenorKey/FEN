@@ -380,3 +380,34 @@ nothing. `config.env.example` says so, so nobody flips the switch and wonders.
 
 The Apache snippet grew its first two real proxy lines, since the routes now
 exist. Nothing was installed and nothing on the server was touched.
+
+## 2026-08-27 — Attended: the audit directive (guide §18)
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (new §18), `BACKLOG.md` (O6, audit log section),
+`ROUTINE.md` (bootstrap line)
+**Verified:** section numbering contiguous 1–18; backlog headings in order with
+the audit log above *Discovered*; audit table columns consistent.
+
+**Notes:** §18 covers going back over finished work. A feature is audited on
+four questions — useful, easy, beautiful, performing — answered in writing
+against the `shoot.py` images rather than the source, and ends in exactly one of
+four verdicts: keep, minor edits, challenge, retire. *Retire* is deliberately
+included; a feature that fails the usefulness question should be deleted, not
+improved.
+
+The challenger protocol is the substance. Criteria get written down **before**
+the alternative is built, because the routine will have built both and would
+otherwise decide in favour of whichever it enjoyed more. The challenger must be
+finished — same acceptance criteria, same suites, own screenshots, same empty
+and error states — because an unfinished challenger always loses for reasons
+unrelated to whether the idea was better. Loser becomes a dead end entry.
+
+Decision rights split: function, usability and performance are the routine's own
+call under §3; how the page looks overall stays Key's via `DESIGN-BRANCHES.md`.
+A challenge that is both decides the functional half and registers the visual.
+
+The audit log lives at the bottom of `BACKLOG.md` rather than in a new file —
+it is already read in full every session, and audits generate tasks anyway.
+Working oldest-first is what stops one feature being re-audited while another
+has never been looked at.
+

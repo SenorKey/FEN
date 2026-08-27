@@ -224,6 +224,13 @@ whatever will make the page most measurably better that day.
   branch and register it. Bold is free — it affects nothing until Key merges.
 - [ ] **O4 · Deepen a feature.** Take something that works and make it excellent
   rather than adequate.
+- [ ] **O6 · Audit a feature.** Take the least-recently-audited part of the page
+  and answer the four questions in guide §18 — useful, easy, beautiful,
+  performing — against the actual `shoot.py` images, not the source. End in one
+  of the four verdicts and record it in the audit log below. If the verdict is
+  *challenge it*, the replacement gets built to completion on
+  `incisor-try/<feature>-<approach>` and compared finished-to-finished against
+  criteria written down before either was judged. Repeatable; never checked off.
 - [ ] **O5 · Maintenance.** Refresh fixtures, re-check provider terms, tighten
   tests, simplify what has grown awkward, re-walk the §5 security surface.
 
@@ -250,6 +257,17 @@ when a phase closes and a breather is useful.
   *Recurring traps*, and prune stale screenshots from `docs/shots/`. Delete no
   decision entries — the file has to stay readable in full every session, and it
   only stays useful if it stays short.
+
+---
+
+## Audit log
+
+One row per audit, newest last (guide §18). This is what stops the same feature
+being re-audited while another has never been looked at — work oldest-first.
+
+| Date | Feature | Verdict | Note |
+|---|---|---|---|
+| — | _(nothing audited yet — the page has no finished features)_ | | |
 
 ---
 
