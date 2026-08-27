@@ -265,3 +265,24 @@ and the call budget live in process memory, so a second worker would silently
 double both ceilings — on a 25-a-day quota that is the difference between
 working and not. The comment in the unit says so, because it looks like a
 performance mistake otherwise.
+
+## 2026-08-27 — Session close
+**Outcome:** session cap reached — T0, T1 and T2 all shipped and committed
+**Verified:** both suites green (34 page checks, 28 service checks); working
+tree clean; `git status` shows nothing outside `incisor-trading/`; no branch
+pushed, nothing merged, nothing installed, no upstream call made, no account
+created and no terms accepted.
+**Notes for the next session:** the top of the backlog is **T3, the fixture
+layer**, which is unblocked — fixtures are hand-written to Alpha Vantage's
+documented response shapes, and the parser is the only code that ever sees
+provider JSON, so the provider choice staying open does not block it.
+
+Two housekeeping flags:
+
+- **`DECISIONS.md` gained fifteen rows today** and is now around 86 lines of
+  wide table. Guide §16 says to consolidate once it runs past roughly two
+  screens, and it is close. **S6 is worth taking soon** — the file only earns
+  its keep by being short enough to read in full every session, and today's
+  growth is exactly the drift it warns about.
+- **D1** (browser verification of the page) stays open and needs an attended
+  session. It is not a blocker for T3 or T4, which are both server-side.
