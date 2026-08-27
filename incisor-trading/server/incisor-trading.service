@@ -8,6 +8,11 @@ User=incisor
 Group=incisor
 WorkingDirectory=/var/lib/incisor-trading
 Environment=CONFIG_FILE=/etc/incisor-trading/config.env
+# ONE worker, threads for concurrency — not a performance oversight. The
+# rate-limit buckets and the upstream-call budget live in process memory, so a
+# second worker would silently double both ceilings. On a free tier of 25 calls
+# a day that is the difference between working and not. Adding workers requires
+# moving both counters into SQLite first.
 ExecStart=/usr/bin/gunicorn --workers 1 --threads 4 --bind 127.0.0.1:8789 --chdir /var/www/frontendneeded.com/incisor-trading/server incisor:app
 Restart=on-failure
 RestartSec=5

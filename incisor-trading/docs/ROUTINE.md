@@ -46,6 +46,18 @@ Follow the session protocol in guide §14. Take the topmost unblocked, unchecked
 backlog task. Before building, check DECISIONS.md for a dead end covering the
 approach you are about to take — if one is listed, choose differently.
 
+After any change to markup or CSS, run the visual check — it works unattended:
+  ./.devtools/bin/python tools/shoot.py --out docs/shots/<name>
+It screenshots desktop, tablet and true mobile-emulated widths and exits
+non-zero on a console error or horizontal overflow. Look at the images. A green
+exit means nothing is broken, not that the page looks good.
+
+THE BACKLOG IS NOT THE FINISH LINE. When the ordered tasks run out, you do not
+stop — you move to Phase 6 and keep going: research what is new, try fresh
+visual directions, deepen what exists, and build major revamps on branches if
+the page would be better for one. Guide §17. Ambition is unlimited inside the
+bounds; the bounds do not loosen.
+
 SESSION CAP: complete at most 3 backlog tasks today.
 Finish, verify, and commit each one before starting the next. Never leave two
 half-built. If you hit the cap mid-task, finish that task, commit, then stop.

@@ -87,7 +87,11 @@ Absolute. Violating one is worse than shipping nothing that day.
    fixtures (§10), not live quota.
 10. **No new runtime dependencies.** Vanilla HTML/CSS/JS on the front end;
     Flask + stdlib + `requests` on the back end. No npm, no build step, no
-    bundler, no CSS or chart library. Hand-roll the SVG.
+    bundler, no CSS or chart library. Hand-roll the SVG. **Local dev tooling is
+    different and is allowed** — anything that never ships to a visitor, is
+    free, installs only inside `incisor-trading/` and is gitignored. The
+    `.devtools` venv holding Playwright is the example. Shipped bytes are
+    governed by this rule; the workbench is not.
 11. **Never touch Key's uncommitted work.** If the working tree is dirty at the
     start of a session with changes outside `incisor-trading/`, stop immediately.
     Do not stash, commit, check out over, or clean anything. Write a one-line
@@ -471,7 +475,14 @@ why. A clear "blocked, here's the reason" is a successful session.
 
 ## 15. Verification
 
-- Serve locally with the `fen` launch config and open
+- **`./.devtools/bin/python tools/shoot.py --out docs/shots/<name>`** is the
+  primary visual check and works unattended. It serves the repo itself, drives
+  the installed Chrome through Playwright at desktop, tablet and true
+  mobile-emulated widths, writes screenshots, and **exits non-zero on a console
+  error or any horizontal overflow**. Run it after any change that touches
+  markup or CSS, and look at the images it produces — a green exit means nothing
+  is broken, not that the page looks good.
+- For an attended session, the `fen` launch config also serves
   `http://localhost:8765/incisor-trading/`.
 - Add a `incisor-api` launch config once the service exists.
 - Check the browser console for errors, check at 375px, and check **with the API
@@ -510,6 +521,23 @@ happened; `DECISIONS.md` tells you *why*, and *why not*.
 This is why the `C:` prefix and the task ID in every subject line matter: they
 make the log skimmable enough to be worth reading at the top of every session.
 
+### The inclusion test
+
+Before adding to `DECISIONS.md`, ask: **could a future session reverse or redo
+this without knowing?** Only then does it belong here.
+
+- **Yes — record it.** A licensing finding. An approach that failed. A palette
+  choice. A deliberate divergence from how the rest of the site works, which
+  would otherwise read as an oversight and get "fixed".
+- **No — put it in a comment next to the code.** Why the systemd unit pins one
+  worker, why `/health` is not proxied, why an origin check varies by method.
+  The person who needs that reason is reading that file, and a comment cannot
+  drift away from what it explains. Writing it here instead makes the memory
+  longer and the code poorer.
+
+The test is not "is this interesting". Most good engineering reasoning belongs
+in the code it explains.
+
 ### Write the entry before you forget
 
 Add to `DECISIONS.md` in the same session as the work, never "next time". An
@@ -536,3 +564,47 @@ duplicates, delete nothing, and promote anything that has bitten twice into
 Screenshots in `docs/shots/` are the other thing that grows without bound. Keep
 one set per registered look branch, replace rather than accumulate, and delete
 the folder when a direction moves to *Retired* in `DESIGN-BRANCHES.md`.
+
+---
+
+## 17. The work is never done
+
+**Finishing the backlog is not finishing the project.** `BACKLOG.md` is where
+this starts, not where it stops. When Phase 5 is complete the routine keeps
+running, and its job changes from *building the plan* to *making the page
+better than the plan imagined*.
+
+Treat a completed backlog as a beginning. Nobody has to hand you the next idea.
+
+### What ongoing work means
+
+- **Research.** Go and look at what is new — web platform features that have
+  landed, visualization and interaction techniques, how the best financial
+  interfaces present density and change over time, what teaching tools do to
+  make an idea click. Bring findings back and record them in `DECISIONS.md`
+  whether or not you act on them.
+- **Aesthetics, continuously.** The look is never settled. New directions on
+  `incisor-look/*` branches are always a legitimate use of a session, at any
+  point, forever — not only at T13b. Chase the version that is genuinely
+  beautiful, not the one that is merely finished.
+- **Major revamps are in scope.** If the page would be better rebuilt around a
+  different structure, interaction model or visual language, build it on a
+  branch and register it. A revamp affects nothing until Key merges it, so a
+  bold one costs nothing to try and there is no reason to hold back.
+- **Depth.** Take something that works and make it excellent — a chart that
+  reads better, an explanation that actually teaches, an empty state worth
+  seeing, a transition that makes a change legible.
+- **Maintenance.** Refresh fixtures, re-check provider terms, tighten tests,
+  simplify what has grown awkward, re-walk the security surface.
+
+### The bar
+
+Change must make the page **measurably better** — clearer, faster, more
+beautiful, more accurate, or more educational. Say which in the commit message.
+Churn for its own sake is worse than a quiet session, and "I could not find
+anything worth improving today" is a legitimate outcome to write down.
+
+Everything else still holds: the same bounds (§3), the same security standard
+(§5), the same cost rules (§4), the same branch and commit conventions (§7).
+Ambition is unlimited inside those; the bounds do not loosen because the backlog
+is empty.

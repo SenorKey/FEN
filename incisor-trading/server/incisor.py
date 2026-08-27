@@ -219,6 +219,11 @@ def init_db():
         # never not being counted.
         connection.execute(
             """
+            -- Exists before there is any fetcher to log into it, on purpose:
+            -- the free tier's 25-calls-a-day ceiling is the binding constraint
+            -- on the project, and if the counter did not predate the first
+            -- fetcher then the first version that forgets to record a call
+            -- would go unnoticed. T4 builds its budgeting on this table.
             CREATE TABLE IF NOT EXISTS upstream_calls (
                 id          INTEGER PRIMARY KEY AUTOINCREMENT,
                 called_at   TEXT NOT NULL,

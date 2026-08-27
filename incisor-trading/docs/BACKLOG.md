@@ -202,6 +202,28 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ---
 
+## Phase 6 — Ongoing (never completes)
+
+Reached when Phase 5 is done. There is no end state here; see guide §17. Pick
+whatever will make the page most measurably better that day.
+
+- [ ] **O1 · Research sweep.** Look outward — new web platform capabilities,
+  visualization and interaction techniques, how the best financial and teaching
+  interfaces handle density, change and explanation. Record findings in
+  `DECISIONS.md` whether or not they are acted on, so the same ground is not
+  covered twice. Repeatable; never checked off for good.
+- [ ] **O2 · New visual direction.** A fresh `incisor-look/*` branch, registered
+  in `DESIGN-BRANCHES.md`. Always legitimate, at any point, forever.
+- [ ] **O3 · Major revamp.** If the page would be better rebuilt around a
+  different structure, interaction model or visual language, build it on a
+  branch and register it. Bold is free — it affects nothing until Key merges.
+- [ ] **O4 · Deepen a feature.** Take something that works and make it excellent
+  rather than adequate.
+- [ ] **O5 · Maintenance.** Refresh fixtures, re-check provider terms, tighten
+  tests, simplify what has grown awkward, re-walk the §5 security surface.
+
+---
+
 ## Standing tasks
 
 Not sequenced. Available any session where the top backlog task is blocked, or
@@ -231,7 +253,14 @@ when a phase closes and a breather is useful.
 Tasks found mid-work that don't fit above. Append here; Key triages them into
 phases.
 
-- [ ] **D1 · Browser verification pass for the page skeleton** — the half of
+- [x] **D1 · Browser verification pass for the page skeleton** *(done 2026-08-27,
+  attended)* — verified with `tools/shoot.py`: no console errors and no
+  horizontal overflow at 1440, 768 or 390 (true mobile emulation); screenshots
+  in `docs/shots/t1-skeleton/`. The apparent mobile overflow in an earlier
+  `chrome --headless --screenshot` was an artifact of that tool, not a defect —
+  see `DECISIONS.md`. Original scope below.
+
+  ~~**D1 · Browser verification pass for the page skeleton**~~ — the half of
   T1's acceptance criteria that a headless session cannot reach: load the page,
   confirm a clean console, check it at 375px and at desktop width, confirm it
   reads as a FEN page, and put screenshots in `docs/shots/`. Needs an attended

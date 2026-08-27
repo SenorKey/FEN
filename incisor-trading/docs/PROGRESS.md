@@ -286,3 +286,38 @@ Two housekeeping flags:
   growth is exactly the drift it warns about.
 - **D1** (browser verification of the page) stays open and needs an attended
   session. It is not a blocker for T3 or T4, which are both server-side.
+
+## 2026-08-27 — Attended session (Key + Claude): review, tooling, guide v3
+**Outcome:** shipped
+**Changed:** `tools/shoot.py` + `tools/.htaccess` (new), `.gitignore` (new),
+`docs/shots/t1-skeleton/`, `AGENT-GUIDE.md` (rule 10, §15, §16, new §17),
+`BACKLOG.md` (D1 closed, Phase 6 added), `DECISIONS.md` (consolidated),
+`server/incisor.py` and `server/incisor-trading.service` (comments)
+**Verified:** both suites still green (34 page, 28 service); `shoot.py` reports
+no console errors and no horizontal overflow at 1440/768/390; screenshots
+reviewed by eye at desktop and mobile.
+
+**Review of the first routine session — it held up.** In bounds, guide
+untouched, tests genuinely passing, T0's licensing research accurate and
+sourced. Three corrections came out of it:
+
+1. **The browser gap is closed.** `tools/shoot.py` drives the installed Chrome
+   through Playwright in a gitignored `.devtools` venv — free, local, never
+   shipped. Guide rule 10 now separates shipped dependencies from dev tooling.
+2. **A narrow `chrome --headless --screenshot` is not a mobile view.** It made
+   T1 look like it overflowed horizontally; real emulation proves it does not.
+   Recorded as a dead end so no session "fixes" a bug that isn't there.
+3. **`DECISIONS.md` was collecting implementation rationale**, which belongs in
+   comments beside the code. Guide §16 now carries an inclusion test: record it
+   only if a future session could reverse or redo it unknowingly. The file went
+   from 86 lines to 79 with the malformed rows repaired, and the reasoning for
+   the one-worker unit and the early `upstream_calls` table moved into the files
+   themselves — the systemd comment the last session referred to did not
+   actually exist until now.
+
+**New standing direction:** guide §17 and Phase 6. Finishing the backlog is not
+finishing the project — after Phase 5 the routine keeps researching, keeps
+trying new visual directions, and may build major revamps on branches. Ongoing
+change must make the page measurably better and say how in the commit message.
+
+**Notes:** Top of the backlog is still **T3, the fixture layer**, unblocked.
