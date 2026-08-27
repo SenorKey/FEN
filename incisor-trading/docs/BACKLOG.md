@@ -210,6 +210,11 @@ when a phase closes and a breather is useful.
   the code as it now stands. Note findings; fix the ones inside `/incisor-trading/`.
 - **S5 · Tighten what exists.** Simplify a file that has grown awkward, improve an
   error state, add a missing unit test. No new features.
+- **S6 · Consolidate the memory.** When `DECISIONS.md` runs past roughly two
+  screens, merge duplicate entries, promote anything that has bitten twice into
+  *Recurring traps*, and prune stale screenshots from `docs/shots/`. Delete no
+  decision entries — the file has to stay readable in full every session, and it
+  only stays useful if it stays short.
 
 ---
 

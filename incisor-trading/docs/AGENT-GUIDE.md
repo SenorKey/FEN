@@ -86,6 +86,15 @@ Absolute. Violating one is worse than shipping nothing that day.
 10. **No new runtime dependencies.** Vanilla HTML/CSS/JS on the front end;
     Flask + stdlib + `requests` on the back end. No npm, no build step, no
     bundler, no CSS or chart library. Hand-roll the SVG.
+11. **Never touch Key's uncommitted work.** If the working tree is dirty at the
+    start of a session with changes outside `incisor-trading/`, stop immediately.
+    Do not stash, commit, check out over, or clean anything. Write a one-line
+    `PROGRESS.md` entry saying the tree was busy and end the session. A skipped
+    day costs nothing; losing his work costs a lot.
+12. **Two strikes and the task is blocked.** If a backlog task has already been
+    attempted in two sessions without completing, do not attempt it a third time.
+    Mark it `[!]` with the reason, record the failed approaches in
+    `DECISIONS.md`, and take the next task.
 
 ---
 
@@ -320,7 +329,8 @@ incisor-trading/
     apache-snippet.conf
     fixtures/         golden JSON captured from the provider
     tests/            unittest, stdlib only
-  docs/               guide, backlog, progress, design branches  (deny-all .htaccess)
+  docs/               guide, decisions, backlog, progress, design branches
+                      (deny-all .htaccess — never served)
     shots/            screenshots for the design review shelf
 ```
 
@@ -432,17 +442,24 @@ requirement on every task, not a phase at the end.
 
 ## 14. Session protocol
 
-1. Read `AGENT-GUIDE.md`, `BACKLOG.md`, and the last few `PROGRESS.md` entries.
-2. `git checkout incisor-dev` (create it from `main` if absent).
-3. Take the **topmost unblocked, unchecked** task in `BACKLOG.md`. Don't skip
+1. Check the working tree. If it is dirty outside `incisor-trading/`, stop —
+   hard rule 11.
+2. Read, in this order: `AGENT-GUIDE.md`, **`DECISIONS.md` in full**, `BACKLOG.md`,
+   and the last few `PROGRESS.md` entries. Then `git log --oneline -20` and
+   `git branch --list 'incisor-*'` for the trajectory.
+3. `git checkout incisor-dev` (create it from `main` if absent).
+4. Take the **topmost unblocked, unchecked** task in `BACKLOG.md`. Don't skip
    ahead to something more interesting. If the top task is blocked, note why and
-   take the next one.
-4. Build it, in fixture mode, inside `/incisor-trading/`.
-5. Verify against the task's acceptance criteria (§15). Unverified is not done.
-6. Commit per §7.
-7. Check the task off, append to `PROGRESS.md`, add any `For Key` notes, register
-   any new look branch in `DESIGN-BRANCHES.md`.
-8. **Stop.**
+   take the next one. If it has already failed twice, mark it `[!]` and move on.
+5. Before building, check `DECISIONS.md` for a dead end covering the approach you
+   are about to take. If one is listed, take a different approach.
+6. Build it, in fixture mode, inside `/incisor-trading/`.
+7. Verify against the task's acceptance criteria (§15). Unverified is not done.
+8. Commit per §7.
+9. Check the task off in `BACKLOG.md`, append to `PROGRESS.md`, add any `For Key`
+   notes, register any new look branch in `DESIGN-BRANCHES.md`, and **add a
+   `DECISIONS.md` entry for anything chosen or abandoned** (§16).
+10. **Stop.**
 
 A session that makes no progress still writes a `PROGRESS.md` entry saying so and
 why. A clear "blocked, here's the reason" is a successful session.
@@ -460,3 +477,59 @@ why. A clear "blocked, here's the reason" is a successful session.
 - Run `unittest` for any pure logic touched.
 - Screenshot anything visual and reference it in the progress entry.
 - Confirm `git status` shows changes only under `incisor-trading/`.
+
+---
+
+## 16. Memory — how not to repeat yourself
+
+Four files, four jobs. Confusing them is how a routine ends up rebuilding
+something it already rejected.
+
+| File | Holds | Read |
+|---|---|---|
+| `AGENT-GUIDE.md` | Stable rules. Changes rarely, and only by Key. | In full, every session |
+| `DECISIONS.md` | Settled calls and dead ends. The long-term memory. | **In full, every session** |
+| `BACKLOG.md` | What is left to do, in order. | In full, every session |
+| `PROGRESS.md` | Dated journal of what happened. Grows forever. | Last few entries only |
+
+`PROGRESS.md` is a journal, not memory. It is read from the tail, so anything
+recorded there and nowhere else becomes invisible within a few weeks. **If a
+lesson needs to survive, it goes in `DECISIONS.md`.**
+
+### Git history is evidence, not memory
+
+Start each session with `git log --oneline -20` and `git branch --list 'incisor-*'`.
+That is cheap and shows the trajectory. But git records only what was kept —
+an abandoned experiment leaves an `incisor-try/*` branch with no explanation, and
+an idea rejected during a session leaves nothing at all. Git tells you *what*
+happened; `DECISIONS.md` tells you *why*, and *why not*.
+
+This is why the `C:` prefix and the task ID in every subject line matter: they
+make the log skimmable enough to be worth reading at the top of every session.
+
+### Write the entry before you forget
+
+Add to `DECISIONS.md` in the same session as the work, never "next time". An
+undocumented dead end is indistinguishable from an untried idea, and will be
+tried again.
+
+### Signs you are in a loop — stop and check
+
+- The task you picked looks untouched but feels familiar.
+- You are about to write a file that already exists on another branch.
+- A third session in a row has ended without checking a box.
+- You find yourself reasoning toward an approach that `DECISIONS.md` lists.
+
+In any of these cases: stop, read `DECISIONS.md` and `git log` properly, and if
+the work really has been attempted before, mark the task `[!]` and move on.
+
+### Keep the memory readable
+
+`DECISIONS.md` earns its value by being short enough to read in full every time.
+If it grows past roughly two screens, spend a session consolidating: merge
+duplicates, delete nothing, and promote anything that has bitten twice into
+*Recurring traps*.
+
+Screenshots in `docs/shots/` are the other thing that grows without bound. Keep
+one set per registered look branch, replace rather than accumulate, and delete
+the folder when a direction moves to *Retired* in `DESIGN-BRANCHES.md`.

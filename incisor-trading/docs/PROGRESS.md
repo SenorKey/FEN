@@ -53,6 +53,13 @@ re-raises the same item.
   "insider trading" and on the tooth that bites in first — eating, consuming,
   growing, sharpening. Branches renamed to `incisor-dev`, `incisor-look/*`,
   `incisor-try/*`. Guide §1.
+- **2026-08-27 — Memory model:** `DECISIONS.md` is the routine's long-term
+  memory, read in full every session; `PROGRESS.md` is a journal read from the
+  tail only. Git history is evidence of what was kept, not a record of what was
+  rejected, so lessons that must survive go in `DECISIONS.md`. Two hard rules
+  added: never touch a dirty tree outside `incisor-trading/`, and a task that has
+  failed twice gets marked blocked rather than attempted a third time. Guide §16.
+- **2026-08-27 — Look branches:** stay local. Not pushed to GitHub.
 - **2026-08-27 — Autonomy, restated:** the out-of-bounds list is not a set of
   things to seek approval for; they are simply not the routine's to decide or do.
   Inside the bounds it never asks. `PROGRESS.md → For Key` is a notes shelf, never
@@ -75,3 +82,13 @@ the relaxed autonomy model (§3). Next session starts at T0 — data provider du
 diligence, research only, no signups, no code; the provider choice is out of
 bounds (needs Key's account and his acceptance of terms), so it lands under
 `For Key` as a recommendation and the build continues on fixtures regardless.
+
+## 2026-08-27 — Planning (cont.)
+**Outcome:** shipped
+**Changed:** `docs/DECISIONS.md` (new), `AGENT-GUIDE.md` (§16 plus hard rules 11
+and 12, session protocol rewritten), `BACKLOG.md` (S6)
+**Verified:** section numbering contiguous 1–16; the four docs each have one job
+and the protocol names which to read in full versus from the tail.
+**Notes:** The anti-loop mechanism is `DECISIONS.md`. Add to it in the same
+session as the work, never "next time" — an undocumented dead end is
+indistinguishable from an untried idea.
