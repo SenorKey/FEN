@@ -2,9 +2,10 @@
 """
 Incisor Trading — market data service.
 
-Right now this is the skeleton: config loading, the SQLite store, origin
-checking, two-tier rate limiting, and GET /health. Quote and history routes
-arrive with the fixture layer (T3) and the snapshot cache (T4).
+Config loading, the SQLite store, origin checking, two-tier rate limiting,
+GET /health, and the two read routes: GET /quote and GET /history. In fixture
+mode both are served from committed JSON and make no network call at all; the
+cached live fetcher behind them is the next task (T4).
 
 Run under systemd; see incisor-trading.service. Apache reverse-proxies
 /api/incisor/* on the public site to this service on localhost. /health is
@@ -42,6 +43,9 @@ from collections import deque
 
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
+
+import provider
+import source
 
 
 def load_env_file(path):
@@ -308,6 +312,113 @@ def health():
         storage='ok' if storage_ok else 'unavailable',
         time=now_utc_iso(),
     ), (200 if storage_ok else 503)
+
+
+
+# The longest ticker the whitelist admits is ten characters. Anything much
+# longer than that was never going to be a symbol, and is dropped before
+# upper() runs so a pathological string cannot expand on its way in.
+MAX_SYMBOL_INPUT = 16
+
+# What the front end needs in order to label a price honestly (guide section
+# 10). `source` is the important one: in fixture mode these numbers are
+# invented, and the page has to be able to say so rather than presenting
+# committed sample data as a market quote.
+DELAY_LABEL = 'end-of-day'
+
+
+def read_symbol_argument():
+    """The validated `symbol` query argument, or None if it is not a ticker."""
+    raw = request.args.get('symbol', '')
+    if not raw or len(raw) > MAX_SYMBOL_INPUT:
+        return None
+    symbol = raw.strip().upper()
+    return symbol if is_valid_symbol(symbol) else None
+
+
+def gate(route):
+    """Origin and rate-limit checks shared by every read route.
+
+    Returns a ready-to-return error response, or None when the request may
+    proceed. Read routes use the non-strict origin policy for the reason given
+    on origin_is_allowed.
+    """
+    if not origin_is_allowed(strict=False):
+        log.info('%s: rejected bad origin %r ip=%r', route,
+                 request.headers.get('Origin', '')[:120], get_client_ip())
+        return jsonify(error='forbidden'), 403
+
+    allowed, reason = rate_limit_check(get_client_ip())
+    if not allowed:
+        log.info('%s: rate limited (%s) ip=%r', route, reason, get_client_ip())
+        return jsonify(error='rate_limited'), 429
+    return None
+
+
+def error_for(route, symbol, exc):
+    """Map a source or provider failure to a response that says nothing extra.
+
+    The upstream message is logged and never returned: it is prose we did not
+    write, and on the live path it can contain our own API key. The caller gets
+    a token and a status code.
+    """
+    if isinstance(exc, source.SourceUnavailable):
+        log.error('%s: source unavailable for %s: %s', route, symbol, exc)
+        return jsonify(error='data_unavailable'), 503
+
+    if exc.reason == 'not_found':
+        return jsonify(error='symbol_not_found'), 404
+    if exc.reason == 'malformed':
+        log.error('%s: unparseable payload for %s: %s', route, symbol, exc.detail)
+        return jsonify(error='data_unavailable'), 502
+    # rate_limited and quota_exhausted are both upstream saying no. They are
+    # worth logging loudly — on a 25-calls-a-day tier, seeing one means the
+    # caching in T4 is not doing its job.
+    log.warning('%s: upstream refused (%s) for %s', route, exc.reason, symbol)
+    return jsonify(error='data_unavailable'), 503
+
+
+def read_route(route, endpoint, parse):
+    """Shared body of the read routes: gate, validate, load, parse, envelope."""
+    rejection = gate(route)
+    if rejection is not None:
+        return rejection
+
+    symbol = read_symbol_argument()
+    if symbol is None:
+        return jsonify(error='invalid_symbol'), 400
+
+    try:
+        payload = source.fetch(endpoint, symbol, DATA_SOURCE)
+        data = parse(payload, symbol)
+    except (provider.ProviderError, source.SourceUnavailable) as exc:
+        return error_for(route, symbol, exc)
+
+    return jsonify(
+        symbol=symbol,
+        source=DATA_SOURCE,
+        delay=DELAY_LABEL,
+        served_at=now_utc_iso(),
+        **{route: data},
+    ), 200
+
+
+@app.route('/quote', methods=['GET'])
+def quote():
+    """Latest daily bar for one symbol: GET /quote?symbol=SPY."""
+    return read_route('quote', source.QUOTE, provider.parse_quote)
+
+
+@app.route('/history', methods=['GET'])
+def history():
+    """Daily bars for one symbol, oldest first: GET /history?symbol=SPY.
+
+    The whole committed series is returned and the client slices it into the
+    ranges it offers. Serving one series and reusing it across every range is
+    also what keeps the upstream call count at one per symbol per day, which
+    on a 25-a-day tier is the difference between working and not.
+    """
+    return read_route('history', source.DAILY, provider.parse_daily_history)
 
 
 init_db()

@@ -1,9 +1,10 @@
 """Boots the service on a real socket and drives it with real HTTP.
 
-The test client in test_incisor.py covers behaviour; this covers the thing the
-test client cannot prove — that the app actually serves. "Runs locally" is a T2
-acceptance criterion, and a WSGI app can pass every test-client assertion while
-failing to boot.
+The test client in test_incisor.py and test_fixture_layer.py covers behaviour;
+this covers the thing the test client cannot prove — that the app actually
+serves. "Runs locally" is a T2 acceptance criterion, and a WSGI app can pass
+every test-client assertion while failing to boot. T3 adds the read routes to
+the same treatment: a quote has to survive real HTTP, not just a WSGI call.
 
 The server binds port 0 (the OS picks a free one) so this never collides with a
 real service on 8789, and it is shut down in tearDownClass.
@@ -72,6 +73,38 @@ class TestOverRealHttp(unittest.TestCase):
                  for _ in range(incisor.RATE_LIMIT_MAX + 3)]
         self.assertEqual(codes.count(200), incisor.RATE_LIMIT_MAX)
         self.assertEqual(codes[-3:], [429, 429, 429])
+
+    def test_a_quote_is_served_over_the_wire_from_fixtures(self):
+        status, headers, body = self.get('/quote?symbol=SPY')
+        self.assertEqual(status, 200)
+        self.assertTrue(headers.get('Content-Type', '').startswith('application/json'))
+        payload = json.loads(body)
+        self.assertEqual(payload['symbol'], 'SPY')
+        self.assertEqual(payload['source'], 'fixture')
+        self.assertGreater(payload['quote']['price'], 0)
+
+    def test_a_history_series_is_served_over_the_wire_from_fixtures(self):
+        status, _, body = self.get('/history?symbol=QQQ')
+        self.assertEqual(status, 200)
+        bars = json.loads(body)['history']['bars']
+        self.assertGreaterEqual(len(bars), 100)
+
+    def test_an_unknown_symbol_is_a_json_404_over_the_wire(self):
+        status, headers, body = self.get('/quote?symbol=NOSUCH')
+        self.assertEqual(status, 404)
+        self.assertTrue(headers.get('Content-Type', '').startswith('application/json'))
+        self.assertEqual(json.loads(body)['error'], 'symbol_not_found')
+
+    def test_no_response_body_ever_carries_upstream_prose_or_a_path(self):
+        """Guide section 5: log the upstream message, return a token."""
+        for path in ('/quote?symbol=SPY', '/quote?symbol=NOSUCH', '/history?symbol=SPY'):
+            with self.subTest(path=path):
+                incisor.reset_rate_limits()
+                _, _, body = self.get(path)
+                serialised = body.decode()
+                for leak in (incisor.DB_PATH, 'fixtures/', 'Alpha Vantage',
+                             'UPSTREAM_API_KEY', 'Traceback'):
+                    self.assertNotIn(leak, serialised)
 
     def test_an_unknown_route_is_json_not_an_html_error_page(self):
         status, headers, body = self.get('/definitely-not-a-route')
