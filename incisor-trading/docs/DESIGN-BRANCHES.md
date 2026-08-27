@@ -1,4 +1,4 @@
-# Market — Design branches
+# Incisor Trading — Design branches
 
 The review shelf. Every distinct visual direction the routine builds is
 registered here, so choosing between them is browsing one file rather than
@@ -15,7 +15,7 @@ become the main look.
 ## How to review one
 
 ```bash
-git checkout market-look/<name>
+git checkout incisor-look/<name>
 ```
 
 Then serve the site and open the page:
@@ -24,13 +24,13 @@ Then serve the site and open the page:
 python3 -m http.server 8765
 ```
 
-`http://localhost:8765/market/` — the dashboard renders from committed fixtures,
+`http://localhost:8765/incisor-trading/` — the dashboard renders from committed fixtures,
 so no API key or running backend is required to judge the look.
 
 Back to the working line when done:
 
 ```bash
-git checkout market-dev
+git checkout incisor-dev
 ```
 
 ---
@@ -42,9 +42,9 @@ complete enough to be worth looking at._
 
 <!-- Template for each entry. Copy it, fill it in, newest at the top.
 
-### `market-look/<name>` — <one-line concept>
+### `incisor-look/<name>` — <one-line concept>
 
-**Registered:** YYYY-MM-DD · **Based on:** `market-dev` @ `<short sha>`
+**Registered:** YYYY-MM-DD · **Based on:** `incisor-dev` @ `<short sha>`
 
 <Two or three sentences: what this direction is going for, and what is
 actually different about it — layout, hierarchy, density, type, motion. Say

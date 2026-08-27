@@ -1,4 +1,4 @@
-# Market — Backlog
+# Incisor Trading — Backlog
 
 Ordered. Work the topmost unchecked, unblocked task. One per session.
 Check the box, then append to `PROGRESS.md`.
@@ -19,26 +19,27 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   fundamentals), and API key requirements.
   *Accept:* file exists; at least three providers compared; each "public display
   permitted?" cell cites the specific terms clause. A recommendation is stated
-  with reasoning. **Then park the choice as a question — do not sign up for
-  anything.** No code this session.
+  with reasoning. **The choice and the signup are Key's — never register for an
+  account or accept terms.** Record the recommendation under `For Key` and carry
+  on; the fixture layer means no session is ever blocked on this. No code today.
 
 - [ ] **T1 · Page skeleton, hidden**
-  `market/index.html`, `market.css`, `market.js`. Shared FEN base CSS, site nav,
+  `incisor-trading/index.html`, `incisor.css`, `incisor.js`. Shared FEN base CSS, site nav,
   footer, `noindex,nofollow`. Three empty tabs: Dashboard / Trade / Learn. Hard
   coded placeholder numbers, zero network calls.
-  *Accept:* loads at `localhost:8765/market/`, looks like FEN, no console errors,
-  tabs switch by keyboard, works at 375px wide, `git status` clean outside `/market/`.
+  *Accept:* loads at `localhost:8765/incisor-trading/`, looks like FEN, no console errors,
+  tabs switch by keyboard, works at 375px wide, `git status` clean outside `/incisor-trading/`.
 
 - [ ] **T2 · Flask service skeleton**
-  Clone the structure of `preside-by-side/server/`: `market.py` with a `/health`
+  Clone the structure of `preside-by-side/server/`: `incisor.py` with a `/health`
   endpoint, origin checking, per-IP and global rate limiting, config loading from
   `$CONFIG_FILE`, SQLite init. Plus `requirements.txt`, `config.env.example`,
-  `market.service`, `apache-snippet.conf`. Port 8789.
+  `incisor-trading.service`, `apache-snippet.conf`. Port 8789.
   *Accept:* runs locally, `/health` returns JSON, rejects a bad Origin, rate limit
   trips under a loop. Deploy files written but **not installed**.
 
 - [ ] **T3 · Fixture layer**
-  `MARKET_DATA_SOURCE=fixture|live`, defaulting to fixture. `server/fixtures/`
+  `INCISOR_DATA_SOURCE=fixture|live`, defaulting to fixture. `server/fixtures/`
   with hand-written representative JSON matching the chosen provider's documented
   response shapes. A parser module that turns provider JSON into our internal
   shape, exercised against the fixtures.
@@ -102,7 +103,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   CSP verified with no console violations; a grep for `innerHTML` comes back clean.
 
 - [ ] **T13b · Visual directions, round one** — spin up two or three genuinely
-  distinct `market-look/*` branches off the finished dashboard, each a complete,
+  distinct `incisor-look/*` branches off the finished dashboard, each a complete,
   screenshottable treatment rather than a recolour. Register every one in
   `docs/DESIGN-BRANCHES.md` with concept, screenshots at both widths, and the
   preview command. *Accept:* the register renders correctly and each branch checks
@@ -178,8 +179,8 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   service down means templates still render.
 
 - [ ] **T26 · Compliance pass** — disclaimer present on every hint surface, every
-  game surface, and the page footer. Wording parked for Key's approval before
-  shipping.
+  game surface, and the page footer. Ship the wording given in guide §11 as-is;
+  note under `For Key` that the final legal phrasing is his to settle.
 
 ---
 
@@ -187,7 +188,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 - [ ] **T27 · Promotion checklist** — the routine *writes* `docs/PROMOTION.md`:
   everything Key must do to take the page live (install the systemd unit and
-  Apache snippet, create `/etc/market/config.env`, set the real API key, remove
+  Apache snippet, create `/etc/incisor-trading/config.env`, set the real API key, remove
   `noindex`, add to sitemap/robots/nav, set up DB backups, verify TLS, load-check
   against the residential uplink). The routine never executes it.
 
@@ -198,15 +199,15 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 Not sequenced. Available any session where the top backlog task is blocked, or
 when a phase closes and a breather is useful.
 
-- **S1 · Spin a look branch.** A new `market-look/*` direction on whatever exists
+- **S1 · Spin a look branch.** A new `incisor-look/*` direction on whatever exists
   today, registered in `DESIGN-BRANCHES.md`. Always a legitimate use of a session.
-- **S2 · Spin a `market-try/*` experiment.** An alternative approach worth
+- **S2 · Spin a `incisor-try/*` experiment.** An alternative approach worth
   proving or disproving. Record the finding in `PROGRESS.md` either way; a
   negative result is a real result.
 - **S3 · Refresh fixtures.** Recapture provider JSON when response shapes drift.
   Costs live quota — log it.
 - **S4 · Security review of the current surface.** Re-walk §5 of the guide against
-  the code as it now stands. Note findings; fix the ones inside `/market/`.
+  the code as it now stands. Note findings; fix the ones inside `/incisor-trading/`.
 - **S5 · Tighten what exists.** Simplify a file that has grown awkward, improve an
   error state, add a missing unit test. No new features.
 
