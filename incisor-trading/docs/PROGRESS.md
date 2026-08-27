@@ -40,6 +40,16 @@ re-raises the same item.
   further input. It has no prices, so it does not replace N1a — it just means
   fundamentals never spend Alpha Vantage's 25-calls-a-day quota. Recorded here as
   a note, not a question.
+- **N3 — A scheduled session has no browser (from T1, 2026-08-27).** The dev
+  server cannot be started when nobody is present to approve it, and there is no
+  node on the machine, so every *visual* acceptance criterion in guide §15 —
+  renders, clean console, 375px, "looks like FEN" — is unreachable on a routine
+  run. The routine's answer was to build a headless test suite under
+  `incisor-trading/tests/` and split the eyes-on half out as backlog task **D1**,
+  so nothing is silently claimed as verified. *If Key wants the routine to close
+  that gap itself,* the options are an attended session, leaving `python3 -m
+  http.server 8765` running, or installing a headless browser — his call, and
+  the work continues either way.
 - **N2 — Disclaimer wording.** The routine ships the wording in guide §11
   verbatim ("Educational only. Not investment advice. Delayed data. No real money
   is involved."). If Key wants different legal phrasing, that's his to set.
@@ -141,3 +151,48 @@ Two consequences the next sessions should carry:
 Fixtures will be hand-written to Alpha Vantage's documented response shapes in
 T3. That is deliberately reversible: T3's parser module is the only code that
 ever sees provider JSON, so a different provider changes one file.
+
+## 2026-08-27 — T1 Page skeleton, hidden
+**Outcome:** shipped, with the visual pass split out as D1
+**Changed:** `incisor-trading/index.html`, `incisor.css`, `incisor.js` (all new),
+`tests/` (new: `page_model.py`, `test_page.py`, `test_tab_behaviour.py`,
+`tab_model.jxa.js`, `README.md`, deny-all `.htaccess`, `.gitignore`),
+`BACKLOG.md` (T1 checked, D1 added), `DECISIONS.md` (six entries)
+**Verified:** `python3 -m unittest discover` in `incisor-trading/tests` —
+**34 checks, all passing.** They cover the ARIA tab wiring end to end, the
+`noindex` rule, that the page never links to itself, that every control carries a
+generic `data-track`, that no inline handler, inline style or remote origin
+exists, that `innerHTML`/`eval`/`fetch` appear nowhere, that up/down is never
+signalled by colour alone, and the §6 line-length and file-size limits. The
+keyboard model is not inspected but **executed**: `tab_model.jxa.js` loads the
+real `incisor.js` into JavaScriptCore against a DOM stub built from the real
+`index.html` and drives click, arrows, Home/End, wrap-around and an ignored key.
+`git status` shows changes only under `incisor-trading/`.
+
+**Not verified, and not claimed:** anything needing eyes. See N3 — a scheduled
+session cannot start the dev server. That half is now backlog task **D1**.
+
+**Notes:** The page is one scrolling document rather than the shared
+golden-ratio shell, which is built for the home page and locks the viewport at
+`height:100vh; overflow:hidden`. `body.incisor` releases that at every width.
+
+Identity is enamel-and-gold on near-black. The constraint that drove it: green
+and red carry market direction everywhere on this page, so the brand colour had
+to avoid both — gold does, and it reads as the "gold tooth" behind the name
+without playing the joke too loudly. Figures are set in the system monospace
+stack with `tabular-nums`, since guide §4 rules out font CDNs and adding a
+webfont would mean writing into `/assets`, which is out of bounds.
+
+Two things worth carrying forward:
+
+1. **`beacon.js` falls back to an element's `textContent`** when there is no
+   `data-track`, `aria-label` or `id`. On a trading page that means a button
+   reading "Buy 10 AAPL" would leave the browser. Every control here ships an
+   explicit generic label, and `test_page.py` now fails the build if a new one
+   does not — the guard is automated rather than remembered.
+2. **The panels ship in a correct state before any JavaScript runs** — one tab
+   selected, the other two panels carrying `hidden`. The page is readable if the
+   script never loads, and `incisor.js` documents that as its contract.
+
+No `gtag` here, unlike the rest of the site: guide §4 forbids third-party script
+tags on this page and the T13 CSP would block it. Deliberate, not an oversight.

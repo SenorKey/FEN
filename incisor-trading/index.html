@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--
+      HIDDEN PAGE. Stays out of the nav, the sitemap and robots.txt until Key
+      promotes it by hand. Do not remove this robots tag (agent guide, rule 3).
+      Open Graph and canonical tags are deliberately absent until promotion —
+      there is nothing to share yet, and fewer tags is fewer things to remember
+      to change on the day.
+    -->
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description"
+        content="Incisor Trading — a stock market dashboard and zero-risk paper-trading
+                 game. Educational only, delayed data, no real money.">
+
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/incisor-trading/incisor.css">
+    <script src="/incisor-trading/incisor.js" defer></script>
+
+    <!--
+      The first-party beacon is the only telemetry on this page. No gtag, no
+      third-party script tags — guide §4 forbids them here even though the rest
+      of the site carries analytics, and the CSP added in T13 would block them.
+      Every market control below carries an explicit generic data-track label,
+      because beacon.js falls back to an element's text content and a button
+      reading "Buy 10 AAPL" would otherwise leave the browser (guide §5).
+    -->
+    <script src="/assets/js/beacon.js" defer></script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Incisor Trading</title>
+</head>
+
+<body class="incisor">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!--
+      The shared site nav, minus any entry for this page — listing the other
+      projects here publishes nothing, but an "Incisor Trading" link would.
+      It gets added at promotion time, by Key, in one pass across the site.
+    -->
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/trtbench">Trtbench</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/fresh-pull">Fresh Pull</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content" class="inc-page">
+
+        <header class="inc-masthead">
+            <p class="inc-eyebrow">Paper trading &middot; No real money</p>
+            <h1 class="inc-title">Incisor <em>Trading</em></h1>
+            <p class="inc-tagline">Learn how markets work by chewing through real
+                data with nothing at risk.</p>
+        </header>
+
+        <!--
+          Sample-data banner. Every number on the page is hardcoded until the
+          service exists, and a page showing invented prices without saying so
+          would be worse than one showing none. This is removed in T6, when the
+          delay label replaces it.
+        -->
+        <p class="inc-sample-banner" role="status">
+            <span class="inc-sample-dot" aria-hidden="true"></span>
+            Sample data. Nothing on this page is a real quote yet.
+        </p>
+
+        <!-- Market clock lands here in T5. Space is reserved so it cannot shift the layout. -->
+        <div class="inc-clock" data-placeholder="market-clock">
+            <span class="inc-clock-state">Market status</span>
+            <span class="inc-clock-detail">Clock arrives with T5</span>
+        </div>
+
+        <div class="inc-tabs">
+            <div class="inc-tablist" role="tablist" aria-label="Incisor Trading sections">
+                <button type="button" class="inc-tab" id="tab-dashboard" role="tab"
+                    aria-selected="true" aria-controls="panel-dashboard" tabindex="0"
+                    data-track="tab-dashboard">Dashboard</button>
+                <button type="button" class="inc-tab" id="tab-trade" role="tab"
+                    aria-selected="false" aria-controls="panel-trade" tabindex="-1"
+                    data-track="tab-trade">Trade</button>
+                <button type="button" class="inc-tab" id="tab-learn" role="tab"
+                    aria-selected="false" aria-controls="panel-learn" tabindex="-1"
+                    data-track="tab-learn">Learn</button>
+            </div>
+
+            <!-- ── Dashboard ────────────────────────────────────── -->
+            <section class="inc-panel" id="panel-dashboard" role="tabpanel"
+                aria-labelledby="tab-dashboard" tabindex="0">
+
+                <h2 class="inc-panel-heading">Market overview</h2>
+                <p class="inc-panel-note">Index tiles, search, charts and fundamentals
+                    fill this panel across T6&ndash;T12.</p>
+
+                <ul class="inc-tile-grid">
+                    <li class="inc-tile">
+                        <p class="inc-tile-symbol">SPY <span class="inc-proxy">proxy</span></p>
+                        <p class="inc-tile-name">S&amp;P 500</p>
+                        <p class="inc-tile-price">641.28</p>
+                        <p class="inc-tile-change inc-up">
+                            <span class="inc-arrow" aria-hidden="true">&#9650;</span>
+                            <span class="inc-delta">+2.94</span>
+                            <span class="inc-delta-pct">+0.46%</span>
+                        </p>
+                    </li>
+                    <li class="inc-tile">
+                        <p class="inc-tile-symbol">QQQ <span class="inc-proxy">proxy</span></p>
+                        <p class="inc-tile-name">Nasdaq 100</p>
+                        <p class="inc-tile-price">573.10</p>
+                        <p class="inc-tile-change inc-up">
+                            <span class="inc-arrow" aria-hidden="true">&#9650;</span>
+                            <span class="inc-delta">+4.17</span>
+                            <span class="inc-delta-pct">+0.73%</span>
+                        </p>
+                    </li>
+                    <li class="inc-tile">
+                        <p class="inc-tile-symbol">DIA <span class="inc-proxy">proxy</span></p>
+                        <p class="inc-tile-name">Dow 30</p>
+                        <p class="inc-tile-price">452.66</p>
+                        <p class="inc-tile-change inc-down">
+                            <span class="inc-arrow" aria-hidden="true">&#9660;</span>
+                            <span class="inc-delta">&minus;1.08</span>
+                            <span class="inc-delta-pct">&minus;0.24%</span>
+                        </p>
+                    </li>
+                    <li class="inc-tile">
+                        <p class="inc-tile-symbol">IWM <span class="inc-proxy">proxy</span></p>
+                        <p class="inc-tile-name">Russell 2000</p>
+                        <p class="inc-tile-price">238.41</p>
+                        <p class="inc-tile-change inc-down">
+                            <span class="inc-arrow" aria-hidden="true">&#9660;</span>
+                            <span class="inc-delta">&minus;0.52</span>
+                            <span class="inc-delta-pct">&minus;0.22%</span>
+                        </p>
+                    </li>
+                </ul>
+
+                <p class="inc-proxy-note">These four are exchange-traded funds that
+                    track the indexes, not the index levels themselves. Free market
+                    data does not include the indexes directly, so the ETFs stand in
+                    and are labelled as proxies wherever they appear.</p>
+            </section>
+
+            <!-- ── Trade ────────────────────────────────────────── -->
+            <section class="inc-panel" id="panel-trade" role="tabpanel"
+                aria-labelledby="tab-trade" tabindex="0" hidden>
+
+                <h2 class="inc-panel-heading">Your paper portfolio</h2>
+                <p class="inc-panel-note">The order ticket, positions table and
+                    performance chart arrive in T14&ndash;T18. Everything stays in
+                    this browser &mdash; there is no account and no server copy.</p>
+
+                <dl class="inc-stat-row">
+                    <div class="inc-stat">
+                        <dt class="inc-stat-label">Cash</dt>
+                        <dd class="inc-stat-value">$100,000.00</dd>
+                    </div>
+                    <div class="inc-stat">
+                        <dt class="inc-stat-label">Positions</dt>
+                        <dd class="inc-stat-value">$0.00</dd>
+                    </div>
+                    <div class="inc-stat">
+                        <dt class="inc-stat-label">Total value</dt>
+                        <dd class="inc-stat-value">$100,000.00</dd>
+                    </div>
+                    <div class="inc-stat">
+                        <dt class="inc-stat-label">Total return</dt>
+                        <dd class="inc-stat-value inc-flat">
+                            <span class="inc-arrow" aria-hidden="true">&#9644;</span>
+                            0.00%
+                        </dd>
+                    </div>
+                </dl>
+
+                <p class="inc-empty">No positions yet. You start with $100,000 in
+                    fake money, and you can reset it whenever you like.</p>
+            </section>
+
+            <!-- ── Learn ────────────────────────────────────────── -->
+            <section class="inc-panel" id="panel-learn" role="tabpanel"
+                aria-labelledby="tab-learn" tabindex="0" hidden>
+
+                <h2 class="inc-panel-heading">How this works</h2>
+
+                <div class="inc-prose">
+                    <h3>Nothing here is real money.</h3>
+                    <p>You get a fake $100,000 balance. You cannot deposit, withdraw,
+                        win or lose anything. There is no account, no sign-up and no
+                        email &mdash; your portfolio is stored in this browser and
+                        nowhere else.</p>
+
+                    <h3>Prices are delayed, and orders fill forward.</h3>
+                    <p>Free market data runs behind the real market. That would make
+                        a trading game trivially easy, so an order fills at the
+                        <em>next</em> price the server fetches after you submit it,
+                        never the price you were looking at when you clicked.</p>
+
+                    <h3>Hints explain; they never advise.</h3>
+                    <p>Later on, this page will show you what a chart looks like to
+                        different schools of thought &mdash; and where those schools
+                        flatly disagree with each other. That disagreement is the
+                        lesson. It will never tell you what to buy or sell.</p>
+                </div>
+            </section>
+        </div>
+
+        <p class="inc-disclaimer">Educational only. Not investment advice. Delayed
+            data. No real money is involved.</p>
+    </main>
+
+    <footer class="inc-footer">
+        <p class="inc-footer-line">
+            <a href="/">frontendneeded.com</a>
+            <span class="inc-footer-sep" aria-hidden="true">&middot;</span>
+            <span>Incisor Trading</span>
+        </p>
+        <!-- Provider attribution goes here, worded as the provider requires (T0 / guide §10). -->
+        <p class="inc-footer-attribution" data-placeholder="attribution">
+            Market data attribution appears here once a provider is wired up.
+        </p>
+    </footer>
+</body>
+
+</html>

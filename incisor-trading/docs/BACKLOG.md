@@ -23,12 +23,17 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   account or accept terms.** Record the recommendation under `For Key` and carry
   on; the fixture layer means no session is ever blocked on this. No code today.
 
-- [ ] **T1 · Page skeleton, hidden**
+- [x] **T1 · Page skeleton, hidden**
   `incisor-trading/index.html`, `incisor.css`, `incisor.js`. Shared FEN base CSS, site nav,
   footer, `noindex,nofollow`. Three empty tabs: Dashboard / Trade / Learn. Hard
   coded placeholder numbers, zero network calls.
   *Accept:* loads at `localhost:8765/incisor-trading/`, looks like FEN, no console errors,
   tabs switch by keyboard, works at 375px wide, `git status` clean outside `/incisor-trading/`.
+  *Done 2026-08-27.* Built and covered by `tests/` (34 checks, including the
+  keyboard model run for real in JavaScriptCore). The criteria that need eyes on
+  a browser — renders, console clean, 375px, looks like FEN — could not be
+  checked, because a scheduled session cannot start the dev server. Split out as
+  **D1** rather than left implied.
 
 - [ ] **T2 · Flask service skeleton**
   Clone the structure of `preside-by-side/server/`: `incisor.py` with a `/health`
@@ -223,4 +228,11 @@ when a phase closes and a breather is useful.
 Tasks found mid-work that don't fit above. Append here; Key triages them into
 phases.
 
-_(none yet)_
+- [ ] **D1 · Browser verification pass for the page skeleton** — the half of
+  T1's acceptance criteria that a headless session cannot reach: load the page,
+  confirm a clean console, check it at 375px and at desktop width, confirm it
+  reads as a FEN page, and put screenshots in `docs/shots/`. Needs an attended
+  session, or Key with the `fen` config running. Everything else about T1 is
+  done and tested. See `DECISIONS.md` — *unattended sessions have no browser*.
+  *Accept:* screenshots at both widths committed; console noted as clean; any
+  layout defect either fixed or raised as its own task.
