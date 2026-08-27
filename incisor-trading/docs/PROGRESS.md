@@ -321,3 +321,62 @@ trying new visual directions, and may build major revamps on branches. Ongoing
 change must make the page measurably better and say how in the commit message.
 
 **Notes:** Top of the backlog is still **T3, the fixture layer**, unblocked.
+
+## 2026-08-27 — T3 · Fixture layer
+**Outcome:** shipped
+**Changed:** `server/provider.py`, `server/source.py`, `server/fixtures/`
+(new — generator, README, 12 payloads), `server/incisor.py` (two routes),
+`server/apache-snippet.conf`, `server/config.env.example`,
+`server/tests/test_provider.py`, `server/tests/test_fixture_layer.py`,
+`server/tests/test_http_smoke.py`, `server/tests/README.md`
+**Verified:** 72 service tests and 34 page tests green. The service was booted
+as a real process on a real socket and served `/quote` and `/history` for every
+fixture symbol; `upstream_calls` stayed at zero rows and `lsof` showed no
+outbound connection. `tools/shoot.py` was not run — this task touched no markup
+or CSS.
+
+`GET /quote?symbol=SPY` and `GET /history?symbol=SPY` now serve end to end from
+committed JSON. Both go through the same three-step path: `source.fetch` decides
+where a payload comes from, `provider.parse_*` turns it into our shape, and the
+route wraps it in an envelope carrying `symbol`, `source`, `delay` and
+`served_at`.
+
+**Two properties of Alpha Vantage's responses drove most of the parser.** Every
+value arrives as a quoted string, and the change percentage arrives with a
+literal `%` on the end — so `'1.5871%'` becomes `1.5871`, once, in one place,
+rather than being formatted out of a string in six. More importantly, **every
+failure arrives as HTTP 200**: a bad symbol, a throttle and an exhausted daily
+quota are all a normal 200 carrying prose under `Error Message`, `Note` or
+`Information`. A parser that trusted the status code would render a rate-limit
+notice as a price. Each is recognised and raised as a typed `ProviderError`
+whose `reason` is a short token — safe to return — while the upstream prose goes
+to the journal only, because on the live path that text can quote our own API
+key back at us.
+
+**The fixtures are invented and the API says so.** Every response carries
+`"source": "fixture"`, so the page can label sample data as sample data rather
+than presenting it as a quote. That field is not decoration; it is the thing
+that keeps an unfinished dashboard honest.
+
+The first generator walked each symbol independently and produced a 120-day
+window where QQQ fell 26% while DIA rose 11%. That is not a market, and it is
+what the whole dashboard would have been laid out against. Rewritten around one
+shared market factor with a per-symbol beta and idiosyncratic noise: daily-return
+correlations now sit at 0.84–0.91 across the four index proxies and 0.49–0.65 for
+the two single stocks, which is what real tape looks like. Volume also scales
+with the size of the day's move, so T7's "volume vs. average" readout has
+something real to measure.
+
+`BRK.B` is in the fixture set deliberately — it is the one symbol with a dot in
+it, so the edge whitelist and the fixture path resolution are exercised rather
+than assumed. `source.py` also refuses any endpoint outside the two it knows and
+re-checks that a resolved fixture path is still inside the fixture root, which is
+belt-and-braces against that whitelist ever loosening.
+
+**Live mode fails closed.** It is still configurable, but the thing that would
+make the call — the cached, quota-counted fetcher — is T4. Until then the routes
+return a logged 503 rather than a route that looks like it works and serves
+nothing. `config.env.example` says so, so nobody flips the switch and wonders.
+
+The Apache snippet grew its first two real proxy lines, since the routes now
+exist. Nothing was installed and nothing on the server was touched.

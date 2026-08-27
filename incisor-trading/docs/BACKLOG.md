@@ -46,13 +46,18 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   well as through the test client. Nothing installed, nothing touched on the
   server. `/health` is deliberately not reverse-proxied.
 
-- [ ] **T3 · Fixture layer**
+- [x] **T3 · Fixture layer**
   `INCISOR_DATA_SOURCE=fixture|live`, defaulting to fixture. `server/fixtures/`
   with hand-written representative JSON matching the chosen provider's documented
   response shapes. A parser module that turns provider JSON into our internal
   shape, exercised against the fixtures.
   *Accept:* the service serves quotes end-to-end from fixtures with no network
   access at all. Verified by running with networking unavailable.
+  *Done 2026-08-27.* `provider.py` (parsing), `source.py` (the one I/O seam),
+  `GET /quote` and `GET /history`, six symbols in Alpha Vantage's documented
+  shapes. 72 service tests; the no-network criterion is asserted by breaking
+  every socket constructor, and confirmed again on a real socket with the
+  `upstream_calls` counter still at zero.
 
 - [ ] **T4 · Snapshot cache + price store**
   SQLite schema for quotes, daily bars, and fundamentals. A single fetcher module
