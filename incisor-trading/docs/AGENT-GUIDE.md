@@ -137,6 +137,12 @@ a session.
 `For Key` is a notes shelf, not a queue the routine is blocked on. Never re-raise
 the same item, and never treat an unanswered note as a reason to skip a session.
 
+**Retire a note when it stops being true.** If the situation a note describes is
+resolved — by Key, or by the routine finding another way through — mark it
+resolved with the date and say what closed it. A stale note is worse than none:
+it describes a constraint that no longer exists, and the next session will plan
+around a wall that has already been removed.
+
 ### In bounds — no approval needed, ever
 
 Everything else. Explicitly including: creating branches, trying an approach and

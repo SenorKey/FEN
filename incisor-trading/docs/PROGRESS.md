@@ -40,16 +40,12 @@ re-raises the same item.
   further input. It has no prices, so it does not replace N1a — it just means
   fundamentals never spend Alpha Vantage's 25-calls-a-day quota. Recorded here as
   a note, not a question.
-- **N3 — A scheduled session has no browser (from T1, 2026-08-27).** The dev
-  server cannot be started when nobody is present to approve it, and there is no
-  node on the machine, so every *visual* acceptance criterion in guide §15 —
-  renders, clean console, 375px, "looks like FEN" — is unreachable on a routine
-  run. The routine's answer was to build a headless test suite under
-  `incisor-trading/tests/` and split the eyes-on half out as backlog task **D1**,
-  so nothing is silently claimed as verified. *If Key wants the routine to close
-  that gap itself,* the options are an attended session, leaving `python3 -m
-  http.server 8765` running, or installing a headless browser — his call, and
-  the work continues either way.
+- **N3 — ~~A scheduled session has no browser~~ RESOLVED 2026-08-27.** Closed by
+  `tools/shoot.py`, which drives the installed Chrome through Playwright at
+  desktop, tablet and true mobile-emulated widths and fails on console errors or
+  horizontal overflow. Scheduled sessions verify visually on their own now; no
+  attended session is required for it. Kept as a line rather than deleted so the
+  history reads straight, but **it needs nothing from Key.**
 - **N4 — The `incisor-api` launch config is Key's to add (from T2, 2026-08-27).**
   Guide §15 asks for one once the service exists. It now does, but
   `.claude/launch.json` sits outside `incisor-trading/`, and hard rule 1 makes
