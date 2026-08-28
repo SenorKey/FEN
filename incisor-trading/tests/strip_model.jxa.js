@@ -2,9 +2,9 @@
  *
  * Three modules, three ways. js/market-figures.js is pure, so it runs against
  * hand-computed values with nothing stubbed. js/market-data.js is the network
- * seam, so it runs against a fake fetch. incisor.js's view runs against a DOM
- * stub with the data module replaced, which is what lets the render, the
- * failure state and the mixed state all be checked deterministically.
+ * seam, so it runs against a fake fetch. js/view-index-strip.js runs against
+ * a DOM stub with the data module replaced, which is what lets the render,
+ * the failure state and the mixed state all be checked deterministically.
  *
  * Promises are the awkward part: a scheduled JXA run has no event loop to
  * drain a microtask queue, so a real Promise would leave every assertion
@@ -88,15 +88,15 @@ function run(argv) {
 
     /* The real numbers from the committed SPY fixture, so the arithmetic is
      * checked against the data the page will actually be handed. */
-    var spy = [bar('2026-08-24', 656.5607), bar('2026-08-25', 656.8264),
-        bar('2026-08-26', 657.1995)];
+    var spy = [bar('2026-08-24', 737.0765), bar('2026-08-25', 739.2547),
+        bar('2026-08-26', 733.4011)];
     var quote = figures.quoteFromBars(spy);
 
-    equal('the latest close is the last bar', quote.close, 657.1995);
+    equal('the latest close is the last bar', quote.close, 733.4011);
     close('the change is measured against the bar before it',
-        quote.change, 0.3731, 0.0001);
+        quote.change, -5.8536, 0.0001);
     close('the percentage change matches the fixture quote',
-        quote.changePercent, 0.0568, 0.0005);
+        quote.changePercent, -0.7918, 0.0005);
     equal('the quote carries the trading day', quote.date, '2026-08-26');
 
     var single = figures.quoteFromBars([bar('2026-08-26', 100)]);
@@ -432,8 +432,9 @@ function run(argv) {
             }
         };
 
-        (new Function('document', 'window', read(pageDir + '/incisor.js')))(
-            documentStub, windowStub);
+        (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
+        (new Function('document', 'window',
+            read(pageDir + '/js/view-index-strip.js')))(documentStub, windowStub);
 
         return { strip: strip, provenance: provenance,
             tiles: strip.querySelectorAll('[data-tile]') };
@@ -448,17 +449,17 @@ function run(argv) {
     }
 
     var view = render(['SPY', 'QQQ'], {
-        SPY: loaded('SPY', [650, 656.8264, 657.1995]),
+        SPY: loaded('SPY', [700, 730.2547, 733.4011]),
         QQQ: loaded('QQQ', [580, 575.5, 571.8])
     });
 
     equal('a filled tile says so', view.tiles[0].getAttribute('data-state'), 'ready');
     equal('the price is written into the tile',
-        view.tiles[0].querySelector('[data-tile-price]').textContent, '657.20');
+        view.tiles[0].querySelector('[data-tile-price]').textContent, '733.40');
     equal('the change is written into the tile',
-        view.tiles[0].querySelector('[data-tile-delta]').textContent, '+0.37');
+        view.tiles[0].querySelector('[data-tile-delta]').textContent, '+3.15');
     equal('the percentage is written into the tile',
-        view.tiles[0].querySelector('[data-tile-pct]').textContent, '+0.06%');
+        view.tiles[0].querySelector('[data-tile-pct]').textContent, '+0.43%');
 
     var down = view.tiles[1];
     check('a fall is coloured as a fall',
@@ -513,7 +514,7 @@ function run(argv) {
             .textContent.indexOf('could not be refreshed') !== -1);
 
     var mixed = render(['SPY', 'QQQ'], {
-        SPY: loaded('SPY', [650, 657.1995]),
+        SPY: loaded('SPY', [700, 733.4011]),
         QQQ: { error: new Error('offline') }
     });
     equal('a tile that failed says so', mixed.tiles[1].getAttribute('data-state'),
@@ -552,19 +553,39 @@ function run(argv) {
     equal('a one-bar series draws no sparkline',
         short.tiles[0].querySelector('[data-tile-spark]').children.length, 0);
 
-    /* The shell has to survive a page with no strip on it at all — that is
-     * every other tab's problem the moment the markup is restructured. */
+    /* The view has to survive a page with no strip on it at all — that is
+     * every other tab's problem the moment the markup is restructured. It
+     * also has to survive js/dom.js failing to load, which is the same
+     * degradation every module here promises in its header. */
     var bare = {
         querySelector: function () { return null; },
         getElementById: function () { return null; }
     };
     try {
-        (new Function('document', 'window', read(pageDir + '/incisor.js')))(
-            bare, { setInterval: function () { return 0; } });
-        check('the shell runs on a page with no strip and no clock', true);
+        (new Function('document', 'window',
+            read(pageDir + '/js/view-index-strip.js')))(bare, {});
+        check('the view runs on a page with no strip', true);
     } catch (error) {
-        check('the shell runs on a page with no strip and no clock', false,
-            String(error));
+        check('the view runs on a page with no strip', false, String(error));
+    }
+
+    try {
+        var stripOnly = new El('ul', { 'data-index-strip': '' });
+        stripOnly.appendChild(buildTile('SPY'));
+        (new Function('document', 'window',
+            read(pageDir + '/js/view-index-strip.js')))(
+            {
+                querySelector: function (selector) {
+                    return stripOnly.matches(selector) ? stripOnly : null;
+                },
+                getElementById: function () { return null; }
+            },
+            { IncisorMarketFigures: figures, IncisorMarketData: { history: null } });
+        check('the view leaves the served markup alone with no helpers loaded',
+            stripOnly.querySelector('[data-tile-price]').textContent === '');
+    } catch (error) {
+        check('the view leaves the served markup alone with no helpers loaded',
+            false, String(error));
     }
 
     return report();

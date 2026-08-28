@@ -20,9 +20,17 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/incisor-trading/incisor.css">
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
+    <!--
+      Load order matters and `defer` preserves it: the helpers and the two
+      logic modules are in place before any view runs, and each view runs
+      before the shell binds the tabs. Every one of them degrades to leaving
+      the served markup alone if the module above it failed to load.
+    -->
+    <script src="/incisor-trading/js/dom.js" defer></script>
     <script src="/incisor-trading/js/market-clock.js" defer></script>
     <script src="/incisor-trading/js/market-figures.js" defer></script>
     <script src="/incisor-trading/js/market-data.js" defer></script>
+    <script src="/incisor-trading/js/view-index-strip.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
