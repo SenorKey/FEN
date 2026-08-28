@@ -15,7 +15,7 @@ shape used to be.
 | Directory | Alpha Vantage function |
 |---|---|
 | `global-quote/` | `GLOBAL_QUOTE` |
-| `time-series-daily/` | `TIME_SERIES_DAILY` (compact, 120 sessions) |
+| `time-series-daily/` | `TIME_SERIES_DAILY` (260 sessions — one year) |
 
 Symbols: `SPY`, `QQQ`, `DIA`, `IWM` — the four ETF proxies the dashboard's
 summary strip is built on — plus `AAPL` and `BRK.B`. `BRK.B` is there on
@@ -38,6 +38,13 @@ present and deliberate:
 - `10. change percent` carries a literal **`%` on the end**
 - the daily series is keyed by date, **newest key first**
 - keys are numbered and prefixed — `05. price`, `4. close`
+
+Each series runs **260 weekdays**, ending 2026-08-26 — a full year, so the
+52-week range on the quote panel is a real figure rather than a five-month one
+wearing a year's label. The service asks upstream for `outputsize=full` for the
+same reason and cuts the answer to five years before storing it; the meta field
+here says `Full` because that is the request these shapes stand in for, not
+because the file holds two decades.
 
 The price levels only have to be plausible enough to lay a dashboard out
 against. They are not, and must never be presented as, market data: every API

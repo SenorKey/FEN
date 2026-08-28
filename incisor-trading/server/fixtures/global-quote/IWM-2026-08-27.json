@@ -1,14 +1,14 @@
 {
   "Global Quote": {
     "01. symbol": "IWM",
-    "02. open": "250.1635",
-    "03. high": "253.2851",
-    "04. low": "247.7675",
-    "05. price": "250.8822",
-    "06. volume": "25192003",
+    "02. open": "266.9462",
+    "03. high": "271.6695",
+    "04. low": "259.9642",
+    "05. price": "264.6468",
+    "06. volume": "34274625",
     "07. latest trading day": "2026-08-26",
-    "08. previous close": "249.6901",
-    "09. change": "1.1921",
-    "10. change percent": "0.4774%"
+    "08. previous close": "268.5354",
+    "09. change": "-3.8887",
+    "10. change percent": "-1.4481%"
   }
 }

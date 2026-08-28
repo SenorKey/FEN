@@ -26,6 +26,7 @@ history as evidence of what the shape used to be.
 
 import json
 import os
+import re
 
 from provider import ProviderError
 
@@ -50,6 +51,9 @@ FIXTURE_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fixture
 # Only these two directories are ever read. A payload cannot be summoned from
 # anywhere else on disk by asking for a creative endpoint name.
 ENDPOINTS = (QUOTE, DAILY)
+
+# <SYMBOL>-<YYYY-MM-DD>.json, the layout described in the module docstring.
+FIXTURE_NAME = re.compile(r'^(?P<symbol>.+)-\d{4}-\d{2}-\d{2}\.json$')
 
 
 class SourceUnavailable(Exception):
@@ -90,6 +94,30 @@ def _fixture_path(endpoint, symbol):
     return path
 
 
+def available_symbols(endpoint):
+    """Symbols with a committed fixture for one endpoint.
+
+    Fixture mode can only answer for what is on disk, so this is what makes
+    the /symbols route tell the truth about which symbols are actually
+    priceable rather than listing names nothing can quote. Live mode has no
+    equivalent question — the provider answers for anything listed.
+    """
+    if endpoint not in ENDPOINTS:
+        raise SourceUnavailable('unknown endpoint %r' % endpoint)
+    folder = os.path.join(FIXTURE_ROOT, endpoint)
+    if not os.path.isdir(folder):
+        raise SourceUnavailable('fixture directory missing: %s' % folder)
+    found = set()
+    for name in os.listdir(folder):
+        # A symbol may itself contain hyphens (RDS-A), so the date suffix is
+        # matched as a whole rather than split on the last hyphen — which
+        # would leave every symbol carrying half a date.
+        match = FIXTURE_NAME.match(name)
+        if match:
+            found.add(match.group('symbol'))
+    return found
+
+
 def load_fixture(endpoint, symbol):
     """Read one committed payload. Returns the parsed JSON, exactly as stored."""
     path = _fixture_path(endpoint, symbol)
@@ -118,9 +146,12 @@ def upstream_url_parameters(endpoint, symbol, api_key):
         'apikey': api_key,
     }
     if endpoint == 'time-series-daily':
-        # 100 sessions, against `full`'s 20+ years. The dashboard's longest
-        # range is 1Y and the payload is a fraction of the size.
-        parameters['outputsize'] = 'compact'
+        # `compact` is 100 sessions, which is under five months — not enough
+        # for the 52-week range the quote panel shows, and the shortfall would
+        # be invisible rather than obvious. `full` costs the same single call
+        # against the daily budget and differs only in payload size, which
+        # fetcher.py bounds before anything is stored or served.
+        parameters['outputsize'] = 'full'
     return parameters
 
 

@@ -1,14 +1,14 @@
 {
   "Global Quote": {
     "01. symbol": "DIA",
-    "02. open": "455.1907",
-    "03. high": "456.3427",
-    "04. low": "454.1715",
-    "05. price": "455.3232",
-    "06. volume": "3724974",
+    "02. open": "493.8301",
+    "03. high": "494.4842",
+    "04. low": "491.6399",
+    "05. price": "492.2920",
+    "06. volume": "3949655",
     "07. latest trading day": "2026-08-26",
-    "08. previous close": "455.1025",
-    "09. change": "0.2206",
-    "10. change percent": "0.0485%"
+    "08. previous close": "494.8689",
+    "09. change": "-2.5769",
+    "10. change percent": "-0.5207%"
   }
 }

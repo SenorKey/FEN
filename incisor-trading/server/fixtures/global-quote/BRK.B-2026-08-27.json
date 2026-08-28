@@ -1,14 +1,14 @@
 {
   "Global Quote": {
     "01. symbol": "BRK.B",
-    "02. open": "549.5945",
-    "03. high": "556.6907",
-    "04. low": "540.9700",
-    "05. price": "548.0463",
-    "06. volume": "2835356",
+    "02. open": "589.1695",
+    "03. high": "608.3999",
+    "04. low": "565.6238",
+    "05. price": "584.7086",
+    "06. volume": "3046447",
     "07. latest trading day": "2026-08-26",
-    "08. previous close": "550.6388",
-    "09. change": "-2.5925",
-    "10. change percent": "-0.4708%"
+    "08. previous close": "592.2392",
+    "09. change": "-7.5306",
+    "10. change percent": "-1.2715%"
   }
 }

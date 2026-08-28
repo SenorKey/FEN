@@ -34,7 +34,11 @@ import random
 AS_OF = datetime.date(2026, 8, 26)
 WRITTEN = '2026-08-27'
 
-TRADING_DAYS = 120
+# A full year of sessions, so a 52-week range is a real figure rather than a
+# five-month one wearing a year's label (backlog T7), and so T8's 1Y range has
+# something to draw. 260 weekdays is 52 weeks exactly; the panel reads the last
+# 252 of them, which is what a trading year comes to once holidays are out.
+TRADING_DAYS = 260
 
 # One market factor drives every symbol, because independent random walks are
 # what a naive fixture generator produces and they are visibly wrong: real index
@@ -134,7 +138,10 @@ def as_time_series_daily(symbol, bars):
             '1. Information': 'Daily Prices (open, high, low, close) and Volumes',
             '2. Symbol': symbol,
             '3. Last Refreshed': bars[-1]['date'],
-            '4. Output Size': 'Compact',
+            # Describes the request that would have produced this: the
+            # service asks for `full` because nothing shorter reaches back a
+            # year. The fixture holds one year of it rather than twenty.
+            '4. Output Size': 'Full',
             '5. Time Zone': 'US/Eastern',
         },
         'Time Series (Daily)': series,

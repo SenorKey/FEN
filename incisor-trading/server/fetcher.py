@@ -54,6 +54,13 @@ TTL_SECONDS = {
 # dashboard's own proxies unrefreshed tomorrow morning.
 DAILY_CALL_BUDGET = 22
 
+# How much daily history is kept and served. Upstream is asked for the `full`
+# series because nothing shorter covers a 52-week range, and that runs to
+# twenty-odd years — a payload worth receiving once and not worth storing per
+# symbol or sending to a browser. Five years is the longest range the dashboard
+# will offer, so it is where the series is cut.
+MAX_DAILY_BARS = 5 * 252
+
 _locks = {}
 _locks_guard = threading.Lock()
 
@@ -135,6 +142,22 @@ def quota_status():
     }
 
 
+def bounded(endpoint, parsed):
+    """The tail of a daily series, capped at MAX_DAILY_BARS. Other shapes pass.
+
+    Applied on the way in rather than on the way out, so the cap is what gets
+    stored: an untrimmed series would grow the cache by two decades of bars per
+    symbol to serve five years of them.
+    """
+    if endpoint != source.DAILY:
+        return parsed
+    if len(parsed['bars']) <= MAX_DAILY_BARS:
+        return parsed
+    trimmed = dict(parsed)
+    trimmed['bars'] = parsed['bars'][-MAX_DAILY_BARS:]
+    return trimmed
+
+
 def _refresh(endpoint, symbol, data_source, api_key):
     """Call the source once, parse it, and store what came back.
 
@@ -148,7 +171,7 @@ def _refresh(endpoint, symbol, data_source, api_key):
     status = 'error'
     try:
         payload = source.fetch(endpoint, symbol, data_source, api_key)
-        parsed = handler['parse'](payload, symbol)
+        parsed = bounded(endpoint, handler['parse'](payload, symbol))
         status = 'ok'
     except provider.ProviderError as exc:
         status = exc.reason

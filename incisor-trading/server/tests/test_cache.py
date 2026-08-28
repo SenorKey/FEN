@@ -275,7 +275,30 @@ class TestLiveMode(CacheTestCase):
 
         parameters = source.upstream_url_parameters(source.DAILY, 'SPY', 'KEY123')
         self.assertEqual(parameters['function'], 'TIME_SERIES_DAILY')
-        self.assertEqual(parameters['outputsize'], 'compact')
+        # `compact` is 100 sessions, which cannot reach back the 52 weeks the
+        # quote panel puts a price inside. The larger series costs the same
+        # single call and is cut to size before it is stored.
+        self.assertEqual(parameters['outputsize'], 'full')
+
+    def test_a_long_series_is_cut_before_it_is_stored(self):
+        bars = [{'date': '2020-01-%02d' % ((day % 28) + 1), 'close': float(day)}
+                for day in range(fetcher.MAX_DAILY_BARS + 500)]
+        cut = fetcher.bounded(source.DAILY, {'symbol': 'SPY', 'bars': bars})
+        self.assertEqual(len(cut['bars']), fetcher.MAX_DAILY_BARS)
+
+    def test_the_cut_keeps_the_most_recent_bars(self):
+        bars = [{'date': 'd%d' % day, 'close': float(day)}
+                for day in range(fetcher.MAX_DAILY_BARS + 500)]
+        cut = fetcher.bounded(source.DAILY, {'symbol': 'SPY', 'bars': bars})
+        self.assertEqual(cut['bars'][-1], bars[-1])
+
+    def test_a_short_series_is_left_alone(self):
+        history = {'symbol': 'SPY', 'bars': [{'date': 'a', 'close': 1.0}]}
+        self.assertIs(fetcher.bounded(source.DAILY, history), history)
+
+    def test_a_quote_has_no_series_to_cut(self):
+        quote = {'symbol': 'SPY', 'price': 1.0}
+        self.assertIs(fetcher.bounded(source.QUOTE, quote), quote)
 
     def test_an_unknown_endpoint_never_becomes_an_upstream_call(self):
         with self.assertRaises(source.SourceUnavailable):
