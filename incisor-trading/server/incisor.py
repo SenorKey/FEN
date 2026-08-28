@@ -3,11 +3,12 @@
 Incisor Trading — market data service.
 
 Config loading, origin checking, two-tier rate limiting, GET /health, and the
-two read routes: GET /quote and GET /history.
+three read routes: GET /quote, GET /history and GET /symbols.
 
 This file is the edge. Storage lives in store.py, provider parsing in
-provider.py, payload retrieval in source.py, and the cache and quota budget in
-fetcher.py — which is the only module permitted to reach upstream. A route's
+provider.py, payload retrieval in source.py, the searchable name table in
+catalog.py, and the cache and quota budget in fetcher.py — which is the only
+module permitted to reach upstream. A route's
 whole job is to check who is asking, validate the symbol, ask the fetcher, and
 say nothing extra when something goes wrong.
 
@@ -46,6 +47,7 @@ from collections import deque
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 
+import catalog
 import fetcher
 import provider
 import source
@@ -361,6 +363,44 @@ def read_route(route, endpoint):
         fetched_at=meta['fetched_at'],
         served_at=now_utc_iso(),
         **{route: data},
+    ), 200
+
+
+@app.route('/symbols', methods=['GET'])
+def symbols():
+    """The names the page can search by: GET /symbols.
+
+    Local and free. It reads catalog.py and the fixture directory and never
+    goes upstream, which is the whole point — the provider's own symbol-search
+    endpoint would spend a call per keystroke against a 25-a-day budget.
+
+    `exhaustive` is the field that matters to the caller. In fixture mode the
+    service can only answer for the JSON that happens to be committed, so the
+    list is the complete set of symbols that will resolve and the page can say
+    so. In live mode the catalogue is a set of suggestions and any listed
+    ticker is worth trying, so the page keeps accepting free-typed symbols.
+    """
+    rejection = gate('symbols')
+    if rejection is not None:
+        return rejection
+
+    if DATA_SOURCE == 'fixture':
+        try:
+            available = source.available_symbols(source.DAILY)
+        except source.SourceUnavailable as exc:
+            log.error('symbols: fixture directory unreadable: %s', exc)
+            return jsonify(error='data_unavailable'), 503
+        listed = catalog.entries(available)
+        exhaustive = True
+    else:
+        listed = catalog.entries()
+        exhaustive = False
+
+    return jsonify(
+        source=DATA_SOURCE,
+        exhaustive=exhaustive,
+        symbols=listed,
+        served_at=now_utc_iso(),
     ), 200
 
 

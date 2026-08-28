@@ -29,6 +29,10 @@ closed without a key, and key redaction.
   budget. `TestOneCallPerSymbol` is the T4 acceptance criterion, including the
   concurrent version: four threads asking for one symbol at once must still
   produce a single call.
+- **`test_catalog.py`** — the committed symbol-to-name table and `/symbols`.
+  The route must never offer a symbol nothing can price, so in fixture mode it
+  lists what is on disk and says the list is complete; the table itself must
+  never carry a figure, because prices belong to the market service.
 - **`test_http_smoke.py`** — the same service on a real socket, driven with
   real HTTP. A WSGI app can satisfy every test-client assertion and still fail
   to boot; this is what proves it serves.
