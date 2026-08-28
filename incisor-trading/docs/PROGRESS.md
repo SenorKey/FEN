@@ -796,3 +796,49 @@ knowing before someone chases it, and the fix would be out of bounds anyway —
   generated prices" line beside a second price, so the page says it twice. It
   will start saying "Delayed data · end-of-day close" in both places on its
   own, with no code change, the day the service runs in live mode.
+
+## 2026-08-28 — Session close
+**Outcome:** one task shipped — T7 — and stopped short of the cap
+**Verified:** 163 JavaScriptCore checks, 72 page tests and 123 service tests
+green; `shoot.py` green at 1440, 768 and 390 across four states, images
+reviewed by eye; `git status` shows nothing outside `incisor-trading/`; no
+branch pushed, nothing merged, nothing installed, **no upstream call made**, no
+account created and no terms accepted.
+
+**Stopped at one of three deliberately.** T7 was three tasks' worth of work in
+one entry — a search control, a detail panel, two file splits and a fixture
+regeneration — and the next task is T8, the price chart, which is comparable in
+size. Hard rule 8 says finish one before starting the next, and a half-built
+chart would be worse than a clean stop. What was done with the remaining time
+instead was to establish what T8 has to work with, the way the last session did
+for T7.
+
+**T8 is not blocked, but two of the six ranges it names have a problem.**
+Checked against the committed fixtures rather than assumed:
+
+- **1D cannot be drawn from what we have.** Every range reads the daily series,
+  and one day of it is a single bar — a chart of one point. A real intraday
+  chart needs `TIME_SERIES_INTRADAY`, which the provider does have
+  (`DATA-PROVIDER.md`) but which is a separate call per symbol, on top of the
+  two a symbol already costs. On a 22-a-day budget that is affordable only
+  on demand and only for the symbol being viewed, never for the four proxies.
+  The alternative is to drop 1D and start the ranges at 5D, which is honest
+  and free. **Worth deciding before building, not during.**
+- **5Y is short in fixture mode and fine in live mode.** The generator writes
+  260 bars and `fetcher.MAX_DAILY_BARS` allows 1260, so live mode fills a 5Y
+  range and a session working on fixtures cannot see one. Extending the
+  generator to 1260 bars would take the fixture set from roughly 270KB to well
+  over a megabyte. Labelling the range by the window it actually has is the
+  cheaper answer and the page already does exactly that for the 52-week range,
+  which is a precedent worth reusing rather than a compromise.
+
+The other four ranges — 5D, 1M, 6M, 1Y — have their sessions in full. The
+sparkline in `js/market-figures.js` is a working, tested precedent for the
+geometry, including the flat-series and single-point cases that produce `NaN`
+paths and render as nothing at all.
+
+### For Key
+
+Nothing new needs a decision. The two open notes are the provider permission,
+unchanged since T0 and blocking nothing, and `DECISIONS.md` heading back toward
+being too long to read in full — both recorded in the T7 entry above.
