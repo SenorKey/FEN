@@ -15,11 +15,18 @@ difference is large enough to invent overflow bugs that do not exist. See
 DECISIONS.md, "narrow headless screenshots are not mobile".
 
 Usage:
-    ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>] [--url ...]
+    ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>]
+                                          [--api http://127.0.0.1:8789]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
 failures worth blocking a commit on.
+
+With --api, /api/incisor/* is forwarded to a running incisor service the way
+Apache forwards it in production, so the dashboard can be shot with real
+fixture data in it. Without it those requests 404, which is the other shot
+worth having: the page has to degrade to a stated "unavailable" rather than
+a blank grid, and that is an acceptance criterion rather than an edge case.
 """
 
 import argparse
@@ -30,6 +37,8 @@ import pathlib
 import socketserver
 import sys
 import threading
+import urllib.error
+import urllib.request
 
 REPO = pathlib.Path(__file__).resolve().parent.parent.parent
 PAGE = "/incisor-trading/"
@@ -42,21 +51,75 @@ VIEWPORTS = [
 ]
 
 
-# The dev server is static, so the first-party beacon's POST to /api/event
-# always 501s here. On the real site Apache proxies that path to the status
-# station. Filtering it keeps the console check meaningful instead of always red.
-BENIGN_CONSOLE = ("/api/event",)
+API_PREFIX = "/api/incisor/"
+
+# Console noise that is about this harness rather than the page.
+#
+# The beacon POSTs to /api/event, which Apache proxies to the status station
+# on the real site and which always 501s against a static server. The market
+# service is the same story without --api: Chrome logs a failed request as a
+# console error, and the page answering it with a designed "unavailable"
+# state is the behaviour being shot, not a defect.
+#
+# Both match on the request URL, which is appended to the message below, so
+# a genuine script error inside market-data.js is still reported — its
+# location is the script, not the endpoint.
+BENIGN_CONSOLE = ("/api/event", API_PREFIX)
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
+    """Static files, plus the one reverse proxy Apache provides in production.
+
+    `api_base` is None unless --api was passed, in which case a request under
+    API_PREFIX is forwarded verbatim and its status, content type and body come
+    straight back. Nothing is rewritten: the point is for the page to see the
+    same bytes it would see on the real site.
+    """
+
+    api_base = None
+
     def log_message(self, *args):
         pass
 
+    def do_GET(self):
+        if self.api_base and self.path.startswith(API_PREFIX):
+            self.proxy()
+            return
+        super().do_GET()
+
+    def proxy(self):
+        target = self.api_base + self.path[len(API_PREFIX) - 1:]
+        try:
+            # Origin is set because the service checks it, the way a browser
+            # on the real site would set it to the site's own hostname.
+            request = urllib.request.Request(
+                target, headers={"Origin": "https://frontendneeded.com"})
+            with urllib.request.urlopen(request, timeout=10) as upstream:
+                status = upstream.status
+                body = upstream.read()
+                content_type = upstream.headers.get(
+                    "Content-Type", "application/json")
+        except urllib.error.HTTPError as error:
+            status, body = error.code, error.read()
+            content_type = error.headers.get("Content-Type", "application/json")
+        except OSError as error:
+            print(f"  proxy: {self.path} -> {error}")
+            status = 502
+            body = b'{"error":"proxy_unreachable"}'
+            content_type = "application/json"
+
+        self.send_response(status)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
 
 @contextlib.contextmanager
-def serving(root):
+def serving(root, api_base=None):
     """A quiet static server on an ephemeral port, torn down on exit."""
     handler = functools.partial(QuietHandler, directory=str(root))
+    QuietHandler.api_base = api_base.rstrip("/") if api_base else None
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
         threading.Thread(target=httpd.serve_forever, daemon=True).start()
         yield f"http://127.0.0.1:{httpd.server_address[1]}"
@@ -67,6 +130,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="docs/shots/current")
     ap.add_argument("--url", default=None, help="override; default serves the repo")
+    ap.add_argument("--api", default=None,
+                    help="forward /api/incisor/* to a running service, "
+                         "e.g. http://127.0.0.1:8789")
     ap.add_argument("--theme", default="dark", choices=["dark", "light"])
     args = ap.parse_args()
 
@@ -77,7 +143,7 @@ def main():
 
     problems = []
     with contextlib.ExitStack() as stack:
-        base = args.url or stack.enter_context(serving(REPO))
+        base = args.url or stack.enter_context(serving(REPO, args.api))
         pw = stack.enter_context(sync_playwright())
         # channel="chrome" uses the installed Google Chrome — no download.
         browser = pw.chromium.launch(channel="chrome")
@@ -134,7 +200,8 @@ def main():
         for p in problems:
             print("  -", p)
         return 1
-    print("\nNo console errors, no horizontal overflow.")
+    print("\nNo console errors, no horizontal overflow"
+          f"{' (market service proxied)' if args.api else ''}.")
     return 0
 
 

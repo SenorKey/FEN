@@ -18,16 +18,30 @@ import unittest
 
 from page_model import PAGE_DIR, Page, classes, read
 
+def _shipped(subdirectory, suffix, *roots):
+    """Every file of one kind this page serves, in load order.
+
+    Named rather than listed: the greps below are deliberately blunt substring
+    checks, and a rule that covers one file stops being a rule the moment a
+    second one appears beside it.
+    """
+    directory = os.path.join(PAGE_DIR, subdirectory)
+    found = sorted(name for name in os.listdir(directory) if name.endswith(suffix))
+    return tuple(roots) + tuple(os.path.join(subdirectory, name) for name in found)
+
+
 HTML = read('index.html')
-CSS = read('incisor.css')
-# Every script this page serves, concatenated. The security greps below are
-# deliberately blunt substring checks, so they have to be pointed at all of the
-# shipped JavaScript rather than just the shell — a rule that only covers one
-# file stops being a rule the moment a second one appears.
-JS_FILES = ('incisor.js',) + tuple(
-    os.path.join('js', name) for name in sorted(os.listdir(os.path.join(PAGE_DIR, 'js')))
-    if name.endswith('.js'))
+CSS_FILES = _shipped('css', '.css', 'incisor.css')
+CSS = '\n'.join(read(name) for name in CSS_FILES)
+JS_FILES = _shipped('js', '.js', 'incisor.js')
 JS = '\n'.join(read(name) for name in JS_FILES)
+SHIPPED = ('index.html',) + CSS_FILES + JS_FILES
+
+# URLs that look remote and are not. An XML namespace is an identifier that
+# happens to be spelled as a URL: createElementNS matches it as a string and
+# nothing ever requests it. Everything else spelled like a URL in shipped JS
+# is a finding.
+NEVER_FETCHED = {'http://www.w3.org/2000/svg'}
 PAGE = Page(HTML)
 
 
@@ -175,8 +189,20 @@ class TestClientSecurity(unittest.TestCase):
     def test_no_eval(self):
         self.assertIsNone(re.search(r'\beval\s*\(|new Function', JS))
 
-    def test_the_skeleton_makes_no_network_calls_of_its_own(self):
-        self.assertIsNone(re.search(r'\bfetch\s*\(|XMLHttpRequest|sendBeacon', JS))
+    def test_the_page_only_ever_calls_its_own_service(self):
+        """Guide section 9: the browser never talks to the data provider.
+
+        Until T6 this asserted no fetch at all, which was right for a page with
+        no data. Now that there is some, the rule it stood in for is the one
+        that matters: every request goes to a relative path on our own origin,
+        so there is no third party in the path and nowhere for a key to travel.
+        """
+        self.assertIsNone(re.search(r'XMLHttpRequest|sendBeacon', JS))
+        for call in re.findall(r'fetch\s*\(([^,)]*)', JS):
+            self.assertNotIn('//', call, 'fetch of an absolute URL: %s' % call)
+        remote = [url for url in re.findall(r'''['"]((?:https?:)?//[^'"]*)['"]''', JS)
+                  if url not in NEVER_FETCHED]
+        self.assertEqual(remote, [], 'a remote origin appears in the shipped JS')
 
 
 class TestDesignRules(unittest.TestCase):
@@ -212,18 +238,22 @@ class TestHouseStyle(unittest.TestCase):
     """Guide section 6."""
 
     def test_no_todo_left_behind(self):
-        for name, source in (('incisor.js', JS), ('incisor.css', CSS)):
-            self.assertIsNone(re.search(r'\bTODO\b', source), name)
+        for name in SHIPPED:
+            self.assertIsNone(re.search(r'\bTODO\b', read(name)), name)
 
     def test_lines_stay_under_100_characters(self):
-        for name, source in (('index.html', HTML), ('incisor.css', CSS), ('incisor.js', JS)):
-            long_lines = [i + 1 for i, line in enumerate(source.splitlines())
+        for name in SHIPPED:
+            long_lines = [i + 1 for i, line in enumerate(read(name).splitlines())
                           if len(line) > 100]
             self.assertEqual(long_lines, [], '%s lines over 100 chars' % name)
 
     def test_files_stay_under_600_lines(self):
-        for name, source in (('index.html', HTML), ('incisor.css', CSS), ('incisor.js', JS)):
-            self.assertLess(len(source.splitlines()), 600, '%s needs a split' % name)
+        """Guide section 6, and per file. The concatenation this used to
+        measure would have demanded a split of whichever file happened to be
+        last when the total crossed the line."""
+        for name in SHIPPED:
+            self.assertLess(len(read(name).splitlines()), 600,
+                            '%s needs a split' % name)
 
     def test_stylesheet_braces_balance(self):
         self.assertEqual(CSS.count('{'), CSS.count('}'))

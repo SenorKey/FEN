@@ -19,7 +19,10 @@
 
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/incisor-trading/incisor.css">
+    <link rel="stylesheet" href="/incisor-trading/css/market.css">
     <script src="/incisor-trading/js/market-clock.js" defer></script>
+    <script src="/incisor-trading/js/market-figures.js" defer></script>
+    <script src="/incisor-trading/js/market-data.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
@@ -70,17 +73,6 @@
         </header>
 
         <!--
-          Sample-data banner. Every number on the page is hardcoded until the
-          service exists, and a page showing invented prices without saying so
-          would be worse than one showing none. This is removed in T6, when the
-          delay label replaces it.
-        -->
-        <p class="inc-sample-banner" role="status">
-            <span class="inc-sample-dot" aria-hidden="true"></span>
-            Sample data. Nothing on this page is a real quote yet.
-        </p>
-
-        <!--
           Market clock. The served text is the static, always-true version of
           what this says, so the page is correct before the script runs and
           stays correct if it never does. js/market-clock.js upgrades it to the
@@ -115,51 +107,109 @@
                 aria-labelledby="tab-dashboard" tabindex="0">
 
                 <h2 class="inc-panel-heading">Market overview</h2>
-                <p class="inc-panel-note">Index tiles, search, charts and fundamentals
-                    fill this panel across T6&ndash;T12.</p>
+                <p class="inc-panel-note">Search, charts and fundamentals fill the
+                    rest of this panel across T7&ndash;T12.</p>
 
-                <ul class="inc-tile-grid">
-                    <li class="inc-tile">
+                <!--
+                  The four proxy tiles. Every figure is an em dash in the served
+                  markup and stays one until the service answers: the page has no
+                  prices of its own, and printing plausible numbers it did not
+                  fetch is the one thing a market page must never do.
+
+                  The symbols live here rather than in the script, so the strip
+                  is whatever the markup says it is and there is no second list
+                  to drift. Reserved heights below keep the fill from shifting
+                  anything (guide 13).
+                -->
+                <ul class="inc-tile-grid" data-index-strip>
+                    <li class="inc-tile" data-tile="SPY" data-state="pending">
                         <p class="inc-tile-symbol">SPY <span class="inc-proxy">proxy</span></p>
                         <p class="inc-tile-name">S&amp;P 500</p>
-                        <p class="inc-tile-price">641.28</p>
-                        <p class="inc-tile-change inc-up">
-                            <span class="inc-arrow" aria-hidden="true">&#9650;</span>
-                            <span class="inc-delta">+2.94</span>
-                            <span class="inc-delta-pct">+0.46%</span>
+                        <p class="inc-tile-price" data-tile-price>&mdash;</p>
+                        <p class="inc-tile-change inc-flat" data-tile-change>
+                            <span class="inc-arrow" aria-hidden="true"
+                                data-tile-arrow>&#9644;</span>
+                            <span class="inc-delta" data-tile-delta>&mdash;</span>
+                            <span class="inc-delta-pct" data-tile-pct>&mdash;</span>
                         </p>
+                        <div class="inc-spark-row">
+                            <svg class="inc-spark" viewBox="0 0 120 34"
+                                preserveAspectRatio="none" role="img"
+                                aria-label="Thirty-day trend for SPY, not loaded"
+                                data-tile-spark></svg>
+                            <span class="inc-spark-label" aria-hidden="true">30d</span>
+                        </div>
                     </li>
-                    <li class="inc-tile">
+                    <li class="inc-tile" data-tile="QQQ" data-state="pending">
                         <p class="inc-tile-symbol">QQQ <span class="inc-proxy">proxy</span></p>
                         <p class="inc-tile-name">Nasdaq 100</p>
-                        <p class="inc-tile-price">573.10</p>
-                        <p class="inc-tile-change inc-up">
-                            <span class="inc-arrow" aria-hidden="true">&#9650;</span>
-                            <span class="inc-delta">+4.17</span>
-                            <span class="inc-delta-pct">+0.73%</span>
+                        <p class="inc-tile-price" data-tile-price>&mdash;</p>
+                        <p class="inc-tile-change inc-flat" data-tile-change>
+                            <span class="inc-arrow" aria-hidden="true"
+                                data-tile-arrow>&#9644;</span>
+                            <span class="inc-delta" data-tile-delta>&mdash;</span>
+                            <span class="inc-delta-pct" data-tile-pct>&mdash;</span>
                         </p>
+                        <div class="inc-spark-row">
+                            <svg class="inc-spark" viewBox="0 0 120 34"
+                                preserveAspectRatio="none" role="img"
+                                aria-label="Thirty-day trend for QQQ, not loaded"
+                                data-tile-spark></svg>
+                            <span class="inc-spark-label" aria-hidden="true">30d</span>
+                        </div>
                     </li>
-                    <li class="inc-tile">
+                    <li class="inc-tile" data-tile="DIA" data-state="pending">
                         <p class="inc-tile-symbol">DIA <span class="inc-proxy">proxy</span></p>
                         <p class="inc-tile-name">Dow 30</p>
-                        <p class="inc-tile-price">452.66</p>
-                        <p class="inc-tile-change inc-down">
-                            <span class="inc-arrow" aria-hidden="true">&#9660;</span>
-                            <span class="inc-delta">&minus;1.08</span>
-                            <span class="inc-delta-pct">&minus;0.24%</span>
+                        <p class="inc-tile-price" data-tile-price>&mdash;</p>
+                        <p class="inc-tile-change inc-flat" data-tile-change>
+                            <span class="inc-arrow" aria-hidden="true"
+                                data-tile-arrow>&#9644;</span>
+                            <span class="inc-delta" data-tile-delta>&mdash;</span>
+                            <span class="inc-delta-pct" data-tile-pct>&mdash;</span>
                         </p>
+                        <div class="inc-spark-row">
+                            <svg class="inc-spark" viewBox="0 0 120 34"
+                                preserveAspectRatio="none" role="img"
+                                aria-label="Thirty-day trend for DIA, not loaded"
+                                data-tile-spark></svg>
+                            <span class="inc-spark-label" aria-hidden="true">30d</span>
+                        </div>
                     </li>
-                    <li class="inc-tile">
+                    <li class="inc-tile" data-tile="IWM" data-state="pending">
                         <p class="inc-tile-symbol">IWM <span class="inc-proxy">proxy</span></p>
                         <p class="inc-tile-name">Russell 2000</p>
-                        <p class="inc-tile-price">238.41</p>
-                        <p class="inc-tile-change inc-down">
-                            <span class="inc-arrow" aria-hidden="true">&#9660;</span>
-                            <span class="inc-delta">&minus;0.52</span>
-                            <span class="inc-delta-pct">&minus;0.22%</span>
+                        <p class="inc-tile-price" data-tile-price>&mdash;</p>
+                        <p class="inc-tile-change inc-flat" data-tile-change>
+                            <span class="inc-arrow" aria-hidden="true"
+                                data-tile-arrow>&#9644;</span>
+                            <span class="inc-delta" data-tile-delta>&mdash;</span>
+                            <span class="inc-delta-pct" data-tile-pct>&mdash;</span>
                         </p>
+                        <div class="inc-spark-row">
+                            <svg class="inc-spark" viewBox="0 0 120 34"
+                                preserveAspectRatio="none" role="img"
+                                aria-label="Thirty-day trend for IWM, not loaded"
+                                data-tile-spark></svg>
+                            <span class="inc-spark-label" aria-hidden="true">30d</span>
+                        </div>
                     </li>
                 </ul>
+
+                <!--
+                  Where these numbers came from, in words, next to the numbers
+                  themselves rather than in a tooltip (guide 10). The served
+                  wording is true before the script runs and stays true if it
+                  never does, because nothing has loaded in that case either.
+                  The script replaces it with what the service actually
+                  reported: invented fixture data, or a dated delayed close.
+                -->
+                <p class="inc-provenance" role="status" data-provenance
+                    data-provenance-state="pending">
+                    <span class="inc-provenance-dot" aria-hidden="true"></span>
+                    <span data-provenance-message>Sample data. No prices have
+                        loaded yet.</span>
+                </p>
 
                 <p class="inc-proxy-note">These four are exchange-traded funds that
                     track the indexes, not the index levels themselves. Free market
