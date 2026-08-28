@@ -528,3 +528,74 @@ to bind to, and the clock is already sitting above them.
   good.
 - **`DECISIONS.md` is at 86 lines again**, the same drift the last close-out
   flagged. **S6 is worth taking soon.**
+
+## 2026-08-28 — T6 · Index summary strip
+**Outcome:** shipped
+**Changed:** `js/market-figures.js`, `js/market-data.js`, `css/market.css`,
+`tests/strip_model.jxa.js`, `tests/test_index_strip.py` (all new),
+`incisor.js`, `index.html`, `incisor.css`, `tests/test_page.py`,
+`tools/shoot.py`
+**Verified:** 103 checks in JavaScriptCore, 50 page tests, 100 service tests.
+`shoot.py` green at 1440, 768 and 390 in both acceptance states — with the
+service proxied (`docs/shots/t6-index-strip/`) and with nothing answering
+(`docs/shots/t6-service-down/`). Screenshots reviewed by eye at desktop and
+mobile; the second one changed the design, see below.
+
+**One endpoint, not two, and that is the whole shape of the task.** A daily
+series already contains its own quote: the last bar is the latest price and the
+bar before it is the previous close, which between them are every figure a tile
+shows. Calling `/quote` as well would have spent a second upstream call per
+symbol to be told what we had just been told. The evidence is in the scratch
+database — nine page loads across three screenshot runs produced exactly four
+fixture reads, one per symbol, no repeats. In live mode that is four calls a
+day for the strip against a budget of twenty-two, rather than eight.
+
+**The served markup carries no prices at all.** Every figure is an em dash
+until the service answers. The hardcoded sample numbers from T1 are gone along
+with the banner that excused them, because a page printing plausible figures it
+did not fetch is, to a reader, indistinguishable from one showing real ones.
+The line under the grid is what says which it is, and it is driven by the
+service's own `source` field rather than by the page assuming anything — so the
+day the provider question is settled, the same line starts saying "delayed
+close" without a change here. There is a test that the served wording is still
+true when the script never runs.
+
+**The screenshot changed the design, which is the argument for taking them.**
+The first render coloured the sparkline by its own thirty-day direction, which
+is standard and was correct: the fixture market has been drifting down for a
+month while the last session was up a hair. On screen it produced four tiles
+each showing a green up arrow directly above a red falling line, and it reads
+as a contradiction rather than as the two timescales it is. The line is now
+uncoloured, green and red mean exactly one thing per tile, and the dashed
+opening level is what says which way the month went. Nothing in the source
+would have shown that.
+
+**Degradation was built as a first-class state, not an afterthought.** With
+nothing answering, the grid keeps its shape, each tile says "unavailable" in
+its own space, and the line beneath explains why. The rejection path is
+deliberately silent — the failure is already on screen twice, and a console
+error there would be noise in the one check that has to stay meaningful. That
+is also why `shoot.py` treats a failed `/api/incisor/` request as benign: it
+matches on the request URL, so a genuine script error inside `market-data.js`
+is still reported, because its location is the script and not the endpoint.
+
+**Two page tests were wrong rather than merely outgrown.** The line-count rule
+measured the concatenation of every shipped script, so it would eventually have
+demanded a split of whichever file happened to be last when the total crossed
+600 — it is per file now. And `test_the_skeleton_makes_no_network_calls_of_its_own`
+was written for a page that had no data; it now asserts what it always stood
+for, which is that every request goes to a relative path on our own origin.
+
+**`incisor.css` passed 600 lines**, so the surfaces that render numbers moved to
+`css/market.css`. The seam was already there and it is not a byte count:
+everything moved draws data from the service, everything left would look the
+same with no data at all.
+
+**`shoot.py` gained `--api`.** It forwards `/api/incisor/*` to a running service
+the way Apache does in production, which is what made "renders from fixtures"
+checkable in a browser at all rather than only in a DOM stub. Without the flag
+the same command shoots the degraded state, so both halves of the acceptance
+criteria come from one tool.
+
+One stale screenshot folder was removed: `docs/shots/review-t5/` was an
+uncommitted duplicate of `t5-market-clock/` left over from the last session.

@@ -84,10 +84,17 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   does not expire. 59 checks in JavaScriptCore; screenshots in
   `docs/shots/t5-market-clock/`.
 
-- [ ] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
+- [x] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
   percent change, sparkline. Labeled as ETF proxies, not index levels.
   *Accept:* renders from fixtures; delay label visible; degrades to "unavailable"
   with the service stopped.
+  *Done 2026-08-28.* `js/market-figures.js` and `js/market-data.js` (new), the
+  view in `incisor.js`, styles split out to `css/market.css`. Built on
+  `/history` alone — the last two bars are the quote, so the strip costs four
+  upstream calls a day rather than eight. 103 checks in JavaScriptCore, 50 page
+  tests, 100 service tests. Both acceptance states screenshotted:
+  `docs/shots/t6-index-strip/` with the service proxied and
+  `docs/shots/t6-service-down/` without it.
 
 - [ ] **T7 · Symbol search + quote detail** — search by ticker or company name;
   detail panel with last price, change, day range, 52-week range, volume vs.
