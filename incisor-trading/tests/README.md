@@ -4,7 +4,7 @@
 cd incisor-trading/tests && python3 -m unittest discover
 ```
 
-Stdlib only, no dependencies, no network. Two suites:
+Stdlib only, no dependencies, no network. Five suites:
 
 - **`test_page.py`** — the page's structure: ARIA tab wiring, the hidden-page
   rules, telemetry hygiene, CSP readiness, and the house rules from guide
@@ -12,6 +12,17 @@ Stdlib only, no dependencies, no network. Two suites:
 - **`test_tab_behaviour.py`** — runs the real `incisor.js` in JavaScriptCore
   (via `osascript`, which ships with macOS) against a DOM stub built from the
   real `index.html`, and drives the keyboard model. Skips on other platforms.
+- **`test_market_clock.py`** — the clock against fixed datetimes, including a
+  half-day and a holiday.
+- **`test_index_strip.py`** — the four proxy tiles, filled, failed and mixed.
+- **`test_symbol_lookup.py`** — symbol search and the quote panel, driven by
+  real keystrokes and clicks: the combobox keyboard model, the figures, and
+  the not-found state.
+
+The last three drive the shipped modules through `*_model.jxa.js` runners.
+`dom_stub.jxa.js` is the DOM those runners share — narrow on purpose, so a
+view reaching for something it never documented fails loudly rather than
+going quietly untested.
 
 **These do not replace a browser.** They cannot see layout, contrast, spacing or
 the 375px pass, and they never will. They exist because a scheduled session runs
@@ -23,3 +34,10 @@ python3 -m http.server 8765
 ```
 
 then open `http://localhost:8765/incisor-trading/`.
+
+Unattended, `tools/shoot.py` is the visual check, and `--symbol` / `--search`
+reach the states that only exist after an interaction:
+
+```
+./.devtools/bin/python tools/shoot.py --out docs/shots/x --api http://127.0.0.1:8789 --symbol SPY
+```

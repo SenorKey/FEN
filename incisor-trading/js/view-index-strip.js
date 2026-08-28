@@ -126,44 +126,20 @@
         tile.setAttribute('data-state', 'error');
     }
 
-    /* Where the numbers came from, in a sentence.
+    /* The shared provenance sentence, plus what is missing from this grid.
      *
-     * The distinction that matters most is the first one: in fixture mode
-     * every figure above is generated, and the service says so in `source`
-     * rather than the page assuming it. Presenting invented prices as quotes
-     * is the failure this line exists to prevent (guide §10). */
+     * The sentence itself is js/market-figures.js's, because the quote panel
+     * has to make the same claim and two surfaces wording it separately is how
+     * one of them ends up saying something weaker. The tile count is the part
+     * only a grid of four can say. */
     function provenanceFor(payload, figures, missing) {
-        if (!payload) {
-            return {
-                state: 'error',
-                message: 'Market data unavailable. The price service could not '
-                    + 'be reached, so no prices are shown.'
-            };
+        var asOf = payload ? payload.bars[payload.bars.length - 1].date : '';
+        var summary = figures.provenanceFor(payload, asOf);
+        if (payload && missing > 0) {
+            summary.message += ' ' + missing
+                + (missing === 1 ? ' tile is' : ' tiles are') + ' unavailable.';
         }
-
-        var asOf = figures.formatBarDate(payload.bars[payload.bars.length - 1].date);
-        var delay = payload.delay || 'delayed';
-        var message;
-        var state;
-
-        if (payload.source === 'fixture') {
-            state = 'sample';
-            message = 'Sample data · generated prices, not real quotes · '
-                + delay + ' bars to ' + asOf + '.';
-        } else if (payload.stale) {
-            state = 'stale';
-            message = 'Delayed data · ' + delay + ' close, ' + asOf
-                + '. This is the last close held; it could not be refreshed.';
-        } else {
-            state = 'live';
-            message = 'Delayed data · ' + delay + ' close, ' + asOf + '.';
-        }
-
-        if (missing > 0) {
-            message += ' ' + missing + (missing === 1 ? ' tile is' : ' tiles are')
-                + ' unavailable.';
-        }
-        return { state: state, message: message };
+        return summary;
     }
 
     function startIndexStrip() {

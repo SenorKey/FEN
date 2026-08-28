@@ -1,2 +1,6 @@
 # Local dev tooling — Playwright driver for tools/shoot.py. Never shipped.
 .devtools/
+
+# Byte-code from running tools/ directly. Nothing here is imported by the
+# service, but shoot.py is importable and a stray cache should not be tracked.
+__pycache__/

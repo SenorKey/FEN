@@ -36,6 +36,14 @@
     var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+    /* Largest first, so the first threshold a value clears is its unit. */
+    var VOLUME_UNITS = [
+        { at: 1e12, suffix: 'T' },
+        { at: 1e9, suffix: 'B' },
+        { at: 1e6, suffix: 'M' },
+        { at: 1e3, suffix: 'K' }
+    ];
+
     var priceFormat = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -76,6 +84,67 @@
             changePercent: percent,
             date: typeof last.date === 'string' ? last.date : ''
         };
+    }
+
+    /* The high and low actually traded across the most recent `count` bars.
+     *
+     * Intraday extremes, not closing ones: a 52-week range is conventionally
+     * the highest and lowest price the thing changed hands at, and a range
+     * built from closes alone is narrower than the real one — which would put
+     * the current price further inside its own band than it is. A bar missing
+     * its high or low falls back to its close rather than being skipped, so a
+     * partial series still produces a range instead of nothing.
+     */
+    function extremes(bars, count) {
+        if (!Array.isArray(bars)) return null;
+        var window = count > 0 ? bars.slice(-count) : bars.slice();
+        var low = null;
+        var high = null;
+        window.forEach(function (bar) {
+            if (!bar) return;
+            var floor = isFiniteNumber(bar.low) ? bar.low : bar.close;
+            var ceiling = isFiniteNumber(bar.high) ? bar.high : bar.close;
+            if (!isFiniteNumber(floor) || !isFiniteNumber(ceiling)) return;
+            low = low === null ? floor : Math.min(low, floor);
+            high = high === null ? ceiling : Math.max(high, ceiling);
+        });
+        if (low === null) return null;
+        return { low: low, high: high, sessions: window.length };
+    }
+
+    /* Mean volume over the most recent `count` bars.
+     *
+     * Null rather than zero when nothing readable is in the window: a symbol
+     * whose volume upstream did not send has an unknown average, and showing
+     * a today-versus-average multiple computed off zero would be worse than
+     * showing nothing.
+     */
+    function averageVolume(bars, count) {
+        if (!Array.isArray(bars)) return null;
+        var window = count > 0 ? bars.slice(-count) : bars.slice();
+        var total = 0;
+        var counted = 0;
+        window.forEach(function (bar) {
+            if (bar && isFiniteNumber(bar.volume)) {
+                total += bar.volume;
+                counted++;
+            }
+        });
+        return counted === 0 ? null : total / counted;
+    }
+
+    /* Where a value sits inside a low-to-high band, as 0 to 1.
+     *
+     * The marker on the range bars is drawn from this, so it is clamped: a
+     * price fractionally outside its own 52-week range — which happens on the
+     * day a new high is set, before the series that defines the range has
+     * caught up — would otherwise position the marker off the end of the bar
+     * it belongs to.
+     */
+    function positionInRange(low, high, value) {
+        if (!isFiniteNumber(low) || !isFiniteNumber(high)) return null;
+        if (!isFiniteNumber(value) || high <= low) return null;
+        return Math.max(0, Math.min(1, (value - low) / (high - low)));
     }
 
     /* Closing prices from the most recent `count` bars, oldest first. */
@@ -119,6 +188,31 @@
         return sign + priceFormat.format(Math.abs(value)) + '%';
     }
 
+    /* Share counts run to nine figures, and nine figures of tabular digits is
+     * a number nobody reads. Abbreviated to three significant figures with an
+     * explicit unit, which is how every trading screen renders volume. */
+    function formatVolume(value) {
+        if (!isFiniteNumber(value) || value < 0) return DASH;
+        for (var index = 0; index < VOLUME_UNITS.length; index++) {
+            var unit = VOLUME_UNITS[index];
+            if (value >= unit.at) {
+                var scaled = value / unit.at;
+                // Two decimals under ten, one above: 1.24B and 93.2M both read
+                // at a glance, where 1.2B loses a digit that matters and
+                // 93.24M carries one that does not.
+                return scaled.toFixed(scaled < 10 ? 2 : 1) + unit.suffix;
+            }
+        }
+        return String(Math.round(value));
+    }
+
+    /* '1.32×'. Unsigned on purpose: a multiple of an average is not a
+     * direction, and giving it the arrow treatment would imply it was. */
+    function formatMultiple(value) {
+        if (!isFiniteNumber(value) || value < 0) return DASH;
+        return priceFormat.format(value) + '\u00d7';
+    }
+
     /* '2026-08-26' -> '26 Aug 2026', without going through Date.
      *
      * new Date('2026-08-26') is parsed as UTC midnight and then displayed in
@@ -131,6 +225,52 @@
         var month = MONTHS[parseInt(match[2], 10) - 1];
         if (!month) return DASH;
         return parseInt(match[3], 10) + ' ' + month + ' ' + match[1];
+    }
+
+    /* ── Provenance ─────────────────────────────────────────────── */
+
+    /* Where a set of numbers came from, in a sentence.
+     *
+     * The distinction that matters most is the first one: in fixture mode
+     * every figure on the page is generated, and the service says so in
+     * `source` rather than the page assuming it. Presenting invented prices as
+     * quotes is the failure guide section 10 exists to prevent, and it is the
+     * kind of failure that looks like nothing at all.
+     *
+     * Here rather than in a view because both the tiles and the quote panel
+     * have to say it, and two surfaces wording the same claim separately is
+     * how one of them ends up saying something weaker.
+     */
+    function provenanceFor(payload, isoDate) {
+        if (!payload) {
+            return {
+                state: 'error',
+                message: 'Market data unavailable. The price service could not '
+                    + 'be reached, so no prices are shown.'
+            };
+        }
+
+        var asOf = formatBarDate(isoDate);
+        var delay = payload.delay || 'delayed';
+
+        if (payload.source === 'fixture') {
+            return {
+                state: 'sample',
+                message: 'Sample data · generated prices, not real quotes · '
+                    + delay + ' bars to ' + asOf + '.'
+            };
+        }
+        if (payload.stale) {
+            return {
+                state: 'stale',
+                message: 'Delayed data · ' + delay + ' close, ' + asOf
+                    + '. This is the last close held; it could not be refreshed.'
+            };
+        }
+        return {
+            state: 'live',
+            message: 'Delayed data · ' + delay + ' close, ' + asOf + '.'
+        };
     }
 
     /* ── Sparkline geometry ─────────────────────────────────────── */
@@ -188,12 +328,18 @@
         DASH: DASH,
         quoteFromBars: quoteFromBars,
         closingPrices: closingPrices,
+        extremes: extremes,
+        averageVolume: averageVolume,
+        positionInRange: positionInRange,
+        formatVolume: formatVolume,
+        formatMultiple: formatMultiple,
         direction: direction,
         arrowFor: arrowFor,
         formatPrice: formatPrice,
         formatSigned: formatSigned,
         formatPercent: formatPercent,
         formatBarDate: formatBarDate,
+        provenanceFor: provenanceFor,
         sparkline: sparkline
     };
 })(typeof window !== 'undefined' ? window : this);

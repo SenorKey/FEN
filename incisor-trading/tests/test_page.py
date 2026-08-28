@@ -228,10 +228,28 @@ class TestDesignRules(unittest.TestCase):
         self.assertIn(':focus-visible', CSS)
 
     def test_proxy_tiles_are_labelled_as_proxies(self):
-        """Guide section 10: ETF stand-ins must never read as index levels."""
-        proxies = [e for e in PAGE.elements if 'inc-proxy' in classes(e)]
+        """Guide section 10: ETF stand-ins must never read as index levels.
+
+        Counted per tile rather than across the page. The page-wide count this
+        used to make stopped being a rule the moment a second surface grew a
+        proxy badge of its own — it failed on the quote panel, which was
+        labelling a proxy correctly.
+        """
         tiles = [e for e in PAGE.elements if 'inc-tile' in classes(e)]
-        self.assertEqual(len(proxies), len(tiles), 'a tile is missing its proxy label')
+        self.assertEqual(len(tiles), 4)
+        for tile in tiles:
+            labels = [d for d in PAGE.descendants(tile) if 'inc-proxy' in classes(d)]
+            self.assertEqual(len(labels), 1,
+                             'tile at line %d has no proxy label' % tile['line'])
+
+    def test_the_quote_panel_can_label_a_proxy_too(self):
+        """Four of the six symbols the fixtures hold are proxies, so the panel
+        has to be able to say so for whichever one is looked up."""
+        badges = [e for e in PAGE.elements if 'data-quote-proxy' in e['attrs']]
+        self.assertEqual(len(badges), 1)
+        self.assertIn('inc-proxy', classes(badges[0]))
+        # Hidden until a proxy is actually shown; the view unhides it.
+        self.assertIn('hidden', badges[0]['attrs'])
 
 
 class TestHouseStyle(unittest.TestCase):

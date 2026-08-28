@@ -43,6 +43,10 @@
 
     var SYMBOL_PATTERN = /^[A-Z][A-Z.\-]{0,9}$/;
 
+    /* The catalogue is a committed table, not a feed. Anything an order of
+     * magnitude past its size is not the table we asked for. */
+    var MAX_SYMBOLS = 5000;
+
     function DataError(kind) {
         var error = new Error('market data ' + kind);
         error.kind = kind;
@@ -51,6 +55,10 @@
 
     function isFiniteNumber(value) {
         return typeof value === 'number' && isFinite(value);
+    }
+
+    function optionalNumber(value) {
+        return isFiniteNumber(value) ? value : null;
     }
 
     /* ── Shape checks ───────────────────────────────────────────── */
@@ -69,15 +77,25 @@
         };
     }
 
-    /* The envelope the service wraps every read route in. `source` and
-     * `stale` are the honesty fields — without them the page cannot say
-     * whether it is showing a quote, yesterday's close, or an invented
-     * number — so a payload missing them is treated as malformed rather
-     * than rendered unlabelled. */
+    /* The fields every read route wraps its answer in. `source` and `stale`
+     * are the honesty fields — without them the page cannot say whether it is
+     * showing a quote, yesterday's close, or an invented number — so a payload
+     * missing them is treated as malformed rather than rendered unlabelled. */
     function readEnvelope(payload, symbol) {
         if (!payload || typeof payload !== 'object') throw DataError('malformed');
         if (payload.symbol !== symbol) throw DataError('malformed');
         if (typeof payload.source !== 'string') throw DataError('malformed');
+        return {
+            symbol: symbol,
+            source: payload.source,
+            delay: typeof payload.delay === 'string' ? payload.delay : '',
+            stale: payload.stale === true,
+            fetchedAt: typeof payload.fetched_at === 'string' ? payload.fetched_at : ''
+        };
+    }
+
+    function readHistory(payload, symbol) {
+        var envelope = readEnvelope(payload, symbol);
 
         var series = payload.history;
         if (!series || typeof series !== 'object') throw DataError('malformed');
@@ -93,13 +111,69 @@
             bars.push(bar);
         }
 
+        envelope.bars = bars;
+        return envelope;
+    }
+
+    /* A snapshot: the day's open, high, low and volume, which the daily
+     * series does not carry for the session still in progress.
+     *
+     * `price` is the only field required to be a number. Everything else is
+     * kept when it reads as one and nulled when it does not, because a panel
+     * that can render an em dash for a missing figure is a better answer than
+     * refusing the whole quote over a volume upstream left out.
+     */
+    function readQuote(payload, symbol) {
+        var envelope = readEnvelope(payload, symbol);
+
+        var quote = payload.quote;
+        if (!quote || typeof quote !== 'object') throw DataError('malformed');
+        if (!isFiniteNumber(quote.price)) throw DataError('malformed');
+
+        envelope.quote = {
+            price: quote.price,
+            open: optionalNumber(quote.open),
+            high: optionalNumber(quote.high),
+            low: optionalNumber(quote.low),
+            previousClose: optionalNumber(quote.previous_close),
+            change: optionalNumber(quote.change),
+            changePercent: optionalNumber(quote.change_percent),
+            volume: optionalNumber(quote.volume),
+            tradingDay: typeof quote.latest_trading_day === 'string'
+                ? quote.latest_trading_day : ''
+        };
+        return envelope;
+    }
+
+    /* The searchable name table. Every row is checked, and a row that fails
+     * is dropped rather than failing the listing: a catalogue is a
+     * convenience, and losing one bad name should not cost the search box. */
+    function readCatalog(payload) {
+        if (!payload || typeof payload !== 'object') throw DataError('malformed');
+        if (!Array.isArray(payload.symbols)) throw DataError('malformed');
+        if (payload.symbols.length > MAX_SYMBOLS) throw DataError('malformed');
+
+        var listed = [];
+        payload.symbols.forEach(function (row) {
+            if (!row || typeof row !== 'object') return;
+            if (typeof row.symbol !== 'string' || !SYMBOL_PATTERN.test(row.symbol)) {
+                return;
+            }
+            if (typeof row.name !== 'string' || !row.name) return;
+            listed.push({
+                symbol: row.symbol,
+                name: row.name,
+                kind: row.kind === 'etf' ? 'etf' : 'stock',
+                tracks: typeof row.tracks === 'string' ? row.tracks : null
+            });
+        });
+
         return {
-            symbol: symbol,
-            source: payload.source,
-            delay: typeof payload.delay === 'string' ? payload.delay : '',
-            stale: payload.stale === true,
-            fetchedAt: typeof payload.fetched_at === 'string' ? payload.fetched_at : '',
-            bars: bars
+            symbols: listed,
+            // False unless the service positively says otherwise: assuming a
+            // list is complete when it is not would have the page refuse a
+            // ticker it could have answered for.
+            exhaustive: payload.exhaustive === true
         };
     }
 
@@ -122,6 +196,18 @@
         };
     }
 
+    /* Which kind of failure a 404 is. Always rejects; the only question is
+     * whether the symbol is missing or the service is. */
+    function notFound(response) {
+        return response.json().then(function (payload) {
+            throw DataError(payload && payload.error === 'symbol_not_found'
+                ? 'not_found' : 'http');
+        }, function () {
+            // A body we could not even parse did not come from our service.
+            throw DataError('http');
+        });
+    }
+
     /* Any failure to reach the service is one outcome for the page — it has
      * nothing to show — so an abort, a DNS failure and a 503 all arrive here
      * as a rejection with a kind, and the view decides how to say it. */
@@ -129,6 +215,14 @@
         var attempt = withTimeout(url);
         return attempt.promise.then(function (response) {
             if (attempt.done) attempt.done();
+            // A 404 carrying our own service's not-found is the one failure
+            // that is about the symbol rather than about us, and the panel
+            // says something quite different for it. Any other 404 came from
+            // something else in the path — a misconfigured proxy, or a static
+            // server standing in for a service that is not running — and
+            // reporting that as "no such ticker" would be a confident lie
+            // about someone else's failure.
+            if (response.status === 404) return notFound(response);
             if (!response.ok) throw DataError('http');
             return response.json().then(null, function () {
                 throw DataError('malformed');
@@ -152,13 +246,38 @@
         }
         var url = BASE + '/history?symbol=' + encodeURIComponent(symbol);
         return requestJson(url).then(function (payload) {
-            return readEnvelope(payload, symbol);
+            return readHistory(payload, symbol);
         });
+    }
+
+    /* The latest snapshot for one symbol.
+     *
+     * Costs an upstream call that /history does not, so it is asked for only
+     * where the extra fields are the point — the quote panel's day range and
+     * volume. The tiles deliberately do not use it (see the note above).
+     */
+    function quote(symbol) {
+        if (typeof symbol !== 'string' || !SYMBOL_PATTERN.test(symbol)) {
+            return Promise.reject(DataError('invalid_symbol'));
+        }
+        var url = BASE + '/quote?symbol=' + encodeURIComponent(symbol);
+        return requestJson(url).then(function (payload) {
+            return readQuote(payload, symbol);
+        });
+    }
+
+    /* The names the page can search by. Local to the service — it reads a
+     * committed table and never goes upstream — so it costs no quota and is
+     * fetched once per page load. */
+    function symbols() {
+        return requestJson(BASE + '/symbols').then(readCatalog);
     }
 
     global.IncisorMarketData = {
         BASE: BASE,
         TIMEOUT_MS: TIMEOUT_MS,
-        history: history
+        history: history,
+        quote: quote,
+        symbols: symbols
     };
 })(typeof window !== 'undefined' ? window : this);

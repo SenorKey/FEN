@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/incisor-trading/incisor.css">
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
+    <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the two
       logic modules are in place before any view runs, and each view runs
@@ -30,7 +31,9 @@
     <script src="/incisor-trading/js/market-clock.js" defer></script>
     <script src="/incisor-trading/js/market-figures.js" defer></script>
     <script src="/incisor-trading/js/market-data.js" defer></script>
+    <script src="/incisor-trading/js/symbol-search.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
+    <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
@@ -115,8 +118,8 @@
                 aria-labelledby="tab-dashboard" tabindex="0">
 
                 <h2 class="inc-panel-heading">Market overview</h2>
-                <p class="inc-panel-note">Search, charts and fundamentals fill the
-                    rest of this panel across T7&ndash;T12.</p>
+                <p class="inc-panel-note">Charts, movers and fundamentals fill the
+                    rest of this panel across T8&ndash;T12.</p>
 
                 <!--
                   The four proxy tiles. Every figure is an em dash in the served
@@ -223,6 +226,169 @@
                     track the indexes, not the index levels themselves. Free market
                     data does not include the indexes directly, so the ETFs stand in
                     and are labelled as proxies wherever they appear.</p>
+
+                <!--
+                  Symbol search and the quote panel it fills.
+
+                  The combobox is the ARIA 1.2 pattern: a text input owning a
+                  listbox, with aria-activedescendant marking the option the
+                  arrow keys are on. The input keeps focus throughout, which is
+                  what lets someone keep typing to narrow a list they are
+                  already walking.
+
+                  The list ships empty and hidden. Its contents come from
+                  /symbols, a local table on our own service — searching
+                  upstream would spend a call per keystroke against a budget of
+                  22 a day.
+                -->
+                <section class="inc-lookup" aria-labelledby="inc-lookup-heading">
+                    <h3 class="inc-section-heading" id="inc-lookup-heading">Look up
+                        a symbol</h3>
+
+                    <div class="inc-search" data-search>
+                        <label class="inc-search-label" for="inc-search-input">Ticker
+                            or company name</label>
+                        <div class="inc-search-field">
+                            <input type="text" id="inc-search-input"
+                                class="inc-search-input" role="combobox"
+                                aria-expanded="false" aria-controls="inc-search-results"
+                                aria-autocomplete="list"
+                                aria-describedby="inc-search-hint"
+                                autocomplete="off" spellcheck="false"
+                                placeholder="SPY, Apple, Berkshire&hellip;"
+                                data-search-input data-track="symbol-search">
+                            <ul class="inc-search-results" id="inc-search-results"
+                                role="listbox" aria-label="Matching symbols"
+                                data-search-results
+                                data-track="symbol-search-result" hidden></ul>
+                        </div>
+                        <p class="inc-search-hint" id="inc-search-hint"
+                            role="status" data-search-hint>Type a ticker or a
+                            company name, then choose from the list or press
+                            Enter.</p>
+                    </div>
+
+                    <!--
+                      Every figure below ships as an em dash and stays one until
+                      the service answers, for the same reason the tiles do. The
+                      panel starts in its empty state rather than showing a
+                      skeleton of a symbol nobody asked for.
+                    -->
+                    <div class="inc-quote" data-quote data-state="empty">
+
+                        <p class="inc-quote-message" data-quote-message>Nothing
+                            looked up yet. Search above to see a symbol&rsquo;s
+                            last price, its day and 52-week ranges, and how
+                            heavily it traded.</p>
+
+                        <div data-quote-body hidden>
+                            <header>
+                                <p class="inc-quote-symbol">
+                                    <span data-quote-symbol>&mdash;</span>
+                                    <span class="inc-proxy" data-quote-proxy
+                                        hidden>proxy</span>
+                                </p>
+                                <p class="inc-quote-name" data-quote-name>&mdash;</p>
+                            </header>
+
+                            <p class="inc-quote-price" data-quote-price>&mdash;</p>
+                            <p class="inc-quote-change inc-flat" data-quote-change>
+                                <span class="inc-arrow" aria-hidden="true"
+                                    data-quote-arrow>&#9644;</span>
+                                <span class="inc-delta" data-quote-delta>&mdash;</span>
+                                <span class="inc-delta-pct"
+                                    data-quote-pct>&mdash;</span>
+                            </p>
+
+                            <!--
+                              Two bands with the last price marked inside them.
+                              The marker's position is set as a custom property
+                              on the track, so the arithmetic stays in
+                              js/market-figures.js and the drawing stays in CSS.
+                            -->
+                            <div class="inc-ranges">
+                                <div class="inc-range" data-range="day">
+                                    <p class="inc-range-label">Day range</p>
+                                    <div class="inc-range-track" data-range-track>
+                                        <span class="inc-range-marker"
+                                            aria-hidden="true"
+                                            data-range-marker></span>
+                                    </div>
+                                    <p class="inc-range-ends">
+                                        <span data-range-low>&mdash;</span>
+                                        <span data-range-high>&mdash;</span>
+                                    </p>
+                                </div>
+                                <div class="inc-range" data-range="year">
+                                    <p class="inc-range-label" data-range-title>52-week
+                                        range</p>
+                                    <div class="inc-range-track" data-range-track>
+                                        <span class="inc-range-marker"
+                                            aria-hidden="true"
+                                            data-range-marker></span>
+                                    </div>
+                                    <p class="inc-range-ends">
+                                        <span data-range-low>&mdash;</span>
+                                        <span data-range-high>&mdash;</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <dl class="inc-figures">
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Open</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="open">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Previous close</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="previous">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Volume</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="volume">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Average volume</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="average-volume">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Versus average</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="relative-volume">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">Market cap</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="market-cap">&mdash;</dd>
+                                </div>
+                                <div class="inc-figure">
+                                    <dt class="inc-figure-label">P/E ratio</dt>
+                                    <dd class="inc-figure-value"
+                                        data-figure="pe">&mdash;</dd>
+                                </div>
+                            </dl>
+
+                            <p class="inc-figures-note">Market cap and P/E come
+                                from company filings rather than from price data,
+                                and this page does not read them yet &mdash; so
+                                they stay em dashes rather than becoming a number
+                                nobody checked.</p>
+
+                            <p class="inc-provenance" role="status"
+                                data-quote-provenance
+                                data-provenance-state="pending">
+                                <span class="inc-provenance-dot"
+                                    aria-hidden="true"></span>
+                                <span data-quote-provenance-message>Sample data. No
+                                    prices have loaded yet.</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
             </section>
 
             <!-- ── Trade ────────────────────────────────────────── -->

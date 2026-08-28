@@ -1,0 +1,366 @@
+/* ═══════════════════════════════════════════════
+   css/lookup.css — symbol search and the quote panel
+   frontendneeded.com · /incisor-trading
+
+   The dashboard's second surface: the tiles say what
+   the market did, this says what one symbol did. Split
+   out when css/market.css passed 600 lines (guide §6),
+   along the same seam js/view-symbol.js is split along
+   — one file per surface that renders market data.
+
+   Loads after css/market.css and depends on it, the way
+   market.css depends on incisor.css: the direction
+   colours, the arrow glyph, the proxy badge and the
+   provenance line are shared vocabulary and are defined
+   once, there, rather than restated per surface.
+   ═══════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════
+   SYMBOL SEARCH
+   ═══════════════════════════════════════════════ */
+
+.inc-lookup {
+    margin-top: 34px;
+    padding-top: 26px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+.inc-section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.005em;
+}
+
+.inc-search {
+    margin-top: 14px;
+    max-width: 440px;
+}
+
+.inc-search-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* The listbox is positioned against this, so it tracks the field's width at
+   every viewport rather than needing a width of its own. */
+.inc-search-field {
+    position: relative;
+}
+
+.inc-search-input {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid var(--inc-rule-strong);
+    border-radius: 4px;
+    background: rgba(6, 8, 10, 0.6);
+    font-family: var(--inc-mono);
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.inc-search-input::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+}
+
+.inc-search-input:hover {
+    border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+.inc-search-input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+}
+
+/* ── Results ──
+   A real dropdown rather than a block that pushes the panel down: the quote
+   below it should not move every time the list grows by a row (§13). */
+
+.inc-search-results {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    max-height: 268px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 4px;
+    border: 1px solid var(--inc-rule-strong);
+    border-radius: 4px;
+    background: #06080a;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+}
+
+.inc-search-option {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    padding: 8px 10px;
+    border-radius: 3px;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+}
+
+.inc-search-option:hover {
+    background: rgba(242, 239, 232, 0.05);
+}
+
+/* The highlight the arrow keys move. Focus never leaves the input — that is
+   the combobox pattern — so this is the only thing telling a sighted reader
+   where they are, and it carries a border as well as a tint so it survives
+   greyscale the way the direction colours do. */
+.inc-search-option[aria-selected="true"] {
+    background: rgba(var(--accent-rgb), 0.13);
+    border-left-color: var(--accent);
+}
+
+.inc-search-ticker {
+    flex: none;
+    min-width: 4.5ch;
+    font-family: var(--inc-mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+}
+
+.inc-search-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 0.76rem;
+    font-weight: 300;
+    color: var(--muted);
+    /* One line per option, so a long registered name cannot make the list
+       taller than it looks. */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.inc-search-hint {
+    margin-top: 8px;
+    font-size: 0.74rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--muted);
+    /* Reserved, so the count appearing under the field shifts nothing. */
+    min-height: 2.2em;
+}
+
+/* ═══════════════════════════════════════════════
+   QUOTE PANEL
+   ═══════════════════════════════════════════════ */
+
+.inc-quote {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 5px;
+    background: var(--inc-panel-bg);
+}
+
+.inc-quote-message {
+    max-width: 60ch;
+    font-size: 0.84rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inc-quote[data-state="ready"] .inc-quote-message {
+    display: none;
+}
+
+.inc-quote[data-state="loading"] .inc-quote-message {
+    font-family: var(--inc-mono);
+    font-size: 0.8rem;
+}
+
+/* Not found is a designed answer, not an error: the reader asked a
+   reasonable question and the honest reply is that there is no data. Error
+   is the service being unreachable, which is ours rather than theirs. */
+.inc-quote[data-state="not-found"] {
+    border-color: var(--inc-rule-strong);
+}
+
+.inc-quote[data-state="error"] {
+    border-color: rgba(242, 104, 107, 0.34);
+    background: rgba(242, 104, 107, 0.05);
+}
+
+.inc-quote[data-state="error"] .inc-quote-message {
+    color: var(--ink);
+}
+
+.inc-quote-symbol {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--inc-mono);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+}
+
+.inc-quote-name {
+    margin-top: 4px;
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--muted);
+}
+
+.inc-quote-price {
+    margin-top: 14px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 2.2rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+}
+
+.inc-quote-change {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    margin-top: 6px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.92rem;
+}
+
+/* ── Ranges ──
+   Where the last price sits between the low and the high, which is the one
+   thing a pair of numbers alone does not say. */
+
+.inc-ranges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px 26px;
+    margin-top: 22px;
+}
+
+.inc-range-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-range-track {
+    --inc-range-position: 50%;
+    position: relative;
+    height: 4px;
+    margin-top: 9px;
+    border-radius: 2px;
+    background: rgba(242, 239, 232, 0.12);
+}
+
+/* Filled only once a position is known, so an unplaceable range reads as an
+   empty band rather than as a price sitting at the bottom of it. */
+.inc-range-track[data-range-known] {
+    background: linear-gradient(to right,
+        rgba(var(--accent-rgb), 0.35) 0%,
+        rgba(var(--accent-rgb), 0.35) var(--inc-range-position),
+        rgba(242, 239, 232, 0.12) var(--inc-range-position),
+        rgba(242, 239, 232, 0.12) 100%);
+}
+
+.inc-range-marker {
+    position: absolute;
+    top: -4px;
+    left: var(--inc-range-position);
+    width: 2px;
+    height: 12px;
+    border-radius: 1px;
+    background: var(--accent);
+    transform: translateX(-50%);
+    transition: left 0.3s ease;
+}
+
+.inc-range-ends {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 9px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+/* ── Figures ── */
+
+/* Fixed column counts rather than auto-fit. There are seven figures, and
+   letting the browser choose put six on one row and left the seventh alone
+   underneath, which reads as something having gone wrong. Four columns give
+   4 + 3 and two give 2 + 2 + 2 + 1, both of which read as a grid. */
+.inc-figures {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+@media (min-width: 560px) {
+
+    .inc-figures {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.inc-figure-label {
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-figure-value {
+    margin-top: 6px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.inc-figures-note {
+    margin-top: 18px;
+    max-width: 66ch;
+    font-size: 0.74rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inc-quote .inc-provenance {
+    margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+
+    .inc-quote {
+        padding: 16px;
+    }
+
+    .inc-quote-price {
+        font-size: 1.9rem;
+    }
+
+}

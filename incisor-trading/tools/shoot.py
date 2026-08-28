@@ -17,10 +17,15 @@ DECISIONS.md, "narrow headless screenshots are not mobile".
 Usage:
     ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>]
                                           [--api http://127.0.0.1:8789]
+                                          [--symbol SPY | --search app]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
 failures worth blocking a commit on.
+
+--symbol and --search reach a state that only exists after an interaction:
+the quote panel is empty until someone searches, so without them the only
+screenshot of it that could be taken is the one state nobody is asking about.
 
 With --api, /api/incisor/* is forwarded to a running incisor service the way
 Apache forwards it in production, so the dashboard can be shot with real
@@ -115,6 +120,36 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
 
+SEARCH_INPUT = "[data-search-input]"
+SETTLED = ('[data-quote]:not([data-state="loading"])'
+           ':not([data-state="empty"])')
+
+
+def drive(page, args, problems, label):
+    """Put the page into a state that only exists after an interaction.
+
+    The quote panel is the whole of T7 and it is empty until someone searches,
+    so without this the only screenshot the tool could take of it is the one
+    state nobody is asking about. Failures are collected rather than raised:
+    a state that could not be reached is a finding about the page, and the
+    other viewports are still worth shooting.
+    """
+    page.fill(SEARCH_INPUT, args.search or args.symbol)
+    try:
+        if args.symbol:
+            page.press(SEARCH_INPUT, "Enter")
+            # Any state the panel settles in, not just a filled one. A symbol
+            # with no data behind it settles in not-found, and that is a state
+            # worth a screenshot rather than a failure to reach one.
+            page.wait_for_selector(SETTLED, timeout=10000)
+        else:
+            page.wait_for_selector("[data-search-results] [role=option]",
+                                   timeout=10000)
+    except Exception as error:
+        problems.append(f"{label}: could not reach the requested state — "
+                        f"{type(error).__name__}")
+
+
 @contextlib.contextmanager
 def serving(root, api_base=None):
     """A quiet static server on an ephemeral port, torn down on exit."""
@@ -134,6 +169,11 @@ def main():
                     help="forward /api/incisor/* to a running service, "
                          "e.g. http://127.0.0.1:8789")
     ap.add_argument("--theme", default="dark", choices=["dark", "light"])
+    ap.add_argument("--search", default=None,
+                    help="type this into the symbol search and leave the "
+                         "results list open, e.g. --search app")
+    ap.add_argument("--symbol", default=None,
+                    help="look this symbol up before shooting, e.g. --symbol SPY")
     args = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
@@ -170,6 +210,9 @@ def main():
             page.on("pageerror", lambda e: errors.append(str(e)))
 
             page.goto(base + PAGE, wait_until="networkidle")
+
+            if args.search or args.symbol:
+                drive(page, args, problems, label)
 
             # Horizontal overflow is a guide §13 violation, so it fails the run
             # rather than being left for a human to spot in an image.

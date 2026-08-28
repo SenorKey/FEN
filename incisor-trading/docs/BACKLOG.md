@@ -79,28 +79,38 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   market holiday calendar. Pure client-side, no data needed. Countdown to next
   open or close. *Accept:* correct for a hardcoded set of test datetimes including
   a half-day and a holiday.
-  *Done 2026-08-27.* `js/market-clock.js`, pure, with the view in `incisor.js`.
-  Holidays are computed from their rules rather than listed, so the calendar
-  does not expire. 59 checks in JavaScriptCore. The `t5-market-clock/` shots
-  were pruned at T6, which shoots the same page with the clock in it; see
-  `DECISIONS.md` for the retention rule.
+  *Done 2026-08-27.* `js/market-clock.js`, pure, with the view in `incisor.js`
+  — the clock draws nothing from the service, so it stayed in the shell when
+  the data views moved out at T7. Holidays are computed from their rules
+  rather than listed, so the calendar does not expire. 59 checks in
+  JavaScriptCore. The `t5-market-clock/` shots were pruned at T6; every
+  current shot set has the clock in it. See `DECISIONS.md` for the rule.
 
 - [x] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
   percent change, sparkline. Labeled as ETF proxies, not index levels.
   *Accept:* renders from fixtures; delay label visible; degrades to "unavailable"
   with the service stopped.
-  *Done 2026-08-28.* `js/market-figures.js` and `js/market-data.js` (new), the
-  view in `incisor.js`, styles split out to `css/market.css`. Built on
-  `/history` alone — the last two bars are the quote, so the strip costs four
-  upstream calls a day rather than eight. 103 checks in JavaScriptCore, 50 page
-  tests, 100 service tests. Both acceptance states screenshotted:
-  `docs/shots/t6-index-strip/` with the service proxied and
-  `docs/shots/t6-service-down/` without it.
+  *Done 2026-08-28.* `js/market-figures.js` and `js/market-data.js` (new),
+  styles split out to `css/market.css`. Built on `/history` alone — the last
+  two bars are the quote, so the strip costs four upstream calls a day rather
+  than eight. 103 checks in JavaScriptCore, 50 page tests, 100 service tests.
+  The view moved to `js/view-index-strip.js` at T7, and the `t6-*` shots were
+  pruned there — `docs/shots/t7-quote/` and `docs/shots/t7-service-down/`
+  shoot the same strip in both of its acceptance states.
 
-- [ ] **T7 · Symbol search + quote detail** — search by ticker or company name;
+- [x] **T7 · Symbol search + quote detail** — search by ticker or company name;
   detail panel with last price, change, day range, 52-week range, volume vs.
   average, market cap, P/E. *Accept:* keyboard-navigable results; unknown symbol
   shows a clean not-found state.
+  *Done 2026-08-28.* `js/symbol-search.js`, `js/view-symbol.js`, `js/dom.js`
+  and `server/catalog.py` (new), with the views split out of `incisor.js` and
+  `css/lookup.css` out of `css/market.css`. The fixture series went from 120
+  bars to 260 so the 52-week range is a real figure, and live mode now asks
+  for `outputsize=full` for the same reason. **Market cap and P/E render as
+  em dashes**, with a line on the page saying why: they come from filings,
+  which is T11. 163 checks in JavaScriptCore, 72 page tests, 123 service
+  tests. Four states screenshotted under `docs/shots/t7-*`: loaded,
+  searching, not-found, and with the service stopped.
 
 - [ ] **T8 · Price chart** — hand-rolled SVG. Ranges 1D / 5D / 1M / 6M / 1Y / 5Y.
   Hover readout, accessible fallback table. No chart library.
@@ -299,7 +309,7 @@ phases.
   mobile overflow in an earlier `chrome --headless --screenshot` was an artifact
   of that tool, not a defect — see `DECISIONS.md`. The `t1-skeleton/` shots were
   pruned at T6; `shoot.py` re-proves the same two properties on every run, and
-  the current page is shot in `docs/shots/t6-index-strip/`. Original scope below.
+  the current page is shot in `docs/shots/t7-quote/`. Original scope below.
 
   ~~**D1 · Browser verification pass for the page skeleton**~~ — the half of
   T1's acceptance criteria that a headless session cannot reach: load the page,

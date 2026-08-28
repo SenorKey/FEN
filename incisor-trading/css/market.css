@@ -5,11 +5,17 @@
    Split out of incisor.css when that file passed the
    600-line mark (guide §6). The seam is a real one and
    not a byte count: everything here draws data that
-   came from the market service — the proxy tiles, their
-   sparklines, the line that says where the figures came
-   from, and the portfolio readout. Everything left in
+   came from the market service, and everything left in
    incisor.css is page furniture that would look the
    same with no data at all.
+
+   Two things live here. The index strip and the
+   portfolio readout, which are surfaces; and the
+   vocabulary every surface that renders a figure needs
+   — the direction colours, the arrow glyph, the delta,
+   the proxy badge and the provenance line. That
+   vocabulary is defined once and css/lookup.css reads
+   it, rather than each surface restating it.
 
    Loaded after incisor.css, which owns the custom
    properties every rule below reads.
@@ -300,4 +306,3 @@
     line-height: 1.6;
     color: var(--muted);
 }
-

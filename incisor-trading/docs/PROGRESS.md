@@ -698,3 +698,101 @@ waiting for it.
 Nothing new needs a decision. The two open notes are the provider permission,
 unchanged since T0 and blocking nothing, and the screenshot retention rule
 recorded under S6 above — both are one-line reversals if you disagree.
+
+## 2026-08-28 — T7 · Symbol search + quote detail
+**Outcome:** shipped
+**Changed:** `index.html`, `incisor.js`, `css/lookup.css` (new),
+`css/market.css`, `js/dom.js` · `js/symbol-search.js` · `js/view-symbol.js` ·
+`js/view-index-strip.js` (new), `js/market-data.js`, `js/market-figures.js`,
+`server/catalog.py` (new), `server/incisor.py`, `server/source.py`,
+`server/fetcher.py`, `server/fixtures/`, `tools/shoot.py`, `tests/`
+**Verified:** 163 checks in JavaScriptCore, 72 page tests, 123 service tests;
+`shoot.py` green at 1440, 768 and 390 in four states, images reviewed by eye.
+
+Search is a combobox over a committed name table, and the panel below it shows
+one symbol's last price, both its ranges, and how heavily it traded. Both
+halves of the acceptance criteria are screenshotted rather than asserted only:
+`docs/shots/t7-search/` has the list open and walkable, `docs/shots/t7-quote/`
+has SPY loaded, `docs/shots/t7-not-found/` is an unknown ticker, and
+`docs/shots/t7-service-down/` is the same lookup with nothing answering.
+
+**Three of the figures had no data behind them, as last session found.** Each
+was answered rather than worked around:
+
+- **The 52-week range needed a year and nothing had one.** The fixture series
+  ran 120 sessions and live mode asked upstream for `outputsize=compact`,
+  which is 100 — so both would have produced a "52-week" range covering under
+  half a year, invisibly. Fixtures now run 260 weekdays and live asks for
+  `full`, which costs the same single call and is cut to five years by
+  `fetcher.bounded` before anything is stored. Regenerating changed every
+  price; the daily-return correlations across the proxies still sit between
+  0.79 and 0.92, so the set still describes one market. This also unblocks
+  T8's 1Y and 5Y ranges.
+- **Search by name needed something that knows AAPL is Apple.** Nothing did.
+  `server/catalog.py` is a committed table of about fifty US listings and
+  `GET /symbols` serves it; upstream symbol search was disqualified outright,
+  not on cost but on spending a call per keystroke against a budget of 22 a
+  day. The route resolves availability rather than the table doing it, so in
+  fixture mode search offers exactly the six symbols that can be priced.
+- **Market cap and P/E stay em dashes**, with a line on the page saying they
+  come from filings this page does not read yet. That is T11's job and T11's
+  own acceptance criterion; inventing a second upstream for them here would
+  have been the wrong answer to a question already assigned.
+
+**Two files crossed 600 lines and both splits were real ones.** `incisor.js`
+held the shell, the clock and the whole index strip; `css/market.css` held
+every surface. The seam is the one already used between `incisor.css` and
+`css/market.css`, applied one level further — a surface that renders market
+data owns a view module and a stylesheet, and the shell keeps what would look
+the same with no service at all. `js/dom.js` holds the three DOM writes every
+view makes, so the rule that network data is written as text rather than
+markup is stated once instead of re-decided per view.
+
+**Three bugs came out of the screenshots rather than the tests**, which is
+guide §18 working as intended:
+
+1. **The results list re-opened on top of the panel it had just filled.** Each
+   keystroke queues a debounced render, and choosing a symbol closed the list
+   without cancelling the queued one, so it reappeared 90ms later. Closing now
+   cancels the pending render. The regression test was confirmed to fail
+   without the fix before being kept.
+2. **With the service stopped, an unknown-symbol message appeared for a symbol
+   that exists.** Any 404 was being read as "no such ticker", and the static
+   server standing in for the stopped service answers 404. Only our own
+   service's `symbol_not_found` body counts now. A real Apache with a dead
+   backend would have produced the same confident lie.
+3. **The hint said "Showing NVDA." directly above "No data for NVDA."** It was
+   set optimistically before the lookup resolved. It now says what to do next,
+   and only when there is something to do — trying a different ticker fixes a
+   ticker that does not exist and fixes nothing when the service is down.
+
+Also: seven figures under `auto-fit` put six on one row and orphaned the
+seventh, which reads as breakage rather than as a grid. Fixed columns, 4 + 3
+at desktop and 2 + 2 + 2 + 1 on a phone.
+
+**`shoot.py` gained `--symbol` and `--search`.** The quote panel is empty
+until someone searches, so without them the only screenshot the tool could
+take of the task's whole deliverable was the one state nobody is asking about.
+T8 needs the same thing — a chart does not exist until a symbol is loaded.
+
+**The mid-page navigation bar in a full-page mobile screenshot is a capture
+artifact, not a defect.** `.site-nav` is `position: sticky` under the shared
+stylesheet's mobile breakpoint, and Chrome paints a sticky element again
+partway down a full-page capture. Checked directly at 390px with a viewport
+screenshot: the heading it appeared to cover is present and visible. Worth
+knowing before someone chases it, and the fix would be out of bounds anyway —
+`.site-nav` belongs to `/assets`.
+
+### For Key
+
+- **`DECISIONS.md` has grown from 1854 words to about 2480** in one session.
+  Every entry passes the inclusion test, but S6 ran only yesterday and the
+  file is heading back toward being too long to read in full each time. Not
+  acted on today — consolidating and shipping T7 in one session would have
+  meant doing neither properly — but it is the first thing worth a session
+  when the top of the backlog is blocked.
+- **The provider question is unchanged and still blocks nothing.** T7 makes it
+  slightly more visible: the quote panel now carries its own "Sample data ·
+  generated prices" line beside a second price, so the page says it twice. It
+  will start saying "Delayed data · end-of-day close" in both places on its
+  own, with no code change, the day the service runs in live mode.
