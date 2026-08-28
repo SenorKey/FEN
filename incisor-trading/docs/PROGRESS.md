@@ -655,3 +655,46 @@ since the second is the service-unavailable state.
   reads "Sample data · generated prices, not real quotes", and it will start
   saying "Delayed data · end-of-day close" on its own, with no code change,
   the day the service runs in live mode.
+
+## 2026-08-28 — Session close
+**Outcome:** two tasks shipped — T6 and S6 — and stopped short of the cap
+**Verified:** 103 JavaScriptCore checks, 50 page tests and 100 service tests
+green; `shoot.py` green at 1440, 768 and 390 in both of T6's acceptance states,
+with the images reviewed by eye; `git status` shows nothing outside
+`incisor-trading/`; no branch pushed, nothing merged, nothing installed, **no
+upstream call made**, no account created and no terms accepted.
+
+**Stopped at two of three deliberately.** The next task is T7, symbol search and
+the quote detail panel, and it is too large to start and finish honestly in what
+was left — hard rule 8 says finish one before starting the next, and a half-built
+T7 would be worse than a clean stop. What was done instead was to establish what
+T7 actually has to work with, so the next session does not spend its first hour
+discovering it.
+
+**T7 is not blocked, but three of the figures it names have no data behind them.**
+Checked directly rather than assumed:
+
+- **52-week range — not possible from fixtures.** Every series is 120 bars,
+  2026-03-12 to 2026-08-26. That is five and a half months, not a year. Either
+  the generator is extended to 260 bars (cheap, deterministic, and it also
+  unblocks T8's 1Y and 5Y ranges) or the panel labels the range by the window it
+  actually has. The first is better and belongs at the top of T7.
+- **Market cap and P/E — no source exists.** They come from SEC EDGAR, which is
+  T11, and there is no fundamentals table by an explicit T4 decision. T7 should
+  render them as "—" the way T11's own acceptance criteria demand, not invent a
+  second upstream.
+- **Search by company name — there is no name index anywhere.** The four names
+  on the page are hardcoded in the markup, and nothing on the data side knows
+  that SPY is the S&P 500. Alpha Vantage has a symbol-search endpoint but it
+  spends quota per keystroke, which the 22-call budget rules out. A small
+  committed symbol-to-name table is the obvious answer and costs nothing.
+
+The rest of T7 is well supplied: `/quote` already returns the day range, volume
+and previous close, and it is still unused by the page, so the panel has a route
+waiting for it.
+
+### For Key
+
+Nothing new needs a decision. The two open notes are the provider permission,
+unchanged since T0 and blocking nothing, and the screenshot retention rule
+recorded under S6 above — both are one-line reversals if you disagree.
