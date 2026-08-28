@@ -1,89 +1,57 @@
 # Incisor Trading — Decisions and dead ends
 
-**Read this file in full at the start of every session.** Not the tail — all of
-it. It is the routine's long-term memory, and it is deliberately kept short
-enough to read every time.
+**Read this file in full at the start of every session.** It is the routine's
+long-term memory, and it only stays useful while it stays short enough to read
+every time. `PROGRESS.md` is the journal; this is the curated set.
 
-`PROGRESS.md` is a journal: what happened on a given day, in order, growing
-forever. This file is the opposite — a small, curated set of things that must
-never be forgotten or rediscovered the hard way.
-
-Append only. Never delete an entry; if something is overturned, add a new entry
-saying so and mark the old one superseded.
-
----
-
-## How to use it
-
-**Before starting a task**, scan both tables below for anything touching the same
-area. If the approach you are about to take appears under *Dead ends*, do not
-take it again — the reason it failed is recorded, and unless the listed
-*revisit condition* has actually changed, it will fail the same way.
-
-**After finishing a task**, add an entry if either is true:
-
-- You made a choice a future session could reasonably make differently
-  (a library-free approach, a data shape, a layout model, an algorithm).
-- You tried something that did not work, and abandoned it.
-
-A negative result is worth as much as a positive one here. "I tried canvas for
-the chart and it lost crispness on HiDPI, so I went back to SVG" saves a whole
-future session.
-
-Entries are one short paragraph. If one needs more, the detail belongs in the
-`PROGRESS.md` entry for that day and this file just points at the date.
+Rows are merged, never dropped — when several cover the same ground they fold
+into one, and a merged row carries every date that fed it. When a reason lives
+better somewhere else, this file points at it rather than copying it: clause
+citations belong in `DATA-PROVIDER.md`, implementation reasoning belongs in a
+comment beside the code, and the day's narrative belongs in `PROGRESS.md`.
+Anything here should be a choice a future session could otherwise reverse or
+redo without knowing (guide §16).
 
 ---
 
 ## Settled
 
-Choices a future session could reasonably reverse or redo. **Nothing else.**
-If the reason for a choice lives in a comment next to the code, it belongs
-there and not here — see the inclusion test in guide §16.
-
 | Date | Decision | Why |
 |---|---|---|
-| 2026-08-27 | Market data is licensed in **two layers, access and display**, and no commercial free tier grants display | Eight providers checked for T0. Finnhub, Massive (ex-Polygon.io), Twelve Data, Tiingo and FMP each forbid public display outright; exchanges charge for the display layer, so this is structural. **Stop re-searching for a free tier that allows it — there isn't one.** |
-| 2026-08-27 | **Alpha Vantage** is the recommendation, conditional on written permission; stay in fixture mode until it exists | The only free tier whose bar is scoped to *commercial* activity (ToS §2.a.iii) rather than stated flatly, and this page is permanently non-commercial (guide §4). Ambiguous is not permitted (guide §10). Full clause-by-clause reasoning in `DATA-PROVIDER.md`. |
-| 2026-08-27 | **SEC EDGAR for fundamentals**, separate from the quote provider | Public domain, 10 req/**second**, and no key, no account, no terms — so it is inside the routine's bounds with no input from Key. Has no prices. Keeps fundamentals off Alpha Vantage's 25/day quota. Needs a `User-Agent` naming the app and a contact email or it 403s. |
-| 2026-08-27 | The dashboard is **end-of-day-oriented and honestly labeled**, not a live ticker | Alpha Vantage free is 25 requests/**day**. That is a tighter constraint than the licence question and it shapes T6 through T12. Decide it at T6 rather than discovering it at T9. |
-| 2026-08-27 | Palette: enamel/bone ink and a single gold accent on near-black | Green and red are reserved for market direction on every surface, so the brand colour must avoid both. Gold also carries the "gold tooth" reading of the name without leaning on the gag. |
-| 2026-08-27 | System monospace for all figures, no webfont | Guide §4 rules out font CDNs, and shipping a webfont would mean writing into `/assets`, which is out of bounds. `ui-monospace` plus `tabular-nums` gives aligned columns at zero cost. |
-| 2026-08-27 | **No `gtag` on this page**, unlike every other FEN page | Guide §4 forbids third-party trackers here and the T13 CSP would block it. The first-party beacon is the only telemetry. A deliberate divergence from the rest of the site, not an oversight — do not "fix" it. |
-| 2026-08-27 | `beacon.js` stays; every control ships an explicit generic `data-track` | T1's "zero network calls" means no *market-data* calls. Guide §5 plans for the beacon here and requires generic labels, because `beacon.js` otherwise falls back to an element's text content and a button reading "Buy 10 AAPL" would leave the browser. |
-| 2026-08-27 | Fixtures are **synthetic and say so**: a committed deterministic generator prices every symbol off **one shared market factor** with a per-symbol beta, and every API response carries `"source": "fixture"` | No live call is permitted yet, so there is nothing real to capture. The `source` field is what lets the page label invented numbers as invented instead of presenting them as quotes. The generator (`fixtures/make_fixtures.py`) is stdlib-only and seeded, so the committed JSON stays reviewable in a diff and a real capture drops in beside it later (S3). |
-| 2026-08-27 | **`provider.py` is the only module that sees provider JSON**; `source.py` is the only I/O seam, and live mode fails closed until T4 | Keeps the provider choice reversible while its terms are unresolved — swapping providers rewrites one file, not the dashboard. Alpha Vantage returns every value as a quoted string (with a literal `%` on the percentage) and signals **every failure as HTTP 200** with prose under `Error Message` / `Note` / `Information`, so a status-code check alone would serve a rate-limit notice as a quote. |
-| 2026-08-27 | The cache runs in **both** fixture and live mode; the daily budget is **22 of the documented 25** and is scored on **live calls only**; exhaustion degrades fresh → refresh → **serve stale and flag it** → fail | Quota is the binding constraint, so the guard is deliberately conservative and holds a few calls back for the next morning's proxies. Caching in fixture mode too means the cache path is exercised every session rather than only in a live mode that is switched off — the cost is that editing a fixture needs the TTL to lapse or the scratch DB dropped. Serving yesterday's close beats an empty page (guide §5), so an exhausted budget or an upstream error falls back to what is held whenever anything is held. |
-| 2026-08-27 | **No fundamentals table**, despite T4 naming one | Its shape is undefined until T11 and its upstream is SEC EDGAR rather than the quote provider, so creating it now would be a table with no writer and a migration to come. A deliberate deviation from the task's wording, not an oversight — do not "complete" T4 by adding it. Noted for Key. |
-| 2026-08-27 | Market holidays are **computed from their rules**, never a hardcoded table | A table is correct until the year it isn't, and it fails silently — the page would simply claim the market was open on Thanksgiving. Every NYSE closure has a rule, which is why there is an Easter computation here. The one branch that looks like a bug and is not: when 1 January falls on a Saturday the exchange does **not** close on the Friday before, so that year has nine closures. Verified against published calendars for 2026, 2027, 2028 and 2033. |
-| 2026-08-28 | The dashboard tiles are built from **`/history` alone**, never `/quote` | A daily series already contains its own latest quote: the last bar is the price and the one before it is the previous close, which is every figure a tile shows. Calling `/quote` as well would spend a second upstream call per symbol to learn what we were already told — eight a day for the strip instead of four, against a budget of 22. `/quote` is still the right route for T7's detail panel, which needs the day range and volume. |
-| 2026-08-28 | The **sparkline is not coloured by direction**, unlike every other figure on a tile | It covers 30 days and the headline change covers one, so colouring both was correct and read as a contradiction — the fixture data produced four tiles showing a green up arrow above a red falling line. Green and red now mean exactly one thing per tile. The dashed opening level is what says which way the month went, and the SVG's `aria-label` says it in words. Seen in the screenshots, not in the code — which is the argument for looking at them (guide §18). |
-| 2026-08-28 | `incisor.css` split into **`incisor.css` (page furniture) and `css/market.css` (surfaces that render numbers)** | It passed 600 lines at T6 and the seam was already there: everything moved draws data from the service, everything left would look the same with no data at all. T7–T12 all add to the moved half. |
-| 2026-08-27 | Front-end tests live in `tests/`, stdlib `unittest`, run headlessly | They assert structure, ARIA wiring, the noindex rule and telemetry hygiene, and run the real `incisor.js` in JavaScriptCore via `osascript` against a DOM stub. They do not replace a browser and do not pretend to — `tools/shoot.py` covers what they cannot. |
+| 08-27 | **No commercial free tier grants the right to display market data publicly. Alpha Vantage is the recommendation, conditional on written permission; stay in fixture mode until it exists.** | Licensing has two layers, access and display, and the display layer is what exchanges charge for — so this is structural, not a gap in the search. **Stop re-searching for a free tier that allows public display.** Alpha Vantage is the only one whose bar is scoped to *commercial* activity rather than stated flatly, and this page is permanently non-commercial. Ambiguous is not permitted (guide §10), so acting on it is Key's. Eight providers, clause by clause, in `DATA-PROVIDER.md`. |
+| 08-27 | **SEC EDGAR for fundamentals**, separate from the quote provider | Public domain, 10 req/**second**, no key, no account, no terms — inside the routine's bounds with no input from Key. Has no prices. Keeps fundamentals off the quote provider's 25/day quota. Needs a `User-Agent` naming the app and a contact email or it 403s. |
+| 08-27, 08-28 | **The 25-calls-a-day ceiling decides the product.** The dashboard is end-of-day-oriented and says so. The cache runs in **both** fixture and live mode. The budget is **22 of 25**, counting live calls only. Exhaustion degrades fresh → refresh → **serve stale and flag it** → fail. The tiles read **`/history` alone, never `/quote`**. | Quota binds harder than the licence question and shapes T6–T12. Caching in fixture mode too keeps that path exercised every session rather than only in a live mode that is switched off — the cost is that editing a fixture needs the TTL to lapse or the scratch DB dropped. A daily series already contains its own quote (last bar, and the one before it), so calling `/quote` as well would spend a second call per symbol to be told what we were already told: eight a day for the strip instead of four. `/quote` is still right for T7, which needs the day range and volume. |
+| 08-27 | Fixtures are **synthetic and say so**: a seeded generator prices every symbol off **one shared market factor** with a per-symbol beta, and every response carries `"source": "fixture"` | No live call is permitted yet, so there is nothing real to capture. The `source` field is what lets the page label invented numbers as invented rather than presenting them as quotes. Stdlib-only and deterministic, so the committed JSON stays reviewable in a diff and a real capture drops in beside it later (S3). |
+| 08-27 | **`provider.py` is the only module that sees provider JSON**; `source.py` is the only I/O seam | Keeps the provider choice reversible while its terms are unresolved — swapping providers rewrites one file, not the dashboard. Alpha Vantage also quotes every value as a string and signals **every failure as HTTP 200** with prose in the body, so a status-code check alone would serve a rate-limit notice as a quote. |
+| 08-27 | **No fundamentals table**, despite T4 naming one | Its shape is undefined until T11 and its upstream is EDGAR rather than the quote provider, so building it now would be schema with no writer and a migration to come. A deliberate deviation from the task's wording — do not "complete" T4 by adding it. Noted for Key. |
+| 08-27 | Market holidays are **computed from their rules**, never a hardcoded table | A table is correct until the year it isn't, and it goes stale silently — the page would simply claim the market was open on Thanksgiving. Every NYSE closure has a rule, which is why there is an Easter computation in a trading page. The two edges that look like bugs and are not are commented in `js/market-clock.js`. |
+| 08-27 | **Enamel and gold on near-black; system monospace for every figure; no webfont** | Green and red are reserved for market direction on every surface, so the brand colour has to avoid both — and gold carries the "gold tooth" reading of the name without leaning on the gag. Guide §4 rules out font CDNs and a self-hosted webfont would mean writing into `/assets`, which is out of bounds. |
+| 08-27 | **No `gtag` here, unlike every other FEN page — but `beacon.js` stays, and every control ships a generic `data-track`** | Guide §4 forbids third-party trackers on this page and the T13 CSP would block one. A deliberate divergence from the rest of the site; **do not "fix" it**. T1's "zero network calls" meant no *market-data* calls, never no beacon. The labels have to be generic because `beacon.js` otherwise falls back to an element's text, and a button reading "Buy 10 AAPL" would leave the browser. |
+| 08-28 | The **sparkline is not coloured by direction**, unlike every other figure on a tile | It covers 30 days and the headline change covers one, so colouring both was correct and read as a contradiction — four tiles each showing a green up arrow above a red falling line. Green and red now mean one thing per tile; the dashed opening level says which way the month went and the `aria-label` says it in words. Found in the screenshots, not in the code (guide §18). |
+| 08-28 | **`incisor.css` is page furniture, `css/market.css` is the surfaces that render numbers; `js/` holds pure logic and the one network seam, and every view lives in `incisor.js`** | The CSS seam is not a byte count: everything moved draws data from the service, everything left would look the same with no data at all, and T7–T12 all add to the moved half. The JS split is what keeps an unattended session able to verify anything — `market-clock.js`, `market-figures.js` and `market-data.js` all run in JavaScriptCore with no DOM. |
+| 08-28 | **`docs/shots/` keeps the newest set for the page as it stands now, plus any set showing a state that one does not** — superseded sets are deleted, not accumulated | One set per task would be a permanent 400KB a session in a repo served off a home connection, and an old set is worse than no set: it shows markup that no longer exists to someone trying to review what does. The T1 and T5 sets went at T6, which shoots the same page at the same three widths and includes the clock they were taken for. What they proved — clean console, no overflow at 390 — is re-proved by every `shoot.py` run, and that is the durable record. |
+| 08-27 | Front-end tests live in `tests/`, stdlib `unittest`, run headlessly | They assert structure, ARIA wiring, the noindex rule and telemetry hygiene, and run the real shipped scripts in JavaScriptCore via `osascript` against a DOM stub. They do not replace a browser and do not pretend to — `tools/shoot.py` covers what they cannot. Read *Recurring traps* before changing one. |
 
 ---
 
 ## Dead ends
 
-Things tried that did not work. **Do not retry an entry here** unless its revisit
-condition has genuinely changed.
+**Do not retry an entry here** unless its revisit condition has genuinely changed.
 
-| Date | Tried | Why it failed | Revisit if | Branch |
-|---|---|---|---|---|
-| 2026-08-27 | Finnhub as the quote provider (best free limit found: 60 req/min) | ToS *Redistribution Rights and Personal Use* forbids redistributing or sharing data "with anyone or any 3rd party" without written approval. Site visitors are third parties. Rate limit is irrelevant if the licence forbids the use. | Finnhub grants written approval, or ships a display tier that is free | — |
-| 2026-08-27 | Twelve Data (800 req/day) | Free tier is licensed "solely for Internal Use" (§2.2(a)); external display needs a paid Redistribution Rights Add-On (§2.4), and §2.3(l) bars free-tier commercial use. | The add-on becomes free | — |
-| 2026-08-27 | Tiingo | Redistribution is "only available upon special request … and comes with additional fees" (§7.3); §1.4(h) bars publishing analysis publicly. Worse, §1.6(a) limits free plans to transient in-memory data only — which **forbids the server-side cache T4 requires**. | Tiingo offers a free display licence *and* relaxes the caching bar — both, not either | — |
-| 2026-08-27 | Massive, formerly Polygon.io (rebranded Oct 2025) | Market Data Terms §2 bars data being "publicly displayed"; §1 bars building "an application intended for use by end users other than you". The most explicit prohibition of the eight. | Never, on the free tier | — |
-| 2026-08-27 | `chrome --headless --window-size=390,844 --screenshot` as a mobile check | Renders at 390px as a *desktop* browser — device emulation never engages, so the output is not what a phone shows. It made the T1 page look like it overflowed horizontally when a real mobile viewport proves it does not. **Do not "fix" overflow seen only in a narrow headless screenshot.** Use `tools/shoot.py`, which drives the same Chrome through Playwright with real emulation and asserts `scrollWidth` directly. | Chrome gains a real device-emulation flag | — |
-| 2026-08-27 | Independent per-symbol random walks for the fixture series | Produced a window where the Nasdaq proxy fell 26% while the Dow proxy rose 11% — a market that cannot happen, and the thing the whole dashboard would then be laid out against. Replaced with one shared market factor plus per-symbol beta and idiosyncratic noise; daily-return correlations now sit near 0.9 across the index proxies. | Never — correlated proxies are not a stylistic preference | — |
-| 2026-08-27 | Asserting `urllib.request` / `http.client` are absent from `sys.modules` as the "no network access" check | Werkzeug imports both itself, so the assertion fails on a request that never touched the network. It proves nothing either way. Patch the `socket` constructors to raise and drive a real request through instead — that is what `TestNoNetworkAccess` does. | Never | — |
-| 2026-08-27 | marketstack | 100 requests per **month**. Four ETF proxies refreshed daily is 120/month — over budget before a visitor searches anything. Disqualified on volume before terms mattered. | The free quota grows by orders of magnitude | — |
+| Date | Tried | Why it failed | Revisit if |
+|---|---|---|---|
+| 08-27 | **Five free-tier quote providers.** Clause citations in `DATA-PROVIDER.md`. | **Finnhub** (60/min, the best limit found) forbids sharing data with any third party without written approval, and visitors are third parties. **Twelve Data** (800/day) licenses the free tier for internal use only. **Tiingo** charges for redistribution and limits free plans to transient in-memory data, which forbids the cache T4 requires. **Massive**, ex-Polygon.io, bars public display outright — the most explicit of the eight. **marketstack** allows 100 requests a *month*, and four proxies refreshed daily is 120: disqualified on volume before terms mattered. | Finnhub or Twelve Data ships a free display tier; Tiingo relaxes **both** its display and its caching bars; marketstack's quota grows by orders of magnitude. Massive: never, on the free tier. |
+| 08-27 | `chrome --headless --window-size=390,844 --screenshot` as a mobile check | Renders at 390px as a *desktop* browser — device emulation never engages, so the output is not what a phone shows. It made the T1 page look like it overflowed horizontally when a real mobile viewport proves it does not. **Do not "fix" overflow seen only in a narrow headless screenshot.** `tools/shoot.py` drives the same Chrome through Playwright with real emulation and asserts `scrollWidth` directly. | Chrome gains a real device-emulation flag |
+| 08-27 | Independent per-symbol random walks for the fixture series | Produced a window where the Nasdaq proxy fell 26% while the Dow proxy rose 11% — a market that cannot happen, and the thing the whole dashboard would then be laid out against. Replaced with one shared market factor plus per-symbol beta and noise; daily-return correlations now sit near 0.9 across the proxies. | Never — correlated proxies are not a stylistic preference |
+| 08-27 | Asserting `urllib.request` / `http.client` are absent from `sys.modules` as a "no network access" check | Werkzeug imports both itself, so the assertion fails on a request that never touched the network. It proves nothing either way. Patch the `socket` constructors to raise and drive a real request through instead — what `TestNoNetworkAccess` does. | Never |
 
 ---
 
 ## Recurring traps
 
-Mistakes made more than once. Promoted here from *Dead ends* the second time the
-same thing bites, because twice means it will happen a third time.
+Promoted here the second time the same thing bites, because twice means there
+will be a third.
 
-_(none yet)_
+| Dates | Trap | How to avoid it |
+|---|---|---|
+| 08-27, 08-28 | **The greps in `tests/test_page.py` are blunt substring checks over the shipped source, and they mislead in three directions.** At T5 the security rules read only `incisor.js`, so they silently stopped being rules the moment `js/` appeared. At T6 the word `innerHTML` in an explanatory *comment* failed `test_no_innerhtml`, and the 600-line rule turned out to be measuring every script concatenated — so it would eventually have demanded a split of whichever file happened to be last. | When a new file starts being served, check the greps read it — that list is built by `_shipped()` now rather than written out. A rule that forbids a token forbids it in prose too, so describe the thing instead of naming it. And a per-file rule has to be measured per file: if a test folds several files into one string, ask what it is actually asserting. |

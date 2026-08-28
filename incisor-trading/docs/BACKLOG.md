@@ -81,8 +81,9 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   a half-day and a holiday.
   *Done 2026-08-27.* `js/market-clock.js`, pure, with the view in `incisor.js`.
   Holidays are computed from their rules rather than listed, so the calendar
-  does not expire. 59 checks in JavaScriptCore; screenshots in
-  `docs/shots/t5-market-clock/`.
+  does not expire. 59 checks in JavaScriptCore. The `t5-market-clock/` shots
+  were pruned at T6, which shoots the same page with the clock in it; see
+  `DECISIONS.md` for the retention rule.
 
 - [x] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
   percent change, sparkline. Labeled as ETF proxies, not index levels.
@@ -294,10 +295,11 @@ phases.
 
 - [x] **D1 · Browser verification pass for the page skeleton** *(done 2026-08-27,
   attended)* — verified with `tools/shoot.py`: no console errors and no
-  horizontal overflow at 1440, 768 or 390 (true mobile emulation); screenshots
-  in `docs/shots/t1-skeleton/`. The apparent mobile overflow in an earlier
-  `chrome --headless --screenshot` was an artifact of that tool, not a defect —
-  see `DECISIONS.md`. Original scope below.
+  horizontal overflow at 1440, 768 or 390 (true mobile emulation). The apparent
+  mobile overflow in an earlier `chrome --headless --screenshot` was an artifact
+  of that tool, not a defect — see `DECISIONS.md`. The `t1-skeleton/` shots were
+  pruned at T6; `shoot.py` re-proves the same two properties on every run, and
+  the current page is shot in `docs/shots/t6-index-strip/`. Original scope below.
 
   ~~**D1 · Browser verification pass for the page skeleton**~~ — the half of
   T1's acceptance criteria that a headless session cannot reach: load the page,

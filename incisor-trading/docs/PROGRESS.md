@@ -599,3 +599,59 @@ criteria come from one tool.
 
 One stale screenshot folder was removed: `docs/shots/review-t5/` was an
 uncommitted duplicate of `t5-market-clock/` left over from the last session.
+
+## 2026-08-28 — S6 · Consolidate the memory
+**Outcome:** shipped
+**Changed:** `docs/DECISIONS.md`, `docs/BACKLOG.md`, `docs/shots/`
+**Verified:** 50 page tests and 100 service tests still green; every surviving
+reference to a pruned screenshot folder now points at what replaced it.
+
+Taken ahead of T7 because the last two close-outs both flagged it and guide §16
+triggers on a condition that was met: `DECISIONS.md` has to be readable in full
+every session, and it had stopped being that.
+
+**The first attempt failed and is worth recording.** Merging the rows dropped
+the count from 25 to 17 and made the file *longer* — 2093 words to 2217 — because
+merging without cutting is rearrangement. The measure that matters is how much
+there is to read, not how many rows there are. The second pass applied the
+guide's own inclusion test properly and the file is now **1854 words in 57 lines
+against 1837 in 86 at the start of the day, while carrying four more entries**
+than it did this morning.
+
+What actually came out was duplication with better homes. The provider dead-end
+row was reproducing clause numbers that `DATA-PROVIDER.md` already sets out in
+full, the market-holiday row was reproducing an edge case already commented at
+`js/market-clock.js:162`, and the header was restating guide §16 back at itself.
+Each is now a pointer. Nothing was deleted: the five rejected providers are one
+row instead of five, each still named with its reason and its revisit condition.
+
+**One promotion to Recurring traps**, which had been empty. The blunt substring
+greps in `test_page.py` have now bitten twice — at T5 they were only reading
+`incisor.js` and had silently stopped being rules when `js/` appeared, and at T6
+the word `innerHTML` inside an explanatory comment failed the test that forbids
+it while the 600-line rule turned out to be measuring every script concatenated.
+Three different failure modes from one design, which is what makes it a trap
+rather than two unrelated bugs.
+
+**`docs/shots/` went from four sets to two.** The T1 and T5 sets showed markup
+that no longer exists, and T6 shoots the same page at the same three widths with
+the clock in it. That reclaimed 780KB in a repo served off a home connection,
+which is the whole reason the guide names screenshots as the other thing that
+grows without bound. The retention rule is now written down rather than being
+re-decided each time: keep the newest set for the page as it stands, plus any
+set showing a state that one does not — which is why both T6 folders survive,
+since the second is the service-unavailable state.
+
+### For Key
+
+- **The T1 and T5 screenshots were deleted, deliberately.** If you wanted those
+  kept as a visual history of how the page evolved rather than as evidence for
+  a task, say so and the rule in `DECISIONS.md` changes — it is one row. The
+  current page, in both its loaded and its unavailable states, is in
+  `docs/shots/t6-*`.
+- **The provider question is still the only thing gating live data.** Nothing
+  has changed since T0 and no session is blocked on it, but T6 is the first
+  task where it is visible on the page: the line under the tiles currently
+  reads "Sample data · generated prices, not real quotes", and it will start
+  saying "Delayed data · end-of-day close" on its own, with no code change,
+  the day the service runs in live mode.
