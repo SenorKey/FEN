@@ -98,9 +98,23 @@
         -->
         <div class="inc-clock" data-clock>
             <span class="inc-clock-dot" aria-hidden="true"></span>
-            <span class="inc-clock-state" data-clock-state>US market</span>
-            <span class="inc-clock-detail" data-clock-detail>Regular hours 9:30am
-                &ndash; 4:00pm ET, Monday to Friday</span>
+            <!--
+              The one part of this line the script never rewrites, and the only
+              thing left saying what is closed once it has: "Closed" on its own
+              names no market. Sighted readers get the subject back from the ET
+              in the detail.
+            -->
+            <span class="inc-clock-subject">US market</span>
+            <span class="inc-clock-state" data-clock-state>Regular hours</span>
+            <span class="inc-clock-detail" data-clock-detail>9:30am &ndash; 4:00pm
+                ET</span>
+            <!--
+              Why the market is shut, when there is a reason worth giving. Its
+              own element rather than more of the detail string, so that on a
+              narrow screen it wraps as a whole phrase instead of breaking
+              across "Juneteenth National Independence" / "Day".
+            -->
+            <span class="inc-clock-reason" data-clock-reason hidden></span>
         </div>
 
         <div class="inc-tabs">

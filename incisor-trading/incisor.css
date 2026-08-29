@@ -131,6 +131,20 @@ body.incisor .nav-dropdown-menu {
     font-size: 0.78rem;
 }
 
+/* Off-screen rather than display:none, which would take it out of the
+   accessibility tree along with the layout. Not a shared utility: it is the
+   only thing on this page that needs it, and /assets is out of bounds. */
+.inc-clock-subject {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
 .inc-clock-state {
     font-weight: 500;
     letter-spacing: 0.08em;
@@ -145,6 +159,22 @@ body.incisor .nav-dropdown-menu {
     /* The countdown reticks every second and its width changes with the
        digits. Reserving the width stops the text beside it twitching. */
     min-width: 12ch;
+}
+
+/* Bracketed rather than separated by the page's usual middot, because this is
+   the one part of the line that wraps onto a row of its own at narrow widths —
+   and a leading separator at the start of a row reads as a missing word, while
+   a parenthesis reads as an aside from wherever it lands. */
+.inc-clock-reason {
+    font-size: 0.74rem;
+    color: var(--muted);
+}
+
+.inc-clock-reason::before { content: '('; }
+.inc-clock-reason::after { content: ')'; }
+
+.inc-clock-reason[hidden] {
+    display: none;
 }
 
 /* The dot is the fastest read of the four states, so it carries colour —

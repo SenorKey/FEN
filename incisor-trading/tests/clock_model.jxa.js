@@ -81,6 +81,31 @@ function run(argv) {
     equal('after hours counts down to the next day’s open',
         at('2026-08-27T21:00:00Z').next.at.toISOString(), '2026-08-28T13:30:00.000Z');
 
+    /* ── Saying when, not only how long ──────────────────────────
+     * The day word is dropped for today, "tomorrow" covers the next date on
+     * the Eastern wall clock, and anything further is named. */
+
+    equal('an open market names the closing time',
+        at('2026-08-27T14:30:00Z').next.when, '4:00pm ET');
+    equal('pre-market names today’s open without a day word',
+        at('2026-08-27T12:00:00Z').next.when, '9:30am ET');
+    equal('after hours names tomorrow’s open',
+        at('2026-08-27T21:00:00Z').next.when, 'tomorrow 9:30am ET');
+    equal('Saturday names the weekday it opens',
+        at('2026-08-29T16:00:00Z').next.when, 'Monday 9:30am ET');
+    equal('an early close names 1pm rather than 4pm',
+        at('2026-11-27T17:30:00Z').next.when, '1:00pm ET');
+    equal('a holiday names the day trading resumes',
+        at('2026-11-26T15:00:00Z').next.when, 'tomorrow 9:30am ET');
+    equal('the label is Eastern in winter too, not shifted by the offset',
+        at('2026-01-15T12:00:00Z').next.when, '9:30am ET');
+
+    /* The small hours of a trading day are before that day's own open, so the
+     * event is today and takes no day word — the boundary "tomorrow" would
+     * get wrong if it were computed from elapsed hours rather than dates. */
+    equal('3am on a trading day still opens today',
+        at('2026-08-27T07:00:00Z').next.when, '9:30am ET');
+
     /* ── Weekends ────────────────────────────────────────────────
      * Saturday 29 and Sunday 30 August 2026. */
 
@@ -200,13 +225,15 @@ function run(argv) {
      */
 
     function renderWith(session) {
-        var state = { textContent: 'US market' };
-        var detail = { textContent: 'Regular hours' };
+        var state = { textContent: 'Regular hours' };
+        var detail = { textContent: '9:30am - 4:00pm ET' };
+        var reason = { textContent: '', hidden: true };
         var attributes = {};
         var clockNode = {
             querySelector: function (selector) {
                 if (selector === '[data-clock-state]') return state;
                 if (selector === '[data-clock-detail]') return detail;
+                if (selector === '[data-clock-reason]') return reason;
                 return null;
             },
             getAttribute: function (name) { return attributes[name] || null; },
@@ -230,45 +257,65 @@ function run(argv) {
             documentStub, windowStub);
 
         return { state: state.textContent, detail: detail.textContent,
+                 reason: reason.textContent, reasonHidden: reason.hidden,
                  phase: attributes['data-phase'] };
     }
 
     var openView = renderWith({
         phase: 'open', label: 'Open', holiday: null, isEarlyClose: false,
-        next: { event: 'close', seconds: 5400 }
+        next: { event: 'close', when: '4:00pm ET', sameDay: true, seconds: 5400 }
     });
     equal('an open market reads as open', openView.state, 'Open');
-    equal('an open market counts down to the close in words',
-        openView.detail, 'Closes in 1h 30m');
+    equal('an open market says when it closes, then how long',
+        openView.detail, 'Closes 4:00pm ET \u00b7 in 1h 30m');
     equal('the phase reaches the element for styling', openView.phase, 'open');
+    check('an ordinary day gives no reason', openView.reason === ''
+        && openView.reasonHidden === true);
 
+    /* A countdown earns its width by being live and close. Once the moment is
+     * on another day the clock names it and stops there — the two-unit sum was
+     * the same fact told worse, and it is what pushed the line onto a third
+     * row at 375px. */
     var closedView = renderWith({
         phase: 'closed', label: 'Closed', holiday: null, isEarlyClose: false,
-        next: { event: 'open', seconds: 61200 }
+        next: { event: 'open', when: 'Monday 9:30am ET', sameDay: false,
+                seconds: 205200 }
     });
-    equal('a closed market counts down to the open',
-        closedView.detail, 'Opens in 17h 00m');
+    equal('a closed market names the moment rather than counting days down',
+        closedView.detail, 'Opens Monday 9:30am ET');
 
+    /* The timezone is the half a countdown cannot carry, and the served line
+     * that used to state it is the line this one replaces. */
+    check('every wording names Eastern time',
+        openView.detail.indexOf('ET') !== -1
+        && closedView.detail.indexOf('ET') !== -1);
+
+    /* The reason is a node of its own so it wraps as a whole phrase, which is
+     * why it is asserted apart from the detail rather than inside it. */
     var holidayView = renderWith({
         phase: 'closed', label: 'Closed', holiday: 'Thanksgiving Day',
-        isEarlyClose: false, next: { event: 'open', seconds: 84600 }
+        isEarlyClose: false, next: { event: 'open', when: 'tomorrow 9:30am ET',
+                                     sameDay: false, seconds: 84600 }
     });
-    check('a holiday is named rather than left as a bare countdown',
-        holidayView.detail.indexOf('Thanksgiving Day') === 0, holidayView.detail);
+    equal('a holiday gives the answer first', holidayView.detail,
+        'Opens tomorrow 9:30am ET');
+    equal('and names itself as the reason', holidayView.reason, 'Thanksgiving Day');
+    check('a reason that exists is shown', holidayView.reasonHidden === false);
 
     var earlyView = renderWith({
         phase: 'open', label: 'Open', holiday: null, isEarlyClose: true,
-        next: { event: 'close', seconds: 1800 }
+        next: { event: 'close', when: '1:00pm ET', sameDay: true, seconds: 1800 }
     });
-    check('an early close is called out, not just counted down',
-        earlyView.detail.indexOf('early close') !== -1, earlyView.detail);
+    equal('an early close is timed to the minute it really closes',
+        earlyView.detail, 'Closes 1:00pm ET \u00b7 in 30m 00s');
+    equal('and says that 1pm is not a mistake', earlyView.reason, 'early close');
 
     /* The shell must survive the clock module being absent: the served markup
      * already says something true, and overwriting it with nothing would be
      * worse than leaving it alone. */
     var survived = true;
     try {
-        var untouched = { textContent: 'Regular hours 9:30am – 4:00pm ET' };
+        var untouched = { textContent: '9:30am – 4:00pm ET' };
         (new Function('document', 'window', read(pageDir + '/incisor.js')))(
             {
                 querySelector: function (selector) {
@@ -281,7 +328,7 @@ function run(argv) {
                 getElementById: function () { return null; }
             },
             { setInterval: function () { return 0; } });
-        survived = untouched.textContent === 'Regular hours 9:30am – 4:00pm ET';
+        survived = untouched.textContent === '9:30am – 4:00pm ET';
     } catch (error) {
         survived = false;
         check('the shell survives a missing clock module', false, String(error));

@@ -45,6 +45,9 @@
         post: 'After hours'
     };
 
+    var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                    'Friday', 'Saturday'];
+
     var parts = new Intl.DateTimeFormat('en-US', {
         timeZone: ZONE,
         hour12: false,
@@ -253,6 +256,8 @@
         if (phaseOf(wall.minutes, day) === 'open') {
             return {
                 event: 'close',
+                date: wall,
+                minutes: day.close,
                 at: instantAt(wall.year, wall.month, wall.day, day.close)
             };
         }
@@ -263,8 +268,48 @@
 
         return {
             event: 'open',
+            date: date,
+            minutes: REGULAR_OPEN,
             at: instantAt(date.year, date.month, date.day, REGULAR_OPEN)
         };
+    }
+
+    /* ── Saying when ────────────────────────────────────────────── */
+
+    /* Whole days from one Eastern calendar date to another. Both are read as
+     * UTC midnights, so this is a calendar subtraction with no zone in it —
+     * which is what makes "tomorrow" mean the next date on the wall rather
+     * than the next twenty-four hours. */
+    function daysBetween(from, to) {
+        var start = Date.UTC(from.year, from.month - 1, from.day);
+        var end = Date.UTC(to.year, to.month - 1, to.day);
+        return Math.round((end - start) / 86400000);
+    }
+
+    function formatWallTime(minutes) {
+        var hour = Math.floor(minutes / 60);
+        var hour12 = hour % 12 === 0 ? 12 : hour % 12;
+        return hour12 + ':' + pad(minutes % 60) + (hour < 12 ? 'am' : 'pm');
+    }
+
+    /* "9:30am ET", "tomorrow 9:30am ET", "Monday 9:30am ET".
+     *
+     * A countdown alone says how long but never when, and "in 2d 10h" is a sum
+     * the reader has to do in their head against a timezone nobody named. The
+     * day word is dropped when the event is today, because "Closes 4:00pm ET"
+     * already means today and saying so would be noise. Beyond tomorrow the
+     * weekday name is unambiguous — the market never closes for a week.
+     */
+    function eventWhen(wall, event) {
+        var away = daysBetween(wall, event.date);
+        var prefix = '';
+        if (away === 1) {
+            prefix = 'tomorrow ';
+        } else if (away > 1) {
+            prefix = WEEKDAYS[weekdayOf(event.date.year, event.date.month,
+                                        event.date.day)] + ' ';
+        }
+        return prefix + formatWallTime(event.minutes) + ' ET';
     }
 
     /* The whole public surface: what the market is doing at `now`. */
@@ -285,6 +330,10 @@
             next: next && {
                 event: next.event,
                 at: next.at,
+                when: eventWhen(wall, next),
+                // Whether the event lands on the date it is now, which is
+                // what decides if a countdown beside it is worth its width.
+                sameDay: daysBetween(wall, next.date) === 0,
                 seconds: Math.max(0, Math.round((next.at - when) / 1000))
             }
         };

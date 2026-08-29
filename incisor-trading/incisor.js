@@ -50,19 +50,40 @@
 
         var stateNode = clock.querySelector('[data-clock-state]');
         var detailNode = clock.querySelector('[data-clock-detail]');
-        if (!stateNode || !detailNode) return;
+        var reasonNode = clock.querySelector('[data-clock-reason]');
+        if (!stateNode || !detailNode || !reasonNode) return;
 
+        /* The answer first, then how long, then why if there is a why.
+         *
+         *     Closes 4:00pm ET · in 2h 14m
+         *     Opens Monday 9:30am ET
+         *     Opens tomorrow 9:30am ET · Thanksgiving Day
+         *
+         * This used to read only "Opens in 2d 10h", which answers the less
+         * useful half of the question and made the reader sum two days and
+         * ten hours against a timezone nothing on the page named — the served
+         * line that did name it is the line this overwrites. Saying when also
+         * lets a weekend explain itself, which is why only a holiday still
+         * states a reason.
+         *
+         * The countdown is kept only while the event is today. It earns its
+         * width by being live and close; "in 2d 3h" beside "Monday 9:30am ET"
+         * is the same fact told worse, and at 375px it was the part pushing
+         * the line onto a second and third row.
+         */
         function detailFor(session) {
-            if (session.holiday) {
-                return session.holiday + ' \u00b7 opens in '
-                    + api.formatCountdown(session.next.seconds);
-            }
-            var verb = session.next.event === 'close' ? 'Closes in ' : 'Opens in ';
-            var detail = verb + api.formatCountdown(session.next.seconds);
-            // Worth saying out loud: on an early-close day the market shuts at
-            // 1pm, and a countdown that just runs out is a confusing way to
-            // find that out.
-            return session.isEarlyClose ? detail + ' \u00b7 early close' : detail;
+            var verb = session.next.event === 'close' ? 'Closes ' : 'Opens ';
+            var detail = verb + session.next.when;
+            if (!session.next.sameDay) return detail;
+            return detail + ' \u00b7 in ' + api.formatCountdown(session.next.seconds);
+        }
+
+        /* Empty on an ordinary day, which is most of them. 1:00pm reads as a
+         * mistake unless it is named, and a learner is exactly the reader who
+         * would not know half days exist. */
+        function reasonFor(session) {
+            if (session.holiday) return session.holiday;
+            return session.isEarlyClose ? 'early close' : '';
         }
 
         function render() {
@@ -70,6 +91,7 @@
             if (!session.next) return;
 
             var detail = detailFor(session);
+            var reason = reasonFor(session);
 
             // Text only, never markup — and compared before writing, so a
             // once-a-second tick is not a once-a-second reflow.
@@ -78,6 +100,11 @@
             }
             if (detailNode.textContent !== detail) {
                 detailNode.textContent = detail;
+            }
+            if (reasonNode.textContent !== reason) {
+                reasonNode.textContent = reason;
+                // Hidden rather than empty, so the flex gap goes with it.
+                reasonNode.hidden = reason === '';
             }
             if (clock.getAttribute('data-phase') !== session.phase) {
                 clock.setAttribute('data-phase', session.phase);
