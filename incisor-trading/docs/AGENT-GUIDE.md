@@ -460,9 +460,12 @@ requirement on every task, not a phase at the end.
    and the last few `PROGRESS.md` entries. Then `git log --oneline -20` and
    `git branch --list 'incisor-*'` for the trajectory.
 3. `git checkout incisor-dev` (create it from `main` if absent).
-4. Take the **topmost unblocked, unchecked** task in `BACKLOG.md`. Don't skip
-   ahead to something more interesting. If the top task is blocked, note why and
-   take the next one. If it has already failed twice, mark it `[!]` and move on.
+4. Check the audit log at the bottom of `BACKLOG.md` first. **If a surface is due
+   an audit (§18), that audit is this session's work** — do it instead of taking
+   a task, one per session. Otherwise take the **topmost unblocked, unchecked**
+   task. Don't skip ahead to something more interesting. If the top task is
+   blocked, note why and take the next one. If it has already failed twice, mark
+   it `[!]` and move on.
 5. Before building, check `DECISIONS.md` for a dead end covering the approach you
    are about to take. If one is listed, take a different approach.
 6. Build it, in fixture mode, inside `/incisor-trading/`.
@@ -694,10 +697,23 @@ purely about *how the page looks overall* stays Key's: register it in
 When a challenge is both — a new interaction model that also looks different —
 decide the functional half, and register the visual half for Key.
 
-### Cadence
+### When an audit fires
 
-- Audit a feature no sooner than a few sessions after it ships, so there is
-  something to judge, and no later than the end of the phase it belongs to.
-- Once the backlog is done, work through the page a feature at a time,
-  continuously, oldest audit first. The audit log makes that order obvious.
-- Re-audit anything a major revamp touches, regardless of when it was last done.
+An audit is **not** a task you reach by working down the backlog. `O6` sits in
+Phase 6, which is months of tasks away, so waiting for it would mean the whole
+dashboard shipped unaudited. It fires from the audit log instead:
+
+**A surface is due when it has been shipped for three or more sessions and has
+no row in the audit log.** Re-auditing is due whenever a revamp touches a
+surface, whatever its last verdict was.
+
+At step 4 of the session protocol, before taking a backlog task: if anything is
+due, **audit the oldest due surface instead of taking the next task.** One audit
+per session at most — the audit is that session's work, and the backlog waits a
+day. If nothing is due, take the next task as normal.
+
+A *keep* verdict still writes a row. That row is what stops the surface coming
+up again next session, so an audit that changes nothing must still be logged.
+
+Once the backlog is done, Phase 6's `O6` takes over and the same oldest-first
+order applies continuously.

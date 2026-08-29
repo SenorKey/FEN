@@ -72,7 +72,14 @@ API_PREFIX = "/api/incisor/"
 # Both match on the request URL, which is appended to the message below, so
 # a genuine script error inside market-data.js is still reported — its
 # location is the script, not the endpoint.
-BENIGN_CONSOLE = ("/api/event", API_PREFIX)
+# /api/event is always benign: the beacon POSTs there, Apache proxies it to the
+# status station on the real site, and a static server always 501s it.
+BENIGN_CONSOLE = ("/api/event",)
+
+# The market service is benign only when it was never wired up. With --api
+# passed, a failing call is a real failure and has to be reported — suppressing
+# it unconditionally would hide a 500 from the very service being exercised.
+BENIGN_WITHOUT_API = (API_PREFIX,)
 
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
@@ -240,7 +247,10 @@ def main():
                     f"({overflow['sw']}px in a {overflow['vw']}px viewport)"
                 )
             for err in errors:
-                if any(b in err for b in BENIGN_CONSOLE):
+                benign = BENIGN_CONSOLE
+                if not args.api:
+                    benign += BENIGN_WITHOUT_API
+                if any(b in err for b in benign):
                     continue
                 problems.append(f"{label}: console error — {err}")
 

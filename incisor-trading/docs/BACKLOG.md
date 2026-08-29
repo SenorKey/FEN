@@ -299,12 +299,21 @@ when a phase closes and a breather is useful.
 
 ## Audit log
 
-One row per audit, newest last (guide §18). This is what stops the same feature
-being re-audited while another has never been looked at — work oldest-first.
+One row per audit, newest last (guide §18). A surface with no row here and three
+or more sessions behind it **is due**, and a due audit is taken at step 4 of the
+session protocol *instead of* the next backlog task — one per session. A *keep*
+verdict still writes a row; that row is what stops the surface coming up again.
+
+**Shipped and not yet audited**, oldest first — this is the queue:
+
+1. **Market clock** (T5, shipped 08-27) — the status line and countdown
+2. **Index summary strip** (T6, shipped 08-28) — the four proxy tiles
+3. **Symbol lookup and quote detail** (T7, shipped 08-28)
+4. **Price chart** (T8, shipped 08-29)
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
-| — | _(nothing audited yet — the page has no finished features)_ | | |
+| — | _(none yet — the four above are all due)_ | | |
 
 ---
 

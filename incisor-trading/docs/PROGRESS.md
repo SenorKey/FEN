@@ -996,3 +996,35 @@ to leave it than half-built.
   is doing its job and the fix is to leave a minute between runs.
 - **The provider question is unchanged and still blocks nothing.** T8 adds no
   upstream call at all, so it does not move.
+
+## 2026-08-29 — Attended: two fixes before the next session
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (§18 cadence, §14 step 4), `BACKLOG.md` (audit log
+seeded with the queue), `tools/shoot.py`
+**Verified:** 90 page tests still green; `shoot.py --api` against a dead port now
+reports 502s instead of passing, and the no-`--api` run is still clean.
+
+**1. Audits could never fire.** `O6` is the only audit task and it sits in Phase
+6, below nineteen open tasks, while §18 said audit "no later than the end of the
+phase it belongs to". The protocol takes the topmost unchecked task, so the
+whole dashboard would have shipped unaudited. My error, not the routine's.
+
+An audit is no longer something reached by working down the backlog. A surface
+with no row in the audit log and three or more sessions behind it **is due**, and
+at step 4 a due audit is taken *instead of* the next task, one per session. A
+*keep* verdict still writes a row — that row is what stops the surface coming up
+again. The log is seeded with the four shipped surfaces in ship order, so the
+next session has an unambiguous queue: the market clock is first.
+
+**2. `shoot.py` suppressed real service failures.** `API_PREFIX` was in
+`BENIGN_CONSOLE` unconditionally, so with `--api` passed a 500 from the service
+being exercised would have been filtered out and the run would have gone green.
+Split into `BENIGN_CONSOLE` (always benign — the beacon's `/api/event`) and
+`BENIGN_WITHOUT_API` (benign only when the service was never wired up, which is
+the deliberate degraded-state shot).
+
+**Still open for Key, not acted on:** D2 raised the served document's line
+ceiling to 900 where guide §6 says ~600. The reasoning is sound and was recorded
+rather than hidden, but it is a rule of his being reinterpreted, so it stays his
+call. No change made.
+
