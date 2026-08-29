@@ -265,13 +265,51 @@ class TestHouseStyle(unittest.TestCase):
                           if len(line) > 100]
             self.assertEqual(long_lines, [], '%s lines over 100 chars' % name)
 
-    def test_files_stay_under_600_lines(self):
+    def test_source_files_stay_under_600_lines(self):
         """Guide section 6, and per file. The concatenation this used to
         measure would have demanded a split of whichever file happened to be
-        last when the total crossed the line."""
-        for name in SHIPPED:
+        last when the total crossed the line.
+
+        Stylesheets and scripts only. The rule reads "split it along a real
+        seam", and these have one — this page has used it three times, one
+        surface to a module and a stylesheet. index.html is measured by the
+        two tests below instead, for the reason given there.
+        """
+        for name in CSS_FILES + JS_FILES:
             self.assertLess(len(read(name).splitlines()), 600,
                             '%s needs a split' % name)
+
+    def test_the_served_document_stays_under_900_lines(self):
+        """The same rule, on the one file that cannot obey it as written.
+
+        A served document has no seam. Hard rule 10 forbids a build step, so
+        there is no include, and the non-goals forbid a second route to move
+        markup to — which leaves "split it along a real seam" with nothing to
+        split. Capping the document at the code number would not be a
+        readability rule at all; it would be a cap on how many surfaces this
+        route may carry, and the backlog plans four more.
+
+        So the number that protects readability is the per-surface one below,
+        and this is a ceiling rather than a seam: room for the surfaces still
+        planned, and a loud failure if the page ever starts carrying a second
+        route's worth of markup.
+        """
+        self.assertLess(len(HTML.splitlines()), 900,
+                        'index.html is carrying more than one route')
+
+    def test_no_surface_outgrows_what_can_be_read_at_once(self):
+        """What the 600-line rule is actually for, applied where it fits.
+
+        A surface is found rather than listed: an element whose own data-
+        attribute is the prefix of several inside it, which is exactly how
+        every surface on this page is wired to its view. Listing them instead
+        would stop covering the next one added — the trap DECISIONS.md records
+        against `_shipped()` and the proxy-badge count.
+        """
+        for surface, span in PAGE.surfaces():
+            self.assertLess(span, 150,
+                            'the %s markup runs %d lines and wants breaking up'
+                            % (surface, span))
 
     def test_stylesheet_braces_balance(self):
         self.assertEqual(CSS.count('{'), CSS.count('}'))

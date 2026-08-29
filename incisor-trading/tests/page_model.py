@@ -101,6 +101,33 @@ class Page:
     def is_inside(self, element, tag):
         return any(a['tag'] == tag for a in self.ancestors(element))
 
+    def surfaces(self, least_hooks=3):
+        """(attribute, line span) for every block that owns a set of hooks.
+
+        A surface on this page is an element carrying a `data-x` attribute
+        with `data-x-*` hooks inside it — that pairing is the contract each
+        view module documents at the top of its file. Deriving the list from
+        that shape rather than writing it out is what keeps a rule about
+        surfaces covering the next surface somebody adds.
+
+        The span is measured to the last element inside, which is a line or
+        two short of the closing tag. Close enough for a rule about whether a
+        block can be read in one go, and it never overstates.
+        """
+        found = []
+        for element in self.elements:
+            for name in element['attrs']:
+                if not name.startswith('data-'):
+                    continue
+                inside = self.descendants(element)
+                hooks = [child for child in inside
+                         if any(hook.startswith(name + '-')
+                                for hook in child['attrs'])]
+                if len(hooks) < least_hooks:
+                    continue
+                found.append((name, inside[-1]['line'] - element['line']))
+        return found
+
 
 def classes(element):
     return set((element['attrs'].get('class') or '').split())

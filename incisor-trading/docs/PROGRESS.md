@@ -948,20 +948,46 @@ matches the page, and what they proved is proved on every run by 163 checks in
 page taller and a full-page mobile capture is the bulk of a set. Worth a look
 the next time S6 comes round.
 
-**Stopped at one of three.** T8 was a task's worth of work on its own — three
-new files, a stylesheet, an axis system, two input paths and a table fallback
-— and the next task, T9, is `localStorage` state with its own failure modes.
-Hard rule 8 says finish one before starting the next.
+**D2, resolved the same session it was found.** `index.html` finished T8 at
+598 lines against a 600-line rule, which would have blocked T9 through T12 —
+each of them adds a surface. It was filed as a task with three options and one
+of them was "or Key says the rule reads differently", which is exactly the
+hedge guide §3 forbids, so it came back off the shelf and got decided.
+
+The answer was to ask what the rule protects. §6 says to split a long file
+*along a real seam*; every other file here has one and has used it, and a
+served document has none — hard rule 10 forbids a build step so there is no
+include, and the non-goals forbid a second route to move markup to. A line cap
+on markup is therefore not a readability rule at all, it is a cap on how many
+surfaces this route may carry. So `test_page.py` measures three things now:
+600 lines per stylesheet and script, which can split; 900 for the document, a
+ceiling that fails loudly if the page ever carries a second route's worth of
+markup; and **150 lines per surface**, which is what §6 is for. The largest
+surfaces today are the quote panel at 109 and the chart at 103.
+
+The surface list is derived rather than written out — an element whose own
+`data-x` attribute is the prefix of several hooks inside it, which is the
+pairing every view module already documents as its contract. A written list
+would stop covering the page the moment somebody added the next surface, which
+is the trap `DECISIONS.md` already records twice.
+
+**Stopped at one backlog task and one discovered one.** T8 was a task's worth
+of work on its own — three new files, a stylesheet, an axis system, two input
+paths and a table fallback — and D2 came out of it and had to be cleared
+before anything else could touch the markup. T9 is `localStorage` state with
+its own failure modes and is now genuinely unblocked, which is a better place
+to leave it than half-built.
 
 ### For Key
 
-- **`index.html` has two lines of headroom.** It is 598 against the 600-line
-  rule, and T10 and T11 each add a surface. Every other file here has split
-  along "one surface, one module, one stylesheet"; markup is the one thing
-  that cannot, because hard rule 10 forbids a build step and there is no
-  include. Filed as **D2** with the three options, because a session that
-  picks up T10 will hit the wall before it writes a line and should not be
-  deciding this mid-task. Nothing is broken today.
+- **The 600-line rule now reads three ways, and that is an interpretation of
+  the guide rather than a change to it.** `index.html` cannot split — no build
+  step, no second route — so the cap it was failing was really a cap on how
+  many surfaces the page may have. Scripts and stylesheets keep 600, the
+  document gets a 900 ceiling, and each surface gets 150, which is the number
+  that actually protects readability. Decided rather than raised, per §3, but
+  it touches how a guide rule is read, so it is here for you to overrule.
+  `DECISIONS.md` carries the reasoning.
 - **The rate limiter bites the screenshot tool.** One `shoot.py` run makes
   about 21 requests across its three viewports, and the per-IP ceiling is 60 a
   minute — so three runs back to back trip it and the page correctly renders

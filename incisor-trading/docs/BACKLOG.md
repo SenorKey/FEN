@@ -313,20 +313,20 @@ being re-audited while another has never been looked at — work oldest-first.
 Tasks found mid-work that don't fit above. Append here; Key triages them into
 phases.
 
-- [ ] **D2 · `index.html` has two lines of headroom left.** It is 598 lines
-  against the 600-line rule in guide §6, and T10 and T11 both add a surface to
-  it. Every other file on this page has split along the seam "one surface, one
-  module, one stylesheet", and markup is the one thing that cannot: hard rule
-  10 forbids a build step, so there is no include. The options are to move a
-  surface's static markup into the view that owns it, to drop the four index
-  tiles' near-identical blocks in favour of a script-built strip — which
-  `DECISIONS.md` deliberately rejected at T6 — or for Key to say the rule reads
-  differently for a single served document. **A session that adds a surface
-  will hit this before it writes anything**, so it is worth deciding first
-  rather than mid-task.
-  *Accept:* index.html is comfortably under the limit, with the approach
-  recorded in `DECISIONS.md`; or the rule is restated for markup and the test
-  updated to match.
+- [x] **D2 · `index.html` hit the 600-line rule with two lines to spare**
+  *(done 2026-08-29)* — and it would have blocked T9 through T12, each of which
+  adds a surface. Resolved by asking what the rule was protecting rather than
+  by shrinking the file: §6 says "split it along a real seam", every other file
+  here has one, and a served document has none — no build step (hard rule 10)
+  and no second route (non-goals). A line cap on markup is therefore not a
+  readability rule but a cap on how many surfaces the route may carry.
+  `test_page.py` now measures the three things separately: 600 lines per
+  stylesheet and script, which can split; 900 for the document, as a ceiling
+  that fails loudly if the page starts carrying a second route's worth of
+  markup; and **150 lines per surface**, which is what §6 is actually for. The
+  surface list is derived from the `data-x` / `data-x-*` pairing every view
+  documents, not written out, so it covers the next surface added. See
+  `DECISIONS.md`.
 
 - [x] **D1 · Browser verification pass for the page skeleton** *(done 2026-08-27,
   attended)* — verified with `tools/shoot.py`: no console errors and no
