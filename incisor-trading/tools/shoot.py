@@ -230,7 +230,13 @@ def main():
                     continue
                 problems.append(f"{label}: console error — {err}")
 
-            page.screenshot(path=str(out / f"{label}.png"), full_page=True)
+            # animations="disabled" finishes any transition in flight before
+            # the shutter, rather than capturing a state the page is only in
+            # for 180ms. Without it a shot taken straight after an interaction
+            # catches a control halfway between two appearances, which reads
+            # as a bug in the page and is a bug in the screenshot.
+            page.screenshot(path=str(out / f"{label}.png"), full_page=True,
+                            animations="disabled")
             print(f"  {label:8} {width}x{height}"
                   f"{' (mobile emulation)' if mobile else ''}"
                   f" -> {out.name}/{label}.png")
