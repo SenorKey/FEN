@@ -6,9 +6,9 @@
  * view quietly going untested. tools/shoot.py covers everything this cannot —
  * layout, contrast, and whether any of it looks right.
  *
- * Shared by strip_model.jxa.js and symbol_model.jxa.js. Loaded with
- * `new Function('exports', ...)` and assigns into `exports`; there is no
- * module system here and no build step to add one.
+ * Shared by strip_model.jxa.js, symbol_model.jxa.js and chart_model.jxa.js.
+ * Loaded with `new Function('exports', ...)` and assigns into `exports`; there
+ * is no module system here and no build step to add one.
  *
  * Selector support is deliberately narrow: `[attr]`, `[attr="value"]` and
  * `.class`. Anything needing real selector matching belongs in a browser.
@@ -171,6 +171,13 @@ El.prototype.fire = function (type, event) {
 };
 
 El.prototype.scrollIntoView = function () { };
+
+/* A fixed box, so a view that reads a pointer position against the element's
+ * own geometry can be driven with no layout engine. The width is the one the
+ * chart's tests do their arithmetic against; nothing here has a real size. */
+El.prototype.getBoundingClientRect = function () {
+    return { left: 0, top: 0, width: 720, height: 240, right: 720, bottom: 240 };
+};
 
 /* A document whose querySelector searches a list of detached roots, which is
  * how a view gets handed only the part of the page it is under test for. */

@@ -4,7 +4,7 @@
 cd incisor-trading/tests && python3 -m unittest discover
 ```
 
-Stdlib only, no dependencies, no network. Five suites:
+Stdlib only, no dependencies, no network. Six suites:
 
 - **`test_page.py`** — the page's structure: ARIA tab wiring, the hidden-page
   rules, telemetry hygiene, CSP readiness, and the house rules from guide
@@ -18,8 +18,11 @@ Stdlib only, no dependencies, no network. Five suites:
 - **`test_symbol_lookup.py`** — symbol search and the quote panel, driven by
   real keystrokes and clicks: the combobox keyboard model, the figures, and
   the not-found state.
+- **`test_price_chart.py`** — the price chart: the geometry against
+  hand-computed coordinates, and the view driven by real range clicks, pointer
+  moves and arrow keys.
 
-The last three drive the shipped modules through `*_model.jxa.js` runners.
+The last four drive the shipped modules through `*_model.jxa.js` runners.
 `dom_stub.jxa.js` is the DOM those runners share — narrow on purpose, so a
 view reaching for something it never documented fails loudly rather than
 going quietly untested.
@@ -41,3 +44,12 @@ reach the states that only exist after an interaction:
 ```
 ./.devtools/bin/python tools/shoot.py --out docs/shots/x --api http://127.0.0.1:8789 --symbol SPY
 ```
+
+`--range 5Y` presses a chart range after the symbol loads, which is the only
+way to shoot a range other than the default.
+
+The service enforces a 60-request-a-minute per-IP limit and one `shoot.py` run
+makes about 21 requests across its three viewports. Three runs back to back
+trip it, and the page then correctly shows its "market data unavailable" state
+— which looks like a broken screenshot and is a working rate limiter. Leave a
+minute between runs.

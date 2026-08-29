@@ -5,10 +5,12 @@
  * panel of figures for whatever the combobox settles on.
  *
  * The matching is js/symbol-search.js, the arithmetic and formatting are
- * js/market-figures.js, and the network is js/market-data.js. Nothing here
- * computes, ranks or fetches — it decides what goes on screen and when, which
- * is what lets the whole thing be driven from a DOM stub with no browser
- * (tests/symbol_model.jxa.js).
+ * js/market-figures.js, and the network is js/market-data.js. The price chart
+ * is js/view-price-chart.js, which owns no request of its own — the series
+ * fetched here is the series it draws, so it is handed the bars rather than
+ * asking for them again. Nothing here computes, ranks or fetches — it decides
+ * what goes on screen and when, which is what lets the whole thing be driven
+ * from a DOM stub with no browser (tests/symbol_model.jxa.js).
  *
  * Two upstream calls per symbol, and both are needed. /history carries the
  * year the 52-week range is measured over and the average volume today is
@@ -77,6 +79,10 @@
     var data = window.IncisorMarketData;
     var figures = window.IncisorMarketFigures;
     var finder = window.IncisorSymbolSearch;
+
+    /* Absent if its markup is missing or its modules failed to load, in which
+     * case the panel is still a complete answer without it. */
+    var chart = window.IncisorPriceChart;
 
     /* ── The results list ───────────────────────────────────────── */
 
@@ -304,6 +310,14 @@
         setFigure('previous', figures.formatPrice(quote.previousClose));
         renderVolume(quote, bars);
 
+        // The chart draws the series this lookup already has. A history that
+        // did not arrive costs the chart and not the quote, so it says so in
+        // its own space rather than failing the panel.
+        if (chart) {
+            if (bars.length > 0) chart.show(symbol, bars);
+            else chart.unavailable(symbol);
+        }
+
         var summary = figures.provenanceFor(quoteEnvelope, quote.tradingDay);
         var line = panel.querySelector('[data-quote-provenance]');
         if (line) {
@@ -378,6 +392,9 @@
             setState(error && error.kind === 'not_found' ? 'not-found' : 'error');
             say(failureMessage(error && error.kind, symbol));
             setHint(adviceFor(error && error.kind));
+            // Cleared rather than left showing the previous symbol's prices
+            // under the name of one that has none.
+            if (chart) chart.reset();
         });
     }
 
@@ -386,6 +403,7 @@
             setState('not-found');
             say(failureMessage('invalid_symbol', symbol));
             setHint(adviceFor('invalid_symbol'));
+            if (chart) chart.reset();
             return;
         }
         input.value = finder.asSymbol(symbol);

@@ -1,0 +1,483 @@
+/* ═══════════════════════════════════════════════
+   css/chart.css — the price chart
+   frontendneeded.com · /incisor-trading
+
+   The third surface that renders market data, and so
+   the third stylesheet: one per surface, the seam
+   css/market.css and css/lookup.css are already split
+   along. It draws the same series the quote panel is
+   built from, one range at a time.
+
+   Loads after css/lookup.css and depends on
+   css/market.css for the shared vocabulary — the
+   direction colours, the arrow glyph and the delta are
+   defined once, there.
+
+   It sits beside the quote card rather than inside
+   it: both are built from the same series, but a 240px
+   plot within that card made one very tall block out of
+   two readable ones.
+
+   The plot is an SVG stretched to its container with
+   preserveAspectRatio="none". Straight lines survive
+   that; round shapes and text do not, so the axis
+   labels and the markers are HTML positioned over the
+   plot at the percentage the geometry computed. Both
+   read --inc-chart-x and --inc-chart-y, which
+   js/view-price-chart.js sets through the CSSOM.
+   ═══════════════════════════════════════════════ */
+
+.inc-chart {
+    /* The width reserved for the price scale. The dates row reserves the
+       same, so both axes measure the same plot. */
+    --inc-chart-gutter: 5.6ch;
+    --inc-chart-height: 240px;
+
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 5px;
+    background: var(--inc-panel-bg);
+}
+
+/* Nothing to draw and nothing to say: the quote panel beside it already
+   explains that no symbol has been looked up, and a second card repeating
+   that would be furniture. It appears with the symbol it belongs to. */
+.inc-chart[data-state="empty"] {
+    display: none;
+}
+
+/* ── Head: what the range moved, and which range ── */
+
+.inc-chart-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px 18px;
+}
+
+.inc-chart-period-label {
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-chart-period {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 5px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+}
+
+/* ── Range buttons ──
+   Five toggles rather than one control with a menu: every range is one
+   press from every other, and aria-pressed is what tells a screen reader
+   which is current. */
+
+.inc-chart-ranges {
+    display: flex;
+    gap: 4px;
+}
+
+.inc-chart-range {
+    padding: 5px 11px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+    background: transparent;
+    font-family: var(--inc-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.inc-chart-range:hover {
+    color: var(--ink);
+    border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+.inc-chart-range:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+/* Carries a filled background as well as a colour, so which range is
+   pressed survives greyscale the way the direction figures do. */
+.inc-chart-range[aria-pressed="true"] {
+    border-color: var(--inc-rule-strong);
+    background: rgba(var(--accent-rgb), 0.14);
+    color: var(--accent);
+}
+
+/* ── The plot ── */
+
+.inc-chart-frame {
+    display: flex;
+    align-items: stretch;
+    height: var(--inc-chart-height);
+    margin-top: 16px;
+}
+
+.inc-chart-plot {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+    background: rgba(6, 8, 10, 0.45);
+    /* Touch panning must keep working over a chart that reads a pointer
+       position; without this a drag across it scrolls nothing. */
+    touch-action: pan-y;
+}
+
+.inc-chart-plot:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.inc-chart-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Nothing here takes a pointer event: the whole plot is one hit area, and a
+   marker under the cursor must not be the thing that receives the move. */
+.inc-chart-marks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Non-scaling strokes throughout. The horizontal stretch would otherwise
+   thin every line in proportion to the width it landed at. */
+.inc-chart-line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.inc-chart-area {
+    fill: url(#inc-chart-fade);
+    stroke: none;
+}
+
+.inc-chart-fade-top {
+    stop-color: var(--accent);
+    stop-opacity: 0.22;
+}
+
+.inc-chart-fade-bottom {
+    stop-color: var(--accent);
+    stop-opacity: 0;
+}
+
+.inc-chart-grid {
+    stroke: rgba(242, 239, 232, 0.07);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+/* The level the range opened at, dashed exactly as the tile sparklines draw
+   it — the line itself is not coloured by direction, so this is what says
+   whether the range ended above or below where it began. */
+.inc-chart-base {
+    stroke: rgba(242, 239, 232, 0.22);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+    vector-effect: non-scaling-stroke;
+}
+
+/* A close, marked, only on ranges short enough that the individual days are
+   the point rather than the shape. */
+.inc-chart-dot {
+    position: absolute;
+    left: var(--inc-chart-x);
+    top: var(--inc-chart-y);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: translate(-50%, -50%);
+}
+
+/* ── The cursor ──
+   Hidden until something is being pointed at or arrowed to, so the plot is
+   not permanently crossed by a line that means nothing. */
+
+.inc-chart-cursor-line,
+.inc-chart-cursor-dot {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.inc-chart-cursor-line {
+    stroke: rgba(242, 239, 232, 0.42);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+.inc-chart-cursor-dot {
+    position: absolute;
+    left: var(--inc-chart-x);
+    top: var(--inc-chart-y);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--ink);
+    box-shadow: 0 0 0 3px rgba(6, 8, 10, 0.85);
+    transform: translate(-50%, -50%);
+}
+
+.inc-chart-plot[data-chart-tracking="true"] .inc-chart-cursor-line,
+.inc-chart-plot[data-chart-tracking="true"] .inc-chart-cursor-dot {
+    opacity: 1;
+}
+
+/* ── Axes ──
+   HTML rather than SVG text, because preserveAspectRatio="none" stretches
+   glyphs along with everything else. Both lists are positioned against the
+   plot box, so a label lands exactly where its gridline does. */
+
+.inc-chart-scale {
+    position: relative;
+    flex: none;
+    width: var(--inc-chart-gutter);
+    list-style: none;
+}
+
+.inc-chart-scale-label {
+    position: absolute;
+    top: var(--inc-chart-y);
+    left: 7px;
+    transform: translateY(-50%);
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.66rem;
+    line-height: 1;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.inc-chart-dates {
+    position: relative;
+    height: 1.5em;
+    margin-top: 7px;
+    margin-right: var(--inc-chart-gutter);
+    list-style: none;
+}
+
+.inc-chart-date-label {
+    position: absolute;
+    left: var(--inc-chart-x);
+    transform: translateX(-50%);
+    font-family: var(--inc-mono);
+    font-size: 0.64rem;
+    line-height: 1;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* The end labels sit on the edge of the plot, so centring them on their own
+   tick would hang half of each one off the side. */
+.inc-chart-date-label[data-chart-edge="start"] {
+    transform: none;
+}
+
+.inc-chart-date-label[data-chart-edge="end"] {
+    transform: translateX(-100%);
+}
+
+/* ── Readout ──
+   One day, named. Reserved rather than conditional: it shows the latest
+   close when nothing is being pointed at, so it neither sits empty nor
+   appears and pushes the page down. */
+
+.inc-chart-readout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    margin-top: 12px;
+    min-height: 1.5em;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.inc-chart-readout-price {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.inc-chart-readout-change {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+
+/* ── Notes ── */
+
+.inc-chart-hint,
+.inc-chart-shortfall {
+    max-width: 66ch;
+    margin-top: 10px;
+    font-size: 0.73rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inc-chart-shortfall {
+    color: var(--accent);
+}
+
+/* ── States ──
+   The frame keeps its height in every one of them, so a symbol with no
+   history does not change the size of the panel it is in. */
+
+.inc-chart-message {
+    max-width: 60ch;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inc-chart[data-state="ready"] .inc-chart-message {
+    display: none;
+}
+
+.inc-chart:not([data-state="ready"]) .inc-chart-readout,
+.inc-chart:not([data-state="ready"]) .inc-chart-period,
+.inc-chart:not([data-state="ready"]) .inc-chart-hint,
+.inc-chart:not([data-state="ready"]) .inc-chart-table {
+    display: none;
+}
+
+.inc-chart:not([data-state="ready"]) .inc-chart-plot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 22px;
+    border-style: dashed;
+}
+
+.inc-chart[data-state="unavailable"] .inc-chart-plot {
+    border-color: rgba(242, 104, 107, 0.3);
+}
+
+/* ── The table fallback ──
+   The numbers behind the picture, for a reader who cannot see it and for a
+   reader who would rather read them. Closed by default because it is long,
+   and built only when it is opened. */
+
+.inc-chart-table {
+    margin-top: 16px;
+    border-top: 1px solid var(--inc-rule);
+    padding-top: 14px;
+}
+
+.inc-chart-table-summary {
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.inc-chart-table-summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* Its own scroll container in both directions: six columns of figures is
+   wider than a phone, and a year of them is taller than a screen. The body
+   never scrolls horizontally to accommodate it (guide §13). */
+.inc-chart-table-scroll {
+    max-height: 320px;
+    margin-top: 12px;
+    overflow: auto;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+}
+
+.inc-chart-table-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.inc-chart-table-scroll th,
+.inc-chart-table-scroll td {
+    padding: 6px 12px;
+    text-align: right;
+    border-bottom: 1px solid var(--inc-rule);
+}
+
+.inc-chart-table-scroll thead th {
+    position: sticky;
+    top: 0;
+    background: #0b0d10;
+    font-size: 0.63rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-chart-table-scroll tbody th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+@media (max-width: 700px) {
+
+    .inc-chart {
+        --inc-chart-height: 190px;
+    }
+
+    .inc-chart-head {
+        gap: 10px;
+    }
+
+    .inc-chart-ranges {
+        width: 100%;
+    }
+
+    /* Five buttons on one row at 375px, sharing the width evenly rather than
+       wrapping one of them onto a line of its own. */
+    .inc-chart-range {
+        flex: 1 1 0;
+        padding: 6px 4px;
+        text-align: center;
+    }
+
+    /* Every other interior label goes: at this width they collide, and a
+       collision reads as a rendering fault. Dropping alternate ones rather
+       than a fixed position keeps what remains evenly spread whether the
+       axis carries four labels or, on a short window, one per session. The
+       two ends are never candidates — they are what says what the window is. */
+    .inc-chart-date-label[data-chart-edge="middle"]:nth-of-type(even) {
+        display: none;
+    }
+}

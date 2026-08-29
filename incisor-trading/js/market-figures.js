@@ -49,6 +49,9 @@
         maximumFractionDigits: 2
     });
 
+    /* Built on demand and kept, keyed by decimal places. See formatToPlaces. */
+    var placeFormats = {};
+
     function isFiniteNumber(value) {
         return typeof value === 'number' && isFinite(value);
     }
@@ -213,6 +216,27 @@
         return priceFormat.format(value) + '\u00d7';
     }
 
+    /* A price at a chosen precision.
+     *
+     * Two decimals is right for a quote and wrong for an axis: a scale
+     * labelled 610.00 / 620.00 / 630.00 spends four characters per label
+     * saying nothing, while a scale of pennies needs every one of them. The
+     * caller passes the precision its own step needs — js/chart-geometry.js
+     * computes it — and the formatters are kept rather than rebuilt, because
+     * this runs once per axis label per redraw.
+     */
+    function formatToPlaces(value, places) {
+        if (!isFiniteNumber(value)) return DASH;
+        var digits = Math.max(0, Math.min(4, places || 0));
+        if (!placeFormats[digits]) {
+            placeFormats[digits] = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: digits,
+                maximumFractionDigits: digits
+            });
+        }
+        return placeFormats[digits].format(value);
+    }
+
     /* '2026-08-26' -> '26 Aug 2026', without going through Date.
      *
      * new Date('2026-08-26') is parsed as UTC midnight and then displayed in
@@ -225,6 +249,22 @@
         var month = MONTHS[parseInt(match[2], 10) - 1];
         if (!month) return DASH;
         return parseInt(match[3], 10) + ' ' + month + ' ' + match[1];
+    }
+
+    /* The same date, short enough for an axis: '26 Aug', or 'Aug ’26' when
+     * the window is long enough that the day is noise and the year is not.
+     *
+     * Parsed by hand for the same reason formatBarDate is — a trading date
+     * that renders a day early west of Greenwich is worse than no date.
+     */
+    function formatAxisDate(iso, withYear) {
+        if (typeof iso !== 'string') return DASH;
+        var match = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+        if (!match) return DASH;
+        var month = MONTHS[parseInt(match[2], 10) - 1];
+        if (!month) return DASH;
+        if (withYear) return month + ' ’' + match[1].slice(2);
+        return parseInt(match[3], 10) + ' ' + month;
     }
 
     /* ── Provenance ─────────────────────────────────────────────── */
@@ -339,6 +379,8 @@
         formatSigned: formatSigned,
         formatPercent: formatPercent,
         formatBarDate: formatBarDate,
+        formatAxisDate: formatAxisDate,
+        formatToPlaces: formatToPlaces,
         provenanceFor: provenanceFor,
         sparkline: sparkline
     };

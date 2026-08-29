@@ -17,15 +17,18 @@ DECISIONS.md, "narrow headless screenshots are not mobile".
 Usage:
     ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>]
                                           [--api http://127.0.0.1:8789]
-                                          [--symbol SPY | --search app]
+                                          [--symbol SPY [--range 5Y]]
+                                          [--search app]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
 failures worth blocking a commit on.
 
---symbol and --search reach a state that only exists after an interaction:
-the quote panel is empty until someone searches, so without them the only
-screenshot of it that could be taken is the one state nobody is asking about.
+--symbol, --range and --search reach a state that only exists after an
+interaction: the quote panel and the chart are empty until someone searches,
+so without them the only screenshot that could be taken is the one state
+nobody is asking about. --range presses one of the chart's range buttons once
+a symbol is loaded, which is how a range other than the default gets shot.
 
 With --api, /api/incisor/* is forwarded to a running incisor service the way
 Apache forwards it in production, so the dashboard can be shot with real
@@ -123,6 +126,7 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 SEARCH_INPUT = "[data-search-input]"
 SETTLED = ('[data-quote]:not([data-state="loading"])'
            ':not([data-state="empty"])')
+CHART_READY = '[data-chart][data-state="ready"]'
 
 
 def drive(page, args, problems, label):
@@ -142,6 +146,13 @@ def drive(page, args, problems, label):
             # with no data behind it settles in not-found, and that is a state
             # worth a screenshot rather than a failure to reach one.
             page.wait_for_selector(SETTLED, timeout=10000)
+            if args.range:
+                # The chart is a separate surface with its own state, so it
+                # is waited for separately: the panel settles before the
+                # series it hands over has been drawn.
+                page.wait_for_selector(CHART_READY, timeout=10000)
+                page.click('[data-chart-range="%s"]' % args.range)
+                page.wait_for_selector(CHART_READY, timeout=10000)
         else:
             page.wait_for_selector("[data-search-results] [role=option]",
                                    timeout=10000)
@@ -174,6 +185,9 @@ def main():
                          "results list open, e.g. --search app")
     ap.add_argument("--symbol", default=None,
                     help="look this symbol up before shooting, e.g. --symbol SPY")
+    ap.add_argument("--range", default=None,
+                    help="press this chart range after the symbol loads, "
+                         "e.g. --range 5Y. Needs --symbol.")
     args = ap.parse_args()
 
     from playwright.sync_api import sync_playwright

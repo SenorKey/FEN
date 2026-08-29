@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/incisor-trading/incisor.css">
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
     <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
+    <link rel="stylesheet" href="/incisor-trading/css/chart.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the two
       logic modules are in place before any view runs, and each view runs
@@ -30,9 +31,11 @@
     <script src="/incisor-trading/js/dom.js" defer></script>
     <script src="/incisor-trading/js/market-clock.js" defer></script>
     <script src="/incisor-trading/js/market-figures.js" defer></script>
+    <script src="/incisor-trading/js/chart-geometry.js" defer></script>
     <script src="/incisor-trading/js/market-data.js" defer></script>
     <script src="/incisor-trading/js/symbol-search.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
+    <script src="/incisor-trading/js/view-price-chart.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
@@ -388,6 +391,127 @@
                             </p>
                         </div>
                     </div>
+
+                    <!--
+                      The price chart. A surface of its own beside the quote card
+                      rather than inside it: it draws the same /history series the
+                      panel is built from, so a range change costs nothing
+                      upstream, but a 240px plot inside that card made one very
+                      tall block out of two readable ones.
+
+                      It ships in its empty state, which css/chart.css hides — the
+                      chart is part of what a looked-up symbol shows, and there is
+                      nothing to say about a symbol nobody has named. There is no
+                      1D button; the reason is in js/chart-geometry.js.
+                    -->
+                    <figure class="inc-chart" data-chart data-state="empty">
+                        <figcaption class="inc-chart-head">
+                            <div>
+                                <p class="inc-chart-period-label"
+                                    data-chart-period-label>Price history</p>
+                                <p class="inc-chart-period inc-flat" data-chart-period>
+                                    <span class="inc-arrow" aria-hidden="true"
+                                        data-chart-period-arrow>&#9644;</span>
+                                    <span class="inc-delta" data-chart-period-delta>&mdash;</span>
+                                    <span class="inc-delta-pct" data-chart-period-pct>&mdash;</span>
+                                </p>
+                            </div>
+
+                            <!-- Toggle buttons, not a select: every range is one press
+                                 from every other. All five share one data-track label,
+                                 so nothing about the symbol reaches the beacon. -->
+                            <div class="inc-chart-ranges" role="group"
+                                aria-label="Chart range" data-chart-ranges>
+                                <button type="button" class="inc-chart-range"
+                                    aria-pressed="false" data-chart-range="5D"
+                                    data-track="chart-range">5D</button>
+                                <button type="button" class="inc-chart-range"
+                                    aria-pressed="false" data-chart-range="1M"
+                                    data-track="chart-range">1M</button>
+                                <button type="button" class="inc-chart-range"
+                                    aria-pressed="true" data-chart-range="6M"
+                                    data-track="chart-range">6M</button>
+                                <button type="button" class="inc-chart-range"
+                                    aria-pressed="false" data-chart-range="1Y"
+                                    data-track="chart-range">1Y</button>
+                                <button type="button" class="inc-chart-range"
+                                    aria-pressed="false" data-chart-range="5Y"
+                                    data-track="chart-range">5Y</button>
+                            </div>
+                        </figcaption>
+
+                        <!-- One tab stop and one hit area: the arrow keys walk the
+                             series, the pointer reads it, and both write the same
+                             readout. The gradient ships here so that emptying the
+                             drawing group on each redraw does not take it along. -->
+                        <div class="inc-chart-frame">
+                            <div class="inc-chart-plot" data-chart-plot tabindex="0"
+                                role="img" aria-describedby="inc-chart-hint"
+                                data-chart-tracking="false"
+                                aria-label="No symbol looked up yet.">
+                                <p class="inc-chart-message" data-chart-message>No symbol
+                                    looked up yet.</p>
+                                <svg class="inc-chart-svg" viewBox="0 0 720 240"
+                                    preserveAspectRatio="none" aria-hidden="true"
+                                    focusable="false">
+                                    <defs>
+                                        <linearGradient id="inc-chart-fade"
+                                            x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" class="inc-chart-fade-top"></stop>
+                                            <stop offset="100%"
+                                                class="inc-chart-fade-bottom"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g data-chart-canvas></g>
+                                </svg>
+                                <div class="inc-chart-marks" aria-hidden="true"
+                                    data-chart-marks></div>
+                            </div>
+                            <ul class="inc-chart-scale" aria-hidden="true"
+                                data-chart-scale></ul>
+                        </div>
+                        <ul class="inc-chart-dates" aria-hidden="true" data-chart-dates></ul>
+
+                        <p class="inc-chart-readout" role="status" data-chart-readout>
+                            <span data-chart-readout-date>&mdash;</span>
+                            <span class="inc-chart-readout-price"
+                                data-chart-readout-price>&mdash;</span>
+                            <span class="inc-chart-readout-change inc-flat"
+                                data-chart-readout-change>
+                                <span class="inc-arrow" aria-hidden="true"
+                                    data-chart-readout-arrow>&#9644;</span>
+                                <span class="inc-delta" data-chart-readout-delta>&mdash;</span>
+                                <span class="inc-delta-pct" data-chart-readout-pct>&mdash;</span>
+                            </span>
+                        </p>
+
+                        <p class="inc-chart-shortfall" data-chart-shortfall hidden></p>
+                        <p class="inc-chart-hint" id="inc-chart-hint">Each point is one
+                            trading day&rsquo;s closing price. Hover the chart, or focus it
+                            and use the left and right arrow keys, to read a single day.</p>
+
+                        <!-- The numbers behind the picture. Rows are built when it opens;
+                             a five-year range holds a thousand of them. -->
+                        <details class="inc-chart-table" data-chart-table>
+                            <summary class="inc-chart-table-summary"
+                                data-track="chart-table">Read this range as a table</summary>
+                            <div class="inc-chart-table-scroll">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Open</th>
+                                            <th scope="col">High</th>
+                                            <th scope="col">Low</th>
+                                            <th scope="col">Close</th>
+                                            <th scope="col">Volume</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-chart-rows></tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </figure>
                 </section>
             </section>
 
