@@ -1028,3 +1028,105 @@ ceiling to 900 where guide §6 says ~600. The reasoning is sound and was recorde
 rather than hidden, but it is a rule of his being reinterpreted, so it stays his
 call. No change made.
 
+## 2026-08-29 — Audit: the market clock (T5)
+**Outcome:** shipped — verdict **minor edits**
+**Changed:** `js/market-clock.js`, `incisor.js`, `index.html`, `incisor.css`,
+`tests/clock_model.jxa.js`, all four shot sets
+**Verified:** 72 checks in JavaScriptCore (up from 68), 90 page tests, 123
+service tests, `shoot.py` green at 1440, 768 and 390 across four states.
+
+The first audit to fire under the new §18 cadence. The market clock was the
+oldest surface with no row in the log, so it was this session's work instead of
+T9.
+
+**What it said.** `● CLOSED  Opens in 2d 10h`. Everything about that is
+correct and none of it is what a visitor came for. "In 2d 10h" is a sum the
+reader performs in their head to arrive at "Monday morning", and it arrives at
+it in no stated timezone — because the line the script overwrites,
+`Regular hours 9:30am – 4:00pm ET, Monday to Friday`, was the only place on the
+surface that said ET. The upgrade *removed* information. The state word lost
+its subject the same way: the served markup said "US market", and the live
+version replaced it with "Closed", which names no market at all.
+
+None of this was a defect. The clock's suite is thorough — every phase
+boundary, both sides of daylight saving, a half day, a holiday, the computus —
+and all of it passed, because the tests were written from the same idea of the
+feature that built it. Nothing was broken; the wrong half of the question was
+being answered. That is exactly the gap guide §18 exists for, and it is why an
+audit reads the rendered image rather than the module.
+
+**What it says now.** `● CLOSED  Opens Monday 9:30am ET`. The moment is named,
+in Eastern, with the day word dropped when the event is today and "tomorrow"
+where it fits. `sessionAt` grew a `next.when` for it, so the wording is pure
+and testable against fixed datetimes like everything else in that module.
+
+The countdown is kept **only while the event is today**. It earns its width by
+being live and close — "Closes 4:00pm ET · in 14m" is worth watching — and
+beyond that it is the same fact told worse. Naming the day also made the
+weekend fix itself: the audit's second finding was that a holiday explained
+why the market was shut while a weekend just showed a countdown, and "Opens
+Monday" is that explanation, so no wording was needed for it.
+
+**The measurement, not the eyeball.** The rare states are the long ones and
+today is a Saturday, so they cannot be screenshotted without lying about the
+system clock. A throwaway Playwright script drove the real page at 375px and
+wrote each candidate wording into the real node. First pass: three of seven
+states wrapped, and a holiday took *three* rows. That killed the first draft,
+which had kept the countdown everywhere.
+
+With the same-day rule, and with the reason moved out of the detail string
+into its own element so it wraps as a whole phrase rather than across
+"Juneteenth National Independence" / "Day":
+
+| state | rows at 375px |
+|---|---|
+| served, no JS | 1 |
+| open · pre-market · after hours · weekend | 1 |
+| early close · holiday, incl. the longest holiday name | 2 |
+
+The reason is parenthesised rather than separated by the page's middot,
+because it is the one part of the line that lands at the start of a row and a
+leading separator there reads as a missing word.
+
+**A third finding, closed on the way past.** `min-height: 34px` on the clock
+carries a comment saying it reserves the height so real content cannot shift
+the page. It did not: the served line wrapped to two rows on a phone and the
+live one did not, so the surface shrank the moment the deferred script ran.
+Shortening the served text to `9:30am – 4:00pm ET` puts both states at exactly
+34px, measured. The state span carries "Regular hours" until the script runs,
+which reads as a definition of the hours rather than a claim about now — the
+dot stays grey with no `data-phase`.
+
+**The subject came back as an off-screen span.** "US market", never rewritten,
+so a screen reader hears "US market, Closed, Opens Monday 9:30am ET" instead
+of "Closed". Sighted readers get the subject from the ET. It is not a shared
+utility class — this is the only element on the page that needs one, and
+`/assets` is out of bounds.
+
+**The other two questions.** *Beautiful:* it is the plainest thing on the page
+and should stay that way. One quiet line above the tabs is right for something
+read in a glance, and it would be a mistake to grow it into a card. *Performing:*
+zero upstream calls, no network at all, and it renders before any data arrives
+— the only surface here that is complete with the service stopped.
+
+**All four shot sets were refreshed,** because every one of them carries the
+clock at the top and every one of them was showing a line that no longer
+exists. Same names, same states, replaced rather than accumulated, per the
+`docs/shots/` rule.
+
+**No backlog task was taken.** One audit per session is the whole of it (§18),
+so T9 waits a day. Nothing was installed, no upstream call was made, no
+account created, no terms accepted, nothing pushed or merged; the service ran
+in fixture mode against a scratch database in the session's temp directory and
+was stopped afterwards. `git status` shows changes only under
+`incisor-trading/`.
+
+**The queue is now three.** The index strip is next, then the quote panel,
+then the chart.
+
+### For Key
+
+- **Nothing new.** The 600-line reading from yesterday and the `shoot.py` rate
+  limit note both still stand as written; neither moved today.
+- **The provider question is untouched** — the clock has never needed data and
+  still does not.

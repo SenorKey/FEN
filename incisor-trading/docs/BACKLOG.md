@@ -306,14 +306,13 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-1. **Market clock** (T5, shipped 08-27) — the status line and countdown
-2. **Index summary strip** (T6, shipped 08-28) — the four proxy tiles
-3. **Symbol lookup and quote detail** (T7, shipped 08-28)
-4. **Price chart** (T8, shipped 08-29)
+1. **Index summary strip** (T6, shipped 08-28) — the four proxy tiles
+2. **Symbol lookup and quote detail** (T7, shipped 08-28)
+3. **Price chart** (T8, shipped 08-29)
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
-| — | _(none yet — the four above are all due)_ | | |
+| 08-29 | **Market clock** (T5) | **Minor edits** | Useful, and the only surface that works with no service at all — but it answered the less useful half of its own question. "Opens in 2d 10h" is a sum the reader does in their head, against a timezone the live line had stopped naming: it overwrites the served text, which was the page's only mention of ET. Now "Opens Monday 9:30am ET", countdown kept only while the event is today. The reason a day is odd (holiday, half day) moved to its own element so it wraps whole. Measured at 375px rather than eyeballed: five everyday states one row, three rare ones a stable two, and the served and live lines now match at 34px, closing a load-time shift the reserved height had not actually prevented. Beautiful: it is the plainest thing on the page and should stay that way — one quiet line above the tabs is right for something read in a glance. Performing: zero upstream calls, no network at all, and it renders before any data arrives. |
 
 ---
 
