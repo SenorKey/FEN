@@ -112,10 +112,20 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   tests. Four states screenshotted under `docs/shots/t7-*`: loaded,
   searching, not-found, and with the service stopped.
 
-- [ ] **T8 · Price chart** — hand-rolled SVG. Ranges 1D / 5D / 1M / 6M / 1Y / 5Y.
+- [x] **T8 · Price chart** — hand-rolled SVG. Ranges 1D / 5D / 1M / 6M / 1Y / 5Y.
   Hover readout, accessible fallback table. No chart library.
   *Accept:* renders each range from fixtures; readable in light and dark; usable
   by keyboard; no layout shift on range change.
+  *Done 2026-08-29.* `js/chart-geometry.js`, `js/view-price-chart.js` and
+  `css/chart.css` (new). A surface of its own beside the quote card, drawing
+  the series that panel already fetched — so a range change costs nothing
+  upstream. **Five ranges, not six: there is no 1D**, because a day of a daily
+  series is one bar; see `DECISIONS.md`, and do not "complete" this by adding
+  it. 5Y draws the 260 sessions fixtures hold and says so on the page. Axis
+  labels and round markers are HTML positioned over the SVG, because
+  `preserveAspectRatio="none"` smears text and turns circles into ellipses.
+  128 checks in JavaScriptCore, 88 page tests, 123 service tests; five states
+  screenshotted under `docs/shots/t8-*`.
 
 - [ ] **T9 · Watchlist** — add/remove symbols, persisted to `localStorage`, sortable.
   *Accept:* survives reload; handles a cleared/blocked `localStorage` without
@@ -302,6 +312,21 @@ being re-audited while another has never been looked at — work oldest-first.
 
 Tasks found mid-work that don't fit above. Append here; Key triages them into
 phases.
+
+- [ ] **D2 · `index.html` has two lines of headroom left.** It is 598 lines
+  against the 600-line rule in guide §6, and T10 and T11 both add a surface to
+  it. Every other file on this page has split along the seam "one surface, one
+  module, one stylesheet", and markup is the one thing that cannot: hard rule
+  10 forbids a build step, so there is no include. The options are to move a
+  surface's static markup into the view that owns it, to drop the four index
+  tiles' near-identical blocks in favour of a script-built strip — which
+  `DECISIONS.md` deliberately rejected at T6 — or for Key to say the rule reads
+  differently for a single served document. **A session that adds a surface
+  will hit this before it writes anything**, so it is worth deciding first
+  rather than mid-task.
+  *Accept:* index.html is comfortably under the limit, with the approach
+  recorded in `DECISIONS.md`; or the rule is restated for markup and the test
+  updated to match.
 
 - [x] **D1 · Browser verification pass for the page skeleton** *(done 2026-08-27,
   attended)* — verified with `tools/shoot.py`: no console errors and no

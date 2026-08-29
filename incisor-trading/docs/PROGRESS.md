@@ -842,3 +842,131 @@ paths and render as nothing at all.
 Nothing new needs a decision. The two open notes are the provider permission,
 unchanged since T0 and blocking nothing, and `DECISIONS.md` heading back toward
 being too long to read in full — both recorded in the T7 entry above.
+
+## 2026-08-29 — T8, the price chart
+
+**Task:** T8 · Price chart. Shipped.
+
+The dashboard now draws a symbol as well as quoting it. `js/chart-geometry.js`
+is the pure half — ranges, windows, scales, axis ticks and the arithmetic that
+turns a pointer position into a bar — and `js/view-price-chart.js` is the
+drawing, with `css/chart.css` beside it. That is the same seam the last two
+tasks split along: a surface that renders market data owns a view module and a
+stylesheet, and the pure logic sits where a session with no browser can drive
+it.
+
+**The chart owns no request.** It draws the `/history` series the quote panel
+already fetched, handed over rather than asked for again. That is what makes
+the range buttons free: switching from 1M to 5Y is a redraw, not a fetch, and
+on a budget of 22 calls a day a chart that re-fetched per range would be a
+chart with two ranges. It also means the chart cannot fail on its own — if the
+series did not arrive, the panel above still has a price and the chart says
+what is missing in its own space.
+
+**Five ranges, not the six T8 names.** 1D is not built and is not going to be:
+a day of a daily series is one bar, and an intraday view is a third upstream
+call per symbol on top of the two a lookup already costs. The last session had
+already established this against the fixtures; today it became a decision, and
+`DECISIONS.md` says plainly not to "complete" T8 by adding it. The other short
+range, 5Y, was kept rather than dropped and made honest instead: in fixture
+mode it draws the 260 sessions the series holds, the heading reads *Over the
+260 sessions held* rather than *Over five years*, and a line under the chart
+names the shortfall. That is the precedent the 52-week range set at T7 rather
+than a new compromise.
+
+**The SVG stretches, so text and circles came out of it.** The plot uses
+`preserveAspectRatio="none"` — the same trick the tile sparklines use, and the
+reason a 1.4-unit stroke stays 1.4px at every width. Straight lines survive
+that. Glyphs come out smeared and a `<circle>` comes out an ellipse, so the
+price scale, the date labels, the point markers and the hover dot are HTML
+positioned over the plot at the percentage the geometry computed, through the
+same `style.setProperty` route the range markers already use. The gradient
+under the line ships in the markup rather than being built, so emptying the
+drawing group on each redraw does not take it along.
+
+**Reading a single day works two ways and writes one readout.** The pointer
+reads it, and the plot is one tab stop where the arrow keys walk the series,
+Home and End jump to its ends, and Escape puts the cursor away. Underneath,
+a `<details>` holds every session in the range as a real table — built when it
+is opened rather than on every redraw, because a five-year window is over a
+thousand rows and rebuilding those on each range change would be a cost paid
+by everyone to serve the readers who open it.
+
+**Three things came out of the screenshots rather than the tests**, which is
+guide §18 working as intended.
+
+1. **The price axis had two labels on it.** `priceTicks` asked for four levels,
+   and the 1/2/2.5/5/10 step family rounds up hard enough that a typical price
+   band landed a step of 50 across a span of 130. Two labels is a scale a
+   reader interpolates rather than reads. Asking for six gets a step of 25 and
+   five or six labels, which is an axis.
+2. **The 5D axis bunched.** Sampling four date ticks out of five sessions
+   rounds two of them onto adjacent bars, so the labels read 20, 21, 25, 26
+   with a hole in the middle — which looks like a fault rather than a scale. A
+   window short enough to label bar by bar now is, and the mobile rule that
+   thins a crowded axis drops alternate interior labels rather than a fixed
+   one, so what remains stays spread whether the axis carries four labels or
+   five.
+3. **A screenshot showed the 6M button pressed above a chart drawing five
+   years.** It was not: the shot was taken inside the 180ms transition between
+   two correct states. A browser check proved the attribute had moved. The fix
+   is in the tool — `tools/shoot.py` now passes `animations="disabled"` on
+   every capture, so a shot is of a state the page actually rests in. Recorded
+   as a trap in `DECISIONS.md`, because chasing it meant a long look at code
+   that was right.
+
+Two smaller ones came out of re-reading the finished module. The scale used to
+place a gridline was a second copy of the arithmetic that placed the line, so
+`plot` now returns the scale itself and there is one formula rather than two
+that have to agree. And the shortfall note outlived the series it described:
+switching to 5Y and then losing the history left "5Y is the whole series held"
+above an empty chart.
+
+**Light and dark.** The criterion is met the only way it can be here: nothing
+on this page, and nothing in `/assets/css/styles.css`, responds to
+`prefers-color-scheme` — the whole site is one deliberate dark treatment, and
+`css/chart.css` adds no media query of its own. Every colour the chart uses is
+declared against the page's own tokens, so a light-scheme browser renders it
+identically rather than half-styled. Worth stating rather than claiming a
+light theme was reviewed.
+
+**Verified:** 134 checks in JavaScriptCore for the chart (460 across all four
+runners), 88 page tests, 123 service tests, all green. `tools/shoot.py` green
+at 1440, 768 and 390 across four states, images reviewed by eye. The service
+ran in fixture mode against a scratch database throughout; **no upstream call
+was made**, no account created, no terms accepted, nothing installed, nothing
+pushed or merged. `git status` shows changes only under `incisor-trading/`.
+
+**Four shot sets, down from the six that were taken.** `t8-chart` is the page
+as it stands; `t8-chart-5d` and `t8-chart-5y` are the two ends of the range
+control, which the default set cannot show and which both changed today;
+`t8-service-down` is an acceptance criterion. The searching and not-found
+states went with the four superseded `t7-*` sets: their markup no longer
+matches the page, and what they proved is proved on every run by 163 checks in
+`symbol_model.jxa.js` and the markup assertions in `test_symbol_lookup.py`.
+`docs/shots/` is 2.8MB against about 2MB before, because the chart makes the
+page taller and a full-page mobile capture is the bulk of a set. Worth a look
+the next time S6 comes round.
+
+**Stopped at one of three.** T8 was a task's worth of work on its own — three
+new files, a stylesheet, an axis system, two input paths and a table fallback
+— and the next task, T9, is `localStorage` state with its own failure modes.
+Hard rule 8 says finish one before starting the next.
+
+### For Key
+
+- **`index.html` has two lines of headroom.** It is 598 against the 600-line
+  rule, and T10 and T11 each add a surface. Every other file here has split
+  along "one surface, one module, one stylesheet"; markup is the one thing
+  that cannot, because hard rule 10 forbids a build step and there is no
+  include. Filed as **D2** with the three options, because a session that
+  picks up T10 will hit the wall before it writes a line and should not be
+  deciding this mid-task. Nothing is broken today.
+- **The rate limiter bites the screenshot tool.** One `shoot.py` run makes
+  about 21 requests across its three viewports, and the per-IP ceiling is 60 a
+  minute — so three runs back to back trip it and the page correctly renders
+  its "market data unavailable" state. That looks exactly like a broken
+  screenshot. Noted in `tests/README.md`; no code change, because the limiter
+  is doing its job and the fix is to leave a minute between runs.
+- **The provider question is unchanged and still blocks nothing.** T8 adds no
+  upstream call at all, so it does not move.
