@@ -132,9 +132,11 @@ body.incisor .nav-dropdown-menu {
 }
 
 /* Off-screen rather than display:none, which would take it out of the
-   accessibility tree along with the layout. Not a shared utility: it is the
-   only thing on this page that needs it, and /assets is out of bounds. */
-.inc-clock-subject {
+   accessibility tree along with the layout. Shared from the moment a second
+   surface needed it: the clock names its subject this way and every index
+   tile names the period its change covers. It lives here rather than in
+   /assets, which is out of bounds. */
+.inc-offscreen {
     position: absolute;
     width: 1px;
     height: 1px;

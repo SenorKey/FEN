@@ -45,6 +45,15 @@ NEVER_FETCHED = {'http://www.w3.org/2000/svg'}
 PAGE = Page(HTML)
 
 
+def visible_text(source):
+    """Roughly what a reader sees: comments, scripts and styles removed, then
+    tags stripped. Attribute values go with the tags, which is deliberate —
+    a data-track label or an ARIA string is not page copy."""
+    for pattern in (r'<!--.*?-->', r'<script\b.*?</script>', r'<style\b.*?</style>'):
+        source = re.sub(pattern, ' ', source, flags=re.S)
+    return re.sub(r'<[^>]*>', ' ', source)
+
+
 class TestMarkupIsWellFormed(unittest.TestCase):
 
     def test_every_tag_is_closed(self):
@@ -258,6 +267,17 @@ class TestHouseStyle(unittest.TestCase):
     def test_no_todo_left_behind(self):
         for name in SHIPPED:
             self.assertIsNone(re.search(r'\bTODO\b', read(name)), name)
+
+    def test_no_backlog_task_id_is_shown_to_a_visitor(self):
+        """Guide section 6 forbids placeholder text in a committed file, and
+        for three sessions the dashboard opened with "Charts, movers and
+        fundamentals fill the rest of this panel across T8-T12" — a sentence
+        addressed to the routine, printed to whoever loads the page, and
+        wrong the day T8 shipped. Comments are exempt: an internal note is
+        allowed to name the task it is about, and one at the top of this page
+        does. This reads what a visitor reads."""
+        found = re.findall(r'\bT\d{1,2}\b', visible_text(read('index.html')))
+        self.assertEqual(found, [], 'backlog task IDs in the page text')
 
     def test_lines_stay_under_100_characters(self):
         for name in SHIPPED:

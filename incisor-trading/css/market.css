@@ -25,10 +25,15 @@
    INDEX TILES
    ═══════════════════════════════════════════════ */
 
+/* The strip is a comparison, so the four have to be on screen together.
+   At minmax(180px) a 390px phone fitted exactly one column: 730px of grid
+   holding four readings a reader could only take one at a time, which is
+   the one thing a summary strip must not become. 160px is the number that
+   pairs them on a phone and still seats all four across a tablet. */
 .inc-tile-grid {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 12px;
     margin-top: 22px;
 }
@@ -102,6 +107,22 @@
     opacity: 0.75;
 }
 
+/* The window the coloured figure beside it covers.
+
+   Without it the tile stated two timescales and named only one: the change
+   is a single session, the line below is thirty days, and the only period
+   word on the tile was the sparkline's "30d" — so the red -0.79% sat under
+   a label belonging to something else. Pushed to the right of its row on
+   purpose, directly above that "30d", because the two read as a pair only
+   when they are set the same way. Aria-hidden: "1d" is a glyph, and the
+   off-screen phrase beside it is what a screen reader gets instead. */
+.inc-period {
+    margin-left: auto;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+}
+
 .inc-up { color: var(--inc-up); }
 .inc-down { color: var(--inc-down); }
 .inc-flat { color: var(--inc-flat); }
@@ -165,8 +186,17 @@
     transition: opacity 0.25s ease;
 }
 
-.inc-tile:not([data-state="ready"]) .inc-spark-label {
+.inc-tile:not([data-state="ready"]) .inc-spark-label,
+.inc-tile:not([data-state="ready"]) .inc-period {
     opacity: 0;
+}
+
+/* The spoken half of the same rule. A tile that is still pending or that
+   failed has no figure, and "unavailable over the last session" names a
+   window for something that was never rendered — so the phrase leaves the
+   accessibility tree with the label that mirrors it. */
+.inc-tile:not([data-state="ready"]) .inc-tile-change .inc-offscreen {
+    display: none;
 }
 
 /* ── Tile states ──

@@ -95,8 +95,9 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   two bars are the quote, so the strip costs four upstream calls a day rather
   than eight. 103 checks in JavaScriptCore, 50 page tests, 100 service tests.
   The view moved to `js/view-index-strip.js` at T7, and the `t6-*` shots were
-  pruned there — `docs/shots/t7-quote/` and `docs/shots/t7-service-down/`
-  shoot the same strip in both of its acceptance states.
+  pruned there. **Audited 08-29 — minor edits;** see the audit log for what
+  changed and why. Every current `t8-*` set shoots this strip, filled and
+  degraded.
 
 - [x] **T7 · Symbol search + quote detail** — search by ticker or company name;
   detail panel with last price, change, day range, 52-week range, volume vs.
@@ -306,12 +307,12 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-1. **Index summary strip** (T6, shipped 08-28) — the four proxy tiles
-2. **Symbol lookup and quote detail** (T7, shipped 08-28)
-3. **Price chart** (T8, shipped 08-29)
+1. **Symbol lookup and quote detail** (T7, shipped 08-28)
+2. **Price chart** (T8, shipped 08-29)
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
+| 08-29 | **Index summary strip** (T6) | **Minor edits** | Useful: it answers the first question a visitor has, and it is the only surface that answers one without being asked. Easy, except on a phone — where it stopped being the thing it is. At `minmax(180px)` a 390px viewport fitted exactly one column, so the strip became 730px of grid holding four readings that exist to be compared and could only be read one at a time; 160px pairs them, 730px becomes 359px, and all four are on screen together. Beautiful: yes, it is the part of the page a screenshot would lead with — but it opened with "Charts, movers and fundamentals fill the rest of this panel across T8–T12", a sentence written to the routine, shown to the reader, and wrong from the day T8 shipped. Performing: four `/history` calls a day against a 22 budget, cached and shared across every visitor, reserved heights so the fill shifts nothing, and a stated "unavailable" when the service is down. The real defect was in the numbers: the tile states two windows and named only the second, so a red −0.79% for one session sat directly above a "30d" belonging to the line. Every change now carries `1d`, set the same way and directly above the `30d` it pairs with, and says "over the last session" aloud. **Not fixed, filed as D3:** a tile shows a symbol and cannot open it. |
 | 08-29 | **Market clock** (T5) | **Minor edits** | Useful, and the only surface that works with no service at all — but it answered the less useful half of its own question. "Opens in 2d 10h" is a sum the reader does in their head, against a timezone the live line had stopped naming: it overwrites the served text, which was the page's only mention of ET. Now "Opens Monday 9:30am ET", countdown kept only while the event is today. The reason a day is odd (holiday, half day) moved to its own element so it wraps whole. Measured at 375px rather than eyeballed: five everyday states one row, three rare ones a stable two, and the served and live lines now match at 34px, closing a load-time shift the reserved height had not actually prevented. Beautiful: it is the plainest thing on the page and should stay that way — one quiet line above the tabs is right for something read in a glance. Performing: zero upstream calls, no network at all, and it renders before any data arrives. |
 
 ---
@@ -320,6 +321,36 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 Tasks found mid-work that don't fit above. Append here; Key triages them into
 phases.
+
+- [ ] **D3 · A tile shows a symbol and cannot open it**
+  *(found 2026-08-29, in the T6 audit)* — the strongest finding of that audit
+  and the one it deliberately did not act on. A reader looking at the SPY tile
+  who wants SPY's chart has to retype `SPY` into a search box 400px below it on
+  desktop and 900px below it on a phone, while the thing they are pointing at
+  is already on screen. Every other part of the page is one action away from
+  what it names; this is four keystrokes and a scroll.
+  Not folded into the audit because it is not a touch-up: it needs a real
+  export from `js/view-symbol.js` (the chart already sets the precedent with
+  `window.IncisorPriceChart`), focus moved to the panel rather than the page
+  jumping, a decision about whether the search input should show the symbol
+  that was opened, and a **generic `data-track`** — a `<button>` whose label is
+  a ticker would send that ticker to the beacon, which guide §5 forbids. Doing
+  that quickly inside an audit is how it gets done badly.
+  *Accept:* a tile opens its symbol by mouse and by keyboard; focus lands
+  somewhere a screen reader explains; the beacon sees no ticker; the strip
+  still renders with `view-symbol.js` absent.
+
+- [ ] **D4 · `DB_PATH` in `config.env` is silently ignored**
+  *(found 2026-08-29, in passing)* — `server/incisor.py` imports `store` at
+  module level and calls `load_env_file()` *after* the imports, so
+  `store.DB_PATH`, which is read at its own import, is fixed before the config
+  file has been read. Every other key is read in `incisor.py` after the load
+  and works. Nothing is broken today, and that is the problem: the value in
+  `config.env` is identical to the module default, so the two agree by
+  coincidence and the key will keep looking like it works until someone
+  changes it and the service writes to the old path.
+  *Accept:* setting `DB_PATH` in `CONFIG_FILE` alone puts the database where
+  it says, asserted by a test; the systemd unit still works unchanged.
 
 - [x] **D2 · `index.html` hit the 600-line rule with two lines to spare**
   *(done 2026-08-29)* — and it would have blocked T9 through T12, each of which

@@ -1130,3 +1130,109 @@ then the chart.
   limit note both still stand as written; neither moved today.
 - **The provider question is untouched** — the clock has never needed data and
   still does not.
+
+## 2026-08-29 — Audit: the index summary strip (T6)
+**Outcome:** shipped — verdict **minor edits**
+**Changed:** `index.html`, `incisor.css`, `css/market.css`,
+`tests/test_index_strip.py`, `tests/test_page.py`, all four shot sets
+**Verified:** 94 page tests (up from 90), 123 service tests, `shoot.py` green at
+1440, 768 and 390 across four states, plus a measured pass at 320px and a real
+browser read of the accessibility tree in both the filled and degraded states.
+
+The second audit under the §18 cadence. The index strip was the oldest surface
+with no row in the log, so it was this session's work instead of T9.
+
+**The defect was in the numbers, and no test could have caught it.** A tile
+states two windows at once — one session in the coloured change, thirty days in
+the line beneath it — and named only the second. The only period word on the
+tile was the sparkline's `30d`, sitting directly under a red `−0.79%` that
+covers a single day. Everything on that tile was correct and the reader had no
+way to attach a period to the figure that mattered.
+
+This is the same finding as 08-28, one step further on. Uncolouring the
+sparkline stopped the tile contradicting itself; it did not give the surviving
+coloured figure a window. The chart got that right at T8 — it says *Over six
+months* above its own figure — and the tile it was modelled on never did.
+
+Every change row now ends in `1d`, right-aligned so it lands directly above the
+`30d` it pairs with. Set the same way, the two read as two scales; set
+differently, one reads as a label and the other as noise. `1d` is `aria-hidden`
+— read aloud it is "one d" — and an off-screen "over the last session" carries
+it instead, so a screen reader gets `−5.85 −0.79% over the last session`. Both
+leave the tree entirely when a tile has no figure to describe, which is what
+stops a failed tile announcing "unavailable over the last session".
+
+**On a phone it had stopped being a strip.** At `minmax(180px)` a 390px
+viewport fitted exactly one column: 730px of grid holding four readings whose
+entire purpose is being compared, and a reader could only ever see two. The
+comparison is the feature, so the phone was the one place the feature did not
+exist. `160px` pairs them — measured, not eyeballed: 358px of grid, two columns
+of 173px, four tiles in 359px instead of 730, all four on one screen, and the
+page 742px shorter overall. Tablet went from three across to four. At 320px it
+falls back to one column, which is correct — two 160px tiles do not fit 288px.
+No row inside a tile overflows at any of the four widths checked.
+
+**It opened with a sentence addressed to the routine.** "Charts, movers and
+fundamentals fill the rest of this panel across T8–T12" was printed to every
+visitor, named internal task IDs, and had been wrong since the day T8 shipped.
+Guide §6 forbids placeholder text in a committed file; this had survived three
+sessions because nobody reads their own page's first paragraph. The Trade panel
+had the identical defect (`T14–T18`) and was fixed with it. `test_page.py` now
+greps the *visible text* of the page — comments exempted, since an internal
+note is allowed to name the task it is about — so the next one fails a test
+rather than shipping.
+
+**The off-screen class stopped being a special case.** `.inc-clock-subject`
+carried a comment saying it was the only thing on the page that needed
+off-screen text. A second thing needed it, so it is `.inc-offscreen` now and
+the clock reads it. This is the shape `DECISIONS.md` already records twice: a
+rule stated as a count across the page expires the moment a second surface does
+the same thing.
+
+**The four questions.** *Useful:* yes, and it is the only surface that answers
+a question without being asked one. *Easy:* zero actions to read, but see D3
+below. *Beautiful:* it is the part of the page a screenshot would lead with,
+and that is not faint praise — the numbers are the content and they are set
+properly. *Performing:* four `/history` calls a day against a 22-call budget,
+cached and shared across every visitor, reserved heights so filling shifts
+nothing, and a stated "unavailable" rather than a blank grid with the service
+down.
+
+**The strongest finding was deliberately not acted on.** A tile shows a symbol
+and cannot open it: a reader looking at SPY who wants SPY's chart retypes
+`SPY` into a box 400px below on desktop and 900px below on a phone, while the
+thing they are pointing at is already on screen. That is a real gap and it is
+also not a touch-up — it needs an export from `view-symbol.js`, focus handling,
+and a generic `data-track` so a button labelled with a ticker does not send
+that ticker to the beacon (§5). Filed as **D3** rather than rushed into an
+audit. **D4** was found in passing: `DB_PATH` in `config.env` is read before
+the config file loads and is silently ignored — harmless today only because the
+configured value equals the default.
+
+**All four shot sets were refreshed,** since every one of them carries this
+strip and every one was showing the unlabelled version. Same names, same
+states, replaced rather than accumulated. `docs/shots/` is unchanged at 2.8MB.
+
+Nothing was installed, no upstream call was made, no account created, no terms
+accepted, nothing pushed or merged. The service ran in fixture mode against a
+scratch database in the session's temp directory and was stopped afterwards.
+`git status` shows changes only under `incisor-trading/`.
+
+**The queue is now two.** The quote panel is next, then the chart.
+
+### For Key
+
+- **Flask was not installed anywhere on this machine**, so the service could
+  not be started to shoot the strip with data in it. Installed into the
+  gitignored `.devtools` venv, which hard rule 10 allows explicitly — it never
+  ships to a visitor, costs nothing, and lives inside `incisor-trading/`.
+  Nothing about `server/requirements.txt` changed.
+- **The light-theme question is now closed rather than open.** It was recorded
+  in the T8 journal entry, which is read from the tail and would have scrolled
+  away; it is a `DECISIONS.md` row now. The site defines no light palette, a
+  light palette for this page alone would mean writing into `/assets`, and
+  `shoot.py --theme light` is identical to the dark run. Say if you read §13
+  otherwise.
+- **Nothing else new.** The provider question is untouched — the strip has
+  always run on committed fixtures and still does. The 600-line reading and the
+  `shoot.py` rate-limit note both stand as written.

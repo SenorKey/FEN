@@ -40,6 +40,21 @@ def tile_markup():
     return html.unescape(HTML[start:HTML.index('</ul>', start)])
 
 
+def one_tile(symbol):
+    """A single tile's served markup. Per element rather than per page: a
+    count taken across the grid stops being a rule the moment a second
+    surface does the same thing (DECISIONS.md, recurring traps)."""
+    start = HTML.index('data-tile="%s"' % symbol)
+    return html.unescape(HTML[start:HTML.index('</li>', start)])
+
+
+def change_row(symbol):
+    """Just the change paragraph of one tile."""
+    tile = one_tile(symbol)
+    start = tile.index('data-tile-change')
+    return tile[start:tile.index('</p>', start)]
+
+
 @unittest.skipUnless(shutil.which('osascript'), 'needs macOS JavaScriptCore')
 class TestStripBehaviour(unittest.TestCase):
 
@@ -131,6 +146,41 @@ class TestStripAccessibility(unittest.TestCase):
         for element in PAGE.elements:
             if 'inc-spark-label' in classes(element):
                 self.assertEqual(element['attrs'].get('aria-hidden'), 'true')
+
+    def test_the_period_token_is_decorative(self):
+        """"1d" is a glyph, and read aloud it is "one d". The phrase beside
+        it is what a screen reader is meant to get instead."""
+        for element in PAGE.elements:
+            if 'inc-period' in classes(element):
+                self.assertEqual(element['attrs'].get('aria-hidden'), 'true')
+
+
+class TestEveryFigureNamesItsPeriod(unittest.TestCase):
+    """The tile states two windows at once — one session in the coloured
+    change, thirty days in the line under it — and for its first three
+    sessions it named only the second. A red -0.79% sat directly above a
+    label reading "30d" that belonged to something else, which is the same
+    contradiction the uncoloured sparkline was introduced to remove, left
+    half-closed. Found by looking at the screenshot (guide 18)."""
+
+    def test_every_tile_names_the_window_its_change_covers(self):
+        for tile in PAGE.elements:
+            if 'data-tile' not in tile['attrs']:
+                continue
+            symbol = tile['attrs']['data-tile']
+            markup = one_tile(symbol)
+            self.assertIn('inc-period', markup,
+                          '%s labels no period on its change' % symbol)
+            self.assertIn('over the last session', markup,
+                          '%s does not say the period aloud' % symbol)
+
+    def test_the_period_sits_with_the_figure_it_describes(self):
+        """Inside the change row, not merely somewhere on the tile — the
+        whole defect was a period label that belonged to another figure."""
+        for symbol in PROXIES:
+            row = change_row(symbol)
+            self.assertIn('inc-period', row, symbol)
+            self.assertIn('over the last session', row, symbol)
 
 
 if __name__ == '__main__':
