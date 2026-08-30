@@ -1539,3 +1539,110 @@ changes only under `incisor-trading/`.
   tile shows a symbol and cannot open it. It is labelled `[enhancement]`, so
   the routine leaves it for your triage — it needs a phase, or a word from you
   that it should be taken as a defect.
+
+
+## 2026-08-30 — T9: a list that belongs to the reader
+**Outcome:** shipped
+**Changed:** `js/watchlist-store.js`, `js/view-watchlist.js`,
+`css/watchlist.css`, `tests/watchlist_model.jxa.js`, `tests/test_watchlist.py`
+(all new); `index.html`, `incisor.css`, `js/view-symbol.js`, `tools/shoot.py`
+**Verified:** 119 checks in JavaScriptCore, 122 page tests, 128 service tests;
+`shoot.py` green at three widths in four configurations, including with the
+service stopped.
+
+The dashboard's third surface, and the first thing on this page that remembers
+anything between visits. A sortable table of watched symbols, a Watch toggle
+beside the quote card, and no server involved at all — the list is in
+`localStorage`, which is what keeps the page account-free.
+
+**The cap is the budget, not taste.** Eight, because a watched symbol costs one
+`/history` call — the same single call a tile costs, since a daily series
+carries its own latest quote — so four tiles plus eight rows leaves ten of the
+22 daily calls for lookups at two each. A symbol already on the strip costs
+nothing, because the service caches per symbol: watching SPY is answered from
+the row the tile filled. `test_watchlist.py` asserts that arithmetic rather
+than the number, so raising the cap fails the test that explains why it exists.
+
+**The toggle is not part of the quote card, and the line rule is what said so.**
+It was written into `[data-quote]`'s header, and `test_page.py` failed the
+surface at 173 lines against a cap of 150. The honest answer was not to shrink
+the comments: everything inside that panel is a figure the service returned,
+and this is a control over a list held in the reader's browser. Moved out to
+sit under the card, the panel went back to 145 lines — **which is five from the
+cap, so the quote card is one addition away from needing a real split.** Worth
+knowing before T11 adds fundamentals to it.
+
+### Two defects the tests could not see and the screenshots could
+
+**`display: flex` defeats `hidden`.** The Watch toggle shipped hidden and was
+sitting on screen under a panel reading "Nothing looked up yet". The browser's
+rule for `[hidden]` is `display: none` at the lowest specificity, so
+`.inc-watch { display: flex }` beat it — while `element.hidden` was genuinely
+`true`, which is what the JavaScriptCore check asserted and passed. It had
+already bitten once, at T5, where the clock's reason got a local
+`.inc-clock-reason[hidden]` patch; twice means a third, so `incisor.css` now
+carries one `[hidden] { display: none !important; }` and the local patch is
+gone. Promoted to *Recurring traps*, with the part worth keeping: an assertion
+about an attribute is not an assertion about what is on screen.
+
+**A warning that arrived after the thing it warned about.** With storage
+blocked the list worked and said nothing, because `available` was decided at
+the first write rather than at open — so the notice explaining that nothing
+would survive a reload appeared only once the reader had added a symbol, which
+is one symbol too late to be a warning. The runner's own assertion had passed
+for the wrong reason: it checked `isPersistent()` *after* an `add()`. It now
+asks before any write, and both the null and the throwing case are covered.
+
+A third came out of my own tests rather than a picture: the tie-break in
+`sorted()` multiplied by the direction, so pressing "Last" twice reordered rows
+whose price had never differed. The tie-break is a stabiliser, not part of the
+sort, and only the symbol column — where the same comparison *is* the sort —
+flips.
+
+**Storage is untrusted on read** (guide §5), and the two failures are told
+apart. A blob that is not ours is discarded and announced, because a watchlist
+that silently comes back empty looks like the page losing the reader's work; a
+blob holding one bad ticker just loses that ticker, and is not announced,
+because it was not a reset. A blocked or full storage is not a failed watchlist
+either — the list works for the session, and the notice names the part that is
+actually lost.
+
+**Two flags on `shoot.py`.** `--watch` writes the list before the first
+navigation, which is the only way to photograph the reload path: a fresh
+browser context has no site data, so a list built by clicking would only prove
+the click worked. `--block-storage` makes `localStorage` throw on access the
+way a private window does. Both states now have pictures instead of claims.
+
+**With the service stopped** the list still comes back — the symbols are a
+browser fact, not a server one — every row says "unavailable" in its own space,
+and the provenance line says why. Verified and deliberately not committed as a
+set: `t8-service-down` already holds that picture, and `docs/shots/` is at
+5.7MB. `t8-chart` was pruned as superseded by `t9-watch-toggle`, which shoots
+the same page state with the watchlist on it.
+
+One small breach of §7 to own: the page-wide `[hidden]` fix went into the T9
+commit rather than its own. It was found while building T9 and it also fixes
+the clock, so it was two logical changes in one subject line.
+
+**One task, not three.** T10 is next and it is not a small one: movers and a
+sector grid want eleven sector ETFs at one call each, against a budget that
+now has ten left after the strip and a full watchlist. That is a design problem
+rather than a build, and it deserves a session that starts with it. Nothing
+installed, no upstream call, no account, no terms accepted, nothing pushed or
+merged. The service ran in fixture mode against a scratch database in the
+session's temp directory and was stopped afterwards. `git status` shows changes
+only under `incisor-trading/`.
+
+### For Key
+
+- **Nothing new to decide.** The provider question is untouched; no live call
+  was made. The light-theme and 600-line readings all stand as written.
+- **D3 is still open** and now covers a second surface: a watchlist row shows a
+  symbol and cannot open it, exactly as a tile does. It is labelled
+  `[enhancement]`, so the routine has left it alone for a third session — but
+  it is now the thing most obviously missing from the page, because the
+  watchlist is a list of symbols whose whole purpose is to be looked at, and
+  looking at one still means retyping it into the search box above.
+- **The quote card is five lines from the per-surface cap.** T11 adds
+  fundamentals to that panel, so it will need a split first. Flagging it here
+  rather than pre-emptively restructuring someone else's task.

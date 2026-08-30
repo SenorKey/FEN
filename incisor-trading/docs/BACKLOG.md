@@ -131,9 +131,21 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   `js/chart-canvas.js` there, when the view crossed the 600-line rule, and a
   sixth shot set holds the state fixtures cannot serve.
 
-- [ ] **T9 · Watchlist** — add/remove symbols, persisted to `localStorage`, sortable.
+- [x] **T9 · Watchlist** — add/remove symbols, persisted to `localStorage`, sortable.
   *Accept:* survives reload; handles a cleared/blocked `localStorage` without
   throwing; caps at a sane number of symbols to bound upstream calls.
+  *Done 2026-08-30.* `js/watchlist-store.js`, `js/view-watchlist.js` and
+  `css/watchlist.css` (new), plus a Watch toggle beside the quote card —
+  outside `[data-quote]`, because everything in that panel is a figure the
+  service returned and this is a control over the reader's own list. **Capped
+  at eight**, and the number is the upstream budget rather than taste: a row
+  costs one `/history` call, the same single call a tile costs. 119 checks in
+  JavaScriptCore, 122 page tests, 128 service tests. Three states
+  screenshotted under `docs/shots/t9-*`; the service-stopped state was
+  verified and not committed, because `t8-service-down` already holds that
+  picture. **Two defects found in the screenshots, not the tests** — the
+  `[hidden]` attribute defeated by an author `display` rule, and a notice
+  that only appeared after the thing it warned about. See `PROGRESS.md`.
 
 - [ ] **T10 · Movers and sectors** — top gainers, losers, most active; sector
   performance grid. *Accept:* renders from fixtures; gains/losses are distinguishable
@@ -310,8 +322,9 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-*Nothing is due.* Every surface on the page has a row below. The next one
-joins the queue when it ships, and is due three sessions later.
+1. **Watchlist** (T9) — shipped 2026-08-30. Due after two more sessions.
+
+Nothing is due yet. Every other surface on the page has a row below.
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
@@ -330,7 +343,13 @@ step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
-  *(found 2026-08-29, in the T6 audit)* — the strongest finding of that audit
+  *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
+  surfaces:** T9's watchlist rows have exactly the same problem, and it is
+  sharper there, because a watchlist is a list of symbols whose entire purpose
+  is to be looked at. Still labelled `[enhancement]`, so the routine leaves it
+  for Key's triage. Original scope below.
+
+  The strongest finding of that audit
   and the one it deliberately did not act on. A reader looking at the SPY tile
   who wants SPY's chart has to retype `SPY` into a search box 400px below it on
   desktop and 900px below it on a phone, while the thing they are pointing at
