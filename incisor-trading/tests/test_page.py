@@ -44,6 +44,10 @@ SHIPPED = ('index.html',) + CSS_FILES + JS_FILES
 NEVER_FETCHED = {'http://www.w3.org/2000/svg'}
 PAGE = Page(HTML)
 
+# The deploy file Key installs into Apache. Not shipped to a visitor, so it is
+# outside SHIPPED, but it is the other half of every route the page calls.
+PROXY_SNIPPET = read(os.path.join('server', 'apache-snippet.conf'))
+
 
 def visible_text(source):
     """Roughly what a reader sees: comments, scripts and styles removed, then
@@ -212,6 +216,26 @@ class TestClientSecurity(unittest.TestCase):
         remote = [url for url in re.findall(r'''['"]((?:https?:)?//[^'"]*)['"]''', JS)
                   if url not in NEVER_FETCHED]
         self.assertEqual(remote, [], 'a remote origin appears in the shipped JS')
+
+    def test_every_route_the_page_calls_is_reverse_proxied(self):
+        """A route the browser calls that Apache does not forward is a feature
+        that works in every check we run and fails the day it is deployed.
+
+        /symbols shipped that way at T7 and nothing noticed for three sessions,
+        because the development server in tools/shoot.py forwards the whole
+        /api/incisor/ prefix while the snippet names one route per line. So the
+        list is derived from the shipped client rather than written out here —
+        the same reason `_shipped()` derives its file list (DECISIONS.md).
+
+        /health is the deliberate exception and is asserted the other way: it
+        is a local diagnostic, and the page must not be asking for it.
+        """
+        called = set(re.findall(r'BASE\s*\+\s*[\'"](/[a-z-]+)', JS))
+        self.assertIn('/history', called, 'the URL pattern this derives from moved')
+        for route in sorted(called):
+            self.assertIn('ProxyPass        /api/incisor%s ' % route, PROXY_SNIPPET,
+                          '%s is called by the page and not proxied' % route)
+        self.assertNotIn('/health', called)
 
 
 class TestDesignRules(unittest.TestCase):
