@@ -30,6 +30,13 @@ so without them the only screenshot that could be taken is the one state
 nobody is asking about. --range presses one of the chart's range buttons once
 a symbol is loaded, which is how a range other than the default gets shot.
 
+--chart-no-history is the one state no fixture can produce: a quote that
+arrives with no series behind it, which the chart says in its own space rather
+than failing the panel. It needs /quote to answer and /history not to, and the
+service either has a symbol or does not — so the chart is driven into it
+through the API the quote panel drives it with. It is a real state of the real
+page in live mode, and it is designed, so it is worth a picture.
+
 With --api, /api/incisor/* is forwarded to a running incisor service the way
 Apache forwards it in production, so the dashboard can be shot with real
 fixture data in it. Without it those requests 404, which is the other shot
@@ -138,6 +145,9 @@ SETTLED = ('[data-quote]:not([data-state="loading"])'
 CHART_READY = '[data-chart][data-state="ready"]'
 
 
+CHART_NO_HISTORY = '[data-chart][data-state="unavailable"]'
+
+
 def drive(page, args, problems, label):
     """Put the page into a state that only exists after an interaction.
 
@@ -158,13 +168,18 @@ def drive(page, args, problems, label):
             # with no data behind it settles in not-found, and that is a state
             # worth a screenshot rather than a failure to reach one.
             page.wait_for_selector(SETTLED, timeout=10000)
-            if args.range:
+            if args.range or args.chart_no_history:
                 # The chart is a separate surface with its own state, so it
                 # is waited for separately: the panel settles before the
                 # series it hands over has been drawn.
                 page.wait_for_selector(CHART_READY, timeout=10000)
+            if args.range:
                 page.click('[data-chart-range="%s"]' % args.range)
                 page.wait_for_selector(CHART_READY, timeout=10000)
+            if args.chart_no_history:
+                page.evaluate('symbol => window.IncisorPriceChart'
+                              '.unavailable(symbol)', args.symbol)
+                page.wait_for_selector(CHART_NO_HISTORY, timeout=10000)
         else:
             page.wait_for_selector("[data-search-results] [role=option]",
                                    timeout=10000)
@@ -203,6 +218,10 @@ def main():
     ap.add_argument("--range", default=None,
                     help="press this chart range after the symbol loads, "
                          "e.g. --range 5Y. Needs --symbol.")
+    ap.add_argument("--chart-no-history", action="store_true",
+                    help="drive the chart into its no-history state once the "
+                         "symbol loads — the one state fixtures cannot serve. "
+                         "Needs --symbol.")
     args = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
