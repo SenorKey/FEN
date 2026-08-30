@@ -19,6 +19,7 @@ Usage:
                                           [--api http://127.0.0.1:8789]
                                           [--symbol SPY [--range 5Y]]
                                           [--search app]
+                                          [--watch SPY,QQQ] [--block-storage]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
@@ -29,6 +30,13 @@ interaction: the quote panel and the chart are empty until someone searches,
 so without them the only screenshot that could be taken is the one state
 nobody is asking about. --range presses one of the chart's range buttons once
 a symbol is loaded, which is how a range other than the default gets shot.
+
+--watch seeds localStorage before the first navigation, which is the only
+way to photograph the watchlist as a returning visitor sees it — a fresh
+browser context has no site data, so a list built by clicking would only show
+that the click worked. --block-storage makes localStorage throw on access, the
+way a private window does, so the degraded state is a picture rather than a
+claim.
 
 --chart-no-history is the one state no fixture can produce: a quote that
 arrives with no series behind it, which the chart says in its own space rather
@@ -46,6 +54,7 @@ a blank grid, and that is an acceptance criterion rather than an edge case.
 
 import argparse
 import contextlib
+import json
 import functools
 import http.server
 import pathlib
@@ -146,6 +155,7 @@ CHART_READY = '[data-chart][data-state="ready"]'
 
 
 CHART_NO_HISTORY = '[data-chart][data-state="unavailable"]'
+WATCHLIST_READY = '[data-watchlist][data-state="ready"]'
 
 
 def drive(page, args, problems, label):
@@ -191,6 +201,50 @@ def drive(page, args, problems, label):
     return panel.get_attribute("data-state") if panel else None
 
 
+WATCHLIST_KEY = "incisor.watchlist"
+
+# The stored schema, kept in step with js/watchlist-store.js. A seed written
+# at the wrong version is discarded on load and the page correctly shows an
+# empty list, which looks exactly like the seeding not working.
+WATCHLIST_VERSION = 1
+
+
+def seed_storage(ctx, args):
+    """Put the browser into a storage state the page cannot reach on its own.
+
+    --watch is the reload path, and it is the only way to photograph it: a
+    fresh context starts with empty site data, so a watchlist shot after
+    clicking Watch would only prove the click worked. Writing the list before
+    the first navigation means the page reads it back exactly as it would on
+    a second visit, which is the acceptance criterion.
+
+    --block-storage is the other half. localStorage throws on property access
+    in a private window and where site data is blocked, and a page that lets
+    that reach the view loses a feature to an exception nobody can see. The
+    designed answer is a working list plus a notice saying it will not
+    survive a reload, and that is worth a picture.
+    """
+    if args.block_storage:
+        ctx.add_init_script(
+            "Object.defineProperty(window, 'localStorage', {"
+            "  configurable: true,"
+            "  get() { throw new Error('site data is blocked'); }"
+            "});"
+        )
+        return
+
+    if not args.watch:
+        return
+
+    symbols = [s.strip().upper() for s in args.watch.split(",") if s.strip()]
+    blob = json.dumps({"v": WATCHLIST_VERSION, "symbols": symbols,
+                       "sort": {"key": "symbol", "dir": "asc"}})
+    ctx.add_init_script(
+        "try { window.localStorage.setItem(%s, %s); } catch (e) {}"
+        % (json.dumps(WATCHLIST_KEY), json.dumps(blob))
+    )
+
+
 @contextlib.contextmanager
 def serving(root, api_base=None):
     """A quiet static server on an ephemeral port, torn down on exit."""
@@ -222,6 +276,16 @@ def main():
                     help="drive the chart into its no-history state once the "
                          "symbol loads — the one state fixtures cannot serve. "
                          "Needs --symbol.")
+    ap.add_argument("--watch", default=None,
+                    help="seed the watchlist with these symbols before the "
+                         "page loads, e.g. --watch SPY,QQQ,AAPL. This is the "
+                         "reload path: the list is written to localStorage "
+                         "and the page reads it back the way it would on a "
+                         "second visit.")
+    ap.add_argument("--block-storage", action="store_true",
+                    help="make localStorage throw on access, the way a "
+                         "private window or a browser with site data blocked "
+                         "does, so the watchlist's degraded state can be shot.")
     args = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
@@ -244,6 +308,8 @@ def main():
                 device_scale_factor=2 if mobile else 1,
                 color_scheme=args.theme,
             )
+            seed_storage(ctx, args)
+
             page = ctx.new_page()
             errors = []
             # A console message's text omits the offending URL, so the
@@ -270,6 +336,18 @@ def main():
             if args.search or args.symbol:
                 if drive(page, args, problems, label) == "not-found":
                     missing = args.symbol
+
+            # A seeded watchlist fetches a row per symbol, so the table is
+            # still filling when the rest of the page has settled. Waiting for
+            # its own state rather than for the network keeps the shot honest:
+            # a row whose call failed reaches "ready" too, and that is a state
+            # worth photographing rather than one worth waiting out.
+            if args.watch:
+                try:
+                    page.wait_for_selector(WATCHLIST_READY, timeout=10000)
+                except Exception as error:
+                    problems.append(f"{label}: the watchlist never settled — "
+                                    f"{type(error).__name__}")
 
             # Horizontal overflow is a guide §13 violation, so it fails the run
             # rather than being left for a human to spot in an image.

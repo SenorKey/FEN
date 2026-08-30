@@ -84,6 +84,12 @@
      * case the panel is still a complete answer without it. */
     var chart = window.IncisorPriceChart;
 
+    /* The Watch toggle sits on this card and belongs to the watchlist, the
+     * same way the chart sits beside it and owns itself. All this panel does
+     * is say which symbol is on screen; whether it is watched, whether the
+     * list is full and what the button reads are none of its business. */
+    var watchlist = window.IncisorWatchlist;
+
     /* ── The results list ───────────────────────────────────────── */
 
     function closeList() {
@@ -339,6 +345,10 @@
             }
         }
 
+        // Offered on a quote rather than on a search, so the button never
+        // appears beside figures that turned out not to exist.
+        if (watchlist) watchlist.offer(symbol);
+
         var summary = figures.provenanceFor(quoteEnvelope, quote.tradingDay);
         var line = panel.querySelector('[data-quote-provenance]');
         if (line) {
@@ -441,6 +451,7 @@
             // Cleared rather than left showing the previous symbol's prices
             // under the name of one that has none.
             if (chart) chart.reset();
+            if (watchlist) watchlist.offer(null);
         });
     }
 
@@ -450,6 +461,7 @@
             say(failureMessage('invalid_symbol', symbol));
             setHint(adviceFor('invalid_symbol'));
             if (chart) chart.reset();
+            if (watchlist) watchlist.offer(null);
             return;
         }
         input.value = finder.asSymbol(symbol);

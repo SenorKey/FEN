@@ -69,6 +69,25 @@ body.incisor .nav-dropdown-menu {
     background: #06080a;
 }
 
+/* The `hidden` attribute, made to actually hide things.
+
+   The browser's own rule for it is `display: none` at the lowest possible
+   specificity, so any author rule that sets `display` on the same element
+   silently beats it — and every view on this page hides something by setting
+   `.hidden = true` and trusting the attribute. The failure is invisible in
+   any DOM test, because the attribute really is set and the element really
+   is on screen; it only shows up in a screenshot.
+
+   It has caught this page twice: the clock's reason, which had a local patch
+   here, and the watchlist's toggle, which was found sitting under a panel
+   saying nothing had been looked up. One rule at the top instead of a third
+   local one, so the next surface that hides something inherits the fix.
+   `!important` is the point rather than a shortcut — this has to outrank
+   whatever a surface sets on itself. */
+[hidden] {
+    display: none !important;
+}
+
 /* ═══════════════════════════════════════════════
    PAGE SHELL
    ═══════════════════════════════════════════════ */
@@ -174,10 +193,6 @@ body.incisor .nav-dropdown-menu {
 
 .inc-clock-reason::before { content: '('; }
 .inc-clock-reason::after { content: ')'; }
-
-.inc-clock-reason[hidden] {
-    display: none;
-}
 
 /* The dot is the fastest read of the four states, so it carries colour —
    but never alone. The state word next to it says the same thing in

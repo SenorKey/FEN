@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
     <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
     <link rel="stylesheet" href="/incisor-trading/css/chart.css">
+    <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the two
       logic modules are in place before any view runs, and each view runs
@@ -35,8 +36,10 @@
     <script src="/incisor-trading/js/chart-canvas.js" defer></script>
     <script src="/incisor-trading/js/market-data.js" defer></script>
     <script src="/incisor-trading/js/symbol-search.js" defer></script>
+    <script src="/incisor-trading/js/watchlist-store.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
     <script src="/incisor-trading/js/view-price-chart.js" defer></script>
+    <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
@@ -451,6 +454,38 @@
                     </div>
 
                     <!--
+                      The way into the watchlist. Beside the quote card rather
+                      than inside it, and that is a distinction the page makes
+                      everywhere: everything within [data-quote] is a figure the
+                      service returned, and this is a control over a list held
+                      in the reader's own browser. It also keeps the card's
+                      markup readable in one go, which is the rule that caught
+                      the mistake.
+
+                      Shipped hidden. It appears once a symbol is actually
+                      priced, so it never sits under a card that failed to find
+                      one, and the symbol it acts on is the one named directly
+                      above it.
+
+                      aria-disabled rather than disabled when the list is full:
+                      a disabled button leaves the tab order, so a keyboard
+                      reader would never reach the sentence saying why it is
+                      refusing.
+                    -->
+                    <div class="inc-watch" data-watch hidden>
+                        <button type="button" class="inc-watch-toggle"
+                            aria-pressed="false" aria-disabled="false"
+                            aria-describedby="inc-watch-note"
+                            data-watch-toggle data-track="watchlist-toggle">
+                            <span class="inc-watch-mark"
+                                aria-hidden="true">&#9733;</span>
+                            <span data-watch-toggle-label>Watch</span>
+                        </button>
+                        <p class="inc-watch-note" id="inc-watch-note"
+                            data-watch-note hidden></p>
+                    </div>
+
+                    <!--
                       The price chart. A surface of its own beside the quote card
                       rather than inside it: it draws the same /history series the
                       panel is built from, so a range change costs nothing
@@ -590,6 +625,110 @@
                             </div>
                         </details>
                     </figure>
+                </section>
+
+                <!--
+                  The watchlist. The first surface on this page that remembers
+                  anything between visits: the list lives in this browser's
+                  localStorage and nowhere else, which is what keeps the page
+                  account-free.
+
+                  It ships empty, and empty is a real state rather than a
+                  missing one &mdash; the sentence below is true before any
+                  script runs and stays true if none ever does. The table is
+                  hidden until there is something in it.
+
+                  Capped at eight, and the number is the upstream budget
+                  rather than taste: every watched symbol costs one daily-bars
+                  call, the same single call a tile costs. The arithmetic is
+                  written down in js/watchlist-store.js.
+                -->
+                <section class="inc-watchlist" data-watchlist data-state="empty"
+                    aria-labelledby="inc-watchlist-heading">
+                    <h3 class="inc-section-heading"
+                        id="inc-watchlist-heading">Watchlist</h3>
+                    <p class="inc-panel-note">Symbols you asked to keep an eye
+                        on. They are stored in this browser only &mdash; there is
+                        no account and no copy on the server &mdash; and the list
+                        holds eight, which is what the free data allowance can
+                        refresh alongside everything else on this page.</p>
+
+                    <p class="inc-watch-empty">Nothing here yet. Look up a symbol
+                        above and press Watch to add it.</p>
+
+                    <div class="inc-watch-scroll">
+                        <table class="inc-watch-table">
+                            <caption class="inc-offscreen">Watched symbols, with
+                                the last close and the change over the session
+                                before it.</caption>
+                            <thead>
+                                <tr>
+                                    <!--
+                                      Sorting is a button inside the header cell,
+                                      and aria-sort goes on the cell: the button
+                                      is the control, the column is the thing
+                                      that is sorted. All three share one
+                                      data-track, so no ticker reaches the
+                                      beacon.
+                                    -->
+                                    <th scope="col" aria-sort="ascending"
+                                        data-watchlist-column>
+                                        <button type="button" class="inc-watch-sort"
+                                            aria-pressed="true"
+                                            data-watchlist-sort="symbol"
+                                            data-track="watchlist-sort">Symbol</button>
+                                    </th>
+                                    <th scope="col" aria-sort="none"
+                                        data-watchlist-column>
+                                        <button type="button" class="inc-watch-sort"
+                                            aria-pressed="false"
+                                            data-watchlist-sort="price"
+                                            data-track="watchlist-sort">Last</button>
+                                    </th>
+                                    <!--
+                                      The window the coloured figures below cover,
+                                      named once in the header instead of once per
+                                      row: a header names every cell beneath it,
+                                      and eight repeats of "1d" down a table is
+                                      noise where on a single tile it was the
+                                      missing fact.
+                                    -->
+                                    <th scope="col" aria-sort="none"
+                                        data-watchlist-column>
+                                        <button type="button" class="inc-watch-sort"
+                                            aria-pressed="false"
+                                            data-watchlist-sort="change"
+                                            data-track="watchlist-sort">Change<span
+                                                class="inc-offscreen"> over the
+                                                last session</span><span
+                                                class="inc-period"
+                                                aria-hidden="true">1d</span></button>
+                                    </th>
+                                    <th scope="col">
+                                        <span class="inc-offscreen">Remove</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody data-watchlist-rows></tbody>
+                        </table>
+                    </div>
+
+                    <p class="inc-watch-count" data-watchlist-count></p>
+
+                    <!--
+                      What happened to the stored list, when something did. A
+                      watchlist that silently comes back empty looks like the
+                      page losing the reader's work, so it is announced rather
+                      than discovered.
+                    -->
+                    <p class="inc-watch-notice" role="status"
+                        data-watchlist-notice hidden></p>
+
+                    <p class="inc-provenance" data-watchlist-provenance
+                        data-provenance-state="pending" hidden>
+                        <span class="inc-provenance-dot" aria-hidden="true"></span>
+                        <span data-watchlist-provenance-message></span>
+                    </p>
                 </section>
             </section>
 
