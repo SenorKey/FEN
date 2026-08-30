@@ -1443,3 +1443,30 @@ was stopped afterwards. `git status` shows changes only under
   tile shows a symbol and cannot open it. It is now the oldest unaddressed
   finding on the page, and with the audit queue empty it is the first thing a
   session could take that is not a numbered backlog task.
+
+## 2026-08-30 — Attended: defects need a way to be reached
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (§14 step 4, new §19), `BACKLOG.md` (Discovered
+header, D3 and D4 labelled)
+**Verified:** 102 page tests green; section numbering contiguous 1–19.
+
+The audit fix worked — all four surfaces audited, four real verdicts, and the
+findings were ones tests and screenshots had both missed. But `## Discovered`
+has the same defect the audit log had: it sits below every phase, so nothing in
+it is reachable by working down the list. `D2` only got done because it was
+actively blocking T8, and `D1` was done attended.
+
+That is harmless for ideas and bad for bugs. **D4** — `DB_PATH` in `config.env`
+ignored because `store` is imported before `load_env_file()` runs — would have
+sat behind nineteen feature tasks, working by coincidence until the day the path
+changed on deployment.
+
+A `D` item is now labelled `[defect]` or `[enhancement]`. A defect is taken at
+step 4 before any audit and before the next task, one per session. An
+enhancement waits for Key. When the call is unclear, file it as a defect. D3
+(a tile cannot open its symbol) is an enhancement; D4 is a defect, so it is what
+the next session picks up.
+
+**Note for the next session:** step 4 is now (a) defect, (b) due audit, (c) next
+task. All four surfaces are audited, so the next session takes D4, then T9.
+

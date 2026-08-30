@@ -324,10 +324,12 @@ joins the queue when it ships, and is due three sessions later.
 
 ## Discovered
 
-Tasks found mid-work that don't fit above. Append here; Key triages them into
-phases.
+Tasks found mid-work that don't fit above. **Label each one `[defect]` or
+`[enhancement]`** — see guide §19. A defect is taken before anything else at
+step 4 of the session protocol; an enhancement waits for Key to triage it into a
+phase. When the call is unclear, file it as a defect.
 
-- [ ] **D3 · A tile shows a symbol and cannot open it**
+- [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit)* — the strongest finding of that audit
   and the one it deliberately did not act on. A reader looking at the SPY tile
   who wants SPY's chart has to retype `SPY` into a search box 400px below it on
@@ -345,7 +347,7 @@ phases.
   somewhere a screen reader explains; the beacon sees no ticker; the strip
   still renders with `view-symbol.js` absent.
 
-- [ ] **D4 · `DB_PATH` in `config.env` is silently ignored**
+- [ ] **D4 · `DB_PATH` in `config.env` is silently ignored** `[defect]`
   *(found 2026-08-29, in passing)* — `server/incisor.py` imports `store` at
   module level and calls `load_env_file()` *after* the imports, so
   `store.DB_PATH`, which is read at its own import, is fixed before the config

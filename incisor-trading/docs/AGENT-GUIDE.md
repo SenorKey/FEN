@@ -460,10 +460,13 @@ requirement on every task, not a phase at the end.
    and the last few `PROGRESS.md` entries. Then `git log --oneline -20` and
    `git branch --list 'incisor-*'` for the trajectory.
 3. `git checkout incisor-dev` (create it from `main` if absent).
-4. Check the audit log at the bottom of `BACKLOG.md` first. **If a surface is due
-   an audit (§18), that audit is this session's work** — do it instead of taking
-   a task, one per session. Otherwise take the **topmost unblocked, unchecked**
-   task. Don't skip ahead to something more interesting. If the top task is
+4. Work down this order and take the first thing that applies:
+   **(a)** an open **defect** in `## Discovered` (§19) — broken or latently
+   broken shipped code outranks new work;
+   **(b)** a surface **due an audit** (§18);
+   **(c)** the **topmost unblocked, unchecked** backlog task.
+   Either (a) or (b) is a whole session's work — do not also take a task. Within
+   (c), don't skip ahead to something more interesting. If the top task is
    blocked, note why and take the next one. If it has already failed twice, mark
    it `[!]` and move on.
 5. Before building, check `DECISIONS.md` for a dead end covering the approach you
@@ -717,3 +720,32 @@ up again next session, so an audit that changes nothing must still be logged.
 
 Once the backlog is done, Phase 6's `O6` takes over and the same oldest-first
 order applies continuously.
+
+---
+
+## 19. Discovered items — defects jump the queue
+
+`## Discovered` sits at the bottom of `BACKLOG.md`, below every phase. Nothing
+there is reachable by working down the list, which is fine for ideas and fatal
+for bugs: a defect filed there waits behind every remaining feature, and `D4` —
+a config key silently ignored since T2 — is exactly the kind that stays
+invisible until the day it is deployed.
+
+So a `D` item is one of two things, and the routine labels it when filing:
+
+- **`[defect]`** — something shipped is broken, or works only by coincidence.
+  Anything that misleads a reader, loses data, weakens a security control, or
+  will break on deployment. **These jump the queue**: at step 4 an open defect
+  is taken before any audit and before the next backlog task. One per session,
+  and it is that session's work.
+- **`[enhancement]`** — a good idea that is not a bug. `D3`, a tile that shows a
+  symbol it cannot open, is one: nothing is wrong, something is missing. These
+  wait for Key to triage them into a phase; the routine leaves them alone.
+
+When the call is genuinely unclear, **file it as a defect.** The cost of fixing
+something early is one session; the cost of shipping a quiet defect is that
+nobody finds it until it matters.
+
+Fixing a defect follows the ordinary rules: verify it, test that it stays fixed,
+record it. A defect that turns out not to be one gets reclassified with the
+reason, never silently dropped.
