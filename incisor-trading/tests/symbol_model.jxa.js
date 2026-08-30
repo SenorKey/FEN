@@ -418,6 +418,9 @@ function run(argv) {
             high.textContent = '—';
             range.appendChild(low);
             range.appendChild(high);
+            // Where the price sits inside the band, spoken. Ships empty, the
+            // way the served markup does: nothing is known before a lookup.
+            range.appendChild(new El('p', { 'data-range-position': '' }));
             body.appendChild(range);
         });
 
@@ -656,6 +659,16 @@ function run(argv) {
     equal('the marker is shown',
         ranges[0].querySelector('[data-range-marker]').hidden, false);
 
+    /* The same placement, in words. The marker is decorative, so without
+     * this the band announces a low and a high and withholds the one thing
+     * it was drawn to say. */
+    equal('the day band says where the price sits inside it, aloud',
+        ranges[0].querySelector('[data-range-position]').textContent,
+        'Last price 273.78 sits 69% of the way up this range.');
+    equal('and so does the 52-week band, over its own low and high',
+        ranges[1].querySelector('[data-range-position]').textContent,
+        'Last price 273.78 sits 74% of the way up this range.');
+
     check('the panel says where its numbers came from',
         view.text('[data-quote-provenance-message]').indexOf('generated') !== -1,
         view.text('[data-quote-provenance-message]'));
@@ -716,6 +729,9 @@ function run(argv) {
         yearRange.querySelector('[data-range-low]').textContent, '—');
     equal('and its marker is hidden rather than parked at one end',
         yearRange.querySelector('[data-range-marker]').hidden, true);
+    equal('and the spoken position says nothing rather than a place in a '
+        + 'band that has no ends',
+        yearRange.querySelector('[data-range-position]').textContent, '');
     equal('the average volume is an em dash',
         noHistory.figure('average-volume'), '—');
     equal('and so is the comparison against it',
@@ -733,6 +749,16 @@ function run(argv) {
         absent.text('[data-quote-message]'));
     check('and explains that this build only holds a few symbols',
         absent.text('[data-quote-message]').indexOf('sample data') !== -1,
+        absent.text('[data-quote-message]'));
+    /* Named, not pointed at. The failed lookup closed the results list, so
+     * "the search list above is all of them" sent the reader to a strip of
+     * empty screen. */
+    check('and names them, rather than pointing at a list the failed lookup '
+        + 'has just closed',
+        absent.text('[data-quote-message]').indexOf('AAPL') !== -1,
+        absent.text('[data-quote-message]'));
+    check('with the last one joined by "and", so it reads as a sentence',
+        absent.text('[data-quote-message]').indexOf(' and ') !== -1,
         absent.text('[data-quote-message]'));
     equal('the panel body stays hidden', absent.body.hidden, true);
     check('and the hint does not claim to be showing something',

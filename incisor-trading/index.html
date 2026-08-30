@@ -302,7 +302,16 @@
                     -->
                     <div class="inc-quote" data-quote data-state="empty">
 
-                        <p class="inc-quote-message" data-quote-message>Nothing
+                        <!--
+                          role="status" because this is the only place a failed
+                          lookup states its reason, and that reason was the one
+                          thing never announced: a screen reader heard "Try
+                          another ticker or company name." with nothing to
+                          explain it. Silent on load &mdash; a status region
+                          announces changes, not what it shipped with.
+                        -->
+                        <p class="inc-quote-message" role="status"
+                            data-quote-message>Nothing
                             looked up yet. Search above to see a symbol&rsquo;s
                             last price, its day and 52-week ranges, and how
                             heavily it traded.</p>
@@ -318,12 +327,24 @@
                             </header>
 
                             <p class="inc-quote-price" data-quote-price>&mdash;</p>
+                            <!--
+                              The window this coloured figure covers, as every
+                              tile names its own. It matters most here: four
+                              windows meet on this card &mdash; a session, a
+                              session, a year, six months &mdash; so a
+                              percentage naming none of them is the reader's
+                              problem to solve. Inline rather than
+                              right-aligned: there is no second token beneath
+                              it to pair with.
+                            -->
                             <p class="inc-quote-change inc-flat" data-quote-change>
                                 <span class="inc-arrow" aria-hidden="true"
                                     data-quote-arrow>&#9644;</span>
                                 <span class="inc-delta" data-quote-delta>&mdash;</span>
                                 <span class="inc-delta-pct"
                                     data-quote-pct>&mdash;</span>
+                                <span class="inc-offscreen">over the last session</span>
+                                <span class="inc-period" aria-hidden="true">1d</span>
                             </p>
 
                             <!--
@@ -333,6 +354,15 @@
                               js/market-figures.js and the drawing stays in CSS.
                             -->
                             <div class="inc-ranges">
+                                <!--
+                                  Each band ends in an off-screen sentence
+                                  placing the price inside it. The marker is
+                                  decorative, but its position is the whole
+                                  reason the band is here, and it was the one
+                                  part only a sighted reader got. Written by
+                                  the view, so an unknown position says
+                                  nothing at all.
+                                -->
                                 <div class="inc-range" data-range="day">
                                     <p class="inc-range-label">Day range</p>
                                     <div class="inc-range-track" data-range-track>
@@ -344,6 +374,8 @@
                                         <span data-range-low>&mdash;</span>
                                         <span data-range-high>&mdash;</span>
                                     </p>
+                                    <p class="inc-offscreen"
+                                        data-range-position></p>
                                 </div>
                                 <div class="inc-range" data-range="year">
                                     <p class="inc-range-label" data-range-title>52-week
@@ -357,6 +389,8 @@
                                         <span data-range-low>&mdash;</span>
                                         <span data-range-high>&mdash;</span>
                                     </p>
+                                    <p class="inc-offscreen"
+                                        data-range-position></p>
                                 </div>
                             </div>
 

@@ -112,15 +112,22 @@
    Without it the tile stated two timescales and named only one: the change
    is a single session, the line below is thirty days, and the only period
    word on the tile was the sparkline's "30d" — so the red -0.79% sat under
-   a label belonging to something else. Pushed to the right of its row on
-   purpose, directly above that "30d", because the two read as a pair only
-   when they are set the same way. Aria-hidden: "1d" is a glyph, and the
-   off-screen phrase beside it is what a screen reader gets instead. */
+   a label belonging to something else. Aria-hidden: "1d" is a glyph, and the
+   off-screen phrase beside it is what a screen reader gets instead.
+
+   Shared vocabulary, so this sets how the token looks and each surface sets
+   where it goes. A tile pushes it to the right of its row so it lands
+   directly above that "30d" — the two read as a pair only when they are set
+   the same way — and the quote card, which has no second window under it,
+   keeps it inline beside the figure it names. */
 .inc-period {
-    margin-left: auto;
     font-size: 0.6rem;
     letter-spacing: 0.06em;
     color: var(--muted);
+}
+
+.inc-tile-change .inc-period {
+    margin-left: auto;
 }
 
 .inc-up { color: var(--inc-up); }

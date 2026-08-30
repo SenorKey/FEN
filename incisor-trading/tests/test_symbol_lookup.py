@@ -167,6 +167,61 @@ class TestTheServedPanelInventsNothing(unittest.TestCase):
         self.assertEqual(len(note), 1)
 
 
+class TestNothingOnThisCardIsSilentAboutItself(unittest.TestCase):
+    """What the 08-29 audit found, on the surface that shipped before the
+    rule existed. Every other coloured figure on the page names the window it
+    covers and every other drawing has words behind it; this card had four
+    windows meeting on it, a marker carrying its only real meaning, and a
+    failure message nobody was ever told. Found in the screenshots and in the
+    accessibility tree, not in a failing test (guide 18)."""
+
+    def setUp(self):
+        self.panel = quote_markup()
+        start = self.panel.index('data-quote-change')
+        self.change_row = self.panel[start:self.panel.index('</p>', start)]
+
+    def test_the_change_names_the_window_it_covers(self):
+        """A tile does. The chart says "over six months" above its own. This
+        is the largest coloured figure on the page and it named nothing."""
+        self.assertIn('inc-period', self.change_row,
+                      'the quote change labels no period')
+        self.assertIn('over the last session', self.change_row,
+                      'the quote change does not say its period aloud')
+
+    def test_the_period_token_is_decorative_here_too(self):
+        """Read aloud, "1d" is "one d". The phrase beside it is the spoken
+        half, exactly as on a tile."""
+        for element in PAGE.elements:
+            if 'inc-period' in classes(element):
+                self.assertEqual(element['attrs'].get('aria-hidden'), 'true')
+
+    def test_each_band_has_somewhere_to_say_where_the_price_sits(self):
+        """The marker is aria-hidden, and its position is the one thing a
+        low and a high do not already say — so without this the band is a
+        decoration that withholds its own point."""
+        spoken = [e for e in PAGE.elements
+                  if 'data-range-position' in e['attrs']]
+        self.assertEqual(len(spoken), 2,
+                         'a range band has no spoken position')
+        for element in spoken:
+            self.assertIn('inc-offscreen', classes(element))
+
+    def test_the_bands_ship_saying_nothing(self):
+        """Same rule as every figure on the card: nothing is known before a
+        lookup, so nothing is claimed."""
+        empty = re.findall(r'data-range-position\s*>\s*</p>', self.panel)
+        self.assertEqual(len(empty), 2,
+                         'a band ships a position it cannot know yet')
+
+    def test_a_failed_lookup_is_announced_and_not_just_drawn(self):
+        """The hint carried "Try another ticker or company name." and the
+        reason lived only in the panel, so the one thing a screen reader
+        never heard was what had gone wrong."""
+        message = next(e for e in PAGE.elements
+                       if 'data-quote-message' in e['attrs'])
+        self.assertEqual(message['attrs'].get('role'), 'status')
+
+
 class TestSearchTelemetryHygiene(unittest.TestCase):
     """Guide section 5: no ticker may reach the beacon. beacon.js matches the
     nearest `button, a, [data-track]` ancestor of a click and falls back to its

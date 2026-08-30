@@ -236,6 +236,7 @@
         if (position === null) {
             marker.hidden = true;
             track.removeAttribute('data-range-known');
+            dom.fill(range, '[data-range-position]', '');
             return;
         }
         marker.hidden = false;
@@ -244,6 +245,21 @@
         // Content-Security-Policy (T13) blocks the attribute and not this.
         track.style.setProperty('--inc-range-position',
             (position * 100).toFixed(2) + '%');
+        dom.fill(range, '[data-range-position]',
+            positionSentence(position, value));
+    }
+
+    /* The marker, in words, for a reader who cannot see it.
+     *
+     * The band is here to say the one thing a low and a high do not, and that
+     * was exactly the part a screen reader never got: the marker is decorative
+     * and nothing stood in for it, so the band announced two numbers and none
+     * of its own meaning. Rounded to whole percent, because the drawing is not
+     * precise to a decimal either and reading one would claim it was.
+     */
+    function positionSentence(position, value) {
+        return 'Last price ' + figures.formatPrice(value) + ' sits '
+            + Math.round(position * 100) + '% of the way up this range.';
     }
 
     function rangeTitleFor(sessions) {
@@ -330,12 +346,34 @@
 
     /* ── Looking one up ─────────────────────────────────────────── */
 
+    /* The symbols this build can answer for, named rather than pointed at.
+     *
+     * The message used to end "the search list above is all of them", which
+     * was true and unhelpful: the lookup that just failed closes that list, so
+     * it sent the reader to an empty strip of screen and asked them to guess
+     * their way back into it. The tickers themselves fit in the sentence, and
+     * a reader holding one can act on it without opening anything.
+     */
+    function catalogSentence() {
+        var names = catalog.symbols.map(function (entry) {
+            return entry.symbol;
+        });
+        if (names.length < 2) {
+            return 'This build serves sample data for a short list of symbols.';
+        }
+        // No count in front of the list: it is redundant beside the names
+        // themselves, and a numeral inside a sentence reads as a figure on a
+        // page where every other numeral is one.
+        return 'This build serves sample data for '
+            + names.slice(0, -1).join(', ') + ' and '
+            + names[names.length - 1] + '.';
+    }
+
     function failureMessage(kind, symbol) {
         if (kind === 'not_found') {
             return 'No data for ' + symbol + '. '
                 + (catalog.exhaustive
-                    ? 'This build serves sample data for a handful of symbols; '
-                        + 'the search list above is all of them.'
+                    ? catalogSentence()
                     : 'That ticker is not one the data provider answers for.');
         }
         if (kind === 'invalid_symbol') {
@@ -371,8 +409,11 @@
         var entry = finder.lookup(catalog.symbols, symbol);
         showing = symbol;
         setState('loading');
+        // Said by the panel alone. Both lines carried this string, which put
+        // the same sentence on screen twice twenty pixels apart and, now that
+        // the panel announces, would have read it out twice as well.
         say('Looking up ' + symbol + '…');
-        setHint('Looking up ' + symbol + '…');
+        setHint('');
 
         var history = data.history(symbol).then(null, function () { return null; });
 
