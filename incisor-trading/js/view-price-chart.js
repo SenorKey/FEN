@@ -481,7 +481,7 @@
         if (button) setRange(button.getAttribute('data-chart-range'));
     }
 
-    function onPointerMove(event) {
+    function readPointer(event) {
         if (!shape) return;
         var box = plot.getBoundingClientRect();
         if (!box || !(box.width > 0)) return;
@@ -490,7 +490,34 @@
         if (index >= 0 && index !== cursor) setCursor(index);
     }
 
-    function onPointerLeave() {
+    /* A finger down is a reading taken, which a move alone is not: a tap
+     * never moves far enough to fire one, so without this the whole gesture
+     * a phone has produced nothing at all. */
+    function onPointerDown(event) {
+        readPointer(event);
+    }
+
+    function onPointerMove(event) {
+        readPointer(event);
+    }
+
+    /* A finger lifted is not a pointer moved away.
+     *
+     * The reading stays for a touch reader, because on a phone the finger is
+     * over the chart and the readout is under it — clearing on lift throws
+     * the answer away at the moment they look for it. A mouse leaving the
+     * plot means they have finished with it, and a blur passes no pointer at
+     * all, so both still put the cursor away.
+     */
+    function onPointerLeave(event) {
+        if (event && event.pointerType === 'touch') return;
+        if (shape) setCursor(null);
+    }
+
+    /* The gesture turned out to be a scroll rather than a read — the plot
+     * allows vertical panning over itself — so the reading it took on the way
+     * is withdrawn rather than left standing. */
+    function onPointerCancel() {
         if (shape) setCursor(null);
     }
 
@@ -547,8 +574,10 @@
         var buttons = chart.querySelector('[data-chart-ranges]');
         if (buttons) buttons.addEventListener('click', onRangeClick);
 
+        plot.addEventListener('pointerdown', onPointerDown);
         plot.addEventListener('pointermove', onPointerMove);
         plot.addEventListener('pointerleave', onPointerLeave);
+        plot.addEventListener('pointercancel', onPointerCancel);
         plot.addEventListener('keydown', onKeydown);
         plot.addEventListener('blur', onPointerLeave);
         if (table) table.addEventListener('toggle', onTableToggle);

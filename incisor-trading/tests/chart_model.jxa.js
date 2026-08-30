@@ -351,6 +351,12 @@ function run(argv) {
         page.hoverAt = function (x) {
             page.plot.fire('pointermove', { clientX: x });
         };
+        page.tapAt = function (x) {
+            page.plot.fire('pointerdown', { clientX: x, pointerType: 'touch' });
+        };
+        page.liftFinger = function () {
+            page.plot.fire('pointerleave', { pointerType: 'touch' });
+        };
         page.key = function (name) {
             return page.plot.fire('keydown', { key: name });
         };
@@ -461,6 +467,28 @@ function run(argv) {
         view.plot.getAttribute('data-chart-tracking'), 'false');
     equal('and leaves the latest close in the readout rather than blanking it',
         view.text('[data-chart-readout-price]'), '200.00');
+
+    /* The same readout, from a finger. A tap fires no move at all, so before
+     * this the one gesture a phone has read nothing — and lifting the finger
+     * threw away whatever a drag had found, at the moment the reader looked
+     * down at it. */
+    view.tapAt(0);
+    equal('a tap reads the day under it, which a move alone never fired for',
+        view.text('[data-chart-readout-date]'),
+        figures.formatBarDate(geometry.windowFor(year, 126).bars[0].date));
+    equal('and shows the cursor there',
+        view.plot.getAttribute('data-chart-tracking'), 'true');
+    view.liftFinger();
+    equal('lifting the finger keeps the reading, because on a phone the finger '
+        + 'was covering it', view.plot.getAttribute('data-chart-tracking'),
+        'true');
+    view.plot.fire('pointercancel', { pointerType: 'touch' });
+    equal('a gesture that turned out to be a scroll withdraws its reading',
+        view.plot.getAttribute('data-chart-tracking'), 'false');
+    view.tapAt(0);
+    view.plot.fire('blur', {});
+    equal('and a blur puts a kept reading away, pointer or not',
+        view.plot.getAttribute('data-chart-tracking'), 'false');
 
     /* The keyboard path to the same readout */
 
