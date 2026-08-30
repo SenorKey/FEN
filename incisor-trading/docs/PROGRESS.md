@@ -1646,3 +1646,146 @@ only under `incisor-trading/`.
 - **The quote card is five lines from the per-surface cap.** T11 adds
   fundamentals to that panel, so it will need a split first. Flagging it here
   rather than pre-emptively restructuring someone else's task.
+
+
+## 2026-08-31 — T10: what the market did underneath the index
+**Outcome:** shipped, plus a defect fixed on the way in
+**Changed:** `server/sectors.py`, `js/view-sectors.js`, `css/sectors.css`,
+`server/tests/test_sectors.py`, `tests/sectors_model.jxa.js`,
+`tests/test_sectors.py` (all new); `index.html`, `server/incisor.py`,
+`server/fetcher.py`, `server/apache-snippet.conf`, `server/tests/test_catalog.py`,
+`js/market-data.js`, `tests/test_page.py`, `tools/shoot.py`,
+`server/fixtures/` (22 new files)
+**Verified:** 72 checks in JavaScriptCore, 138 page tests, 156 service tests;
+`shoot.py` green at three widths in three configurations, including with the
+service stopped.
+
+The dashboard's fourth surface, and the only one that ranks. The strip says
+what the market did; this says what it did underneath, which four index tiles
+cannot answer however long you look at them. Eleven Select Sector SPDR funds
+over 1M / 3M / YTD / 1Y, best first, with a bar that turns eleven percentages
+into a shape you can read before you have read a single figure.
+
+**Sectors, and not movers, and that is the session's one real decision.** T10
+names both. Only one of them fits, and the reason is arithmetic rather than
+effort: a mover list is a ranking over a universe, and this architecture prices
+a universe one call at a time — the 48-name catalogue is 48 calls against 22 a
+day. Every universe small enough to afford is too small for the answer to be
+true, because real top gainers are small caps nobody hand-picked; "top gainers
+among the fifteen ETFs we happen to fetch" would be a ranking presented as a
+fact about the market. The one affordable route is a symbol-less market-wide
+endpoint, and the source path, the cache key and the per-symbol lock all assume
+no such thing exists. That is a build, not a corner of this one, so it is
+**T10b** with the arithmetic written into it rather than half-built here.
+
+**The budget shaped the surface again, as it has since T6.** Eleven funds is
+eleven upstream calls; at the endpoint's daily TTL that is half the day, leaving
+three lookups a day for the whole internet on the surface a reader actually came
+to use. So the series are read at a week — `fetcher.get()` grew a `max_age` for
+it — and the window list follows from that rather than from taste: a series that
+can be a week old cannot honestly carry a one-session figure. **There is no 1D
+column and its absence is the design**, the same shape as T8 having no 1D range.
+
+Two guards behind that, and they are different guards. The week is quota. The
+cap of two refreshes per request is latency and throttle: eleven sequential
+calls inside one response is 110 seconds of ten-second timeouts against a tier
+that also limits requests per minute. It first shipped applying to fixture mode
+too, which made the grid fill over six page loads in the only mode that has
+ever run — scoped to live now, for exactly the reason `budget_remaining()`
+already is.
+
+**`/sectors` is the first route that computes rather than relays.** Eleven daily
+series is about 340KB to answer a question that needs forty-four numbers, and
+the answer is 2.8KB. That is the opposite of `/history`, which hands over the
+whole series so the chart can slice five ranges without asking again — one
+symbol and many questions goes one way, many symbols and one question goes the
+other. All four windows ride on the single response, so pressing one costs
+nothing.
+
+**Every figure is measured to one date: the newest all eleven share.** Not a
+detail. A weekly refresh spread across requests is exactly how eleven series
+fall out of step, and eleven changes measured to eleven dates is not a ranking.
+Rows are truncated to the shared close and the page says which close it was.
+
+### The bar, which is the point of the surface
+
+Eleven percentages in a column is a lookup. Eleven lengths against a shared zero
+is a shape, and the shape says "one sector up, ten down" before a figure has
+been read — which is what the 1M window looks like in `t10-sectors-fell/`.
+
+It shipped with the zero line down the middle, which is the obvious way to draw
+a diverging chart and wastes half of every row the moment a window is one-sided
+— and sector windows usually are. The axis now spans the data *plus zero*,
+seeded at zero on both ends so the line is always on the track, and it lands
+where zero actually falls: 8% from the left on YTD, 63% on 1M. Bars grow from
+it in both directions, so a rise and a fall of the same size are the same
+length. The trade is that a length means "relative to the biggest mover here"
+and never "this many percent", which is why the figure is on the row and the
+bar is `aria-hidden`.
+
+### Two defects the screenshots caught and no test could
+
+**Bars overflowing their own track.** The fill was positioned at `left: 50%`
+with a width up to 94% *of the whole track*, so the longest bar ran to 144% and
+sat on top of the figure beside it — the top row read "2.01%" because the bar
+was covering the "+2". A DOM test asserting the custom property would have
+passed: the property was exactly what the view computed.
+
+**Sector names wrapping between 560 and 768px.** Three of the eleven —
+Consumer Discretionary, Consumer Staples, Communication Services — took two
+lines, which makes a ranked list look ragged for the sake of 80px more bar.
+Fixed with a 240px floor on the name column rather than a breakpoint, because
+the width where it starts to matter is a property of the names and not a round
+number. Measured across seven widths afterwards: uniform 38–39px rows from 560
+to 1440, no overflow anywhere down to 320.
+
+A third came out of the runner rather than a picture: the view called
+`document.createTextNode`, which the DOM stub does not implement, and the throw
+was swallowed by the promise stand-in — leaving the panel in `loading` forever.
+It would have done the same in a browser. The sector name has its own element
+now, which is better markup anyway.
+
+### D5, found while reading the file I was about to edit
+
+`/api/incisor/symbols` has never been in `apache-snippet.conf`. The search box
+has called it since T7, and on the day it deployed the combobox would have been
+permanently empty against Apache's own 404 — with no error a reader could act
+on. Invisible locally because every check here stands in for the deployment
+rather than being it: `shoot.py`'s static server forwards the whole
+`/api/incisor/` prefix, and the service tests call the routes directly.
+
+Fixed in its own commit, with a rule rather than a line: `test_page.py` now
+derives the routes the browser calls from the shipped client source and asserts
+each one is proxied, `/health` asserted the other way round. Confirmed to fail
+with the line removed again. That is the second deploy-only defect after D4, so
+the pair is promoted to *Recurring traps* — the question worth asking of
+anything in `server/` that is not code is what stands in for it locally, and
+what the stand-in papers over.
+
+**One task and one defect, not three.** T11 is next and it is not small: it
+needs EDGAR wired up as a second upstream, and the quote card was already five
+lines from the per-surface cap before this session started. Starting it would
+have meant leaving it half-built. Nothing installed, no upstream call, no
+account, no terms accepted, nothing pushed or merged. The service ran in fixture
+mode against a scratch database in the session's temp directory and was stopped
+afterwards. `git status` shows changes only under `incisor-trading/`.
+
+### For Key
+
+- **Nothing new to decide.** The provider question is untouched; no live call
+  was made. The light-theme and 600-line readings all stand as written.
+- **`index.html` is at 877 lines against the 900 ceiling D2 set** — 23 lines of
+  headroom, and T11 and T12 each add a surface. That ceiling was sized at D2 as
+  "room for the surfaces still planned", and T9 and T10 have used all but a
+  little of it; the next session will have to either raise it with a reason or
+  find a real seam. Flagging rather than moving a number another session
+  reasoned about.
+- **`docs/shots/` is 7.2MB** and grows about a megabyte a session. Pruning one
+  superseded set a session is no longer keeping pace. `t10-sectors-fell/` is
+  desktop-only for that reason, with a README saying why. Worth a deliberate
+  pass (S6) before it doubles again.
+- **D3 is still open** and now covers three surfaces: a tile, a watchlist row
+  and now a sector row all show a symbol that cannot be opened. Still labelled
+  `[enhancement]`, so the routine has left it alone for a fourth session. The
+  sector grid makes it slightly worse — eleven more symbols on screen that a
+  reader has to retype into the search box to look at.

@@ -147,9 +147,39 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   `[hidden]` attribute defeated by an author `display` rule, and a notice
   that only appeared after the thing it warned about. See `PROGRESS.md`.
 
-- [ ] **T10 · Movers and sectors** — top gainers, losers, most active; sector
-  performance grid. *Accept:* renders from fixtures; gains/losses are distinguishable
-  in grayscale.
+- [x] **T10 · Sector performance grid** — eleven Select Sector SPDR funds,
+  ranked, over 1M / 3M / YTD / 1Y. *Accept:* renders from fixtures; gains/losses
+  are distinguishable in grayscale.
+  *Done 2026-08-31.* `server/sectors.py`, `js/view-sectors.js` and
+  `css/sectors.css` (new), plus `GET /sectors` — the first route that computes
+  rather than relays, because eleven series is a third of a megabyte to answer
+  a question that needs forty-four numbers. **Sectors only: the movers half is
+  T10b**, not because it is hard but because it cannot be built from per-symbol
+  calls at all; see `DECISIONS.md` and do not "complete" this by ranking a
+  handful of large caps. **No 1D column**, for the same reason T8 has no 1D
+  range: eleven funds cost eleven of a 22-call day, so their series are read at
+  a week and the shortest window the grid can honestly draw is a month. Every
+  figure is measured to the newest date all eleven share. 72 checks in
+  JavaScriptCore, 138 page tests, 156 service tests. Three states shot under
+  `docs/shots/t10-*`. **Two defects found in the screenshots, not the tests** —
+  bars overflowing their track, and sector names wrapping between 560 and
+  768px.
+
+- [ ] **T10b · Market movers** — top gainers, losers and most actively traded.
+  The half of T10 that was deferred rather than deprioritised: it needs a
+  **symbol-less upstream endpoint**, which the source path, the cache key and
+  the per-symbol lock all assume does not exist. Ranking the catalogue instead
+  costs one call per symbol — 48 against a budget of 22 — and any universe
+  small enough to afford is too small for the answer to be true, because real
+  top gainers are small caps nobody hand-picked. Alpha Vantage's
+  `TOP_GAINERS_LOSERS` answers the whole market in one call and is the only
+  affordable route to it. Two things to settle first: whether the fixture layer
+  can produce a believable payload naming sixty tickers that are not in
+  `server/catalog.py` and cannot be opened (D3, squared), and what the endpoint's
+  terms say — `docs/DATA-PROVIDER.md` has no row for it.
+  *Accept:* three lists render from fixtures; every symbol shown is one the page
+  can say something about, or the list says why it cannot; the whole surface
+  costs one upstream call a day.
 
 - [ ] **T11 · Fundamentals panel** — the standard set: market cap, P/E, EPS,
   dividend yield, beta, shares outstanding, revenue, margins. Each with a one-line
@@ -322,7 +352,8 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-1. **Watchlist** (T9) — shipped 2026-08-30. Due after two more sessions.
+1. **Watchlist** (T9) — shipped 2026-08-30. Due after one more session.
+2. **Sector grid** (T10) — shipped 2026-08-31. Due after two more sessions.
 
 Nothing is due yet. Every other surface on the page has a row below.
 
@@ -365,6 +396,19 @@ phase. When the call is unclear, file it as a defect.
   *Accept:* a tile opens its symbol by mouse and by keyboard; focus lands
   somewhere a screen reader explains; the beacon sees no ticker; the strip
   still renders with `view-symbol.js` absent.
+
+- [x] **D5 · `/symbols` was never reverse-proxied** `[defect]`
+  *(found and fixed 2026-08-31, mid-T10)* — the search box has called
+  `/api/incisor/symbols` since T7 and `server/apache-snippet.conf` names one
+  route per line, so on the day it was deployed the combobox would have been
+  permanently empty against Apache's own 404. Invisible locally because every
+  check this project runs forwards the whole `/api/incisor/` prefix: the static
+  server in `tools/shoot.py` does, and the service tests call the routes
+  directly. Fixed with a rule rather than a line — `test_page.py` derives the
+  routes the browser calls from the shipped client source and asserts each is
+  proxied, `/health` asserted the other way round. Confirmed to fail with the
+  line removed again. Third of the deploy-only defects after D4; promoted to
+  *Recurring traps* in `DECISIONS.md`.
 
 - [x] **D4 · `DB_PATH` in `config.env` is silently ignored** `[defect]`
   *(found 2026-08-29, done 2026-08-30)* — and worse than filed. With `DB_PATH`
