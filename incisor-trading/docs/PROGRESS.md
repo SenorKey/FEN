@@ -1339,3 +1339,107 @@ stopped afterwards. `git status` shows changes only under `incisor-trading/`.
   still shows a symbol it cannot open. It needs an export from
   `view-symbol.js`, focus handling and a generic `data-track`, and doing that
   inside an audit is how it gets done badly. Second session it has been named.
+
+## 2026-08-30 — Audit: the price chart (T8)
+**Outcome:** shipped — verdict **minor edits**
+**Changed:** `index.html`, `css/chart.css`, `js/view-price-chart.js`,
+`js/chart-canvas.js` (new), `js/view-symbol.js`, `tools/shoot.py`,
+`tests/test_price_chart.py`, `tests/test_page.py`, `tests/chart_model.jxa.js`,
+all five shot sets plus a new one
+**Verified:** 102 page tests (up from 99), 148 checks in JavaScriptCore (up
+from 141), 123 service tests, `shoot.py` green at 1440, 768 and 390 across six
+states, and four measurements taken in Chrome rather than reasoned about.
+
+The fourth audit under the §18 cadence, and the last surface with no row in
+the log. The queue is empty; the next entry joins it three sessions after it
+ships.
+
+**The card never said what it was a chart of.** The plot's `aria-label` has
+named the symbol since the day it shipped — "SPY closing prices, over six
+months…" — and nothing on screen ever did. It carries a price, a date, a
+six-month change and the largest coloured figure on the page, and on a phone
+the quote card that names the symbol is a scroll and a half above it. This is
+the same defect as the range bands in the T7 audit with the channels swapped:
+a fact stated in one place only, and that place the one some readers do not
+have. The head reads `SPY proxy over six months` now. The badge is there
+because the strip promises the ETFs "are labelled as proxies wherever they
+appear", and whether a symbol tracks an index is known to the quote panel,
+which passes it over with the series.
+
+**A tap did nothing, and a drag threw its answer away.** Traced rather than
+guessed, because the first attempt to prove it was wrong: coordinates from
+`bounding_box()` are viewport-relative, the chart sits 4000px down the page,
+and the tap landed on nothing. Scrolled into view, the trace is
+`pointerdown → pointerup → pointerleave → click`, **with no `pointermove` at
+all** — and `pointermove` was the only event the chart listened for. So the
+one gesture a phone has read nothing. What did work, a finger dragged across
+the plot, was undone by the lift: that arrives as a `pointerleave`, the
+readout reverted to the last close, and it did so at the moment the reader
+lifted their finger to look at it.
+
+A `pointerdown` takes a reading now, and a touch pointer leaving keeps it —
+right for a finger, where a mouse leaving still clears, because on a phone the
+finger is over the picture and the readout is under it. A `pointercancel`
+withdraws it, which is what separates a reading from the vertical scroll the
+plot deliberately allows over itself. Confirmed all three ways through CDP
+touch input: drag reads, lift keeps, swipe-to-scroll withdraws.
+
+The hint said "Hover the chart, or focus it and use the left and right arrow
+keys" — two things a phone does not have, and no mention of the one it does.
+It says "Touch or hover" now.
+
+**The worst-looking state was the one no screenshot held.** A quote that
+arrives with no series behind it puts the chart in `unavailable`, and nobody
+had ever looked at it. The plot becomes a flex box in every non-ready state
+and the empty SVG stayed in flow as a 714px item beside the message, so the
+centring the stylesheet asks for had nothing to centre: the sentence was a
+209px column pinned to the left edge of a 969px dashed box. Above it the head
+still named the last symbol's window — `blank()` cleared the drawing and left
+the label — and beside that, five range buttons that still moved
+`aria-pressed` and redrew nothing. All four fixed, and `shoot.py
+--chart-no-history` means the state has a picture. It is the only state on the
+page fixtures cannot produce: it needs `/quote` to answer and `/history` not
+to, and the service either holds a symbol or does not.
+
+**The view crossed 600 lines, so the drawing left.** 611, and the seam was
+already written in the file's own header. `js/chart-canvas.js` appends every
+node and decides nothing; `js/view-price-chart.js` decides everything and
+appends none. 453 and 205. The runner drives the split pair exactly as it
+drove the single file, which is what made the move safe to do inside an audit.
+A new page test asserts every module in `js/` and `css/` is actually loaded —
+`_shipped()` calls a file shipped because it is in the folder, so a module
+added without a script tag would have been held to every house rule while
+being dead code.
+
+**Performing, measured.** Five range changes made **zero** upstream calls: the
+series arrives once with the quote and every window is a slice of its tail. A
+redraw takes 8–16ms. The 260-row fallback table builds in 25ms, and only when
+it is opened. Against the 22-a-day budget the chart's marginal cost is zero,
+which is the whole reason it draws the panel's series rather than asking for
+its own.
+
+**Looked at and left alone.** The end markers sit astride the plot border —
+but the first and last sessions *are* the window's ends, the axis labels are
+pinned to those same edges, and insetting them would put a gap where the
+reader expects the window to start. The price axis lands six labels on 6M and
+three on 1Y and 5Y, because a 605-to-785 band asks for a step of 30 and the
+family's next size up is 50; 650, 700 and 750 is still a scale you read rather
+than interpolate. Both are recorded where they would otherwise be "fixed": the
+second in a comment beside `PRICE_TICKS`.
+
+**No backlog task was taken** — one audit per session is the whole of it
+(§18), so T9 waits a day. Nothing was installed, no upstream call was made, no
+account created, no terms accepted, nothing pushed or merged. The service ran
+in fixture mode against a scratch database in the session's temp directory and
+was stopped afterwards. `git status` shows changes only under
+`incisor-trading/`.
+
+### For Key
+
+- **Nothing new.** The provider question is untouched — the chart has always
+  drawn committed fixtures and still does. The 600-line reading, the light
+  theme decision and the `shoot.py` rate-limit note all stand as written.
+- **D3 is still open**, and this is the third session it has been named: a
+  tile shows a symbol and cannot open it. It is now the oldest unaddressed
+  finding on the page, and with the audit queue empty it is the first thing a
+  session could take that is not a numbered backlog task.

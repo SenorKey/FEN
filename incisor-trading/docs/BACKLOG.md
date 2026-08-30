@@ -126,7 +126,10 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   labels and round markers are HTML positioned over the SVG, because
   `preserveAspectRatio="none"` smears text and turns circles into ellipses.
   128 checks in JavaScriptCore, 88 page tests, 123 service tests; five states
-  screenshotted under `docs/shots/t8-*`.
+  screenshotted under `docs/shots/t8-*`. **Audited 08-30 — minor edits;** see
+  the audit log for what changed and why. The drawing moved to
+  `js/chart-canvas.js` there, when the view crossed the 600-line rule, and a
+  sixth shot set holds the state fixtures cannot serve.
 
 - [ ] **T9 · Watchlist** — add/remove symbols, persisted to `localStorage`, sortable.
   *Accept:* survives reload; handles a cleared/blocked `localStorage` without
@@ -307,7 +310,8 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-1. **Price chart** (T8, shipped 08-29)
+*Nothing is due.* Every surface on the page has a row below. The next one
+joins the queue when it ships, and is due three sessions later.
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
@@ -316,6 +320,7 @@ verdict still writes a row; that row is what stops the surface coming up again.
 | 08-30 | **Symbol lookup and quote detail** (T7) | **Minor edits** | Useful: it is the only way to reach any symbol that is not one of the four proxies, and the chart has no source without it — the page would lose half of what it does. Easy: three keystrokes and Enter, the combobox model is right, and "apple" opens Apple. Beautiful: the numbers are set properly and the card holds up beside the strip. Performing: two upstream calls per symbol against a 22 budget, issued together rather than in sequence, cached and shared. **Three defects, all of them things the card left the reader to work out.** The change named no window — four windows meet on this card and the largest coloured figure on the page named none of them, which is the T6 tile finding on the surface that shipped before that rule existed; it carries `1d` and a spoken phrase now. The range bands drew their own point and would not say it: the marker is decorative, so a screen reader got a low and a high and none of the placement they exist to give — each band ends in a spoken sentence now, silent when the position is unknown. And the not-found message ended "the search list above is all of them" while the failed lookup had just closed that list, so it named an empty strip of screen; it names the symbols instead. Also fixed: a failed lookup states its reason in the panel alone, and the panel was not a live region, so the only thing ever announced was the advice. |
 
 ---
+| 08-30 | **Price chart** (T8) | **Minor edits** | Useful: it answers the question a price cannot — what the thing has been doing — and it is the only surface that reuses a series already paid for, so it teaches at no cost. Pressing 5D inside a green six months is the cheapest lesson on the page. Easy, except by finger. Traced in Chrome under mobile emulation: a tap fires pointerdown, pointerup and pointerleave and **no pointermove**, which was the only event the chart listened for — so the one gesture a phone has read nothing, while the drag that did work threw its answer away on the lift, and the hint named hover and the arrow keys. A pointerdown now reads, a touch lift keeps the reading, a pointercancel withdraws it, and the sentence names the finger. Beautiful: it is the second thing a screenshot of this page leads with, and it never said what it was a chart of — the plot's `aria-label` named the symbol from the first day and nothing on screen did, with the quote card a scroll and a half above it on a phone. It carries `SPY proxy` in its head now, badge included, because the strip promises proxies are labelled wherever they appear. Its worst-looking state was the one no screenshot held: with a quote but no series, the empty SVG stayed in flow and squeezed the message into a 209px column against the left edge of a 969px dashed box, under a head still naming the last symbol's window, beside five range buttons that moved `aria-pressed` and redrew nothing. All four fixed, and `shoot.py --chart-no-history` means the state has a picture now. Performing: measured rather than assumed — five range changes made **zero** upstream calls, a redraw takes 8–16ms, and the 260-row fallback table builds in 25ms and only when opened. **Looked at and left:** the end markers sit astride the plot border, because the first and last sessions *are* the window's ends and the axis labels are pinned to those same edges; and the price axis carries three labels on 1Y and 5Y against six on 6M, because the step family jumps 25 to 50 — 650/700/750 across a 605–785 band is a scale you read rather than interpolate. |
 
 ## Discovered
 

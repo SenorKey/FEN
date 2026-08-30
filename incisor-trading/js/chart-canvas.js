@@ -32,7 +32,14 @@
     /* Six rather than four. The 1/2/2.5/5/10 step family jumps hard, so
      * asking for four levels across a typical price band rounds the step up
      * far enough to land only two labels on the axis — and two labels is a
-     * scale a reader has to interpolate rather than read. */
+     * scale a reader has to interpolate rather than read.
+     *
+     * It is a request and not a promise: measured across the fixture series,
+     * 6M lands six labels and 1Y and 5Y land three, because a 605-to-785 band
+     * asks for a step of 30 and the family's next size up is 50. Three labels
+     * at 650, 700 and 750 is still a scale you read rather than interpolate,
+     * so the jump is left alone. Looked at in the T8 audit; do not "even it
+     * out" by adding sizes the family does not have. */
     var PRICE_TICKS = 6;
     var DATE_TICKS = 4;
 
