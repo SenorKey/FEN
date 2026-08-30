@@ -33,6 +33,12 @@ closed without a key, and key redaction.
   The route must never offer a symbol nothing can price, so in fixture mode it
   lists what is on disk and says the list is complete; the table itself must
   never carry a figure, because prices belong to the market service.
+- **`test_config.py`** — that a key set in `config.env` actually takes effect.
+  `DB_PATH` is the D4 criterion, driven in a subprocess because import order is
+  the whole subject. The rest is the general rule that defect broke: only the
+  edge reads the environment at module level, and only below the line that
+  loads the file. Asserted over the AST, because both files explain in prose
+  why they do not do it.
 - **`test_http_smoke.py`** — the same service on a real socket, driven with
   real HTTP. A WSGI app can satisfy every test-client assertion and still fail
   to boot; this is what proves it serves.

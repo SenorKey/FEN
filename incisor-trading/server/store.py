@@ -23,11 +23,17 @@ are deliberately absent; the reasoning is in docs/DECISIONS.md.
 """
 
 import datetime
-import os
 import pathlib
 import sqlite3
 
-DB_PATH = os.environ.get('DB_PATH', '/var/lib/incisor-trading/incisor.db')
+DEFAULT_DB_PATH = '/var/lib/incisor-trading/incisor.db'
+
+# Where the database is, once the edge has said so. This module deliberately
+# does not read DB_PATH from the environment: incisor.py imports store at the
+# top of the file and loads $CONFIG_FILE below the imports, so anything read
+# here would be read before config.env had been opened, and a path set there
+# would be ignored while appearing to work.
+DB_PATH = DEFAULT_DB_PATH
 
 # The columns of a cached quote, in the order the internal shape defines them.
 # Named once so the insert, the read and the shape can never drift apart.
@@ -41,6 +47,17 @@ BAR_COLUMNS = ('open', 'high', 'low', 'close', 'volume')
 
 def now_utc_iso():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+
+def configure(path):
+    """Point the store at a database file. Call before init() or connect().
+
+    Returns the path in force, so the caller can log the value it set rather
+    than reaching back in for it.
+    """
+    global DB_PATH
+    DB_PATH = path or DEFAULT_DB_PATH
+    return DB_PATH
 
 
 def connect():

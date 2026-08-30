@@ -79,9 +79,12 @@ UPSTREAM_API_KEY = os.environ.get('UPSTREAM_API_KEY', '').strip()
 if DATA_SOURCE == 'live' and not UPSTREAM_API_KEY:
     sys.exit('UPSTREAM_API_KEY is required when INCISOR_DATA_SOURCE=live')
 
-# store.py owns the database, DB_PATH included. Re-exported here because the
-# startup log line and the tests both reach for incisor.DB_PATH.
-DB_PATH = store.DB_PATH
+# Read here, not in store.py, and below load_env_file() like every other key.
+# store is imported at the top of this file, so a DB_PATH it read at its own
+# import would be read before $CONFIG_FILE had been opened — which is exactly
+# what made the key silently ignored until D4. The edge reads the config; the
+# store is told.
+DB_PATH = store.configure(os.environ.get('DB_PATH', store.DEFAULT_DB_PATH))
 LISTEN_HOST = os.environ.get('LISTEN_HOST', '127.0.0.1')
 LISTEN_PORT = int(os.environ.get('LISTEN_PORT', '8789'))
 
