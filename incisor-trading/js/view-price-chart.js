@@ -7,17 +7,11 @@
  * the chart costs nothing upstream — see the note on ranges in
  * js/chart-geometry.js.
  *
- * The arithmetic is js/chart-geometry.js and the formatting is
- * js/market-figures.js. Nothing here computes a coordinate or a number; it
- * decides what goes on screen, which is what lets the whole thing be driven
- * from a DOM stub with no browser (tests/chart_model.jxa.js).
- *
- * Two things are drawn as HTML over the SVG rather than inside it: the axis
- * labels and the round markers. The plot is stretched to its container with
- * preserveAspectRatio="none", so a circle in that coordinate system comes out
- * an ellipse and text comes out smeared — while an HTML element positioned at
- * a percentage lands in exactly the same place and stays itself. Straight
- * lines are unaffected, so those stay in the SVG where they belong.
+ * The arithmetic is js/chart-geometry.js, the formatting is
+ * js/market-figures.js and the drawing is js/chart-canvas.js. Nothing here
+ * computes a coordinate, formats a number or appends a node: it decides what
+ * goes on screen and what the card says about it, which is what lets the whole
+ * thing be driven from a DOM stub with no browser (tests/chart_model.jxa.js).
  *
  * Contract with the markup: a [data-chart] figure whose data-state is one of
  * empty / ready / unavailable, holding [data-chart-symbol] and
@@ -35,27 +29,6 @@
     var dom = window.IncisorDom;
     var figures = window.IncisorMarketFigures;
     var geometry = window.IncisorChartGeometry;
-
-    var SVG_NS = 'http://www.w3.org/2000/svg';
-
-    /* Drawing units, matched to the viewBox in the markup. Not pixels: the
-     * plot is stretched to whatever width it lands in, and the height is set
-     * in CSS, so these only ever set proportions. */
-    var VIEW_WIDTH = 720;
-    var VIEW_HEIGHT = 240;
-    var VIEW_PADDING = 10;
-
-    /* Six rather than four. The 1/2/2.5/5/10 step family jumps hard, so
-     * asking for four levels across a typical price band rounds the step up
-     * far enough to land only two labels on the axis — and two labels is a
-     * scale a reader has to interpolate rather than read. */
-    var PRICE_TICKS = 6;
-    var DATE_TICKS = 4;
-
-    /* At or below this many sessions the line is sparse enough that the
-     * individual closes are the point, so each one gets a marker. Above it
-     * they would merge into a thicker line and say nothing. */
-    var DOT_LIMIT = 12;
 
     /* ── State ──────────────────────────────────────────────────── */
 
@@ -89,135 +62,11 @@
     var table = chart && chart.querySelector('[data-chart-table]');
     var ticker = chart && chart.querySelector('[data-chart-symbol]');
     var badge = chart && chart.querySelector('[data-chart-proxy]');
+
+    /* The drawing surface, built in start() once every element it writes to
+     * is known to be there. */
+    var picture = null;
     var rows = chart && chart.querySelector('[data-chart-rows]');
-
-    /* ── Drawing ────────────────────────────────────────────────── */
-
-    function svgNode(tag, className) {
-        var node = document.createElementNS(SVG_NS, tag);
-        node.setAttribute('class', className);
-        return node;
-    }
-
-    /* Positions an absolutely placed label or marker.
-     *
-     * Written as custom properties through the CSSOM rather than as a style
-     * attribute, the way the range markers already are: a strict
-     * Content-Security-Policy (T13) blocks the attribute and not this, and it
-     * keeps the arithmetic here and the drawing in the stylesheet.
-     */
-    function place(node, x, y) {
-        if (x !== null) {
-            node.style.setProperty('--inc-chart-x',
-                ((x / VIEW_WIDTH) * 100).toFixed(3) + '%');
-        }
-        if (y !== null) {
-            node.style.setProperty('--inc-chart-y',
-                ((y / VIEW_HEIGHT) * 100).toFixed(3) + '%');
-        }
-    }
-
-    function drawGridline(y) {
-        var line = svgNode('line', 'inc-chart-grid');
-        line.setAttribute('x1', '0');
-        line.setAttribute('x2', String(VIEW_WIDTH));
-        line.setAttribute('y1', String(y));
-        line.setAttribute('y2', String(y));
-        canvas.appendChild(line);
-    }
-
-    function drawPath(tag, className, d) {
-        var node = svgNode(tag, className);
-        node.setAttribute('d', d);
-        canvas.appendChild(node);
-    }
-
-    /* The level the window opened at, dashed, exactly as the tile sparklines
-     * draw it. It is what says whether the range ended above or below where it
-     * started without the line having to be coloured to say so — see the note
-     * in css/market.css about why direction colour stays off both. */
-    function drawBaseline(y) {
-        var line = svgNode('line', 'inc-chart-base');
-        line.setAttribute('x1', '0');
-        line.setAttribute('x2', String(VIEW_WIDTH));
-        line.setAttribute('y1', String(y));
-        line.setAttribute('y2', String(y));
-        canvas.appendChild(line);
-    }
-
-    function drawCursorLine() {
-        var line = svgNode('line', 'inc-chart-cursor-line');
-        line.setAttribute('y1', '0');
-        line.setAttribute('y2', String(VIEW_HEIGHT));
-        line.setAttribute('x1', '0');
-        line.setAttribute('x2', '0');
-        line.setAttribute('data-chart-cursor-line', '');
-        canvas.appendChild(line);
-    }
-
-    function marker(className) {
-        var dot = document.createElement('span');
-        dot.className = className;
-        marks.appendChild(dot);
-        return dot;
-    }
-
-    function drawPlot() {
-        dom.empty(canvas);
-        dom.empty(marks);
-
-        var ticks = geometry.priceTicks(shape.low, shape.high, PRICE_TICKS);
-        ticks.values.forEach(function (value) {
-            drawGridline(shape.yForPrice(value));
-        });
-
-        if (shape.area) drawPath('path', 'inc-chart-area', shape.area);
-        drawBaseline(shape.baselineY);
-        if (shape.path) drawPath('path', 'inc-chart-line', shape.path);
-
-        if (shape.points.length <= DOT_LIMIT) {
-            shape.points.forEach(function (point) {
-                place(marker('inc-chart-dot'), point.x, point.y);
-            });
-        }
-
-        drawCursorLine();
-        marker('inc-chart-cursor-dot').setAttribute('data-chart-cursor-dot', '');
-        return ticks;
-    }
-
-    /* ── Axis labels ────────────────────────────────────────────── */
-
-    function drawScale(ticks) {
-        dom.empty(scale);
-        ticks.values.forEach(function (value) {
-            var label = document.createElement('li');
-            label.className = 'inc-chart-scale-label';
-            label.textContent = figures.formatToPlaces(value, ticks.decimals);
-            place(label, null, shape.yForPrice(value));
-            scale.appendChild(label);
-        });
-    }
-
-    function drawDates() {
-        dom.empty(dates);
-        var withYear = geometry.usesYearLabels(visible);
-        var ticks = geometry.dateTicks(visible, DATE_TICKS);
-
-        ticks.forEach(function (tick, index) {
-            var label = document.createElement('li');
-            label.className = 'inc-chart-date-label';
-            label.textContent = figures.formatAxisDate(tick.date, withYear);
-            // The first and last labels are pinned to the ends rather than
-            // centred on their own tick, which would hang half of each one
-            // off the side of the plot.
-            label.setAttribute('data-chart-edge',
-                index === 0 ? 'start'
-                    : (index === ticks.length - 1 ? 'end' : 'middle'));
-            place(label, shape.points[tick.index].x, null);
-            dates.appendChild(label);
-        });
-    }
 
     /* ── Words ──────────────────────────────────────────────────── */
 
@@ -362,16 +211,9 @@
         var at = index === null ? shape.points.length - 1 : index;
         renderReadout(at);
 
-        var line = canvas.querySelector('[data-chart-cursor-line]');
-        var dot = marks.querySelector('[data-chart-cursor-dot]');
-        var showing = index !== null;
-        plot.setAttribute('data-chart-tracking', showing ? 'true' : 'false');
-        if (!line || !dot) return;
-
-        var point = shape.points[at];
-        line.setAttribute('x1', String(point.x));
-        line.setAttribute('x2', String(point.x));
-        place(dot, point.x, point.y);
+        plot.setAttribute('data-chart-tracking',
+            index === null ? 'false' : 'true');
+        picture.cursorTo(shape.points[at]);
     }
 
     function moveCursor(step) {
@@ -386,16 +228,15 @@
         var range = geometry.rangeFor(activeRange);
         var picked = geometry.windowFor(series, range.sessions);
         visible = picked.bars;
-        shape = geometry.plot(visible, VIEW_WIDTH, VIEW_HEIGHT, VIEW_PADDING);
+        shape = geometry.plot(visible, picture.WIDTH, picture.HEIGHT,
+            picture.PADDING);
 
         if (!shape) {
             unavailable(symbol);
             return;
         }
 
-        var ticks = drawPlot();
-        drawScale(ticks);
-        drawDates();
+        picture.draw(shape, visible);
         renderIdentity(true);
         renderPeriod(range);
         renderShortfall(range, picked.complete);
@@ -425,10 +266,7 @@
         visible = [];
         shape = null;
         cursor = null;
-        dom.empty(canvas);
-        dom.empty(marks);
-        dom.empty(scale);
-        dom.empty(dates);
+        picture.clear();
         if (rows) dom.empty(rows);
         // Hidden here rather than styled out with the rest of the ready-state
         // furniture: it is a claim about a series that is no longer loaded,
@@ -485,8 +323,8 @@
         if (!shape) return;
         var box = plot.getBoundingClientRect();
         if (!box || !(box.width > 0)) return;
-        var x = ((event.clientX - box.left) / box.width) * VIEW_WIDTH;
-        var index = geometry.indexAtX(x, VIEW_WIDTH, shape.points.length);
+        var x = ((event.clientX - box.left) / box.width) * picture.WIDTH;
+        var index = geometry.indexAtX(x, picture.WIDTH, shape.points.length);
         if (index >= 0 && index !== cursor) setCursor(index);
     }
 
@@ -566,7 +404,11 @@
         // is an empty chart saying nothing has been looked up, which stays
         // true either way.
         if (!chart || !plot || !canvas || !marks || !scale || !dates) return;
-        if (!dom || !figures || !geometry) return;
+        if (!dom || !figures || !geometry || !window.IncisorChartCanvas) return;
+
+        picture = window.IncisorChartCanvas.create({
+            canvas: canvas, marks: marks, scale: scale, dates: dates
+        }, document);
 
         var label = chart.querySelector('[data-chart-period-label]');
         restingLabel = label ? label.textContent : '';

@@ -285,6 +285,15 @@ class TestHouseStyle(unittest.TestCase):
                           if len(line) > 100]
             self.assertEqual(long_lines, [], '%s lines over 100 chars' % name)
 
+    def test_every_module_beside_the_page_is_actually_loaded_by_it(self):
+        """_shipped() calls these files shipped because they are in the folder,
+        which makes them subject to every rule below whether the page loads
+        them or not. A module nobody loads is dead code (guide §6), and one
+        added without a script tag would otherwise pass silently."""
+        for name in CSS_FILES + JS_FILES:
+            self.assertIn('/incisor-trading/' + name, HTML,
+                          '%s is not loaded by the page' % name)
+
     def test_source_files_stay_under_600_lines(self):
         """Guide section 6, and per file. The concatenation this used to
         measure would have demanded a split of whichever file happened to be

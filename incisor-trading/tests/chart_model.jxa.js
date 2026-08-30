@@ -332,6 +332,8 @@ function run(argv) {
             IncisorChartGeometry: geometry
         };
         (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
+        (new Function('window', read(pageDir + '/js/chart-canvas.js')))(
+            windowStub);
         (new Function('document', 'window', 'global',
             read(pageDir + '/js/view-price-chart.js')))(doc, windowStub,
             windowStub);
