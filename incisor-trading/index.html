@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
     <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
     <link rel="stylesheet" href="/incisor-trading/css/chart.css">
+    <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the two
@@ -38,6 +39,7 @@
     <script src="/incisor-trading/js/symbol-search.js" defer></script>
     <script src="/incisor-trading/js/watchlist-store.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
+    <script src="/incisor-trading/js/view-sectors.js" defer></script>
     <script src="/incisor-trading/js/view-price-chart.js" defer></script>
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
@@ -256,6 +258,66 @@
                     track the indexes, not the index levels themselves. Free market
                     data does not include the indexes directly, so the ETFs stand in
                     and are labelled as proxies wherever they appear.</p>
+
+                <!--
+                  Sector performance. The list ships empty and is built from
+                  one /sectors response; eleven rows here would be eleven rows
+                  to keep in step with the server's own table. Its height is
+                  reserved in css/sectors.css, so the fill shifts nothing.
+                  Why four windows and why no one-day: server/sectors.py.
+                -->
+                <section class="inc-sectors" data-sectors data-state="loading"
+                    aria-labelledby="inc-sectors-heading">
+                    <h3 class="inc-section-heading" id="inc-sectors-heading">Sector
+                        performance</h3>
+                    <p class="inc-panel-note">Which slices of the US market have
+                        led and lagged. Each row is the Select Sector SPDR fund
+                        for that sector &mdash; there is no free feed of the
+                        sectors themselves, so the funds stand in, the same way
+                        the four tiles above stand in for the indexes.</p>
+
+                    <!-- One data-track for all four, like the chart's range
+                         buttons: the beacon is told a window was chosen, never
+                         which one. -->
+                    <div class="inc-sector-windows" role="group"
+                        aria-label="Sector performance window" data-sector-windows>
+                        <button type="button" class="inc-sector-window"
+                            aria-pressed="false" data-sector-window="1M"
+                            data-track="sector-window">1M</button>
+                        <button type="button" class="inc-sector-window"
+                            aria-pressed="false" data-sector-window="3M"
+                            data-track="sector-window">3M</button>
+                        <button type="button" class="inc-sector-window"
+                            aria-pressed="true" data-sector-window="YTD"
+                            data-track="sector-window">YTD</button>
+                        <button type="button" class="inc-sector-window"
+                            aria-pressed="false" data-sector-window="1Y"
+                            data-track="sector-window">1Y</button>
+                    </div>
+
+                    <!-- The window is named once, above the column it
+                         labels. Eleven repetitions of "YTD" down a ranked list
+                         is noise where on a single tile it was the missing
+                         fact — so each row says it aloud instead. -->
+                    <p class="inc-sector-legend">
+                        <span class="inc-sector-legend-name">Sector</span>
+                        <span class="inc-sector-legend-change">Change over
+                            <span data-sector-legend-window>the year so
+                                far</span></span>
+                    </p>
+
+                    <ol class="inc-sector-list" data-sector-list></ol>
+
+                    <p class="inc-sector-message" role="status"
+                        data-sector-message>Loading sector performance&hellip;</p>
+
+                    <p class="inc-provenance" data-sector-provenance
+                        data-provenance-state="pending">
+                        <span class="inc-provenance-dot" aria-hidden="true"></span>
+                        <span data-sector-provenance-message>Sample data. No sector
+                            figures have loaded yet.</span>
+                    </p>
+                </section>
 
                 <!--
                   Symbol search and the quote panel it fills.

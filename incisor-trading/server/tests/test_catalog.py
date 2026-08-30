@@ -20,6 +20,7 @@ from unittest import mock
 import service_fixture  # noqa: F401  — configures the service before import
 import catalog  # noqa: E402
 import incisor  # noqa: E402
+import sectors  # noqa: E402
 import source  # noqa: E402
 
 ORIGIN = {'Origin': 'https://frontendneeded.com'}
@@ -75,8 +76,32 @@ class TestTheTable(unittest.TestCase):
 class TestFixtureAvailability(unittest.TestCase):
 
     def test_the_committed_symbols_are_found(self):
+        """Properties, not a roll call.
+
+        This asserted the six symbols that happened to be committed and failed
+        the day eleven sector funds were added — while finding all seventeen
+        correctly. Same shape as the proxy-badge count in DECISIONS.md: a total
+        stops being a rule the moment the set it counts is allowed to grow.
+
+        What has to hold instead is that the surfaces the dashboard ships have
+        a series behind them, and that every symbol offered has a name.
+        """
         found = source.available_symbols(source.DAILY)
-        self.assertEqual(found, {'SPY', 'QQQ', 'DIA', 'IWM', 'AAPL', 'BRK.B'})
+        self.assertTrue(found, 'no daily fixtures are committed at all')
+        for symbol in ('SPY', 'QQQ', 'DIA', 'IWM') + sectors.SECTOR_SYMBOLS:
+            self.assertIn(symbol, found, '%s has no committed series' % symbol)
+        unnamed = sorted(symbol for symbol in found if catalog.entry(symbol) is None)
+        self.assertEqual(unnamed, [], 'committed fixtures with no catalogue name')
+
+    def test_every_priceable_symbol_can_also_be_quoted(self):
+        """The two fixture directories have to agree.
+
+        /symbols lists whatever daily JSON is committed, so a symbol with a
+        series and no quote is one the search box offers and the lookup then
+        fails — a not-found state for a symbol the page just said it had.
+        """
+        self.assertEqual(source.available_symbols(source.DAILY),
+                         source.available_symbols(source.QUOTE))
 
     def test_a_symbol_containing_a_hyphen_keeps_its_hyphen(self):
         """Splitting a fixture filename on its last hyphen would leave every

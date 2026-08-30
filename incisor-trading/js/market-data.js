@@ -47,6 +47,14 @@
      * magnitude past its size is not the table we asked for. */
     var MAX_SYMBOLS = 5000;
 
+    /* Eleven funds, and no route that can grow the set — a caller cannot ask
+     * for more. Anything past this is not the grid we asked for. */
+    var MAX_SECTORS = 32;
+
+    /* The window names the grid offers: 1M, 3M, 1Y, or YTD. Whitelisted
+     * because each one becomes a data attribute and a lookup key. */
+    var WINDOW_PATTERN = /^(?:\d{1,2}[DMY]|YTD)$/;
+
     function DataError(kind) {
         var error = new Error('market data ' + kind);
         error.kind = kind;
@@ -81,17 +89,25 @@
      * are the honesty fields — without them the page cannot say whether it is
      * showing a quote, yesterday's close, or an invented number — so a payload
      * missing them is treated as malformed rather than rendered unlabelled. */
-    function readEnvelope(payload, symbol) {
+    function readCommonEnvelope(payload) {
         if (!payload || typeof payload !== 'object') throw DataError('malformed');
-        if (payload.symbol !== symbol) throw DataError('malformed');
         if (typeof payload.source !== 'string') throw DataError('malformed');
         return {
-            symbol: symbol,
             source: payload.source,
             delay: typeof payload.delay === 'string' ? payload.delay : '',
             stale: payload.stale === true,
             fetchedAt: typeof payload.fetched_at === 'string' ? payload.fetched_at : ''
         };
+    }
+
+    /* The same envelope, for the routes that answer about one symbol. The
+     * sector grid is the one that does not — it answers for a fixed set of
+     * eleven — so the symbol check lives here rather than in the shared part. */
+    function readEnvelope(payload, symbol) {
+        var envelope = readCommonEnvelope(payload);
+        if (payload.symbol !== symbol) throw DataError('malformed');
+        envelope.symbol = symbol;
+        return envelope;
     }
 
     function readHistory(payload, symbol) {
@@ -174,6 +190,76 @@
             // list is complete when it is not would have the page refuse a
             // ticker it could have answered for.
             exhaustive: payload.exhaustive === true
+        };
+    }
+
+    /* The sector grid: eleven funds, four windows, one shared date.
+     *
+     * The only response on this page that carries figures rather than bars.
+     * Eleven daily series is a third of a megabyte to answer a question that
+     * needs forty-four numbers, so the service computes and this checks the
+     * shape of what it computed — which is a smaller job than readHistory's
+     * and a stricter one, because there is no series here to fall back on.
+     *
+     * A row that fails its check is dropped rather than failing the grid, the
+     * way a bad catalogue row is: ten sectors and a stated absence is a better
+     * answer than none. `asOf` is required, because it is the date every
+     * figure is measured to and a ranking with no date is a claim about now
+     * that nobody checked.
+     */
+    function readSectors(payload) {
+        var envelope = readCommonEnvelope(payload);
+
+        var grid = payload.sectors;
+        if (!grid || typeof grid !== 'object') throw DataError('malformed');
+        if (!Array.isArray(grid.sectors) || !Array.isArray(grid.windows)) {
+            throw DataError('malformed');
+        }
+        if (grid.sectors.length > MAX_SECTORS) throw DataError('malformed');
+
+        var windows = grid.windows.filter(function (window) {
+            return typeof window === 'string' && WINDOW_PATTERN.test(window);
+        });
+        if (windows.length === 0) throw DataError('malformed');
+
+        envelope.asOf = typeof grid.as_of === 'string' ? grid.as_of : '';
+        envelope.windows = windows;
+        envelope.windowLabels = readWindowLabels(grid.window_labels, windows);
+        envelope.rows = grid.sectors.map(readSectorRow).filter(Boolean);
+        return envelope;
+    }
+
+    function readWindowLabels(raw, windows) {
+        var labels = {};
+        windows.forEach(function (window) {
+            var label = raw && typeof raw === 'object' ? raw[window] : null;
+            labels[window] = typeof label === 'string' && label ? label : window;
+        });
+        return labels;
+    }
+
+    function readSectorRow(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        if (typeof raw.symbol !== 'string' || !SYMBOL_PATTERN.test(raw.symbol)) {
+            return null;
+        }
+        if (typeof raw.name !== 'string' || !raw.name) return null;
+
+        var changes = {};
+        var supplied = raw.changes && typeof raw.changes === 'object'
+            ? raw.changes : {};
+        Object.keys(supplied).forEach(function (window) {
+            if (WINDOW_PATTERN.test(window)) {
+                changes[window] = optionalNumber(supplied[window]);
+            }
+        });
+
+        return {
+            symbol: raw.symbol,
+            name: raw.name,
+            available: raw.available === true,
+            lastClose: optionalNumber(raw.last_close),
+            changes: changes
         };
     }
 
@@ -273,11 +359,20 @@
         return requestJson(BASE + '/symbols').then(readCatalog);
     }
 
+    /* The sector grid. Takes no arguments: the eleven funds are fixed and
+     * every window comes back at once, so switching between them on the page
+     * costs no request at all — the same bargain the price chart strikes with
+     * one series and five ranges. */
+    function sectors() {
+        return requestJson(BASE + '/sectors').then(readSectors);
+    }
+
     global.IncisorMarketData = {
         BASE: BASE,
         TIMEOUT_MS: TIMEOUT_MS,
         history: history,
         quote: quote,
-        symbols: symbols
+        symbols: symbols,
+        sectors: sectors
     };
 })(typeof window !== 'undefined' ? window : this);

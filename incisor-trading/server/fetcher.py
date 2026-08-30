@@ -111,14 +111,22 @@ def _age_seconds(fetched_at):
     return (now - stamp).total_seconds()
 
 
-def is_fresh(endpoint, fetched_at):
-    """Whether a cache entry is still inside its TTL.
+def is_fresh(endpoint, fetched_at, max_age=None):
+    """Whether a cache entry is still inside the freshness it is being read at.
+
+    `max_age` lets a caller state the freshness it actually needs rather than
+    inheriting the endpoint's. Both surfaces that read a daily series want a
+    different answer: the tiles and the quote panel want today's close, and
+    the sector grid wants a month of history, which does not change materially
+    when its end moves by a few sessions. Eleven funds at the endpoint TTL
+    would cost eleven of a 22-call day; at a week they cost eleven a week.
 
     An unreadable timestamp counts as stale. That is the safe direction: it
     costs at most one call, where trusting it could serve a price forever.
     """
     age = _age_seconds(fetched_at)
-    return age is not None and age < TTL_SECONDS[endpoint]
+    limit = TTL_SECONDS[endpoint] if max_age is None else max_age
+    return age is not None and age < limit
 
 
 def budget_remaining():
@@ -188,11 +196,19 @@ def _refresh(endpoint, symbol, data_source, api_key):
     return parsed, fetched_at
 
 
-def get(endpoint, symbol, data_source, api_key=''):
+def get(endpoint, symbol, data_source, api_key='', max_age=None,
+        allow_refresh=True):
     """Cached data for one endpoint and symbol.
 
     Returns (data, meta), where meta carries `cached`, `stale` and
     `fetched_at` so the page can say how old what it is showing is.
+
+    `max_age` overrides the endpoint's TTL for this caller — see is_fresh.
+    `allow_refresh=False` says "answer from the cache or not at all", which is
+    how a caller that needs many symbols at once bounds what one request can
+    spend: a stale entry is served and flagged, and a symbol never held raises.
+    It is the same degradation an exhausted budget produces, deliberately, so
+    there is one path to test rather than two.
     """
     if endpoint not in _HANDLERS:
         raise Unavailable('unknown endpoint %r' % endpoint)
@@ -200,7 +216,7 @@ def get(endpoint, symbol, data_source, api_key=''):
     load = _HANDLERS[endpoint]['load']
 
     cached, fetched_at = load(symbol)
-    if cached is not None and is_fresh(endpoint, fetched_at):
+    if cached is not None and is_fresh(endpoint, fetched_at, max_age):
         return cached, {'cached': True, 'stale': False, 'fetched_at': fetched_at}
 
     with _lock_for(endpoint, symbol):
@@ -208,16 +224,17 @@ def get(endpoint, symbol, data_source, api_key=''):
         # this very symbol, and taking the cache on trust from before the wait
         # is how one stampede becomes four calls.
         cached, fetched_at = load(symbol)
-        if cached is not None and is_fresh(endpoint, fetched_at):
+        if cached is not None and is_fresh(endpoint, fetched_at, max_age):
             return cached, {'cached': True, 'stale': False, 'fetched_at': fetched_at}
 
         # Fixture reads are local file reads. They cost no quota and must not
         # be able to exhaust a budget that exists to ration network calls.
-        if data_source == 'live' and budget_remaining() <= 0:
+        if not allow_refresh or (data_source == 'live' and budget_remaining() <= 0):
             if cached is not None:
                 return cached, {'cached': True, 'stale': True,
                                 'fetched_at': fetched_at}
-            raise Unavailable('daily call budget exhausted and nothing cached')
+            raise Unavailable(
+                'nothing cached for %s and no refresh was permitted' % symbol)
 
         try:
             fresh, fresh_at = _refresh(endpoint, symbol, data_source, api_key)

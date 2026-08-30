@@ -53,6 +53,11 @@ MARKET_VOLATILITY = 0.0075   # daily
 # Betas are the conventional rough values: the Dow proxy is the calmest, the
 # Nasdaq and small-cap proxies the most geared, and the two single stocks carry
 # far more of their own noise than any basket does.
+#
+# Every symbol gets both fixtures, quote as well as series, even where only one
+# surface reads it. In fixture mode the /symbols route lists whatever daily
+# JSON is committed, so a symbol with a series and no quote would be offered by
+# the search box and then fail the lookup it was offered for.
 SYMBOLS = {
     'SPY':   (612.00, 1.00, 0.0016, 1001, 74_000_000),
     'QQQ':   (548.00, 1.20, 0.0034, 1002, 42_000_000),
@@ -60,6 +65,25 @@ SYMBOLS = {
     'IWM':   (228.00, 1.15, 0.0045, 1004, 28_000_000),
     'AAPL':  (241.00, 1.15, 0.0105, 1005, 51_000_000),
     'BRK.B': (498.00, 0.80, 0.0072, 1006, 3_100_000),
+
+    # The eleven Select Sector SPDR funds, for the sector grid (backlog T10).
+    # Betas and own-noise are the conventional rough shape of each slice: tech
+    # and discretionary geared to the market, staples and utilities damped,
+    # energy carrying more of its own story than any of them. A sector basket
+    # sits between an index proxy and a single stock on both counts, and a
+    # grid whose whole job is to rank them is only worth laying out against
+    # numbers that spread the way real ones do.
+    'XLB':   (95.00, 0.95, 0.0052, 1007, 5_100_000),
+    'XLC':   (121.00, 1.10, 0.0058, 1008, 8_300_000),
+    'XLE':   (92.00, 0.85, 0.0082, 1009, 15_400_000),
+    'XLF':   (52.00, 1.05, 0.0048, 1010, 39_000_000),
+    'XLI':   (150.00, 1.00, 0.0045, 1011, 9_200_000),
+    'XLK':   (265.00, 1.25, 0.0061, 1012, 6_400_000),
+    'XLP':   (82.00, 0.55, 0.0038, 1013, 12_100_000),
+    'XLRE':  (44.00, 0.85, 0.0055, 1014, 6_000_000),
+    'XLU':   (85.00, 0.55, 0.0041, 1015, 12_600_000),
+    'XLV':   (150.00, 0.75, 0.0050, 1016, 8_100_000),
+    'XLY':   (230.00, 1.15, 0.0057, 1017, 5_200_000),
 }
 
 HERE = os.path.dirname(os.path.abspath(__file__))

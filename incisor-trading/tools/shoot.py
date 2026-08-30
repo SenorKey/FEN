@@ -19,6 +19,7 @@ Usage:
                                           [--api http://127.0.0.1:8789]
                                           [--symbol SPY [--range 5Y]]
                                           [--search app]
+                                          [--sector-window 1M]
                                           [--watch SPY,QQQ] [--block-storage]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
@@ -30,6 +31,11 @@ interaction: the quote panel and the chart are empty until someone searches,
 so without them the only screenshot that could be taken is the one state
 nobody is asking about. --range presses one of the chart's range buttons once
 a symbol is loaded, which is how a range other than the default gets shot.
+
+--sector-window presses one of the sector grid's windows. The grid ranks
+eleven funds, so a window where they all fell is the mirror of one where they
+all rose — a different picture of the same surface, and only the default one
+gets shot without this.
 
 --watch seeds localStorage before the first navigation, which is the only
 way to photograph the watchlist as a returning visitor sees it — a fresh
@@ -156,6 +162,7 @@ CHART_READY = '[data-chart][data-state="ready"]'
 
 CHART_NO_HISTORY = '[data-chart][data-state="unavailable"]'
 WATCHLIST_READY = '[data-watchlist][data-state="ready"]'
+SECTORS_READY = '[data-sectors][data-state="ready"]'
 
 
 def drive(page, args, problems, label):
@@ -282,6 +289,12 @@ def main():
                          "reload path: the list is written to localStorage "
                          "and the page reads it back the way it would on a "
                          "second visit.")
+    ap.add_argument("--sector-window", default=None,
+                    help="press this window on the sector grid once it has "
+                         "loaded, e.g. --sector-window 1M. The grid is "
+                         "ranked, so a window where every sector fell draws "
+                         "the mirror image of one where they rose, and only "
+                         "one of the two is the default.")
     ap.add_argument("--block-storage", action="store_true",
                     help="make localStorage throw on access, the way a "
                          "private window or a browser with site data blocked "
@@ -347,6 +360,17 @@ def main():
                     page.wait_for_selector(WATCHLIST_READY, timeout=10000)
                 except Exception as error:
                     problems.append(f"{label}: the watchlist never settled — "
+                                    f"{type(error).__name__}")
+
+            # The sector grid fetches on load like the strip does, and its
+            # window buttons do nothing until it has rows to re-rank — so the
+            # press waits for the grid's own state rather than for the network.
+            if args.sector_window:
+                try:
+                    page.wait_for_selector(SECTORS_READY, timeout=10000)
+                    page.click('[data-sector-window="%s"]' % args.sector_window)
+                except Exception as error:
+                    problems.append(f"{label}: the sector grid never settled — "
                                     f"{type(error).__name__}")
 
             # Horizontal overflow is a guide §13 violation, so it fails the run

@@ -1,0 +1,304 @@
+/* ═══════════════════════════════════════════════
+   css/sectors.css — the sector performance grid
+   frontendneeded.com · /incisor-trading
+
+   A surface that renders market data, so it owns a
+   stylesheet, the way css/lookup.css, css/chart.css and
+   css/watchlist.css do. Reads the vocabulary defined in
+   css/market.css — the direction colours, the arrow, the
+   delta and the provenance line — and defines only what
+   is its own: the window buttons, the ranked list, and
+   the bar that makes eleven percentages comparable at a
+   glance instead of read one at a time.
+
+   The bar is the whole reason this is a list and not a
+   table of figures. A column of numbers is a lookup; a
+   column of lengths is a shape, and the shape is what
+   says "energy and materials led, financials did not"
+   before a single figure has been read.
+   ═══════════════════════════════════════════════ */
+
+/* Separated from the strip above it the way every other section on this
+   panel is: the grid answers a different question from the four tiles, and
+   running the two together reads as one long list of numbers. */
+
+.inc-sectors {
+    margin-top: 34px;
+    padding-top: 26px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+/* ── Window buttons ─────────────────────────────────────────
+   Deliberately the chart's range buttons: same size, same
+   pressed treatment, same monospace. Two sets of period
+   controls on one page that looked different would read as two
+   different kinds of control. */
+
+.inc-sector-windows {
+    display: flex;
+    gap: 4px;
+    margin-top: 16px;
+}
+
+.inc-sector-window {
+    padding: 5px 11px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+    background: transparent;
+    font-family: var(--inc-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.inc-sector-window:not(:disabled):hover {
+    color: var(--ink);
+    border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+.inc-sector-window:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.inc-sector-window:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+/* Filled as well as coloured, so which window is pressed survives
+   greyscale the way the direction figures do (§13). */
+.inc-sector-window[aria-pressed="true"] {
+    border-color: var(--inc-rule-strong);
+    background: rgba(var(--accent-rgb), 0.14);
+    color: var(--accent);
+}
+
+/* ── The legend row ─────────────────────────────────────────
+   Column headings for a list that has no <th> to put them in. It
+   names the window once for eleven rows, which is why each row
+   still carries the window in its own spoken text. */
+
+.inc-sector-legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--inc-rule);
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-sector-legend-name {
+    flex: 1 1 auto;
+}
+
+/* Right-aligned to land over the column of figures it names, and given the
+   same minimum the figures have so the two edges agree at every width. The
+   window word is the only part of this page that changes when a button is
+   pressed and the list below it does not move. */
+.inc-sector-legend-change {
+    flex: 0 0 auto;
+    min-width: 96px;
+    text-align: right;
+}
+
+/* ── The ranked list ────────────────────────────────────────
+   Height is reserved rather than filled: eleven rows arrive at
+   once, and a list that grows from nothing to 480px would shove
+   the whole lookup section down the page as it landed (§13). */
+
+.inc-sector-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Eleven rows at the 39px they measure, so the reserved space is the
+       space the list takes rather than a guess near it. A floor, not a cap:
+       a sector name that wraps at some narrow width grows the list, which
+       costs nothing because nothing is below it that has already been read. */
+    min-height: 429px;
+}
+
+/* The name column is given the larger share on purpose. At 1fr against the
+   bar's 3fr a 768px tablet left it 127px, and three of the eleven sectors —
+   Consumer Discretionary, Consumer Staples, Communication Services — wrapped
+   to two lines, which makes a ranked list look ragged for the sake of 80px
+   more bar. The thing being ranked wins the space, and the 240px floor is
+   what the longest of those names needs beside its ticker on one line — a floor rather than a
+   breakpoint, because the width where it starts to matter is a property of
+   the names and not a round number. */
+.inc-sector-row {
+    display: grid;
+    grid-template-columns: minmax(240px, 1.5fr) minmax(80px, 2fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--inc-rule);
+}
+
+.inc-sector-row:last-child {
+    border-bottom: none;
+}
+
+.inc-sector-name {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+    font-size: 0.92rem;
+    color: var(--ink);
+}
+
+.inc-sector-label {
+    min-width: 0;
+}
+
+/* The fund the row is actually measuring. Set in monospace and dimmed:
+   the sector is what the reader wants, the ticker is what the number
+   came from, and both have to be on the row for the claim to be honest. */
+.inc-sector-fund {
+    margin-left: 8px;
+    font-family: var(--inc-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+}
+
+/* ── The bar ────────────────────────────────────────────────
+   A diverging bar chart whose zero line is where zero falls rather
+   than in the middle. --inc-sector-zero is set once on the list;
+   --inc-sector-start and --inc-sector-extent are set per row by
+   js/view-sectors.js, both as fractions of the whole track. Every
+   bar begins at the zero line, so a rise and a fall of the same
+   size are the same length in opposite directions.
+
+   Decorative, and marked aria-hidden in the view: everything it
+   says, the figure beside it says in words. */
+
+.inc-sector-bar {
+    position: relative;
+    height: 10px;
+    border-radius: 2px;
+    background: rgba(242, 239, 232, 0.05);
+}
+
+/* The zero line. Every bar in the list grows from this same x, which
+   is what makes the lengths comparable across rows. */
+.inc-sector-bar::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: var(--inc-sector-zero, 50%);
+    width: 1px;
+    background: var(--inc-rule-strong);
+}
+
+/* A minimum width, so a sector that moved almost nothing still draws
+   something. A row with a real figure and no visible mark reads as a row
+   with no figure, and those are different facts everywhere else here. */
+.inc-sector-bar-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--inc-sector-start, 0%);
+    width: var(--inc-sector-extent, 0%);
+    min-width: 2px;
+    border-radius: 0 2px 2px 0;
+    background: var(--inc-up);
+    transition: left 0.32s ease, width 0.32s ease;
+}
+
+/* Rounded on the end it grows towards, so a fall reads as a fall
+   without reference to its colour. */
+.inc-sector-row[data-direction="down"] .inc-sector-bar-fill {
+    border-radius: 2px 0 0 2px;
+    background: var(--inc-down);
+}
+
+.inc-sector-row[data-direction="flat"] .inc-sector-bar-fill {
+    background: var(--inc-flat);
+}
+
+/* A row with no figure draws no bar at all. An empty bar and a bar of
+   length zero look identical and mean opposite things — nothing known
+   versus nothing moved — so the one that is not known is not drawn. */
+.inc-sector-row[data-state="missing"] .inc-sector-bar-fill {
+    display: none;
+}
+
+.inc-sector-change {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 6px;
+    min-width: 96px;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.88rem;
+}
+
+.inc-sector-missing {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+/* ── States ─────────────────────────────────────────────────
+   Loading and unavailable are designed rather than defaulted (§13).
+   The message and the list swap: one of them is always the answer. */
+
+.inc-sector-message {
+    margin-top: 14px;
+    font-size: 0.86rem;
+    color: var(--muted);
+}
+
+.inc-sectors[data-state="ready"] .inc-sector-message {
+    display: none;
+}
+
+/* Nothing to rank means nothing to reserve room for, and no window to
+   press. The message takes the space the list would have held. */
+.inc-sectors[data-state="error"] .inc-sector-list,
+.inc-sectors[data-state="loading"] .inc-sector-list {
+    min-height: 0;
+}
+
+.inc-sectors[data-state="error"] .inc-sector-legend,
+.inc-sectors[data-state="loading"] .inc-sector-legend {
+    display: none;
+}
+
+.inc-sectors[data-state="error"] .inc-sector-message {
+    color: var(--ink);
+}
+
+/* ── Narrow ─────────────────────────────────────────────────
+   The bar is the first thing to go. Below 560px a three-column row
+   leaves the sector names wrapping to three lines each to keep a
+   140px bar, which trades the thing being ranked for the picture of
+   the ranking. The figure stays, because it is the fact. */
+
+@media (max-width: 559px) {
+    .inc-sector-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .inc-sector-bar {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inc-sector-window,
+    .inc-sector-bar-fill {
+        transition: none;
+    }
+}
