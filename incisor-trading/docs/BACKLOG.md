@@ -347,17 +347,21 @@ phase. When the call is unclear, file it as a defect.
   somewhere a screen reader explains; the beacon sees no ticker; the strip
   still renders with `view-symbol.js` absent.
 
-- [ ] **D4 · `DB_PATH` in `config.env` is silently ignored** `[defect]`
-  *(found 2026-08-29, in passing)* — `server/incisor.py` imports `store` at
-  module level and calls `load_env_file()` *after* the imports, so
-  `store.DB_PATH`, which is read at its own import, is fixed before the config
-  file has been read. Every other key is read in `incisor.py` after the load
-  and works. Nothing is broken today, and that is the problem: the value in
-  `config.env` is identical to the module default, so the two agree by
-  coincidence and the key will keep looking like it works until someone
-  changes it and the service writes to the old path.
-  *Accept:* setting `DB_PATH` in `CONFIG_FILE` alone puts the database where
-  it says, asserted by a test; the systemd unit still works unchanged.
+- [x] **D4 · `DB_PATH` in `config.env` is silently ignored** `[defect]`
+  *(found 2026-08-29, done 2026-08-30)* — and worse than filed. With `DB_PATH`
+  set only in `config.env` the service does not quietly use the wrong path: it
+  tries to create `/var/lib/incisor-trading` and **fails to boot** wherever
+  that is not writable. On the deployment box, where `ReadWritePaths` makes it
+  writable, it would have written to the old path instead — which is the
+  failure that was filed. Fixed by moving the read to the edge: `store.py`
+  keeps `DEFAULT_DB_PATH` and a `configure()`, `incisor.py` reads the key below
+  `load_env_file()` like every other one. Verified end to end — the service was
+  booted with its path coming only from a config file, `shoot.py` drove the
+  full page against it, and the database at that path came back holding 1040
+  daily bars. `tests/test_config.py` (5 checks) covers the key and the class of
+  bug: an AST rule that only the edge reads the environment at module level,
+  and only below the line that loads the file. Both guards were confirmed to
+  fail with the defect put back.
 
 - [x] **D2 · `index.html` hit the 600-line rule with two lines to spare**
   *(done 2026-08-29)* — and it would have blocked T9 through T12, each of which

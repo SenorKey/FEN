@@ -1470,3 +1470,72 @@ the next session picks up.
 **Note for the next session:** step 4 is now (a) defect, (b) due audit, (c) next
 task. All four surfaces are audited, so the next session takes D4, then T9.
 
+
+## 2026-08-30 — D4: a config key that was read one import too early
+**Outcome:** shipped
+**Changed:** `server/store.py`, `server/incisor.py`, `server/config.env.example`,
+`server/tests/test_config.py` (new), `server/tests/README.md`
+**Verified:** 128 service tests (5 new), 102 page tests, `shoot.py` green at
+three widths against a service configured entirely from a config file.
+
+The first session under the new §19 rule, and the first defect to be reached by
+it rather than by blocking something else. `store.py` read `DB_PATH` from the
+environment at its own import; `incisor.py` imports `store` at the top of the
+file and opens `$CONFIG_FILE` below the imports. So the store's path was fixed
+before any config file had been read, and the key in `config.env` did nothing.
+
+**It passed for three weeks because two values agreed by coincidence.**
+`config.env.example` repeats the module default, so the configured path and the
+ignored path were the same string. That is the part worth remembering: a value
+being honoured and a value being ignored look identical whenever the two
+candidates match, and nothing tells them apart until someone changes one.
+
+**Worse than it was filed as.** The backlog entry predicted a service quietly
+writing to the old path. Reproduced first, before touching anything, and the
+actual behaviour on this machine is a `PermissionError` at import —
+`store.init()` tries to create `/var/lib/incisor-trading` and the process dies.
+On the deployment box that directory exists and `ReadWritePaths` makes it
+writable, so there it really would be the silent version. One defect with two
+faces depending on where it runs, and the loud one is the lucky one.
+
+**The fix is a seam, not a reordering.** Moving `load_env_file()` above the
+imports would have worked and would have left the next module free to make the
+same mistake. Instead `store.py` keeps `DEFAULT_DB_PATH` and a `configure()`
+and reads no environment at all, and `incisor.py` reads `DB_PATH` below
+`load_env_file()` alongside every other key. That matches what the file already
+says about itself — it is the edge, and the edge reads the config.
+
+**The guard is an AST walk, not a grep.** `tests/test_config.py` asserts that no
+module but the edge touches the environment at module level, and that the edge
+does so only below the line that loads the file. It has to parse rather than
+grep, because after this fix both files contain the word `environ` in prose
+explaining why they do not read it — the trap `DECISIONS.md` already records
+about `test_no_innerhtml` failing on a comment. Both guards were checked the
+only way a guard can be: the defect was put back, and both failed.
+
+**Verified where it actually matters.** The unit test proves the path resolves;
+what proves the fix is that the service was booted with `DB_PATH` reaching it
+only through a config file, `shoot.py` drove the whole page against it at three
+widths with a clean console, and the database at that path came back holding
+1040 daily bars, one quote and five logged calls. The page renders identically
+— nothing on screen changed, which is the right outcome for a storage defect.
+
+One more thing recorded rather than fixed: now that the key works, changing it
+means changing `ReadWritePaths` in the systemd unit to match, or the first write
+fails under hardening. That coupling was invisible while the key was ignored.
+It is a comment beside the key in `config.env.example`, where someone changing
+it will be looking.
+
+**No backlog task was taken** — a defect is a whole session (§14). T9 is next.
+Nothing installed, no upstream call, no account, no terms accepted, nothing
+pushed or merged. The service ran in fixture mode against a scratch database in
+the session's temp directory and was stopped afterwards. `git status` shows
+changes only under `incisor-trading/`.
+
+### For Key
+
+- **Nothing new.** The provider question is untouched; no live call was made.
+- **D3 is still open** and is now the oldest unaddressed finding on the page: a
+  tile shows a symbol and cannot open it. It is labelled `[enhancement]`, so
+  the routine leaves it for your triage — it needs a phase, or a word from you
+  that it should be taken as a defect.
