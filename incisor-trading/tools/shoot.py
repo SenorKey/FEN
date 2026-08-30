@@ -81,6 +81,8 @@ BENIGN_CONSOLE = ("/api/event",)
 # it unconditionally would hide a 500 from the very service being exercised.
 BENIGN_WITHOUT_API = (API_PREFIX,)
 
+QUOTE_STATE = '[data-quote][data-state]'
+
 
 class QuietHandler(http.server.SimpleHTTPRequestHandler):
     """Static files, plus the one reverse proxy Apache provides in production.
@@ -144,6 +146,9 @@ def drive(page, args, problems, label):
     state nobody is asking about. Failures are collected rather than raised:
     a state that could not be reached is a finding about the page, and the
     other viewports are still worth shooting.
+
+    Returns the state the quote panel settled in, which decides whether the
+    upstream 404 behind a not-found shot is a defect or the subject.
     """
     page.fill(SEARCH_INPUT, args.search or args.symbol)
     try:
@@ -166,6 +171,9 @@ def drive(page, args, problems, label):
     except Exception as error:
         problems.append(f"{label}: could not reach the requested state — "
                         f"{type(error).__name__}")
+
+    panel = page.query_selector(QUOTE_STATE)
+    return panel.get_attribute("data-state") if panel else None
 
 
 @contextlib.contextmanager
@@ -232,8 +240,17 @@ def main():
 
             page.goto(base + PAGE, wait_until="networkidle")
 
+            # The symbol whose 404 is the thing being photographed rather
+            # than a fault. Shooting the not-found state means asking the
+            # service for a symbol it has no data for, and it answers 404 —
+            # correctly, and Chrome logs every 404 as a console error. Only
+            # the symbol this run asked for is forgiven, and only once the
+            # panel has actually reported not-found for it: a 500, or a 404
+            # for anything else, still fails the run.
+            missing = None
             if args.search or args.symbol:
-                drive(page, args, problems, label)
+                if drive(page, args, problems, label) == "not-found":
+                    missing = args.symbol
 
             # Horizontal overflow is a guide §13 violation, so it fails the run
             # rather than being left for a human to spot in an image.
@@ -251,6 +268,8 @@ def main():
                 if not args.api:
                     benign += BENIGN_WITHOUT_API
                 if any(b in err for b in benign):
+                    continue
+                if missing and f"symbol={missing}" in err:
                     continue
                 problems.append(f"{label}: console error — {err}")
 
