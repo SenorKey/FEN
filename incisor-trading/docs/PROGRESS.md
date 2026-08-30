@@ -1236,3 +1236,106 @@ scratch database in the session's temp directory and was stopped afterwards.
 - **Nothing else new.** The provider question is untouched — the strip has
   always run on committed fixtures and still does. The 600-line reading and the
   `shoot.py` rate-limit note both stand as written.
+
+## 2026-08-30 — Audit: symbol lookup and the quote detail panel (T7)
+**Outcome:** shipped — verdict **minor edits**
+**Changed:** `index.html`, `css/market.css`, `js/view-symbol.js`,
+`tools/shoot.py`, `tests/test_symbol_lookup.py`, `tests/symbol_model.jxa.js`,
+all four shot sets plus a new one
+**Verified:** 99 page tests (up from 94), 168 checks in JavaScriptCore (up from
+163), 123 service tests, `shoot.py` green at 1440, 768 and 390 across five
+states, and a read of Chrome's own accessibility tree over the filled and the
+not-found panel.
+
+The third audit under the §18 cadence. The quote panel was the oldest surface
+with no row in the log, so it was this session's work instead of T9.
+
+**Three defects, and the same one underneath all of them:** the card knew
+something and left the reader to work it out.
+
+**The change named no window.** Four windows meet on this card — a session in
+the coloured change, a session in the day band, a year in the band beside it,
+six months in the chart below — and the largest coloured figure on the page
+was the only one naming none of them. This is the T6 tile finding exactly, on
+the surface that shipped the day before that rule existed, and it is now the
+third session running in which the same defect has turned up somewhere new.
+The card carries `1d` with "over the last session" spoken beside it.
+
+Set inline rather than right-aligned, which is a departure from the tile and a
+deliberate one. A tile pushes the token to the right of its row so it lands
+directly above the `30d` and the two read as a pair; this card has nothing
+beneath it to pair with, and `margin-left: auto` would have parked "1d" 900px
+from the figure it names. `.inc-period` now sets how the token looks and each
+surface sets where it goes — the seam `css/market.css` already runs on.
+
+**The bands drew their own point and would not say it.** A low and a high are
+two numbers the reader already has; where the price sits between them is the
+whole reason the band was drawn, the marker that says it is `aria-hidden`
+because it is a decoration, and nothing stood in for it. A screen reader got
+"Day range, 731.63, 738.67" and none of the meaning. Each band ends in a
+spoken sentence now — "Last price 733.40 sits 25% of the way up this range" —
+rounded to whole percent, because the drawing is not precise to a decimal and
+reading one would claim it was. It says nothing at all when the position is
+unknown, rather than describing a band with no ends.
+
+**The not-found message pointed at something that was not there.** It ended
+"the search list above is all of them", which was true and useless: the lookup
+that just failed closes that list, so the sentence sent the reader to an empty
+strip of screen. It names the symbols now. The count in front of the list went
+too — redundant beside the names, and a numeral inside prose reads as a figure
+on a page where every other numeral is one.
+
+**A fourth, found while checking the third.** A failed lookup states its reason
+in the panel and nowhere else, and the panel was not a live region — so the
+only thing ever announced was the advice underneath the field: "Try another
+ticker or company name." with nothing to explain it. The message is
+`role="status"`, and the loading line stopped appearing in both places at once,
+which had put the same sentence on screen twice twenty pixels apart and would
+now have read it out twice as well.
+
+**The tool was failing the shot it had been asked to take.** Capturing the
+not-found state means asking the service for a symbol it has no data for; it
+answers 404, correctly, and Chrome logs every 404 as a console error — so the
+one state proving the panel degrades well was the one state that could not be
+captured on a green run. Forgiven narrowly: only the symbol the run asked for,
+and only once the panel has settled in not-found for it. Checked the other way
+by pointing `--api` at a closed port — a 502 for that same symbol still fails
+the run, because the panel settles in `error` instead.
+
+**The four questions.** *Useful:* yes, decisively — it is the only way to reach
+a symbol that is not one of the four proxies, and the chart has no source
+without it. *Easy:* three keystrokes and Enter, the combobox model is right,
+and typing "apple" opens Apple. *Beautiful:* the numbers are set properly and
+the card holds up beside the strip, which is the part of the page a screenshot
+would lead with. *Performing:* two upstream calls per symbol against a 22-a-day
+budget, issued together rather than in sequence so the panel spends the shorter
+time loading, cached and shared across every visitor.
+
+**The audit log was out of order.** Its header says newest last and both
+existing rows were newest first. Fixed while adding the third, since a log that
+contradicts its own stated order stops being skimmable in the way that made it
+worth keeping.
+
+**Five shot sets, four refreshed and one new.** Every existing set carries this
+card and every one was showing a change with no window on it. `t8-not-found` is
+new: the current sets had no not-found state in them, and it is the state this
+audit changed most. Same names, replaced rather than accumulated; `docs/shots/`
+is 3.2MB, up from 2.8MB for the added set.
+
+**No backlog task was taken** — one audit per session is the whole of it (§18),
+so T9 waits a day. Nothing was installed, no upstream call was made, no account
+created, no terms accepted, nothing pushed or merged. The service ran in
+fixture mode against a scratch database in the session's temp directory and was
+stopped afterwards. `git status` shows changes only under `incisor-trading/`.
+
+**The queue is now one:** the price chart.
+
+### For Key
+
+- **Nothing new.** The provider question is untouched — the panel has always
+  run on committed fixtures and still does. The 600-line reading, the light
+  theme decision and the `shoot.py` rate-limit note all stand as written.
+- **D3 is still open and this audit did not close it**, deliberately — a tile
+  still shows a symbol it cannot open. It needs an export from
+  `view-symbol.js`, focus handling and a generic `data-track`, and doing that
+  inside an audit is how it gets done badly. Second session it has been named.
