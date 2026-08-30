@@ -118,9 +118,16 @@
         background 0.18s ease;
 }
 
-.inc-chart-range:hover {
+.inc-chart-range:not(:disabled):hover {
     color: var(--ink);
     border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+/* Nothing to change the range of. The buttons stay in place so the card does
+   not change shape, and stop inviting a press that would redraw nothing. */
+.inc-chart-range:disabled {
+    opacity: 0.45;
+    cursor: default;
 }
 
 .inc-chart-range:focus-visible {
@@ -394,6 +401,22 @@
     justify-content: center;
     padding: 0 22px;
     border-style: dashed;
+}
+
+/* The drawing surface itself, out of the way of the message that replaces it.
+   It is a flex item in this state and an empty 714px one, so leaving it in
+   flow squeezed the message into a 200px column against the left edge of a
+   968px box — the centring above had nothing to centre. */
+.inc-chart:not([data-state="ready"]) .inc-chart-svg {
+    display: none;
+}
+
+.inc-chart:not([data-state="ready"]) .inc-chart-message {
+    text-align: center;
+    /* Two even lines rather than a full one and a single word under it.
+       Ignored by anything that does not know it, which leaves the message
+       exactly as it was. */
+    text-wrap: balance;
 }
 
 .inc-chart[data-state="unavailable"] .inc-chart-plot {

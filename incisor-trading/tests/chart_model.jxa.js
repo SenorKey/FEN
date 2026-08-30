@@ -559,12 +559,16 @@ function run(argv) {
 
     equal('a chart of a symbol with no series names nothing in its head',
         view.ticker.hidden, true);
+    equal('and its range buttons stop offering a press that redraws nothing',
+        view.buttons['5D'].disabled, true);
     equal('and stops naming the window it can no longer draw',
         view.text('[data-chart-period-label]'), 'Price history');
 
     view.api.show('SPY', year, true);
     equal('a symbol that stands in for an index says so here too, as it does '
         + 'on the tile and the panel', view.badge.hidden, false);
+    equal('and a series to draw makes the ranges pressable again',
+        view.buttons['5D'].disabled, false);
 
     view.api.show('SPY', year);
     view.api.reset();

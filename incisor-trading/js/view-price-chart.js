@@ -74,6 +74,20 @@
         dom.fill(chart, selector, value);
     }
 
+    /* Range buttons with nothing to change.
+     *
+     * A press still moves aria-pressed and redraws nothing when there is no
+     * series behind them, which is a control saying it did something it did
+     * not. They stay in place rather than disappearing, so the card keeps its
+     * shape while the message explains itself.
+     */
+    function setRangesEnabled(enabled) {
+        Array.prototype.forEach.call(
+            chart.querySelectorAll('[data-chart-range]'), function (button) {
+                button.disabled = !enabled;
+            });
+    }
+
     /* Which symbol this is a chart of.
      *
      * The plot's aria-label has said so since T8 and nothing on screen has:
@@ -238,6 +252,7 @@
 
         picture.draw(shape, visible);
         renderIdentity(true);
+        setRangesEnabled(true);
         renderPeriod(range);
         renderShortfall(range, picked.complete);
         plot.setAttribute('aria-label', describe(range));
@@ -276,6 +291,7 @@
         // Cleared rather than left standing: the message below it names the
         // symbol, and a stale "over six months" above that names nothing.
         renderIdentity(false);
+        setRangesEnabled(false);
         fill('[data-chart-period-label]', restingLabel);
         plot.setAttribute('aria-label', message);
         fill('[data-chart-message]', message);
