@@ -328,10 +328,15 @@
 
         // The chart draws the series this lookup already has. A history that
         // did not arrive costs the chart and not the quote, so it says so in
-        // its own space rather than failing the panel.
+        // its own space rather than failing the panel. Whether the symbol is a
+        // proxy travels with it: the catalogue entry is here and not there,
+        // and the chart names the symbol in its own head now.
         if (chart) {
-            if (bars.length > 0) chart.show(symbol, bars);
-            else chart.unavailable(symbol);
+            if (bars.length > 0) {
+                chart.show(symbol, bars, !!(entry && entry.tracks));
+            } else {
+                chart.unavailable(symbol);
+            }
         }
 
         var summary = figures.provenanceFor(quoteEnvelope, quote.tradingDay);

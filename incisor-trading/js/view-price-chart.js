@@ -20,7 +20,8 @@
  * lines are unaffected, so those stay in the SVG where they belong.
  *
  * Contract with the markup: a [data-chart] figure whose data-state is one of
- * empty / ready / unavailable, holding [data-chart-range] buttons, a
+ * empty / ready / unavailable, holding [data-chart-symbol] and
+ * [data-chart-proxy] in its head, [data-chart-range] buttons, a
  * [data-chart-plot] box containing [data-chart-canvas] and [data-chart-marks],
  * the [data-chart-scale] and [data-chart-dates] label lists, a
  * [data-chart-readout], and a [data-chart-table] holding [data-chart-rows].
@@ -59,12 +60,18 @@
     /* ── State ──────────────────────────────────────────────────── */
 
     var symbol = '';
+    var isProxy = false;
     var series = [];
     var activeRange = geometry ? geometry.DEFAULT_RANGE : '6M';
 
     var visible = [];
     var shape = null;
     var cursor = null;
+
+    /* The label the markup ships with, read once so a cleared chart can go
+     * back to it. Without it a failed lookup keeps the last window's name over
+     * a plot that no longer draws that window — or any other. */
+    var restingLabel = '';
 
     /* The table is the accessible fallback and it can run to a thousand rows,
      * so it is built when it is opened rather than on every redraw. This is
@@ -80,6 +87,8 @@
     var scale = chart && chart.querySelector('[data-chart-scale]');
     var dates = chart && chart.querySelector('[data-chart-dates]');
     var table = chart && chart.querySelector('[data-chart-table]');
+    var ticker = chart && chart.querySelector('[data-chart-symbol]');
+    var badge = chart && chart.querySelector('[data-chart-proxy]');
     var rows = chart && chart.querySelector('[data-chart-rows]');
 
     /* ── Drawing ────────────────────────────────────────────────── */
@@ -214,6 +223,22 @@
 
     function fill(selector, value) {
         dom.fill(chart, selector, value);
+    }
+
+    /* Which symbol this is a chart of.
+     *
+     * The plot's aria-label has said so since T8 and nothing on screen has:
+     * the card carries a price, a date and the largest coloured figure on the
+     * page, and on a phone the panel that names the symbol is a scroll away.
+     * The badge follows the same rule the tile and the panel follow — a proxy
+     * is labelled wherever it appears.
+     */
+    function renderIdentity(showing) {
+        if (ticker) {
+            ticker.textContent = showing ? symbol : '';
+            ticker.hidden = !(showing && symbol);
+        }
+        if (badge) badge.hidden = !(showing && symbol && isProxy);
     }
 
     /* What the range moved, in the head. Coloured, unlike the line itself:
@@ -371,6 +396,7 @@
         var ticks = drawPlot();
         drawScale(ticks);
         drawDates();
+        renderIdentity(true);
         renderPeriod(range);
         renderShortfall(range, picked.complete);
         plot.setAttribute('aria-label', describe(range));
@@ -408,6 +434,11 @@
         // furniture: it is a claim about a series that is no longer loaded,
         // and a stale one would outlive the chart it described.
         renderShortfall(null, true);
+        // The head described a window of a series that is no longer loaded.
+        // Cleared rather than left standing: the message below it names the
+        // symbol, and a stale "over six months" above that names nothing.
+        renderIdentity(false);
+        fill('[data-chart-period-label]', restingLabel);
         plot.setAttribute('aria-label', message);
         fill('[data-chart-message]', message);
         chart.setAttribute('data-state', state);
@@ -415,12 +446,13 @@
 
     /* ── The API js/view-symbol.js drives ───────────────────────── */
 
-    function show(ticker, bars) {
+    function show(name, bars, tracksAnIndex) {
         if (!Array.isArray(bars) || bars.length === 0) {
-            unavailable(ticker);
+            unavailable(name);
             return;
         }
-        symbol = ticker;
+        symbol = name;
+        isProxy = !!tracksAnIndex;
         series = bars;
         render();
     }
@@ -429,9 +461,9 @@
      * price to show, so this says what is missing rather than the whole
      * lookup failing — and says it in the chart's own space, so the panel
      * does not change height. */
-    function unavailable(ticker) {
-        symbol = ticker || '';
-        blank('unavailable', 'No price history for ' + (ticker || 'this symbol')
+    function unavailable(name) {
+        symbol = name || '';
+        blank('unavailable', 'No price history for ' + (name || 'this symbol')
             + '. The chart needs a daily series, and that request did not '
             + 'come back.');
     }
@@ -508,6 +540,9 @@
         // true either way.
         if (!chart || !plot || !canvas || !marks || !scale || !dates) return;
         if (!dom || !figures || !geometry) return;
+
+        var label = chart.querySelector('[data-chart-period-label]');
+        restingLabel = label ? label.textContent : '';
 
         var buttons = chart.querySelector('[data-chart-ranges]');
         if (buttons) buttons.addEventListener('click', onRangeClick);

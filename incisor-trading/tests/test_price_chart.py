@@ -84,12 +84,30 @@ class TestChartIsWiredIntoThePage(unittest.TestCase):
                      'data-chart-readout-date', 'data-chart-readout-price',
                      'data-chart-readout-arrow', 'data-chart-readout-delta',
                      'data-chart-readout-pct', 'data-chart-readout-change',
+                     'data-chart-symbol', 'data-chart-proxy',
                      'data-chart-period', 'data-chart-period-label',
                      'data-chart-period-arrow', 'data-chart-period-delta',
                      'data-chart-period-pct', 'data-chart-shortfall',
                      'data-chart-table', 'data-chart-rows',
                      'data-chart-tracking'):
             self.assertIn(hook, chart_markup(), hook)
+
+    def test_the_chart_can_name_the_symbol_it_is_drawing(self):
+        """The plot's aria-label named it from the start and nothing on screen
+        did, which left a card of figures belonging to no ticker."""
+        ticker = [e for e in PAGE.elements if 'data-chart-symbol' in e['attrs']]
+        self.assertEqual(len(ticker), 1)
+        # Hidden until a symbol is loaded; the view unhides it, as the quote
+        # panel's own badge is unhidden.
+        self.assertIn('hidden', ticker[0]['attrs'])
+
+    def test_a_proxy_stays_labelled_on_the_chart_too(self):
+        """The strip tells the reader the ETFs 'are labelled as proxies
+        wherever they appear', and the chart head is somewhere they appear."""
+        badge = [e for e in PAGE.elements if 'data-chart-proxy' in e['attrs']]
+        self.assertEqual(len(badge), 1)
+        self.assertIn('inc-proxy', classes(badge[0]))
+        self.assertIn('hidden', badge[0]['attrs'])
 
     def test_the_gradient_the_area_fill_names_is_actually_defined(self):
         """It ships in the markup rather than being built, so that emptying the

@@ -250,7 +250,17 @@ function run(argv) {
             'data-state': 'empty' });
 
         var head = new El('figcaption', {});
-        head.appendChild(new El('p', { 'data-chart-period-label': '' }));
+        var title = new El('p', {});
+        var ticker = new El('span', { 'data-chart-symbol': '' });
+        ticker.hidden = true;
+        var badge = new El('span', { 'data-chart-proxy': '' });
+        badge.hidden = true;
+        var periodLabel = new El('span', { 'data-chart-period-label': '' });
+        periodLabel.textContent = 'Price history';
+        title.appendChild(ticker);
+        title.appendChild(badge);
+        title.appendChild(periodLabel);
+        head.appendChild(title);
         var period = new El('p', { 'class': 'inc-flat',
             'data-chart-period': '' });
         period.appendChild(new El('span', { 'data-chart-period-arrow': '' }));
@@ -309,7 +319,8 @@ function run(argv) {
 
         return { chart: chart, plot: plot, canvas: canvas, marks: marks,
             scale: scale, dates: dates, readout: readout, table: table,
-            rows: rows, buttons: buttons, shortfall: shortfall };
+            rows: rows, buttons: buttons, shortfall: shortfall,
+            ticker: ticker, badge: badge };
     }
 
     function mount() {
@@ -357,6 +368,11 @@ function run(argv) {
 
     view.api.show('SPY', year);
     equal('a series puts it in its ready state', view.state(), 'ready');
+    equal('and the head names the symbol being charted, which only the plot’s '
+        + 'own label used to', view.text('[data-chart-symbol]'), 'SPY');
+    equal('and shows it', view.ticker.hidden, false);
+    equal('a symbol that stands in for nothing carries no proxy badge',
+        view.badge.hidden, true);
     equal('one line is drawn', view.shapes('inc-chart-line').length, 1);
     equal('and one area beneath it', view.shapes('inc-chart-area').length, 1);
     equal('and the opening level, as the tile sparklines draw it',
@@ -511,9 +527,20 @@ function run(argv) {
     check('and a screen reader is told the same thing',
         view.plot.getAttribute('aria-label').indexOf('ZZZZ') > -1);
 
+    equal('a chart of a symbol with no series names nothing in its head',
+        view.ticker.hidden, true);
+    equal('and stops naming the window it can no longer draw',
+        view.text('[data-chart-period-label]'), 'Price history');
+
+    view.api.show('SPY', year, true);
+    equal('a symbol that stands in for an index says so here too, as it does '
+        + 'on the tile and the panel', view.badge.hidden, false);
+
     view.api.show('SPY', year);
     view.api.reset();
     equal('resetting returns it to empty', view.state(), 'empty');
+    equal('and takes the symbol out of the head with it',
+        view.ticker.hidden, true);
     equal('and clears the axis rather than leaving the last symbol labelled',
         view.scale.children.length, 0);
     equal('and clears the table too', view.rows.children.length, 0);

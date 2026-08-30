@@ -57,6 +57,24 @@
     gap: 12px 18px;
 }
 
+/* The ticker, then the window. Set the way the tile and the quote card set
+   theirs, because it is the same fact in a third place; the type does the
+   separating, so there is no divider between them. */
+.inc-chart-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 3px 8px;
+}
+
+.inc-chart-symbol {
+    font-family: var(--inc-mono);
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+}
+
 .inc-chart-period-label {
     font-size: 0.66rem;
     font-weight: 500;

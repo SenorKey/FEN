@@ -464,8 +464,22 @@
                     <figure class="inc-chart" data-chart data-state="empty">
                         <figcaption class="inc-chart-head">
                             <div>
-                                <p class="inc-chart-period-label"
-                                    data-chart-period-label>Price history</p>
+                                <!-- Which symbol, and then which window of it.
+                                     The plot's own label has named the symbol to
+                                     a screen reader since T8 and nothing on
+                                     screen did, while on a phone the quote card
+                                     that names it is a scroll away. The badge is
+                                     here because the strip says proxies are
+                                     labelled wherever they appear, and this is a
+                                     place they appear. -->
+                                <p class="inc-chart-title">
+                                    <span class="inc-chart-symbol"
+                                        data-chart-symbol hidden></span>
+                                    <span class="inc-proxy" data-chart-proxy
+                                        hidden>proxy</span>
+                                    <span class="inc-chart-period-label"
+                                        data-chart-period-label>Price history</span>
+                                </p>
                                 <p class="inc-chart-period inc-flat" data-chart-period>
                                     <span class="inc-arrow" aria-hidden="true"
                                         data-chart-period-arrow>&#9644;</span>
