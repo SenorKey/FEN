@@ -1994,3 +1994,86 @@ hard rule 6 already forbids committing one, and this is why it matters.
 This supersedes the 2026-08-27 look-branch decision, marked as such in place so
 the record stays coherent rather than contradictory.
 
+
+## 2026-08-31 — D6: the element nobody can see was the one that escaped
+**Outcome:** shipped
+**Changed:** `incisor.css`, `css/watchlist.css`, `css/chart.css`,
+`tests/test_page.py`, `tools/shoot.py`, `BACKLOG.md`, `DECISIONS.md`
+**Verified:** 139 page tests, 128 service tests, every JavaScriptCore suite
+green; `shoot.py --api` green at four widths; both new guards confirmed to fail
+with the fix removed.
+
+A defect outranks an audit and a task (§19), so D6 was the session.
+
+**The table was innocent.** D6 was filed as "the watchlist table pushes the page
+2px wide at 320px", and `.inc-watch-scroll` has had `overflow-x: auto` since T9.
+It works: at 320px the table genuinely needs 306px, the box scrolls those 18px,
+and every column is reachable. What pushed the body was the `<span
+class="inc-offscreen">Remove</span>` in the last header cell — the one element
+on the surface that is not on the surface.
+
+`.inc-offscreen` is `position: absolute`, which is load-bearing (in flow, the
+nowrap text would widen the column it hides in). An absolutely positioned
+element is clipped only by an ancestor that is a **containing block** for it,
+and a scroller with no `position` is not one. So the label was laid out at the
+far end of the header, past the box's edge, exempt from the clip its visible
+neighbours obey, and 1.77px outside a 320px viewport — `scrollWidth` 322.
+
+Confirmed rather than reasoned: setting `position: relative` on the scroller in
+the live page took `documentElement.scrollWidth` from 322 to 320, while deleting
+the Remove label alone left it at 322, because the row cells carry off-screen
+labels too. One property fixes all of them; deleting one fixes none.
+
+**Why the fix is three declarations and the reason is one.** The reason sits
+beside `.inc-offscreen` in `incisor.css`, not beside any one scroller: the
+escaping thing is shared vocabulary and the scrollers are not, and this page
+pairs a hidden label with a scrolling table on every surface that ranks
+anything. `.inc-tablist` and `.inc-chart-table-scroll` get the same declaration
+preventively, which is the same shape as the `[hidden]` fix — put it where the
+next surface inherits it.
+
+**Two guards, both confirmed against the defect put back.** The first is
+structural and needs no browser: `test_page.py` walks the innermost rule blocks
+of every shipped stylesheet, and any that scrolls in either direction must also
+establish a containing block. Derived from the CSS rather than naming the three
+boxes, so a fourth cannot ship without it — it failed with the exact message
+`.inc-watch-scroll in css/watchlist.css scrolls sideways without becoming a
+containing block for what is positioned inside it`. The second is empirical:
+`shoot.py` now loads the page a fourth time at **320px with a full eight-row
+watchlist**, and checks overflow without taking a screenshot. It reported
+`narrow: body scrolls horizontally with a full watchlist (322px in a 320px
+viewport)` with the fix removed, and is silent with it in.
+
+The narrow pass **skips itself, loudly, without `--api`**. Without the service
+the rows fall back to a short "unavailable" and the table fits at 320 — so an
+unproxied run would bank a green against the one state the rule is not about.
+That is the D4/D5 trap in a new place: what stands in for this, and what does
+the stand-in paper over? A stated skip beats a pass that stands for nothing.
+
+**Density is unchanged, measured rather than asserted.** Every header cell, row
+and body cell measures identically before and after at 320, 390, 768 and 1440 —
+the fix changes what clips, not what is laid out. The T9 audit's remove target
+was re-hit-tested at all four corners of the cell because a new positioned
+ancestor is exactly what could have broken it: still 52x41 on desktop and 42x44
+on mobile, still `inc-watch-remove` at every corner.
+
+**A note on the reproduction, since it cost most of the session.** The first
+four attempts came back clean because the scratch `config.env` set
+`ALLOWED_ORIGIN` to localhost, while `shoot.py`'s proxy sends the site's real
+origin the way a browser would — so every call was a 403 and every row was in
+the error state, which is narrow enough to fit. The defect only exists with the
+table full of real figures. Worth remembering: a local check that answers "no
+problem" is also making a claim about its own setup.
+
+No screenshot is committed for 320px. The change is invisible by construction —
+the element that moved was already hidden — and the evidence is the pair of
+numbers, 322 before and 320 after. The 320px render was looked at to confirm
+nothing regressed: eight rows, all figures, the remove control at the right
+edge, trend column correctly dropped below 460.
+
+The service ran in fixture mode against a scratch database in the session's temp
+directory and was stopped afterwards. No upstream call was made. Nothing was
+pushed to `main`, nothing merged, nothing deployed.
+
+**Next session order:** the sector grid (T10) audit — it is due, and the audit
+log says so. Then T10a, then T10b.

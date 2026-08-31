@@ -367,9 +367,11 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-1. **Sector grid** (T10) — shipped 2026-08-31. Due after one more session.
+1. **Sector grid** (T10) — shipped 2026-08-31. **Due now**: the D6 session
+   passed without auditing it, and a defect outranks an audit (§19) rather
+   than resetting its clock.
 
-Nothing is due yet. Every other surface on the page has a row below.
+Every other surface on the page has a row below.
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
@@ -386,10 +388,30 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-- [ ] **D6 · The watchlist table pushes the page 2px wide at 320px** `[defect]`
-  *(found 2026-08-31 in the T9 audit, diagnosed attended the same day)* — the
-  audit measured the overflow, confirmed it pre-existing, and left it because
-  chasing it belonged to another surface. It belongs to this one: measured with
+- [x] **D6 · The watchlist table pushes the page 2px wide at 320px** `[defect]`
+  *(found 2026-08-31 in the T9 audit, diagnosed attended the same day, fixed
+  2026-08-31)* — and the table was never the culprit. It scrolls inside its own
+  box correctly, and always did; what escaped was the header's off-screen
+  "Remove" label. `.inc-offscreen` is `position: absolute`, and an absolutely
+  positioned element is clipped only by an ancestor that is a **containing
+  block** for it — a scroller with no `position` is not one, so the label sat
+  1.77px past a 320px viewport while every visible column obeyed the clip.
+  Fixed by making the three sideways-scrolling boxes containing blocks, with
+  the reason recorded beside `.inc-offscreen` in `incisor.css` because that is
+  the thing that escapes. Two guards, both confirmed to fail with the fix
+  removed: `test_page.py` derives every `overflow*: auto` rule from the shipped
+  CSS and asserts each one also establishes a containing block, and
+  `tools/shoot.py` loads the page a fourth time at **320px with a full
+  eight-row watchlist** and checks for overflow — measured, not photographed,
+  and skipped with a stated reason when `--api` is absent, because an unpriced
+  table is narrower than the rule is about. Density is unchanged: every column,
+  row and cell measures identically at 320, 390, 768 and 1440, and the remove
+  control still hit-tests at all four corners.
+  Original scope below.
+
+  ~~The audit measured the overflow, confirmed it pre-existing, and left it
+  because chasing it belonged to another surface.~~ It belongs to this one:
+  measured with
   six rows stored, `table.inc-watch-table` overflows by 2px at a 320px viewport,
   and is clean at 360 and 375. Guide §13 is unconditional — "wide tables scroll
   inside their own container; the page body never scrolls horizontally" — and
