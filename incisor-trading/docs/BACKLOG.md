@@ -169,6 +169,17 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   bars overflowing their track, and sector names wrapping between 560 and
   768px.
 
+- [ ] **T10a · Give the served document a seam before the next surface lands**
+  `index.html` is at 888 lines against the 900 ceiling D2 set — 12 lines of
+  headroom, and T10b, T11 and T12 each add a surface. This is not a defect; it
+  is sequenced work that has to happen before the next surface, and it was
+  deferred once already.
+  *Accept:* either a real seam is found and the document splits along it, or the
+  ceiling moves with the reasoning written down the way D2 did it, and the
+  per-surface 150-line rule is shown to still be the thing protecting
+  readability. Whichever, `test_the_served_document_stays_under_900_lines` ends
+  the session green with headroom for the surfaces still planned.
+
 - [ ] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
   **symbol-less upstream endpoint**, which the source path, the cache key and
@@ -374,6 +385,20 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 `[enhancement]`** — see guide §19. A defect is taken before anything else at
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
+
+- [ ] **D6 · The watchlist table pushes the page 2px wide at 320px** `[defect]`
+  *(found 2026-08-31 in the T9 audit, diagnosed attended the same day)* — the
+  audit measured the overflow, confirmed it pre-existing, and left it because
+  chasing it belonged to another surface. It belongs to this one: measured with
+  six rows stored, `table.inc-watch-table` overflows by 2px at a 320px viewport,
+  and is clean at 360 and 375. Guide §13 is unconditional — "wide tables scroll
+  inside their own container; the page body never scrolls horizontally" — and
+  this table pushes the body instead of scrolling itself, so the width §15 names
+  for checking is not a floor below which the rule stops applying. `shoot.py`
+  cannot see it: its narrowest viewport is 390.
+  *Accept:* no horizontal overflow at 320px with a full eight-row watchlist; a
+  test asserts it at 320 so the next narrow surface cannot reintroduce it;
+  desktop row density unchanged.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two

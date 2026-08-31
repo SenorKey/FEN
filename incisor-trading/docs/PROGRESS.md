@@ -1924,3 +1924,37 @@ directory and was stopped afterwards. `git status` shows changes only under
   to open the chart behind it. Still `[enhancement]`, so untouched for a fifth
   session. The trend column arguably sharpens it again — a row now shows a
   shape worth investigating and still cannot be clicked.
+
+## 2026-08-31 — Attended: file what the audit left loose
+**Outcome:** shipped
+**Changed:** `BACKLOG.md` (T10a, D6), `AGENT-GUIDE.md` (§19)
+**Verified:** 138 page tests green; the 320px overflow reproduced independently
+with six rows stored — `table.inc-watch-table`, 2px at 320, clean at 360 and 375.
+
+The session's work checks out. `D5` is the standout: `/api/incisor/symbols` was
+never in the Apache snippet, so symbol search worked in every local check —
+`shoot.py` forwards the whole prefix, the service tests call routes directly —
+and would have returned Apache's 404 on deployment day, leaving the combobox
+permanently empty. Found only because a route was traced end to end.
+
+Two findings were recorded in the progress notes and nowhere else, and
+`PROGRESS.md` is read from the tail, so both would have gone invisible:
+
+- **`index.html` at 888 of its 900 ceiling**, with T10b, T11 and T12 each adding
+  a surface. The session said the next one to add a surface "has to deal with
+  this first", but nothing sequenced that — the next session would have taken
+  T10b and hit the wall. Filed as **T10a**, before T10b.
+- **The 2px overflow at 320px.** The audit declined to chase it into another
+  surface, which is right, but it is the watchlist's own table. Filed as **D6**
+  with the culprit named so nobody measures it twice. Note §13's rule is
+  unconditional and this table pushes the body rather than scrolling itself, so
+  375 is a checking width and not a floor.
+
+Guide §19 gains the general rule: a finding that implies future work gets a
+`BACKLOG.md` entry, not just a paragraph in the progress notes. Leaving
+something unfixed is often right; leaving it unfiled means it is found again
+from scratch, or not at all. Third instance of this shape — O6, Discovered, and
+now progress-only notes.
+
+**Next session order:** D6 (defect, jumps the queue), then T10a, then T10b.
+

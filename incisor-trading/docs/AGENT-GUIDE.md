@@ -749,3 +749,16 @@ nobody finds it until it matters.
 Fixing a defect follows the ordinary rules: verify it, test that it stays fixed,
 record it. A defect that turns out not to be one gets reclassified with the
 reason, never silently dropped.
+
+### Anything that needs doing later goes in the backlog
+
+`PROGRESS.md` is read from the tail, so a finding recorded only there is
+invisible within a few sessions. **If a finding implies future work, it gets a
+`BACKLOG.md` entry** — a `D` item if it is a defect or a loose idea, a task in
+the right phase if it is sequenced work. Describing it in the session's progress
+notes is not filing it.
+
+This applies to everything found and deliberately not fixed: an audit's "looked
+at and left", a limit about to be breached, a defect belonging to a surface
+other than the one being worked on. Leaving something *unfixed* is often right.
+Leaving it *unfiled* means it is found again from scratch, or not at all.
