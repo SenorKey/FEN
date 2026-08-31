@@ -24,67 +24,10 @@
 
     var dom = window.IncisorDom;
 
-    var SVG_NS = 'http://www.w3.org/2000/svg';
-
-    /* A month of trading days. Long enough to have a shape, short enough that
-     * the shape is about now rather than about the spring. */
-    var SPARK_DAYS = 30;
-
-    /* The viewBox, matched to the one in the markup. The SVG is stretched to
-     * the tile's width with preserveAspectRatio="none", so these are drawing
-     * units and not pixels — the padding keeps the stroke off the edges at
-     * whatever width it lands on. */
-    var SPARK_WIDTH = 120;
-    var SPARK_HEIGHT = 34;
-    var SPARK_PADDING = 3;
-
-    /* Replaces the sparkline's contents. Built with createElementNS rather
-     * than a markup string because an SVG element created any other way is
-     * silently in the wrong namespace and renders as nothing. */
-    function drawSparkline(svg, closes, figures, symbol) {
-        dom.empty(svg);
-
-        var shape = figures.sparkline(closes, SPARK_WIDTH, SPARK_HEIGHT,
-            SPARK_PADDING);
-        if (!shape) {
-            svg.setAttribute('aria-label', symbol + ' has no trend to draw');
-            return;
-        }
-
-        // The level the period started at. Without it the line shows the
-        // shape of the month but not whether it ended above or below where
-        // it began, which is the one thing a reader wants from a sparkline.
-        var baseline = document.createElementNS(SVG_NS, 'line');
-        baseline.setAttribute('class', 'inc-spark-base');
-        baseline.setAttribute('x1', '0');
-        baseline.setAttribute('x2', String(SPARK_WIDTH));
-        baseline.setAttribute('y1', String(shape.baselineY));
-        baseline.setAttribute('y2', String(shape.baselineY));
-        svg.appendChild(baseline);
-
-        var line = document.createElementNS(SVG_NS, 'path');
-        line.setAttribute('class', 'inc-spark-line');
-        line.setAttribute('d', shape.path);
-        svg.appendChild(line);
-
-        // No direction attribute, and so no direction colour: see the note in
-        // css/market.css. The words below are where a reader is told which way
-        // the month went, and they are the only place a screen reader can be.
-        svg.setAttribute('aria-label', sparklineLabel(shape, figures, symbol));
-    }
-
-    /* The sparkline in words, because the picture is the one part of a tile a
-     * screen reader cannot read. Spelled out rather than punctuated: a plus
-     * sign is a reliable signal on screen and an unreliable one aloud. */
-    function sparklineLabel(shape, figures, symbol) {
-        var way = figures.direction(shape.change);
-        if (way === 'flat' || shape.changePercent === null) {
-            return symbol + ' thirty-day trend: unchanged over the period';
-        }
-        return symbol + ' thirty-day trend: ' + way + ' '
-            + figures.formatPrice(Math.abs(shape.changePercent))
-            + ' percent over the period';
-    }
+    /* The drawing, the window it covers and the words a screen reader gets
+     * instead of it are js/sparkline.js — the watchlist rows draw the same
+     * line from the same payload, so it is written down once. */
+    var spark = window.IncisorSparkline;
 
     function renderTile(tile, payload, figures) {
         var quote = figures.quoteFromBars(payload.bars);
@@ -98,9 +41,9 @@
             figures.direction(quote.change));
 
         var svg = tile.querySelector('[data-tile-spark]');
-        if (svg) {
-            drawSparkline(svg, figures.closingPrices(payload.bars, SPARK_DAYS),
-                figures, tile.getAttribute('data-tile'));
+        if (svg && spark) {
+            spark.draw(svg, figures.closingPrices(payload.bars, spark.DAYS),
+                tile.getAttribute('data-tile'));
         }
 
         tile.setAttribute('data-state', 'ready');
@@ -118,11 +61,7 @@
         dom.setDirection(tile.querySelector('[data-tile-change]'), 'flat');
 
         var svg = tile.querySelector('[data-tile-spark]');
-        if (svg) {
-            dom.empty(svg);
-            svg.setAttribute('aria-label',
-                tile.getAttribute('data-tile') + ' trend unavailable');
-        }
+        if (svg && spark) spark.unavailable(svg, tile.getAttribute('data-tile'));
         tile.setAttribute('data-state', 'error');
     }
 

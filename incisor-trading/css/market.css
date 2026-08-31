@@ -135,17 +135,21 @@
 .inc-flat { color: var(--inc-flat); }
 
 /* ── Sparkline ──
-   Stretched to the tile width with preserveAspectRatio="none", which
-   would ordinarily smear the stroke along with it — non-scaling-stroke
-   is what keeps a 1.4 unit line 1.4px at every tile width.
+   Shared vocabulary, not tile furniture: the watchlist rows draw the same
+   line from the same payload, so the two shapes below are styled once here
+   and each surface sizes its own box. The drawing is js/sparkline.js.
 
-   Deliberately not coloured by direction, unlike every other figure on
-   the tile. The headline change is one day and this line is thirty, so
-   colouring both meant a tile could show a green arrow above a red
-   line and be entirely correct — which reads as a contradiction rather
-   than as the two timescales it is. Green and red now mean exactly one
-   thing per tile, and the line says which way the month went by ending
-   above or below its own opening level. */
+   Stretched to its container's width with preserveAspectRatio="none", which
+   would ordinarily smear the stroke along with it — non-scaling-stroke
+   is what keeps a 1.4 unit line 1.4px at every width.
+
+   Deliberately not coloured by direction, unlike every other figure beside
+   it. The headline change is one day and this line is thirty, so colouring
+   both meant a row could show a green arrow above a red line and be
+   entirely correct — which reads as a contradiction rather than as the two
+   timescales it is. Green and red mean exactly one thing per surface, and
+   the line says which way the month went by ending above or below its own
+   opening level. */
 
 .inc-spark-row {
     display: flex;

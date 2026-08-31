@@ -433,6 +433,11 @@ function run(argv) {
         };
 
         (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
+        // The sparkline drawer is shared with the watchlist, so it is a real
+        // module here rather than a stub: what the strip draws and what the
+        // rows draw is the same code, and this is where that is proved.
+        (new Function('document', 'window',
+            read(pageDir + '/js/sparkline.js')))(documentStub, windowStub);
         (new Function('document', 'window',
             read(pageDir + '/js/view-index-strip.js')))(documentStub, windowStub);
 
