@@ -1789,3 +1789,138 @@ afterwards. `git status` shows changes only under `incisor-trading/`.
   `[enhancement]`, so the routine has left it alone for a fourth session. The
   sector grid makes it slightly worse — eleven more symbols on screen that a
   reader has to retype into the search box to look at.
+
+
+## 2026-08-31 — Audit: the watchlist (T9)
+**Outcome:** shipped — audited, verdict **minor edits**, four fixes
+**Changed:** `js/sparkline.js` (new); `index.html`, `css/watchlist.css`,
+`css/market.css`, `js/view-index-strip.js`, `js/view-watchlist.js`,
+`tests/strip_model.jxa.js`, `tests/watchlist_model.jxa.js`,
+`docs/shots/README.md` (new), three reshot `docs/shots/t9-*` sets
+**Verified:** 138 page tests, 156 service tests; `shoot.py` green at three
+widths in four configurations, including with the service stopped and with
+storage blocked; geometry measured in Chrome across ten viewport widths from
+320 to 1440.
+
+Taken instead of a backlog task, per guide §18: the watchlist had been shipped
+a session and the audit log said it was due. No open defect outranked it — D3
+is still an `[enhancement]`.
+
+**The verdict is minor edits, and the interesting part is that three of the
+four findings were not there when T9 shipped.** They arrived when T10 did, or
+they were always there and only became visible next to it. That is the case
+for auditing on a clock rather than on suspicion.
+
+### Useful — it was showing less than the surface next to it
+
+A watched symbol costs one `/history` call. The last two bars answer the change
+column, and the other 250 were being fetched, parsed and thrown away — while
+the tile directly above, on the identical single call, drew a thirty-day line
+from them. So the surface that is *about the reader's own symbols* was telling
+them less about those than the strip tells them about four they did not choose.
+
+The trend column costs nothing upstream: no new call, no new route, no new
+state, no change to the eight-symbol arithmetic. A list of prices is a lookup;
+a list of shapes is a scan, which is what a watchlist is for.
+
+The drawing moved out to `js/sparkline.js` rather than being restated. The
+strip's own 103 checks pass against the extracted module, which is what makes
+the "no behaviour change" claim rather than the diff.
+
+### Beautiful — T10 is what made this the part you would crop out
+
+The table was capped at 620px, and the reason was written into the CSS and was
+sound: three short figures spread over 1070px put a hand's width of nothing
+between a symbol and its own numbers. Nothing about that argument became false.
+A *neighbour* did — T10 put an eleven-row ranked table edge to edge directly
+above it, doing the same job at full width, and against that a table ending at
+58% of the column reads as one that failed to finish loading.
+
+Full width now, and the trend column is what makes the width honest rather than
+merely full. Below 460px the column goes entirely instead of shrinking: 60px of
+sparkline is a smudge, and a smudge presented as a trend is worse than none. It
+appears at 461px with 102px of line — measured at ten widths, not guessed.
+
+### Easy — usable by keyboard, and not by finger, twice over
+
+**The remove control measured 28x22 on every viewport.** It is the only control
+in a row, it deletes something with no undo, and it was under the 24px WCAG 2.2
+minimum on one axis. The target is the whole cell now — 52x41 on desktop, 42x44
+on a coarse pointer — grown with a positioned overlay so the row height and the
+glyph's position are untouched.
+
+The measurement that found it is not the measurement that proves it fixed:
+`getBoundingClientRect` on the button still reports 28x22, because the overlay
+is not in its box. `elementFromPoint` at all four corners of the cell is the
+check, and it needs the element scrolled into view first or it answers `null`
+everywhere and reads as a total failure.
+
+**The sort headers marked only the column already sorted.** The other two
+changed colour on hover — a signal a phone does not have — so on the device
+most likely to be scanning a list, two of three columns told a sighted touch
+reader nothing at all. `aria-pressed` had been right since T9, so a screen
+reader knew and nobody else did. That is the third instance of "a fact stated
+in one channel only", after the range bands and the chart's own symbol, so it
+is promoted to *Recurring traps* with hover named as a channel some readers
+lack.
+
+### Performing — unchanged, and that is the finding
+
+No new upstream call, no new route, no new stored state. The bars were already
+being fetched and parsed; only the discard changed. Rows stay at 41px on
+desktop, exactly as before the audit.
+
+That last number took a second look. The first version of the trend cell set a
+4px vertical padding that never applied — `.inc-watch-table td` is a class-plus-
+element rule and outranked it — so every row silently grew from 41 to 45px. It
+would have shipped as a 10% density change nobody chose, hidden behind a rule
+that reads as though it works. Caught by measuring computed padding rather than
+by reading the stylesheet.
+
+### Looked at and left
+
+The provenance sentence under this table is word-for-word the one under the
+strip, and the page now says it three times in one scroll. Left alone: each
+surface makes its own claim about its own numbers, and a shared line would be
+one surface speaking for another's data.
+
+### Screenshots, and a note Key raised
+
+The three `t9-*` sets showed a four-column table that no longer exists, which
+is the failure `DECISIONS.md` warns about — an old set is worse than no set.
+All three reshot, and **tablet dropped from each**: the watchlist's one
+width-dependent behaviour is the trend column, present at 768 and 1440 and
+hidden below 460, so desktop and mobile bracket it and tablet says neither.
+`docs/shots/README.md` states that convention once rather than a README per
+folder. The directory held flat at 7.1MB this session instead of growing.
+
+`docs/BACKLOG.md`'s audit log table was also repaired: a stray `---` between
+the T7 and T8 rows had been splitting it since the T8 audit, so T8's row was
+rendering as plain text rather than as a table row. Five rows, one table, in
+date order.
+
+**One audit, no backlog task,** which is what §18 asks for. Nothing installed,
+no upstream call, no account, no terms accepted, nothing pushed or merged. The
+service ran in fixture mode against a scratch database in the session's temp
+directory and was stopped afterwards. `git status` shows changes only under
+`incisor-trading/`.
+
+### For Key
+
+- **Nothing new to decide.** The provider question is untouched; no live call
+  was made. The light-theme and 600-line readings all stand as written.
+- **`index.html` is at 888 lines against the 900 ceiling** — 12 lines of
+  headroom, down from 23, and T11 and T12 each add a surface. The trend column
+  cost 11 of them. **The next session that adds a surface has to deal with this
+  first**, either by raising the ceiling with a reason or by finding a real
+  seam; there is no longer room to defer it as I did.
+- **A 2px horizontal overflow exists at 320px viewport width.** Pre-existing —
+  confirmed identical with this session's changes stashed — and below the 375px
+  the guide names, which is why `shoot.py` does not catch it at 390. Recorded
+  rather than fixed, because it belongs to whichever surface causes it and I
+  did not chase it inside an audit of a different one.
+- **D3 is still open** and now covers four surfaces: a tile, a watchlist row, a
+  sector row, and now the trend line a reader can see moving without being able
+  to open the chart behind it. Still `[enhancement]`, so untouched for a fifth
+  session. The trend column arguably sharpens it again — a row now shows a
+  shape worth investigating and still cannot be clicked.
