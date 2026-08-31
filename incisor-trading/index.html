@@ -722,8 +722,8 @@
                     <div class="inc-watch-scroll">
                         <table class="inc-watch-table">
                             <caption class="inc-offscreen">Watched symbols, with
-                                the last close and the change over the session
-                                before it.</caption>
+                                the last close, the change over the session
+                                before it, and the thirty-session trend.</caption>
                             <thead>
                                 <tr>
                                     <!--
@@ -766,6 +766,16 @@
                                                 last session</span><span
                                                 class="inc-period"
                                                 aria-hidden="true">1d</span></button>
+                                    </th>
+                                    <!--
+                                      The shape behind the figure beside it,
+                                      over the same thirty sessions the tiles
+                                      draw. Not sortable: a ranking by shape
+                                      is not a thing a reader can ask for.
+                                    -->
+                                    <th scope="col" class="inc-watch-trend-head">
+                                        Trend<span class="inc-period"
+                                            aria-hidden="true">30d</span>
                                     </th>
                                     <th scope="col">
                                         <span class="inc-offscreen">Remove</span>

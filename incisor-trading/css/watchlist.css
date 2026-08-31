@@ -136,25 +136,32 @@
     display: none;
 }
 
-/* The whole block is one column, capped, rather than a four-column table
-   stretched over 1070px of desktop. A ticker, a price and a change are
-   short, and spreading them edge to edge puts a hand's width of nothing
-   between a symbol and its own figures — which is the one comparison the
-   table exists to make easy. The cap is the same idea as .inc-search's, and
-   it stops mattering below it, where the table is full width anyway.
+/* Full width, since the trend column arrived.
 
-   Four columns at any width, so it never becomes a stack of labels; it
+   It was capped at 620px, and the reason was sound while it was true: three
+   short figures spread over 1070px of desktop put a hand's width of nothing
+   between a symbol and its own numbers. What changed is that the gap is no
+   longer nothing — the sparkline is in it, and a line wants the width the
+   figures did not. The same shape as the sector grid, which ranks eleven rows
+   edge to edge and works for exactly this reason.
+
+   The cap was also the last thing on the page that was not full width, and
+   after T10 put an eleven-row ranked table directly above this one, a table
+   ending at 58% of the column read as a surface that had failed to finish
+   loading rather than as a deliberate measure.
+
+   Five columns at any width, so it never becomes a stack of labels; it
    scrolls inside its own box rather than pushing the body sideways (§13). */
 .inc-watch-scroll {
     margin-top: 18px;
-    max-width: 620px;
     overflow-x: auto;
 }
 
-.inc-watch-count,
-.inc-watch-notice,
-.inc-watchlist .inc-provenance {
-    max-width: 620px;
+/* The one thing under the table that is prose rather than a figure, so it
+   keeps a reading measure while the table beside it does not. The count and
+   the provenance line are short enough to be neither. */
+.inc-watch-notice {
+    max-width: 62ch;
 }
 
 .inc-watch-table {
@@ -187,6 +194,54 @@
 
 .inc-watch-table thead th:last-child {
     width: 1%;
+}
+
+/* ── Trend ──
+   The flexible column: every other one is a fixed number of characters, so
+   the leftover width lands here, which is what a line wants and a figure
+   does not. Below 460px it is the first thing to go — a 60px sparkline is a
+   smudge, and the figures are the content. */
+/* The only column heading that is not a sort button, so it has to be given
+   the type the button carries rather than inheriting the table's mono. Set
+   the same way as the other three, because a heading that reads differently
+   reads as a different kind of thing. */
+.inc-watch-trend-head {
+    width: 34%;
+    padding: 8px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: right;
+    color: var(--muted);
+}
+
+.inc-watch-trend-head .inc-period {
+    margin-left: 6px;
+    text-transform: none;
+    letter-spacing: 0.06em;
+}
+
+/* Selected through the table so it outranks the `th, td` padding above,
+   which is a class-plus-element rule and would otherwise win. At the shared
+   9px the sparkline alone makes the row the tallest thing in the table and
+   every row grows 4px for it; the line does not need the same breathing room
+   as a line of type. */
+.inc-watch-table .inc-watch-trend {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.inc-watch-spark {
+    display: block;
+    width: 100%;
+    /* Reserved before anything is drawn, so a row filling shifts nothing —
+       and so a row that could not be priced keeps the shape of one that
+       could. Shorter than the tile's 34px because a table row is denser
+       than a card. */
+    height: 26px;
+    overflow: visible;
 }
 
 /* ── Sorting ──
@@ -313,9 +368,11 @@
     color: var(--ink);
 }
 
-/* Narrow enough that the four columns would fight for room. The remove
-   control loses its padding first, because it is a glyph and the figures
-   are the content. */
+/* Narrow enough that the columns would fight for room. The remove control
+   loses its padding first, because it is a glyph and the figures are the
+   content — and the trend column goes entirely, because 60px of sparkline
+   is a smudge rather than a shape, and a smudge presented as a trend is
+   worse than no trend. The figures it stood beside are still there. */
 @media (max-width: 460px) {
     .inc-watch-table th,
     .inc-watch-table td {
@@ -324,5 +381,10 @@
 
     .inc-watch-sort {
         padding: 8px 7px;
+    }
+
+    .inc-watch-trend-head,
+    .inc-watch-trend {
+        display: none;
     }
 }

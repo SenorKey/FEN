@@ -37,6 +37,12 @@
 
     var dom = global.IncisorDom;
 
+    /* The same line the index tiles draw, from the same shape of payload:
+     * js/sparkline.js owns the drawing and the sentence that stands in for it.
+     * A watched row already pays for the whole daily series — the trend is the
+     * part of it that was being thrown away. */
+    var spark = global.IncisorSparkline;
+
     /* Which way a column sorts the first time it is pressed.
      *
      * A ticker column wants A to Z, and a column of numbers wants the big
@@ -51,10 +57,10 @@
 
     var store = null;
 
-    /* symbol -> { symbol, price, change, changePercent, state }. The figures
-     * the table draws, kept apart from the stored list: the store knows which
-     * symbols are watched and this knows what they are worth, and neither has
-     * to be reloaded when the other changes. */
+    /* symbol -> { symbol, price, change, changePercent, closes, state }. The
+     * figures the table draws, kept apart from the stored list: the store
+     * knows which symbols are watched and this knows what they are worth, and
+     * neither has to be reloaded when the other changes. */
     var figuresBySymbol = {};
 
     /* The first payload that answered, for the provenance line — the same one
@@ -118,6 +124,34 @@
         return wrapper;
     }
 
+    /* The thirty-session shape behind the one-session figure beside it.
+     *
+     * The row already paid for this. A watched symbol costs one daily-bars
+     * call and the last two bars answer the change column, so the other 250
+     * were being fetched, parsed and dropped — while the tile above, on the
+     * same single call, drew the line. A reader who deliberately chose these
+     * symbols was being told less about them than the strip tells them about
+     * four they did not choose.
+     *
+     * Uncoloured, like every line on this page, and the window it covers is
+     * named once in the column header rather than once per row — the same
+     * rule the change column follows.
+     */
+    function trendCell(row) {
+        var wrapper = cell('td', 'inc-watch-trend');
+        if (!spark) return wrapper;
+
+        var svg = spark.element('inc-watch-spark', row.symbol);
+        wrapper.appendChild(svg);
+
+        if (row.state === 'ready' && row.closes) {
+            spark.draw(svg, row.closes, row.symbol);
+        } else if (row.state === 'error') {
+            spark.unavailable(svg, row.symbol);
+        }
+        return wrapper;
+    }
+
     /* The remove control.
      *
      * The accessible name carries the ticker, because "Remove" repeated eight
@@ -157,6 +191,7 @@
         tr.appendChild(price);
 
         tr.appendChild(changeCell(row));
+        tr.appendChild(trendCell(row));
         tr.appendChild(removeCell(row.symbol));
         return tr;
     }
@@ -170,7 +205,7 @@
         var known = figuresBySymbol[symbol];
         if (!known) {
             return { symbol: symbol, price: null, change: null,
-                changePercent: null, state: 'loading' };
+                changePercent: null, closes: null, state: 'loading' };
         }
         return known;
     }
@@ -328,7 +363,7 @@
         var quote = payload && figures.quoteFromBars(payload.bars);
         if (!quote) {
             figuresBySymbol[symbol] = { symbol: symbol, price: null, change: null,
-                changePercent: null, state: 'error' };
+                changePercent: null, closes: null, state: 'error' };
             return;
         }
         if (!provenancePayload) provenancePayload = payload;
@@ -337,6 +372,10 @@
             price: quote.close,
             change: quote.change,
             changePercent: quote.changePercent,
+            // Cut to the window the line draws rather than kept whole: the
+            // rest of the series answers no question this table asks, and
+            // eight symbols holding a year each is memory with no reader.
+            closes: spark ? figures.closingPrices(payload.bars, spark.DAYS) : null,
             state: 'ready'
         };
     }

@@ -412,6 +412,10 @@ function run(argv) {
 
         (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
         (new Function('window', read(pageDir + '/js/watchlist-store.js')))(windowStub);
+        // The real drawer, shared with the index strip. Stubbing it would
+        // leave the one thing this column exists for untested.
+        (new Function('document', 'window',
+            read(pageDir + '/js/sparkline.js')))(documentStub, windowStub);
         (new Function('document', 'window',
             read(pageDir + '/js/view-watchlist.js')))(documentStub, windowStub);
 
@@ -496,6 +500,30 @@ function run(argv) {
     equal('and is explicitly signed', rise.querySelector('.inc-delta').textContent,
         '+2.10');
 
+    /* The trend column, which is the whole reason the row keeps its series.
+     *
+     * A watched symbol costs one daily-bars call whether or not this column
+     * exists, so what is being checked is that the bars are used rather than
+     * fetched and dropped — and that the line is named in words, because it
+     * is the one part of a row a screen reader cannot see. */
+    var trend = view.rows()[1].querySelector('.inc-watch-spark');
+    check('a priced row draws a sparkline', !!trend);
+    equal('drawn in the SVG namespace, or it renders as nothing',
+        trend.namespace, 'http://www.w3.org/2000/svg');
+    equal('over the opening level and the line itself',
+        trend.children.length, 2);
+    equal('the baseline is the level the window opened at',
+        trend.children[0].attrs['class'], 'inc-spark-base');
+    equal('and the path is the shape of it',
+        trend.children[1].attrs['class'], 'inc-spark-line');
+    check('the line is never coloured by direction, unlike the figure beside it',
+        trend.children[1].attrs['class'].indexOf('inc-down') === -1
+            && trend.children[1].attrs['class'].indexOf('inc-up') === -1);
+    check('and says which way it went in words, for a reader who cannot see it',
+        trend.getAttribute('aria-label')
+            .indexOf('SPY thirty-day trend: down') === 0,
+        trend.getAttribute('aria-label'));
+
     /* Telemetry hygiene, on a control the served page never contains — the
      * page test cannot see a button that is built at runtime, and this one
      * carries a ticker in its accessible name. */
@@ -570,6 +598,28 @@ function run(argv) {
         partial.rows()[1].getAttribute('data-state'), 'ready');
     equal('and the table is settled rather than loading forever',
         partial.panel.getAttribute('data-state'), 'ready');
+
+    /* The trend column on a row with nothing to draw. It keeps its element,
+     * so the row holds the shape of a row that could be priced rather than
+     * collapsing — and it says why, instead of captioning an empty box or
+     * leaving the previous symbol's line under this one's name. */
+    var failedTrend = partial.rows()[0].querySelector('.inc-watch-spark');
+    check('a failed row still reserves the trend column', !!failedTrend);
+    equal('with nothing drawn in it', failedTrend.children.length, 0);
+    equal('and says the trend is unavailable rather than naming a shape',
+        failedTrend.getAttribute('aria-label'), 'AAPL trend unavailable');
+
+    /* A single bar is not a trend, and drawing one would divide by a zero
+     * span. The column says so rather than rendering an empty SVG that looks
+     * like a line that failed to appear. */
+    var oneBar = mount(memoryStorage(blob(['SPY'])), {
+        SPY: payloadFor('SPY', [733.40])
+    });
+    equal('a series too short to have a shape draws no line',
+        oneBar.rows()[0].querySelector('.inc-watch-spark').children.length, 0);
+    equal('and says that, rather than claiming a flat one',
+        oneBar.rows()[0].querySelector('.inc-watch-spark')
+            .getAttribute('aria-label'), 'SPY has no trend to draw');
 
     /* The Watch toggle. */
     var toggleBox = memoryStorage();
