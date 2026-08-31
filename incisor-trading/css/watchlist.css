@@ -275,15 +275,32 @@
 /* The sorted column, marked by the same arrow glyph the rest of the page
    uses for direction — this is the one place it means "this way up" rather
    than "this way moved", so it is drawn from the cell's aria-sort and never
-   sits beside a price. */
+   sits beside a price.
+
+   Every sortable column carries a glyph, not only the sorted one. The
+   unsorted pair had no mark at all and changed colour on hover, which is a
+   signal a phone does not have — so on the device most likely to be
+   scanning a list, two of the three columns gave a sighted reader nothing
+   to say they could be pressed. aria-pressed had been telling a screen
+   reader all along; this is the same fact in the channel the others read.
+   A doubled arrow rather than a single one, so "can be sorted" never reads
+   as "sorted this way", and dimmed so the active column still wins. */
+[data-watchlist-column] .inc-watch-sort::after {
+    content: ' \21C5';
+    font-size: 0.8em;
+    opacity: 0.45;
+}
+
 [data-watchlist-column][aria-sort="ascending"] .inc-watch-sort::after {
     content: ' \25B2';
     font-size: 0.7em;
+    opacity: 1;
 }
 
 [data-watchlist-column][aria-sort="descending"] .inc-watch-sort::after {
     content: ' \25BC';
     font-size: 0.7em;
+    opacity: 1;
 }
 
 .inc-watch-sort .inc-period {
@@ -328,6 +345,19 @@
     color: var(--inc-flat);
 }
 
+/* The glyph is 28x22, which is what a reader sees and is not what they aim
+   at. It is the only control in the row and it deletes something with no
+   undo, so the target is the whole cell — measured at 28x22 before this,
+   under the 24px WCAG 2.2 minimum on one axis and a long way under a
+   comfortable thumb on the other.
+
+   Grown with a positioned overlay rather than padding, so nothing about the
+   row's height or the glyph's position changes: the cell was always what a
+   reader was aiming at, and this makes the aim count. */
+.inc-watch-actions {
+    position: relative;
+}
+
 .inc-watch-remove {
     padding: 2px 8px;
     border: 1px solid transparent;
@@ -341,9 +371,25 @@
     transition: color 0.2s ease, border-color 0.2s ease;
 }
 
+.inc-watch-remove::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
 .inc-watch-remove:hover {
     border-color: rgba(242, 104, 107, 0.4);
     color: var(--inc-down);
+}
+
+/* A finger is not a mouse pointer, and 39px of row is not 44px of target.
+   Only where there is no fine pointer, so the desktop table keeps its
+   density. */
+@media (pointer: coarse) {
+    .inc-watch-table td,
+    .inc-watch-table th[scope="row"] {
+        height: 44px;
+    }
 }
 
 /* ── Under the table ── */
