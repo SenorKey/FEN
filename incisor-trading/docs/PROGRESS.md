@@ -96,12 +96,22 @@ re-raises the same item.
   added: never touch a dirty tree outside `incisor-trading/`, and a task that has
   failed twice gets marked blocked rather than attempted a third time. Guide §16.
 - **2026-08-27 — Look branches:** stay local. Not pushed to GitHub.
+  **Superseded 2026-08-31** — see the push decision below.
 - **2026-08-27 — Autonomy, restated:** the out-of-bounds list is not a set of
   things to seek approval for; they are simply not the routine's to decide or do.
   Inside the bounds it never asks. `PROGRESS.md → For Key` is a notes shelf, never
   a queue the routine waits on. Guide §3.
 
 ---
+
+- **2026-08-31 — Pushing:** the routine pushes its own branch at the end of every
+  session. `incisor-dev` and any `incisor-look/*` or `incisor-try/*` branch it
+  created may be pushed; nothing else, and never a force-push, a tag, a remote
+  branch deletion, or a pull request. `main` stays untouchable. This supersedes
+  the 2026-08-27 look-branch decision: the reason for keeping branches local was
+  caution about publishing, and the reason for pushing is that a session's work
+  living only on one laptop is a single point of failure. Pushing a non-default
+  branch deploys nothing — the server only ever pulls `main`. Guide §7.
 
 ## Sessions
 
@@ -1957,4 +1967,30 @@ from scratch, or not at all. Third instance of this shape — O6, Discovered, an
 now progress-only notes.
 
 **Next session order:** D6 (defect, jumps the queue), then T10a, then T10b.
+
+## 2026-08-31 — Attended: the routine may push its own branch
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (hard rule 4, §3 bounds, §7 new *Pushing*,
+protocol step 11), `ROUTINE.md` (close-out), this file's Resolved section
+**Verified:** 138 page tests green; no stale "stay local" wording left anywhere.
+
+Key's call, and it removes a single point of failure: the branch spent a week
+existing only on this laptop, where a disk failure or a stray `branch -D` would
+have taken the licensing research and every audit finding with it.
+
+Allowed: `git push` of `incisor-dev` and of any `incisor-look/*` or
+`incisor-try/*` branch the routine created, as the last step of every session.
+Pushing a non-default branch deploys nothing — the server only ever pulls
+`main`.
+
+Named explicitly as forbidden, because each is a different way to cause harm:
+pushing `main`; **force-pushing anything at all**, since a rejected push means
+the remote holds something local does not and overwriting published history is
+never the fix; deleting a remote branch; pushing tags; and opening a pull
+request, which asks a person to act and sends notifications when merging is
+Key's alone. The repository is public, so a pushed secret is a leaked one —
+hard rule 6 already forbids committing one, and this is why it matters.
+
+This supersedes the 2026-08-27 look-branch decision, marked as such in place so
+the record stays coherent rather than contradictory.
 

@@ -69,10 +69,11 @@ Absolute. Violating one is worse than shipping nothing that day.
    that once, manually, at promotion time.
 3. **`/incisor-trading/index.html` keeps `<meta name="robots" content="noindex,nofollow">`**
    until promotion. Do not remove it.
-4. **Never commit to `main`, never merge to `main`, never push, never deploy.**
-   Work lives on branches (§7). Merging and deploying are Key's, not because they
-   need his sign-off but because they are not the routine's to do — `main` is what
-   gets pulled onto the live server.
+4. **Never commit to `main`, never merge to `main`, never push `main`, never
+   deploy.** Work lives on branches (§7), and **pushing an `incisor-*` branch is
+   allowed and expected** — see §7. Merging and deploying are Key's, not because
+   they need his sign-off but because they are not the routine's to do: `main` is
+   what gets pulled onto the live server.
 5. **Never touch the server.** No SSH, no `systemctl`, no `git pull` on the box.
    Write deploy artifacts as files; Key installs them.
 6. **Never commit a secret.** API keys live only in `config.env.example` as
@@ -117,7 +118,8 @@ These are not "ask first" items. They are simply not the routine's to decide or
 to do, ever. It does not act on them and it does not request permission to.
 
 - Anything touching a file outside `/incisor-trading/`.
-- Committing to, merging to, or pushing `main`; pushing any branch.
+- Committing to, merging to, or pushing `main`. Pushing an `incisor-*` branch
+  is in bounds and expected (§7); force-pushing anything is not.
 - Anything that reaches the server — SSH, `systemctl`, deploying, installing.
 - Anything that costs money, now or later.
 - Creating an account, signing up for a service, or accepting terms of service.
@@ -296,7 +298,36 @@ Branch from `incisor-dev` unless the experiment needs a clean base. An abandoned
 experiment is a fine outcome — record what was learned in `PROGRESS.md` and leave
 the branch in place rather than deleting it.
 
-Branches stay local unless Key asks for them to be pushed.
+### Pushing
+
+**Push the working branch at the end of every session.** Forty-odd commits once
+lived only on one laptop with no copy anywhere; a disk failure or a stray
+`branch -D` would have taken the licensing research and every audit finding with
+it. A push costs nothing and deploys nothing — the server only ever pulls `main`.
+
+```bash
+git push -u origin <branch>
+```
+
+What may be pushed: **`incisor-dev`, and any `incisor-look/*` or `incisor-try/*`
+branch the routine created.** Nothing else. This repository holds a dozen
+branches belonging to other work; none of them are the routine's to touch.
+
+Never do any of these:
+
+- **Push `main`, or push anything to `main`.** It is what the live server pulls.
+- **Force-push, anywhere, for any reason** — `--force`, `--force-with-lease`,
+  `+refspec`. A rejected push means the remote holds something local does not:
+  fetch and look at it. Overwriting published history is not a fix.
+- **Delete a remote branch**, or push a tag.
+- **Open a pull request.** A PR asks a person to act and sends notifications.
+  Merging is Key's, and he does not need a queue to work through.
+
+The repository is **public**, so a push publishes. Hard rule 6 already forbids
+committing a secret; the consequence here is that pushing one leaks it for good,
+since anything public can be cached and indexed long before it is removed. If a
+push is ever rejected or behaves oddly, stop and write it up rather than
+experimenting with flags.
 
 ---
 
@@ -478,7 +509,9 @@ requirement on every task, not a phase at the end.
    notes, register any new look branch in `DESIGN-BRANCHES.md`, and **add a
    `DECISIONS.md` entry for anything chosen or abandoned** (§16).
 10. If the session cap has not been reached, return to step 4 for the next task.
-    Otherwise **stop.**
+11. `git push` the working branch (§7). A session's work is not durable until it
+    exists somewhere other than this laptop.
+12. **Stop.**
 
 A session that makes no progress still writes a `PROGRESS.md` entry saying so and
 why. A clear "blocked, here's the reason" is a successful session.

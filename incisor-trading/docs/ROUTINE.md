@@ -69,6 +69,10 @@ half-built. If you hit the cap mid-task, finish that task, commit, then stop.
 Stop earlier if the top of the backlog is blocked and no standing task applies.
 
 STEP 4 — CLOSE OUT
+End by pushing the working branch: `git push`. Never main, never --force, never
+a pull request. Work that exists only on this laptop is one disk failure from
+gone.
+
 Every session ends with a PROGRESS.md entry, including sessions where nothing
 shipped — "blocked, here's why" is a successful session. Add a DECISIONS.md entry
 for anything you chose or abandoned, in the same session, never "next time": an
