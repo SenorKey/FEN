@@ -26,6 +26,11 @@ Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
 failures worth blocking a commit on.
 
+Three widths are photographed and a fourth is only measured: with --api, the
+page is loaded once more at 320px with a full watchlist and checked for
+horizontal overflow. It gets no screenshot because it is one number rather
+than a picture, and a fourth image every session is a permanent cost.
+
 --symbol, --range and --search reach a state that only exists after an
 interaction: the quote panel and the chart are empty until someone searches,
 so without them the only screenshot that could be taken is the one state
@@ -214,6 +219,70 @@ WATCHLIST_KEY = "incisor.watchlist"
 # at the wrong version is discarded on load and the page correctly shows an
 # empty list, which looks exactly like the seeding not working.
 WATCHLIST_VERSION = 1
+
+
+# The narrowest screen this page is checked on, below every viewport it is
+# photographed at. Guide §13 is unconditional — the body never scrolls
+# horizontally — so §15's 375 is a width to check at and not a floor below
+# which the rule stops applying. 320 is where a table's columns run out of
+# room first, and it is what D6 was hiding under.
+NARROW_WIDTH = 320
+
+# The widest the watchlist ever is: full at its cap of eight, every row priced,
+# and the longest ticker the catalogue holds among them. Only symbols with
+# committed fixtures, so the rows carry real figures rather than the narrower
+# "unavailable" state.
+NARROW_WATCHLIST = "BRK.B,XLRE,AAPL,SPY,QQQ,DIA,IWM,XLK"
+
+
+def check_narrow(browser, base, args, problems):
+    """Assert §13's promise at a width no screenshot is taken at.
+
+    Measured rather than photographed: this is one property, it is a number,
+    and a fourth set of images every session is a permanent cost in a repo
+    served off a home connection.
+
+    It needs the service, and that is not a convenience. With no upstream the
+    rows fall back to a short "unavailable" and the table fits — so a run
+    without --api would go green against the one state the rule is not about.
+    Say so and skip, rather than bank a pass that stands for nothing.
+    """
+    if not args.api:
+        print(f"  narrow   {NARROW_WIDTH}px -> skipped (needs --api; an "
+              f"unpriced table is narrower than the rule is about)")
+        return
+    if args.block_storage:
+        print(f"  narrow   {NARROW_WIDTH}px -> skipped (--block-storage "
+              f"leaves nothing to seed the watchlist with)")
+        return
+
+    ctx = browser.new_context(
+        viewport={"width": NARROW_WIDTH, "height": 800},
+        is_mobile=True, has_touch=True, device_scale_factor=2,
+        color_scheme=args.theme,
+    )
+    seed_storage(ctx, argparse.Namespace(block_storage=False,
+                                         watch=NARROW_WATCHLIST))
+    page = ctx.new_page()
+    page.goto(base + PAGE, wait_until="networkidle")
+    try:
+        page.wait_for_selector(WATCHLIST_READY, timeout=10000)
+    except Exception as error:
+        problems.append(f"narrow: the watchlist never settled — "
+                        f"{type(error).__name__}")
+
+    overflow = page.evaluate(
+        "() => {const d=document.documentElement;"
+        "return {vw:d.clientWidth, sw:d.scrollWidth};}"
+    )
+    if overflow["sw"] > overflow["vw"] + 1:
+        problems.append(
+            f"narrow: body scrolls horizontally with a full watchlist "
+            f"({overflow['sw']}px in a {overflow['vw']}px viewport)"
+        )
+    print(f"  narrow   {NARROW_WIDTH}x800 (mobile emulation)"
+          f" -> overflow check only, no shot")
+    ctx.close()
 
 
 def seed_storage(ctx, args):
@@ -406,6 +475,7 @@ def main():
                   f" -> {out.name}/{label}.png")
             ctx.close()
 
+        check_narrow(browser, base, args, problems)
         browser.close()
 
     if problems:

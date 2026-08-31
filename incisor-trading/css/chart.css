@@ -449,8 +449,11 @@
 
 /* Its own scroll container in both directions: six columns of figures is
    wider than a phone, and a year of them is taller than a screen. The body
-   never scrolls horizontally to accommodate it (guide §13). */
+   never scrolls horizontally to accommodate it (guide §13). Positioned so
+   that an absolute descendant is clipped by this box rather than escaping it
+   — see the note on .inc-offscreen in incisor.css. */
 .inc-chart-table-scroll {
+    position: relative;
     max-height: 320px;
     margin-top: 12px;
     overflow: auto;

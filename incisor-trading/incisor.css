@@ -154,7 +154,18 @@ body.incisor .nav-dropdown-menu {
    accessibility tree along with the layout. Shared from the moment a second
    surface needed it: the clock names its subject this way and every index
    tile names the period its change covers. It lives here rather than in
-   /assets, which is out of bounds. */
+   /assets, which is out of bounds.
+
+   position: absolute is load-bearing and it is also a trap. Inside a
+   sideways-scrolling box the text is laid out at the far end of the content,
+   past the box's own edge — and an absolutely positioned element is only
+   clipped by an ancestor that is a containing block for it. A scroller with
+   no `position` is not one, so the label escapes the clip the visible content
+   obeys and pushes the body sideways instead (D6: 2px at 320px, from the
+   watchlist's "Remove" header). Every box in this page that scrolls sideways
+   therefore sets `position: relative` — see .inc-tablist below,
+   .inc-watch-scroll and .inc-chart-table-scroll — and test_page.py asserts
+   the pairing so the next scroller cannot ship without it. */
 .inc-offscreen {
     position: absolute;
     width: 1px;
@@ -408,8 +419,11 @@ body.incisor .nav-dropdown-menu {
     }
 
     /* The tab strip scrolls sideways inside itself rather than wrapping,
-       so the body never scrolls horizontally at 375px. */
+       so the body never scrolls horizontally at 375px. Positioned so that
+       anything absolute inside it is clipped by the same box — see the note
+       on .inc-offscreen. */
     .inc-tablist {
+        position: relative;
         overflow-x: auto;
         scrollbar-width: none;
     }

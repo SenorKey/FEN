@@ -151,8 +151,14 @@
    loading rather than as a deliberate measure.
 
    Five columns at any width, so it never becomes a stack of labels; it
-   scrolls inside its own box rather than pushing the body sideways (§13). */
+   scrolls inside its own box rather than pushing the body sideways (§13).
+
+   Positioned so that "rather than pushing the body sideways" is true of the
+   whole box and not only its visible half: the header's off-screen "Remove"
+   label is absolute, and a scroller with no `position` does not clip one.
+   See the note on .inc-offscreen in incisor.css. */
 .inc-watch-scroll {
+    position: relative;
     margin-top: 18px;
     overflow-x: auto;
 }

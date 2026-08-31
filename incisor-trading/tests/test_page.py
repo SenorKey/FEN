@@ -49,6 +49,18 @@ PAGE = Page(HTML)
 PROXY_SNIPPET = read(os.path.join('server', 'apache-snippet.conf'))
 
 
+def _rules(stylesheet):
+    """(selector, declarations) for every innermost block in one stylesheet.
+
+    Innermost is what makes this work inside `@media`: a body matched without
+    braces in it cannot span a nested rule, so the selector picked up is the
+    one immediately above the declarations rather than the media query.
+    """
+    stylesheet = re.sub(r'/\*.*?\*/', ' ', stylesheet, flags=re.S)
+    return [(selector.strip(), body)
+            for selector, body in re.findall(r'([^{}]+)\{([^{}]*)\}', stylesheet)]
+
+
 def visible_text(source):
     """Roughly what a reader sees: comments, scripts and styles removed, then
     tags stripped. Attribute values go with the tags, which is deliberate —
@@ -259,6 +271,29 @@ class TestDesignRules(unittest.TestCase):
 
     def test_focus_is_visible(self):
         self.assertIn(':focus-visible', CSS)
+
+    def test_every_sideways_scroller_clips_what_is_positioned_inside_it(self):
+        """Guide section 13: a wide surface scrolls inside its own container,
+        and the body never scrolls horizontally.
+
+        Half of that promise is not kept by `overflow-x` alone. An absolutely
+        positioned descendant is clipped only by an ancestor that is a
+        containing block for it, so inside a scroller with no `position` the
+        off-screen labels this page uses for screen readers sit past the box's
+        edge and push the body instead (D6). Derived from the stylesheets
+        rather than listing the three scrollers, so a fourth cannot ship
+        without the pairing.
+        """
+        containing = ('relative', 'absolute', 'sticky', 'fixed')
+        for name in CSS_FILES:
+            for selector, body in _rules(read(name)):
+                if not re.search(r'\boverflow(-x)?\s*:\s*(auto|scroll)\b', body):
+                    continue
+                position = re.search(r'\bposition\s*:\s*(\w+)', body)
+                self.assertTrue(
+                    position and position.group(1) in containing,
+                    '%s in %s scrolls sideways without becoming a containing '
+                    'block for what is positioned inside it' % (selector, name))
 
     def test_proxy_tiles_are_labelled_as_proxies(self):
         """Guide section 10: ETF stand-ins must never read as index levels.
