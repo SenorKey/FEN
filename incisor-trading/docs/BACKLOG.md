@@ -169,7 +169,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   bars overflowing their track, and sector names wrapping between 560 and
   768px.
 
-- [ ] **T10a · Give the served document a seam before the next surface lands**
+- [x] **T10a · Give the served document a seam before the next surface lands**
   `index.html` is at 888 lines against the 900 ceiling D2 set — 12 lines of
   headroom, and T10b, T11 and T12 each add a surface. This is not a defect; it
   is sequenced work that has to happen before the next surface, and it was
@@ -179,6 +179,17 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   per-surface 150-line rule is shown to still be the thing protecting
   readability. Whichever, `test_the_served_document_stays_under_900_lines` ends
   the session green with headroom for the surfaces still planned.
+  *Done 2026-09-01.* **No seam exists and the ceiling was measuring the wrong
+  thing.** A quarter of the document is comment, and on the one file that
+  cannot split, counting comments makes deleting the reasoning the cheapest way
+  past the rule — the opposite of what guide §16 asks for. The ceiling counts
+  markup only now: 596 lines, under the 600 every other shipped file obeys,
+  with 304 of headroom. **The per-surface rule was not reaching two of the
+  surfaces it was supposed to protect** — it pairs a block with hooks that
+  begin with the block's own attribute, and `[data-sectors]` matched none of
+  its ten `data-sector-*` hooks on a plural `s`. The container is singular now
+  and a derived guard fails any surface-shaped block no length rule reaches.
+  141 page tests, 156 service tests, `shoot.py --api` green at four widths.
 
 - [ ] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -200,6 +211,14 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   dividend yield, beta, shares outstanding, revenue, margins. Each with a one-line
   plain-English explanation on demand. *Accept:* every figure has a definition; missing
   data renders as "—", never as 0 or NaN.
+  **Start by splitting the quote card, not by adding to it** *(found in T10a,
+  2026-09-01)*. The natural home for these figures is the `<dl class="inc-figures">`
+  inside `[data-quote]`, which already holds seven and runs 143 lines against the
+  150-line per-surface cap. Six more figures at five lines each puts it past 180,
+  and the two market-cap and P/E em dashes this task fills are already in there.
+  The cap is the rule guide §6 is actually for, and unlike the document it has a
+  seam to split along: the figures list is its own surface, and the explanations
+  make it more so.
 
 - [ ] **T12 · Earnings and dividend dates** — next earnings date, last report
   surprise, dividend ex-date and amount for the viewed symbol.

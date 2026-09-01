@@ -2171,3 +2171,84 @@ directory and was stopped afterwards. No upstream call was made. Nothing was
 pushed to `main`, nothing merged, nothing deployed.
 
 **Next session order:** T10a, then T10b.
+
+## 2026-09-01 — T10a: what the document ceiling was actually counting
+**Outcome:** shipped
+**Changed:** `index.html`, `js/view-sectors.js`, `tests/page_model.py`,
+`tests/test_page.py`, `tests/test_sectors.py`, `tests/sectors_model.jxa.js`,
+`tools/shoot.py`, `BACKLOG.md`, `DECISIONS.md`
+**Verified:** 141 page tests, 156 service tests green; `shoot.py --api` green
+at four widths with a symbol loaded and a full eight-row watchlist; the new
+guard confirmed to fail with the old attribute put back.
+
+Nothing was due for audit and no defect was open, so it was the top backlog
+task. T10a offered two ways out — find a seam, or move the ceiling with the
+reasoning written down. **There is no seam, and the ceiling was counting the
+wrong lines.**
+
+**The composition is the finding.** 888 lines: 587 markup, 235 comment, 66
+blank. Measured over markup alone the document is **596 lines — under the 600
+every other shipped file obeys.** The file that supposedly needed splitting has
+less markup in it than any file the 600 rule passes. It is not long; it is well
+explained.
+
+**And that is exactly why counting comments was wrong here.** Every other file
+can answer a length rule by splitting. This one cannot — no build step, no
+second route, which is D2's reasoning and it still holds. So the only move the
+rule left was deletion, on a file whose comments are the ET the clock must not
+overwrite, why the four proxy symbols live in markup rather than in the script,
+why the watch toggle sits outside the quote card, and why there is no `gtag`
+here when every other FEN page has one. A ceiling that prices an explanation
+the same as a surface makes deleting the memory the cheap way past it, and
+guide §16 asks for that memory to live exactly there.
+
+The demonstration wrote itself. This session added one comment — five lines
+saying why the sector attribute is singular — and the document went from 888 to
+894. **Six of the twelve remaining lines, spent on a sentence that adds nothing
+to the page.** Under the new measure it cost nothing, which is the right price.
+
+The ceiling stays 900 rather than being re-derived: 304 lines of headroom, more
+than the two surfaces T10b, T11 and T12 need at the 150 cap. And the headroom
+is not unguarded — every line of it lands inside some surface, and no surface
+may pass 150.
+
+**The per-surface rule is the one that binds, and it was not reaching two of
+the surfaces it protects.** It pairs a block with hooks that begin with the
+block's own attribute, which is what keeps it covering surfaces nobody listed.
+It also means `[data-sectors]`, holding ten `data-sector-*` hooks, matched zero
+of them on a plural `s` — so the entire sector grid has been unmeasured since
+the day it shipped, and `[data-index-strip]` beside it. Nothing failed. The
+rule simply had nothing to say, which is the `_shipped()` trap in a worse
+place: a derived list looks complete by construction.
+
+The container is `data-sector` now, so the contract `view-sectors.js` has
+documented all along holds literally, and the grid measures 48 against 150. The
+reason is in the markup beside it, because the plural is the natural spelling
+and would otherwise read as the correction rather than as the bug.
+
+**The guard derives the gap rather than closing one hole.** A block is
+surface-shaped when it carries a valueless `data-` marker with three or more
+`data-` descendants — which is how every view on this page finds its root — and
+it is covered if the rule measures it, if it sits inside one the rule measures,
+or if it *contains* ones it measures. That third case is the strip: a list of
+four measured tiles needs no measure of its own. Anything else is a surface no
+length rule is watching. It failed with `data-sectors` put back, naming it.
+
+**One finding filed rather than fixed.** `[data-quote]` runs **143 lines
+against the 150 cap** — the tightest thing on the page, and the document sits
+at 66% of its ceiling by comparison, which is the evidence that the per-surface
+rule is the live constraint. T11 adds six figures to the `<dl>` inside that
+card and fills the two em dashes already there, so it would land past 180. Its
+backlog entry now opens by saying the first move is a split, not an addition.
+Unlike the document, that surface has a seam: the figures list is its own
+thing, and the plain-English explanations T11 attaches make it more so.
+
+No screenshot is committed. The page renders identically — an attribute rename
+the CSS never referenced — and the current sets already show the page as it
+stands. `shoot.py` was run to prove that rather than to photograph it, and the
+desktop image was looked at to confirm the grid still finds its root and ranks
+its eleven funds.
+
+The service ran in fixture mode against a scratch database in the session's
+temp directory and was stopped afterwards. No upstream call was made. Nothing
+was pushed to `main`, nothing merged, nothing deployed.
