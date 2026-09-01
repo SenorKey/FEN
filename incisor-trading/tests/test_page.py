@@ -61,6 +61,16 @@ def _rules(stylesheet):
             for selector, body in re.findall(r'([^{}]+)\{([^{}]*)\}', stylesheet)]
 
 
+def markup_lines(source):
+    """Lines of actual markup: comments and blank lines do not count.
+
+    The comment is removed rather than the line, so a line that ends a
+    comment and opens an element still counts as markup.
+    """
+    stripped = re.sub(r'<!--.*?-->', '', source, flags=re.S)
+    return len([line for line in stripped.splitlines() if line.strip()])
+
+
 def visible_text(source):
     """Roughly what a reader sees: comments, scripts and styles removed, then
     tags stripped. Attribute values go with the tags, which is deliberate —
@@ -367,7 +377,7 @@ class TestHouseStyle(unittest.TestCase):
             self.assertLess(len(read(name).splitlines()), 600,
                             '%s needs a split' % name)
 
-    def test_the_served_document_stays_under_900_lines(self):
+    def test_the_served_document_stays_under_900_markup_lines(self):
         """The same rule, on the one file that cannot obey it as written.
 
         A served document has no seam. Hard rule 10 forbids a build step, so
@@ -381,8 +391,19 @@ class TestHouseStyle(unittest.TestCase):
         and this is a ceiling rather than a seam: room for the surfaces still
         planned, and a loud failure if the page ever starts carrying a second
         route's worth of markup.
+
+        Comments and blank lines are not counted, and that is the correction
+        T10a makes rather than a loophole. Every other shipped file answers a
+        length rule by splitting; this one has nothing to split, so the only
+        move it leaves is deletion — and a quarter of this document is the
+        reasoning guide §16 says belongs beside the code it explains. A
+        ceiling that makes deleting that reasoning the cheapest way past it is
+        measuring the wrong thing. Surfaces are markup; explanations are not.
+
+        The headroom this buys is not unguarded: every line of it lands inside
+        some surface, and no surface may pass the 150 below.
         """
-        self.assertLess(len(HTML.splitlines()), 900,
+        self.assertLess(markup_lines(HTML), 900,
                         'index.html is carrying more than one route')
 
     def test_no_surface_outgrows_what_can_be_read_at_once(self):
