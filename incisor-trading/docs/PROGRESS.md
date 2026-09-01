@@ -2252,3 +2252,79 @@ its eleven funds.
 The service ran in fixture mode against a scratch database in the session's
 temp directory and was stopped afterwards. No upstream call was made. Nothing
 was pushed to `main`, nothing merged, nothing deployed.
+
+## 2026-09-01 — T10b: both questions answered, and both say wait
+**Outcome:** blocked, deliberately
+**Changed:** `docs/DATA-PROVIDER.md`, `BACKLOG.md`, `DECISIONS.md`
+**Verified:** research only — Alpha Vantage's published terms and API
+documentation were read. **No call was made to the API itself**, no key exists,
+no account was created, no terms were accepted, and no upstream quota was
+touched.
+
+With T10a done the top task was T10b, which named two things to settle before it
+could be built. Both are settled. Neither is a reason to start building.
+
+**The terms question dissolves.** T10b assumed `TOP_GAINERS_LOSERS` would need
+its own row in `DATA-PROVIDER.md`, because it is the one endpoint that answers
+about the market rather than about a symbol we named. It cannot have one.
+Alpha Vantage licenses the *platform* in a single sentence — "install, use,
+access, display and run the software … for personal, non-commercial use, unless
+you and Alpha Vantage have agreed otherwise in writing" — and *Use Restrictions*
+is about reverse engineering and about what a user uploads, saying nothing about
+display at all. Searched in full, the document contains **zero** occurrences of
+"endpoint", "function", "dataset", "gainer" or "Alpha Intelligence". So this
+endpoint inherits the API-wide ambiguity exactly and adds nothing to it, and the
+one written answer already being sought settles it along with everything else.
+Recorded as *Per-endpoint terms — there are none*, with the instruction not to
+open this question per endpoint again.
+
+**The fixture question has an answer, and the answer is no.** This is the
+finding worth keeping: **a fixture can synthesise a series; it cannot synthesise
+a selection.** Every surface built so far asked about a symbol *we* named, so
+generated prices under a "sample data" label were an honest stand-in for real
+ones. A movers list's entire claim is *which symbols the market picked*. That
+claim has no synthetic form, and all three shapes were worked through:
+
+- **Sixty invented tickers** fabricate companies, not prices. The provenance
+  line can label a number as sample data; it cannot make a corporate identity
+  honest. And the page's not-found state already means "the provider does not
+  answer for that ticker", so a reader who looks one up is told a second untrue
+  thing by a surface that was trying to be careful.
+- **Ranking the seventeen symbols this build holds** is eleven sector funds and
+  four index proxies wearing the clothes of a movers list — "most actively
+  traded: XLU, XLP, DIA" is not a narrower answer, it is a different one. It is
+  the per-symbol dead end already recorded, in a cheaper hat, and that dead end's
+  stated reason was truth rather than cost. There is a real precedent for saying
+  the shortfall out loud — the 5Y chart draws the 260 sessions it has and says
+  so — but that shortfall is *less of the right thing*, and this one changes the
+  kind.
+- **A real captured response** is the only honest payload, and committing it to
+  a public repository **is** display — precisely what the unresolved licence
+  forbids. The one fixture that would work is the one thing that cannot be made.
+
+So T10b is `[!]`, and the reason is specific enough to act on: it is **the first
+surface here that cannot be developed on fixtures at all**. Its own acceptance
+already presumed live mode, in the clause about costing one upstream call a day.
+Once written permission exists it is built and verified live directly — one call,
+and its symbols are openable, because live mode already tries a free-typed
+ticker. Nothing is lost by waiting; something would have been lost by shipping a
+ranking of eleven sector funds and calling it the market.
+
+**Next session order:** T11 — starting with the split its backlog entry now
+names, because the quote card is at 143 of the 150-line per-surface cap and T11
+adds six figures to the list inside it. Then T12, T13.
+
+### For Key
+
+- **Two notes retired.** *Resolved 2026-09-01:* `index.html` at 888 of its 900
+  ceiling — closed by T10a, which found the ceiling was counting comments and
+  now counts markup, leaving 596 of 900. *Resolved 2026-08-31:* the 2px
+  horizontal overflow at 320px — closed by D6, where the culprit turned out to
+  be the off-screen "Remove" label escaping an unpositioned scroller rather than
+  the table it was filed against.
+- **Nothing new to decide, and the provider question is not being re-raised.**
+  It is noted only that T10b has now joined the list of what a written answer
+  would unblock — it is the first task that a fixture cannot substitute for,
+  where everything before it could be built and finished without one.
+- **D3 is still open** and untouched for a sixth session. Still `[enhancement]`,
+  so still yours to triage.

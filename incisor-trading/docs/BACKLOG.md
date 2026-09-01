@@ -191,7 +191,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   and a derived guard fails any surface-shaped block no length rule reaches.
   141 page tests, 156 service tests, `shoot.py --api` green at four widths.
 
-- [ ] **T10b · Market movers** — top gainers, losers and most actively traded.
+- [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
   **symbol-less upstream endpoint**, which the source path, the cache key and
   the per-symbol lock all assume does not exist. Ranking the catalogue instead
@@ -206,6 +206,27 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   *Accept:* three lists render from fixtures; every symbol shown is one the page
   can say something about, or the list says why it cannot; the whole surface
   costs one upstream call a day.
+  **`[!]` Blocked 2026-09-01 — the first surface here that has no honest
+  fixture.** Both questions were settled and they point the same way. *Terms:*
+  the endpoint has none of its own. Alpha Vantage licenses the platform in one
+  sentence and the document does not contain the words "endpoint", "function",
+  "dataset" or "Alpha Intelligence" anywhere, so this inherits the API-wide
+  ambiguity and is resolved by the same written answer as everything else — see
+  `DATA-PROVIDER.md`, *Per-endpoint terms*. Nothing further to research.
+  *Fixture:* there is no shape that is both believable and honest. Every other
+  surface's fixture synthesises a **series** for a symbol we chose; this one's
+  payload is a **selection** — which symbols the market picked — and a selection
+  cannot be synthesised. Inventing sixty tickers fabricates companies, not
+  prices, and the provenance line cannot make a corporate identity honest.
+  Ranking the seventeen symbols this build holds is a ranking of eleven sector
+  funds and four index proxies presented in the clothes of a movers list, which
+  is the dead end already recorded for the per-symbol version wearing a cheaper
+  hat. And the one payload that *would* be honest — a real captured response —
+  is the single thing the unresolved licence forbids, because committing it to a
+  public repo is display.
+  *Unblock when:* Key's written display permission exists, at which point this
+  is built and verified in live mode directly, one call a day, and its symbols
+  are openable because live mode already tries a free-typed ticker.
 
 - [ ] **T11 · Fundamentals panel** — the standard set: market cap, P/E, EPS,
   dividend yield, beta, shares outstanding, revenue, margins. Each with a one-line

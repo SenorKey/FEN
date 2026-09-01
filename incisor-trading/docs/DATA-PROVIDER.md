@@ -4,7 +4,9 @@
 API key was requested, and no upstream call was made. Provider selection and
 signup are Key's (guide §3, out of bounds).
 
-**Researched:** 2026-08-27.
+**Researched:** 2026-08-27. **Alpha Vantage's terms re-read 2026-09-01** for
+T10b, which needed a row for `TOP_GAINERS_LOSERS` — see *Per-endpoint terms*
+below. Still research only: no call was made to the API itself.
 **Re-check before wiring live data.** Terms change; every clause below is quoted
 with its source so it can be re-verified rather than re-researched.
 
@@ -46,6 +48,36 @@ and finished without a single live call.
 | **Financial Modeling Prep** | 250 req/day, 500MB/30d | EOD / delayed | **No.** Display or redistribution requires a separate "Data Display and Licensing Agreement" with FMP, at every tier including free. | Per that agreement | Statements, ratios, quotes, history | Yes, free |
 | **marketstack** (APILayer) | **100 req/month** | EOD | **No.** Commercial use is a paid-plan feature; the free plan's display rights are not granted in the APILayer SaaS agreement. | Not confirmed | EOD, 12 months history | Yes, free |
 | **SEC EDGAR** (`data.sec.gov`) | 10 req/**second** | Filing-time (not prices) | **YES — unambiguously.** US Government work, not subject to copyright. The SEC asks only that you do not imply endorsement. | None required; do not imply endorsement | Fundamentals only (XBRL from 10-K/10-Q), filings, company metadata. **No prices.** | **No key, no account, no ToS** |
+
+---
+
+## Per-endpoint terms — there are none
+
+*Added 2026-09-01, answering the question T10b filed.*
+
+T10b assumed `TOP_GAINERS_LOSERS` would need a row of its own, because it is the
+one endpoint that answers about the whole market rather than about a symbol we
+named. **It does not have one, and cannot: Alpha Vantage's terms are written
+over the platform, not over its functions.**
+
+The grant is a single sentence covering everything: Alpha Vantage grants the
+right to "install, use, access, display and run the software … for personal,
+non-commercial use, unless you and Alpha Vantage have agreed otherwise in
+writing." *Use Restrictions* (§4) is about reverse engineering and about what a
+user uploads; it says nothing about redistribution or public display at all.
+
+Searched in full, the document contains **zero** occurrences of "endpoint",
+"function", "dataset", "gainer" or "Alpha Intelligence". No feature, tier of
+data or API call is singled out anywhere.
+
+So the endpoint inherits exactly the ambiguity already recorded for the API as a
+whole, and nothing more: the same "personal, non-commercial use" scope, the same
+absence of an explicit display bar, and the same resolution — one written answer
+from Alpha Vantage settles the whole platform at once, this endpoint with it.
+
+**Do not research this again per endpoint.** The same holds for `TIME_SERIES_*`,
+`GLOBAL_QUOTE`, `OVERVIEW` and anything else the backlog reaches for: there is
+one licence, and it is already in the table above.
 
 ---
 
