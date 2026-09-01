@@ -2077,3 +2077,97 @@ pushed to `main`, nothing merged, nothing deployed.
 
 **Next session order:** the sector grid (T10) audit — it is due, and the audit
 log says so. Then T10a, then T10b.
+
+## 2026-09-01 — Audit: the sector grid, and the width it stopped working at
+**Outcome:** shipped
+**Changed:** `css/sectors.css`, `tests/test_sectors.py`,
+`docs/shots/t10-sectors/mobile.png`, `docs/shots/t10-service-down/mobile.png`,
+`docs/shots/README.md`, `docs/shots/t10-sectors-fell/README.md`,
+`BACKLOG.md`, `DECISIONS.md`
+**Verified:** 140 page tests, 156 service tests green; `shoot.py --api` green
+at four widths; the new guard confirmed to fail with the old rule put back;
+the grid measured at nine viewports from 320 to 1440.
+
+The sector grid was the only surface with no audit row, so it was the session
+(§18). Verdict **minor edits**.
+
+**Three of the four questions came back clean.** Useful: it is the only thing
+on the page that answers what the market did *underneath* the index, and it
+teaches without being asked to — pressing 1M after YTD re-ranks the same eleven
+funds, which is the whole lesson that a ranking is a function of its window.
+Beautiful: it is the densest surface here and the diverging axis is the best
+single idea on the page. Performing, measured rather than assumed: 2.9KB on the
+wire, 6ms warm and 26ms cold, response complete at 72ms with the grid ready
+before `DOMContentLoaded` at 107ms, a redraw at 0.5ms, and **four window
+presses that made zero market-data calls** — the only request any of them fired
+was the beacon, one per press, carrying the generic `sector-window` label the
+markup promises.
+
+**The fourth question is where it failed, and it failed on a phone.** Below
+560px the narrow rule set `display: none` on the bar. So on the width guide §13
+calls first, eleven ranked funds were eleven names and eleven numbers — on a
+surface whose own stylesheet opens by saying the bar "is the whole reason this
+is a list and not a table of figures". Both could not be true, and the images
+are what showed it: the desktop shot is a staircase you read in one glance and
+the mobile shot was a column of figures.
+
+**The rule's reasoning was sound and aimed at the wrong target.** Three columns
+genuinely do not fit: the name's 240px floor plus the figure's 96px leave the
+bar nothing, and dropping the floor wraps the sector names to three lines each
+to buy a 140px track. Every word of that is an argument against the bar sitting
+*beside* the name. None of it is an argument against the bar. Stacked under the
+name it gets 358px at 390px wide — longer than the 343px it has on a tablet,
+and more than double the 168px it had at the old breakpoint — with no name
+wrapping at all.
+
+**The breakpoint moved to 700px, and the number is derived.** 560 is where
+three columns first *fit*, not where they first work: the bar gets 168px there,
+and under about 300px of track the fill's own 2px minimum starts overriding real
+differences, so every sector that moved less than a third of a percent draws
+the same stub and the quiet end of the ranking stops being a ranking. 700px is
+where the bar beside the name first clears 300px. Measured at 320, 390, 560,
+640, 699, 700, 768, 1024 and 1440: the bar is on screen at all nine, never under
+288px, no name wraps except the two that already wrapped at 320, and the body
+scrolls sideways at none of them. The list re-reserves its height at the 616px
+the taller stacked rows actually measure, so it still lands in the space it was
+given rather than pushing the lookup section down as it fills.
+
+**One finding was looked at and left, after building it.** At 1440 there are
+319px of nothing between the end of the longest sector name and the start of
+the bar track — the shape the T9 audit called a hand's width of nothing. The
+alternative was not argued about: the name column was pinned at 240px, the page
+was reshot, and the picture is worse. A longer track buys no legibility, because
+the axis is set by the window's maximum and every bar keeps its proportion of
+it — all it adds is empty grey to the right of nine bars out of eleven. And
+240px is exactly what the longest name needs beside its ticker, so pinning the
+column there leaves it no slack. The gap is what sits between a column of short
+labels and a chart whose eleven bars must all begin at one shared x, and that
+shared left edge is the thing that makes the ranking comparable. Recorded as a
+dead end so it is not rebuilt.
+
+**The guard is structural.** `test_the_bar_survives_every_width` walks the
+innermost rule blocks of `css/sectors.css` and fails any that hides the bar —
+walked rather than grepped, because a comment explaining why the bar is *not*
+hidden would fail a substring check, which is the greps trap in `DECISIONS.md`.
+It matches the track and not the fill, since a row with no figure hides its
+fill on purpose and has its own test. Confirmed to fail with the old
+declaration put back.
+
+**Two stale reasons were retired with it.** `t10-sectors-fell/README.md` gave
+two grounds for being desktop-only and the fix made both false — the axis is no
+longer "only on screen above 560px", and the mobile shot no longer "has no bar
+at all". It stays desktop-only on the ground that survives. And `t10-sectors`
+now keeps its tablet shot against the rule that usually deletes it: 768 is no
+longer the desktop picture at a narrower measure but the tightest the beside
+layout ever gets, 68px above the new breakpoint. Only `mobile.png` changed in
+that set — desktop and tablet came back byte-identical, which is the evidence
+that the new breakpoint leaves the wide layout alone.
+
+The audit queue is now empty: every surface on the page has a row. The next
+audit fires when the next surface ships.
+
+The service ran in fixture mode against a scratch database in the session's temp
+directory and was stopped afterwards. No upstream call was made. Nothing was
+pushed to `main`, nothing merged, nothing deployed.
+
+**Next session order:** T10a, then T10b.
