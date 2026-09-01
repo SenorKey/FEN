@@ -25,3 +25,10 @@ Sets currently at desktop and mobile only: `t9-watchlist`, `t9-watch-toggle`,
 `t9-storage-blocked`. The watchlist's one width-dependent behaviour is the trend
 column, which is present at 768 and at 1440 and hidden below 460 — so desktop
 and mobile bracket it and tablet sits in the middle saying neither.
+
+`t10-sectors` keeps its tablet shot for the opposite reason. The grid stacks its
+bar under the sector name below 700px and sets it beside the name above, so
+desktop and mobile show the two layouts — and 768 is the tightest the beside
+layout ever gets, 68px above the breakpoint, where the bar is 343px rather than
+the 544px desktop gives it. If that width ever stops working, this is the only
+picture that would show it.
