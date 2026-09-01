@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/incisor-trading/css/market.css">
     <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
     <link rel="stylesheet" href="/incisor-trading/css/chart.css">
+    <link rel="stylesheet" href="/incisor-trading/css/fundamentals.css">
     <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
     <!--
@@ -42,6 +43,7 @@
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
     <script src="/incisor-trading/js/view-sectors.js" defer></script>
     <script src="/incisor-trading/js/view-price-chart.js" defer></script>
+    <script src="/incisor-trading/js/view-fundamentals.js" defer></script>
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
@@ -493,23 +495,7 @@
                                     <dd class="inc-figure-value"
                                         data-figure="relative-volume">&mdash;</dd>
                                 </div>
-                                <div class="inc-figure">
-                                    <dt class="inc-figure-label">Market cap</dt>
-                                    <dd class="inc-figure-value"
-                                        data-figure="market-cap">&mdash;</dd>
-                                </div>
-                                <div class="inc-figure">
-                                    <dt class="inc-figure-label">P/E ratio</dt>
-                                    <dd class="inc-figure-value"
-                                        data-figure="pe">&mdash;</dd>
-                                </div>
                             </dl>
-
-                            <p class="inc-figures-note">Market cap and P/E come
-                                from company filings rather than from price data,
-                                and this page does not read them yet &mdash; so
-                                they stay em dashes rather than becoming a number
-                                nobody checked.</p>
 
                             <p class="inc-provenance" role="status"
                                 data-quote-provenance
@@ -694,6 +680,176 @@
                             </div>
                         </details>
                     </figure>
+
+                    <!--
+                      What the company itself has filed, which is the one thing
+                      on this page that does not come from a price. It is a
+                      surface of its own beside the quote card for the reason
+                      the chart is: the card holds what the price service
+                      returned, and every figure below comes from SEC EDGAR at
+                      a different cadence, under a different licence, with its
+                      own provenance line.
+
+                      Three of them are worked out here rather than on the
+                      server &mdash; market cap, P/E and dividend yield each
+                      need a filing *and* a price, and the price they use has
+                      to be the one on the card above. See js/market-figures.js.
+
+                      Every explanation below is page copy, not data. It ships
+                      in the document, so what this panel teaches is in the
+                      served HTML rather than assembled by a script; the button
+                      only reveals it. Singular data-fundamental, like
+                      data-sector: a plural container does not match the hooks
+                      inside it and the length rule then measures nothing.
+                    -->
+                    <section class="inc-fundamental" data-fundamental
+                        data-state="empty"
+                        aria-labelledby="inc-fundamental-heading">
+                        <!--
+                          "Beyond the price", not "the company behind X". The
+                          heading has to be true of a fund as well: fifteen of
+                          the seventeen symbols this build serves are funds,
+                          and a heading calling one a company sat directly
+                          above a sentence saying it was not. Built like the
+                          chart's head instead — the ticker, then what the
+                          surface is — and the ticker is hidden until there is
+                          one, so the served heading names no symbol it does
+                          not have.
+                        -->
+                        <div class="inc-fundamental-head">
+                            <h4 class="inc-section-heading"
+                                id="inc-fundamental-heading"><span
+                                class="inc-fundamental-for"
+                                data-fundamental-symbol hidden></span
+                                ><span>Beyond the price</span></h4>
+                            <button type="button" class="inc-fundamental-explain"
+                                aria-expanded="false"
+                                aria-controls="inc-fundamental-figures"
+                                data-fundamental-explain
+                                data-track="fundamentals-explain">What do these
+                                mean?</button>
+                        </div>
+
+                        <p class="inc-fundamental-message" role="status"
+                            data-fundamental-message>Look up a symbol above to
+                            see what its last filings reported.</p>
+
+                        <dl class="inc-figures" id="inc-fundamental-figures"
+                            data-fundamental-body hidden>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Market cap</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="market-cap">&mdash;</span>
+                                    <span class="inc-figure-note">What the whole
+                                        company costs at today&rsquo;s price: every
+                                        share there is, multiplied by the last
+                                        price.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">P/E ratio</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="pe">&mdash;</span>
+                                    <span class="inc-figure-note">Price divided by
+                                        a year of earnings per share &mdash; roughly,
+                                        the years of current profit you are paying
+                                        for one share. Blank when the company lost
+                                        money, because the ratio stops meaning
+                                        anything.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Earnings per share</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="eps">&mdash;</span>
+                                    <span class="inc-figure-note">Profit over the
+                                        last four reported quarters, divided among
+                                        every share.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Dividend yield</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="dividend-yield">&mdash;</span>
+                                    <span class="inc-figure-note">A year of declared
+                                        dividends as a percentage of the price.
+                                        Blank means the company declared none, not
+                                        that it paid nothing.</span>
+                                </dd>
+                            </div>
+                            <!-- The one figure here that needs no filing:
+                                 it is measured from the price series alone,
+                                 which is why a fund still has one. -->
+                            <div class="inc-figure inc-figure-unfiled">
+                                <dt class="inc-figure-label">Beta</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="beta">&mdash;</span>
+                                    <span class="inc-figure-note">How far this moved
+                                        on an average day the market moved 1%.
+                                        Measured against SPY, the proxy the tiles
+                                        at the top use. Above 1 is jumpier than the
+                                        market; below 1 is steadier.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Shares outstanding</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="shares">&mdash;</span>
+                                    <span class="inc-figure-note">How many shares
+                                        exist. It is the number that turns a price
+                                        into a company&rsquo;s worth, and a falling
+                                        one means the company is buying its own
+                                        back.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Revenue</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="revenue">&mdash;</span>
+                                    <span class="inc-figure-note">Everything the
+                                        company sold over the last four reported
+                                        quarters, before any cost is taken
+                                        off.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Gross margin</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="gross-margin">&mdash;</span>
+                                    <span class="inc-figure-note">What is left of
+                                        each sale once the cost of making the thing
+                                        is paid.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Operating margin</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="operating-margin">&mdash;</span>
+                                    <span class="inc-figure-note">What is left after
+                                        the cost of running the business as well
+                                        &mdash; wages, research, rent.</span>
+                                </dd>
+                            </div>
+                            <div class="inc-figure">
+                                <dt class="inc-figure-label">Net margin</dt>
+                                <dd class="inc-figure-value">
+                                    <span data-fundamental-figure="net-margin">&mdash;</span>
+                                    <span class="inc-figure-note">What is left after
+                                        everything, including tax and interest. The
+                                        three margins always fall in this order.</span>
+                                </dd>
+                            </div>
+                        </dl>
+
+                        <p class="inc-provenance" role="status"
+                            data-fundamental-provenance
+                            data-provenance-state="pending">
+                            <span class="inc-provenance-dot"
+                                aria-hidden="true"></span>
+                            <span data-fundamental-provenance-message>Sample data.
+                                No filings have loaded yet.</span>
+                        </p>
+                    </section>
                 </section>
 
                 <!--

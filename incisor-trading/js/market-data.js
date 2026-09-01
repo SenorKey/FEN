@@ -164,6 +164,53 @@
     /* The searchable name table. Every row is checked, and a row that fails
      * is dropped rather than failing the listing: a catalogue is a
      * convenience, and losing one bad name should not cost the search box. */
+    /* The filings panel. Both halves may be absent and neither is an error.
+     *
+     * `filings` is null for every fund on this page, because a fund files no
+     * income statement; `beta` is null when the bars behind it are not
+     * cached. Reading them as optional here rather than guarding in the view
+     * keeps "absent" a shape the view can render rather than a case it has to
+     * remember.
+     */
+    function readFundamentals(payload, symbol) {
+        var envelope = readEnvelope(payload, symbol);
+        var body = payload.fundamentals;
+        if (!body || typeof body !== 'object') throw DataError('malformed');
+        envelope.filings = readFilings(body.filings);
+        envelope.beta = readBeta(body.beta);
+        return envelope;
+    }
+
+    function readFilings(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        return {
+            entityName: typeof raw.entity_name === 'string' ? raw.entity_name : '',
+            asOf: typeof raw.as_of === 'string' ? raw.as_of : '',
+            filed: typeof raw.filed === 'string' ? raw.filed : '',
+            form: typeof raw.form === 'string' ? raw.form : '',
+            quarters: optionalNumber(raw.quarters),
+            sharesOutstanding: optionalNumber(raw.shares_outstanding),
+            revenue: optionalNumber(raw.revenue),
+            netIncome: optionalNumber(raw.net_income),
+            eps: optionalNumber(raw.eps),
+            dividendsPerShare: optionalNumber(raw.dividends_per_share),
+            grossMargin: optionalNumber(raw.gross_margin),
+            operatingMargin: optionalNumber(raw.operating_margin),
+            netMargin: optionalNumber(raw.net_margin)
+        };
+    }
+
+    function readBeta(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        var value = optionalNumber(raw.value);
+        if (value === null) return null;
+        return {
+            value: value,
+            sessions: optionalNumber(raw.sessions),
+            benchmark: typeof raw.benchmark === 'string' ? raw.benchmark : ''
+        };
+    }
+
     function readCatalog(payload) {
         if (!payload || typeof payload !== 'object') throw DataError('malformed');
         if (!Array.isArray(payload.symbols)) throw DataError('malformed');
@@ -352,6 +399,24 @@
         });
     }
 
+    /* What a company's last filings said, plus how far the symbol moves for a
+     * move in the market.
+     *
+     * Free upstream in both halves: the filings come from SEC EDGAR, which
+     * does not ration us, and the beta is measured over bars the page has
+     * already fetched. So a lookup costs the same two calls it did before
+     * this panel existed.
+     */
+    function fundamentals(symbol) {
+        if (typeof symbol !== 'string' || !SYMBOL_PATTERN.test(symbol)) {
+            return Promise.reject(DataError('invalid_symbol'));
+        }
+        var url = BASE + '/fundamentals?symbol=' + encodeURIComponent(symbol);
+        return requestJson(url).then(function (payload) {
+            return readFundamentals(payload, symbol);
+        });
+    }
+
     /* The names the page can search by. Local to the service — it reads a
      * committed table and never goes upstream — so it costs no quota and is
      * fetched once per page load. */
@@ -372,6 +437,7 @@
         TIMEOUT_MS: TIMEOUT_MS,
         history: history,
         quote: quote,
+        fundamentals: fundamentals,
         symbols: symbols,
         sectors: sectors
     };

@@ -80,11 +80,12 @@ class TestLookupIsWiredIntoThePage(unittest.TestCase):
             self.assertIn(hook, HTML, hook)
 
     def test_every_figure_the_view_writes_has_somewhere_to_go(self):
+        """Only what a price carries. Market cap and P/E left this card at
+        T11 — see the test below for where they went and why."""
         served = set(re.findall(r'data-figure="([a-z\-]+)"', HTML))
         self.assertEqual(
             served,
-            {'open', 'previous', 'volume', 'average-volume', 'relative-volume',
-             'market-cap', 'pe'})
+            {'open', 'previous', 'volume', 'average-volume', 'relative-volume'})
 
     def test_there_are_exactly_two_ranges(self):
         ranges = [e['attrs']['data-range'] for e in PAGE.elements
@@ -160,11 +161,23 @@ class TestTheServedPanelInventsNothing(unittest.TestCase):
         body = next(e for e in PAGE.elements if 'data-quote-body' in e['attrs'])
         self.assertIn('hidden', body['attrs'])
 
-    def test_the_panel_says_why_two_figures_are_permanently_dashes(self):
-        """Market cap and P/E come from filings this page does not read. An
-        unexplained em dash reads as a bug; an explained one reads as honest."""
+    def test_no_figure_on_this_card_comes_from_anywhere_but_the_price(self):
+        """The seam this card was split along at T11.
+
+        Market cap and P/E were em dashes here with a sentence underneath
+        explaining that they come from filings rather than from prices. They
+        are real figures now, on the surface that reads filings — so the
+        explanation is gone because the exception it described is, and the
+        rule the card has always stated is literally true: everything inside
+        [data-quote] is a figure the price service returned.
+
+        Asserted from the other direction too, in the fundamentals tests: the
+        two names appear once each on the page, and it is not here.
+        """
         note = [e for e in PAGE.elements if 'inc-figures-note' in classes(e)]
-        self.assertEqual(len(note), 1)
+        self.assertEqual(note, [])
+        self.assertNotIn('data-figure="market-cap"', quote_markup())
+        self.assertNotIn('data-figure="pe"', quote_markup())
 
 
 class TestNothingOnThisCardIsSilentAboutItself(unittest.TestCase):

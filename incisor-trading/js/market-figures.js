@@ -237,6 +237,94 @@
         return placeFormats[digits].format(value);
     }
 
+    /* '$402B'. Money at the scale a company reports it, sharing the units the
+     * volume formatter already uses.
+     *
+     * Separate from formatVolume rather than a flag on it, because the two
+     * differ in what they refuse: a negative share count is nonsense and is
+     * dashed, while a negative income is a loss and is a figure a reader
+     * needs. Revenue and market cap are the only numbers on this page that
+     * run to twelve digits, and twelve digits of tabular figures is a number
+     * nobody reads.
+     */
+    function formatBigMoney(value) {
+        if (!isFiniteNumber(value)) return DASH;
+        var sign = value < 0 ? MINUS : '';
+        var size = Math.abs(value);
+        for (var index = 0; index < VOLUME_UNITS.length; index++) {
+            var unit = VOLUME_UNITS[index];
+            if (size >= unit.at) {
+                var scaled = size / unit.at;
+                return sign + '$' + scaled.toFixed(scaled < 10 ? 2 : 1)
+                    + unit.suffix;
+            }
+        }
+        return sign + '$' + priceFormat.format(size);
+    }
+
+    /* A fraction as a percentage: 0.465 -> '46.5%'.
+     *
+     * Unsigned, unlike formatPercent, and that is the point of having two. A
+     * margin is a proportion of revenue rather than a move, so giving it the
+     * plus and the direction colouring every other percentage on this page
+     * carries would say a 46.5% gross margin had risen 46.5%. A negative
+     * margin keeps its minus, because a loss is real and the sign is the
+     * whole of it.
+     */
+    function formatMarginPercent(value) {
+        if (!isFiniteNumber(value)) return DASH;
+        var sign = value < 0 ? MINUS : '';
+        return sign + (Math.abs(value) * 100).toFixed(1) + '%';
+    }
+
+    /* A ratio at two decimals, with no unit: what a P/E and a beta are.
+     *
+     * Negative is dashed rather than shown. A price/earnings ratio against a
+     * loss is arithmetically fine and financially meaningless — every screen
+     * that prints one is printing a number that cannot be compared with the
+     * positive ones beside it — so the panel says the figure does not apply
+     * and the explanation says why. Beta reaches here already positive for
+     * anything this page lists, and a genuinely negative one would be
+     * suppressed for a reason that does not hold; it is filed rather than
+     * hidden behind a second formatter nobody would find. */
+    function formatRatio(value) {
+        if (!isFiniteNumber(value) || value < 0) return DASH;
+        return priceFormat.format(value);
+    }
+
+    /* ── Figures that need both a filing and a price ─────────────── */
+
+    /* Shares times price. The two come from different upstreams and either
+     * may be missing, which is the only reason this is a function. */
+    function marketCap(shares, price) {
+        if (!isFiniteNumber(shares) || !isFiniteNumber(price)) return null;
+        return shares * price;
+    }
+
+    /* Price over trailing earnings per share.
+     *
+     * Computed in the browser rather than on the server so it is derived from
+     * the price the reader can see on the card above it. A ratio worked out
+     * against some other price would be a contradiction a reader would be
+     * right to notice and unable to resolve.
+     */
+    function priceToEarnings(price, earningsPerShare) {
+        if (!isFiniteNumber(price) || !isFiniteNumber(earningsPerShare)) {
+            return null;
+        }
+        if (earningsPerShare === 0) return null;
+        return price / earningsPerShare;
+    }
+
+    /* Trailing dividends per share over price, as a fraction. */
+    function dividendYield(dividendsPerShare, price) {
+        if (!isFiniteNumber(dividendsPerShare) || !isFiniteNumber(price)) {
+            return null;
+        }
+        if (price === 0) return null;
+        return dividendsPerShare / price;
+    }
+
     /* '2026-08-26' -> '26 Aug 2026', without going through Date.
      *
      * new Date('2026-08-26') is parsed as UTC midnight and then displayed in
@@ -381,6 +469,12 @@
         formatBarDate: formatBarDate,
         formatAxisDate: formatAxisDate,
         formatToPlaces: formatToPlaces,
+        formatBigMoney: formatBigMoney,
+        formatMarginPercent: formatMarginPercent,
+        formatRatio: formatRatio,
+        marketCap: marketCap,
+        priceToEarnings: priceToEarnings,
+        dividendYield: dividendYield,
         provenanceFor: provenanceFor,
         sparkline: sparkline
     };

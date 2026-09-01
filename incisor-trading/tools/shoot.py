@@ -19,7 +19,7 @@ Usage:
                                           [--api http://127.0.0.1:8789]
                                           [--symbol SPY [--range 5Y]]
                                           [--search app]
-                                          [--sector-window 1M]
+                                          [--explain] [--sector-window 1M]
                                           [--watch SPY,QQQ] [--block-storage]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
@@ -36,6 +36,10 @@ interaction: the quote panel and the chart are empty until someone searches,
 so without them the only screenshot that could be taken is the one state
 nobody is asking about. --range presses one of the chart's range buttons once
 a symbol is loaded, which is how a range other than the default gets shot.
+
+--explain opens the fundamentals panel's explanations. They ship closed, so
+the state where the page actually teaches something is one no screenshot would
+otherwise hold.
 
 --sector-window presses one of the sector grid's windows. The grid ranks
 eleven funds, so a window where they all fell is the mirror of one where they
@@ -168,6 +172,10 @@ CHART_READY = '[data-chart][data-state="ready"]'
 CHART_NO_HISTORY = '[data-chart][data-state="unavailable"]'
 WATCHLIST_READY = '[data-watchlist][data-state="ready"]'
 SECTORS_READY = '[data-sector][data-state="ready"]'
+# A company or a fund: both are states the panel settled in and both are worth
+# a picture, so the wait is for either rather than for the filled one.
+FUNDAMENTALS_SETTLED = ('[data-fundamental][data-state="ready"], '
+                        '[data-fundamental][data-state="fund"]')
 
 
 def drive(page, args, problems, label):
@@ -358,6 +366,11 @@ def main():
                          "reload path: the list is written to localStorage "
                          "and the page reads it back the way it would on a "
                          "second visit.")
+    ap.add_argument("--explain", action="store_true",
+                    help="open the fundamentals panel's explanations once a "
+                         "symbol is loaded. They are what the panel is for "
+                         "and they are shipped closed, so the state that "
+                         "teaches is the one no shot would otherwise hold.")
     ap.add_argument("--sector-window", default=None,
                     help="press this window on the sector grid once it has "
                          "loaded, e.g. --sector-window 1M. The grid is "
@@ -430,6 +443,18 @@ def main():
                 except Exception as error:
                     problems.append(f"{label}: the watchlist never settled — "
                                     f"{type(error).__name__}")
+
+            # The filings panel makes its own request once a symbol is
+            # looked up, so it is waited for separately from the quote panel
+            # that triggers it — and pressed only after it has figures, since
+            # the control is styled out until it does.
+            if args.explain:
+                try:
+                    page.wait_for_selector(FUNDAMENTALS_SETTLED, timeout=10000)
+                    page.click('[data-fundamental-explain]')
+                except Exception as error:
+                    problems.append(f"{label}: the filings panel never "
+                                    f"settled — {type(error).__name__}")
 
             # The sector grid fetches on load like the strip does, and its
             # window buttons do nothing until it has rows to re-rank — so the

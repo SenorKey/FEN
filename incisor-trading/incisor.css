@@ -48,6 +48,15 @@
        webfont would mean writing into /assets, which is out of bounds. */
     --inc-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;
+
+    /* The site's own body face, named here so prose can be set inside a
+       block that took the monospace. `font-family: inherit` does not do it:
+       it takes the parent's computed value, which in a figure is the mono —
+       so a sentence written to explain a number came out set as one. It
+       mirrors /assets/css/styles.css, which is out of bounds to read from at
+       runtime and out of bounds to edit (§3); if that file's face ever
+       changes, this is the line that has to follow it. */
+    --inc-prose: 'DM Sans', sans-serif;
 }
 
 /* ── Release the viewport lock ───────────────────────────────

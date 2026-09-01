@@ -228,18 +228,35 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
 
-- [ ] **T11 · Fundamentals panel** — the standard set: market cap, P/E, EPS,
+- [x] **T11 · Fundamentals panel** — the standard set: market cap, P/E, EPS,
   dividend yield, beta, shares outstanding, revenue, margins. Each with a one-line
   plain-English explanation on demand. *Accept:* every figure has a definition; missing
   data renders as "—", never as 0 or NaN.
-  **Start by splitting the quote card, not by adding to it** *(found in T10a,
-  2026-09-01)*. The natural home for these figures is the `<dl class="inc-figures">`
-  inside `[data-quote]`, which already holds seven and runs 143 lines against the
-  150-line per-surface cap. Six more figures at five lines each puts it past 180,
-  and the two market-cap and P/E em dashes this task fills are already in there.
-  The cap is the rule guide §6 is actually for, and unlike the document it has a
-  seam to split along: the figures list is its own surface, and the explanations
-  make it more so.
+  *Done 2026-09-01.* `server/edgar.py`, `server/fundamentals.py`,
+  `server/collect.py`, `js/view-fundamentals.js` and `css/fundamentals.css`
+  (new), plus `GET /fundamentals` — **the second upstream**. Filings come from
+  SEC EDGAR, which is public domain, needs no key and allows ten requests a
+  second, so the whole surface costs nothing against the 22-call day; a lookup
+  still costs the two calls it did before this panel existed. Beta is measured
+  from bars already in the cache and never refreshes one.
+  **The quote card was split along its provider, not its markup** — the entry
+  below said to extract the figures list, and the real seam is where the
+  numbers come from: market cap and P/E moved out, Open and Volume stayed, and
+  `[data-quote]` went 143 → 127 lines. See `DECISIONS.md`; do not "finish" the
+  split by pulling the price figures out too.
+  **The budget had to learn there are two upstreams.** `budget_remaining()`
+  counted the whole call log, so a free SEC request would have cost one of
+  Alpha Vantage's 22 — undoing the entire reason for choosing EDGAR. Scored
+  over `source.UPSTREAM_OF` now, with a test that a filing call does not move
+  the budget and a price call does.
+  76 checks in JavaScriptCore, 160 page tests, 194 service tests. Four states
+  shot under `docs/shots/t11-*`: a company, its explanations open, a fund, and
+  the panel with the service stopped. **Two defects found in the screenshots,
+  not the tests** — the explanations set in monospace because `font-family:
+  inherit` resolves to the figure's face, and a heading reading "the company
+  behind XLK" directly above a sentence saying XLK is not a company.
+  `incisor.py` crossed the 600-line rule when the route landed and was split
+  at `collect.py`. **One defect filed rather than fixed: D7.**
 
 - [ ] **T12 · Earnings and dividend dates** — next earnings date, last report
   surprise, dividend ex-date and amount for the viewed symbol.
@@ -407,9 +424,9 @@ verdict still writes a row; that row is what stops the surface coming up again.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-*Nothing is due.* Every surface on the page has a row below. The next audit
-fires when the next surface ships, or when a revamp touches one that already
-has a row.
+**Fundamentals panel (T11)** — shipped 2026-09-01, no row below. Due once it
+has three sessions behind it. Nothing else is due: every other surface on the
+page has a row.
 
 | Date | Feature | Verdict | Note |
 |---|---|---|---|
@@ -460,6 +477,36 @@ phase. When the call is unclear, file it as a defect.
   *Accept:* no horizontal overflow at 320px with a full eight-row watchlist; a
   test asserts it at 320 so the next narrow surface cannot reintroduce it;
   desktop row density unchanged.
+
+- [ ] **D7 · Two `shoot.py` runs inside a minute trip the service's own rate
+  limit** `[defect]` *(found 2026-09-01, building T11)* — and the failure it
+  produces is a lie about the page. The run exits non-zero with a list of
+  console errors that look exactly like a broken dashboard; they are 429s from
+  our own service, and every one of them is the tool exceeding the per-IP
+  ceiling it is testing against.
+
+  The arithmetic: `shoot.py` loads the page four times, and each load now costs
+  nine requests — `/symbols`, `/sectors`, four tile `/history`, plus `/quote`,
+  `/history` and `/fundamentals` for a looked-up symbol. That is **36 a run**
+  against `RATE_LIMIT_MAX=60` a minute. One run is comfortable. Two are 72, and
+  any session that ships a surface shoots at least two states — this one shot
+  four and hit the wall three times.
+
+  **Pre-existing, and T11 made it worse rather than causing it:** the same
+  arithmetic was 32 a run before this session, so two runs was already 64. The
+  08-31 note in `DECISIONS.md` is right that *one* run stays clear of the
+  ceiling and was only ever measuring one.
+
+  Not fixed today because the fix is a judgement about the tool rather than a
+  line: the candidates are for `shoot.py` to raise the limit for its own
+  child service (which stops the tool exercising the gate at all), to pace its
+  loads (which makes every run slower for a problem only sessions have), or to
+  reset the buckets between runs through a diagnostic the service does not yet
+  have. Choosing among those is a session's work, not a footnote in one.
+  *Accept:* four `shoot.py` runs back to back produce no 429, and whichever
+  route is taken, the per-IP gate is still exercised somewhere — a fix that
+  makes the tool stop testing the limit has moved the problem rather than
+  solved it.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two

@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════
+   css/fundamentals.css — what the company filed
+   frontendneeded.com · /incisor-trading
+
+   A surface that renders market data, so it owns a
+   stylesheet, the way css/lookup.css, css/chart.css,
+   css/sectors.css and css/watchlist.css do. Reads the
+   vocabulary defined in css/market.css — the provenance
+   line and its dot — and the figure grid css/lookup.css
+   defines, which is now read by two surfaces rather
+   than one: the quote card's price figures and this
+   panel's filed ones are the same kind of thing set the
+   same way, and restating forty lines of grid here is
+   how two lists that must match stop matching.
+
+   What is its own is the explanation layer. Every
+   figure ships with a plain-English sentence beside it
+   in the markup, hidden until asked for, because a
+   panel of ten ratios teaches nobody anything and ten
+   permanently visible paragraphs are not a panel.
+   ═══════════════════════════════════════════════ */
+
+.inc-fundamental {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+/* ── Head ───────────────────────────────────────────────────
+   The heading and the one control, on one row where there is
+   room and stacked where there is not. */
+
+.inc-fundamental-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px 16px;
+}
+
+/* The ticker in the heading, set the way the chart sets its
+   own: monospace and accented, so a symbol reads as a symbol
+   wherever it appears. The label after it takes the section
+   heading's own face, which the h4 already carries. */
+.inc-fundamental-for {
+    margin-right: 10px;
+    font-family: var(--inc-mono);
+    font-size: 0.86em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+}
+
+.inc-fundamental-explain {
+    padding: 5px 11px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 400;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.inc-fundamental-explain:hover {
+    color: var(--ink);
+    border-color: rgba(var(--accent-rgb), 0.5);
+}
+
+.inc-fundamental-explain:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Nothing to explain until there are figures. Hidden by
+   attribute so it leaves the tab order with them: a control
+   that toggles an empty list is a stop on the way to nothing. */
+.inc-fundamental[data-state="empty"] .inc-fundamental-explain,
+.inc-fundamental[data-state="loading"] .inc-fundamental-explain,
+.inc-fundamental[data-state="unavailable"] .inc-fundamental-explain {
+    display: none;
+}
+
+.inc-fundamental-message {
+    margin-top: 10px;
+    max-width: 68ch;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--muted);
+}
+
+/* In the ready state the message is the company's name rather
+   than a sentence, so it is set as a name. */
+.inc-fundamental[data-state="ready"] .inc-fundamental-message {
+    font-size: 0.95rem;
+    color: var(--ink);
+}
+
+.inc-fundamental .inc-figures {
+    margin-top: 20px;
+}
+
+.inc-fundamental .inc-provenance {
+    margin-top: 20px;
+}
+
+/* ── The explanations ───────────────────────────────────────
+   Shipped in the markup and hidden here, so the page teaches
+   what it teaches in the served document. display:none rather
+   than a visual hiding: a sentence a screen reader announced
+   under every figure whether or not it was asked for would
+   make the panel four times as long to listen to as to read,
+   and the button is the asking. */
+
+.inc-figure-note {
+    display: none;
+}
+
+.inc-fundamental[data-explained] .inc-figure-note {
+    display: block;
+    margin-top: 7px;
+    max-width: 34ch;
+    /* Not the monospace the value above it takes: this is prose, and prose
+       in tabular figures reads as data. Named rather than inherited — see
+       --inc-prose, which exists because `inherit` here resolves to the
+       figure's monospace and quietly did exactly what this rule forbids. */
+    font-family: var(--inc-prose);
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.55;
+    letter-spacing: 0;
+    font-variant-numeric: normal;
+    color: var(--muted);
+}
+
+/* Opening the explanations turns a dense grid into ten blocks
+   of text, and four columns of 34ch prose is a newspaper. Two
+   columns at every width above the phone, so a sentence has
+   room to be a sentence. */
+@media (min-width: 560px) {
+
+    .inc-fundamental[data-explained] .inc-figures {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 22px;
+    }
+}
+
+/* A fund answers with one figure out of ten, and nine em dashes
+   beside a sentence explaining there is nothing to show reads as
+   a panel that failed rather than one that answered. Only the row
+   that needs no filing is shown — beta is measured from price
+   alone, which is why it is the one a fund still has. Marked in
+   the markup rather than matched with :has(), so the rule says
+   what the row is instead of which hook it happens to contain. */
+.inc-fundamental[data-state="fund"] .inc-figure {
+    display: none;
+}
+
+.inc-fundamental[data-state="fund"] .inc-figure-unfiled {
+    display: block;
+}
+
+@media (max-width: 700px) {
+
+    .inc-fundamental-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
