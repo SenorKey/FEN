@@ -281,18 +281,52 @@
 }
 
 /* ── Narrow ─────────────────────────────────────────────────
-   The bar is the first thing to go. Below 560px a three-column row
-   leaves the sector names wrapping to three lines each to keep a
-   140px bar, which trades the thing being ranked for the picture of
-   the ranking. The figure stays, because it is the fact. */
+   The bar stops sitting beside the name and goes under it. Three
+   columns genuinely do not fit below 560px — the name's 240px floor
+   and the figure's 96px leave the bar nothing, and dropping the floor
+   wraps the sector names to three lines each to buy a 140px track,
+   which trades the thing being ranked for the picture of the ranking.
+   None of that is an argument for deleting the bar, which is what this
+   rule used to do: it is an argument against the bar being *beside*
+   the name. A full-width second line gives it 360px at 390px wide —
+   longer than the 343px it gets on a tablet, and more than double the
+   168px it gets at the breakpoint above — with no name wrapping at
+   all. Guide section 13 is mobile first, and the phone was the one
+   width where this surface was a column of figures.
 
-@media (max-width: 559px) {
+   700px rather than the 560px this rule used to break at, because 560
+   is where three columns first *fit* and not where they first work: the
+   bar gets 168px there, and under about 300px of track the 2px minimum
+   above starts overriding real differences — every sector that moved
+   less than a third of a percent draws the same stub, so the quiet end
+   of the ranking stops being a ranking. 700px is where the bar beside
+   the name first clears 300px; below it, stacking gives the bar more
+   than twice the width and costs only height. */
+
+@media (max-width: 699px) {
     .inc-sector-row {
         grid-template-columns: minmax(0, 1fr) auto;
+        row-gap: 7px;
+    }
+
+    .inc-sector-name {
+        grid-area: 1 / 1;
+    }
+
+    .inc-sector-change {
+        grid-area: 1 / 2;
     }
 
     .inc-sector-bar {
-        display: none;
+        grid-area: 2 / 1 / 2 / -1;
+    }
+
+    /* Re-reserved, because the rows are taller here. Same rule as the
+       wide list: eleven rows at the height they actually measure, so
+       the grid lands in the space it was given rather than pushing the
+       lookup section down as it fills. */
+    .inc-sector-list {
+        min-height: 616px;
     }
 }
 

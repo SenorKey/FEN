@@ -139,6 +139,32 @@ class TestTheSurfaceMeetsTheHouseRules(unittest.TestCase):
         opposite things. The one that is not known is not drawn."""
         self.assertIn('[data-state="missing"] .inc-sector-bar-fill', STYLES)
 
+    def test_the_bar_survives_every_width(self):
+        """The bar is what makes this a ranking rather than a list of figures,
+        and it used to be the first thing dropped at narrow widths — so on a
+        phone, the width guide section 13 calls first, the surface was eleven
+        names and eleven numbers.
+
+        It may be moved. It may not be deleted: the narrow rule stacks it
+        under the name instead, where it gets more width than it had beside
+        it. Walked over the innermost rule blocks rather than grepped for the
+        two words, because `display: none` inside a comment explaining why the
+        bar is *not* hidden would fail a substring check (see the greps trap
+        in DECISIONS.md).
+        """
+        import re
+        blocks = re.findall(r'([^{}]+)\{([^{}]*)\}',
+                            re.sub(r'/\*.*?\*/', ' ', STYLES, flags=re.S))
+        for selector, body in blocks:
+            # The track, not the fill: a row with no figure hides its fill on
+            # purpose, and that has its own test directly above.
+            if not re.search(r'\.inc-sector-bar(?![\w-])', selector):
+                continue
+            self.assertNotRegex(
+                body, r'\bdisplay\s*:\s*none\b',
+                '%s hides the bar; at that width the ranking is a column of '
+                'figures' % selector.strip())
+
     def test_the_list_reserves_its_height(self):
         """Guide section 13: no layout shift. Eleven rows arrive at once, and
         an unreserved list would shove the lookup section down the page."""
