@@ -20,7 +20,11 @@ this changes nothing unless the parameters below change. That is what makes the
 committed JSON reviewable in a diff.
 
 The quote fixture is derived from the last two bars of the same series rather
-than generated separately, so a tile and its sparkline can never disagree.
+than generated separately, so a tile and its sparkline can never disagree. The
+company-facts fixture is built the same way: one income statement per quarter,
+with every other figure derived from it, because a set of independently drawn
+fundamentals produces companies that cannot exist — the fundamentals equivalent
+of the independent random walks this file already avoids for prices.
 """
 
 import datetime
@@ -85,6 +89,37 @@ SYMBOLS = {
     'XLV':   (150.00, 0.75, 0.0050, 1016, 8_100_000),
     'XLY':   (230.00, 1.15, 0.0057, 1017, 5_200_000),
 }
+
+# The two symbols that file with the SEC. Everything else in the table above is
+# an exchange-traded fund: a fund reports no revenue and no earnings per share,
+# so it has no company-facts fixture at all, and the panel says it is a fund
+# rather than showing a column of em dashes.
+#
+# (annual revenue, gross margin, operating margin, net margin, shares, seed)
+#
+# Each is a coherent set rather than six independent draws. Gross margin is
+# above operating margin is above net margin for every real company, and net
+# income divided by shares has to be an earnings per share a reader can check
+# against the P/E on the same card — so the statement is generated once and
+# every figure on the panel is read out of it.
+FILERS = {
+    'AAPL': ('Apple Inc.', 320193, 402_000_000_000, 0.465, 0.318, 0.267,
+             14_840_000_000, 0.26, 2001),
+    'BRK.B': ('Berkshire Hathaway Inc.', 1067983, 371_000_000_000, 0.244,
+              0.171, 0.245, 2_180_000_000, 0.0, 2002),
+}
+
+# How the year's revenue is split across the four quarters. Real filers are
+# seasonal and a flat quarter would make the trailing-twelve-month arithmetic
+# untestable — four identical numbers sum correctly under a wrong window as
+# well as a right one.
+QUARTER_WEIGHTS = (0.22, 0.235, 0.245, 0.30)
+
+# Fiscal quarters end on these dates in the fixture's year, newest last. They
+# are ordinary quarter ends rather than any real company's calendar: the
+# fixture reproduces EDGAR's shape, and a 13-week fiscal year would only add
+# arithmetic nobody reads.
+QUARTER_ENDS = ('2025-09-27', '2025-12-27', '2026-03-28', '2026-06-27')
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -203,6 +238,117 @@ def write(folder, symbol, payload):
     return path
 
 
+def quarters():
+    """(start, end, filed) for each fiscal quarter, oldest first.
+
+    A quarter starts the day after the previous one ended, which is how EDGAR
+    reports them and what edgar.py checks when it decides whether four periods
+    abut. Filed six weeks after the close, which is inside the SEC deadline
+    for a large filer and near enough for a fixture.
+    """
+    out = []
+    previous = datetime.date.fromisoformat(QUARTER_ENDS[0]) - datetime.timedelta(90)
+    for iso in QUARTER_ENDS:
+        end = datetime.date.fromisoformat(iso)
+        out.append((previous + datetime.timedelta(1), end,
+                    end + datetime.timedelta(42)))
+        previous = end
+    return out
+
+
+def fact(start, end, filed, value, form, fiscal_year, fiscal_period):
+    """One entry in an EDGAR units array, in the shape EDGAR publishes."""
+    entry = {'end': end.isoformat(), 'val': value, 'accn': '',
+             'fy': fiscal_year, 'fp': fiscal_period, 'form': form,
+             'filed': filed.isoformat()}
+    if start is not None:
+        entry['start'] = start.isoformat()
+    return entry
+
+
+def as_company_facts(symbol):
+    """The companyfacts envelope: a taxonomy, a tag, a unit, then entries.
+
+    Only the tags edgar.py reads are written. A real payload carries hundreds
+    and a decade of history for each; reproducing that would make the
+    committed JSON unreviewable in a diff to prove nothing the four quarters
+    here do not.
+    """
+    name, cik, revenue, gross, operating, net, shares, dividend, seed = FILERS[symbol]
+    rnd = random.Random(seed)
+    periods = quarters()
+
+    facts = {'Revenues': [], 'GrossProfit': [], 'OperatingIncomeLoss': [],
+             'NetIncomeLoss': [], 'EarningsPerShareDiluted': [],
+             'CommonStockDividendsPerShareDeclared': []}
+
+    for index, ((start, end, filed), weight) in enumerate(zip(periods,
+                                                              QUARTER_WEIGHTS)):
+        # A little noise on the margins, so the four quarters are not the same
+        # company four times and a trailing sum is not a multiplication.
+        wobble = 1.0 + rnd.gauss(0.0, 0.03)
+        sales = revenue * weight * wobble
+        income = sales * net * (1.0 + rnd.gauss(0.0, 0.05))
+        quarter = 'Q%d' % (index + 1)
+        form = '10-Q'
+        year = 2026
+
+        facts['Revenues'].append(
+            fact(start, end, filed, round(sales), form, year, quarter))
+        facts['GrossProfit'].append(
+            fact(start, end, filed, round(sales * gross), form, year, quarter))
+        facts['OperatingIncomeLoss'].append(
+            fact(start, end, filed, round(sales * operating), form, year, quarter))
+        facts['NetIncomeLoss'].append(
+            fact(start, end, filed, round(income), form, year, quarter))
+        # Earnings per share is income over shares, not a number of its own.
+        # A panel that shows a P/E computed from a filed EPS beside a market
+        # cap computed from filed shares has to have the two agree.
+        facts['EarningsPerShareDiluted'].append(
+            fact(start, end, filed, round(income / shares, 2), form, year, quarter))
+        if dividend:
+            facts['CommonStockDividendsPerShareDeclared'].append(
+                fact(start, end, filed, round(dividend, 2), form, year, quarter))
+
+    # The annual period, which the parser has to refuse. Every real payload
+    # carries one against the same tags as the quarters, distinguished only by
+    # being twelve months long — so a fixture without it would let a parser
+    # that summed everything it found pass, which is the mistake worth
+    # catching. It is deliberately not the sum of the four quarters either: a
+    # filer's annual figure comes from its 10-K, and a parser that quietly
+    # picked it up would show a plausible number reached the wrong way.
+    year_start = periods[0][0]
+    _, year_end, year_filed = periods[-1]
+    facts['Revenues'].append(
+        fact(year_start, year_end, year_filed, round(revenue), '10-K', 2026, 'FY'))
+    facts['NetIncomeLoss'].append(
+        fact(year_start, year_end, year_filed, round(revenue * net), '10-K',
+             2026, 'FY'))
+
+    last_start, last_end, last_filed = periods[-1]
+    return {
+        'cik': cik,
+        'entityName': name,
+        'facts': {
+            'dei': {
+                'EntityCommonStockSharesOutstanding': {
+                    'label': 'Entity Common Stock, Shares Outstanding',
+                    'units': {'shares': [
+                        # A level, not a flow: true on one date, so it carries
+                        # an `end` and no `start`.
+                        fact(None, last_end, last_filed, shares, '10-Q', 2026, 'Q3')
+                    ]},
+                }
+            },
+            'us-gaap': {
+                tag: {'label': tag, 'units': {
+                    'USD/shares' if 'PerShare' in tag else 'USD': entries}}
+                for tag, entries in facts.items() if entries
+            },
+        },
+    }
+
+
 def main():
     days = trading_days_ending(AS_OF, TRADING_DAYS)
     market = market_returns(len(days))
@@ -210,6 +356,8 @@ def main():
         bars = build_series(price, beta, idiosyncratic, seed, volume, days, market)
         print(write('time-series-daily', symbol, as_time_series_daily(symbol, bars)))
         print(write('global-quote', symbol, as_global_quote(symbol, bars)))
+    for symbol in FILERS:
+        print(write('company-facts', symbol, as_company_facts(symbol)))
 
 
 if __name__ == '__main__':

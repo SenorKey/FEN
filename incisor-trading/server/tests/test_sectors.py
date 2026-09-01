@@ -19,6 +19,7 @@ import unittest
 from unittest import mock
 
 import service_fixture  # noqa: F401  — configures the service before import
+import collect  # noqa: E402
 import fetcher  # noqa: E402
 import incisor  # noqa: E402
 import sectors  # noqa: E402
@@ -252,8 +253,8 @@ class TestWhatTheGridCosts(SectorRouteTestCase):
     def test_the_series_are_read_at_a_week_rather_than_a_day(self):
         """The budget decision, asserted where it lives. At the endpoint TTL
         these eleven funds would cost eleven of a 22-call day."""
-        self.assertGreaterEqual(incisor.SECTOR_MAX_AGE_SEC, 7 * 24 * 60 * 60)
-        self.assertGreater(incisor.SECTOR_MAX_AGE_SEC,
+        self.assertGreaterEqual(collect.SECTOR_MAX_AGE_SEC, 7 * 24 * 60 * 60)
+        self.assertGreater(collect.SECTOR_MAX_AGE_SEC,
                            fetcher.TTL_SECONDS[source.DAILY])
 
         two_days_ago = (datetime.datetime.now(datetime.timezone.utc)
@@ -261,7 +262,7 @@ class TestWhatTheGridCosts(SectorRouteTestCase):
         self.assertFalse(fetcher.is_fresh(source.DAILY, two_days_ago),
                          'the endpoint default should call this stale')
         self.assertTrue(fetcher.is_fresh(source.DAILY, two_days_ago,
-                                         incisor.SECTOR_MAX_AGE_SEC),
+                                         collect.SECTOR_MAX_AGE_SEC),
                         'the grid should still be reading it')
 
     def test_live_mode_refreshes_only_a_couple_of_funds_per_request(self):
@@ -271,7 +272,7 @@ class TestWhatTheGridCosts(SectorRouteTestCase):
                 mock.patch.object(source, 'fetch') as fetch:
             fetch.side_effect = source.SourceUnavailable('no network in a test')
             self.get()
-        self.assertEqual(fetch.call_count, incisor.SECTOR_REFRESH_PER_REQUEST)
+        self.assertEqual(fetch.call_count, collect.SECTOR_REFRESH_PER_REQUEST)
 
     def test_fixture_mode_is_not_capped(self):
         """A fixture read is a local file read. Rationing it would make the

@@ -3,14 +3,16 @@
 Incisor Trading — market data service.
 
 Config loading, origin checking, two-tier rate limiting, GET /health, and the
-four read routes: GET /quote, GET /history, GET /symbols and GET /sectors.
+five read routes: GET /quote, GET /history, GET /symbols, GET /sectors and
+GET /fundamentals.
 
-This file is the edge. Storage lives in store.py, provider parsing in
-provider.py, payload retrieval in source.py, the searchable name table in
-catalog.py, and the cache and quota budget in fetcher.py — which is the only
-module permitted to reach upstream. A route's
-whole job is to check who is asking, validate the symbol, ask the fetcher, and
-say nothing extra when something goes wrong.
+This file is the edge. Storage lives in store.py, quote parsing in provider.py
+and filing parsing in edgar.py, payload retrieval in source.py, the searchable
+name table in catalog.py, the cache and quota budget in fetcher.py — which is
+the only module permitted to reach upstream — and how much of that budget each
+surface may spend in collect.py. A route's whole job is to check who is asking,
+validate the symbol, ask for what it needs, and say nothing extra when
+something goes wrong.
 
 Run under systemd; see incisor-trading.service. Apache reverse-proxies
 /api/incisor/* on the public site to this service on localhost. /health is
@@ -21,6 +23,8 @@ Config is loaded from the file at $CONFIG_FILE (set by the systemd unit to
 
     INCISOR_DATA_SOURCE     fixture (default) | live
     UPSTREAM_API_KEY        required only when INCISOR_DATA_SOURCE=live
+    EDGAR_CONTACT           contact address for SEC EDGAR's User-Agent;
+                            without it the fundamentals panel says so
     DB_PATH                 default /var/lib/incisor-trading/incisor.db
     LISTEN_HOST             default 127.0.0.1
     LISTEN_PORT             default 8789
@@ -48,7 +52,9 @@ from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 
 import catalog
+import collect
 import fetcher
+import fundamentals
 import provider
 import sectors
 import source
@@ -79,6 +85,13 @@ if DATA_SOURCE not in ('fixture', 'live'):
 UPSTREAM_API_KEY = os.environ.get('UPSTREAM_API_KEY', '').strip()
 if DATA_SOURCE == 'live' and not UPSTREAM_API_KEY:
     sys.exit('UPSTREAM_API_KEY is required when INCISOR_DATA_SOURCE=live')
+
+# The contact address EDGAR's access policy asks every automated client to
+# put in its User-Agent, or it answers 403. Not fatal when it is missing, even
+# in live mode: filings are one surface, prices are the page, and a service
+# that refuses to boot over the fundamentals panel would take the dashboard
+# down with it. The panel says it is unavailable instead.
+EDGAR_CONTACT = os.environ.get('EDGAR_CONTACT', '').strip()
 
 # Read here, not in store.py, and below load_env_file() like every other key.
 # store is imported at the top of this file, so a DB_PATH it read at its own
@@ -426,84 +439,6 @@ def history():
     return read_route('history', source.DAILY)
 
 
-# --- Sector grid ------------------------------------------------------------
-
-# How old a sector series may be before the grid tries to refresh it.
-#
-# A week, where every other reader of the same endpoint wants a day. Eleven
-# funds at one call each is half of a 22-call day, and spending it daily would
-# leave the lookup — the thing a reader actually came to do — with three
-# symbols a day across every visitor. A week costs eleven a week.
-#
-# The product follows the budget rather than apologising for it: the grid's
-# shortest window is a month (server/sectors.py), which does not change
-# materially when its end moves by a few sessions, and the date every figure
-# is measured to is on the page.
-SECTOR_MAX_AGE_SEC = 7 * 24 * 60 * 60
-
-# How many sector series one request may refresh.
-#
-# Not a quota rule — fetcher.py owns the day's budget — but a latency and
-# throttle rule. Eleven series lapse within minutes of each other, so without
-# this the first request after a week would make eleven sequential upstream
-# calls inside one HTTP response, each with a ten-second timeout, against a
-# free tier that also caps requests per minute. Two a request means the grid
-# refreshes itself over the next handful of page loads instead, and rows that
-# have not caught up yet are served from cache and measured to the date they
-# all share.
-SECTOR_REFRESH_PER_REQUEST = 2
-
-
-def collect_sector_series(refresh_allowance):
-    """Every sector fund's cached series, refreshing at most a few of them.
-
-    Returns (series_by_symbol, meta) where meta is the envelope fields the
-    grid reports: whether anything served was stale, and the oldest fetch
-    behind it. A fund that cannot be served at all is simply absent, which
-    sectors.rows() renders as an unavailable row rather than a missing one.
-
-    The allowance binds in live mode only, for the same reason the daily
-    budget does: a fixture read is a local file read, and it has neither the
-    ten-second timeout nor the per-minute throttle the cap exists to stay
-    under. Capping it there would make the grid fill over six page loads in
-    the one mode that has ever run, to ration a cost that is not being paid.
-    """
-    if DATA_SOURCE != 'live':
-        refresh_allowance = len(sectors.SECTOR_SYMBOLS)
-    series_by_symbol = {}
-    stale = False
-    oldest_fetch = None
-
-    for symbol in sectors.SECTOR_SYMBOLS:
-        may_refresh = refresh_allowance > 0
-        try:
-            data, meta = fetcher.get(
-                source.DAILY, symbol, DATA_SOURCE, UPSTREAM_API_KEY,
-                max_age=SECTOR_MAX_AGE_SEC, allow_refresh=may_refresh)
-        except (provider.ProviderError, source.SourceUnavailable,
-                fetcher.Unavailable) as exc:
-            # One fund short is a row that says so, not a failed grid. Logged
-            # at info because a refusal to refresh is an ordinary outcome here.
-            if may_refresh:
-                refresh_allowance -= 1
-            log.info('sectors: %s unavailable: %s', symbol, exc)
-            continue
-
-        # An attempt spends the allowance whether or not it worked. A call
-        # that errored still cost the ten seconds and the throttle slot this
-        # cap exists to bound, which is why fetcher.py logs failures against
-        # the day's budget too. Counting successes only would let eleven dead
-        # calls through on the one request where that matters most.
-        if may_refresh and (not meta['cached'] or meta['stale']):
-            refresh_allowance -= 1
-        stale = stale or meta['stale']
-        if meta['fetched_at'] and (oldest_fetch is None
-                                   or meta['fetched_at'] < oldest_fetch):
-            oldest_fetch = meta['fetched_at']
-        series_by_symbol[symbol] = data
-
-    return series_by_symbol, {'stale': stale, 'fetched_at': oldest_fetch or ''}
-
 
 @app.route('/sectors', methods=['GET'])
 def sector_grid():
@@ -523,7 +458,8 @@ def sector_grid():
     if rejection is not None:
         return rejection
 
-    series_by_symbol, meta = collect_sector_series(SECTOR_REFRESH_PER_REQUEST)
+    series_by_symbol, meta = collect.sector_series(
+        collect.SECTOR_REFRESH_PER_REQUEST, DATA_SOURCE, UPSTREAM_API_KEY)
     grid = sectors.grid(series_by_symbol)
 
     return jsonify(
@@ -533,6 +469,63 @@ def sector_grid():
         fetched_at=meta['fetched_at'],
         served_at=now_utc_iso(),
         sectors=grid,
+    ), 200
+
+
+# --- Fundamentals -----------------------------------------------------------
+
+@app.route('/fundamentals', methods=['GET'])
+def fundamentals_panel():
+    """What a company's filings say: GET /fundamentals?symbol=AAPL.
+
+    Two sources meet here and neither can fail the other. The filings come
+    from SEC EDGAR, which is public domain and free at this rate; the beta
+    comes from daily bars the page has already fetched for something else. A
+    fund has no filings and still has a beta, and a company listed last month
+    has filings and no beta, so both halves are answered independently and
+    either may be null.
+
+    A symbol EDGAR does not file for is **not** an error. It is the ordinary
+    answer for every ETF on this page, and the panel says so in fund language
+    rather than showing a row of em dashes and leaving the reader to guess.
+    """
+    rejection = gate('fundamentals')
+    if rejection is not None:
+        return rejection
+
+    symbol = read_symbol_argument()
+    if symbol is None:
+        return jsonify(error='invalid_symbol'), 400
+
+    facts = None
+    stale = False
+    fetched_at = ''
+    try:
+        facts, meta = fetcher.get_fundamentals(symbol, DATA_SOURCE, EDGAR_CONTACT)
+        stale = meta['stale']
+        fetched_at = meta['fetched_at']
+    except provider.ProviderError as exc:
+        if exc.reason != 'not_found':
+            return error_for('fundamentals', symbol, exc)
+    except (source.SourceUnavailable, fetcher.Unavailable) as exc:
+        # A filing source we could not reach is logged and reported as absent
+        # rather than as a failed request: the beta below may still be
+        # answerable, and half a panel beats none of it.
+        log.info('fundamentals: no filings for %s: %s', symbol, exc)
+
+    panel = fundamentals.panel(
+        facts,
+        collect.cached_series(symbol, DATA_SOURCE, UPSTREAM_API_KEY),
+        collect.cached_series(fundamentals.BETA_BENCHMARK, DATA_SOURCE,
+                              UPSTREAM_API_KEY))
+
+    return jsonify(
+        symbol=symbol,
+        source=DATA_SOURCE,
+        stale=stale,
+        fetched_at=fetched_at,
+        served_at=now_utc_iso(),
+        fundamentals=panel,
     ), 200
 
 

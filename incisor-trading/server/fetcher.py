@@ -2,8 +2,8 @@
 """
 Incisor Trading — the cache, and the only code allowed to call upstream.
 
-Every route goes through get_quote() or get_history(). Neither the routes nor
-anything else may reach source.py directly, because this module is where the
+Every route goes through get_quote(), get_history() or get_fundamentals().
+Neither the routes nor anything else may reach source.py directly, because this module is where the
 two things that keep the project alive happen: the cache that stops a page
 refresh costing a call, and the budget that stops us spending a day's quota in
 a minute.
@@ -34,6 +34,7 @@ dropped.
 import datetime
 import threading
 
+import edgar
 import provider
 import source
 import store
@@ -48,6 +49,12 @@ import store
 TTL_SECONDS = {
     source.QUOTE: 6 * 60 * 60,
     source.DAILY: 24 * 60 * 60,
+    # Filings change four times a year. A day is far shorter than it needs to
+    # be and costs nothing — EDGAR is not the rationed upstream — but it is
+    # the freshness guide section 10 names for fundamentals, and a TTL that
+    # matches the stated policy is worth more than one tuned to the filing
+    # calendar.
+    source.COMPANY_FACTS: 24 * 60 * 60,
 }
 
 # Held back from the documented 25 so a burst of searches cannot leave the
@@ -77,7 +84,20 @@ _HANDLERS = {
         'save': store.save_history,
         'parse': provider.parse_daily_history,
     },
+    source.COMPANY_FACTS: {
+        'load': store.load_fundamentals,
+        'save': store.save_fundamentals,
+        'parse': edgar.parse_company_facts,
+    },
 }
+
+# The endpoints the daily budget is scored over: the ones answered by the
+# upstream that has a budget. Derived from source.py rather than listed,
+# because the fact of which provider serves what lives there and a second copy
+# here would be a second thing to keep in step.
+RATIONED_ENDPOINTS = tuple(
+    endpoint for endpoint, upstream in source.UPSTREAM_OF.items()
+    if upstream == source.ALPHA_VANTAGE)
 
 
 class Unavailable(Exception):
@@ -137,12 +157,24 @@ def budget_remaining():
     reads, and letting a session's fixture traffic eat the live allowance
     would make the budget lie in both directions.
     """
-    return max(0, DAILY_CALL_BUDGET - store.calls_today('live'))
+    return max(0, DAILY_CALL_BUDGET - _rationed_calls_today())
+
+
+def _rationed_calls_today():
+    """Live calls today against the provider that rations us.
+
+    Not every call in the log costs quota. SEC filings are free and unlimited
+    at the rate this page reads them, so counting the log whole would let a
+    reader looking up eight companies exhaust a budget that exists to protect
+    four price tiles — and the reason fundamentals are on a second provider is
+    exactly that they should not be able to.
+    """
+    return store.calls_today('live', RATIONED_ENDPOINTS)
 
 
 def quota_status():
     """The queryable counter, for diagnostics and the T13 status surface."""
-    used = store.calls_today('live')
+    used = _rationed_calls_today()
     return {
         'used_today': used,
         'budget': DAILY_CALL_BUDGET,
@@ -166,7 +198,7 @@ def bounded(endpoint, parsed):
     return trimmed
 
 
-def _refresh(endpoint, symbol, data_source, api_key):
+def _refresh(endpoint, symbol, data_source, api_key, edgar_contact):
     """Call the source once, parse it, and store what came back.
 
     Returns (data, fetched_at). One timestamp is generated here and used for
@@ -178,7 +210,8 @@ def _refresh(endpoint, symbol, data_source, api_key):
     handler = _HANDLERS[endpoint]
     status = 'error'
     try:
-        payload = source.fetch(endpoint, symbol, data_source, api_key)
+        payload = source.fetch(endpoint, symbol, data_source, api_key,
+                               edgar_contact)
         parsed = bounded(endpoint, handler['parse'](payload, symbol))
         status = 'ok'
     except provider.ProviderError as exc:
@@ -197,7 +230,7 @@ def _refresh(endpoint, symbol, data_source, api_key):
 
 
 def get(endpoint, symbol, data_source, api_key='', max_age=None,
-        allow_refresh=True):
+        allow_refresh=True, edgar_contact=''):
     """Cached data for one endpoint and symbol.
 
     Returns (data, meta), where meta carries `cached`, `stale` and
@@ -237,7 +270,8 @@ def get(endpoint, symbol, data_source, api_key='', max_age=None,
                 'nothing cached for %s and no refresh was permitted' % symbol)
 
         try:
-            fresh, fresh_at = _refresh(endpoint, symbol, data_source, api_key)
+            fresh, fresh_at = _refresh(endpoint, symbol, data_source, api_key,
+                                       edgar_contact)
         except (provider.ProviderError, source.SourceUnavailable):
             # A symbol we have never held has nothing to fall back to, so the
             # error is the answer. One we do hold is better served stale than
@@ -255,6 +289,12 @@ def get_quote(symbol, data_source, api_key=''):
 
 def get_history(symbol, data_source, api_key=''):
     return get(source.DAILY, symbol, data_source, api_key)
+
+
+def get_fundamentals(symbol, data_source, edgar_contact=''):
+    """Filing figures for one symbol. No API key: EDGAR does not issue them."""
+    return get(source.COMPANY_FACTS, symbol, data_source,
+               edgar_contact=edgar_contact)
 
 
 def reset_locks():

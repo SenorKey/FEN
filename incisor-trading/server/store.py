@@ -12,14 +12,14 @@ formatted into a statement, including symbols that have already passed the
 edge whitelist — defence in depth is worth more than the two characters it
 costs.
 
-Three tables:
+Four tables:
 
     quotes          one row per symbol: the latest snapshot we hold
     daily_bars      one row per symbol and date: the daily series
+    fundamentals    one row per symbol: the figures its last filing carried
     upstream_calls  one row per call we made, ever
 
-`upstream_calls` predates the fetcher on purpose — see init(). Fundamentals
-are deliberately absent; the reasoning is in docs/DECISIONS.md.
+`upstream_calls` predates the fetcher on purpose — see init().
 """
 
 import datetime
@@ -43,6 +43,16 @@ QUOTE_COLUMNS = (
 )
 
 BAR_COLUMNS = ('open', 'high', 'low', 'close', 'volume')
+
+# The columns of a cached filing, in the order edgar.py's internal shape
+# defines them. Every one is nullable, which the other two tables are not: a
+# company that reports no dividend files no dividend tag, so absent is a fact
+# about the filing rather than a hole in the cache.
+FUNDAMENTAL_COLUMNS = (
+    'entity_name', 'cik', 'as_of', 'filed', 'form', 'quarters',
+    'shares_outstanding', 'revenue', 'gross_profit', 'operating_income',
+    'net_income', 'eps', 'dividends_per_share',
+)
 
 
 def now_utc_iso():
@@ -150,6 +160,32 @@ def init():
             """
         )
 
+        # One row per symbol, like quotes: a filing is a snapshot of what the
+        # company has reported so far, and the quarter-by-quarter history it
+        # was summed from belongs to EDGAR rather than to us. Every figure is
+        # nullable — see FUNDAMENTAL_COLUMNS.
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS fundamentals (
+                symbol              TEXT PRIMARY KEY,
+                entity_name         TEXT,
+                cik                 TEXT,
+                as_of               TEXT,
+                filed               TEXT,
+                form                TEXT,
+                quarters            INTEGER,
+                shares_outstanding  REAL,
+                revenue             REAL,
+                gross_profit        REAL,
+                operating_income    REAL,
+                net_income          REAL,
+                eps                 REAL,
+                dividends_per_share REAL,
+                fetched_at          TEXT NOT NULL
+            )
+            """
+        )
+
 
 def is_reachable():
     try:
@@ -243,6 +279,37 @@ def load_history(symbol):
     return history, series['fetched_at']
 
 
+# --- Fundamentals -----------------------------------------------------------
+
+def save_fundamentals(facts, fetched_at=None):
+    """Upsert one symbol's filing figures."""
+    values = [facts['symbol']]
+    values.extend(facts.get(column) for column in FUNDAMENTAL_COLUMNS)
+    values.append(fetched_at or now_utc_iso())
+    # As with quotes: the column names are our own identifiers, every value is
+    # bound. See the note on save_quote.
+    placeholders = ', '.join('?' * (len(FUNDAMENTAL_COLUMNS) + 2))
+    columns = ', '.join(('symbol',) + FUNDAMENTAL_COLUMNS + ('fetched_at',))
+    with connect() as connection:
+        connection.execute(
+            'INSERT OR REPLACE INTO fundamentals (%s) VALUES (%s)'
+            % (columns, placeholders),
+            values)
+
+
+def load_fundamentals(symbol):
+    """The cached filing figures and when they were fetched, or (None, None)."""
+    with connect() as connection:
+        row = connection.execute(
+            'SELECT * FROM fundamentals WHERE symbol = ?', (symbol,)).fetchone()
+    if row is None:
+        return None, None
+    facts = {'symbol': row['symbol']}
+    for column in FUNDAMENTAL_COLUMNS:
+        facts[column] = row[column]
+    return facts, row['fetched_at']
+
+
 # --- Upstream call log ------------------------------------------------------
 
 def record_call(endpoint, symbol, status, source):
@@ -260,24 +327,40 @@ def record_call(endpoint, symbol, status, source):
             (now_utc_iso(), endpoint, symbol, status, source))
 
 
-def calls_since(since_iso, source=None):
+def calls_since(since_iso, source=None, endpoints=None):
     """How many calls were made at or after an ISO timestamp.
 
     `source` filters to one mode. Pass 'live' to score quota: fixture reads are
     logged too — they are real cache misses and worth seeing — but they are
     local file reads and spend nobody's allowance.
+
+    `endpoints` filters to the routes belonging to one upstream. There are two
+    upstreams and only one of them is rationed, so a log counted whole would
+    charge a free SEC filing against the quote provider's twenty-five a day —
+    which is the entire reason fundamentals were put on a second provider. The
+    set is passed in rather than known here: which endpoint belongs to which
+    upstream is source.py's fact, and a copy of it in this file is a copy that
+    can fall out of step.
     """
     query = 'SELECT COUNT(*) AS total FROM upstream_calls WHERE called_at >= ?'
     values = [since_iso]
     if source is not None:
         query += ' AND source = ?'
         values.append(source)
+    if endpoints is not None:
+        endpoints = tuple(endpoints)
+        if not endpoints:
+            return 0
+        # Placeholders, not values: the count is our own and every endpoint
+        # name is still bound.
+        query += ' AND endpoint IN (%s)' % ', '.join('?' * len(endpoints))
+        values.extend(endpoints)
     with connect() as connection:
         row = connection.execute(query, values).fetchone()
     return row['total']
 
 
-def calls_today(source=None):
+def calls_today(source=None, endpoints=None):
     """Calls made since midnight UTC — the window the daily quota is scored on.
 
     UTC rather than US/Eastern deliberately: the provider's day is not
@@ -286,4 +369,4 @@ def calls_today(source=None):
     """
     midnight = datetime.datetime.now(datetime.timezone.utc).replace(
         hour=0, minute=0, second=0, microsecond=0)
-    return calls_since(midnight.isoformat(), source)
+    return calls_since(midnight.isoformat(), source, endpoints)

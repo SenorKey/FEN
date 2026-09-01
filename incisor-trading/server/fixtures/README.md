@@ -12,15 +12,23 @@ than overwrite and the newest date for a symbol wins, so refreshing a fixture is
 a drop-in and the file it replaced stays in git history as evidence of what the
 shape used to be.
 
-| Directory | Alpha Vantage function |
-|---|---|
-| `global-quote/` | `GLOBAL_QUOTE` |
-| `time-series-daily/` | `TIME_SERIES_DAILY` (260 sessions — one year) |
+| Directory | Upstream | Payload |
+|---|---|---|
+| `global-quote/` | Alpha Vantage | `GLOBAL_QUOTE` |
+| `time-series-daily/` | Alpha Vantage | `TIME_SERIES_DAILY` (260 sessions — one year) |
+| `company-facts/` | SEC EDGAR | `companyfacts` — four quarters of filings |
 
 Symbols: `SPY`, `QQQ`, `DIA`, `IWM` — the four ETF proxies the dashboard's
-summary strip is built on — plus `AAPL` and `BRK.B`. `BRK.B` is there on
-purpose: it is the one symbol in the set with a dot in it, so it exercises the
-edge whitelist and the fixture-path resolution rather than leaving them assumed.
+summary strip is built on — the eleven Select Sector SPDR funds, plus `AAPL`
+and `BRK.B`. `BRK.B` is there on purpose: it is the one symbol in the set with
+a dot in it, so it exercises the edge whitelist and the fixture-path
+resolution rather than leaving them assumed.
+
+**Only `AAPL` and `BRK.B` have a `company-facts/` fixture**, and the absence is
+the point rather than a gap: every other symbol here is an exchange-traded
+fund, a fund files no income statement, and the fundamentals panel says it is a
+fund instead of showing a column of em dashes. Both states are reachable in
+fixture mode.
 
 ---
 
@@ -69,3 +77,19 @@ a market that cannot happen, and not something to design a dashboard against.
 
 The quote fixture is derived from the last two bars of the same series rather
 than generated separately, so a tile and its sparkline can never disagree.
+
+The filings are built the same way and for the same reason. One income
+statement is generated per quarter and **every other figure is read out of
+it** — gross profit, operating income and net income are fractions of that
+quarter's revenue, and earnings per share is that quarter's income divided by
+the share count. Six independently drawn fundamentals would produce companies
+that cannot exist: a net margin above a gross margin, or an EPS that disagrees
+with the income and the shares printed beside it on the same card. That is the
+fundamentals version of the independent random walks described above.
+
+Each payload also carries **an annual period alongside the four quarters**,
+because every real one does — same tag, distinguished only by being twelve
+months long. A fixture holding only quarters would let a parser that summed
+everything it found pass, and it would then double every revenue figure in
+production. `server/tests/test_fundamentals.py` asserts the annual period is
+present in the committed JSON as well as that the parser refuses it.
