@@ -2328,3 +2328,115 @@ adds six figures to the list inside it. Then T12, T13.
   where everything before it could be built and finished without one.
 - **D3 is still open** and untouched for a sixth session. Still `[enhancement]`,
   so still yours to triage.
+
+## 2026-09-01 (second session) — T11: a second upstream, and the figures a price cannot carry
+**Outcome:** T11 shipped
+**Changed:** `server/edgar.py`, `server/fundamentals.py`, `server/collect.py`,
+`js/view-fundamentals.js`, `css/fundamentals.css`,
+`tests/fundamentals_model.jxa.js`, `tests/test_fundamentals_panel.py`,
+`server/tests/test_fundamentals.py`, `server/fixtures/company-facts/` (new);
+`index.html`, `incisor.css`, `js/market-figures.js`, `js/market-data.js`,
+`js/view-symbol.js`, `server/incisor.py`, `server/source.py`,
+`server/store.py`, `server/fetcher.py`, `server/apache-snippet.conf`,
+`server/config.env.example`, `server/fixtures/make_fixtures.py`,
+`tools/shoot.py`, `tests/test_symbol_lookup.py`, `docs/shots/`
+**Verified:** 79 checks in JavaScriptCore, 160 page tests, 194 service tests,
+`shoot.py --api` green at four widths across four states. The service ran in
+fixture mode against a scratch database in the session's temp directory. **No
+upstream call was made to either provider** — no key exists, no EDGAR request
+was sent, no account was created.
+
+The fundamentals panel is the first surface here whose numbers are not prices,
+and most of the session went into the three places that made that a different
+kind of work rather than one more view.
+
+**The budget had to learn there are two upstreams.** EDGAR was chosen for
+fundamentals on 08-27 because it is public domain, needs no key and allows ten
+requests a *second* against Alpha Vantage's twenty-five a *day*. That reasoning
+still holds — and it was undone in code the moment the route landed. Both
+providers write to one `upstream_calls` table and `budget_remaining()` counted
+it whole, so a free SEC request would have cost one of the twenty-two, and a
+reader opening eight companies would have exhausted the allowance that keeps
+four price tiles refreshed. Nothing would have looked wrong; the budget would
+have been spent correctly on the wrong thing. It is scored over the endpoints
+`source.UPSTREAM_OF` marks as the rationed provider's now, derived rather than
+listed, with a test that a filing call does not move it and a price call does.
+**A provider chosen to be free has to be free where the counting happens.**
+
+**The split was along the provider, not the markup.** T11's own backlog entry
+said to start by extracting the `<dl class="inc-figures">` out of the quote
+card, which sat at 143 lines against the 150 cap. That seam is the shape on
+screen; the real one is where the numbers come from. Extracting the whole list
+would have put Open, Previous close and Volume outside `[data-quote]`,
+contradicting what that card has said since T9 — everything inside it is a
+figure the price service returned. Volume is a quote figure. Market cap and P/E
+never were: they were em dashes with a paragraph underneath explaining that
+they come from filings, which is the card documenting its own exception. Moving
+those two deletes the exception rather than relocating it, and the paragraph
+went with them. 143 → 127.
+
+**A fixture may invent figures, but not independently of each other.** T10b's
+rule was that a fixture can synthesise a series and not a selection;
+fundamentals are a series-shaped claim about a symbol we named, so invented
+figures under a sample-data label are honest here. Six independent draws would
+not be — they produce a net margin above a gross margin, or an EPS that
+disagrees with the income and the share count printed beside it on the same
+card, which a reader can check by dividing. One income statement per quarter,
+everything else read out of it. The payloads also carry the **annual period the
+parser has to refuse**: EDGAR files the year against the same tag as the
+quarters, distinguished only by length, so a fixture holding only quarters
+would let a parser that summed everything it found pass and then double every
+revenue figure in production. A test asserts the committed JSON contains it.
+
+**Two defects, both found in the screenshots.** The explanations rendered in
+monospace — `font-family: inherit` takes the parent's computed value, the
+parent is a figure, and so the rule written to stop prose being set as data did
+precisely that. `--inc-prose` names the face instead. And the heading read "the
+company behind XLK" directly above the sentence explaining that XLK is not a
+company; fifteen of the seventeen symbols this build serves are funds, so the
+surface contradicted itself in the state it is in most of the time. It is built
+like the chart's head now — ticker, then what the surface is — and the ticker
+ships hidden. The provenance line was wrong in the same state for the same
+reason and is assembled from what is actually on screen.
+
+**The recurring trap bit twice more, both times in tests I was writing.** A
+rule that forbids a token forbids it in prose: `assertNotIn('hidden', STYLES)`
+failed on my own comment explaining why nothing is hidden, and
+`assertNotIn('company behind', heading)` failed on the markup comment
+explaining why the heading no longer says it. Both now read parsed rules and
+comment-stripped markup. The entry in *Recurring traps* is the right one and it
+did not stop me walking into it — the lesson to carry is that the trap fires
+hardest when writing the guard against it.
+
+`server/incisor.py` crossed the 600-line rule when the route landed. It has a
+real seam, unlike `index.html`: `collect.py` now holds how much of the budget
+each surface may spend, which had been growing in the edge file beside the
+origin checks. 628 → 539.
+
+**One defect filed rather than fixed — D7.** Two `shoot.py` runs inside a
+minute trip the service's own per-IP rate limit, and the resulting run fails
+with a list of console errors that look exactly like a broken dashboard. The
+arithmetic is 36 requests a run against a 60-a-minute ceiling; it was 32 before
+this session, so two runs was already over and T11 made it worse rather than
+causing it. It cost three wasted runs today and the fix is a judgement about
+the tool rather than a line, so it is filed with the candidates named.
+
+### For Key
+
+- **A new config key, and it is yours to fill: `EDGAR_CONTACT`.** SEC EDGAR
+  answers an automated client with no identifying User-Agent with a 403, and
+  what it wants is a contact address for whoever is running the service — the
+  same class of thing as the API key, and out of the routine's bounds to
+  choose. It is in `config.env.example` as `REPLACE_ME`. **Nothing is blocked
+  on it:** fixture mode is the default and does not need it, the service boots
+  without it, and prices are unaffected either way. It only matters on the day
+  live filings are switched on.
+- **This surface is not blocked on the provider question, unlike everything
+  else.** EDGAR is public domain with no display restriction, so the
+  fundamentals panel is the one part of this page that could run on real data
+  tomorrow without a written permission from anyone. Recorded rather than
+  acted on — switching a mode on is not the routine's to do.
+- **`incisor.py` at 628 lines and the seam taken.** Noted because the split is
+  a judgement rather than a rule: `collect.py` is per-surface fetch policy, and
+  if that reads as the wrong cut it is one to say so about now, while it holds
+  two functions rather than six.
