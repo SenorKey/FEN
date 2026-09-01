@@ -399,6 +399,29 @@ class TestHouseStyle(unittest.TestCase):
                             'the %s markup runs %d lines and wants breaking up'
                             % (surface, span))
 
+    def test_every_surface_shaped_block_is_reached_by_that_rule(self):
+        """The rule above is derived, which makes what it misses invisible.
+
+        It pairs a block with hooks that begin with the block's own attribute,
+        so a container whose hooks are spelled slightly differently is skipped
+        in silence — and two were. `[data-sectors]` held ten `data-sector-*`
+        hooks and matched none of them on a plural `s`, so the whole grid went
+        unmeasured; `[data-index-strip]` holds `data-tile-*` and is skipped
+        for the same reason.
+
+        A block is surface-shaped when it carries a valueless `data-` marker
+        with three or more `data-` descendants — which is how every view here
+        finds its root. Such a block is covered if the rule measures it, if it
+        sits inside one the rule measures, or if it contains ones the rule
+        measures: the strip is a list of four measured tiles, and a list of
+        measured things needs no separate measure. Anything else is a surface
+        no length rule is watching.
+        """
+        for marker, element in PAGE.marked_blocks():
+            self.assertTrue(PAGE.is_measured(element),
+                            '%s is surface-shaped and no length rule reaches it'
+                            % marker)
+
     def test_stylesheet_braces_balance(self):
         self.assertEqual(CSS.count('{'), CSS.count('}'))
 

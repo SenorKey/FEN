@@ -232,7 +232,7 @@ function run(argv) {
      * is the contract the view documents, and test_sectors.py separately
      * asserts the page still carries it. */
     function buildPanel(windowNames, pressedName) {
-        var panel = new El('section', { 'data-sectors': '',
+        var panel = new El('section', { 'data-sector': '',
             'data-state': 'loading' });
         var lit = pressedName || 'YTD';
 

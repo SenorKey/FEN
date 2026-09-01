@@ -23,7 +23,7 @@
  * axis, which is pure and is exported so it can be checked without a browser
  * (tests/sectors_model.jxa.js).
  *
- * Contract with the markup: a [data-sectors] block whose data-state is one of
+ * Contract with the markup: a [data-sector] block whose data-state is one of
  * loading / ready / error, holding [data-sector-windows] buttons carrying
  * [data-sector-window], an empty [data-sector-list], a [data-sector-message]
  * and a [data-sector-provenance] line.
@@ -58,7 +58,7 @@
 
     /* ── Elements ───────────────────────────────────────────────── */
 
-    var panel = document.querySelector('[data-sectors]');
+    var panel = document.querySelector('[data-sector]');
     var list = panel && panel.querySelector('[data-sector-list]');
     var windows = panel && panel.querySelector('[data-sector-windows]');
 

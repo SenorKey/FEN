@@ -114,19 +114,58 @@ class Page:
         two short of the closing tag. Close enough for a rule about whether a
         block can be read in one go, and it never overstates.
         """
+        return [(name, self.descendants(element)[-1]['line'] - element['line'])
+                for name, element in self._surfaces(least_hooks)]
+
+    def _surfaces(self, least_hooks=3):
+        """(attribute, element) for each block the surface rule can see."""
         found = []
         for element in self.elements:
             for name in element['attrs']:
                 if not name.startswith('data-'):
                     continue
-                inside = self.descendants(element)
-                hooks = [child for child in inside
+                hooks = [child for child in self.descendants(element)
                          if any(hook.startswith(name + '-')
                                 for hook in child['attrs'])]
                 if len(hooks) < least_hooks:
                     continue
-                found.append((name, inside[-1]['line'] - element['line']))
+                found.append((name, element))
         return found
+
+    def marked_blocks(self, least_hooks=3):
+        """(attribute, element) for every block shaped like a view's root.
+
+        A view finds its root by a valueless `data-` marker and then reads
+        `data-` hooks under it, so that shape is what a surface looks like
+        from the outside — independent of how the hooks happen to be spelled.
+        `surfaces()` pairs the two by prefix, which is stricter, and the gap
+        between the two is what `is_measured()` is for.
+        """
+        found = []
+        for element in self.elements:
+            inside = self.descendants(element)
+            hooks = [child for child in inside
+                     if any(hook.startswith('data-') for hook in child['attrs'])]
+            if len(hooks) < least_hooks:
+                continue
+            for name, value in element['attrs'].items():
+                if name.startswith('data-') and value is None:
+                    found.append((name, element))
+        return found
+
+    def is_measured(self, element):
+        """Whether a length rule over `surfaces()` reaches this block.
+
+        Directly, by being one; from above, by sitting inside one; or from
+        below, by being a container of them — a list whose every item is
+        measured is as long as the items it holds.
+        """
+        surfaces = [found for _, found in self._surfaces()]
+        if element in surfaces:
+            return True
+        if any(ancestor in surfaces for ancestor in self.ancestors(element)):
+            return True
+        return any(child in surfaces for child in self.descendants(element))
 
 
 def classes(element):

@@ -167,7 +167,7 @@ CHART_READY = '[data-chart][data-state="ready"]'
 
 CHART_NO_HISTORY = '[data-chart][data-state="unavailable"]'
 WATCHLIST_READY = '[data-watchlist][data-state="ready"]'
-SECTORS_READY = '[data-sectors][data-state="ready"]'
+SECTORS_READY = '[data-sector][data-state="ready"]'
 
 
 def drive(page, args, problems, label):

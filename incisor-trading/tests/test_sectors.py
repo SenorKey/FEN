@@ -69,7 +69,7 @@ class TestTheServedMarkup(unittest.TestCase):
     """The contract js/view-sectors.js documents, asserted on the real page."""
 
     def test_the_panel_ships_with_a_state_the_view_can_replace(self):
-        panels = [e for e in PAGE.elements if 'data-sectors' in e['attrs']]
+        panels = [e for e in PAGE.elements if 'data-sector' in e['attrs']]
         self.assertEqual(len(panels), 1, 'the page carries no sector grid')
         self.assertEqual(panels[0]['attrs'].get('data-state'), 'loading')
 
