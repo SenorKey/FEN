@@ -2838,3 +2838,98 @@ the queue and waits for Key.
 **Next session, traced through step 4:** no defect names an unmet prerequisite
 except D10, so **D9** is taken. Then D10, then T12.
 
+
+## 2026-09-02 — D9: the memory becomes an index and a detail file
+**Outcome:** shipped
+**Changed:** `DECISIONS.md` (rewritten as the index), `DECISIONS-DETAIL.md`
+(new), `tests/test_docs_budget.py` (rewritten), `BACKLOG.md` (D9 checked off,
+D10's prerequisite marked met)
+**Verified:** 181 page tests, 205 service tests, both green. No markup or CSS
+changed, so `shoot.py` was not run — nothing it measures could have moved.
+
+**`DECISIONS.md`: 57,628 → 11,930 bytes.** It is an index now: 67 one-line
+entries — 51 settled, 8 dead ends, 7 recurring traps, and `DEC-067` for the two
+calls the split itself had to make. Sixty-six entries went in and sixty-six came
+out. `DECISIONS-DETAIL.md` holds the reasoning under a `DEC-NNN` heading each,
+64,494 bytes, wrapped at 78 columns rather than the 1,573-character table cells
+it came from.
+
+**Nothing was lost, and it was checked rather than claimed.** All 206 original
+table cells were confirmed present in the detail file, verbatim up to line
+wrapping. That check is the reason the split was done as a mechanical move with
+the wording untouched: rewriting reasoning and relocating it in one pass would
+have made "no reasoning lost" unverifiable.
+
+**The index lines were the session's real work.** A mechanical truncation would
+have satisfied the byte count and defeated the purpose — guide §16's point is
+that a line must stop the loop on its own, and "Finnhub — rejected" does not
+while "Finnhub — ToS forbids redistribution" does. Sixty-six lines were written
+by hand against the 200-character cap, then rewritten twice: the first pass
+averaged 195 characters and the table alone came to 12,982 bytes, over budget
+before a word of preamble. The second averages 156. Nothing beyond that was
+trimmable without losing a reason — the longest twenty lines are all dense, and
+that flatness is the evidence the cap is now binding on content rather than on
+padding.
+
+**Two calls the spec left open, both recorded as `DEC-067`.** The index carries
+**no date column**: 12–19 characters of a 200-character line, spent on the one
+thing that never prevents a loop, while the detail file keeps every date a
+merged row ever accumulated. And **nothing was merged**, though `DEC-021` and
+`DEC-060` are plainly the same lesson settled and then promoted. D9 is a move,
+not a trim; the split is verifiable precisely because the count is unchanged and
+the bijection is exact, and a merge inside the same change makes "no reasoning
+lost" impossible to check by counting. Merging is S6's job, and the index is now
+the right place to do it from.
+
+**The guards are the part that had to be real.** `test_docs_budget.py` went from
+2 checks to 7: the ceiling ratcheted 60,000 → 12,000, the 200-character cap, the
+bijection asserted in **both** directions, a count check behind it because set
+arithmetic alone hides a duplicate paired with a missing entry, and a non-empty
+check because the first two both pass on a file of zero rows. **All five were
+confirmed to fail with the defect put back** — an essay-length line, a dangling
+ID, an orphan detail entry, a reused ID, an oversized file — which is the only
+evidence a guard of this kind is real. The bijection is the one that earns its
+place: without it the split trades a size problem for a silent correctness
+problem, and a dangling reference is how every index that has ever rotted began.
+
+**The headroom is thin and that is the mechanism, not an oversight.** At roughly
+165 bytes an entry, 12,000 holds about seventy and the index is at sixty-seven.
+The next session that files a decision will have to move a surface-scoped one
+beside the code it binds or merge a pair here — which is exactly what guide §16
+asks for and what the old ceiling never forced. The 200-character cap is what
+keeps growth linear instead of the five-fold-in-five-days that made this a
+defect: the file is now bounded by *how many* decisions exist, not by how long
+anyone felt like being.
+
+The file name is unchanged, so all 90 references across the docs, tests and code
+comments still resolve; none of them pointed at a section or a row.
+
+**Next session:** D10 (defect, prerequisite now met), then T12.
+
+### For Key
+
+**N7 · Guide §16 and §14 step 2 still describe the pre-split memory, and the
+rewrite is yours to make.** D9's acceptance criteria asked for both to be
+updated. `AGENT-GUIDE.md` is read-only for the routine (§1) and changing it is
+listed out of bounds (§3), so the routine did not touch it. This is stale rather
+than wrong — §16 already carries "**This structure is changing — see `D9`.**" —
+but that pointer now points at a completed task. Drop-in wording:
+
+- **§14 step 2** — replace "`DECISIONS.md` in full" with: "**`DECISIONS.md` in
+  full** — it is the index, one line an entry, and reading it whole is the
+  point. Open `DECISIONS-DETAIL.md` only at the ID a line names."
+- **§16 table** — the `DECISIONS.md` row becomes "Settled calls and dead ends,
+  one line each, with stable `DEC-NNN` IDs. The long-term memory." / "**In full,
+  every session**". Add a row beneath it: "`DECISIONS-DETAIL.md`" / "The
+  reasoning behind each index line, under its ID. Grows without bound." / "Never
+  in full — only at an ID."
+- **§16, after *The inclusion test*** — replace the paragraph beginning "**This
+  structure is changing**" with: "**The index line is the memory; the detail is
+  the argument.** A line has to prevent the loop on its own — 'Finnhub —
+  rejected' does not, 'Finnhub — ToS forbids redistribution' does. Open the
+  detail only when you need to *act* on a decision. **No index line may exceed
+  200 characters**, and `tests/test_docs_budget.py` enforces it along with the
+  ceiling and the index/detail bijection."
+- **§16, *Keep the memory readable*** — the paragraph explaining the byte
+  measure still holds; the sentence "Target is 20KB" should read "The ceiling is
+  12,000 bytes on the index alone. The detail file is deliberately unbudgeted."

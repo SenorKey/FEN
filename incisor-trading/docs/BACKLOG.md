@@ -469,9 +469,9 @@ phase. When the call is unclear, file it as a defect.
   *(measured attended 2026-09-02)* — the same disease as D9, in the second file
   §14 step 2 reads front to back. **57,464 bytes, of which 47% is completed
   work**: twenty finished tasks still carrying their full acceptance criteria
-  and completion notes, re-read every session forever. Take it in the session
-  after D9 — **D9 is a prerequisite and is still open** — while the index/detail
-  pattern is still in hand.
+  and completion notes, re-read every session forever. **Its prerequisite D9
+  landed 2026-09-02, so this is the next defect to take** — while the
+  index/detail pattern is still in hand.
 
   Cheaper than D9 and deliberately not the same shape: **finished work needs no
   anchor.** Nobody follows a reference to a task that is done — they only need
@@ -485,15 +485,39 @@ phase. When the call is unclear, file it as a defect.
   its own entry or verifiably restated in the code or a test; open, blocked and
   standing entries untouched; the audit log untouched; both suites green.
 
-- [ ] **D9 · Split the memory into an index and a detail file** `[defect]`
-  *(flagged by the routine 2026-09-02; design settled with Key the same day)* —
-  filed as a defect because the file only works as memory if it is read in full
+- [x] **D9 · Split the memory into an index and a detail file** `[defect]`
+  *(flagged 2026-09-02; design settled with Key the same day; done 2026-09-02)*
+  — built as specified. **`DECISIONS.md` went 57,628 → 11,930 bytes**, and it
+  is now an index of **67 entries** — 51 settled, 8 dead ends, 7 recurring
+  traps, plus `DEC-067` recording the two calls this split had to make. Sixty-six
+  entries went in and sixty-six came out; nothing was merged and nothing
+  dropped. `DECISIONS-DETAIL.md` (new, 64,494 bytes) holds the reasoning under
+  a `DEC-NNN` heading each, wrapped at 78 columns instead of the 1,573-character
+  table cells it came from. **No reasoning was lost, and that is checked rather
+  than asserted:** all 206 original table cells were confirmed present in the
+  detail file, verbatim up to line wrapping.
+  `tests/test_docs_budget.py` is rewritten — 2 checks became 7. `CEILING` is
+  ratcheted 60,000 → 12,000, no index line may exceed 200 characters, and the
+  bijection is asserted in both directions with a count check behind it,
+  because set arithmetic alone hides a duplicate paired with a missing entry.
+  **All five guards were confirmed to fail with the defect put back** — an
+  essay-length line, a dangling ID, an orphan detail entry, a reused ID, and an
+  oversized file. The file name is unchanged, so all 90 references across the
+  docs, tests and code comments still resolve.
+  **Two acceptance criteria are not done and were not the routine's to do:**
+  guide §16 and §14 step 2 still describe the pre-split model. `AGENT-GUIDE.md`
+  is read-only for the routine (§1) and changing it is out of bounds (§3), so
+  the rewrite is drafted under *For Key* in `PROGRESS.md` instead. §16 already
+  carries a pointer saying the structure is changing, so it is stale rather
+  than wrong. Original scope below.
+
+  ~~Filed as a defect because the file only works as memory if it is read in full
   every session, so its size is a correctness property, and this one is
   degrading quietly with nothing failing to show it. **57,628 bytes across 50
   settled rows**, up from 10,849 after the last consolidation five days earlier:
   10.8K → 23.8K → 36.1K → 57.6K. The guide's old "roughly two screens" passed
   the whole way, because it counted lines while the rows are single lines up to
-  1,573 characters — the 600-line-rule trap wearing a different hat.
+  1,573 characters — the 600-line-rule trap wearing a different hat.~~
 
   **The shape, decided rather than left open.** Skimming a book, not reading it:
   an index you read front to back, and a detail file you open only when a line
