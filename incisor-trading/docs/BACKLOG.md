@@ -470,7 +470,8 @@ phase. When the call is unclear, file it as a defect.
   §14 step 2 reads front to back. **57,464 bytes, of which 47% is completed
   work**: twenty finished tasks still carrying their full acceptance criteria
   and completion notes, re-read every session forever. Take it in the session
-  after D9, while the index/detail pattern is still in hand.
+  after D9 — **D9 is a prerequisite and is still open** — while the index/detail
+  pattern is still in hand.
 
   Cheaper than D9 and deliberately not the same shape: **finished work needs no
   anchor.** Nobody follows a reference to a task that is done — they only need

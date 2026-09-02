@@ -752,6 +752,11 @@ down the list. Fine for ideas, fatal for bugs. A `D` item is labelled when filed
 - **`[enhancement]`** — a good idea that is not a bug. These wait for Key to
   triage into a phase; the routine leaves them alone.
 
+**When several defects are open**, take the **lowest-numbered** one — filing
+order, oldest first — unless its entry names a prerequisite that is still open,
+in which case take that prerequisite instead. `## Discovered` lists newest at
+the top, so file order is the opposite of work order and cannot be relied on.
+
 **When the call is unclear, file it as a defect.** Fixing early costs a session;
 a quiet defect costs nothing until it matters. Fixing one follows the ordinary
 rules — verify, test that it stays fixed, record. One that turns out not to be a

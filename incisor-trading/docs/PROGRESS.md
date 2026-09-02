@@ -2814,3 +2814,27 @@ product of the task.**
 
 **Next session:** D9, then D10, then T12.
 
+## 2026-09-02 — Attended: which defect comes first
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (§19), `BACKLOG.md` (D10 prerequisite made explicit)
+**Verified:** both suites green; the next session's pick is now unambiguous.
+
+A readiness check before restarting the routine found the queue ambiguous.
+Three defects are open, and §19 said only that "an open defect" is taken at step
+4 — not *which* one. `## Discovered` lists newest at the top, so **D10 sits
+above D9 in the file**, and the routine reading top-down would have taken D10
+first: compacting the backlog before the index/detail pattern it is meant to
+reuse exists.
+
+Two fixes, because either alone leaves a way to get it wrong. §19 now says take
+the **lowest-numbered** open defect — filing order, oldest first — unless its
+entry names a still-open prerequisite, and states plainly that file order is the
+reverse of work order. And D10 names D9 as that prerequisite in its own text
+rather than merely suggesting a sequence.
+
+`D3` stays untouched by all of this: it is `[enhancement]`, so it does not jump
+the queue and waits for Key.
+
+**Next session, traced through step 4:** no defect names an unmet prerequisite
+except D10, so **D9** is taken. Then D10, then T12.
+
