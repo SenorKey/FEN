@@ -2512,3 +2512,67 @@ names them instead of counting them now.
   nothing is blocked on it.
 - **D3 is still open** and untouched for a seventh session. Still
   `[enhancement]`, so still yours to triage.
+
+## 2026-09-02 (second session) — D8: which hop the gate is allowed to believe
+
+A defect was open, so it took the session (guide §19). D8 was filed yesterday
+from the other side of D7 — fixing the screenshot tool's proxy is what put the
+service's forwarded-header path under a light for the first time.
+
+The fix is the one the filing predicted. `get_client_ip()` read the **first**
+hop of `X-Forwarded-For`; `mod_proxy_http` **appends** the peer to whatever
+arrived, so a request reaches us as `<anything the caller wrote>, <the address
+Apache saw>` and the first hop is the half the caller chose. It reads the last
+hop now, which is trustworthy only because exactly one proxy sits in front of
+this service and it always appends — a fact about the deployment, not about the
+header, and the docstring says so because taking the last hop looks wrong to
+anyone who has read the usual advice about the first.
+
+**The scope did not mention the entry that nearly reopened it.** A caller
+controls the whole prefix *including its separators*, so `X-Forwarded-For:
+1.2.3.4,` arrives appended as `1.2.3.4, , <peer>`. Take the final
+comma-separated field verbatim and the bucket is the **empty string** — and
+`rate_limit_check` reads an empty ip as an unidentifiable caller and applies no
+per-IP ceiling at all. Last hop and last *non-empty* hop are one character
+apart, and the cheap one hands the sidestep back through a side door. Three
+padded shapes are asserted, and the deeper half is in `DECISIONS.md`: anything
+that lets that function return empty disables the gate silently, and a disabled
+gate looks exactly like a gate nobody has tripped.
+
+**Verified against a live service, not only the test client**, because the
+whole subject of D7 was a local check standing in for a path production takes.
+Seventy requests each carrying a fresh claimed address trip at exactly 61 —
+`RATE_LIMIT_MAX` is 60 — and the service log shows all ten refusals bucketed
+under the appended peer rather than under any of the 250 addresses claimed. A
+reader arriving behind a different peer is unaffected in the same minute, which
+is the other half: first-hop trust did not only let a forger escape their own
+bucket, it let them fill somebody else's and lock out a reader who never called.
+
+**The criterion the fix had to keep also holds.** `tools/shoot.py` sets exactly
+one hop, where the first and the last are the same entry, so its four simulated
+readers still get four buckets. Four consecutive runs are green, the busiest
+visitor is 14 of 60, and the service log gained no 429 from any of them —
+which is the D7 property re-proved, since four contexts collapsed onto one
+address would have cost 56 and tripped on the second run inside the minute.
+
+`TestForwardedForTrust` is seven checks. Six were confirmed to fail with the
+first-hop read put back. The other two hold in both directions on purpose: a
+single-hop header is still read as the caller, and a request with no forwarded
+header still falls back to the socket peer — those are what a wrong fix would
+break, so they are worth nothing as evidence and everything as a guard.
+
+201 service tests, 170 page tests, `shoot.py --api` green at four widths. No
+new screenshots: this change alters no markup, no CSS and no pixel, and
+`docs/shots/` keeps the set for the page as it stands rather than one per task.
+
+### For Key
+
+- **Nothing new, and nothing is waiting on you.** N4's launch config is still
+  yours whenever you want it, and the service runs from its own suite without
+  it. The provider question is not being re-raised.
+- **D3 is still open** and untouched for an eighth session. Still
+  `[enhancement]`, so still yours to triage.
+- **Every filed defect is now closed.** D1 and D2 and D4 through D8 are done;
+  D3 is the only open item under *Discovered* and it is not a defect. The next
+  session takes the audit that comes due — the fundamentals panel from T11 —
+  rather than a defect.

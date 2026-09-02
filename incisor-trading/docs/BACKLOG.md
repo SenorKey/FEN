@@ -444,13 +444,34 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-- [ ] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
-  bound** `[defect]` *(found 2026-09-02, fixing D7)* — `get_client_ip()` takes
+- [x] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
+  bound** `[defect]` *(found 2026-09-02 fixing D7, fixed 2026-09-02)* — fixed
+  as filed: the gate reads the **last** hop now, the only one Apache wrote.
+  The one-line fix was one line; the part worth recording is the entry the
+  scope did not mention. A caller controls the whole prefix **including its
+  separators**, so `X-Forwarded-For: 1.2.3.4,` arrives appended as
+  `1.2.3.4, , <peer>` — take the final comma-separated field verbatim and the
+  bucket is the **empty string**, which `rate_limit_check` reads as an
+  unidentifiable caller and exempts from the per-IP gate altogether. Taking
+  the last hop and taking the last *non-empty* hop are one character apart and
+  the first one reopens the defect through a side door.
+  Verified against a live service, not only the test client: 70 requests each
+  carrying a fresh claimed address trip at exactly 61, the log shows all of
+  them bucketed under the appended peer rather than any of the 250 claimed,
+  and a different reader is unaffected. Four back-to-back `shoot.py` runs stay
+  green with zero 429s, so the tool's four simulated readers are still
+  identified one by one — the criterion the fix had to keep.
+  `TestForwardedForTrust` is seven checks; the six that assert the fix were
+  confirmed to fail with the first-hop read put back, and the two that must
+  hold both ways (a single hop is the caller, no header falls back to the
+  peer) hold in both directions. Original scope below.
+
+  ~~`get_client_ip()` takes
   the **first** hop of `X-Forwarded-For`, and `mod_proxy_http` **appends** the
   peer to whatever the client already sent. So a caller who sets the header
   themselves arrives as `X-Forwarded-For: <whatever they chose>, <their real
   address>`, and the service buckets them under the half they control. Vary it
-  per request and the 60-a-minute per-IP ceiling never fires.
+  per request and the 60-a-minute per-IP ceiling never fires.~~
 
   Found from the other side: D7's whole subject is that the tool was never
   exercising this path, so nothing had looked at what the path does with a
