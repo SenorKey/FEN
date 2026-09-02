@@ -444,6 +444,36 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
+- [ ] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
+  bound** `[defect]` *(found 2026-09-02, fixing D7)* — `get_client_ip()` takes
+  the **first** hop of `X-Forwarded-For`, and `mod_proxy_http` **appends** the
+  peer to whatever the client already sent. So a caller who sets the header
+  themselves arrives as `X-Forwarded-For: <whatever they chose>, <their real
+  address>`, and the service buckets them under the half they control. Vary it
+  per request and the 60-a-minute per-IP ceiling never fires.
+
+  Found from the other side: D7's whole subject is that the tool was never
+  exercising this path, so nothing had looked at what the path does with a
+  header a stranger can write. Filed rather than fixed because guide §19 takes
+  one defect a session and this is a different surface from the one just
+  worked on — the service edge, not the tool.
+
+  **Bounded, not harmless.** The global gate is 600 a minute across every
+  caller, is keyed on nothing spoofable, and the 22-a-day upstream budget sits
+  behind that, so quota — the thing §5 says to protect — stays bounded. What
+  is lost is the per-caller ceiling: one client can take ten times its share
+  of the service, and of the cache behind it, without ever being refused.
+
+  The likely fix is one line and its reasoning: behind exactly one trusted
+  proxy the **last** hop is the only one Apache wrote and the only one a
+  caller cannot forge. It needs saying in a comment, because taking the last
+  hop looks wrong to anyone who has read the usual advice about the first.
+  *Accept:* a request carrying a forged `X-Forwarded-For` is bucketed under
+  the address Apache appended, not the one the caller supplied; a test drives
+  a forged header through the real gate and shows the ceiling still trips;
+  `tools/shoot.py` still identifies its own visitors, since it sets exactly
+  one hop and is the shape the fix has to keep working.
+
 - [x] **D6 · The watchlist table pushes the page 2px wide at 320px** `[defect]`
   *(found 2026-08-31 in the T9 audit, diagnosed attended the same day, fixed
   2026-08-31)* — and the table was never the culprit. It scrolls inside its own
@@ -478,12 +508,41 @@ phase. When the call is unclear, file it as a defect.
   test asserts it at 320 so the next narrow surface cannot reintroduce it;
   desktop row density unchanged.
 
-- [ ] **D7 · Two `shoot.py` runs inside a minute trip the service's own rate
-  limit** `[defect]` *(found 2026-09-01, building T11)* — and the failure it
-  produces is a lie about the page. The run exits non-zero with a list of
+- [x] **D7 · Two `shoot.py` runs inside a minute trip the service's own rate
+  limit** `[defect]` *(found 2026-09-01 building T11, fixed 2026-09-02)* — and
+  none of the three candidates in the original scope was the fix, because the
+  arithmetic was not the defect. **The tool was not identifying its callers.**
+  With `--api` it stands in for Apache, and `mod_proxy_http` sets
+  `X-Forwarded-For` from the peer on everything it forwards; this proxy set
+  nothing, so all four browser contexts reached the service as the loopback
+  peer and shared one per-IP bucket. Four visitors were being charged to one,
+  and the second run inside the minute paid for the first.
+  That also made this the one control whose production path no local check
+  ever took: the service buckets by the forwarded address, and every request
+  the tool ever sent took the `else` branch.
+  Each context is a visitor now with its own RFC 5737 address, in a block
+  keyed on the process so a rerun is a fresh set of readers. **Four runs back
+  to back are green with zero 429s**, verified against a live service, and the
+  service log shows it bucketing four distinct addresses rather than one.
+  The ceiling is still exercised, deliberately rather than by collision: the
+  proxy tallies per visitor and fails the run when **one page load** outgrows
+  the allowance **one reader** gets — which is the finding that was hiding
+  under this. A load cost nine requests when D7 was filed and costs fourteen
+  with a full watchlist; nothing was tracking the number, and it grows every
+  time a surface lands. It is printed on every run. The number itself is read
+  out of `server/incisor.py`'s AST rather than repeated, and a read that stops
+  finding it raises instead of defaulting.
+  Guards, both confirmed to fail with the fix removed: `tests/test_shoot_tool.py`
+  (10 checks) asserts the marker becomes `X-Forwarded-For`, never reaches the
+  service itself, and that a run's addresses are distinct and cannot overlap a
+  neighbouring run's; `server/tests/test_incisor.py` asserts the derived
+  ceiling against the real one, in the only place both exist at once.
+  Original scope below.
+
+  ~~The run exits non-zero with a list of
   console errors that look exactly like a broken dashboard; they are 429s from
   our own service, and every one of them is the tool exceeding the per-IP
-  ceiling it is testing against.
+  ceiling it is testing against.~~
 
   The arithmetic: `shoot.py` loads the page four times, and each load now costs
   nine requests — `/symbols`, `/sectors`, four tile `/history`, plus `/quote`,

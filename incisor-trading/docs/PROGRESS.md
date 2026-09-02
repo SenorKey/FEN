@@ -2440,3 +2440,75 @@ the tool rather than a line, so it is filed with the candidates named.
   a judgement rather than a rule: `collect.py` is per-surface fetch policy, and
   if that reads as the wrong cut it is one to say so about now, while it holds
   two functions rather than six.
+
+## 2026-09-02 — D7: the tool was not who it said it was
+**Outcome:** D7 fixed; D8 filed
+**Changed:** `tools/shoot.py`, `tests/test_shoot_tool.py` (new),
+`server/tests/test_incisor.py`, `tests/README.md`, `docs/BACKLOG.md`,
+`docs/DECISIONS.md`
+**Verified:** 170 page tests, 195 service tests, and **four `shoot.py` runs
+back to back with zero 429s** against a live service — the acceptance
+criterion, run as written. Both new guards were confirmed to fail with the fix
+removed. The service ran in fixture mode against a scratch database in the
+session's temp directory. **No upstream call was made to either provider.**
+
+A defect was open, so it took the session (guide §19). The three candidate
+fixes named when D7 was filed were all about the arithmetic — raise the limit
+for the tool's service, pace the loads, add a bucket-reset diagnostic — and
+none of them is the fix, because the arithmetic was not the defect.
+
+**The tool was not identifying its callers.** With `--api`, `shoot.py` plays
+Apache. `mod_proxy_http` sets `X-Forwarded-For` from the peer on everything it
+forwards, and the service buckets its per-IP limit by that header. This proxy
+set nothing, so all four browser contexts arrived as the loopback peer and
+spent one bucket between them: four visitors charged to one, and the second
+run inside the minute paying for the first. Each context is a visitor now with
+its own RFC 5737 address, in a block keyed on the process so a rerun is a
+fresh set of readers rather than the same ones asking twice.
+
+Reproduced first, in the shape D7 describes: run one green, run two eight
+429s, run three twelve — screenshots of a page reported as broken while it was
+fine. After the fix, four consecutive runs are green and the service log shows
+it bucketing four distinct addresses. Proved from the service's side too, by
+dropping its ceiling to six and watching each simulated reader trip its own
+bucket instead of one shared one.
+
+**What the collapse was hiding is worth more than the fix.** The service reads
+the forwarded address in production and the socket peer only when there isn't
+one — so *every request this tool has ever sent took the branch production
+never takes*. That is D4 and D5's question asked of a header instead of a
+config key: what stands in for this locally, and what does the stand-in paper
+over? And it had consequences, because nothing had ever looked at what that
+path does with a header a stranger can write. See D8.
+
+**The ceiling is still exercised, deliberately this time.** A fix that makes
+the tool stop meeting the limit moves the problem, so the proxy now tallies
+requests per visitor and fails the run when one page load outgrows the
+allowance one reader gets. That is the finding underneath D7: a load cost nine
+requests when it was filed and costs fourteen with a full watchlist, it grows
+every time a surface lands, and nothing was tracking it. It prints on every
+run whether or not it fails, while there is still room to act on it. The
+number it checks against is read out of `server/incisor.py`'s AST rather than
+repeated — and a read that stops finding it raises rather than defaulting,
+because a stand-in ceiling passes every run while standing for nothing.
+
+**One defect filed rather than fixed — D8.** `get_client_ip()` takes the
+*first* hop of `X-Forwarded-For` and Apache *appends* the peer to whatever the
+client sent, so a caller who writes the header themselves is bucketed under
+the half they control and can sidestep the 60-a-minute ceiling entirely. The
+global gate and the daily budget still bound upstream quota, which is what §5
+is protecting, so this is a lost per-caller ceiling rather than an open door —
+but it is a security control that does not hold, and it is a different surface
+from the one worked on today.
+
+Also fixed in passing, since it was the file being edited: `tests/README.md`
+said "Six suites" and listed six, while `tests/` has held nine since T11. It
+names them instead of counting them now.
+
+### For Key
+
+- **Nothing new.** The provider question is not being re-raised, and
+  `EDGAR_CONTACT` is still yours to fill whenever live filings matter —
+  nothing is blocked on it.
+- **D3 is still open** and untouched for a seventh session. Still
+  `[enhancement]`, so still yours to triage.

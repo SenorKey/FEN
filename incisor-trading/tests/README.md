@@ -4,7 +4,8 @@
 cd incisor-trading/tests && python3 -m unittest discover
 ```
 
-Stdlib only, no dependencies, no network. Six suites:
+Stdlib only, no dependencies, no network. Named rather than counted, because
+the count went stale three suites ago:
 
 - **`test_page.py`** — the page's structure: ARIA tab wiring, the hidden-page
   rules, telemetry hygiene, CSP readiness, and the house rules from guide
@@ -21,11 +22,19 @@ Stdlib only, no dependencies, no network. Six suites:
 - **`test_price_chart.py`** — the price chart: the geometry against
   hand-computed coordinates, and the view driven by real range clicks, pointer
   moves and arrow keys.
+- **`test_watchlist.py`** — the stored list, the sort model, and the call
+  arithmetic behind its cap of eight.
+- **`test_sectors.py`** — the eleven-fund ranking and its diverging axis.
+- **`test_fundamentals_panel.py`** — the filings panel, for a company and for
+  a fund, which is the state most symbols here are in.
+- **`test_shoot_tool.py`** — not the page: `tools/shoot.py`'s stand-in for
+  Apache. It has to identify its callers the way a real proxy does, or its
+  findings are about itself (D7).
 
-The last four drive the shipped modules through `*_model.jxa.js` runners.
-`dom_stub.jxa.js` is the DOM those runners share — narrow on purpose, so a
-view reaching for something it never documented fails loudly rather than
-going quietly untested.
+All but the first and the last drive the shipped modules through
+`*_model.jxa.js` runners. `dom_stub.jxa.js` is the DOM those runners share —
+narrow on purpose, so a view reaching for something it never documented fails
+loudly rather than going quietly untested.
 
 **These do not replace a browser.** They cannot see layout, contrast, spacing or
 the 375px pass, and they never will. They exist because a scheduled session runs
@@ -48,8 +57,17 @@ reach the states that only exist after an interaction:
 `--range 5Y` presses a chart range after the symbol loads, which is the only
 way to shoot a range other than the default.
 
-The service enforces a 60-request-a-minute per-IP limit and one `shoot.py` run
-makes about 21 requests across its three viewports. Three runs back to back
-trip it, and the page then correctly shows its "market data unavailable" state
-— which looks like a broken screenshot and is a working rate limiter. Leave a
-minute between runs.
+Run it as often as you like. Each browser context is a separate visitor with
+its own address, so a run costs the service nothing another run has already
+spent — the pause this used to ask for was D7, and the fix was to stop
+collapsing four readers into one.
+
+Every run prints what the busiest of them cost:
+
+```
+  requests busiest visitor 14 of 60 allowed -> 4 simulated readers
+```
+
+That number is worth watching. It grows every time a surface lands, and the
+run fails if one page load ever outgrows the per-IP allowance a real reader
+gets — at which point the fix is in the page, not in the tool.
