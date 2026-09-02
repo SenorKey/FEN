@@ -167,7 +167,7 @@
     /* The filings panel. Both halves may be absent and neither is an error.
      *
      * `filings` is null for every fund on this page, because a fund files no
-     * income statement; `beta` is null when the bars behind it are not
+     * income statement; `measures` is null when the bars behind it are not
      * cached. Reading them as optional here rather than guarding in the view
      * keeps "absent" a shape the view can render rather than a case it has to
      * remember.
@@ -177,7 +177,7 @@
         var body = payload.fundamentals;
         if (!body || typeof body !== 'object') throw DataError('malformed');
         envelope.filings = readFilings(body.filings);
-        envelope.beta = readBeta(body.beta);
+        envelope.measures = readMeasures(body.measures);
         return envelope;
     }
 
@@ -200,13 +200,24 @@
         };
     }
 
-    function readBeta(raw) {
+    /* The three figures measured from the price series alone.
+     *
+     * Any one of them may be absent while the others are not — a benchmark
+     * that never moved has no beta and no correlation, and the symbol's own
+     * volatility is unaffected by that. So the window is what makes the
+     * object worth having, and a payload with a window and three blanks is
+     * still read rather than discarded: the panel renders each figure it has
+     * and dashes the rest, which is what it does for a filing too.
+     */
+    function readMeasures(raw) {
         if (!raw || typeof raw !== 'object') return null;
-        var value = optionalNumber(raw.value);
-        if (value === null) return null;
+        var sessions = optionalNumber(raw.sessions);
+        if (sessions === null) return null;
         return {
-            value: value,
-            sessions: optionalNumber(raw.sessions),
+            beta: optionalNumber(raw.beta),
+            volatility: optionalNumber(raw.volatility),
+            correlation: optionalNumber(raw.correlation),
+            sessions: sessions,
             benchmark: typeof raw.benchmark === 'string' ? raw.benchmark : ''
         };
     }

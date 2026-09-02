@@ -210,47 +210,99 @@ def series(closes, skip=0):
             for index, close in enumerate(closes)]
 
 
-class TestBeta(unittest.TestCase):
+def walk(moves, start=100.0):
+    """Closes produced by applying `moves` as daily returns in order."""
+    closes = [start]
+    for move in moves:
+        closes.append(closes[-1] * (1 + move))
+    return closes
+
+
+class TestPriceMeasures(unittest.TestCase):
     def test_a_series_measured_against_itself_is_one(self):
         prices = [100 * (1.01 if index % 3 else 0.99) ** index
                   for index in range(1, 100)]
-        value, sessions = fundamentals.beta(series(prices), series(prices))
-        self.assertAlmostEqual(value, 1.0)
-        self.assertEqual(sessions, len(prices) - 1)
+        measured = fundamentals.measures(series(prices), series(prices))
+        self.assertAlmostEqual(measured['beta'], 1.0)
+        self.assertEqual(measured['sessions'], len(prices) - 1)
 
     def test_a_series_that_moves_twice_as_far_has_a_beta_of_two(self):
-        market, geared = [100.0], [100.0]
-        for index in range(1, 100):
-            move = 0.01 if index % 3 else -0.02
-            market.append(market[-1] * (1 + move))
-            geared.append(geared[-1] * (1 + 2 * move))
-        value, _ = fundamentals.beta(series(geared), series(market))
-        self.assertAlmostEqual(value, 2.0, places=2)
+        moves = [0.01 if index % 3 else -0.02 for index in range(1, 100)]
+        measured = fundamentals.measures(series(walk([2 * m for m in moves])),
+                                         series(walk(moves)))
+        self.assertAlmostEqual(measured['beta'], 2.0, places=2)
 
     def test_the_two_series_are_paired_by_date_and_not_by_position(self):
         """The symbol and the benchmark are fetched separately and need not
         be the same length. Pairing by position would compare January with
         March and produce a number rather than a failure."""
-        market = [100.0]
-        for index in range(1, 120):
-            market.append(market[-1] * (1 + (0.01 if index % 3 else -0.02)))
+        market = walk([0.01 if index % 3 else -0.02 for index in range(1, 120)])
         full = series(market)
         # The same prices, listed from day 21 onward. Paired by date, every
         # shared day matches exactly and the beta is 1; paired by position,
         # day 21 would be compared with day 1.
         late = series(market[20:], skip=20)
-        value, sessions = fundamentals.beta(late, full)
-        self.assertAlmostEqual(value, 1.0)
-        self.assertEqual(sessions, len(late) - 1)
+        measured = fundamentals.measures(late, full)
+        self.assertAlmostEqual(measured['beta'], 1.0)
+        self.assertEqual(measured['sessions'], len(late) - 1)
 
     def test_too_few_shared_sessions_is_unknown_rather_than_a_wide_guess(self):
         prices = [100 + index for index in range(20)]
-        self.assertIsNone(fundamentals.beta(series(prices), series(prices)))
+        self.assertIsNone(fundamentals.measures(series(prices), series(prices)))
 
     def test_an_unmoving_benchmark_has_no_beta_rather_than_a_zero_division(self):
         flat = series([100.0] * 100)
-        moving = series([100 + index for index in range(100)])
-        self.assertIsNone(fundamentals.beta(moving, flat))
+        moving = series(walk([0.01 if index % 3 else -0.02
+                              for index in range(1, 100)]))
+        self.assertIsNone(fundamentals.measures(moving, flat)['beta'])
+
+    def test_a_flat_benchmark_costs_the_beta_but_not_the_volatility(self):
+        """The three figures share a window, not a fate. Volatility is read
+        off this symbol's own returns and does not know what the benchmark
+        did, so a benchmark with no variance must not blank it — the whole
+        reason the panel sets each figure separately."""
+        flat = series([100.0] * 100)
+        moving = series(walk([0.01 if index % 3 else -0.02
+                              for index in range(1, 100)]))
+        measured = fundamentals.measures(moving, flat)
+        self.assertIsNone(measured['beta'])
+        self.assertIsNone(measured['correlation'])
+        self.assertGreater(measured['volatility'], 0)
+
+    def test_volatility_is_the_daily_deviation_over_a_trading_year(self):
+        """Hand-computed: returns alternating exactly +1% and -1% have a
+        population deviation of 0.01, and the annualised figure is that
+        scaled by the root of 252 — 15.87%. The convention matters more than
+        the arithmetic here, because a reader comparing this with a figure
+        published elsewhere is comparing two numbers that have to mean the
+        same thing."""
+        moves = [0.01 if index % 2 == 0 else -0.01 for index in range(120)]
+        measured = fundamentals.measures(series(walk(moves)),
+                                         series(walk(moves)))
+        self.assertAlmostEqual(measured['volatility'], 0.01 * (252 ** 0.5),
+                               places=4)
+
+    def test_a_series_that_ignores_the_market_has_a_correlation_near_zero(self):
+        """The caveat beta needs. Two series with no relationship still
+        produce a beta, because a slope can be fitted through anything —
+        so a correlation near zero is the only thing on the panel that says
+        the beta beside it explains almost nothing."""
+        market = walk([0.01 if index % 2 == 0 else -0.01 for index in range(120)])
+        # A saw-tooth on a different period, so the two rarely agree.
+        mine = walk([0.01 if (index // 3) % 2 == 0 else -0.01
+                     for index in range(120)])
+        measured = fundamentals.measures(series(mine), series(market))
+        self.assertLess(abs(measured['correlation']), 0.4)
+
+    def test_every_figure_covers_the_window_the_panel_states(self):
+        """One sentence on the page says what all three cover, so all three
+        have to have been measured over the same sessions. They are read off
+        one pairing for exactly this reason."""
+        prices = walk([0.01 if index % 3 else -0.02 for index in range(1, 200)])
+        measured = fundamentals.measures(series(prices), series(prices),
+                                         sessions=90)
+        self.assertEqual(measured['sessions'], 90)
+        self.assertEqual(measured['benchmark'], fundamentals.BETA_BENCHMARK)
 
 
 class TestFundamentalsRoute(unittest.TestCase):
@@ -269,7 +321,7 @@ class TestFundamentalsRoute(unittest.TestCase):
         self.assertEqual(body['filings']['entity_name'], 'Apple Inc.')
         self.assertEqual(body['filings']['quarters'], 4)
         self.assertGreater(body['filings']['revenue'], 0)
-        self.assertEqual(body['beta']['benchmark'], 'SPY')
+        self.assertEqual(body['measures']['benchmark'], 'SPY')
 
     def test_the_margins_fall_in_the_order_every_income_statement_has(self):
         """Gross above operating above net. A fixture that failed this would
@@ -293,7 +345,7 @@ class TestFundamentalsRoute(unittest.TestCase):
     def test_a_symbol_nothing_has_ever_priced_answers_with_neither_half(self):
         body = self.get('ZZZZ').get_json()['fundamentals']
         self.assertIsNone(body['filings'])
-        self.assertIsNone(body['beta'])
+        self.assertIsNone(body['measures'])
 
     def test_an_invalid_symbol_is_refused_at_the_edge(self):
         self.assertEqual(
@@ -316,7 +368,8 @@ class TestFundamentalsRoute(unittest.TestCase):
         self.get('BRK.B')
         cached, _ = store.load_history('BRK.B')
         self.assertIsNone(cached)
-        self.assertIsNone(self.get('BRK.B').get_json()['fundamentals']['beta'])
+        self.assertIsNone(
+            self.get('BRK.B').get_json()['fundamentals']['measures'])
 
 
 class TestTheFreeUpstreamCostsNoQuota(unittest.TestCase):

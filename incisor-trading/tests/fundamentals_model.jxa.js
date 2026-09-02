@@ -184,13 +184,22 @@ function run(argv) {
         };
     }
 
+    function measuresBody(overrides) {
+        var body = { beta: 1.1564, volatility: 0.2431, correlation: 0.8712,
+            sessions: 252, benchmark: 'SPY' };
+        Object.keys(overrides || {}).forEach(function (key) {
+            body[key] = overrides[key];
+        });
+        return body;
+    }
+
     function payload(overrides) {
         var body = {
             symbol: 'AAPL', source: 'fixture', stale: false,
             fetched_at: '2026-08-27T12:00:00Z',
             fundamentals: {
                 filings: filingsBody(),
-                beta: { value: 1.1564, sessions: 252, benchmark: 'SPY' }
+                measures: measuresBody()
             }
         };
         Object.keys(overrides || {}).forEach(function (key) {
@@ -213,25 +222,49 @@ function run(argv) {
     equal('the filings come back', good.value.filings.revenue, 402073341693);
     equal('and are renamed the way every other reader renames them',
         good.value.filings.dividendsPerShare, 1.04);
-    close('the beta comes back', good.value.beta.value, 1.1564, 0.0001);
+    close('the beta comes back', good.value.measures.beta, 1.1564, 0.0001);
+    close('and the volatility beside it', good.value.measures.volatility,
+        0.2431, 0.0001);
+    close('and the correlation that says how much the beta explains',
+        good.value.measures.correlation, 0.8712, 0.0001);
     equal('the source is carried through so the page can label it',
         good.value.source, 'fixture');
 
     var fund = ask({ body: payload({ fundamentals: {
         filings: null,
-        beta: { value: 1.18, sessions: 252, benchmark: 'SPY' } } }) });
+        measures: measuresBody({ beta: 1.18 }) } }) });
     equal('a fund with no filings still resolves', fund.state, 'ok');
     equal('and its filings are absent rather than empty',
         fund.value.filings, null);
-    close('while its beta is a real figure', fund.value.beta.value, 1.18, 0.001);
+    close('while its beta is a real figure', fund.value.measures.beta, 1.18, 0.001);
 
-    var noBeta = ask({ body: payload({ fundamentals: {
-        filings: filingsBody(), beta: null } }) });
-    equal('a company with no measurable beta still resolves', noBeta.state, 'ok');
-    equal('and its beta is absent', noBeta.value.beta, null);
+    var noMeasures = ask({ body: payload({ fundamentals: {
+        filings: filingsBody(), measures: null } }) });
+    equal('a company with nothing measured from price still resolves',
+        noMeasures.state, 'ok');
+    equal('and its measures are absent', noMeasures.value.measures, null);
+
+    /* One figure of the three missing is not the same as all three. A
+     * benchmark that never moved costs the beta and the correlation and
+     * leaves this symbol's own volatility untouched, so a reader that threw
+     * the object away on a null beta would blank a figure it was sent. */
+    var flatMarket = ask({ body: payload({ fundamentals: {
+        filings: null,
+        measures: measuresBody({ beta: null, correlation: null }) } }) });
+    equal('a measure that is missing on its own is still an answer',
+        flatMarket.state, 'ok');
+    equal('the beta is absent', flatMarket.value.measures.beta, null);
+    close('and the volatility beside it survives',
+        flatMarket.value.measures.volatility, 0.2431, 0.0001);
+
+    var noWindow = ask({ body: payload({ fundamentals: {
+        filings: null,
+        measures: { beta: 1.1, volatility: 0.2 } } }) });
+    equal('measures with no window are refused, because the page states one '
+        + 'window for all three', noWindow.value.measures, null);
 
     var partial = ask({ body: payload({ fundamentals: {
-        filings: { revenue: 100, eps: 'lots' }, beta: null } }) });
+        filings: { revenue: 100, eps: 'lots' }, measures: null } }) });
     equal('a figure that is not a number becomes unknown, never a string',
         partial.value.filings.eps, null);
 
@@ -256,8 +289,12 @@ function run(argv) {
      * parsed out of the page for the reason the other runners give: this is
      * the contract the view documents, and test_fundamentals_panel.py
      * separately asserts the page still carries it. */
-    var FIGURE_NAMES = ['market-cap', 'pe', 'eps', 'dividend-yield', 'beta',
-        'shares', 'revenue', 'gross-margin', 'operating-margin', 'net-margin'];
+    var GROUPS = {
+        valuation: ['market-cap', 'pe', 'dividend-yield'],
+        earned: ['revenue', 'eps', 'shares'],
+        margin: ['gross', 'operating', 'net'],
+        measured: ['beta', 'volatility', 'correlation']
+    };
 
     function buildPanel() {
         var panel = new El('section', { 'data-fundamental': '',
@@ -271,14 +308,23 @@ function run(argv) {
 
         panel.appendChild(new El('p', { 'data-fundamental-message': '' }));
 
-        var list = new El('dl', { 'data-fundamental-body': '' });
-        FIGURE_NAMES.forEach(function (name) {
-            var row = new El('div', {});
-            row.appendChild(new El('span', { 'data-fundamental-figure': name }));
-            list.appendChild(row);
+        var body = new El('div', { 'data-fundamental-body': '' });
+        Object.keys(GROUPS).forEach(function (group) {
+            var block = new El('div', {});
+            block.setAttribute('data-' + group, '');
+            var list = new El('dl', {});
+            GROUPS[group].forEach(function (name) {
+                var row = new El('div', {});
+                var slot = new El('span', {});
+                slot.setAttribute('data-' + group + '-figure', name);
+                row.appendChild(slot);
+                list.appendChild(row);
+            });
+            block.appendChild(list);
+            body.appendChild(block);
         });
-        list.hidden = true;
-        panel.appendChild(list);
+        body.hidden = true;
+        panel.appendChild(body);
 
         var provenance = new El('p', { 'data-fundamental-provenance': '',
             'data-provenance-state': 'pending' });
@@ -318,9 +364,9 @@ function run(argv) {
             api: windowStub.IncisorFundamentals,
             calls: function () { return calls; },
             state: function () { return panel.getAttribute('data-state'); },
-            figure: function (name) {
+            figure: function (group, name) {
                 var node = panel.querySelector(
-                    '[data-fundamental-figure="' + name + '"]');
+                    '[data-' + group + '-figure="' + name + '"]');
                 return node ? node.textContent : null;
             },
             text: function (selector) {
@@ -345,9 +391,9 @@ function run(argv) {
     var company = ask({ body: payload() }).value;
     var etf = ask({ body: payload({ fundamentals: {
         filings: null,
-        beta: { value: 1.18, sessions: 252, benchmark: 'SPY' } } }) }).value;
+        measures: measuresBody({ beta: 1.18 }) } }) }).value;
     var unfiled = ask({ body: payload({ fundamentals: {
-        filings: filingsBody(), beta: null } }) }).value;
+        filings: filingsBody(), measures: null } }) }).value;
 
     var view = mount({ AAPL: company, XLK: etf, MSFT: unfiled,
         DEAD: { error: true } });
@@ -366,19 +412,31 @@ function run(argv) {
         view.text('[data-fundamental-message]'), 'Apple Inc.');
 
     equal('revenue is drawn from the filing',
-        view.figure('revenue'), '$402.1B');
+        view.figure('earned', 'revenue'), '$402.1B');
     equal('shares outstanding is abbreviated the way volume is',
-        view.figure('shares'), '14.8B');
-    equal('earnings per share is a price', view.figure('eps'), '7.12');
-    equal('the net margin is drawn', view.figure('net-margin'), '26.3%');
-    equal('and the beta', view.figure('beta'), '1.16');
+        view.figure('earned', 'shares'), '14.8B');
+    equal('earnings per share is a price', view.figure('earned', 'eps'), '7.12');
+
+    /* The three margins, which are the reason this group exists: each is
+     * the same sale with one more cost taken off, so they have to fall in
+     * order and a reader has to be able to see all three at once. */
+    equal('the gross margin is drawn', view.figure('margin', 'gross'), '46.5%');
+    equal('the operating margin below it',
+        view.figure('margin', 'operating'), '31.8%');
+    equal('and the net margin', view.figure('margin', 'net'), '26.3%');
+
+    equal('the beta', view.figure('measured', 'beta'), '1.16');
+    equal('the volatility beside it, as a percentage because it is one',
+        view.figure('measured', 'volatility'), '24.3%');
+    equal('and the correlation, set as a ratio like the beta it qualifies',
+        view.figure('measured', 'correlation'), '0.87');
 
     equal('market cap is the shares this panel was sent times the price it '
-        + 'was handed', view.figure('market-cap'), '$3.58T');
+        + 'was handed', view.figure('valuation', 'market-cap'), '$3.58T');
     equal('price to earnings uses that same price',
-        view.figure('pe'), '33.92');
+        view.figure('valuation', 'pe'), '33.92');
     equal('so does the dividend yield',
-        view.figure('dividend-yield'), '0.4%');
+        view.figure('valuation', 'dividend-yield'), '0.4%');
 
     check('the provenance line says the numbers are invented',
         view.text('[data-fundamental-provenance-message]').indexOf('Sample') === 0,
@@ -387,10 +445,12 @@ function run(argv) {
         view.text('[data-fundamental-provenance-message]')
             .indexOf('four reported quarters') > -1,
         view.text('[data-fundamental-provenance-message]'));
-    check('and what the beta covers, because a beta with no window and no '
-        + 'benchmark is not a figure',
+    check('and what the price measures cover, because a beta with no window '
+        + 'and no benchmark is not a figure — one sentence for all three, '
+        + 'because one window produced all three',
         view.text('[data-fundamental-provenance-message]')
-            .indexOf('252 sessions against SPY') > -1,
+            .indexOf('Beta, volatility and correlation measured over 252 '
+                + 'sessions against SPY') > -1,
         view.text('[data-fundamental-provenance-message]'));
 
     /* The explanations. */
@@ -416,11 +476,20 @@ function run(argv) {
     check('and says it is a fund rather than showing ten em dashes',
         view.text('[data-fundamental-message]').indexOf('fund') > -1,
         view.text('[data-fundamental-message]'));
-    equal('its beta is still a real figure', view.figure('beta'), '1.18');
-    equal('and every filed figure is blank rather than the last company’s',
-        view.figure('revenue'), DASH);
-    equal('including the ones derived from a price',
-        view.figure('market-cap'), DASH);
+    equal('its beta is still a real figure',
+        view.figure('measured', 'beta'), '1.18');
+    check('and it is not alone there — the group a fund keeps is the whole '
+        + 'group measured from price, which is what its own sentence '
+        + 'promises is below',
+        view.figure('measured', 'volatility') !== DASH
+        && view.figure('measured', 'correlation') !== DASH,
+        view.figure('measured', 'volatility') + '/'
+        + view.figure('measured', 'correlation'));
+    equal('every filed figure is blank rather than the last company’s',
+        view.figure('earned', 'revenue'), DASH);
+    equal('including the margins', view.figure('margin', 'gross'), DASH);
+    equal('and the ones derived from a price',
+        view.figure('valuation', 'market-cap'), DASH);
     check('the explanations stay open across a lookup, because wanting to '
         + 'know what a margin is does not stop at one company',
         view.panel.getAttribute('data-explained') !== null);
@@ -436,13 +505,16 @@ function run(argv) {
     view.api.show('MSFT', 500.0);
     equal('a company with no measurable beta is still ready', view.state(), 'ready');
     equal('and its beta is blank rather than the fund’s',
-        view.figure('beta'), DASH);
-    check('and nothing claims a beta window it does not have',
+        view.figure('measured', 'beta'), DASH);
+    equal('as are the two measured beside it',
+        view.figure('measured', 'volatility'), DASH);
+    check('and nothing claims a window it does not have',
         view.text('[data-fundamental-provenance-message]')
             .indexOf('sessions against') === -1,
         view.text('[data-fundamental-provenance-message]'));
     check('while its filed figures are drawn',
-        view.figure('revenue') !== DASH, view.figure('revenue'));
+        view.figure('earned', 'revenue') !== DASH,
+        view.figure('earned', 'revenue'));
 
     /* A filings service that is not there. */
     view.api.show('DEAD', 100.0);
@@ -453,19 +525,20 @@ function run(argv) {
         view.text('[data-fundamental-message]').indexOf('unaffected') > -1,
         view.text('[data-fundamental-message]'));
     equal('no figure is left standing from the last symbol',
-        view.figure('revenue'), DASH);
+        view.figure('earned', 'revenue'), DASH);
 
     /* Back to nothing. */
     view.api.reset();
     equal('a failed lookup empties the panel', view.state(), 'empty');
-    equal('and blanks its figures', view.figure('beta'), DASH);
+    equal('and blanks its figures', view.figure('measured', 'beta'), DASH);
 
     /* A late answer for a symbol the reader has moved on from. */
     var slow = mount({ AAPL: company, XLK: etf });
     slow.api.show('AAPL', 241.5);
     slow.api.show('XLK', 265.0);
     equal('the panel shows the symbol asked for last', slow.state(), 'fund');
-    equal('and not the one asked for first', slow.figure('revenue'), DASH);
+    equal('and not the one asked for first',
+        slow.figure('earned', 'revenue'), DASH);
 
     /* Fewer than four quarters. */
     var shortYear = payload();

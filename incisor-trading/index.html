@@ -734,112 +734,201 @@
                             data-fundamental-message>Look up a symbol above to
                             see what its last filings reported.</p>
 
-                        <dl class="inc-figures" id="inc-fundamental-figures"
+                        <!--
+                          Four groups of three, and the grouping is the surface rather
+                          than decoration on it. Ten figures in one flowing grid put the
+                          three margins across a row break 819px apart at 1440 and split
+                          them again at every other column count — and they are the one
+                          relationship this panel explicitly teaches, since each is the
+                          same sale measured a cost further down. No ordering of a single
+                          grid keeps a trio together at four columns and at two, so the
+                          grid is what had to go.
+
+                          Each group is its own surface with its own hook prefix, which is
+                          also what the 150-line rule asked for: [data-fundamental] stood
+                          at 144 and could not grow. The four match the render functions in
+                          js/view-fundamentals.js one for one, because the code was already
+                          grouped this way and only the markup was not.
+                        -->
+                        <div class="inc-fundamental-groups" id="inc-fundamental-figures"
                             data-fundamental-body hidden>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Market cap</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="market-cap">&mdash;</span>
-                                    <span class="inc-figure-note">What the whole
-                                        company costs at today&rsquo;s price: every
-                                        share there is, multiplied by the last
-                                        price.</span>
-                                </dd>
+
+                            <!--
+                              Each of these three is a filing over the price on the card
+                              above, and the division happens in the browser so that it is
+                              that price and not another. See js/market-figures.js.
+                            -->
+                            <div class="inc-fundamental-group" data-valuation>
+                                <h5 class="inc-fundamental-group-heading"
+                                    id="inc-fund-group-valuation">Against the price</h5>
+                                <dl class="inc-figures" aria-labelledby="inc-fund-group-valuation">
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Market cap</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-valuation-figure="market-cap">&mdash;</span>
+                                            <span class="inc-figure-note">What the whole
+                                                company costs at today&rsquo;s price: every
+                                                share there is, multiplied by the last
+                                                price.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">P/E ratio</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-valuation-figure="pe">&mdash;</span>
+                                            <span class="inc-figure-note">Price divided by
+                                                a year of earnings per share &mdash; roughly,
+                                                the years of current profit you are paying
+                                                for one share. Blank when the company lost
+                                                money, because the ratio stops meaning
+                                                anything.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Dividend yield</dt>
+                                        <dd class="inc-figure-value">
+                                            <span
+                                                data-valuation-figure="dividend-yield"
+                                                >&mdash;</span>
+                                            <span class="inc-figure-note">A year of declared
+                                                dividends as a percentage of the price.
+                                                Blank means the company declared none, not
+                                                that it paid nothing.</span>
+                                        </dd>
+                                    </div>
+                                </dl>
                             </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">P/E ratio</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="pe">&mdash;</span>
-                                    <span class="inc-figure-note">Price divided by
-                                        a year of earnings per share &mdash; roughly,
-                                        the years of current profit you are paying
-                                        for one share. Blank when the company lost
-                                        money, because the ratio stops meaning
-                                        anything.</span>
-                                </dd>
+
+                            <div class="inc-fundamental-group" data-earned>
+                                <h5 class="inc-fundamental-group-heading"
+                                    id="inc-fund-group-earned">What the business did</h5>
+                                <dl class="inc-figures" aria-labelledby="inc-fund-group-earned">
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Revenue</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-earned-figure="revenue">&mdash;</span>
+                                            <span class="inc-figure-note">Everything the
+                                                company sold over the last four reported
+                                                quarters, before any cost is taken
+                                                off.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Earnings per share</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-earned-figure="eps">&mdash;</span>
+                                            <span class="inc-figure-note">Profit over the
+                                                last four reported quarters, divided among
+                                                every share.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Shares outstanding</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-earned-figure="shares">&mdash;</span>
+                                            <span class="inc-figure-note">How many shares
+                                                exist. It is the number that turns a price
+                                                into a company&rsquo;s worth, and a falling
+                                                one means the company is buying its own
+                                                back.</span>
+                                        </dd>
+                                    </div>
+                                </dl>
                             </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Earnings per share</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="eps">&mdash;</span>
-                                    <span class="inc-figure-note">Profit over the
-                                        last four reported quarters, divided among
-                                        every share.</span>
-                                </dd>
+
+                            <!--
+                              The three read left to right as one number narrowing, which is
+                              why they share a row at every width and why the heading names
+                              the sale rather than the accounting. Each is the same sale with
+                              one more cost taken off, so they always fall in this order &mdash;
+                              a fact the old grid stated in prose and then hid behind a line
+                              break.
+                            -->
+                            <div class="inc-fundamental-group" data-margin>
+                                <h5 class="inc-fundamental-group-heading"
+                                    id="inc-fund-group-margin">What it keeps of each sale</h5>
+                                <dl class="inc-figures" aria-labelledby="inc-fund-group-margin">
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Gross margin</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-margin-figure="gross">&mdash;</span>
+                                            <span class="inc-figure-note">What is left of
+                                                each sale once the cost of making the thing
+                                                is paid.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Operating margin</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-margin-figure="operating">&mdash;</span>
+                                            <span class="inc-figure-note">What is left after
+                                                the cost of running the business as well
+                                                &mdash; wages, research, rent.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Net margin</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-margin-figure="net">&mdash;</span>
+                                            <span class="inc-figure-note">What is left after
+                                                everything, including tax and interest.</span>
+                                        </dd>
+                                    </div>
+                                </dl>
                             </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Dividend yield</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="dividend-yield">&mdash;</span>
-                                    <span class="inc-figure-note">A year of declared
-                                        dividends as a percentage of the price.
-                                        Blank means the company declared none, not
-                                        that it paid nothing.</span>
-                                </dd>
+
+                            <!--
+                              The only group measured from the price series alone, which is
+                              why it is the one a fund still has &mdash; and why the fund state
+                              shows this group and hides the other three rather than blanking
+                              nine figures. All three come off one pairing of this symbol&rsquo;s
+                              daily returns with the benchmark&rsquo;s, so the window stated once
+                              in the provenance line below is true of every one of them.
+                            -->
+                            <div class="inc-fundamental-group" data-measured>
+                                <h5 class="inc-fundamental-group-heading"
+                                    id="inc-fund-group-measured">How it has moved</h5>
+                                <dl class="inc-figures" aria-labelledby="inc-fund-group-measured">
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Beta</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-measured-figure="beta">&mdash;</span>
+                                            <span class="inc-figure-note">How far this moved
+                                                on an average day the market moved 1%.
+                                                Measured against SPY, the proxy the tiles
+                                                at the top use. Above 1 is jumpier than the
+                                                market; below 1 is steadier.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Volatility</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-measured-figure="volatility">&mdash;</span>
+                                            <span class="inc-figure-note">How much this moved
+                                                at all, up or down, over a year &mdash; read
+                                                from the size of its own daily swings and
+                                                compared with nothing. Beta can only say
+                                                how it moved <em>with</em> the market, and
+                                                something that barely follows the market can
+                                                still be the jumpiest thing here.</span>
+                                        </dd>
+                                    </div>
+                                    <div class="inc-figure">
+                                        <dt class="inc-figure-label">Correlation</dt>
+                                        <dd class="inc-figure-value">
+                                            <span data-measured-figure="correlation">&mdash;</span>
+                                            <span class="inc-figure-note">How closely this
+                                                followed the market, from &minus;1 to 1. Near
+                                                1 it moved with SPY most days, so the beta
+                                                beside it describes most of what happened;
+                                                near 0 it went its own way and the beta
+                                                explains little of it.</span>
+                                        </dd>
+                                    </div>
+                                </dl>
                             </div>
-                            <!-- The one figure here that needs no filing:
-                                 it is measured from the price series alone,
-                                 which is why a fund still has one. -->
-                            <div class="inc-figure inc-figure-unfiled">
-                                <dt class="inc-figure-label">Beta</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="beta">&mdash;</span>
-                                    <span class="inc-figure-note">How far this moved
-                                        on an average day the market moved 1%.
-                                        Measured against SPY, the proxy the tiles
-                                        at the top use. Above 1 is jumpier than the
-                                        market; below 1 is steadier.</span>
-                                </dd>
-                            </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Shares outstanding</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="shares">&mdash;</span>
-                                    <span class="inc-figure-note">How many shares
-                                        exist. It is the number that turns a price
-                                        into a company&rsquo;s worth, and a falling
-                                        one means the company is buying its own
-                                        back.</span>
-                                </dd>
-                            </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Revenue</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="revenue">&mdash;</span>
-                                    <span class="inc-figure-note">Everything the
-                                        company sold over the last four reported
-                                        quarters, before any cost is taken
-                                        off.</span>
-                                </dd>
-                            </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Gross margin</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="gross-margin">&mdash;</span>
-                                    <span class="inc-figure-note">What is left of
-                                        each sale once the cost of making the thing
-                                        is paid.</span>
-                                </dd>
-                            </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Operating margin</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="operating-margin">&mdash;</span>
-                                    <span class="inc-figure-note">What is left after
-                                        the cost of running the business as well
-                                        &mdash; wages, research, rent.</span>
-                                </dd>
-                            </div>
-                            <div class="inc-figure">
-                                <dt class="inc-figure-label">Net margin</dt>
-                                <dd class="inc-figure-value">
-                                    <span data-fundamental-figure="net-margin">&mdash;</span>
-                                    <span class="inc-figure-note">What is left after
-                                        everything, including tax and interest. The
-                                        three margins always fall in this order.</span>
-                                </dd>
-                            </div>
-                        </dl>
+
+                        </div>
 
                         <p class="inc-provenance" role="status"
                             data-fundamental-provenance

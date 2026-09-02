@@ -36,6 +36,15 @@
     var data = global.IncisorMarketData;
     var figures = global.IncisorMarketFigures;
 
+    /* The groups, in the order they are read. Listed once so that blanking
+     * a stale symbol's figures is derived from the set of groups rather than
+     * from a second list of names that has to be kept in step with it.
+     *
+     * Which groups a fund shows is not decided here — that is one rule about
+     * whole groups and it lives in css/fundamentals.css beside the state it
+     * keys on. */
+    var GROUPS = ['valuation', 'earned', 'margin', 'measured'];
+
     var panel = document.querySelector('[data-fundamental]');
     var body = panel && panel.querySelector('[data-fundamental-body]');
     var explain = panel && panel.querySelector('[data-fundamental-explain]');
@@ -72,8 +81,28 @@
         slot.hidden = !symbol;
     }
 
-    function setFigure(name, value) {
-        dom.fill(panel, '[data-fundamental-figure="' + name + '"]', value);
+    function setFigure(group, name, value) {
+        dom.fill(panel, '[data-' + group + '-figure="' + name + '"]', value);
+    }
+
+    /* Every figure slot on the panel, group by group. Derived from GROUPS
+     * rather than written out, so a group added later is blanked without
+     * anyone remembering to add it here.
+     *
+     * One query per group rather than one comma-joined selector: a joined
+     * one reads better and is the thing a DOM stub is least likely to
+     * support, so it would work in the browser and quietly match nothing
+     * under test — which is the whole value of the test gone. */
+    function figureSlots() {
+        var slots = [];
+        for (var index = 0; index < GROUPS.length; index++) {
+            var found = panel.querySelectorAll(
+                '[data-' + GROUPS[index] + '-figure]');
+            for (var slot = 0; slot < found.length; slot++) {
+                slots.push(found[slot]);
+            }
+        }
+        return slots;
     }
 
     /* Every figure back to an em dash.
@@ -84,30 +113,38 @@
      * standing under the new one's name.
      */
     function blankFigures() {
-        var slots = panel.querySelectorAll('[data-fundamental-figure]');
+        var slots = figureSlots();
         for (var index = 0; index < slots.length; index++) {
             slots[index].textContent = figures.DASH;
         }
     }
 
-    function renderPriceDerived(filings, price) {
-        setFigure('market-cap', figures.formatBigMoney(
+    /* Each render function fills exactly one group, which is the seam the
+     * markup was regrouped along: these three lists already existed here
+     * and only the grid downstairs was flat. */
+    function renderValuation(filings, price) {
+        setFigure('valuation', 'market-cap', figures.formatBigMoney(
             figures.marketCap(filings.sharesOutstanding, price)));
-        setFigure('pe', figures.formatRatio(
+        setFigure('valuation', 'pe', figures.formatRatio(
             figures.priceToEarnings(price, filings.eps)));
-        setFigure('dividend-yield', figures.formatMarginPercent(
+        setFigure('valuation', 'dividend-yield', figures.formatMarginPercent(
             figures.dividendYield(filings.dividendsPerShare, price)));
     }
 
-    function renderFilings(filings) {
-        setFigure('eps', figures.formatPrice(filings.eps));
-        setFigure('shares', figures.formatVolume(filings.sharesOutstanding));
-        setFigure('revenue', figures.formatBigMoney(filings.revenue));
-        setFigure('gross-margin',
+    function renderEarned(filings) {
+        setFigure('earned', 'revenue', figures.formatBigMoney(filings.revenue));
+        setFigure('earned', 'eps', figures.formatPrice(filings.eps));
+        setFigure('earned', 'shares',
+            figures.formatVolume(filings.sharesOutstanding));
+    }
+
+    function renderMargins(filings) {
+        setFigure('margin', 'gross',
             figures.formatMarginPercent(filings.grossMargin));
-        setFigure('operating-margin',
+        setFigure('margin', 'operating',
             figures.formatMarginPercent(filings.operatingMargin));
-        setFigure('net-margin', figures.formatMarginPercent(filings.netMargin));
+        setFigure('margin', 'net',
+            figures.formatMarginPercent(filings.netMargin));
     }
 
     /* What the figures cover, in words, because a trailing year is not always
@@ -133,18 +170,33 @@
         return parts.join(', ') + '.';
     }
 
-    function renderBeta(beta) {
-        if (!beta) return;
-        setFigure('beta', figures.formatRatio(beta.value));
+    /* The three figures read off one pairing of daily returns. Any of them
+     * may be absent while the others are not — a benchmark that never moved
+     * has no beta and no correlation, and this symbol's own volatility does
+     * not depend on the benchmark at all — so each is set on its own and a
+     * missing one stays an em dash. */
+    function renderMeasures(measures) {
+        if (!measures) return;
+        setFigure('measured', 'beta', figures.formatRatio(measures.beta));
+        setFigure('measured', 'volatility',
+            figures.formatMarginPercent(measures.volatility));
+        setFigure('measured', 'correlation',
+            figures.formatRatio(measures.correlation));
     }
 
-    /* What the beta covers, in the same shape the filing sentence takes.
-     * Every coloured or comparative figure on this page names its own window
-     * — the tile says 1d, the chart says over six months — and a beta is
-     * meaningless without knowing how long and against what. */
-    function betaSentence(beta) {
-        return 'Beta measured over ' + beta.sessions + ' sessions against '
-            + beta.benchmark + '.';
+    /* What the price measures cover, in the same shape the filing sentence
+     * takes. Every coloured or comparative figure on this page names its own
+     * window — the tile says 1d, the chart says over six months — and a beta
+     * is meaningless without knowing how long and against what.
+     *
+     * One sentence for all three because all three come off one pairing over
+     * one window: stating it per figure would be three copies of the same
+     * fact, and stating it of only the beta would leave the two beside it
+     * covering a span nothing on the page named. */
+    function measuresSentence(measures) {
+        return 'Beta, volatility and correlation measured over '
+            + measures.sessions + ' sessions against ' + measures.benchmark
+            + '.';
     }
 
     /* The provenance line, worded for filings rather than for prices.
@@ -154,7 +206,7 @@
      * a quarterly filing. What the two share is the honesty field — in
      * fixture mode these numbers are invented and the page has to say so.
      */
-    function renderProvenance(envelope, filings, beta) {
+    function renderProvenance(envelope, filings, measures) {
         var line = panel.querySelector('[data-fundamental-provenance]');
         if (!line) return;
 
@@ -182,7 +234,7 @@
                 : 'Filings from SEC EDGAR.');
         }
         if (filings) parts.push(filingSentence(filings));
-        if (beta) parts.push(betaSentence(beta));
+        if (measures) parts.push(measuresSentence(measures));
 
         line.setAttribute('data-provenance-state', state);
         dom.fill(line, '[data-fundamental-provenance-message]',
@@ -192,7 +244,7 @@
     function render(symbol, envelope) {
         blankFigures();
         nameSymbol(symbol);
-        renderBeta(envelope.beta);
+        renderMeasures(envelope.measures);
 
         if (!envelope.filings) {
             // Every ETF on this page lands here, and it is the ordinary
@@ -205,15 +257,16 @@
                 + 'margin to report — a fund holds shares in companies '
                 + 'that file their own. What can be measured from its price '
                 + 'is below.');
-            renderProvenance(envelope, null, envelope.beta);
+            renderProvenance(envelope, null, envelope.measures);
             return;
         }
 
-        renderFilings(envelope.filings);
-        renderPriceDerived(envelope.filings, showing && showing.price);
+        renderEarned(envelope.filings);
+        renderMargins(envelope.filings);
+        renderValuation(envelope.filings, showing && showing.price);
         setState('ready');
         say(envelope.filings.entityName || symbol);
-        renderProvenance(envelope, envelope.filings, envelope.beta);
+        renderProvenance(envelope, envelope.filings, envelope.measures);
     }
 
     /* ── The API js/view-symbol.js drives ───────────────────────── */

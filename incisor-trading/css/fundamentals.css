@@ -13,11 +13,20 @@
    same way, and restating forty lines of grid here is
    how two lists that must match stop matching.
 
-   What is its own is the explanation layer. Every
-   figure ships with a plain-English sentence beside it
-   in the markup, hidden until asked for, because a
-   panel of ten ratios teaches nobody anything and ten
-   permanently visible paragraphs are not a panel.
+   What is its own is the explanation layer and the
+   grouping. Every figure ships with a plain-English
+   sentence beside it in the markup, hidden until asked
+   for, because a panel of twelve ratios teaches nobody
+   anything and twelve permanently visible paragraphs
+   are not a panel.
+
+   The twelve sit in four groups of three rather than in
+   one flowing grid. That is not styling on top of a
+   list: a single grid put the three margins across a
+   row break 819px apart at 1440 and split them again at
+   two columns, and they are the one relationship this
+   panel explicitly teaches. Each group owns its own
+   grid, so a trio stays a trio at every width.
    ═══════════════════════════════════════════════ */
 
 .inc-fundamental {
@@ -99,8 +108,83 @@
     color: var(--ink);
 }
 
+.inc-fundamental-groups {
+    margin-top: 22px;
+}
+
+/* The rule goes above the heading, not between the heading and the
+   figures it names. css/lookup.css puts a border-top on .inc-figures,
+   which is right for the one list on the quote card and wrong for four:
+   it left every group heading sitting above a line with its own figures
+   on the far side of it, reading as a caption for the group before.
+   So the group owns the separator and its list gives one up. */
+.inc-fundamental-group {
+    padding-top: 20px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+.inc-fundamental-group + .inc-fundamental-group {
+    margin-top: 24px;
+}
+
+/* The group heading. It takes the figure label's own face rather than
+   the h4's, because four headline-weight lines in a panel whose content
+   is numbers would out-shout the numbers — but it has to sit a level
+   *above* those labels, and set muted at the label's own size it did
+   not: "AGAINST THE PRICE" and "MARKET CAP" were the same thing twice
+   and the reader had only the rule above to go on. Brightness carries
+   the hierarchy instead of a third type style: full ink against the
+   labels' muted, which separates them without adding a face. */
+.inc-fundamental-group-heading {
+    margin: 0 0 16px;
+    font-family: var(--inc-prose);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
 .inc-fundamental .inc-figures {
-    margin-top: 20px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* Three across, at every width down to the phone.
+   The grid css/lookup.css defines is four columns above 560px and two
+   below, which is right for a card whose figure count varies and wrong
+   for a group of exactly three: either count breaks a trio across a row,
+   and the margins group is the one place on this page where that wrap
+   changes what the figures say. Three short percentages need ~104px each
+   at 375px, so the row holds without scrolling or shrinking the type.
+
+   Two rows filled column by column, and the figures put their own parts
+   into them: a label that wraps to two lines otherwise pushes its value
+   half a line below the two beside it, which is exactly the stagger the
+   grouping exists to stop — "operating margin" is the label that wraps,
+   so the middle of the three margins was the figure it happened to.
+   `display: contents` drops the row box so the dt and dd become items of
+   this grid and share its rows; the div was only ever there to pair them,
+   and column flow is what keeps that pairing while letting the labels
+   share one row. Row flow interleaves them instead, which is a worse
+   layout than the one being fixed. */
+.inc-fundamental-group .inc-figures {
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    row-gap: 6px;
+    align-items: start;
+}
+
+.inc-fundamental-group .inc-figure {
+    display: contents;
+}
+
+/* The 6px above is the gap the value used to carry itself. Kept off the
+   value so both rows are set by the grid and neither adds to the other. */
+.inc-fundamental-group .inc-figure-value {
+    margin-top: 0;
 }
 
 .inc-fundamental .inc-provenance {
@@ -136,31 +220,77 @@
     color: var(--muted);
 }
 
-/* Opening the explanations turns a dense grid into ten blocks
-   of text, and four columns of 34ch prose is a newspaper. Two
-   columns at every width above the phone, so a sentence has
-   room to be a sentence. */
+/* Opening the explanations turns each group into three blocks of
+   text, and three columns of 34ch prose is a newspaper. The
+   explained view drops to two columns and lets the third wrap,
+   because a sentence needs room to be a sentence and the reason
+   the margins hold a row — that the three read as one number
+   narrowing — is carried by the prose once the prose is there. */
+/* Explained, a figure is a label, a value and a paragraph, so it goes
+   back to being one block: the shared rows above exist to align three
+   short values against each other, and there is nothing to align once
+   each carries its own three lines of prose. Restated here rather than
+   scoped away above, because the grouped layout is the ordinary one and
+   this is the exception to it. */
+.inc-fundamental[data-explained] .inc-fundamental-group .inc-figure {
+    display: block;
+}
+
+.inc-fundamental[data-explained] .inc-fundamental-group .inc-figure-value {
+    margin-top: 6px;
+}
+
+.inc-fundamental[data-explained] .inc-fundamental-group .inc-figures {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    row-gap: 16px;
+}
+
 @media (min-width: 560px) {
 
-    .inc-fundamental[data-explained] .inc-figures {
+    .inc-fundamental[data-explained] .inc-fundamental-group .inc-figures {
         grid-template-columns: repeat(2, 1fr);
+        grid-auto-columns: auto;
         row-gap: 22px;
     }
 }
 
-/* A fund answers with one figure out of ten, and nine em dashes
-   beside a sentence explaining there is nothing to show reads as
-   a panel that failed rather than one that answered. Only the row
-   that needs no filing is shown — beta is measured from price
-   alone, which is why it is the one a fund still has. Marked in
-   the markup rather than matched with :has(), so the rule says
-   what the row is instead of which hook it happens to contain. */
-.inc-fundamental[data-state="fund"] .inc-figure {
+/* Three where three fit, so an explained group stays the one row it is
+   when closed. Two columns leave the third figure alone against half a
+   row of nothing, four times over — and the grouping is the thing being
+   explained, so breaking it is the wrong economy. The floor is where a
+   third column stops giving the note its 34ch: below 1000px the panel's
+   third is under 300px and the prose starts wrapping every four words. */
+@media (min-width: 1000px) {
+
+    .inc-fundamental[data-explained] .inc-fundamental-group .inc-figures {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* A fund files no income statement, and em dashes beside a sentence
+   explaining there is nothing to show reads as a panel that failed
+   rather than one that answered. So the three groups that need a
+   filing go, and the one measured from the price series alone stays
+   — whole, with its heading, which is what makes the remaining
+   figures read as the answer to the sentence above them rather than
+   as the leftovers of a panel that could not fill itself.
+
+   By group rather than by row: it was one row out of ten before, and
+   the rule needed a marker class on that row to say which. A group is
+   already the thing being kept, so the state can name it. */
+.inc-fundamental[data-state="fund"] [data-valuation],
+.inc-fundamental[data-state="fund"] [data-earned],
+.inc-fundamental[data-state="fund"] [data-margin] {
     display: none;
 }
 
-.inc-fundamental[data-state="fund"] .inc-figure-unfiled {
-    display: block;
+/* With the three filing groups gone this is the only group left, and a
+   rule above it still separates it from the sentence explaining why it
+   is the only one — so the separator stays and only the stacking gap
+   that assumed a group above it goes. */
+.inc-fundamental[data-state="fund"] [data-measured] {
+    margin-top: 0;
 }
 
 @media (max-width: 700px) {

@@ -86,6 +86,17 @@ El.prototype.removeAttribute = function (name) {
 };
 
 El.prototype.matches = function (selector) {
+    /* A selector this stub cannot parse has to fail loudly. Answering "no
+     * match" for one it does not understand is the worst outcome available:
+     * the browser would match, the stub matches nothing, and the test that
+     * exists to catch a broken render passes on a render that never
+     * happened. A comma-joined list is the one that bit — [a],[b] parsed as
+     * a single attribute name and quietly matched every element's nothing.
+     */
+    if (selector.indexOf(',') !== -1) {
+        throw new Error('dom_stub: selector lists are not supported: '
+            + selector);
+    }
     if (selector.charAt(0) === '[') {
         var inner = selector.slice(1, -1);
         var split = inner.indexOf('=');

@@ -23,6 +23,8 @@ keeps its own note because its reason is about the axis rather than the width.
 
 Everything here is desktop and mobile only except `t11-fundamentals`, which is
 the current whole-page set and keeps its tablet shot for the sector grid's sake.
+The filings panel needs no tablet shot of its own: its four groups are three
+across at every width, verified by measurement rather than by a third picture.
 The grid stacks its bar under the sector name below 700px and sets it beside the
 name above, so desktop and mobile show the two layouts — and 768 is the tightest
 the beside layout ever gets, 68px above the breakpoint, where the bar is 343px

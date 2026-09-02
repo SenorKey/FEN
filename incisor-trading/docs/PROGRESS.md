@@ -2576,3 +2576,115 @@ new screenshots: this change alters no markup, no CSS and no pixel, and
   D3 is the only open item under *Discovered* and it is not a defect. The next
   session takes the audit that comes due — the fundamentals panel from T11 —
   rather than a defect.
+
+## 2026-09-02 — Audit: the fundamentals panel, and the trio it was hiding
+**Outcome:** shipped
+**Changed:** `server/fundamentals.py`, `js/market-data.js`,
+`js/view-fundamentals.js`, `index.html`, `css/fundamentals.css`,
+`server/tests/test_fundamentals.py`, `tests/test_fundamentals_panel.py`,
+`tests/fundamentals_model.jxa.js`, `tests/dom_stub.jxa.js`,
+`tests/page_model.py`, `tests/test_page.py`,
+`docs/shots/t11-fundamentals/`, `docs/shots/t11-explained/`,
+`docs/shots/t11-fund/`, `docs/shots/t11-service-down/`,
+`BACKLOG.md`, `DECISIONS.md`
+**Verified:** 174 page tests, 205 service tests green; `shoot.py --api` green
+at four widths across four states; the three margins measured on one row and
+one baseline at 1440, 768, 390 and 320; the description-list semantics read out
+of the browser's accessibility tree; both new guards confirmed to fail with the
+defect put back.
+
+The fundamentals panel was the only surface with no audit row and had three
+sessions behind it, so it was the session (§18). Verdict **minor edits**.
+
+**The panel is genuinely good for a company and was thin for everything else.**
+Its explanations are the best writing on the page and they teach without being
+asked twice — the P/E note says why the ratio goes blank on a loss, and the
+beta note names SPY and points at the tiles. But **fifteen of the seventeen
+symbols this build serves are funds**, and the fund state is therefore the
+ordinary answer rather than an edge: a paragraph about what is absent, then a
+single beta with 900px of nothing beside it, under a sentence reading *"What
+can be measured from its price is below."* That sentence was writing a cheque
+the surface did not cash.
+
+**The two figures that fix it were already being computed and thrown away.**
+`beta()` pairs 252 of this symbol's daily returns with the benchmark's and
+reads one number off the pairing; volatility and correlation come off the same
+two lists. That is the 08-31 watchlist rule — a surface pays for its payload
+once — applied to a computation rather than a fetch, and it costs nothing
+upstream and 69 bytes on the wire. Correlation is the one that earns its place
+twice: a beta is a slope fitted through whatever is there, so 1.16 at a
+correlation of 0.61 is a different claim from 1.16 at 0.9, and the panel stated
+the slope while saying nothing about how much of the movement it explained.
+The fixture data makes the lesson itself: AAPL comes back at 0.61 and 22.3%
+against XLK's 0.82 and 17.0%, so a reader who opens both is shown a sector fund
+tracking the market more closely than a single company does.
+
+**The layout was hiding the one relationship the panel explicitly teaches.**
+Gross, operating and net margin are the same sale with one more cost taken off
+each time. In one flowing grid of ten figures they sat at x=1003 and x=184 on
+*different rows* — 819px apart at 1440 — and split again at two columns, while
+the copy under the third told the reader they always fall in order. There is no
+ordering of a single grid that keeps a trio together at four columns and at
+two, which is what made this a grid problem rather than an ordering one. Four
+groups of three now, each with a heading, each its own row: *Against the price*,
+*What the business did*, *What it keeps of each sale*, *How it has moved*. The
+four are not invented for the layout — they are the four render functions the
+view already had, and only the markup was flat.
+
+**The margins were not the only thing the flow broke.** A label that wraps to
+two lines pushed its value half a line below its neighbours, and "operating
+margin" is the label that wraps — so the middle of the three margins was the
+figure it happened to, on the width §13 calls first. The groups share grid rows
+now (`display: contents` on the row div, `grid-auto-flow: column` over two
+template rows), so every label sits in one row and every value in the next.
+Measured at four widths rather than eyeballed: all three values top at the same
+pixel from 1440 down to 320.
+
+**The 150-line rule asked for the split before it allowed the addition.**
+`[data-fundamental]` stood at 144 and could not grow, which is the rule doing
+its job. But four groups made it a container, and the old measure charged it
+its own chrome *plus* all four groups — 231 lines for a panel that reads as
+five short things. `is_measured()` already treated a container of measured
+blocks as measured by them; the span now follows the same principle, charging
+every line to the innermost surface that owns it. The guard is the part worth
+having: a block that delegates nothing is still charged in full, so wrapping a
+long surface in a marker buys nothing.
+
+**One finding came out of the tests rather than the page.** `blankFigures()`
+was written as one comma-joined selector across the four groups, which a
+browser handles and `tests/dom_stub.jxa.js` did not — its `matches()` parsed
+`[a],[b]` as a single attribute name and answered *no*, so the stub matched
+nothing while the browser would have matched everything. A test written to
+catch a broken render would have passed on a render that never happened. It
+surfaced because the assertion failed on a value, not because anything flagged
+the selector. The stub throws on what it cannot parse now, and the view queries
+one group at a time. Filed against the recurring trap rather than as its own
+row: it is D4, D5 and D7's question — *what does the stand-in paper over?* —
+asked of a DOM instead of a config key, a header or an Apache file.
+
+**Looked at and left:** the fund panel still leads with a paragraph about what
+is absent before showing what is present. That reads as the right order for
+someone who searched a ticker expecting a company, and inverting it would put
+three risk figures above the sentence explaining why they are the only three.
+
+**Screenshots.** `t11-fundamentals` (whole page, three widths), `t11-explained`,
+`t11-fund` and `t11-service-down` all reshot. The old `t11-explained` set was
+**stale and should not have survived its own session** — it showed a heading
+reading "The company behind AAPL" and a provenance line saying "invented
+filings, not real ones", neither of which has been in the markup since the
+hour T11 shipped. `docs/shots/README.md` says an old set is worse than no set
+for exactly this reason.
+
+### For Key
+
+- **Nothing is waiting on you.** N4's launch config is still yours whenever you
+  want it. The provider question is not being re-raised.
+- **D3 is still open** and untouched for a ninth session. Still
+  `[enhancement]`, so still yours to triage.
+- **`DECISIONS.md` is now ~57KB and guide §16 asks for a consolidation pass
+  past roughly two screens.** It is well past. `S6` is the standing task for it
+  and I would take it next session ahead of T12 — the file is read in full
+  every session, and a memory too long to read is the failure mode it exists to
+  prevent. Say if you would rather the backlog kept moving.
+- **The audit queue is empty.** Every surface on the page now has a row, so
+  the next session takes a backlog task (T12) unless a defect is filed.
