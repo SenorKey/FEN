@@ -444,21 +444,65 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-- [ ] **D9 · `DECISIONS.md` has outgrown being read in full** `[defect]`
-  *(flagged by the routine 2026-09-02, measured attended the same day)* — filed
-  as a defect because the file only works as memory if it is read in full every
-  session, so its size is a correctness property, and this one is degrading
-  quietly with nothing failing to show it. **57,628 bytes across 50 settled
-  rows**, up from 10,849 after the last consolidation five days earlier:
-  10.8K → 23.8K → 36.1K → 57.6K. The guide's "roughly two screens" passed the
-  whole way, because it counted lines while the rows are single lines up to
+- [ ] **D9 · Split the memory into an index and a detail file** `[defect]`
+  *(flagged by the routine 2026-09-02; design settled with Key the same day)* —
+  filed as a defect because the file only works as memory if it is read in full
+  every session, so its size is a correctness property, and this one is
+  degrading quietly with nothing failing to show it. **57,628 bytes across 50
+  settled rows**, up from 10,849 after the last consolidation five days earlier:
+  10.8K → 23.8K → 36.1K → 57.6K. The guide's old "roughly two screens" passed
+  the whole way, because it counted lines while the rows are single lines up to
   1,573 characters — the 600-line-rule trap wearing a different hat.
-  *Accept:* `DECISIONS.md` under **20,000 bytes** with no decision lost; every
-  surface-scoped row moved into that surface's file header rather than deleted,
-  and its reasoning verifiably present there; `CEILING` in
-  `tests/test_docs_budget.py` lowered to match what lands; both suites green.
-  Expect a whole session, and take it before feature work — every session that
-  files a decision first pays for this one's postponement.
+
+  **The shape, decided rather than left open.** Skimming a book, not reading it:
+  an index you read front to back, and a detail file you open only when a line
+  in the index makes you want to.
+
+  1. **`DECISIONS.md` becomes the index** and keeps its name — there are 81
+     references to it across the docs, the tests, and code comments in
+     `watchlist-store.js`, `sparkline.js`, `edgar.py` and others. Renaming the
+     file everything points at trades a size problem for eighty dangling
+     pointers. It stays the file §14 step 2 reads **in full**.
+  2. **`DECISIONS-DETAIL.md` holds the reasoning.** It may grow without bound —
+     storage is free and attention is not — and it is read only by following an
+     index line, never front to back.
+  3. **Every entry has a stable ID** (`D-001`, `D-002`, …) which is a real
+     anchor in the detail file. "See the detail file" is useless at two hundred
+     entries: following it would mean reading the whole thing, which defeats the
+     split. IDs are assigned once and never reused, including for entries that
+     are later superseded.
+  4. **An index line carries the claim *and* its reason in brief** — never just
+     a subject. "Finnhub — rejected" does not stop the next session re-walking
+     it; "Finnhub — ToS forbids redistribution" is sufficient on its own and the
+     detail never has to be opened. The index line must be independently enough
+     to *prevent* the loop; the detail is for when you need to act on it.
+  5. **Dead ends are indexed the same way** — tried X, failed because Y, revisit
+     if Z, on one line. Locality cannot reach a dead end (you are about to
+     create a file that does not exist yet, so there is no header to read), so
+     the index line has to stand alone.
+
+  *Accept, and each of these is checkable:*
+  - `DECISIONS.md` is **under 12,000 bytes** and every settled row, dead end and
+    recurring trap survives as an index line — count them before and after and
+    state both numbers.
+  - **No index line exceeds 200 characters**, asserted by a test. This is the
+    one that matters most: the current file is what happens without it, because
+    those 1,573-character rows were one-liners once. Nobody decided to write
+    essays; they accreted.
+  - `DECISIONS-DETAIL.md` carries the full reasoning for every entry, under its
+    ID as a heading. **No reasoning is lost** — this is a move, not a trim.
+  - **A bijection test**: every index ID resolves to exactly one detail heading,
+    and every detail heading is indexed exactly once. Without it the split
+    trades a size problem for a silent correctness problem, and dangling
+    references are the failure mode of every index that has ever rotted.
+  - `CEILING` in `tests/test_docs_budget.py` lowered to match what lands, and
+    its docstring updated to describe the two files.
+  - Guide §16 rewritten to describe the index/detail model, and §14 step 2 to
+    name which file is read in full.
+  - Both suites green.
+
+  Expect a whole session. Take it before feature work — every session that files
+  a decision first pays for this one's postponement.
 
 - [x] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
   bound** `[defect]` *(found 2026-09-02 fixing D7, fixed 2026-09-02)* — fixed

@@ -2730,3 +2730,47 @@ the reason and the condition that would invalidate it in the docstring.
 
 **Next session:** D9 (defect, jumps the queue), then T12.
 
+## 2026-09-02 — Attended: D9 specified as an index/detail split
+**Outcome:** shipped
+**Changed:** `BACKLOG.md` (D9 rewritten), `AGENT-GUIDE.md` (§16 pointer)
+**Verified:** 176 page tests green.
+
+D9 said "under 20,000 bytes", which the routine could have satisfied by
+compressing prose and been back here in a fortnight. It now specifies the shape,
+which fixes the growth rate rather than the symptom. Key's design: skim a book,
+do not read it — an index read front to back, a detail file opened only when a
+line in it earns opening.
+
+Chosen over two alternatives, both rejected with reasons:
+
+- **Splitting by domain** (frontend/backend, or per feature). Halves the
+  constant and leaves the growth rate untouched, so the same wall arrives three
+  weeks later. Worse, it separates the findings that matter most: `D5` was the
+  frontend calling a route Apache never proxied, and `D7`→`D8` was the
+  screenshot tool's stand-in hiding a rate-limit bypass in the service. A layer
+  split files each of those twice and the connection *is* the finding. It also
+  needs the reader to know what is relevant before reading, and not knowing is
+  what memory is for.
+- **A SQL table.** The right instinct — retrieve rather than read — and the
+  wrong mechanism at this scale. You cannot query for what you do not know
+  exists, which is exactly the loop being prevented; `grep` over markdown is
+  already a query interface; and fifty to two hundred rows is not a database
+  problem worth a schema and a migration path in a stdlib-only project.
+
+Four things the spec insists on, each because leaving it loose has a known
+failure: `DECISIONS.md` keeps its name (81 references across docs, tests and
+code comments would otherwise dangle); stable IDs as real anchors, because "see
+the detail file" at two hundred entries means reading it; **a 200-character cap
+per index line, asserted** — the current file is what happens without one, since
+those 1,573-character rows were one-liners once and nobody decided to write
+essays; and index lines that carry the reason in brief, since "Finnhub —
+rejected" does not stop a re-walk while "Finnhub — ToS forbids redistribution"
+does and never needs the detail opened.
+
+The split introduces one new failure mode — the two files drifting, an index
+line pointing at an anchor that no longer exists — so a **bijection test** is in
+the acceptance criteria rather than left to care. That trade is worth naming:
+without it, a size problem becomes a silent correctness problem.
+
+**Next session:** D9 (defect, jumps the queue), then T12.
+

@@ -613,6 +613,10 @@ days — the 600-line-rule trap again, in a different file. The ceiling in that
 test is a **ratchet: it only ever moves down.** Target is 20KB. Aim for entries
 under ~500 characters; an entry nobody finishes reading is not memory.
 
+**This structure is changing — see `D9`.** `DECISIONS.md` becomes a claim-only
+index with stable IDs, and the reasoning moves to `DECISIONS-DETAIL.md`, opened
+only when an index line calls for it. Until D9 lands, what follows still holds.
+
 **When a new entry will not fit, do not raise the ceiling.** Do one of these:
 
 1. **Move it next to what it binds.** The test for `DECISIONS.md` is now
