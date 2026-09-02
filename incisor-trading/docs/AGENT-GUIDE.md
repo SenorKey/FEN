@@ -602,9 +602,32 @@ the work really has been attempted before, mark the task `[!]` and move on.
 ### Keep the memory readable
 
 `DECISIONS.md` earns its value by being short enough to read in full every time.
-If it grows past roughly two screens, spend a session consolidating: merge
-duplicates, delete nothing, and promote anything that has bitten twice into
-*Recurring traps*.
+Past some length it stops being read carefully, and the anti-loop mechanism
+degrades with nothing failing to show it — so its size is a correctness property
+of the routine, not tidiness.
+
+**Measured in bytes, and enforced by `tests/test_docs_budget.py`.** "Two screens"
+was the old rule and it measured lines; rows here run past 1,500 characters, so
+104 lines weighed 57KB and the rule passed while the file grew five-fold in five
+days — the 600-line-rule trap again, in a different file. The ceiling in that
+test is a **ratchet: it only ever moves down.** Target is 20KB. Aim for entries
+under ~500 characters; an entry nobody finishes reading is not memory.
+
+**When a new entry will not fit, do not raise the ceiling.** Do one of these:
+
+1. **Move it next to what it binds.** The test for `DECISIONS.md` is now
+   narrower than "could a future session redo this": it is *would a session
+   working on a **different** surface need to know?* A decision that only binds
+   when touching the price chart belongs in `view-price-chart.js`'s header,
+   where the person who needs it is already looking and where it cannot drift
+   from what it explains. Only cross-cutting decisions — licensing, the call
+   budget, colour rules, what every surface must label — earn shared memory.
+2. **Consolidate (S6).** Merge duplicates, promote anything that has bitten
+   twice into *Recurring traps*, and compress prose that has stopped earning
+   its length. Delete no decision; a merged row keeps both reasons.
+
+A row that has been superseded is rewritten to say so in one line, not left in
+full alongside its replacement.
 
 Screenshots in `docs/shots/` are the other thing that grows without bound. Keep
 one set per registered look branch, replace rather than accumulate, and delete

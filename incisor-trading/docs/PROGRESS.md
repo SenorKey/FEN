@@ -2688,3 +2688,45 @@ for exactly this reason.
   prevent. Say if you would rather the backlog kept moving.
 - **The audit queue is empty.** Every surface on the page now has a row, so
   the next session takes a backlog task (T12) unless a defect is filed.
+
+## 2026-09-02 — Attended: the memory budget, measured in the right unit
+**Outcome:** shipped
+**Changed:** `tests/test_docs_budget.py` (new), `AGENT-GUIDE.md` (§16 size rule),
+`BACKLOG.md` (D9)
+**Verified:** 176 page tests green, the new budget test among them.
+
+The routine's flag is correct and the file is worse than its line count looks.
+**57,628 bytes across 50 settled rows**, growing 10.8K → 23.8K → 36.1K → 57.6K
+in five days — 5.3× since the last consolidation. It reads as 104 lines and
+therefore passed "roughly two screens" the entire way, because the rows are
+single lines running to 1,573 characters. A length rule measuring the wrong
+unit: the same shape as the 600-line rule measuring concatenated files, already
+in *Recurring traps*, in a file nobody thought to apply it to.
+
+Three changes, and only the first two are mine to make:
+
+1. **Bytes, enforced.** `tests/test_docs_budget.py` holds a `CEILING` that
+   **only ever moves down**, currently 60,000. A budget nothing enforces is a
+   wish, and this one had been one. Green today; the point is that it now binds
+   before the file grows again, so a session that cannot fit a new entry has to
+   make room rather than continue quietly.
+2. **Somewhere for entries to go.** The inclusion test narrows from "could a
+   future session redo this" to *would a session working on a **different**
+   surface need to know?* A decision that binds only when touching the price
+   chart belongs in that module's header — where the reader already is, and
+   where it cannot drift from the code it explains. Shared memory keeps the
+   cross-cutting ones: licensing, the call budget, colour rules, labelling.
+3. **D9** does the consolidation to a 20,000-byte target. Filed as a defect
+   rather than an S6 nicety, because memory that stops being read is the
+   anti-loop mechanism failing silently, and it jumps the queue accordingly.
+
+**Sessions reviewed alongside this:** D7, D8 and the T11 audit all check out.
+D8 is the strongest security finding so far and it arrived by consequence —
+fixing the tool's missing `X-Forwarded-For` (D7) exposed that the service read
+the *first* hop, which the caller writes, so varying that header per request
+sidestepped the per-IP ceiling entirely. The production path was the one path
+no local check had ever taken. `get_client_ip()` now reads the last hop, with
+the reason and the condition that would invalidate it in the docstring.
+
+**Next session:** D9 (defect, jumps the queue), then T12.
+

@@ -444,6 +444,22 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
+- [ ] **D9 · `DECISIONS.md` has outgrown being read in full** `[defect]`
+  *(flagged by the routine 2026-09-02, measured attended the same day)* — filed
+  as a defect because the file only works as memory if it is read in full every
+  session, so its size is a correctness property, and this one is degrading
+  quietly with nothing failing to show it. **57,628 bytes across 50 settled
+  rows**, up from 10,849 after the last consolidation five days earlier:
+  10.8K → 23.8K → 36.1K → 57.6K. The guide's "roughly two screens" passed the
+  whole way, because it counted lines while the rows are single lines up to
+  1,573 characters — the 600-line-rule trap wearing a different hat.
+  *Accept:* `DECISIONS.md` under **20,000 bytes** with no decision lost; every
+  surface-scoped row moved into that surface's file header rather than deleted,
+  and its reasoning verifiably present there; `CEILING` in
+  `tests/test_docs_budget.py` lowered to match what lands; both suites green.
+  Expect a whole session, and take it before feature work — every session that
+  files a decision first pays for this one's postponement.
+
 - [x] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
   bound** `[defect]` *(found 2026-09-02 fixing D7, fixed 2026-09-02)* — fixed
   as filed: the gate reads the **last** hop now, the only one Apache wrote.
