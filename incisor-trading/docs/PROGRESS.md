@@ -2933,3 +2933,80 @@ but that pointer now points at a completed task. Drop-in wording:
 - **§16, *Keep the memory readable*** — the paragraph explaining the byte
   measure still holds; the sentence "Target is 20KB" should read "The ceiling is
   12,000 bytes on the index alone. The detail file is deliberately unbudgeted."
+
+---
+
+## 2026-09-02 — D10: the backlog stops carrying its own history
+
+**Task:** D10, the open defect and the only one — D3 is an enhancement and waits
+for Key. Prerequisite D9 landed the session before, so the index/detail pattern
+was still in hand.
+**Verified:** 185 page tests (up 4), 205 service tests, both green. No markup or
+CSS changed, so `shoot.py` was not run; the one shipped file touched is
+`js/view-fundamentals.js`, comments only, and the JavaScriptCore suite runs that
+module for real.
+
+**`BACKLOG.md`: 62,563 → 32,538 bytes.** Forty-eight entries in: twenty-two
+collapsed to a row each in `## Done`, twenty-six left exactly as they were, and
+one new. Nothing unaccounted, checked by counting rather than by reading.
+
+**It is deliberately not D9's shape, and that is the decision worth keeping.** A
+settled decision still binds — a session needs to open it and argue with it — so
+it earns a detail file addressed by a stable ID. A finished task does not:
+nobody follows a reference to closed work. A `BACKLOG-DONE.md` would have cost a
+file, a cross-reference and a second bijection test to hold something nobody
+opens. So the record collapses in place, and what a session actually needs from
+finished work is elsewhere already: the `DEC` lines it settled, the audit-log
+row, the code. `DEC-068`.
+
+**The collapse is only safe because of the rule underneath it** — anything in a
+completion note a future session could act on is not a note; it is a `D` item, a
+task or a `DEC` line, filed as one before the note goes. That was checked, not
+asserted: every forward-looking clause in the thirty thousand bytes removed was
+traced to somewhere it still lives. Most were already `DEC` rows saying the same
+thing in the same words — T8's "do not add 1D" is `DEC-018`, T11's "do not pull
+the price figures out too" is `DEC-042`. Two were not. D9's note held the **only**
+mention of `N7`, the guide rewrite that is Key's, so that clause survives
+verbatim inside D9's row rather than as a pointer to a journal read from the
+tail. And T7's 260-bar fixture length, which nothing asserts above 100, is
+stated in three code comments that say why — `fetcher.py`, `source.py`,
+`fundamentals.py`.
+
+**The guards are the part that had to be real,** and the byte ceiling is the
+weakest of them. A ceiling alone is what the old "two screens" rule was, and it
+failed because nothing stopped a one-liner becoming an essay. So the ceiling is
+paired with the shape that produced it: **no completed task may remain a
+bullet**, and no `## Done` row may exceed 300 characters. All four new checks
+were confirmed to fail with the defect put back — an oversized file, a `[x]`
+bullet, a 400-character row, and a file with no history in it at all, which the
+first two both pass.
+
+**Two things moved rather than shrank, and both are guide §16 rule 1.**
+`DEC-049` — the fundamentals panel's four groups — left the index for
+`js/view-fundamentals.js`'s header. It binds nothing but that surface, the index
+had seventy bytes of headroom, and the mechanism it describes (`display:
+contents` over two template rows, so a wrapped label cannot push its value down)
+is a thing you need while reading that file and nowhere else. The index is
+11,959 bytes with `DEC-068` added. And the observation that **T9, T10 and T11
+each shipped two defects that both green suites could not see, all six found in
+the `shoot.py` images**, went to `tests/README.md`, next to the sentence that
+already says those suites do not replace a browser. Three occurrences is a trap
+by §16's rule, but its home is the file it warns about, not shared memory.
+
+**It missed the stated 32,000 by 538 bytes, and the reason is the next defect.**
+The collapse alone reached 31,588. `D11` — filed this session, 950 bytes — is
+what put it over. **The audit log is 13,219 bytes over seven rows, D10 was
+forbidden to touch it, and `O6` never completes**, so a section this fix could
+not reach is now 41% of a file read in full every session. Same disease, third
+file. Filing it was not optional (§19: a finding that implies future work gets an
+entry, and describing it here is not filing it), and taking the miss was better
+than either shaving the records into labels or leaving the finding in a journal
+that is read from the tail. `D11` carries the 22,000 that supersedes the 32,000,
+and the same shape: one-line verdict rows here, the four answers in
+`docs/AUDITS.md` under a dated heading each.
+
+`BACKLOG_CEILING` is 33,000 — 462 bytes of headroom, deliberately tight, and a
+ratchet like `CEILING`. A session that cannot fit an entry has found the next
+thing to fix rather than a number to raise.
+
+**Next session:** D11 (defect, and the top of the queue), then T12.
