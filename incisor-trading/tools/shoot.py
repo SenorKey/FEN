@@ -65,13 +65,22 @@ Apache forwards it in production, so the dashboard can be shot with real
 fixture data in it. Without it those requests 404, which is the other shot
 worth having: the page has to degrade to a stated "unavailable" rather than
 a blank grid, and that is an acceptance criterion rather than an edge case.
+
+Each browser context is a separate visitor and the proxy gives it a separate
+address, because Apache gives one to every visitor and this proxy stands in
+for Apache. Without that all four loads arrive from the socket peer, land in
+one per-IP bucket, and a second run inside the minute is refused — a page that
+is fine reported as a broken dashboard. See D7, and `client_address` below.
 """
 
 import argparse
+import ast
+import collections
 import contextlib
 import json
 import functools
 import http.server
+import os
 import pathlib
 import socketserver
 import sys
@@ -91,6 +100,76 @@ VIEWPORTS = [
 
 
 API_PREFIX = "/api/incisor/"
+
+# How the tool tells its own proxy which visitor a request belongs to.
+#
+# Apache learns that from the TCP peer and puts it in X-Forwarded-For; here
+# every context connects over loopback, so the peer says nothing and the
+# context has to name itself. Read by the proxy and dropped there — it never
+# reaches the service, which sees only the X-Forwarded-For Apache would set.
+CLIENT_HEADER = "X-Incisor-Shot-Client"
+
+# RFC 5737 documentation space, the range the service tests already use for
+# this. Not routable anywhere, so one of these in a log line is unmistakably
+# a simulated reader rather than a real one.
+CLIENT_NETWORK = "198.51.100."
+
+# Three photographed widths plus the narrow overflow check. Runs stride by
+# this, so two runs never share an address even when their blocks are
+# adjacent — which is the whole point: a fresh run is a fresh set of readers,
+# and yesterday's bucket is not theirs to spend.
+CLIENTS_PER_RUN = len(VIEWPORTS) + 1
+
+
+def client_address(index):
+    """The address the proxy hands to one browser context.
+
+    A context is a visitor: its own browser, its own storage, its own page
+    load. Production gives each of those its own address and buckets the
+    per-IP limit by it, so collapsing all of them onto the loopback peer was
+    the tool modelling something that never happens — one reader opening the
+    dashboard four times a minute and then four more times on the next run.
+
+    The block is keyed on the process so a rerun is a new set of readers.
+    Slots wrap inside the /24, which is harmless: two runs would have to be
+    exactly 254 pids apart to overlap, and even then they would only sum to
+    twice one page load.
+    """
+    return CLIENT_NETWORK + str(
+        (os.getpid() * CLIENTS_PER_RUN + index) % 254 + 1)
+
+
+def per_ip_ceiling():
+    """The service's own per-IP limit, read from the service rather than repeated.
+
+    Parsed out of the edge module's AST rather than imported, because
+    importing it configures the database at import time; and rather than
+    grepped, because the same file explains the limit in prose directly above
+    the line that sets it. RATE_LIMIT_MAX in the environment overrides the
+    default exactly as it does for the service.
+
+    A number that cannot be found is raised rather than defaulted: a stand-in
+    ceiling would pass every run while standing for nothing, which is the
+    failure D4 and D5 were both made of.
+    """
+    override = os.environ.get("RATE_LIMIT_MAX")
+    if override:
+        return int(override)
+
+    edge = REPO / "incisor-trading" / "server" / "incisor.py"
+    for node in ast.walk(ast.parse(edge.read_text())):
+        if (isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "get"
+                and len(node.args) == 2
+                and isinstance(node.args[0], ast.Constant)
+                and node.args[0].value == "RATE_LIMIT_MAX"
+                and isinstance(node.args[1], ast.Constant)):
+            return int(node.args[1].value)
+
+    raise SystemExit("shoot.py: RATE_LIMIT_MAX is no longer readable out of "
+                     "server/incisor.py, so the per-visitor check has no "
+                     "ceiling to check against")
 
 # Console noise that is about this harness rather than the page.
 #
@@ -122,9 +201,14 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
     API_PREFIX is forwarded verbatim and its status, content type and body come
     straight back. Nothing is rewritten: the point is for the page to see the
     same bytes it would see on the real site.
+
+    `calls` tallies forwarded requests per visitor, which is what turns the
+    per-IP limit from something the tool used to collide with into something
+    it checks: one page load has to fit inside the allowance one reader gets.
     """
 
     api_base = None
+    calls = collections.Counter()
 
     def log_message(self, *args):
         pass
@@ -137,11 +221,21 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
     def proxy(self):
         target = self.api_base + self.path[len(API_PREFIX) - 1:]
+
+        # mod_proxy_http sets X-Forwarded-For from the peer on every request
+        # it forwards, and the service buckets its per-IP limit by it. This
+        # proxy is the only place that path was never taken, so the limit was
+        # being spent by four visitors at once out of one bucket.
+        client = self.headers.get(CLIENT_HEADER, "")
+        self.calls[client or "unattributed"] += 1
+
         try:
             # Origin is set because the service checks it, the way a browser
             # on the real site would set it to the site's own hostname.
-            request = urllib.request.Request(
-                target, headers={"Origin": "https://frontendneeded.com"})
+            headers = {"Origin": "https://frontendneeded.com"}
+            if client:
+                headers["X-Forwarded-For"] = client
+            request = urllib.request.Request(target, headers=headers)
             with urllib.request.urlopen(request, timeout=10) as upstream:
                 status = upstream.status
                 body = upstream.read()
@@ -269,6 +363,7 @@ def check_narrow(browser, base, args, problems):
         is_mobile=True, has_touch=True, device_scale_factor=2,
         color_scheme=args.theme,
     )
+    ctx.set_extra_http_headers({CLIENT_HEADER: client_address(len(VIEWPORTS))})
     seed_storage(ctx, argparse.Namespace(block_storage=False,
                                          watch=NARROW_WATCHLIST))
     page = ctx.new_page()
@@ -291,6 +386,35 @@ def check_narrow(browser, base, args, problems):
     print(f"  narrow   {NARROW_WIDTH}x800 (mobile emulation)"
           f" -> overflow check only, no shot")
     ctx.close()
+
+
+def check_request_budget(problems):
+    """Assert one reader's page load fits in the allowance one reader gets.
+
+    This is the half of D7 worth keeping. The tool used to meet the per-IP
+    limit by accident, summing four visitors and two runs into one bucket,
+    and the 429s it earned read as a broken dashboard. Now every visitor is
+    its own address, so the only way to reach the ceiling is for a single
+    page load to cost more than a single reader is allowed — which is a real
+    finding about the page, and one that gets closer every time a surface
+    lands: nine requests a load at T11, and nothing was tracking the number.
+
+    The busiest visitor is printed on every run whether or not it fails, so
+    the number is on screen while there is still room to do something about it.
+    """
+    ceiling = per_ip_ceiling()
+    if not QuietHandler.calls:
+        return
+
+    address, busiest = QuietHandler.calls.most_common(1)[0]
+    for who, count in sorted(QuietHandler.calls.items()):
+        if count > ceiling:
+            problems.append(
+                f"requests: one page load made {count} API requests, over the "
+                f"service's own {ceiling}-a-minute per-IP ceiling ({who})")
+
+    print(f"  requests busiest visitor {busiest} of {ceiling} allowed"
+          f" -> {len(QuietHandler.calls)} simulated readers")
 
 
 def seed_storage(ctx, args):
@@ -395,7 +519,7 @@ def main():
         # channel="chrome" uses the installed Google Chrome — no download.
         browser = pw.chromium.launch(channel="chrome")
 
-        for label, width, height, mobile in VIEWPORTS:
+        for index, (label, width, height, mobile) in enumerate(VIEWPORTS):
             ctx = browser.new_context(
                 viewport={"width": width, "height": height},
                 is_mobile=mobile,
@@ -403,6 +527,7 @@ def main():
                 device_scale_factor=2 if mobile else 1,
                 color_scheme=args.theme,
             )
+            ctx.set_extra_http_headers({CLIENT_HEADER: client_address(index)})
             seed_storage(ctx, args)
 
             page = ctx.new_page()
@@ -502,6 +627,9 @@ def main():
 
         check_narrow(browser, base, args, problems)
         browser.close()
+
+    if args.api:
+        check_request_budget(problems)
 
     if problems:
         print("\nFAILED:")

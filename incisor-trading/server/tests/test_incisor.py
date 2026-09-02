@@ -11,10 +11,20 @@ fixture mode, so nothing here touches the network or the real data directory.
 """
 
 import json
+import os
+import sys
 import unittest
 
 import service_fixture  # noqa: F401  — configures the service before import
 import incisor  # noqa: E402
+
+# The screenshot tool reads this module's per-IP ceiling rather than repeating
+# it (D7). This is the only place both numbers exist at once, so it is where
+# they are checked against each other.
+sys.path.insert(0, os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    'tools'))
+import shoot  # noqa: E402
 
 
 
@@ -123,6 +133,21 @@ class TestRateLimiting(ServiceTestCase):
             self.client.get('/health', environ_overrides=environ)
         response = self.client.get('/health', environ_overrides=environ)
         self.assertEqual(response.status_code, 429)
+
+    def test_the_screenshot_tool_checks_against_this_ceiling_and_not_its_own(self):
+        """D7: tools/shoot.py fails a run when one simulated reader's page load
+        outgrows the allowance one reader gets, and it reads the number out of
+        this module rather than repeating it.
+
+        What this catches is the read breaking, not the number drifting: both
+        sides come from this file, so they cannot disagree about its value.
+        They can disagree about whether it was found at all — rewrite the line
+        as `os.environ.get('RATE_LIMIT_MAX') or '60'` and the AST pattern
+        matches nothing. The tool raises there rather than defaulting, for the
+        D4 reason: a stand-in ceiling passes every run while standing for
+        nothing. This is where that raise surfaces.
+        """
+        self.assertEqual(shoot.per_ip_ceiling(), incisor.RATE_LIMIT_MAX)
 
 
 class TestSymbolValidation(unittest.TestCase):
