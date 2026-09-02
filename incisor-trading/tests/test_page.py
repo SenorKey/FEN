@@ -420,6 +420,49 @@ class TestHouseStyle(unittest.TestCase):
                             'the %s markup runs %d lines and wants breaking up'
                             % (surface, span))
 
+    def test_a_surface_is_charged_its_own_lines_and_not_its_children_s(self):
+        """The rule above measures a block's *own* span, and a change that
+        loosens a length rule has to be shown not to have loosened it into
+        nothing.
+
+        Three properties, on markup built here rather than on the page, so
+        the assertions describe the rule instead of describing whatever
+        index.html happens to hold today. A container that delegates to
+        nested surfaces is charged only the lines it keeps; a block that
+        delegates nothing is charged all of them, exactly as before; and
+        every line is charged to the innermost surface that owns it, so
+        nothing escapes being counted somewhere.
+        """
+        def block(marker, hooks, filler=0):
+            rows = ''.join('<span data-%s-hook="%d"></span>\n'
+                           % (marker, index) for index in range(hooks))
+            return ('<div data-%s>\n%s%s</div>\n'
+                    % (marker, '<p></p>\n' * filler, rows))
+
+        # A surface with nothing nested inside it: unchanged by the rule.
+        alone = Page('<main>\n' + block('alone', 3, filler=40) + '</main>')
+        self.assertEqual(dict(alone.surfaces())['data-alone'], 43)
+
+        # The same block, wrapped in a container that is itself a surface.
+        # The container keeps only the lines it did not delegate.
+        nested = Page('<main>\n<div data-outer>\n'
+                      + '<span data-outer-hook="0"></span>\n' * 3
+                      + block('alone', 3, filler=40)
+                      + '</div>\n</main>')
+        spans = dict(nested.surfaces())
+        self.assertEqual(spans['data-alone'], 43)
+        self.assertLess(spans['data-outer'], 10)
+
+        # And a container that delegates nothing is still charged in full,
+        # which is what stops the rule being an escape hatch: wrapping a
+        # long surface in a marker only helps if the inner block is itself
+        # measured.
+        opaque = Page('<main>\n<div data-outer>\n'
+                      + '<span data-outer-hook="0"></span>\n' * 3
+                      + '<div data-plain>\n' + '<p></p>\n' * 40 + '</div>\n'
+                      + '</div>\n</main>')
+        self.assertGreater(dict(opaque.surfaces())['data-outer'], 40)
+
     def test_every_surface_shaped_block_is_reached_by_that_rule(self):
         """The rule above is derived, which makes what it misses invisible.
 

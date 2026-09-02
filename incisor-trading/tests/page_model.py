@@ -102,7 +102,7 @@ class Page:
         return any(a['tag'] == tag for a in self.ancestors(element))
 
     def surfaces(self, least_hooks=3):
-        """(attribute, line span) for every block that owns a set of hooks.
+        """(attribute, own line span) for every block that owns a set of hooks.
 
         A surface on this page is an element carrying a `data-x` attribute
         with `data-x-*` hooks inside it — that pairing is the contract each
@@ -110,12 +110,32 @@ class Page:
         that shape rather than writing it out is what keeps a rule about
         surfaces covering the next surface somebody adds.
 
+        **Own** span: the lines a block does not delegate to a surface nested
+        inside it. A block holding four self-contained groups is a container,
+        and charging it for their lines as well as its own counts every one of
+        them twice — which reports a panel that reads as five short things as
+        though it were one long one. `is_measured()` already treats a
+        container of measured blocks as measured by them; this is the same
+        principle applied to the number rather than to the coverage, and it
+        leaves every line charged to exactly one surface: the innermost that
+        owns it. A container with no nested surface is unaffected, so nothing
+        that was bounded before stops being bounded.
+
         The span is measured to the last element inside, which is a line or
         two short of the closing tag. Close enough for a rule about whether a
         block can be read in one go, and it never overstates.
         """
-        return [(name, self.descendants(element)[-1]['line'] - element['line'])
-                for name, element in self._surfaces(least_hooks)]
+        found = self._surfaces(least_hooks)
+        blocks = [element for _, element in found]
+        out = []
+        for name, element in found:
+            span = self.descendants(element)[-1]['line'] - element['line']
+            for nested in self.descendants(element):
+                if nested in blocks:
+                    inside = self.descendants(nested)
+                    span -= inside[-1]['line'] - nested['line']
+            out.append((name, span))
+        return out
 
     def _surfaces(self, least_hooks=3):
         """(attribute, element) for each block the surface rule can see."""
