@@ -142,9 +142,31 @@ def now_utc_iso():
 
 
 def get_client_ip():
-    """First hop from X-Forwarded-For if present, else the socket peer."""
-    forwarded = request.headers.get('X-Forwarded-For', '')
-    return (forwarded or request.remote_addr or '').split(',')[0].strip()
+    """Last hop of X-Forwarded-For if present, else the socket peer.
+
+    The last hop, not the first, and that is deliberate — the usual advice
+    says the opposite, so it needs the reason written down.
+
+    X-Forwarded-For is a list a caller may start themselves, and
+    mod_proxy_http *appends* the peer it saw to whatever arrived. So a
+    request that reaches us reads `<anything the caller wrote>, <the address
+    Apache saw>`, and only the final entry was written by something we trust.
+    Taking the first hop let a caller name their own bucket, vary it per
+    request, and never trip the per-IP ceiling at all (D8).
+
+    Reading the last hop is only correct because exactly one trusted proxy
+    sits in front of this service and it always appends: the unit binds to
+    127.0.0.1 and apache-snippet.conf is the sole way in. Put a second proxy
+    in that chain and this has to count hops from the right instead.
+    """
+    hops = [
+        hop.strip()
+        for hop in request.headers.get('X-Forwarded-For', '').split(',')
+        if hop.strip()
+    ]
+    if hops:
+        return hops[-1]
+    return (request.remote_addr or '').strip()
 
 
 def is_valid_symbol(symbol):

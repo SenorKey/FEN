@@ -150,6 +150,87 @@ class TestRateLimiting(ServiceTestCase):
         self.assertEqual(shoot.per_ip_ceiling(), incisor.RATE_LIMIT_MAX)
 
 
+class TestForwardedForTrust(ServiceTestCase):
+    """D8: which hop of X-Forwarded-For decides the bucket.
+
+    mod_proxy_http appends the peer it saw to whatever the caller already
+    sent, so a forwarded header reaching this service is `<what the caller
+    wrote>, <what Apache saw>` and only the last entry is trustworthy. The
+    gate used to read the first, which let a caller name their own bucket.
+    """
+
+    # What Apache appends: the address it saw the request arrive from. Every
+    # test here keeps this constant, because in production one reader has one
+    # of these however many hops they wrote in front of it.
+    PEER = '203.0.113.9'
+
+    def forged(self, claim):
+        """A header shaped the way one reaches Apache from a hostile caller."""
+        return {'X-Forwarded-For': '%s, %s' % (claim, self.PEER)}
+
+    def test_the_bucket_is_the_hop_apache_appended(self):
+        with incisor.app.test_request_context('/health',
+                                              headers=self.forged('198.51.100.1')):
+            self.assertEqual(incisor.get_client_ip(), self.PEER)
+
+    def test_a_forged_first_hop_cannot_sidestep_the_per_ip_ceiling(self):
+        """The defect itself: a fresh claimed address on every request.
+
+        Under the old reading each of these was its own bucket, so the
+        60-a-minute ceiling never fired no matter how long the loop ran.
+        """
+        for attempt in range(incisor.RATE_LIMIT_MAX):
+            response = self.client.get(
+                '/health', headers=self.forged('198.51.100.%d' % (attempt % 254 + 1)))
+            self.assertEqual(response.status_code, 200, 'tripped early at %d' % attempt)
+
+        response = self.client.get('/health', headers=self.forged('198.51.100.254'))
+        self.assertEqual(response.status_code, 429)
+        self.assertEqual(json.loads(response.data)['error'], 'rate_limited')
+
+    def test_a_forged_hop_cannot_spend_another_readers_bucket(self):
+        """The mirror image, and the reason first-hop trust is not merely weak.
+
+        A caller who claims someone else's address would otherwise fill that
+        reader's bucket and lock them out of a service they never called.
+        """
+        for _ in range(incisor.RATE_LIMIT_MAX + 5):
+            self.client.get('/health', headers=self.forged('198.51.100.7'))
+        response = self.client.get(
+            '/health', headers={'X-Forwarded-For': '198.51.100.7'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_a_single_hop_is_still_read_as_the_caller(self):
+        """The shape tools/shoot.py sends, and the one this must not break.
+
+        Its proxy stands in for Apache and writes exactly one hop, so the
+        first and the last are the same entry and each simulated reader keeps
+        its own bucket.
+        """
+        with incisor.app.test_request_context(
+                '/health', headers={'X-Forwarded-For': '198.51.100.42'}):
+            self.assertEqual(incisor.get_client_ip(), '198.51.100.42')
+
+    def test_a_request_with_no_forwarded_header_falls_back_to_the_peer(self):
+        with incisor.app.test_request_context(
+                '/health', environ_overrides={'REMOTE_ADDR': '198.51.100.5'}):
+            self.assertEqual(incisor.get_client_ip(), '198.51.100.5')
+
+    def test_padding_and_empty_entries_do_not_become_the_bucket(self):
+        """A caller controls the whole prefix, trailing separators included.
+
+        `X-Forwarded-For: 1.2.3.4,` arrives as `1.2.3.4, , <peer>` once Apache
+        has appended, so taking the final comma-separated field verbatim would
+        bucket the request under the empty string — where rate_limit_check
+        treats it as unidentifiable and applies no per-IP ceiling at all.
+        """
+        for claim in ('198.51.100.1,', '198.51.100.1, ,', ' , '):
+            with self.subTest(claim=claim):
+                with incisor.app.test_request_context('/health',
+                                                      headers=self.forged(claim)):
+                    self.assertEqual(incisor.get_client_ip(), self.PEER)
+
+
 class TestSymbolValidation(unittest.TestCase):
     """Guide section 5: nothing but a whitelisted symbol reaches a query or an
     upstream URL."""
