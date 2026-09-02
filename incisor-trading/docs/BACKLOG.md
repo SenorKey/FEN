@@ -6,190 +6,25 @@ Check the box, then append to `PROGRESS.md`.
 Do not reorder tasks above the one you are working on. New tasks may be appended
 to the end of a phase, or added to `## Discovered` at the bottom.
 
+**A finished task collapses to a one-line record in `## Done` at the bottom** —
+nobody follows a reference to closed work. Anything in a completion note a
+future session could act on is not a note: it is a `D` item, a task, or a `DEC`
+line (guide §19), filed as one before the note goes.
+
 Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ---
 
 ## Phase 0 — Foundations
 
-- [x] **T0 · Data provider due diligence**
-  Research free-tier US equity data providers. Produce `docs/DATA-PROVIDER.md`
-  with a comparison table: rate limit, delay, whether the terms permit **public
-  display on a website**, required attribution, coverage (quotes / historical /
-  fundamentals), and API key requirements.
-  *Accept:* file exists; at least three providers compared; each "public display
-  permitted?" cell cites the specific terms clause. A recommendation is stated
-  with reasoning. **The choice and the signup are Key's — never register for an
-  account or accept terms.** Record the recommendation under `For Key` and carry
-  on; the fixture layer means no session is ever blocked on this. No code today.
-
-- [x] **T1 · Page skeleton, hidden**
-  `incisor-trading/index.html`, `incisor.css`, `incisor.js`. Shared FEN base CSS, site nav,
-  footer, `noindex,nofollow`. Three empty tabs: Dashboard / Trade / Learn. Hard
-  coded placeholder numbers, zero network calls.
-  *Accept:* loads at `localhost:8765/incisor-trading/`, looks like FEN, no console errors,
-  tabs switch by keyboard, works at 375px wide, `git status` clean outside `/incisor-trading/`.
-  *Done 2026-08-27.* Built and covered by `tests/` (34 checks, including the
-  keyboard model run for real in JavaScriptCore). The criteria that need eyes on
-  a browser — renders, console clean, 375px, looks like FEN — could not be
-  checked, because a scheduled session cannot start the dev server. Split out as
-  **D1** rather than left implied.
-
-- [x] **T2 · Flask service skeleton**
-  Clone the structure of `preside-by-side/server/`: `incisor.py` with a `/health`
-  endpoint, origin checking, per-IP and global rate limiting, config loading from
-  `$CONFIG_FILE`, SQLite init. Plus `requirements.txt`, `config.env.example`,
-  `incisor-trading.service`, `apache-snippet.conf`. Port 8789.
-  *Accept:* runs locally, `/health` returns JSON, rejects a bad Origin, rate limit
-  trips under a loop. Deploy files written but **not installed**.
-  *Done 2026-08-27.* 28 tests, all four criteria verified over a real socket as
-  well as through the test client. Nothing installed, nothing touched on the
-  server. `/health` is deliberately not reverse-proxied.
-
-- [x] **T3 · Fixture layer**
-  `INCISOR_DATA_SOURCE=fixture|live`, defaulting to fixture. `server/fixtures/`
-  with hand-written representative JSON matching the chosen provider's documented
-  response shapes. A parser module that turns provider JSON into our internal
-  shape, exercised against the fixtures.
-  *Accept:* the service serves quotes end-to-end from fixtures with no network
-  access at all. Verified by running with networking unavailable.
-  *Done 2026-08-27.* `provider.py` (parsing), `source.py` (the one I/O seam),
-  `GET /quote` and `GET /history`, six symbols in Alpha Vantage's documented
-  shapes. 72 service tests; the no-network criterion is asserted by breaking
-  every socket constructor, and confirmed again on a real socket with the
-  `upstream_calls` counter still at zero.
-
-- [x] **T4 · Snapshot cache + price store**
-  SQLite schema for quotes, daily bars, and fundamentals. A single fetcher module
-  that is the only code allowed to call upstream, with per-endpoint TTLs and a
-  call counter written to the DB.
-  *Accept:* two rapid requests for the same symbol produce exactly one upstream
-  call (assert against a stub). Quota counter is queryable.
-  *Done 2026-08-27.* `store.py` and `fetcher.py`; the database moved out of
-  `incisor.py` entirely. Four concurrent requests for one symbol also produce
-  one call. **No fundamentals table** — its shape and its upstream both belong
-  to T11, so building it now would be schema with no writer; see `DECISIONS.md`
-  and the note under *For Key*.
+**Complete — T0 through T4.**
 
 ---
 
 ## Phase 1 — Dashboard
 
-- [x] **T5 · Market clock** — open / pre / post / closed, with weekends and the US
-  market holiday calendar. Pure client-side, no data needed. Countdown to next
-  open or close. *Accept:* correct for a hardcoded set of test datetimes including
-  a half-day and a holiday.
-  *Done 2026-08-27.* `js/market-clock.js`, pure, with the view in `incisor.js`
-  — the clock draws nothing from the service, so it stayed in the shell when
-  the data views moved out at T7. Holidays are computed from their rules
-  rather than listed, so the calendar does not expire. 59 checks in
-  JavaScriptCore. The `t5-market-clock/` shots were pruned at T6; every
-  current shot set has the clock in it. See `DECISIONS.md` for the rule.
-
-- [x] **T6 · Index summary strip** — SPY / QQQ / DIA / IWM tiles with price, change,
-  percent change, sparkline. Labeled as ETF proxies, not index levels.
-  *Accept:* renders from fixtures; delay label visible; degrades to "unavailable"
-  with the service stopped.
-  *Done 2026-08-28.* `js/market-figures.js` and `js/market-data.js` (new),
-  styles split out to `css/market.css`. Built on `/history` alone — the last
-  two bars are the quote, so the strip costs four upstream calls a day rather
-  than eight. 103 checks in JavaScriptCore, 50 page tests, 100 service tests.
-  The view moved to `js/view-index-strip.js` at T7, and the `t6-*` shots were
-  pruned there. **Audited 08-29 — minor edits;** see the audit log for what
-  changed and why. Every current `t8-*` set shoots this strip, filled and
-  degraded.
-
-- [x] **T7 · Symbol search + quote detail** — search by ticker or company name;
-  detail panel with last price, change, day range, 52-week range, volume vs.
-  average, market cap, P/E. *Accept:* keyboard-navigable results; unknown symbol
-  shows a clean not-found state.
-  *Done 2026-08-28.* `js/symbol-search.js`, `js/view-symbol.js`, `js/dom.js`
-  and `server/catalog.py` (new), with the views split out of `incisor.js` and
-  `css/lookup.css` out of `css/market.css`. The fixture series went from 120
-  bars to 260 so the 52-week range is a real figure, and live mode now asks
-  for `outputsize=full` for the same reason. **Market cap and P/E render as
-  em dashes**, with a line on the page saying why: they come from filings,
-  which is T11. 163 checks in JavaScriptCore, 72 page tests, 123 service
-  tests. Four states screenshotted under `docs/shots/t7-*`: loaded,
-  searching, not-found, and with the service stopped.
-
-- [x] **T8 · Price chart** — hand-rolled SVG. Ranges 1D / 5D / 1M / 6M / 1Y / 5Y.
-  Hover readout, accessible fallback table. No chart library.
-  *Accept:* renders each range from fixtures; readable in light and dark; usable
-  by keyboard; no layout shift on range change.
-  *Done 2026-08-29.* `js/chart-geometry.js`, `js/view-price-chart.js` and
-  `css/chart.css` (new). A surface of its own beside the quote card, drawing
-  the series that panel already fetched — so a range change costs nothing
-  upstream. **Five ranges, not six: there is no 1D**, because a day of a daily
-  series is one bar; see `DECISIONS.md`, and do not "complete" this by adding
-  it. 5Y draws the 260 sessions fixtures hold and says so on the page. Axis
-  labels and round markers are HTML positioned over the SVG, because
-  `preserveAspectRatio="none"` smears text and turns circles into ellipses.
-  128 checks in JavaScriptCore, 88 page tests, 123 service tests; five states
-  screenshotted under `docs/shots/t8-*`. **Audited 08-30 — minor edits;** see
-  the audit log for what changed and why. The drawing moved to
-  `js/chart-canvas.js` there, when the view crossed the 600-line rule, and a
-  sixth shot set holds the state fixtures cannot serve.
-
-- [x] **T9 · Watchlist** — add/remove symbols, persisted to `localStorage`, sortable.
-  *Accept:* survives reload; handles a cleared/blocked `localStorage` without
-  throwing; caps at a sane number of symbols to bound upstream calls.
-  *Done 2026-08-30.* `js/watchlist-store.js`, `js/view-watchlist.js` and
-  `css/watchlist.css` (new), plus a Watch toggle beside the quote card —
-  outside `[data-quote]`, because everything in that panel is a figure the
-  service returned and this is a control over the reader's own list. **Capped
-  at eight**, and the number is the upstream budget rather than taste: a row
-  costs one `/history` call, the same single call a tile costs. 119 checks in
-  JavaScriptCore, 122 page tests, 128 service tests. Three states
-  screenshotted under `docs/shots/t9-*`; the service-stopped state was
-  verified and not committed, because `t8-service-down` already holds that
-  picture. **Two defects found in the screenshots, not the tests** — the
-  `[hidden]` attribute defeated by an author `display` rule, and a notice
-  that only appeared after the thing it warned about. See `PROGRESS.md`.
-  **Audited 08-31 — minor edits;** see the audit log for what changed and
-  why. It grew a **trend column** there, drawn from the series each row was
-  already fetching and dropping, and went full width to hold it; the
-  sparkline drawer moved to `js/sparkline.js` and is shared with T6.
-
-- [x] **T10 · Sector performance grid** — eleven Select Sector SPDR funds,
-  ranked, over 1M / 3M / YTD / 1Y. *Accept:* renders from fixtures; gains/losses
-  are distinguishable in grayscale.
-  *Done 2026-08-31.* `server/sectors.py`, `js/view-sectors.js` and
-  `css/sectors.css` (new), plus `GET /sectors` — the first route that computes
-  rather than relays, because eleven series is a third of a megabyte to answer
-  a question that needs forty-four numbers. **Sectors only: the movers half is
-  T10b**, not because it is hard but because it cannot be built from per-symbol
-  calls at all; see `DECISIONS.md` and do not "complete" this by ranking a
-  handful of large caps. **No 1D column**, for the same reason T8 has no 1D
-  range: eleven funds cost eleven of a 22-call day, so their series are read at
-  a week and the shortest window the grid can honestly draw is a month. Every
-  figure is measured to the newest date all eleven share. 72 checks in
-  JavaScriptCore, 138 page tests, 156 service tests. Three states shot under
-  `docs/shots/t10-*`. **Two defects found in the screenshots, not the tests** —
-  bars overflowing their track, and sector names wrapping between 560 and
-  768px.
-
-- [x] **T10a · Give the served document a seam before the next surface lands**
-  `index.html` is at 888 lines against the 900 ceiling D2 set — 12 lines of
-  headroom, and T10b, T11 and T12 each add a surface. This is not a defect; it
-  is sequenced work that has to happen before the next surface, and it was
-  deferred once already.
-  *Accept:* either a real seam is found and the document splits along it, or the
-  ceiling moves with the reasoning written down the way D2 did it, and the
-  per-surface 150-line rule is shown to still be the thing protecting
-  readability. Whichever, `test_the_served_document_stays_under_900_lines` ends
-  the session green with headroom for the surfaces still planned.
-  *Done 2026-09-01.* **No seam exists and the ceiling was measuring the wrong
-  thing.** A quarter of the document is comment, and on the one file that
-  cannot split, counting comments makes deleting the reasoning the cheapest way
-  past the rule — the opposite of what guide §16 asks for. The ceiling counts
-  markup only now: 596 lines, under the 600 every other shipped file obeys,
-  with 304 of headroom. **The per-surface rule was not reaching two of the
-  surfaces it was supposed to protect** — it pairs a block with hooks that
-  begin with the block's own attribute, and `[data-sectors]` matched none of
-  its ten `data-sector-*` hooks on a plural `s`. The container is singular now
-  and a derived guard fails any surface-shaped block no length rule reaches.
-  141 page tests, 156 service tests, `shoot.py --api` green at four widths.
+**Complete — T5 through T11, T10a included**; every surface among them has an
+audit-log row below. Open here: T10b, blocked, then T12.
 
 - [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -227,36 +62,6 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
   *Unblock when:* Key's written display permission exists, at which point this
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
-
-- [x] **T11 · Fundamentals panel** — the standard set: market cap, P/E, EPS,
-  dividend yield, beta, shares outstanding, revenue, margins. Each with a one-line
-  plain-English explanation on demand. *Accept:* every figure has a definition; missing
-  data renders as "—", never as 0 or NaN.
-  *Done 2026-09-01.* `server/edgar.py`, `server/fundamentals.py`,
-  `server/collect.py`, `js/view-fundamentals.js` and `css/fundamentals.css`
-  (new), plus `GET /fundamentals` — **the second upstream**. Filings come from
-  SEC EDGAR, which is public domain, needs no key and allows ten requests a
-  second, so the whole surface costs nothing against the 22-call day; a lookup
-  still costs the two calls it did before this panel existed. Beta is measured
-  from bars already in the cache and never refreshes one.
-  **The quote card was split along its provider, not its markup** — the entry
-  below said to extract the figures list, and the real seam is where the
-  numbers come from: market cap and P/E moved out, Open and Volume stayed, and
-  `[data-quote]` went 143 → 127 lines. See `DECISIONS.md`; do not "finish" the
-  split by pulling the price figures out too.
-  **The budget had to learn there are two upstreams.** `budget_remaining()`
-  counted the whole call log, so a free SEC request would have cost one of
-  Alpha Vantage's 22 — undoing the entire reason for choosing EDGAR. Scored
-  over `source.UPSTREAM_OF` now, with a test that a filing call does not move
-  the budget and a price call does.
-  76 checks in JavaScriptCore, 160 page tests, 194 service tests. Four states
-  shot under `docs/shots/t11-*`: a company, its explanations open, a fund, and
-  the panel with the service stopped. **Two defects found in the screenshots,
-  not the tests** — the explanations set in monospace because `font-family:
-  inherit` resolves to the figure's face, and a heading reading "the company
-  behind XLK" directly above a sentence saying XLK is not a company.
-  `incisor.py` crossed the 600-line rule when the route landed and was split
-  at `collect.py`. **One defect filed rather than fixed: D7.**
 
 - [ ] **T12 · Earnings and dividend dates** — next earnings date, last report
   surprise, dividend ex-date and amount for the viewed symbol.
@@ -465,255 +270,19 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-- [ ] **D10 · `BACKLOG.md` carries its own history and is read in full** `[defect]`
-  *(measured attended 2026-09-02)* — the same disease as D9, in the second file
-  §14 step 2 reads front to back. **57,464 bytes, of which 47% is completed
-  work**: twenty finished tasks still carrying their full acceptance criteria
-  and completion notes, re-read every session forever. **Its prerequisite D9
-  landed 2026-09-02, so this is the next defect to take** — while the
-  index/detail pattern is still in hand.
-
-  Cheaper than D9 and deliberately not the same shape: **finished work needs no
-  anchor.** Nobody follows a reference to a task that is done — they only need
-  to know it happened, when, and what it concluded. So a completed task
-  collapses to a one-line record in a `## Done` section, and anything in its
-  notes that a future session could act on is not a note at all: it is a `D`
-  item or a task, by §19.
-  *Accept:* `BACKLOG.md` under **32,000 bytes**; every completed task present as
-  a dated one-line record naming its verdict; no acceptance criterion or
-  completion note discarded that implies future work — each is either filed as
-  its own entry or verifiably restated in the code or a test; open, blocked and
-  standing entries untouched; the audit log untouched; both suites green.
-
-- [x] **D9 · Split the memory into an index and a detail file** `[defect]`
-  *(flagged 2026-09-02; design settled with Key the same day; done 2026-09-02)*
-  — built as specified. **`DECISIONS.md` went 57,628 → 11,930 bytes**, and it
-  is now an index of **67 entries** — 51 settled, 8 dead ends, 7 recurring
-  traps, plus `DEC-067` recording the two calls this split had to make. Sixty-six
-  entries went in and sixty-six came out; nothing was merged and nothing
-  dropped. `DECISIONS-DETAIL.md` (new, 64,494 bytes) holds the reasoning under
-  a `DEC-NNN` heading each, wrapped at 78 columns instead of the 1,573-character
-  table cells it came from. **No reasoning was lost, and that is checked rather
-  than asserted:** all 206 original table cells were confirmed present in the
-  detail file, verbatim up to line wrapping.
-  `tests/test_docs_budget.py` is rewritten — 2 checks became 7. `CEILING` is
-  ratcheted 60,000 → 12,000, no index line may exceed 200 characters, and the
-  bijection is asserted in both directions with a count check behind it,
-  because set arithmetic alone hides a duplicate paired with a missing entry.
-  **All five guards were confirmed to fail with the defect put back** — an
-  essay-length line, a dangling ID, an orphan detail entry, a reused ID, and an
-  oversized file. The file name is unchanged, so all 90 references across the
-  docs, tests and code comments still resolve.
-  **Two acceptance criteria are not done and were not the routine's to do:**
-  guide §16 and §14 step 2 still describe the pre-split model. `AGENT-GUIDE.md`
-  is read-only for the routine (§1) and changing it is out of bounds (§3), so
-  the rewrite is drafted under *For Key* in `PROGRESS.md` instead. §16 already
-  carries a pointer saying the structure is changing, so it is stale rather
-  than wrong. Original scope below.
-
-  ~~Filed as a defect because the file only works as memory if it is read in full
-  every session, so its size is a correctness property, and this one is
-  degrading quietly with nothing failing to show it. **57,628 bytes across 50
-  settled rows**, up from 10,849 after the last consolidation five days earlier:
-  10.8K → 23.8K → 36.1K → 57.6K. The guide's old "roughly two screens" passed
-  the whole way, because it counted lines while the rows are single lines up to
-  1,573 characters — the 600-line-rule trap wearing a different hat.~~
-
-  **The shape, decided rather than left open.** Skimming a book, not reading it:
-  an index you read front to back, and a detail file you open only when a line
-  in the index makes you want to.
-
-  1. **`DECISIONS.md` becomes the index** and keeps its name — there are 81
-     references to it across the docs, the tests, and code comments in
-     `watchlist-store.js`, `sparkline.js`, `edgar.py` and others. Renaming the
-     file everything points at trades a size problem for eighty dangling
-     pointers. It stays the file §14 step 2 reads **in full**.
-  2. **`DECISIONS-DETAIL.md` holds the reasoning.** It may grow without bound —
-     storage is free and attention is not — and it is read only by following an
-     index line, never front to back.
-  3. **Every entry has a stable ID** — `DEC-001`, `DEC-002`, … — which is a real
-     anchor in the detail file. "See the detail file" is useless at two hundred
-     entries: following it would mean reading the whole thing, which defeats the
-     split. IDs are assigned once and never reused, including for entries later
-     superseded. **`DEC-`, not `D-`:** `D` already names a Discovered item, and
-     `D9` beside `D-009` differs by a hyphen and a zero — two namespaces one
-     typo apart, in the two files most often read together.
-  4. **An index line carries the claim *and* its reason in brief** — never just
-     a subject. "Finnhub — rejected" does not stop the next session re-walking
-     it; "Finnhub — ToS forbids redistribution" is sufficient on its own and the
-     detail never has to be opened. The index line must be independently enough
-     to *prevent* the loop; the detail is for when you need to act on it.
-  5. **Dead ends are indexed the same way** — tried X, failed because Y, revisit
-     if Z, on one line. Locality cannot reach a dead end (you are about to
-     create a file that does not exist yet, so there is no header to read), so
-     the index line has to stand alone.
-
-  *Accept, and each of these is checkable:*
-  - `DECISIONS.md` is **under 12,000 bytes** and every settled row, dead end and
-    recurring trap survives as an index line — count them before and after and
-    state both numbers.
-  - **No index line exceeds 200 characters**, asserted by a test. This is the
-    one that matters most: the current file is what happens without it, because
-    those 1,573-character rows were one-liners once. Nobody decided to write
-    essays; they accreted.
-  - `DECISIONS-DETAIL.md` carries the full reasoning for every entry, under its
-    ID as a heading. **No reasoning is lost** — this is a move, not a trim.
-  - **A bijection test**: every index ID resolves to exactly one detail heading,
-    and every detail heading is indexed exactly once. Without it the split
-    trades a size problem for a silent correctness problem, and dangling
-    references are the failure mode of every index that has ever rotted.
-  - `CEILING` in `tests/test_docs_budget.py` lowered to match what lands, and
-    its docstring updated to describe the two files.
-  - Guide §16 rewritten to describe the index/detail model, and §14 step 2 to
-    name which file is read in full.
-  - Both suites green.
-
-  Expect a whole session. Take it before feature work — every session that files
-  a decision first pays for this one's postponement.
-
-- [x] **D8 · The per-IP gate can be sidestepped by the caller it is meant to
-  bound** `[defect]` *(found 2026-09-02 fixing D7, fixed 2026-09-02)* — fixed
-  as filed: the gate reads the **last** hop now, the only one Apache wrote.
-  The one-line fix was one line; the part worth recording is the entry the
-  scope did not mention. A caller controls the whole prefix **including its
-  separators**, so `X-Forwarded-For: 1.2.3.4,` arrives appended as
-  `1.2.3.4, , <peer>` — take the final comma-separated field verbatim and the
-  bucket is the **empty string**, which `rate_limit_check` reads as an
-  unidentifiable caller and exempts from the per-IP gate altogether. Taking
-  the last hop and taking the last *non-empty* hop are one character apart and
-  the first one reopens the defect through a side door.
-  Verified against a live service, not only the test client: 70 requests each
-  carrying a fresh claimed address trip at exactly 61, the log shows all of
-  them bucketed under the appended peer rather than any of the 250 claimed,
-  and a different reader is unaffected. Four back-to-back `shoot.py` runs stay
-  green with zero 429s, so the tool's four simulated readers are still
-  identified one by one — the criterion the fix had to keep.
-  `TestForwardedForTrust` is seven checks; the six that assert the fix were
-  confirmed to fail with the first-hop read put back, and the two that must
-  hold both ways (a single hop is the caller, no header falls back to the
-  peer) hold in both directions. Original scope below.
-
-  ~~`get_client_ip()` takes
-  the **first** hop of `X-Forwarded-For`, and `mod_proxy_http` **appends** the
-  peer to whatever the client already sent. So a caller who sets the header
-  themselves arrives as `X-Forwarded-For: <whatever they chose>, <their real
-  address>`, and the service buckets them under the half they control. Vary it
-  per request and the 60-a-minute per-IP ceiling never fires.~~
-
-  Found from the other side: D7's whole subject is that the tool was never
-  exercising this path, so nothing had looked at what the path does with a
-  header a stranger can write. Filed rather than fixed because guide §19 takes
-  one defect a session and this is a different surface from the one just
-  worked on — the service edge, not the tool.
-
-  **Bounded, not harmless.** The global gate is 600 a minute across every
-  caller, is keyed on nothing spoofable, and the 22-a-day upstream budget sits
-  behind that, so quota — the thing §5 says to protect — stays bounded. What
-  is lost is the per-caller ceiling: one client can take ten times its share
-  of the service, and of the cache behind it, without ever being refused.
-
-  The likely fix is one line and its reasoning: behind exactly one trusted
-  proxy the **last** hop is the only one Apache wrote and the only one a
-  caller cannot forge. It needs saying in a comment, because taking the last
-  hop looks wrong to anyone who has read the usual advice about the first.
-  *Accept:* a request carrying a forged `X-Forwarded-For` is bucketed under
-  the address Apache appended, not the one the caller supplied; a test drives
-  a forged header through the real gate and shows the ceiling still trips;
-  `tools/shoot.py` still identifies its own visitors, since it sets exactly
-  one hop and is the shape the fix has to keep working.
-
-- [x] **D6 · The watchlist table pushes the page 2px wide at 320px** `[defect]`
-  *(found 2026-08-31 in the T9 audit, diagnosed attended the same day, fixed
-  2026-08-31)* — and the table was never the culprit. It scrolls inside its own
-  box correctly, and always did; what escaped was the header's off-screen
-  "Remove" label. `.inc-offscreen` is `position: absolute`, and an absolutely
-  positioned element is clipped only by an ancestor that is a **containing
-  block** for it — a scroller with no `position` is not one, so the label sat
-  1.77px past a 320px viewport while every visible column obeyed the clip.
-  Fixed by making the three sideways-scrolling boxes containing blocks, with
-  the reason recorded beside `.inc-offscreen` in `incisor.css` because that is
-  the thing that escapes. Two guards, both confirmed to fail with the fix
-  removed: `test_page.py` derives every `overflow*: auto` rule from the shipped
-  CSS and asserts each one also establishes a containing block, and
-  `tools/shoot.py` loads the page a fourth time at **320px with a full
-  eight-row watchlist** and checks for overflow — measured, not photographed,
-  and skipped with a stated reason when `--api` is absent, because an unpriced
-  table is narrower than the rule is about. Density is unchanged: every column,
-  row and cell measures identically at 320, 390, 768 and 1440, and the remove
-  control still hit-tests at all four corners.
-  Original scope below.
-
-  ~~The audit measured the overflow, confirmed it pre-existing, and left it
-  because chasing it belonged to another surface.~~ It belongs to this one:
-  measured with
-  six rows stored, `table.inc-watch-table` overflows by 2px at a 320px viewport,
-  and is clean at 360 and 375. Guide §13 is unconditional — "wide tables scroll
-  inside their own container; the page body never scrolls horizontally" — and
-  this table pushes the body instead of scrolling itself, so the width §15 names
-  for checking is not a floor below which the rule stops applying. `shoot.py`
-  cannot see it: its narrowest viewport is 390.
-  *Accept:* no horizontal overflow at 320px with a full eight-row watchlist; a
-  test asserts it at 320 so the next narrow surface cannot reintroduce it;
-  desktop row density unchanged.
-
-- [x] **D7 · Two `shoot.py` runs inside a minute trip the service's own rate
-  limit** `[defect]` *(found 2026-09-01 building T11, fixed 2026-09-02)* — and
-  none of the three candidates in the original scope was the fix, because the
-  arithmetic was not the defect. **The tool was not identifying its callers.**
-  With `--api` it stands in for Apache, and `mod_proxy_http` sets
-  `X-Forwarded-For` from the peer on everything it forwards; this proxy set
-  nothing, so all four browser contexts reached the service as the loopback
-  peer and shared one per-IP bucket. Four visitors were being charged to one,
-  and the second run inside the minute paid for the first.
-  That also made this the one control whose production path no local check
-  ever took: the service buckets by the forwarded address, and every request
-  the tool ever sent took the `else` branch.
-  Each context is a visitor now with its own RFC 5737 address, in a block
-  keyed on the process so a rerun is a fresh set of readers. **Four runs back
-  to back are green with zero 429s**, verified against a live service, and the
-  service log shows it bucketing four distinct addresses rather than one.
-  The ceiling is still exercised, deliberately rather than by collision: the
-  proxy tallies per visitor and fails the run when **one page load** outgrows
-  the allowance **one reader** gets — which is the finding that was hiding
-  under this. A load cost nine requests when D7 was filed and costs fourteen
-  with a full watchlist; nothing was tracking the number, and it grows every
-  time a surface lands. It is printed on every run. The number itself is read
-  out of `server/incisor.py`'s AST rather than repeated, and a read that stops
-  finding it raises instead of defaulting.
-  Guards, both confirmed to fail with the fix removed: `tests/test_shoot_tool.py`
-  (10 checks) asserts the marker becomes `X-Forwarded-For`, never reaches the
-  service itself, and that a run's addresses are distinct and cannot overlap a
-  neighbouring run's; `server/tests/test_incisor.py` asserts the derived
-  ceiling against the real one, in the only place both exist at once.
-  Original scope below.
-
-  ~~The run exits non-zero with a list of
-  console errors that look exactly like a broken dashboard; they are 429s from
-  our own service, and every one of them is the tool exceeding the per-IP
-  ceiling it is testing against.~~
-
-  The arithmetic: `shoot.py` loads the page four times, and each load now costs
-  nine requests — `/symbols`, `/sectors`, four tile `/history`, plus `/quote`,
-  `/history` and `/fundamentals` for a looked-up symbol. That is **36 a run**
-  against `RATE_LIMIT_MAX=60` a minute. One run is comfortable. Two are 72, and
-  any session that ships a surface shoots at least two states — this one shot
-  four and hit the wall three times.
-
-  **Pre-existing, and T11 made it worse rather than causing it:** the same
-  arithmetic was 32 a run before this session, so two runs was already 64. The
-  08-31 note in `DECISIONS.md` is right that *one* run stays clear of the
-  ceiling and was only ever measuring one.
-
-  Not fixed today because the fix is a judgement about the tool rather than a
-  line: the candidates are for `shoot.py` to raise the limit for its own
-  child service (which stops the tool exercising the gate at all), to pace its
-  loads (which makes every run slower for a problem only sessions have), or to
-  reset the buckets between runs through a diagnostic the service does not yet
-  have. Choosing among those is a session's work, not a footnote in one.
-  *Accept:* four `shoot.py` runs back to back produce no 429, and whichever
-  route is taken, the per-IP gate is still exercised somewhere — a fix that
-  makes the tool stop testing the limit has moved the problem rather than
-  solved it.
+- [ ] **D11 · The audit log grows without bound in a file read in full**
+  `[defect]` *(found 2026-09-02, closing D10)* — **13,219 bytes over seven
+  rows**, which D10 was forbidden to touch and which is now 41% of this file.
+  O6 never completes and §18 makes a surface due again after any revamp, so
+  this is D9's disease in its third file. The prose is not the problem — an
+  audit is the best writing the routine does — the problem is reading all of it
+  every session when what a session needs is the date, the surface, the verdict.
+  *Accept:* same shape as D10 — a one-line verdict row each here, the four
+  answers moved to `docs/AUDITS.md` under a dated heading; `BACKLOG.md` under
+  22,000 bytes; no prose discarded, checked by counting; every *looked at and
+  left* finding restated in the code or filed as its own entry;
+  `tests/test_docs_budget.py` grown to budget this file with the same both-way
+  bijection D9 installed.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
@@ -739,63 +308,33 @@ phase. When the call is unclear, file it as a defect.
   somewhere a screen reader explains; the beacon sees no ticker; the strip
   still renders with `view-symbol.js` absent.
 
-- [x] **D5 · `/symbols` was never reverse-proxied** `[defect]`
-  *(found and fixed 2026-08-31, mid-T10)* — the search box has called
-  `/api/incisor/symbols` since T7 and `server/apache-snippet.conf` names one
-  route per line, so on the day it was deployed the combobox would have been
-  permanently empty against Apache's own 404. Invisible locally because every
-  check this project runs forwards the whole `/api/incisor/` prefix: the static
-  server in `tools/shoot.py` does, and the service tests call the routes
-  directly. Fixed with a rule rather than a line — `test_page.py` derives the
-  routes the browser calls from the shipped client source and asserts each is
-  proxied, `/health` asserted the other way round. Confirmed to fail with the
-  line removed again. Third of the deploy-only defects after D4; promoted to
-  *Recurring traps* in `DECISIONS.md`.
+## Done
 
-- [x] **D4 · `DB_PATH` in `config.env` is silently ignored** `[defect]`
-  *(found 2026-08-29, done 2026-08-30)* — and worse than filed. With `DB_PATH`
-  set only in `config.env` the service does not quietly use the wrong path: it
-  tries to create `/var/lib/incisor-trading` and **fails to boot** wherever
-  that is not writable. On the deployment box, where `ReadWritePaths` makes it
-  writable, it would have written to the old path instead — which is the
-  failure that was filed. Fixed by moving the read to the edge: `store.py`
-  keeps `DEFAULT_DB_PATH` and a `configure()`, `incisor.py` reads the key below
-  `load_env_file()` like every other one. Verified end to end — the service was
-  booted with its path coming only from a config file, `shoot.py` drove the
-  full page against it, and the database at that path came back holding 1040
-  daily bars. `tests/test_config.py` (5 checks) covers the key and the class of
-  bug: an AST rule that only the edge reads the environment at module level,
-  and only below the line that loads the file. Both guards were confirmed to
-  fail with the defect put back.
+Closed work, oldest first — history, not a queue. `→` names the `DECISIONS.md`
+IDs the work settled; those, the audit-log row above, and the code are where a
+session that must *act* on any of this goes.
 
-- [x] **D2 · `index.html` hit the 600-line rule with two lines to spare**
-  *(done 2026-08-29)* — and it would have blocked T9 through T12, each of which
-  adds a surface. Resolved by asking what the rule was protecting rather than
-  by shrinking the file: §6 says "split it along a real seam", every other file
-  here has one, and a served document has none — no build step (hard rule 10)
-  and no second route (non-goals). A line cap on markup is therefore not a
-  readability rule but a cap on how many surfaces the route may carry.
-  `test_page.py` now measures the three things separately: 600 lines per
-  stylesheet and script, which can split; 900 for the document, as a ceiling
-  that fails loudly if the page starts carrying a second route's worth of
-  markup; and **150 lines per surface**, which is what §6 is actually for. The
-  surface list is derived from the `data-x` / `data-x-*` pairing every view
-  documents, not written out, so it covers the next surface added. See
-  `DECISIONS.md`.
-
-- [x] **D1 · Browser verification pass for the page skeleton** *(done 2026-08-27,
-  attended)* — verified with `tools/shoot.py`: no console errors and no
-  horizontal overflow at 1440, 768 or 390 (true mobile emulation). The apparent
-  mobile overflow in an earlier `chrome --headless --screenshot` was an artifact
-  of that tool, not a defect — see `DECISIONS.md`. The `t1-skeleton/` shots were
-  pruned at T6; `shoot.py` re-proves the same two properties on every run, and
-  the current page is shot in `docs/shots/t7-quote/`. Original scope below.
-
-  ~~**D1 · Browser verification pass for the page skeleton**~~ — the half of
-  T1's acceptance criteria that a headless session cannot reach: load the page,
-  confirm a clean console, check it at 375px and at desktop width, confirm it
-  reads as a FEN page, and put screenshots in `docs/shots/`. Needs an attended
-  session, or Key with the `fen` config running. Everything else about T1 is
-  done and tested. See `DECISIONS.md` — *unattended sessions have no browser*.
-  *Accept:* screenshots at both widths committed; console noted as clean; any
-  layout defect either fixed or raised as its own task.
+| ID | Done | What shipped, and what it concluded |
+|---|---|---|
+| T0 | 08-27 | **Data provider due diligence.** `docs/DATA-PROVIDER.md`. → DEC-001, DEC-052 |
+| T1 | 08-27 | **Page skeleton, hidden.** The half of its criteria needing a browser became D1. |
+| T2 | 08-27 | **Flask service skeleton.** Port 8789, origin checks, both rate gates; deploy files written, never installed. |
+| T3 | 08-27 | **Fixture layer.** `provider.py` parses, `source.py` is the only I/O seam. → DEC-004, DEC-005, DEC-058 |
+| T4 | 08-27 | **Snapshot cache and price store.** Four concurrent requests for one symbol make exactly one upstream call. → DEC-003, DEC-006 |
+| T5 | 08-27 | **Market clock.** Audited 08-29, minor edits. → DEC-007, DEC-019 |
+| T6 | 08-28 | **Index summary strip.** Four ETF-proxy tiles. Audited 08-29, minor edits. → DEC-020 |
+| T7 | 08-28 | **Symbol search and quote detail.** Audited 08-30, minor edits. → DEC-015, DEC-016, DEC-023 |
+| T8 | 08-29 | **Price chart.** Hand-rolled SVG. Audited 08-30, minor edits. → DEC-018, DEC-024 |
+| T9 | 08-30 | **Watchlist.** Audited 08-31, minor edits. → DEC-028, DEC-032, DEC-033 |
+| T10 | 08-31 | **Sector performance grid.** `GET /sectors`. Audited 09-01, minor edits. → DEC-029, DEC-030, DEC-031 |
+| T10a | 09-01 | **A seam for the served document.** No seam exists. → DEC-026, DEC-038, DEC-039 |
+| T11 | 09-01 | **Fundamentals panel.** SEC EDGAR as a second upstream. Audited 09-02, minor edits. → DEC-002, DEC-041, DEC-042, DEC-043 |
+| D1 | 08-27 | **Browser pass for the skeleton** *(defect, fixed)* — and it built `tools/shoot.py` to do it. → DEC-055 |
+| D2 | 08-29 | **`index.html` hit the 600-line rule** *(defect, fixed)* → DEC-026 |
+| D4 | 08-30 | **`DB_PATH` in `config.env` was ignored** *(defect, fixed)* — worse than filed: the service failed to boot. → DEC-027, DEC-064 |
+| D5 | 08-31 | **`/symbols` was never reverse-proxied** *(defect, fixed)* — with a derived rule rather than a line. → DEC-064 |
+| D6 | 08-31 | **The page went 2px wide at 320px** *(defect, fixed)* — and the watchlist table was never the culprit. → DEC-036, DEC-037 |
+| D7 | 09-02 | **Two `shoot.py` runs tripped the rate limit** *(defect, fixed)* — the tool identified no callers. → DEC-047 |
+| D8 | 09-02 | **The per-IP gate could be sidestepped** *(defect, fixed)* — it reads the last non-empty hop now. → DEC-048 |
+| D9 | 09-02 | **The memory split into an index and a detail file** *(defect, fixed)* — 66 entries in, 66 out. **Guide §16 and §14 step 2 still describe the pre-split model; that rewrite is Key's, drafted as `N7` in `PROGRESS.md`.** → DEC-067 |
+| D10 | 09-02 | **This file carried its own history** *(defect, fixed)* — twenty-two closed entries became these rows. → DEC-068 |

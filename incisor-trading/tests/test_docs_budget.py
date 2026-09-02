@@ -10,6 +10,12 @@ The memory is two files with two different jobs, split at D9:
                         Opened at an ID, never read front to back, and
                         deliberately **not** budgeted: storage is free and
                         attention is not.
+  `BACKLOG.md`          the queue. Also read in full, and it caught the same
+                        disease: 47% of it was completed work, re-read every
+                        session forever. D10 collapsed each finished task to a
+                        one-line record in `## Done` — in this file, not a
+                        second one, because nobody follows a pointer to closed
+                        work (DEC-068).
 
 Two properties are enforced here, and they fail in opposite directions.
 
@@ -30,6 +36,12 @@ decision into a file header rather than to add a seventy-first line here.
 correctness problem unless the two files are held together: an index line
 pointing at an ID that no longer exists is how every index that has ever rotted
 began, and nothing fails when it happens. The bijection is asserted both ways.
+
+**Shape**, on the backlog. A byte ceiling alone is what the old "two screens"
+rule was, and it failed because nothing stopped a one-liner becoming an essay.
+So the ceiling here is paired with the rule that produced it: a finished task
+is a row in `## Done` and never a bullet, and a row is a record rather than a
+retelling. Break either and the ceiling is only a matter of time.
 """
 
 import os
@@ -48,7 +60,22 @@ CEILING = 12_000
 # belongs in the detail file, or beside the code it binds (guide section 16).
 MAX_INDEX_LINE = 200
 
+# Ratchet, like CEILING, and deliberately tight: 462 bytes of headroom over what
+# D10 landed. A session that cannot fit a new entry has found the next thing to
+# fix rather than a number to raise — and D11 is already filed, which takes this
+# to 22,000 by moving the audit log out the way D10 moved the completed tasks.
+# The 32,000 D10 asked for was met by the collapse (31,588); filing D11 in the
+# same session is what put the file 538 over it.
+BACKLOG_CEILING = 33_000
+
+# A record, not a retelling. Long enough for the task, its verdict and the
+# `DEC` IDs it settled; short enough that twenty-two of them are a page. The
+# 1,573-character rows that made D9 a defect were one-liners once, so a length
+# cap travels with every collapse this project does.
+MAX_DONE_ROW = 300
+
 INDEX_ROW = re.compile(r'^\|\s*(DEC-\d{3})\s*\|')
+DONE_ROW = re.compile(r'^\|\s*[TDOS]\d+[a-z]?\s*\|')
 DETAIL_HEADING = re.compile(r'^##\s+(DEC-\d{3})\s+—\s+\S')
 
 
@@ -127,6 +154,53 @@ class TestTheTwoFilesAgree(unittest.TestCase):
     def test_the_files_hold_the_same_number_of_entries(self):
         """Set arithmetic above hides a duplicate paired with a missing one."""
         self.assertEqual(len(_index_ids()), len(_detail_ids()))
+
+
+class TestTheBacklogStaysAQueue(unittest.TestCase):
+    """D10. The backlog is read in full every session, so closed work costs
+    every future session what it cost this one — and it had grown to 47% of the
+    file. The cure was not a second file (DEC-068): a finished task is a row in
+    `## Done`, and what a session needs from one is elsewhere already."""
+
+    def test_the_backlog_fits_its_budget(self):
+        size = len(_read('BACKLOG.md').encode('utf-8'))
+        self.assertLessEqual(
+            size, BACKLOG_CEILING,
+            'BACKLOG.md is %d bytes against a ceiling of %d. Take D11, which '
+            'moves the audit log out the way D10 moved the completed tasks. '
+            'Do not raise the ceiling.' % (size, BACKLOG_CEILING))
+
+    def test_no_completed_task_is_still_a_bullet(self):
+        """The rule the ceiling rests on. `[x]` marks a task carrying its full
+        acceptance criteria and completion note; a closed one is a `## Done`
+        row. This is what actually stopped the growth — the byte count is only
+        how it was noticed."""
+        checked = [line for line in _read('BACKLOG.md').splitlines()
+                   if line.startswith('- [x]')]
+        self.assertEqual(
+            checked, [],
+            'completed tasks left as bullets: %s. Collapse each to a dated '
+            'one-line record in ## Done, filing anything in its notes that a '
+            'future session could act on as its own entry first (guide S19).'
+            % ' / '.join(line[:60] for line in checked))
+
+    def test_no_done_row_grows_into_an_essay(self):
+        over = [(line.split('|')[1].strip(), len(line))
+                for line in _read('BACKLOG.md').splitlines()
+                if DONE_ROW.match(line) and len(line) > MAX_DONE_ROW]
+        self.assertEqual(
+            over, [],
+            'Done rows over %d characters: %s. A record says what shipped, '
+            'when, and what it concluded; the reasoning belongs in the DEC '
+            'lines it names, the audit-log row, or the code.'
+            % (MAX_DONE_ROW, ', '.join('%s (%d)' % pair for pair in over)))
+
+    def test_the_done_section_is_not_empty(self):
+        """Guards the two checks above, which both pass on a file with no
+        history in it at all."""
+        rows = [line for line in _read('BACKLOG.md').splitlines()
+                if DONE_ROW.match(line)]
+        self.assertGreater(len(rows), 20)
 
 
 if __name__ == '__main__':

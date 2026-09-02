@@ -37,9 +37,19 @@ narrow on purpose, so a view reaching for something it never documented fails
 loudly rather than going quietly untested.
 
 **These do not replace a browser.** They cannot see layout, contrast, spacing or
-the 375px pass, and they never will. They exist because a scheduled session runs
-unattended and cannot start the dev server, so without them the whole page would
-ship on inspection alone. When a browser is available:
+the 375px pass, and they never will.
+
+That is not a caveat — it is where the defects have actually been. T9, T10 and
+T11 each shipped with two, and all six were found in the `shoot.py` images with
+both suites green: a `[hidden]` attribute defeated by an author `display` rule,
+a notice that only appeared after the thing it warned about, bars overflowing
+their track, sector names wrapping, explanations set in the wrong face, and a
+heading calling a fund a company. A green run means nothing here is broken in a
+way a DOM stub can reach. Look at the pictures.
+
+They exist because a scheduled session runs unattended and cannot start the dev
+server, so without them the whole page would ship on inspection alone. When a
+browser is available:
 
 ```
 python3 -m http.server 8765

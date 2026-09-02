@@ -22,6 +22,30 @@
  * whether they are shown, which is what keeps what the panel teaches in the
  * served document rather than in a script.
  *
+ * **Four groups of three, and the grouping is the surface rather than styling
+ * on it.** Against the price / What the business did / What it keeps of each
+ * sale / How it has moved. Each group is its own measured surface with its own
+ * hook prefix, and each render function below fills exactly one.
+ *
+ * The three margins are the one relationship this panel explicitly teaches --
+ * the same sale with one more cost taken off each time -- and one flowing grid
+ * of ten put them 819px apart across a row break at 1440 and split them again
+ * at two columns, while the copy under the third said they always fall in
+ * order. No ordering of a single grid keeps a trio together at four columns
+ * and at two, so the grid was what had to go; the ordering tricks that look
+ * like the cheap fix all break at the other column count. The groups were not
+ * invented for the layout: renderValuation, renderEarned, renderMargins and
+ * renderMeasures are the shape this file was already in, and only the markup
+ * was flat.
+ *
+ * Worth knowing before anyone simplifies it: each group is grid-auto-flow:
+ * column over two template rows with display: contents on the row div, so
+ * labels share one row and values share the next, and a label that wraps
+ * cannot push its value below its neighbours. Row flow interleaves labels and
+ * values and is a worse layout than the one being fixed. The explained state
+ * is the deliberate exception and goes back to blocks, because there is
+ * nothing to align once each figure carries a paragraph.
+ *
  * Contract with the markup: a [data-fundamental] block whose data-state is
  * one of empty / loading / ready / fund / unavailable, holding
  * [data-fundamental-figure] spans named for each figure.

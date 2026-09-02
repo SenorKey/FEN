@@ -69,10 +69,10 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-046 | **EDGAR's contact address is config, not code, and not the routine's to choose.** Without it live filings refuse and say why; the service still boots. |
 | DEC-047 | **A proxy stand-in must identify its callers** — `shoot.py` sets `X-Forwarded-For` per context. Do not take any of D7's three candidates. |
 | DEC-048 | **The per-IP limiter trusts the *last* hop of `X-Forwarded-For`** — a fact about this deployment: one proxy, appending. Empty fields disable the gate. |
-| DEC-049 | **The fundamentals panel is four groups of three, and the grouping is the surface, not styling.** No single grid keeps the margin trio together. |
 | DEC-050 | **Volatility and correlation ride on the pairing `beta()` already builds** — one `measures` object. Beta alone states a slope and hides its fit. |
 | DEC-051 | **The per-surface 150-line rule charges a block only what it does not delegate to a nested measured surface.** |
 | DEC-067 | **The index drops the date column and merges nothing.** Dates live in the detail file; merging is S6's job and D9 was a move — 66 entries in, 66 out, checked by the bijection test. |
+| DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
 
 ---
 

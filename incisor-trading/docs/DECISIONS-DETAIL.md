@@ -1057,38 +1057,6 @@ per-IP gate entirely**. **Anything that lets `get_client_ip()` return empty
 disables the gate silently**, and a disabled gate is indistinguishable from a
 gate nobody has tripped.
 
-## DEC-049 — The fundamentals panel is four groups
-
-*Settled · 09-02*
-
-**Decision**
-
-**The fundamentals panel is four groups of three, and the grouping is the
-surface rather than styling on it.** Against the price / What the business did
-/ What it keeps of each sale / How it has moved. Each group is its own
-measured surface with its own hook prefix, and each render function in
-`js/view-fundamentals.js` fills exactly one.
-
-**Why**
-
-The three margins are the one relationship the panel explicitly teaches — the
-same sale with one more cost taken off each time — and one flowing grid of ten
-put them 819px apart across a row break at 1440 and split them again at two
-columns, while the copy under the third said they always fall in order. **No
-ordering of a single grid keeps a trio together at four columns and at two**,
-so the grid was what had to go; the ordering tricks that look like the cheap
-fix all break at the other column count. The four groups were not invented for
-the layout: `renderValuation`, `renderEarned`, `renderMargins` and
-`renderMeasures` are the shape the code was already in, and only the markup
-was flat. The mechanism is worth knowing before anyone simplifies it — each
-group is `grid-auto-flow: column` over two template rows with `display:
-contents` on the row div, so labels share one row and values share the next
-and **a label that wraps cannot push its value below its neighbours**. Row
-flow interleaves labels and values and is a worse layout than the one being
-fixed. The explained state is the deliberate exception and goes back to
-blocks, because there is nothing to align once each figure carries a
-paragraph.
-
 ## DEC-050 — Volatility and correlation ride with beta
 
 *Settled · 09-02*
@@ -1520,3 +1488,48 @@ sixty-seven, so the next session that files a decision will have to move a
 surface-scoped one beside the code it binds (guide §16) or merge a pair here.
 That pressure is the mechanism, and the 200-character cap is what keeps it
 linear rather than the five-fold growth that made this a defect.
+
+## DEC-068 — Closed work collapses in place
+
+*Settled · 09-02*
+
+**Decision**
+
+**Finished work does not get an anchor.** D9 split `DECISIONS.md` into an index
+and a detail file because a settled decision still binds — a session needs to
+open it and argue with it. A completed backlog task does not: nobody follows a
+reference to work that is closed. So D10 collapsed twenty-two of them to a
+one-line record each in `## Done`, in `BACKLOG.md` itself, rather than moving
+them to a second file the way D9 did.
+
+**Why**
+
+The two files had the same symptom and needed different cures, and taking D9's
+shape for both would have been the easy mistake. A `BACKLOG-DONE.md` would
+have cost a file, a cross-reference and a bijection test to hold something
+nobody opens; the record's whole job is that it happened, when, and what it
+concluded, which fits on a line. What a session actually needs from finished
+work is elsewhere already — the `DEC` lines it settled, the audit-log row, and
+the code — so the record carries pointers to those and no reasoning of its own.
+
+The rule that makes the collapse safe is the one worth keeping: **anything in a
+completion note a future session could act on is not a note.** It is a `D`
+item, a task, or a `DEC` line, and it is filed as one *before* the note goes.
+D9's own note held the only mention of `N7` — the guide rewrite that is Key's —
+so that clause survives verbatim in D9's record rather than as a pointer.
+
+Two things were moved rather than written for this. `DEC-049` left the index
+for `js/view-fundamentals.js`'s header, because it binds nothing but that
+surface and the index had seventy bytes of headroom (guide §16, rule 1). And
+the observation that three consecutive surfaces shipped defects their green
+suites could not see went to `tests/README.md`, next to the sentence that
+already says those suites do not replace a browser.
+
+**What it cost, and what it did not fix**
+
+62,563 → 32,538 bytes, of which the collapse itself accounts for all but the
+950 bytes of `D11`, filed the same session. `D11` is the finding: the audit
+log is 13,219 bytes over seven rows, `D10` was forbidden to touch it, and `O6`
+never completes — so 41% of a file read in full every session is now a section
+this fix was not allowed to reach. Same disease, third file, and the reason
+`BACKLOG.md` lands at 32,538 against a stated target of 32,000.
