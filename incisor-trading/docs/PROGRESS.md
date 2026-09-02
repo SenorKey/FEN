@@ -2774,3 +2774,43 @@ without it, a size problem becomes a silent correctness problem.
 
 **Next session:** D9 (defect, jumps the queue), then T12.
 
+## 2026-09-02 — Attended: cut the guide, file D10 and the deploy rehearsal
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (§7 *Pushing*, §17, §18, §19 compressed),
+`BACKLOG.md` (D10, T26b)
+**Verified:** 176 page tests green; nineteen sections still present and
+contiguous; **no dangling `§` cross-reference** — checked by resolving every
+reference against the headings that exist.
+
+**The guide: 41,717 → 37,643 bytes.** §17, §18, §19 and §7's *Pushing* were all
+written by me over the past week, one section per gap found, and together they
+were 35% of a file read in full before any work starts. What was cut is
+persuasion, not rules: every rule survives, and the argument for why audits
+matter is worth less now that seven have been done than it was when none had.
+§16 is deliberately untouched — D9 rewrites it, and cutting it first would be
+work done twice.
+
+**D10** applies D9's lesson to the second file read front to back. `BACKLOG.md`
+is 57,464 bytes and **47% of it is completed work** — twenty finished tasks
+still carrying full acceptance criteria and completion notes. Deliberately a
+different shape from D9: finished work needs no anchor, because nobody follows a
+reference to a task that is done. A completed task collapses to a dated
+one-liner naming its verdict, and anything in its notes a future session could
+act on was never a note — it is a `D` item or a task, by §19.
+
+Measured while filing these, and worth stating plainly: the routine reads about
+**169KB — roughly 42,000 tokens — before it starts working.** D9 and D10
+together address about two thirds of that, and this cut takes a bite out of the
+rest.
+
+**T26b, the deploy rehearsal, is filed `[!]` blocked** — Key is away and cannot
+reach the Fedora box remotely. Not a promotion step: a trial install of what
+already exists, filed early because nothing here has ever run where it will run,
+and D5, D7 and D8 were all faults that existed only where no local check looked.
+The expected obstacles are written down (SELinux and `httpd_can_network_connect`
+first among them) so the session that runs it starts from a list rather than
+from surprise. **Every fault it finds is to be filed — that list is the actual
+product of the task.**
+
+**Next session:** D9, then D10, then T12.
+

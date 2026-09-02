@@ -300,34 +300,23 @@ the branch in place rather than deleting it.
 
 ### Pushing
 
-**Push the working branch at the end of every session.** Forty-odd commits once
-lived only on one laptop with no copy anywhere; a disk failure or a stray
-`branch -D` would have taken the licensing research and every audit finding with
-it. A push costs nothing and deploys nothing — the server only ever pulls `main`.
+**Push the working branch as the last step of every session** — `git push -u
+origin <branch>`. It costs nothing and deploys nothing; the server only ever
+pulls `main`. Work that exists on one laptop is one disk failure from gone.
 
-```bash
-git push -u origin <branch>
-```
+Pushable: **`incisor-dev`, and any `incisor-look/*` or `incisor-try/*` branch
+the routine created.** Nothing else — this repository holds a dozen branches
+belonging to other work.
 
-What may be pushed: **`incisor-dev`, and any `incisor-look/*` or `incisor-try/*`
-branch the routine created.** Nothing else. This repository holds a dozen
-branches belonging to other work; none of them are the routine's to touch.
+Never: push `main` or anything to it; **force-push anywhere, for any reason**
+(`--force`, `--force-with-lease`, `+refspec` — a rejected push means the remote
+holds something local does not, so fetch and look; overwriting published history
+is not a fix); delete a remote branch; push a tag; or open a pull request, which
+asks a person to act and sends notifications when merging is Key's alone.
 
-Never do any of these:
-
-- **Push `main`, or push anything to `main`.** It is what the live server pulls.
-- **Force-push, anywhere, for any reason** — `--force`, `--force-with-lease`,
-  `+refspec`. A rejected push means the remote holds something local does not:
-  fetch and look at it. Overwriting published history is not a fix.
-- **Delete a remote branch**, or push a tag.
-- **Open a pull request.** A PR asks a person to act and sends notifications.
-  Merging is Key's, and he does not need a queue to work through.
-
-The repository is **public**, so a push publishes. Hard rule 6 already forbids
-committing a secret; the consequence here is that pushing one leaks it for good,
-since anything public can be cached and indexed long before it is removed. If a
-push is ever rejected or behaves oddly, stop and write it up rather than
-experimenting with flags.
+The repository is **public**, so a push publishes and a pushed secret is leaked
+for good — public content is cached and indexed long before it is removed. If a
+push is rejected or behaves oddly, stop and write it up rather than trying flags.
 
 ---
 
@@ -641,184 +630,117 @@ the folder when a direction moves to *Retired* in `DESIGN-BRANCHES.md`.
 
 ## 17. The work is never done
 
-**Finishing the backlog is not finishing the project.** `BACKLOG.md` is where
-this starts, not where it stops. When Phase 5 is complete the routine keeps
-running, and its job changes from *building the plan* to *making the page
-better than the plan imagined*.
+**Finishing the backlog is not finishing the project.** When Phase 5 is
+complete the routine keeps running, and its job changes from building the plan
+to making the page better than the plan imagined. Nobody has to hand you the
+next idea.
 
-Treat a completed backlog as a beginning. Nobody has to hand you the next idea.
-
-### What ongoing work means
-
-- **Research.** Go and look at what is new — web platform features that have
-  landed, visualization and interaction techniques, how the best financial
-  interfaces present density and change over time, what teaching tools do to
-  make an idea click. Bring findings back and record them in `DECISIONS.md`
-  whether or not you act on them.
-- **Aesthetics, continuously.** The look is never settled. New directions on
-  `incisor-look/*` branches are always a legitimate use of a session, at any
-  point, forever — not only at T13b. Chase the version that is genuinely
-  beautiful, not the one that is merely finished.
-- **Major revamps are in scope.** If the page would be better rebuilt around a
-  different structure, interaction model or visual language, build it on a
-  branch and register it. A revamp affects nothing until Key merges it, so a
-  bold one costs nothing to try and there is no reason to hold back.
-- **Depth.** Take something that works and make it excellent — a chart that
-  reads better, an explanation that actually teaches, an empty state worth
-  seeing, a transition that makes a change legible.
+- **Research.** What has landed in the web platform, what the best financial
+  and teaching interfaces do with density, change and explanation. Record
+  findings whether or not you act on them.
+- **Aesthetics, continuously.** A new `incisor-look/*` direction is always a
+  legitimate session, at any point, forever — not only at T13b.
+- **Major revamps are in scope.** Rebuild around a different structure or visual
+  language on a branch and register it. It affects nothing until Key merges, so
+  a bold one costs nothing to try.
+- **Depth.** Take something that works and make it excellent.
 - **Maintenance.** Refresh fixtures, re-check provider terms, tighten tests,
-  simplify what has grown awkward, re-walk the security surface.
+  simplify what has grown awkward, re-walk §5.
 
-### The bar
-
-Change must make the page **measurably better** — clearer, faster, more
-beautiful, more accurate, or more educational. Say which in the commit message.
-Churn for its own sake is worse than a quiet session, and "I could not find
-anything worth improving today" is a legitimate outcome to write down.
-
-Everything else still holds: the same bounds (§3), the same security standard
-(§5), the same cost rules (§4), the same branch and commit conventions (§7).
-Ambition is unlimited inside those; the bounds do not loosen because the backlog
-is empty.
+**The bar:** a change makes the page measurably better — clearer, faster, more
+beautiful, more accurate, more educational — and the commit says which. Churn is
+worse than a quiet session, and "nothing worth improving today" is a legitimate
+outcome to write down. The bounds do not loosen because the backlog is empty.
 
 ---
 
 ## 18. Auditing what already works
 
-Shipping a feature settles nothing. Everything built early was judged against
-the standard that existed then, and the standard keeps moving — so the page
-needs someone to go back and ask, honestly, whether each part of it is still
-good enough. That someone is the routine, and nobody has to ask it to.
-
-This is not the same as fixing bugs. A feature can pass every test, have no
-defects, and still be the wrong feature.
+Shipping a feature settles nothing: it was judged against the standard that
+existed then. A feature can pass every test, have no defects, and still be the
+wrong feature.
 
 ### The four questions
 
-Audit **one feature at a time**, and answer all four in writing. Vague praise is
-not an answer; each one wants a specific observation.
+One feature at a time, all four answered in writing with a specific observation,
+and **from the `tools/shoot.py` images — never from the source.**
 
-1. **Useful.** Does this answer a question a visitor actually has? If it
-   vanished tomorrow, would anyone notice? Is it teaching something, or is it
-   here because dashboards usually have one?
-2. **Easy.** Can someone use it without being told how? How many actions does
-   the common case take? Does it work by keyboard, on a phone, at 375px, for
-   someone who cannot distinguish red from green?
-3. **Beautiful.** Does it hold up next to the best part of the page, or is it
-   the part you would crop out of a screenshot? Look at the actual images from
-   `tools/shoot.py` — do not audit a feature from its source code.
-4. **Performing.** How fast does it become useful? Does it block anything else
-   rendering? What does it cost in upstream calls against a 25-a-day budget?
+1. **Useful.** Would anyone notice if it vanished? Is it teaching, or is it here
+   because dashboards usually have one?
+2. **Easy.** Usable without being told how — by keyboard, on a phone, at 375px,
+   by someone who cannot tell red from green?
+3. **Beautiful.** Does it hold up beside the best part of the page, or is it the
+   part you would crop out of a screenshot?
+4. **Performing.** How fast does it become useful, does it block anything else
+   rendering, and what does it cost against the daily call budget?
 
 ### The four verdicts
 
-Every audit ends in exactly one, recorded in the audit log at the bottom of
-`BACKLOG.md` so the same feature is not audited again next week:
+Exactly one, recorded in the audit log at the bottom of `BACKLOG.md`.
 
-- **Keep.** It is good. Say why, note the date, move on. This is a real and
-  common outcome — an audit that changes nothing is not a wasted session.
-- **Minor edits.** It is the right feature, imperfectly done. Fix it in place on
-  `incisor-dev`. Same rigour as any task: state what was wrong, change it,
-  re-run the suites and `shoot.py`, record what improved. Small does not mean
-  unverified.
-- **Challenge it.** The idea itself may be wrong and you can name something
-  better. Build the replacement — see below.
-- **Retire it.** It is not useful. Remove it. A feature that fails question one
-  should be deleted, not improved; improving it only makes the page longer. Note
-  what was removed and why, because deletion is the change most likely to be
-  quietly undone later.
+- **Keep.** Say why, note the date. An audit that changes nothing is not wasted.
+- **Minor edits.** Right feature, imperfectly done — fix in place with the
+  rigour of any task. Small does not mean unverified.
+- **Challenge it.** The idea may be wrong and you can name something better.
+- **Retire it.** A feature failing question one is deleted, not improved:
+  improving it only makes the page longer. Say what went and why — deletion is
+  the change most likely to be quietly undone.
 
-### Challenging a feature — the protocol
+### Challenging a feature
 
-When you think a fundamentally different approach would be better, prove it.
+1. **Criteria first**, in the `incisor-try/*` branch's opening commit. Deciding
+   them after seeing both results is how you talk yourself into whichever one
+   you enjoyed building — and you will have built both.
+2. **Finish it.** An unfinished challenger loses for reasons unrelated to the
+   idea. Same acceptance criteria, same suites, own screenshots, same empty,
+   loading and error states. One that cannot be finished is itself a finding.
+3. **Compare on the stated criteria with evidence** — both sets of screenshots,
+   numbers where numbers exist, the four questions answered for the challenger.
+4. **Decide, record it, and the loser becomes a dead end** so nobody rebuilds it
+   in six weeks. A winner merges to `incisor-dev`; the branch stays as record.
 
-1. **Write down the criteria first.** Before building anything, state in the
-   `incisor-try/*` branch's first commit what would make the challenger better,
-   and how you will tell. Deciding the criteria *after* seeing both results is
-   how you talk yourself into whichever one you enjoyed building — and you will
-   have built both, so that bias is real and it is yours.
-2. **Build it on `incisor-try/<feature>-<approach>`,** branched from
-   `incisor-dev`.
-3. **Finish it.** This is the part that matters. Compare finished to finished —
-   an unfinished challenger always loses, for reasons that have nothing to do
-   with whether the idea was better. Finished means it meets the same acceptance
-   criteria the incumbent meets, passes the same suites, has its own
-   `shoot.py` screenshots, and handles the same empty, loading and error states.
-   A challenger that cannot be finished is itself a finding: record why.
-4. **Compare on the stated criteria, with evidence.** Screenshots of both side
-   by side, numbers wherever numbers exist. Answer the four questions for the
-   challenger exactly as you did for the incumbent.
-5. **Decide, and record the decision in `DECISIONS.md`** with the reasoning. The
-   loser becomes a dead end entry, so nobody rebuilds it in six weeks.
-6. **If the challenger wins,** merge it into `incisor-dev` and delete nothing —
-   leave the branch in place as the record.
-
-**Who decides.** A comparison about function, usability or performance is the
-routine's own call under §3 — decide it and write down why. A comparison that is
-purely about *how the page looks overall* stays Key's: register it in
-`DESIGN-BRANCHES.md` as an `incisor-look/*` direction and leave it for him.
-When a challenge is both — a new interaction model that also looks different —
-decide the functional half, and register the visual half for Key.
+**Who decides.** Function, usability and performance are the routine's call
+(§3). How the page looks *overall* is Key's — register it in
+`DESIGN-BRANCHES.md` as an `incisor-look/*` direction. A challenge that is both
+decides the functional half and registers the visual.
 
 ### When an audit fires
 
-An audit is **not** a task you reach by working down the backlog. `O6` sits in
-Phase 6, which is months of tasks away, so waiting for it would mean the whole
-dashboard shipped unaudited. It fires from the audit log instead:
+**A surface is due when it has been shipped three or more sessions and has no
+row in the audit log.** A revamp touching a surface makes it due again, whatever
+its last verdict.
 
-**A surface is due when it has been shipped for three or more sessions and has
-no row in the audit log.** Re-auditing is due whenever a revamp touches a
-surface, whatever its last verdict was.
-
-At step 4 of the session protocol, before taking a backlog task: if anything is
-due, **audit the oldest due surface instead of taking the next task.** One audit
-per session at most — the audit is that session's work, and the backlog waits a
-day. If nothing is due, take the next task as normal.
-
-A *keep* verdict still writes a row. That row is what stops the surface coming
-up again next session, so an audit that changes nothing must still be logged.
-
-Once the backlog is done, Phase 6's `O6` takes over and the same oldest-first
-order applies continuously.
+At step 4 a due audit is taken *instead of* the next task — oldest first, one
+per session, and it is that session's whole work. A *keep* verdict still writes
+a row; that row is what stops the surface coming up again.
 
 ---
 
 ## 19. Discovered items — defects jump the queue
 
-`## Discovered` sits at the bottom of `BACKLOG.md`, below every phase. Nothing
-there is reachable by working down the list, which is fine for ideas and fatal
-for bugs: a defect filed there waits behind every remaining feature, and `D4` —
-a config key silently ignored since T2 — is exactly the kind that stays
-invisible until the day it is deployed.
+`## Discovered` sits below every phase, so nothing in it is reachable by working
+down the list. Fine for ideas, fatal for bugs. A `D` item is labelled when filed:
 
-So a `D` item is one of two things, and the routine labels it when filing:
+- **`[defect]`** — something shipped is broken or works only by coincidence:
+  misleads a reader, loses data, weakens a security control, or will break on
+  deployment. **These jump the queue** — at step 4 an open defect is taken
+  before any audit and before the next task, one per session.
+- **`[enhancement]`** — a good idea that is not a bug. These wait for Key to
+  triage into a phase; the routine leaves them alone.
 
-- **`[defect]`** — something shipped is broken, or works only by coincidence.
-  Anything that misleads a reader, loses data, weakens a security control, or
-  will break on deployment. **These jump the queue**: at step 4 an open defect
-  is taken before any audit and before the next backlog task. One per session,
-  and it is that session's work.
-- **`[enhancement]`** — a good idea that is not a bug. `D3`, a tile that shows a
-  symbol it cannot open, is one: nothing is wrong, something is missing. These
-  wait for Key to triage them into a phase; the routine leaves them alone.
-
-When the call is genuinely unclear, **file it as a defect.** The cost of fixing
-something early is one session; the cost of shipping a quiet defect is that
-nobody finds it until it matters.
-
-Fixing a defect follows the ordinary rules: verify it, test that it stays fixed,
-record it. A defect that turns out not to be one gets reclassified with the
-reason, never silently dropped.
+**When the call is unclear, file it as a defect.** Fixing early costs a session;
+a quiet defect costs nothing until it matters. Fixing one follows the ordinary
+rules — verify, test that it stays fixed, record. One that turns out not to be a
+defect is reclassified with the reason, never silently dropped.
 
 ### Anything that needs doing later goes in the backlog
 
 `PROGRESS.md` is read from the tail, so a finding recorded only there is
-invisible within a few sessions. **If a finding implies future work, it gets a
-`BACKLOG.md` entry** — a `D` item if it is a defect or a loose idea, a task in
-the right phase if it is sequenced work. Describing it in the session's progress
-notes is not filing it.
+invisible within a few sessions. **If a finding implies future work it gets a
+`BACKLOG.md` entry** — a `D` item, or a task in the right phase if it is
+sequenced work. Describing it in the progress notes is not filing it.
 
-This applies to everything found and deliberately not fixed: an audit's "looked
-at and left", a limit about to be breached, a defect belonging to a surface
-other than the one being worked on. Leaving something *unfixed* is often right.
-Leaving it *unfiled* means it is found again from scratch, or not at all.
+This covers everything found and deliberately not fixed: an audit's "looked at
+and left", a limit about to be breached, a defect belonging to another surface.
+Leaving something unfixed is often right; leaving it unfiled means it is found
+again from scratch, or not at all.

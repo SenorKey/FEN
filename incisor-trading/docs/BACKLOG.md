@@ -354,6 +354,27 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ## Phase 5 — Promotion (Key does these, not the routine)
 
+- [!] **T26b · Deploy rehearsal on the Fedora box** — **blocked until Key is
+  home and can reach the server (noted 2026-09-02; he is away and has no remote
+  access).** Not a promotion step and not the routine's to run: it is a trial
+  install of what already exists, done early because the cost of waiting
+  compounds. Nothing here has ever run where it will run. Nine surfaces, a Flask
+  service, an Apache snippet and a systemd unit have only ever been exercised on
+  a Mac against a Python stand-in, and **D5, D7 and D8 were all "correct
+  everywhere except where it actually runs"** — a route Apache never proxied, a
+  proxy stand-in that set no `X-Forwarded-For`, and a limiter reading the hop the
+  caller writes. A rehearsal now debugs three such faults; one in two months
+  debugs fifteen at once, all interacting.
+  Known unknowns to expect, none of them verifiable from here: SELinux almost
+  certainly blocks `mod_proxy` reaching `127.0.0.1:8789` until
+  `httpd_can_network_connect` is on; the venv path in the unit; ownership and
+  mode on `/var/lib/incisor-trading`; gunicorn not being installed; the firewall.
+  *Accept:* the service starts under systemd and survives a reboot; `/health`
+  answers on the box; every route in `apache-snippet.conf` answers through
+  Apache; the page renders at `/incisor-trading/` on the real host with
+  `noindex` intact and no nav or sitemap entry; **every fault found is filed**,
+  since that list is the actual product of this task.
+
 - [ ] **T27 · Promotion checklist** — the routine *writes* `docs/PROMOTION.md`:
   everything Key must do to take the page live (install the systemd unit and
   Apache snippet, create `/etc/incisor-trading/config.env`, set the real API key, remove
@@ -443,6 +464,25 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 `[enhancement]`** — see guide §19. A defect is taken before anything else at
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
+
+- [ ] **D10 · `BACKLOG.md` carries its own history and is read in full** `[defect]`
+  *(measured attended 2026-09-02)* — the same disease as D9, in the second file
+  §14 step 2 reads front to back. **57,464 bytes, of which 47% is completed
+  work**: twenty finished tasks still carrying their full acceptance criteria
+  and completion notes, re-read every session forever. Take it in the session
+  after D9, while the index/detail pattern is still in hand.
+
+  Cheaper than D9 and deliberately not the same shape: **finished work needs no
+  anchor.** Nobody follows a reference to a task that is done — they only need
+  to know it happened, when, and what it concluded. So a completed task
+  collapses to a one-line record in a `## Done` section, and anything in its
+  notes that a future session could act on is not a note at all: it is a `D`
+  item or a task, by §19.
+  *Accept:* `BACKLOG.md` under **32,000 bytes**; every completed task present as
+  a dated one-line record naming its verdict; no acceptance criterion or
+  completion note discarded that implies future work — each is either filed as
+  its own entry or verifiably restated in the code or a test; open, blocked and
+  standing entries untouched; the audit log untouched; both suites green.
 
 - [ ] **D9 · Split the memory into an index and a detail file** `[defect]`
   *(flagged by the routine 2026-09-02; design settled with Key the same day)* —
