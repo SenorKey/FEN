@@ -718,6 +718,30 @@ a row; that row is what stops the surface coming up again.
 
 ## 19. Discovered items — defects jump the queue
 
+### The ID prefixes
+
+Every entry in `BACKLOG.md` carries one, and they are separate namespaces:
+
+| Prefix | Means | Where |
+|---|---|---|
+| `T` | **Task** — planned work, sequenced into phases | Phases 0–5 |
+| `O` | **Ongoing** — repeatable, never checked off for good | Phase 6 |
+| `S` | **Standing** — available when the top task is blocked | Standing tasks |
+| `D` | **Discovered** — found mid-work, not planned | `## Discovered` |
+| `N` | **Note for Key** — out of the routine's bounds | `PROGRESS.md` |
+| `DEC` | **Decision** — an entry in the memory index | `DECISIONS.md` |
+
+Numbers are assigned in the order things were *filed*, never renumbered, and
+never reused. A letter suffix inserts work between two existing numbers —
+`T10a` runs before `T10b` — because renumbering would break every reference in
+the commits and progress entries that already name them.
+
+`DEC` is spelled out rather than shortened to `D` on purpose: `D9` beside
+`D-009` would be two namespaces one typo apart, in the two files most often
+read together.
+
+### Defect or enhancement
+
 `## Discovered` sits below every phase, so nothing in it is reachable by working
 down the list. Fine for ideas, fatal for bugs. A `D` item is labelled when filed:
 

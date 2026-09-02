@@ -506,11 +506,13 @@ phase. When the call is unclear, file it as a defect.
   2. **`DECISIONS-DETAIL.md` holds the reasoning.** It may grow without bound —
      storage is free and attention is not — and it is read only by following an
      index line, never front to back.
-  3. **Every entry has a stable ID** (`D-001`, `D-002`, …) which is a real
+  3. **Every entry has a stable ID** — `DEC-001`, `DEC-002`, … — which is a real
      anchor in the detail file. "See the detail file" is useless at two hundred
      entries: following it would mean reading the whole thing, which defeats the
-     split. IDs are assigned once and never reused, including for entries that
-     are later superseded.
+     split. IDs are assigned once and never reused, including for entries later
+     superseded. **`DEC-`, not `D-`:** `D` already names a Discovered item, and
+     `D9` beside `D-009` differs by a hyphen and a zero — two namespaces one
+     typo apart, in the two files most often read together.
   4. **An index line carries the claim *and* its reason in brief** — never just
      a subject. "Finnhub — rejected" does not stop the next session re-walking
      it; "Finnhub — ToS forbids redistribution" is sufficient on its own and the
