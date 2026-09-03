@@ -296,6 +296,19 @@ phase. When the call is unclear, file it as a defect.
   structure and not the copy inside it**, with the per-surface 150-line rule
   left counting everything so nothing escapes. No third attempt — hard rule 12.
 
+- [ ] **D13 · Decide whether this page takes the site's new face**
+  `[enhancement]` *(2026-09-03)* — Key moved the site to Bricolage Grotesque in
+  a change that was not meant to reach `/incisor-trading/`. The page still
+  renders DM Sans and Playfair Display exactly as before, because `body.incisor`
+  restates the face rather than inheriting it — verified by computed style, not
+  by reading the CSS. So nothing is broken and nothing needs undoing.
+  What is open is whether it *should* take Bricolage eventually. Guide §13 says
+  the page belongs to the site, which argues yes; every figure and line of prose
+  here was set against DM Sans, which argues for measuring before switching.
+  **Key's call, not the routine's** — it is a look decision, so it goes through
+  `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
+  Until then `incisor.css` keeps DM Sans and its comments say why.
+
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is

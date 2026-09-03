@@ -54,11 +54,13 @@
        takes the parent's computed value, which in a figure is the mono — so a
        sentence written to explain a number came out set as one.
 
-       This used to mirror /assets/css/styles.css. It no longer does: the site
-       moved to Bricolage Grotesque and this app was deliberately held back on
-       DM Sans, so the two are now meant to differ. Do not "resync" this to the
-       shared stylesheet — change it only if this app itself is restyled, and
-       keep it matching the font-family on `body.incisor` above. */
+       This used to mirror /assets/css/styles.css and no longer does. The site
+       moved to Bricolage Grotesque in a change that was not meant to reach
+       this page; DM Sans is what every figure and every line of prose here was
+       set against, so it is restated rather than inherited. That is preserving
+       the status quo, not a decision to look different from the site — whether
+       this page eventually takes the shared face is Key's to settle, and until
+       he does, do not "resync" it. Keep it matching `body.incisor` above. */
     --inc-prose: 'DM Sans', sans-serif;
 }
 
@@ -72,10 +74,11 @@ body.incisor {
     overflow: visible;
     display: block;
 
-    /* The shared face is Bricolage Grotesque as of the site-wide type change.
-       This app keeps DM Sans deliberately — its figures and prose were set
-       against that face — so it restates it rather than inheriting. Matches
-       --inc-prose below. */
+    /* The shared face became Bricolage Grotesque in a site-wide change that
+       was not intended to reach this page. DM Sans is restated here so the
+       page renders as it always has — its figures and prose were set against
+       that face. Not a divergence anyone chose; an open question for Key.
+       Matches --inc-prose above. */
     font-family: 'DM Sans', sans-serif;
 }
 

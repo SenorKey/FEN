@@ -3353,3 +3353,29 @@ already under target. Attempt 2 chooses between deleting page copy and extending
 DEC-038 to count structure rather than the copy inside it. One more attempt
 before hard rule 12 marks it blocked.
 
+## 2026-09-03 — Attended: the font, and what the record said about it
+**Outcome:** shipped
+**Changed:** `incisor.css` (two comments), `BACKLOG.md` (D13)
+**Verified:** computed styles on both pages — `/incisor-trading/` renders
+`"DM Sans", sans-serif` for body and prose and `"Playfair Display"` for the
+heading, unchanged; `/` renders Bricolage Grotesque. Both suites green.
+
+**Nothing needed restoring.** Key's site-wide type change never reached this
+page: the routine had already restated the face on `body.incisor` rather than
+letting it inherit, so the page renders exactly as it always has. Checked by
+computed style rather than by reading the CSS, since a `@font-face` that failed
+to load would look identical in the source and different on screen.
+
+What was wrong was the **record**, not the rendering. The comments said the app
+"was deliberately held back" and that the two faces "are now meant to differ" —
+which described an intent Key did not have. Left alone, a future session would
+have read that as settled policy and never revisited it. They now say what is
+true: the change was not meant to reach here, DM Sans is preserved because the
+figures and prose were set against it, and whether the page eventually takes the
+shared face is open.
+
+Filed as **D13**, `[enhancement]` rather than `[defect]` — nothing is broken, and
+it is a look decision, so it belongs to Key through `DESIGN-BRANCHES.md` rather
+than to the routine. §13 arguing "the page belongs to the site" and the figures
+having been set against DM Sans both point somewhere, and neither settles it.
+
