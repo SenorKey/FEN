@@ -29,7 +29,11 @@ the anti-loop mechanism degrades with nothing failing to show it. Guide section
 1,500 characters, so 104 lines weighed 57KB and the rule passed while the file
 grew five-fold in five days. The same shape as the 600-line rule measuring
 concatenated files, recorded under Recurring traps. Bytes are what a reader
-pays, so bytes are what is measured, and CEILING is a ratchet: it only ever
+pays, so bytes are what is measured. A ceiling is a **consolidation trigger,
+not a freeze**: reaching it means the next session consolidates (S6), and the
+new ceiling is set as the outcome of that consolidation at what landed plus
+roughly a quarter. It is never raised mid-task to get past a failure. The old
+rule said it only ever
 moves **down**. When a new entry will not fit, that is the signal to consolidate
 (S6) or to move a surface-scoped decision beside the surface it binds — not to
 raise the number. At roughly 165 bytes an entry the ceiling holds about seventy,
@@ -67,7 +71,11 @@ import unittest
 DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs')
 
 # Ratchet. Lower it whenever a consolidation lands; never raise it.
-CEILING = 12_000
+# Set at what a consolidation achieved *plus working headroom*, never at the
+# achieved value itself: a ceiling with no room blocks the next filing, and
+# discovering that mid-task is the failure it exists to prevent. D9 landed
+# 11,886; 15,000 leaves room to file before the next consolidation is due.
+CEILING = 15_000
 
 # Long enough to state a claim and its reason, short enough that seventy of them
 # stay readable in one sitting. This is the cap D9 exists to install: the 57KB
@@ -80,7 +88,9 @@ MAX_INDEX_LINE = 200
 # is 595 bytes of headroom rather than the 462 D10 left — deliberately tight
 # both times. A session that cannot fit a new entry has found the next thing to
 # fix rather than a number to raise.
-BACKLOG_CEILING = 22_000
+# D11 landed 21,405 and D12's entry took it to 21,988 — 12 bytes of room, which
+# is a deadlock rather than a budget. Same rule as CEILING: achieved plus room.
+BACKLOG_CEILING = 27_500
 
 # A record, not a retelling. Long enough for the task, its verdict and the
 # `DEC` IDs it settled; short enough that twenty-two of them are a page. The

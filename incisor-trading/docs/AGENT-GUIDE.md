@@ -606,7 +606,17 @@ under ~500 characters; an entry nobody finishes reading is not memory.
 index with stable IDs, and the reasoning moves to `DECISIONS-DETAIL.md`, opened
 only when an index line calls for it. Until D9 lands, what follows still holds.
 
-**When a new entry will not fit, do not raise the ceiling.** Do one of these:
+**A ceiling is a consolidation trigger, not a freeze.** These files grow
+legitimately — one line per decision, one per finished task — so a permanent
+hard cap would eventually block work that has to happen. Reaching a ceiling
+means the *next* session consolidates (`S6`), and the new ceiling is set as the
+outcome of that consolidation: **what landed, plus roughly a quarter for room to
+file.** Setting it at the achieved value is what produced the 12-byte deadlock
+on 2026-09-03 — a budget that stops the next necessary filing is not a budget.
+
+**Never raise a ceiling mid-task to get past a failing test.** Raising it is a
+consolidation's closing step, with the number and the reason recorded. When an
+entry will not fit right now, do one of these:
 
 1. **Move it next to what it binds.** The test for `DECISIONS.md` is now
    narrower than "could a future session redo this": it is *would a session

@@ -3310,3 +3310,46 @@ connection (`DEC-012`).
 **Next session:** D12 attempt 2 is still the top of the queue as an open
 defect, then T13. `S6` may have to come first — see N10. The reporting
 calendar falls due for audit on 09-06.
+
+## 2026-09-03 — Attended: a ceiling with no headroom is a deadlock
+**Outcome:** shipped
+**Changed:** `tests/test_docs_budget.py` (both ceilings), `AGENT-GUIDE.md` (§16)
+**Verified:** both suites green; `DECISIONS.md` 11,886 of 15,000 and
+`BACKLOG.md` 21,988 of 27,500, so the next filing has somewhere to go.
+
+The memory work landed and worked. `DECISIONS.md` 57,628 → **11,886**,
+`BACKLOG.md` 57,464 → **21,988**, with sixteen tests now guarding the structure
+— the cap, the bijection both ways, no ID reused, no done row or audit row
+growing into an essay. Per-session reading is roughly **85KB against 169KB**.
+
+Then the ceilings strangled it. Both had been set at the value the consolidation
+achieved, leaving 114 bytes on `DECISIONS.md` and **12 on `BACKLOG.md`** — so
+the next defect found could not be filed, and §16 said in terms not to raise the
+ceiling. The routine hit this, diagnosed it exactly ("discovering that mid-task
+is the failure the ceiling exists to prevent"), and flagged rather than fixed,
+which was correct adherence to a rule that was wrong. It also began moving index
+entries out under the pressure — DEC-051 went to the docstring of the test that
+enforces it — which is the right instinct arriving for the wrong reason.
+
+**The flaw was mine.** A ratchet set at the achieved value converts "do not grow"
+into "cannot work", and these files grow legitimately: one line per decision,
+one per finished task. §16 now treats a ceiling as a **consolidation trigger
+rather than a freeze** — reaching it means the next session runs S6, and the new
+ceiling is set as that consolidation's closing step at what landed plus roughly a
+quarter. Never raised mid-task to get past a failing test. Both ceilings now
+carry that headroom.
+
+**Also this session, and not the routine's doing:** Key moved the site to
+Bricolage Grotesque and merged `main` into `incisor-dev`. The routine had already
+pinned `body.incisor` to DM Sans rather than inherit the new face, and corrected
+a comment that told future readers to follow the shared stylesheet — now exactly
+the wrong instruction. In bounds, and the right defensive call; whether the page
+*should* diverge from the site's face is a taste question for Key, since §13 says
+it should look like it belongs to the site.
+
+**Open:** D12 has attempt 1 recorded, its premise corrected by measurement — the
+deletion it claimed was in the dashboard panels is not there, and structure is
+already under target. Attempt 2 chooses between deleting page copy and extending
+DEC-038 to count structure rather than the copy inside it. One more attempt
+before hard rule 12 marks it blocked.
+
