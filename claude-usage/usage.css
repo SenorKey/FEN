@@ -1,0 +1,226 @@
+/* ═══════════════════════════════════════════════
+   usage.css — Claude session window dial
+   frontendneeded.com/claude-usage/
+
+   Deliberately keeps its own palette rather than the
+   site's rose-on-navy: this page is an instrument, and
+   the jade → amber → rust ramp is what it reads with.
+   Only the nav bar is inherited from styles.css.
+   ═══════════════════════════════════════════════ */
+
+:root {
+  --ground: #0a1f26;
+  --ground-lift: #10333c;
+  --bone: #ede7da;
+  --dim: #6e9098;
+  --jade: #64d2bc;
+  --amber: #efb443;
+  --rust: #e2634a;
+  --signal: var(--jade);
+  --face: "Bricolage Grotesque", ui-sans-serif, -apple-system, system-ui, sans-serif;
+}
+
+/* Override the shared shell: this page grounds itself. */
+
+body.usage-body {
+  background: radial-gradient(120% 80% at 50% 20%, var(--ground-lift) 0%, var(--ground) 62%);
+  color: var(--bone);
+  font-family: var(--face);
+  font-variant-numeric: tabular-nums;
+}
+
+.usage-shell {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: clamp(1.5rem, 5vh, 3.5rem);
+  padding: clamp(1.25rem, 4vh, 3rem) clamp(1.25rem, 6vw, 5rem);
+}
+
+/* Below 1000px the shared shell releases body's 100vh, so flex:1 has nothing
+   to stretch against — hold the height here instead and let the page scroll. */
+@media (max-width: 1000px) {
+  .usage-shell {
+    min-height: calc(100dvh - 40px); /* 40px: the nav's height at this width */
+    overflow: visible;
+  }
+}
+
+/* ── The dial ───────────────────────────────────── */
+
+.dial {
+  --dial: min(78vw, 52vh, 27rem);
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  width: var(--dial);
+  aspect-ratio: 1;
+}
+
+.dial svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.track {
+  fill: none;
+  stroke: #1b454f;
+  stroke-width: 5;
+}
+
+.remaining {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.8s linear;
+}
+
+.vessel-wall {
+  fill: #0c2831;
+}
+
+.liquid {
+  fill: var(--signal);
+  fill-opacity: 0.17;
+  transition: y 0.8s cubic-bezier(0.4, 0, 0.2, 1), height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.meniscus {
+  fill: var(--signal);
+  fill-opacity: 0.85;
+  transition: y 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.readout {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.clock {
+  font-size: calc(var(--dial) * 0.185);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+}
+
+.clock.spent {
+  color: var(--dim);
+  font-size: calc(var(--dial) * 0.095);
+}
+
+.consumed {
+  font-size: clamp(0.8rem, calc(var(--dial) * 0.05), 1.05rem);
+  font-weight: 400;
+  color: var(--dim);
+  letter-spacing: 0.01em;
+}
+
+.consumed b {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* ── Ground ─────────────────────────────────────── */
+
+.usage-shell > footer {
+  width: min(100%, 34rem);
+  justify-self: center;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.week {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.week-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: clamp(0.85rem, 2vh, 1rem);
+  color: var(--dim);
+}
+
+.week-head b {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+.week-track {
+  height: 3px;
+  background: #1b454f;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.week-fill {
+  height: 100%;
+  width: 0;
+  background: var(--bone);
+  opacity: 0.6;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--dim);
+}
+
+.meta .stale {
+  color: var(--amber);
+}
+
+/* ── Empty state ────────────────────────────────── */
+
+.waiting {
+  align-self: center;
+  justify-self: center;
+  max-width: 32rem;
+  text-align: center;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.waiting h1 {
+  font-family: var(--face);
+  font-size: clamp(1.3rem, 4vh, 1.9rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.waiting p {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .remaining,
+  .liquid,
+  .meniscus,
+  .week-fill {
+    transition: none !important;
+  }
+}

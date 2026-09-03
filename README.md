@@ -36,6 +36,9 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/match-analysis/` — Live tactical scouting React app (`noindex,nofollow`)
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
+- `/claude-usage/` — Live Claude Code session-window dial (`noindex,nofollow`); reads a
+  gitignored `state.json` synced up from the laptop. Sync tooling lives outside this repo
+  at `~/.claude/usage-dashboard/` — it names LAN hosts and paths, so it stays off GitHub
 - `/gallimaufry/` — Returns 404 via `.htaccess`
 
 Plus a custom `/404.html` for unmatched routes.

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="robots" content="noindex,nofollow">
+
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/claude-usage/usage.css">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>Session Window — Front End Needed</title>
+</head>
+
+<body class="usage-body">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <nav class="site-nav">
+    <a href="/" class="nav-home">FEN</a>
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+      <div class="nav-dropdown-menu">
+        <a href="/match-analysis-ad">Match Analysis</a>
+        <a href="/preside-by-side-ad">Preside by Side</a>
+        <a href="/wfpc">WF Price Checker</a>
+        <a href="/trtbench">Trtbench</a>
+        <a href="/tarella-notes">Tarella Notes</a>
+        <a href="/fresh-pull">Fresh Pull</a>
+      </div>
+    </div>
+    <a href="/hire-me">Hire Me</a>
+    <a href="/claude-usage/" class="active">Session</a>
+  </nav>
+
+  <main id="main-content" class="usage-shell">
+
+    <div class="dial" id="dial" hidden>
+      <svg viewBox="0 0 320 320" aria-hidden="true">
+        <defs>
+          <clipPath id="bowl">
+            <circle cx="160" cy="160" r="128" />
+          </clipPath>
+        </defs>
+        <circle class="vessel-wall" cx="160" cy="160" r="128" />
+        <g clip-path="url(#bowl)">
+          <rect class="liquid" id="liquid" x="32" y="288" width="256" height="0" />
+          <rect class="meniscus" id="meniscus" x="32" y="286" width="256" height="2" />
+        </g>
+        <circle class="track" cx="160" cy="160" r="148" />
+        <circle class="remaining" id="remaining" cx="160" cy="160" r="148" />
+      </svg>
+
+      <div class="readout">
+        <div class="clock" id="clock">—:—:—</div>
+        <div class="consumed" id="consumed">session window</div>
+      </div>
+    </div>
+
+    <div class="waiting" id="waiting">
+      <h1>Nothing on the wire yet</h1>
+      <p>This dial mirrors my Claude Code session window — how much of the rolling
+        five hours is spent, and how long until it resets. The numbers land here a
+        minute or so after I send a message, so an idle stretch looks like this.</p>
+    </div>
+
+    <footer id="footer" hidden>
+      <div class="week">
+        <div class="week-head">
+          <span>This week, <b id="week-pct">—</b> used</span>
+          <span id="week-reset">—</span>
+        </div>
+        <div class="week-track">
+          <div class="week-fill" id="week-fill"></div>
+        </div>
+      </div>
+      <div class="meta">
+        <span id="model">—</span>
+        <span id="freshness">—</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="/claude-usage/usage.js"></script>
+</body>
+
+</html>
