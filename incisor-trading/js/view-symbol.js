@@ -4,6 +4,11 @@
  * this says what one thing did. It owns a combobox over the catalogue and a
  * panel of figures for whatever the combobox settles on.
  *
+ * This file is the deciding half. js/quote-card.js is the drawing half and
+ * holds every write into the card, along with the windows the 52-week range
+ * and the volume average are measured over; what is left here is which symbol
+ * is on screen, what a failure says, and which sibling surfaces to wake.
+ *
  * The matching is js/symbol-search.js, the arithmetic and formatting are
  * js/market-figures.js, and the network is js/market-data.js. The price chart
  * is js/view-price-chart.js, which owns no request of its own — the series
@@ -30,23 +35,6 @@
     'use strict';
 
     var dom = window.IncisorDom;
-
-    /* Sessions the 52-week range and the average volume are measured over.
-     *
-     * 252 is a trading year once weekends and holidays are out, and 50 is the
-     * conventional window for an average-volume comparison. Both read the tail
-     * of whatever series arrived, so a symbol with a shorter history produces
-     * a shorter window rather than nothing — and the range's own label says
-     * which, because calling five months a 52-week range would be a lie the
-     * reader has no way to catch.
-     */
-    var YEAR_SESSIONS = 252;
-    var VOLUME_SESSIONS = 50;
-
-    /* Below this the window is described by its length instead of being called
-     * a year. Roughly ten months — close enough that "52-week" is a fair
-     * rounding, and far enough that anything shorter is not. */
-    var YEAR_ENOUGH = 210;
 
     /* Long enough that a fast typist does not fire a render per keystroke,
      * short enough to feel like it is keeping up. Nothing here is a network
@@ -77,8 +65,8 @@
     var body = panel && panel.querySelector('[data-quote-body]');
 
     var data = window.IncisorMarketData;
-    var figures = window.IncisorMarketFigures;
     var finder = window.IncisorSymbolSearch;
+    var card = window.IncisorQuoteCard;
 
     /* Absent if its markup is missing or its modules failed to load, in which
      * case the panel is still a complete answer without it. */
@@ -232,117 +220,11 @@
         if (hint) hint.textContent = message;
     }
 
-    /* A low-to-high band with the last price marked inside it.
-     *
-     * The marker's position is written as a custom property rather than as a
-     * width or an offset, so the arithmetic stays in one module and the
-     * drawing stays in the stylesheet. A range that cannot be computed — a
-     * symbol that has not moved all day, most often — hides the marker rather
-     * than parking it at one end, which would read as a fact.
-     */
-    function renderRange(range, low, high, value, title) {
-        if (!range) return;
-        dom.fill(range, '[data-range-low]', figures.formatPrice(low));
-        dom.fill(range, '[data-range-high]', figures.formatPrice(high));
-        if (title) dom.fill(range, '[data-range-title]', title);
-
-        var track = range.querySelector('[data-range-track]');
-        var marker = range.querySelector('[data-range-marker]');
-        var position = figures.positionInRange(low, high, value);
-        if (!track || !marker) return;
-
-        if (position === null) {
-            marker.hidden = true;
-            track.removeAttribute('data-range-known');
-            dom.fill(range, '[data-range-position]', '');
-            return;
-        }
-        marker.hidden = false;
-        track.setAttribute('data-range-known', 'true');
-        // Set through the CSSOM rather than as a style attribute: a strict
-        // Content-Security-Policy (T13) blocks the attribute and not this.
-        track.style.setProperty('--inc-range-position',
-            (position * 100).toFixed(2) + '%');
-        dom.fill(range, '[data-range-position]',
-            positionSentence(position, value));
-    }
-
-    /* The marker, in words, for a reader who cannot see it.
-     *
-     * The band is here to say the one thing a low and a high do not, and that
-     * was exactly the part a screen reader never got: the marker is decorative
-     * and nothing stood in for it, so the band announced two numbers and none
-     * of its own meaning. Rounded to whole percent, because the drawing is not
-     * precise to a decimal either and reading one would claim it was.
-     */
-    function positionSentence(position, value) {
-        return 'Last price ' + figures.formatPrice(value) + ' sits '
-            + Math.round(position * 100) + '% of the way up this range.';
-    }
-
-    function rangeTitleFor(sessions) {
-        if (sessions >= YEAR_ENOUGH) return '52-week range';
-        // Weeks rather than sessions: a reader thinks in calendar time, and
-        // "175-session range" asks them to do the conversion themselves.
-        return Math.round(sessions / 5) + '-week range';
-    }
-
-    function setFigure(name, value) {
-        dom.fill(panel, '[data-figure="' + name + '"]', value);
-    }
-
-    function renderIdentity(entry, symbol) {
-        dom.fill(panel, '[data-quote-symbol]', symbol);
-        dom.fill(panel, '[data-quote-name]', entry ? entry.name : symbol);
-
-        var proxy = panel.querySelector('[data-quote-proxy]');
-        if (proxy) proxy.hidden = !(entry && entry.tracks);
-    }
-
-    function renderChange(quote) {
-        dom.fill(panel, '[data-quote-price]', figures.formatPrice(quote.price));
-        dom.fill(panel, '[data-quote-delta]', figures.formatSigned(quote.change));
-        dom.fill(panel, '[data-quote-pct]',
-            figures.formatPercent(quote.changePercent));
-        dom.fill(panel, '[data-quote-arrow]', figures.arrowFor(quote.change));
-        dom.setDirection(panel.querySelector('[data-quote-change]'),
-            figures.direction(quote.change));
-    }
-
-    function renderVolume(quote, bars) {
-        var average = figures.averageVolume(bars, VOLUME_SESSIONS);
-        setFigure('volume', figures.formatVolume(quote.volume));
-        setFigure('average-volume', figures.formatVolume(average));
-        // Null rather than a ratio when either side is unknown: a multiple
-        // computed against a missing average would be a number with nothing
-        // behind it, which is worse than an em dash.
-        setFigure('relative-volume',
-            average && quote.volume !== null
-                ? figures.formatMultiple(quote.volume / average)
-                : figures.DASH);
-    }
-
     function renderQuote(symbol, entry, quoteEnvelope, historyEnvelope) {
         var quote = quoteEnvelope.quote;
         var bars = historyEnvelope ? historyEnvelope.bars : [];
-        var ranges = panel.querySelectorAll('[data-range]');
 
-        renderIdentity(entry, symbol);
-        renderChange(quote);
-
-        renderRange(ranges[0], quote.low, quote.high, quote.price, null);
-
-        var year = figures.extremes(bars, YEAR_SESSIONS);
-        if (year) {
-            renderRange(ranges[1], year.low, year.high, quote.price,
-                rangeTitleFor(year.sessions));
-        } else {
-            renderRange(ranges[1], null, null, null, '52-week range');
-        }
-
-        setFigure('open', figures.formatPrice(quote.open));
-        setFigure('previous', figures.formatPrice(quote.previousClose));
-        renderVolume(quote, bars);
+        card.render(panel, symbol, entry, quoteEnvelope, historyEnvelope);
 
         // The chart draws the series this lookup already has. A history that
         // did not arrive costs the chart and not the quote, so it says so in
@@ -367,13 +249,6 @@
         // Offered on a quote rather than on a search, so the button never
         // appears beside figures that turned out not to exist.
         if (watchlist) watchlist.offer(symbol);
-
-        var summary = figures.provenanceFor(quoteEnvelope, quote.tradingDay);
-        var line = panel.querySelector('[data-quote-provenance]');
-        if (line) {
-            line.setAttribute('data-provenance-state', summary.state);
-            dom.fill(line, '[data-quote-provenance-message]', summary.message);
-        }
 
         setState('ready');
     }
@@ -569,7 +444,7 @@
         // is a labelled input and an empty panel that says nothing has been
         // looked up, which stays true either way.
         if (!search || !panel || !input || !results) return;
-        if (!dom || !data || !figures || !finder) return;
+        if (!dom || !data || !finder || !card) return;
 
         input.addEventListener('input', onInput);
         input.addEventListener('keydown', onKeydown);

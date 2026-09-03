@@ -494,6 +494,9 @@ function run(argv) {
         };
 
         (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
+        // The stub already carries IncisorMarketFigures; the card reads it at
+        // load, so it goes in after the stub is built and before the view.
+        (new Function('window', read(pageDir + '/js/quote-card.js')))(windowStub);
         (new Function('document', 'window', read(pageDir + '/js/view-symbol.js')))(
             doc, windowStub);
 
