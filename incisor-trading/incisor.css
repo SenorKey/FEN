@@ -49,13 +49,16 @@
     --inc-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
         "Liberation Mono", monospace;
 
-    /* The site's own body face, named here so prose can be set inside a
-       block that took the monospace. `font-family: inherit` does not do it:
-       it takes the parent's computed value, which in a figure is the mono —
-       so a sentence written to explain a number came out set as one. It
-       mirrors /assets/css/styles.css, which is out of bounds to read from at
-       runtime and out of bounds to edit (§3); if that file's face ever
-       changes, this is the line that has to follow it. */
+    /* This page's body face, named here so prose can be set inside a block
+       that took the monospace. `font-family: inherit` does not do it: it
+       takes the parent's computed value, which in a figure is the mono — so a
+       sentence written to explain a number came out set as one.
+
+       This used to mirror /assets/css/styles.css. It no longer does: the site
+       moved to Bricolage Grotesque and this app was deliberately held back on
+       DM Sans, so the two are now meant to differ. Do not "resync" this to the
+       shared stylesheet — change it only if this app itself is restyled, and
+       keep it matching the font-family on `body.incisor` above. */
     --inc-prose: 'DM Sans', sans-serif;
 }
 
@@ -68,6 +71,12 @@ body.incisor {
     min-height: 100vh;
     overflow: visible;
     display: block;
+
+    /* The shared face is Bricolage Grotesque as of the site-wide type change.
+       This app keeps DM Sans deliberately — its figures and prose were set
+       against that face — so it restates it rather than inheriting. Matches
+       --inc-prose below. */
+    font-family: 'DM Sans', sans-serif;
 }
 
 body.incisor .site-nav {
