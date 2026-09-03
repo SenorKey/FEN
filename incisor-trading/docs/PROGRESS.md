@@ -3196,3 +3196,108 @@ situation; the drop-in wording is drafted in the 09-02 entry.
 
 **Next session:** D12 (defect, and the top of the queue), then T13. The
 reporting calendar falls due for audit on 09-06.
+
+---
+
+## 2026-09-03 — D12: one half fixed, and the other half's premise was wrong
+
+**Worked:** `D12` (defect, jumps the queue — guide §19). Two commits:
+`js/quote-card.js` split out of `js/view-symbol.js`, and the Trade panel's
+invented portfolio deleted. `shoot.py` gained `--tab`.
+**Shots:** `docs/shots/d12-quote-card/` and `docs/shots/d12-trade-tab/`.
+
+**The script half went exactly as filed.** `view-symbol.js` had a real seam
+and `DEC-013` already named which one — drawing versus deciding — so the file
+split into itself at 468 lines and `js/quote-card.js` at 179, from 593. The
+drawing half took the two session windows with it (252 for the 52-week range,
+50 for the average volume), because those are facts about what is drawn rather
+than about which symbol was chosen; what stayed is the combobox, the failure
+messages, and which sibling surfaces to wake. **78% of the ceiling, no
+behaviour change**, and the card fills identically in the screenshot.
+
+One test failed on the way and it was the right kind of failure:
+`test_fundamentals_panel.py` greps `view-symbol.js` for the literal string
+`filings.show(symbol, quote.price)`, so unwrapping the envelope at the call
+site broke a blunt substring check (`DEC-066`, exactly). Fixed by keeping the
+local `quote` binding, which reads better anyway — the panel hands the filings
+the price it just showed.
+
+**The Trade panel was printing a portfolio that did not exist.** Cash
+$100,000.00, Positions $0.00, Total value $100,000.00, Total return 0.00% —
+four hard-coded strings, in the shape of a balance, under a heading calling it
+*your* paper portfolio. Nothing had created a balance and nothing had read a
+store. The tiles at the top of the same page state the rule it broke and state
+it about prices: *the page has no prices of its own, and printing plausible
+numbers it did not fetch is the one thing a market page must never do.* None
+of that argument is about prices. It is one sentence now, and its four
+`.inc-stat` rules went with it — the markup was their only caller.
+
+**Two of three panels had never been photographed.** `shoot.py` could reach
+every state that needed a search and none that needed a tab press, so the
+panel this session changed could not be looked at — guide §15 says work that
+cannot be looked at cannot be judged. `--tab` presses one and waits for the
+panel to unhide rather than assuming the click worked, since `incisor.js` does
+the unhiding and a shell that failed to load would otherwise be photographed
+as a blank page.
+
+**And the seam the document was said not to have is real, for one half of the
+page** (`DEC-072`). `test_page.py` records that a served document has no seam
+— no build step, no second route — and concludes its only move is deletion.
+That is true of the dashboard and false of the Trade tab. A dashboard empty
+state is served because it is *true before a script runs*: an em-dashed tile
+and "Nothing here yet" both say something correct to a reader with no
+JavaScript. A ticket, a positions table and an equity curve over a
+`localStorage` store say nothing at all until the store has been read. So
+Phase 2's five surfaces add no markup to `index.html`, and the document's
+growth is capped by construction rather than by a ceiling it was going to hit
+mid-task. The line to keep is not "interactive surfaces are built in JS" — the
+watchlist is interactive and its empty state is served, because it is true.
+
+**The document half is not done, and I am not going to pretend otherwise.**
+`index.html` is at **817 markup lines of 900**, not the 719 the task asks for.
+D12's premise was that the deletion sat in the four dashboard panels. It does
+not. Every panel was measured — fundamentals 181, chart 105, quote 93, tiles
+82, reports 67, watchlist 64 — and none is fat; the repeated blocks are
+load-bearing served markup, with eight `test_index_strip` assertions resting
+on the tiles' em dashes alone.
+
+**What the measurement found instead is the useful part.** Of 817 markup
+lines, **138 are page copy** and **structure alone is 679 — already under the
+719 target.** So the only route to 80% by deletion is deleting what the page
+teaches, on a page whose mission is teaching. That is `DEC-038`'s argument one
+step over: comments were made free on this file precisely because a ceiling
+that makes deleting the reasoning the cheapest way past it is measuring the
+wrong thing. The choice between deleting ~98 lines of copy and extending
+`DEC-038` to count structure rather than the copy inside it is written into
+D12's entry, with the numbers, so attempt 2 decides rather than re-derives.
+Hard rule 12 applies after that.
+
+**Verified:** 208 page tests, 224 service tests green; `shoot.py --api` green
+at four widths in two states (`--symbol AAPL`, `--tab trade`) — no console
+errors, no horizontal overflow, busiest simulated visitor 14 requests of 60
+allowed. The service ran in fixture mode against a scratch database; no
+upstream calls, no quota spent. `git status` clean outside `incisor-trading/`.
+
+**Memory:** `DEC-072` added. `DEC-051` moved out of the index and into the
+docstring of the test that enforces it — the index was 167 bytes from its
+ceiling and that entry is entirely about one rule in `test_page.py`, where the
+person who needs it is already looking (guide §16, and the precedent D11 set
+with `DEC-016` and `DEC-044`).
+
+### For Key
+
+**N9 · D12's 80% criterion is unreachable for `index.html`, and the arithmetic
+is in its backlog entry.** I wrote that criterion myself when filing it, by
+symmetry with the 600-line rule, without checking whether 118 lines of fat
+existed. They do not. Left open with attempt 1 recorded rather than checked
+off or quietly rescoped; attempt 2 has a decision to make, not a search. Say
+if you would rather it were closed and T13 taken next.
+
+**N8 · resolved 09-03.** D12 was taken as filed and it did delay T13 by a
+session, as flagged. Half of it landed; the other half is the note above.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is now a six-file
+situation; the drop-in wording is drafted in the 09-02 entry.
+
+**Next session:** D12 attempt 2 is still the top of the queue as an open
+defect, then T13. The reporting calendar falls due for audit on 09-06.

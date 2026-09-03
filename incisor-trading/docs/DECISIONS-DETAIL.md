@@ -999,29 +999,6 @@ because one window produced all three, and the page states that window once —
 never moved costs the beta and the correlation and leaves volatility
 untouched), so the reader keeps an object with a window and blanks per figure.
 
-## DEC-051 — Nested surfaces are charged once
-
-*Settled · 09-02*
-
-**Decision**
-
-**The per-surface 150-line rule charges a block only the lines it does not
-delegate to a surface nested inside it.** Every line is charged to exactly one
-surface: the innermost that owns it.
-
-**Why**
-
-`[data-fundamental]` stood at 144 of 150 and could not grow, which is the rule
-working — but splitting it into four groups made it a *container*, and the old
-measure charged it its own chrome plus all four groups, reporting 231 for a
-panel that reads as five short things. `is_measured()` already said a
-container of measured blocks needs no measure of its own; this is the same
-principle applied to the number instead of to the coverage. The guard is the
-part that matters and it is in `test_page.py`: a block that delegates nothing
-is still charged in full, so **wrapping a long surface in a marker buys
-nothing unless the inner block is itself measured**. Confirmed to fail with
-the old double-counting rule put back.
-
 ## DEC-052 — Five free-tier quote providers
 
 *Dead end · 08-27*
@@ -1598,3 +1575,41 @@ companies grow and raise their payout annually. A year-ago column comparing a
 figure with a redrawn copy of itself would show nothing but the generator's own
 wobble — teaching a reader that earnings are noise, which is the fundamentals
 version of the independent random walks `DEC-056` already records.
+
+## DEC-072 — Phase 2 builds its surfaces, the document does not carry them
+
+*Settled · 09-03*
+
+**Decision**
+
+**The Trade panel's surfaces are built by their views rather than served in
+`index.html`.** The dashboard stays served. And no panel prints a figure
+nothing computed, whether or not it is a price.
+
+**Why**
+
+Two findings, one change (`D12`, attempt 1).
+
+The panel shipped a stat row reading Cash $100,000.00 / Positions $0.00 /
+Total value $100,000.00 / Total return 0.00% — four hard-coded strings shaped
+exactly like the reader's own balance, under a heading calling it theirs. The
+tiles state the rule it broke and state it about prices: the page has no
+prices of its own, and printing plausible numbers it did not fetch is the one
+thing a market page must never do. Nothing about that argument is about
+prices. It is now one sentence saying the thing is not built.
+
+The seam is the second finding. `test_page.py` records that the served
+document has none — no build step, no second route — and concludes that its
+only move is deletion. That is true of the dashboard and false of the Trade
+tab. A dashboard empty state is served because it is *true before a script
+runs*: "Nothing here yet" and an em-dashed tile say something correct to a
+reader with no JavaScript. A ticket, a positions table and an equity curve
+over a `localStorage` store say nothing at all until the store has been read
+— they ship `hidden` behind a tab, and there is no true static version of
+them to serve.
+
+So the five surfaces Phase 2 plans add no markup to `index.html`, and the
+document's growth is capped by construction rather than by a ceiling it was
+going to hit mid-task. The distinction to keep, if this is ever revisited: it
+is not "interactive surfaces are built in JS" — the watchlist is interactive
+and its empty state is served, because that empty state is true.

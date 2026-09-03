@@ -66,12 +66,12 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-047 | **A proxy stand-in must identify its callers** — `shoot.py` sets `X-Forwarded-For` per context. Do not take any of D7's three candidates. |
 | DEC-048 | **The per-IP limiter trusts the *last* hop of `X-Forwarded-For`** — a fact about this deployment: one proxy, appending. Empty fields disable the gate. |
 | DEC-050 | **Volatility and correlation ride on the pairing `beta()` already builds** — one `measures` object. Beta alone states a slope and hides its fit. |
-| DEC-051 | **The per-surface 150-line rule charges a block only what it does not delegate to a nested measured surface.** |
 | DEC-067 | **The index drops the date column and merges nothing.** Dates live in the detail file; merging is S6's job and D9 was a move — 66 entries in, 66 out, checked by the bijection test. |
 | DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
 | DEC-069 | **An audit is a one-line verdict row plus a dated entry, keyed on date and task — not a new ID namespace.** `O6` never completes, so this section grows forever. |
 | DEC-070 | **T12 ships a filing calendar, not an earnings calendar.** No scheduled date, consensus or surprise is available; the next report is a projected window. |
 | DEC-071 | **The fixture holds two fiscal years and varying filing lags.** One year blanks the year-ago column; a constant lag projects a report to the day. |
+| DEC-072 | **Phase 2 builds its surfaces in the view, not the served document.** A panel behind a tab states no fact before a script runs, unlike every dashboard empty state. |
 
 ---
 

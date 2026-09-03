@@ -450,6 +450,13 @@ class TestHouseStyle(unittest.TestCase):
         loosens a length rule has to be shown not to have loosened it into
         nothing.
 
+        Why it exists: [data-fundamental] stood at 144 of 150 and could not
+        grow, which is the rule working — but splitting it into four groups
+        made it a *container*, and the old measure charged it its own chrome
+        plus all four groups, reporting 231 for a panel that reads as five
+        short things. Every line is charged to exactly one surface: the
+        innermost that owns it.
+
         Three properties, on markup built here rather than on the page, so
         the assertions describe the rule instead of describing whatever
         index.html happens to hold today. A container that delegates to

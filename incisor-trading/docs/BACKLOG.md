@@ -264,21 +264,37 @@ step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
 - [ ] **D12 · Two length rules are one surface from failing** `[defect]`
-  *(found 2026-09-03, adding T12)* — `index.html` is at **837 markup lines of
-  900** and `js/view-symbol.js` at **593 of 600**. Neither is broken today,
-  which is why this is filed rather than fixed: the next session to add a
+  *(found 2026-09-03, adding T12; attempt 1 on 09-03)* — `index.html` at 837
+  markup lines of 900 and `js/view-symbol.js` at 593 of 600. Neither broken,
+  which is why this was filed rather than fixed: the next session to add a
   surface fails a test it did not cause, mid-task, with no seam ready.
-  T12 spent 73 markup lines and 6 script lines, and Phase 2 plans five more
-  surfaces. They do not fit, and neither does T13b on top of them.
-  The document has no seam and that is settled — `test_page.py` says so where
-  the 900 is set — so the answer is deletion rather than a split, and the
-  honest place to look is the four dashboard panels' markup. `view-symbol.js`
-  is the opposite case: it has a real seam and the 600-line rule already says
-  what to do with it. **Neither ceiling moves.**
-  *Accept:* both files are back under 80% of their ceilings, with the space
-  found by deleting or splitting rather than by moving a number; every suite
-  green and `shoot.py` clean at all three widths afterwards, since markup
-  deleted from a served document is markup a reader was seeing.
+  *Accept:* both files under 80% of their ceilings, the space found by
+  deleting or splitting rather than by moving a number; suites green and
+  `shoot.py` clean at three widths.
+
+  **The script half is done.** `view-symbol.js` split at drawing versus
+  deciding (`DEC-013`) into itself at 468 and `js/quote-card.js` at 179 — 78%,
+  and the seam was where that entry said it would be.
+
+  **The document half is open, and this entry's premise was wrong.** The
+  deletion is not in the four dashboard panels. Each was measured and none is
+  fat: the biggest, `[data-fundamental]` at 181 markup lines, is twelve
+  labelled figures and their explanations, and the repeated blocks are
+  load-bearing served markup — eight `test_index_strip` assertions rest on the
+  tiles' em dashes alone. Found instead: a portfolio the Trade panel invented,
+  deleted with its dead CSS (`DEC-072`), taking the file to **817 of 900**.
+
+  **What the measurement says, so attempt 2 decides instead of re-deriving.**
+  Of 817 markup lines **138 are page copy** — the figure notes, the panel
+  notes, the proxy and filing caveats, the chart hint, the disclaimer — so
+  **structure alone is 679, already under the 719 target.** Reaching 80% by
+  deletion means deleting what the page teaches, on a page whose mission is
+  teaching: `DEC-038`'s argument one step over, since that entry made comments
+  free here precisely because a ceiling making deletion the cheapest way past
+  it measures the wrong thing. Attempt 2 picks one and records it: **delete
+  ~98 lines of served copy**, or **extend `DEC-038` so the ceiling counts
+  structure and not the copy inside it**, with the per-surface 150-line rule
+  left counting everything so nothing escapes. No third attempt — hard rule 12.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
