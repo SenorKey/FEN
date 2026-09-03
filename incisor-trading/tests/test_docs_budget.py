@@ -16,6 +16,10 @@ The memory is two files with two different jobs, split at D9:
                         one-line record in `## Done` — in this file, not a
                         second one, because nobody follows a pointer to closed
                         work (DEC-068).
+  `AUDITS.md`           the four answers behind each audit-log row, under a
+                        dated heading. Split out by D11 for the same reason
+                        D9 split the memory, and unbudgeted for the same one:
+                        it is opened at a surface, never read front to back.
 
 Two properties are enforced here, and they fail in opposite directions.
 
@@ -29,19 +33,31 @@ pays, so bytes are what is measured, and CEILING is a ratchet: it only ever
 moves **down**. When a new entry will not fit, that is the signal to consolidate
 (S6) or to move a surface-scoped decision beside the surface it binds — not to
 raise the number. At roughly 165 bytes an entry the ceiling holds about seventy,
-and the index is near that now, so the next few sessions should expect to move a
-decision into a file header rather than to add a seventy-first line here.
+and the index reached that: D11's own entry put the file 136 bytes over, and it
+was paid for by moving two lines out rather than by raising anything. Both were
+already stated in full beside the code they bind — `DEC-016` in
+`js/view-symbol.js`, `DEC-044` in `server/fixtures/make_fixtures.py` — so the
+index was carrying a second copy of a comment that cannot drift from what it
+explains. Expect this, not a seventy-first line.
 
-**Integrity**, across both. A split trades a size problem for a silent
+**Integrity**, across each split. A split trades a size problem for a silent
 correctness problem unless the two files are held together: an index line
 pointing at an ID that no longer exists is how every index that has ever rotted
-began, and nothing fails when it happens. The bijection is asserted both ways.
+began, and nothing fails when it happens. Both bijections are asserted both
+ways — the memory's on `DEC-NNN`, the audit log's on the date and task ID its
+row and its heading share, since an audit has no ID of its own and inventing an
+eighth namespace beside the seven in guide section 19 would cost more than it
+carries.
 
 **Shape**, on the backlog. A byte ceiling alone is what the old "two screens"
 rule was, and it failed because nothing stopped a one-liner becoming an essay.
-So the ceiling here is paired with the rule that produced it: a finished task
-is a row in `## Done` and never a bullet, and a row is a record rather than a
-retelling. Break either and the ceiling is only a matter of time.
+So the ceiling here is paired with the rules that produced it: a finished task
+is a row in `## Done` and never a bullet, an audit is a row in the audit log
+and never its own four paragraphs, and a row of either kind is a record rather
+than a retelling. Break one and the ceiling is only a matter of time — which is
+not a prediction, it is what happened twice. D10 met its 32,000 and the audit
+log put the file back over it within the same session, because the collapse
+reached the section it was told to fix and not the section growing beside it.
 """
 
 import os
@@ -60,13 +76,11 @@ CEILING = 12_000
 # belongs in the detail file, or beside the code it binds (guide section 16).
 MAX_INDEX_LINE = 200
 
-# Ratchet, like CEILING, and deliberately tight: 462 bytes of headroom over what
-# D10 landed. A session that cannot fit a new entry has found the next thing to
-# fix rather than a number to raise — and D11 is already filed, which takes this
-# to 22,000 by moving the audit log out the way D10 moved the completed tasks.
-# The 32,000 D10 asked for was met by the collapse (31,588); filing D11 in the
-# same session is what put the file 538 over it.
-BACKLOG_CEILING = 33_000
+# Ratchet, like CEILING. D11 landed the audit-log collapse at 21,405, so this
+# is 595 bytes of headroom rather than the 462 D10 left — deliberately tight
+# both times. A session that cannot fit a new entry has found the next thing to
+# fix rather than a number to raise.
+BACKLOG_CEILING = 22_000
 
 # A record, not a retelling. Long enough for the task, its verdict and the
 # `DEC` IDs it settled; short enough that twenty-two of them are a page. The
@@ -74,9 +88,22 @@ BACKLOG_CEILING = 33_000
 # cap travels with every collapse this project does.
 MAX_DONE_ROW = 300
 
+# Same rule, one section down, and set to the index's cap rather than the Done
+# rows' because an audit row does the index's job: it has to say enough that a
+# session skimming knows whether the surface moved under it, without opening
+# `AUDITS.md`. Seven rows weighed 13,219 bytes before D11 — 41% of a file read
+# in full every session, growing forever because `O6` never completes.
+MAX_AUDIT_ROW = 200
+
 INDEX_ROW = re.compile(r'^\|\s*(DEC-\d{3})\s*\|')
 DONE_ROW = re.compile(r'^\|\s*[TDOS]\d+[a-z]?\s*\|')
 DETAIL_HEADING = re.compile(r'^##\s+(DEC-\d{3})\s+—\s+\S')
+
+# `| 09-02 | **Fundamentals panel** (T11) | Minor edits | ... |` keyed to
+# `## 09-02 — Fundamentals panel (T11)`. The date alone will not do: a surface
+# is due again after any revamp, so one task ID can carry two audits.
+AUDIT_ROW = re.compile(r'^\|\s*(\d{2}-\d{2})\s*\|[^|]*?\((T\d+[a-z]?)\)\s*\|')
+AUDIT_HEADING = re.compile(r'^##\s+(\d{2}-\d{2})\s+—\s+.*\((T\d+[a-z]?)\)\s*$')
 
 
 def _read(name):
@@ -95,6 +122,19 @@ def _detail_ids():
     return [DETAIL_HEADING.match(line).group(1)
             for line in _read('DECISIONS-DETAIL.md').splitlines()
             if DETAIL_HEADING.match(line)]
+
+
+def _audit_rows():
+    """Every audit-log row, as the (date, task) pair that keys it."""
+    return [AUDIT_ROW.match(line).groups()
+            for line in _read('BACKLOG.md').splitlines()
+            if AUDIT_ROW.match(line)]
+
+
+def _audit_headings():
+    return [AUDIT_HEADING.match(line).groups()
+            for line in _read('AUDITS.md').splitlines()
+            if AUDIT_HEADING.match(line)]
 
 
 class TestTheIndexStaysReadable(unittest.TestCase):
@@ -201,6 +241,57 @@ class TestTheBacklogStaysAQueue(unittest.TestCase):
         rows = [line for line in _read('BACKLOG.md').splitlines()
                 if DONE_ROW.match(line)]
         self.assertGreater(len(rows), 20)
+
+
+class TestTheAuditLogStaysALog(unittest.TestCase):
+    """D11. The section D10 was forbidden to touch, which was 41% of the
+    backlog by the time D10 finished — and the only one of the three that
+    grows forever by design, since `O6` never completes and a revamp makes a
+    surface due again. The four answers moved to `AUDITS.md`; the row stayed."""
+
+    def test_no_audit_row_grows_into_an_essay(self):
+        over = [('%s %s' % pair, len(line))
+                for line, pair in ((line, AUDIT_ROW.match(line).groups())
+                                   for line in _read('BACKLOG.md').splitlines()
+                                   if AUDIT_ROW.match(line))
+                if len(line) > MAX_AUDIT_ROW]
+        self.assertEqual(
+            over, [],
+            'audit rows over %d characters: %s. The row carries the date, the '
+            'surface, the verdict and the finding in one line; the four '
+            'answers go under a dated heading in AUDITS.md.'
+            % (MAX_AUDIT_ROW, ', '.join('%s (%d)' % pair for pair in over)))
+
+    def test_every_audit_row_resolves_to_an_entry(self):
+        dangling = sorted(set(_audit_rows()) - set(_audit_headings()))
+        self.assertEqual(
+            dangling, [],
+            'in the audit log but absent from AUDITS.md: %s. A verdict whose '
+            'reasoning cannot be found is a verdict nobody can argue with.'
+            % ', '.join('%s %s' % pair for pair in dangling))
+
+    def test_every_audit_entry_is_logged(self):
+        orphans = sorted(set(_audit_headings()) - set(_audit_rows()))
+        self.assertEqual(
+            orphans, [],
+            'in AUDITS.md but not in the audit log: %s. The log is the only '
+            'thing read every session, so an unlogged audit is a surface that '
+            'falls due again with the work already done.'
+            % ', '.join('%s %s' % pair for pair in orphans))
+
+    def test_no_audit_is_recorded_twice(self):
+        for name, keys in (('BACKLOG.md', _audit_rows()),
+                           ('AUDITS.md', _audit_headings())):
+            duplicates = sorted({k for k in keys if keys.count(k) > 1})
+            self.assertEqual(
+                duplicates, [],
+                '%s records %s twice. A surface audited again on a later date '
+                'is a second entry, not a rewrite of the first.'
+                % (name, ', '.join('%s %s' % pair for pair in duplicates)))
+
+    def test_the_audit_log_is_not_empty(self):
+        """Guards all four checks above, which pass on a log of zero rows."""
+        self.assertGreater(len(_audit_rows()), 5)
 
 
 if __name__ == '__main__':

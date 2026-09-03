@@ -113,6 +113,11 @@
             canvas.appendChild(line);
         }
 
+        /* The first and last markers sit astride the plot border rather than
+         * inside it, and that is deliberate: those sessions *are* the window's
+         * ends, and the axis labels are pinned to the same two edges, so a
+         * marker pulled inward would disagree with the date under it. Looked
+         * at in the T8 audit and left; do not inset them. */
         function marker(className) {
             var dot = document.createElement('span');
             dot.className = className;

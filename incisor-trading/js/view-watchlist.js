@@ -262,7 +262,13 @@
     /* Where these numbers came from, in the same sentence the strip and the
      * quote card use. Hidden until something has actually settled: with no
      * payload the shared wording is "market data unavailable", which is true
-     * of a table whose calls all failed and a lie about one still waiting. */
+     * of a table whose calls all failed and a lie about one still waiting.
+     *
+     * That makes three word-for-word identical sentences in one scroll, which
+     * the T9 audit looked at and left: each surface makes its own claim about
+     * its own payload, and one shared line would be a surface speaking for
+     * another's data — the strip's calls can fail while this table's answer.
+     * Do not deduplicate it into a single page-level line. */
     function renderProvenance(state) {
         var line = panel.querySelector('[data-watchlist-provenance]');
         if (!line) return;

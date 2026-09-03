@@ -297,22 +297,6 @@ with committed JSON and says the list is complete, so search never offers a
 result that dead-ends. In live mode the catalogue is suggestions and a
 free-typed ticker is still tried.
 
-## DEC-016 — Enter takes the best match
-
-*Settled · 08-28*
-
-**Decision**
-
-**Enter with nothing highlighted takes the best match, not the raw text**
-
-**Why**
-
-Typing `apple` and pressing Enter has to open Apple. Falling straight through
-to the typed text looks up a ticker called APPLE and reports that no such
-thing exists, while the right answer is sitting at the top of the open list.
-Falling through still happens when nothing matched, which is what keeps an
-unlisted ticker reachable.
-
 ## DEC-017 — Front-end tests run in JavaScriptCore
 
 *Settled · 08-27*
@@ -928,32 +912,6 @@ data is. `/fundamentals` computing at all follows `/sectors`: eleven series
 was a third of a megabyte for forty-four numbers, and a year of two series is
 forty thousand numbers for one beta.
 
-## DEC-044 — A fixture's figures must agree with each other
-
-*Settled · 09-01*
-
-**Decision**
-
-**A fixture may invent a company's figures, but not independently of each
-other.** One income statement per quarter, with gross profit, operating
-income, net income and EPS all read out of it. Each payload also carries the
-**annual period the parser has to refuse**.
-
-**Why**
-
-The T10b rule was that a fixture can synthesise a series and not a selection;
-fundamentals are a series-shaped claim about a symbol we named, so invented
-figures under a "sample data" label are honest here. What is *not* honest is
-six independent draws: they produce a net margin above a gross margin, or an
-EPS that disagrees with the income and share count printed beside it on the
-same card — the fundamentals version of the independent random walks rejected
-at T3, and worse, because a reader can do this division in their head. The
-annual period is the other half: EDGAR files the year against the same tag as
-the quarters, distinguished only by length, so **a fixture holding only
-quarters would let a parser that summed everything it found pass** and then
-double every revenue figure in production. A test asserts the committed JSON
-contains it.
-
 ## DEC-045 — A fund is a state, not a failure
 
 *Settled · 09-01*
@@ -1533,3 +1491,65 @@ log is 13,219 bytes over seven rows, `D10` was forbidden to touch it, and `O6`
 never completes — so 41% of a file read in full every session is now a section
 this fix was not allowed to reach. Same disease, third file, and the reason
 `BACKLOG.md` lands at 32,538 against a stated target of 32,000.
+
+## DEC-069 — An audit is a row and a dated entry
+
+*Settled · 09-03*
+
+**Decision**
+
+**An audit records as a one-line verdict row in `BACKLOG.md` and a dated
+entry in `docs/AUDITS.md` holding the four answers, bound by a bijection
+keyed on the date and the task ID.** No `A`/`AUD` prefix is created.
+
+**Why**
+
+Third file, same disease, and the first one where the growth is guaranteed
+rather than incidental. `O6` never completes and guide §18 makes a surface due
+again after any revamp, so the audit log has no terminal size — seven audits
+had already reached 13,219 bytes, 41% of a file read in full every session,
+and `D10` was explicitly forbidden to touch it. Deferring again would have
+meant a fourth session collapsing the same shape.
+
+**Why the prose survives whole.** An audit is the best writing the routine
+does, and it is not what a session needs from it. A session skimming the log
+needs the date, the surface, the verdict, and enough of the finding to know
+whether the surface moved underneath it — 150 characters, not 1,900. Acting on
+a verdict is rare, and rare work pays to open a file.
+
+**Why the key is the date and the task, not a new ID.** Guide §19 names seven
+prefixes and spells `DEC` out rather than shortening it, precisely so two
+namespaces cannot sit one typo apart in files read together. An eighth would
+be a number to assign, never reuse, and keep in step across two files —
+overhead an audit does not need, because it already carries a natural
+composite key that both sides state anyway. The date alone will not do: a
+revamp makes a surface due again, so one task ID can hold two audits.
+
+**Why `AUDITS.md` is unbudgeted.** Same reason as `DECISIONS-DETAIL.md`
+(`DEC-067`): it is opened at a heading, never read front to back, so its size
+costs a reader nothing. Storage is free and attention is not.
+
+**What the ceiling does not do.** The byte count is how the growth was
+noticed, never what stopped it — a ceiling alone was the old "two screens"
+rule, and it failed. Each collapse this project does ships a shape rule with a
+length cap beside it: a finished task is a row and never a bullet
+(`DEC-068`), an audit is a row and never four paragraphs, and both caps are
+enforced per row rather than as a total. `BACKLOG_CEILING` drops 33,000 →
+22,000 as a ratchet.
+
+**What paid for this entry.** Adding it put the index 136 bytes over its
+ceiling, which is the mechanism working rather than failing. `DEC-016` and
+`DEC-044` left the index for the files they bind — `js/view-symbol.js` and
+`server/fixtures/make_fixtures.py` — and neither was written out, because both
+were already there in full. The index had been carrying a second copy of a
+comment sitting beside the code it explains, which is the worse of the two
+places for it: shared memory is read by every session, and a comment cannot
+drift from what it describes. Guide §16, rule 1.
+
+**Also settled here:** every *looked at and left* finding from the seven
+audits now lives where it binds — `js/chart-canvas.js` for the end markers
+astride the plot border and the axis step family, `js/view-watchlist.js` for
+the three identical provenance sentences, `js/view-fundamentals.js` for the
+fund panel leading with what is absent, `DEC-059` for the 319px sector gap,
+and `D3` for a tile that cannot open its symbol. A finding recorded only in an
+audit is a finding that gets re-found the next time someone reads that file.

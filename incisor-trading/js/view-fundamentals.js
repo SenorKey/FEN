@@ -275,6 +275,12 @@
             // answer rather than a failure. Said in fund language: a reader
             // who searched XLK has not made a mistake, and ten em dashes
             // would suggest they had.
+            //
+            // It leads with what is absent before showing what is present,
+            // which reads backwards and is right anyway: this reader typed a
+            // ticker expecting a company, so the first thing they need is why
+            // the figures they came for are not here. The T11 audit looked at
+            // the ordering and left it.
             setState('fund');
             say('No company files for ' + symbol + '. It is a fund rather '
                 + 'than a company, so there is no revenue, no earnings and no '

@@ -36,7 +36,6 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-013 | **A market-data surface owns a view module and a stylesheet; one outgrowing a file splits at drawing versus deciding.** Supersedes DEC-011's placement. |
 | DEC-014 | **The quote panel costs two calls, `/history` and `/quote`; tiles still cost one.** A daily series has no session in progress, so the day range is not in it. |
 | DEC-015 | **Names come from committed `server/catalog.py`, never provider symbol search** — a call per keystroke against 22 a day is a disqualification. |
-| DEC-016 | **Enter with nothing highlighted takes the best match, not the raw text** — else `apple` looks up APPLE and reports it missing. |
 | DEC-017 | **Front-end tests run the shipped scripts in JavaScriptCore against a DOM stub.** They do not replace a browser; `shoot.py` covers the rest. |
 | DEC-018 | **Chart ranges are 5D / 1M / 6M / 1Y / 5Y — no 1D, though T8's wording names one.** A day of a daily series is one bar. Do not add it. |
 | DEC-019 | **A live surface may not overwrite a fact the served markup alone stated** — the clock keeps "Opens Monday 9:30am ET" over a bare countdown. |
@@ -64,7 +63,6 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-041 | **The budget scores one upstream of two** — only what `source.UPSTREAM_OF` marks Alpha Vantage's, so a free EDGAR call cannot cost one of 22. |
 | DEC-042 | **The quote card was split along its *provider*, not its markup.** Volume is a quote figure and stayed. Do not pull the price figures out too. |
 | DEC-043 | **Market cap, P/E and yield are computed in the browser; margins and beta on the server.** The line is whether a figure needs the price the reader sees. |
-| DEC-044 | **A fixture may invent a company's figures, but not independently of each other** — one income statement per quarter, plus the annual period to refuse. |
 | DEC-045 | **A fund is a state, not a failure** — 200 with `filings: null`, in fund language. Fifteen of seventeen symbols are funds: the ordinary answer. |
 | DEC-046 | **EDGAR's contact address is config, not code, and not the routine's to choose.** Without it live filings refuse and say why; the service still boots. |
 | DEC-047 | **A proxy stand-in must identify its callers** — `shoot.py` sets `X-Forwarded-For` per context. Do not take any of D7's three candidates. |
@@ -73,6 +71,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-051 | **The per-surface 150-line rule charges a block only what it does not delegate to a nested measured surface.** |
 | DEC-067 | **The index drops the date column and merges nothing.** Dates live in the detail file; merging is S6's job and D9 was a move — 66 entries in, 66 out, checked by the bijection test. |
 | DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
+| DEC-069 | **An audit is a one-line verdict row plus a dated entry, keyed on date and task — not a new ID namespace.** `O6` never completes, so this section grows forever. |
 
 ---
 

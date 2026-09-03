@@ -3010,3 +3010,83 @@ ratchet like `CEILING`. A session that cannot fit an entry has found the next
 thing to fix rather than a number to raise.
 
 **Next session:** D11 (defect, and the top of the queue), then T12.
+
+---
+
+## 2026-09-03 — D11: the audit log stops being read in full
+
+**Task:** D11, the open defect and the top of the queue — D3 is an enhancement
+and waits for Key. Third file in three sessions to split the same way, and the
+first where the growth was guaranteed rather than incidental.
+**Verified:** 190 page tests (up 5), 205 service tests, both green. No markup or
+CSS changed, so `shoot.py` was not run; the three shipped files touched are
+comment-only, confirmed by filtering the diff rather than by reading it, and all
+three modules are executed for real by the JavaScriptCore suite.
+
+**`BACKLOG.md`: 32,538 → 20,644 bytes**, against the 22,000 D11 asked for. Seven
+audit rows weighing 13,219 bytes became seven rows of 147–168 characters, and
+the four answers moved to `docs/AUDITS.md` under a `## MM-DD — Surface (Tnn)`
+heading each.
+
+**No prose was discarded, and that was checked by counting rather than by
+reading.** Every word of the seven rows was normalised into a multiset and
+differenced against the new file: one token is missing, `DECISIONS.md`, because
+the sector grid's pointer now names `DEC-059` directly instead of the file it
+lives in. Everything else survives, and the entries gained 165 tokens of
+structure — the four questions are headings now, which the rows only implied.
+
+**Why the bijection is keyed on the date and the task rather than a new ID.**
+Guide §19 names seven prefixes and spells `DEC` out rather than shortening it,
+specifically so two namespaces cannot sit one typo apart in files read together.
+An eighth would be a number to assign, never reuse and keep in step across two
+files, to hold something that already has a natural composite key both sides
+state anyway. The date alone will not do — §18 makes a surface due again after
+any revamp, so one task ID can carry two audits. `DEC-069`.
+
+**Six guards, each confirmed to fail with the defect put back.** A row grown to
+1,900 characters, an audit dropped from the log, a heading whose task ID no
+longer matches, a surface entered twice, a log emptied entirely, and a file over
+the ceiling — every one was run against a mutated copy of `docs/` and every one
+failed as it should. The empty-log guard matters most: without it, deleting the
+audit log makes the three checks above it pass.
+
+**`BACKLOG_CEILING` drops 33,000 → 22,000**, a ratchet like the others. What
+actually stops the regrowth is the shape rule beside it, not the number: an
+audit is a row and never four paragraphs, capped at 200 characters — the index's
+cap rather than the `## Done` rows', because an audit row does the index's job of
+telling a session whether the surface moved underneath it.
+
+**Every *looked at and left* finding now lives where it binds.** That was D11's
+quietest criterion and the one with the most work in it, because an audit is the
+only place several of them were written down. Two were already restated —
+`js/chart-canvas.js` carries the axis step family, `DEC-059` carries the 319px
+sector gap — and one, D3, is a filed entry. Three were not: the chart's end
+markers astride the plot border, the three word-for-word identical provenance
+sentences, and the fund panel leading with what is absent. All three are now
+comments in the file that would otherwise get them "fixed".
+
+**The index went over its ceiling, and that is the mechanism working.** Adding
+`DEC-069` put `DECISIONS.md` 136 bytes past 12,000. Nothing was raised: `DEC-016`
+and `DEC-044` left the index for `js/view-symbol.js` and
+`server/fixtures/make_fixtures.py`, and neither had to be written out, because
+both were already stated there in full. The index was carrying a second copy of
+a comment that sits beside the code it explains — the worse of the two places,
+since shared memory is read by every session and a comment cannot drift. 11,824
+bytes now, 176 of headroom, deliberately more than the 8 that dropping one line
+would have left, because a ceiling that traps the next session's close-out is a
+trap rather than a ratchet.
+
+### For Key
+
+**N7 · extended, not re-raised: the guide's §16 table now omits two files, not
+one.** `docs/AUDITS.md` joins `DECISIONS-DETAIL.md` as a file the guide does not
+mention. Nothing in the guide is contradicted — §18's "recorded in the audit log
+at the bottom of `BACKLOG.md`" is still exactly true, and the verdict is still
+one row there. Only the four-file table in §16 is now a six-file situation. To
+the drop-in wording already drafted under N7, add one row beneath the
+`BACKLOG.md` row: "`AUDITS.md`" / "The four answers behind each audit-log row,
+under a dated heading. Grows without bound." / "Never in full — only at a
+surface." No other section needs a word changed.
+
+**Next session:** T12 — earnings and dividend dates. No defect is open (D3 is an
+enhancement awaiting your triage) and nothing is due for audit.
