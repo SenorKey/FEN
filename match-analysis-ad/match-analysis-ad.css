@@ -370,7 +370,7 @@ body {
 }
 
 .hero-sub {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Bricolage Grotesque', sans-serif;
     font-size: clamp(0.72rem, 1vw, 0.85rem);
     font-weight: 300;
     color: var(--muted);
@@ -421,7 +421,7 @@ body {
 }
 
 .wing-text {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 0.82rem;
     line-height: 1.65;
     color: rgba(208, 219, 196, 0.7);

@@ -5,6 +5,19 @@
 
 /* ── Fonts ── */
 
+/* Variable face, 200-800 in one 75KB file. DM Sans and Playfair below are
+   still declared: the Preside by Side, Match Analysis and Incisor app pages
+   pin themselves back to them. */
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/assets/fonts/bricolage-grotesque-latin-var.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-stretch: 100%;
+  font-display: swap;
+}
+
 @font-face {
   font-family: 'Playfair Display';
   src: url('/assets/fonts/playfair-display-latin-700-normal.woff2') format('woff2');
@@ -71,7 +84,7 @@
 /* ── Base body ── */
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   background: var(--bg);
   color: var(--ink);
   height: 100vh;
@@ -155,6 +168,8 @@ body {
 /* ── Typography ── */
 
 .page-title {
+  /* The one place the serif was kept when the site moved to Bricolage: the big
+     display title stays Playfair. Everything else, h2.sub included, is sans. */
   font-family: 'Playfair Display', serif;
   font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 700;
@@ -199,7 +214,7 @@ body {
 
 h2.sub,
 h3.sub {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 6px;
@@ -405,7 +420,7 @@ p.body-text+h3.sub {
 }
 
 .photo-caption {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 0.8rem;
   color: var(--muted);
   text-align: center;

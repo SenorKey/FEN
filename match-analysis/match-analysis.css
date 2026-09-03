@@ -152,6 +152,10 @@
 
 body {
     height: 100dvh;
+
+    /* The shared stylesheet moved to Bricolage Grotesque site-wide; this app
+       stays on DM Sans alongside its Saira display face. */
+    font-family: 'DM Sans', sans-serif;
 }
 
 
