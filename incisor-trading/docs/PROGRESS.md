@@ -3299,5 +3299,14 @@ session, as flagged. Half of it landed; the other half is the note above.
 **N7 · still open, unchanged.** Guide §16's four-file table is now a six-file
 situation; the drop-in wording is drafted in the 09-02 entry.
 
+**N10 · `BACKLOG.md` is 12 bytes from its 22,000 ceiling**, after D12's entry
+grew to carry the measurement. That is the signal `S6` exists for, and the
+next session that finds a defect cannot file one until something is
+consolidated — so the standing task is no longer optional cover for a blocked
+day. `docs/shots/` is the other half of it: 14MB across fourteen folders, some
+photographing markup that has since changed, in a repo served from a home
+connection (`DEC-012`).
+
 **Next session:** D12 attempt 2 is still the top of the queue as an open
-defect, then T13. The reporting calendar falls due for audit on 09-06.
+defect, then T13. `S6` may have to come first — see N10. The reporting
+calendar falls due for audit on 09-06.
