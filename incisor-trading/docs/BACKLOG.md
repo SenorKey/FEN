@@ -23,8 +23,8 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ## Phase 1 — Dashboard
 
-**Complete — T5 through T11, T10a included**; every surface among them has an
-audit-log row below. Open here: T10b, blocked, then T12.
+**Complete — T5 through T12, T10a included.** Every surface among them except
+T12 has an audit-log row below. Open here: T10b, blocked, then T13.
 
 - [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -41,30 +41,16 @@ audit-log row below. Open here: T10b, blocked, then T12.
   *Accept:* three lists render from fixtures; every symbol shown is one the page
   can say something about, or the list says why it cannot; the whole surface
   costs one upstream call a day.
-  **`[!]` Blocked 2026-09-01 — the first surface here that has no honest
-  fixture.** Both questions were settled and they point the same way. *Terms:*
-  the endpoint has none of its own. Alpha Vantage licenses the platform in one
-  sentence and the document does not contain the words "endpoint", "function",
-  "dataset" or "Alpha Intelligence" anywhere, so this inherits the API-wide
-  ambiguity and is resolved by the same written answer as everything else — see
-  `DATA-PROVIDER.md`, *Per-endpoint terms*. Nothing further to research.
-  *Fixture:* there is no shape that is both believable and honest. Every other
-  surface's fixture synthesises a **series** for a symbol we chose; this one's
-  payload is a **selection** — which symbols the market picked — and a selection
-  cannot be synthesised. Inventing sixty tickers fabricates companies, not
-  prices, and the provenance line cannot make a corporate identity honest.
-  Ranking the seventeen symbols this build holds is a ranking of eleven sector
-  funds and four index proxies presented in the clothes of a movers list, which
-  is the dead end already recorded for the per-symbol version wearing a cheaper
-  hat. And the one payload that *would* be honest — a real captured response —
-  is the single thing the unresolved licence forbids, because committing it to a
-  public repo is display.
+  **`[!]` Blocked 2026-09-01 — the first surface here that cannot be developed
+  on fixtures at all.** Both questions were settled and they point the same way,
+  and both answers are written down where a session that must act on them
+  goes: the terms in `DATA-PROVIDER.md` under *Per-endpoint terms* (there are
+  none — this inherits the API-wide ambiguity), and the fixture in `DEC-054`
+  (a fixture can synthesise a series, never a selection; all three shapes were
+  tried). Nothing further to research.
   *Unblock when:* Key's written display permission exists, at which point this
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
-
-- [ ] **T12 · Earnings and dividend dates** — next earnings date, last report
-  surprise, dividend ex-date and amount for the viewed symbol.
 
 - [ ] **T13 · Dashboard polish, accessibility, and security pass** — accessibility
   audit, mobile pass, number formatting consistency, delay labels and attribution
@@ -256,8 +242,9 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Nothing is due.** Every surface on the page has a row below. The next one
-falls due three sessions after the next surface ships.
+**Nothing is due yet.** The reporting calendar (T12) shipped 09-03 and has no
+row below; it falls due on 09-06, three sessions on. Every older surface has
+one.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -275,6 +262,23 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 `[enhancement]`** — see guide §19. A defect is taken before anything else at
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
+
+- [ ] **D12 · Two length rules are one surface from failing** `[defect]`
+  *(found 2026-09-03, adding T12)* — `index.html` is at **837 markup lines of
+  900** and `js/view-symbol.js` at **593 of 600**. Neither is broken today,
+  which is why this is filed rather than fixed: the next session to add a
+  surface fails a test it did not cause, mid-task, with no seam ready.
+  T12 spent 73 markup lines and 6 script lines, and Phase 2 plans five more
+  surfaces. They do not fit, and neither does T13b on top of them.
+  The document has no seam and that is settled — `test_page.py` says so where
+  the 900 is set — so the answer is deletion rather than a split, and the
+  honest place to look is the four dashboard panels' markup. `view-symbol.js`
+  is the opposite case: it has a real seam and the 600-line rule already says
+  what to do with it. **Neither ceiling moves.**
+  *Accept:* both files are back under 80% of their ceilings, with the space
+  found by deleting or splitting rather than by moving a number; every suite
+  green and `shoot.py` clean at all three widths afterwards, since markup
+  deleted from a served document is markup a reader was seeing.
 
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
@@ -330,4 +334,5 @@ session that must *act* on any of this goes.
 | D8 | 09-02 | **The per-IP gate could be sidestepped** *(defect, fixed)* — it reads the last non-empty hop now. → DEC-048 |
 | D9 | 09-02 | **The memory split into an index and a detail file** *(defect, fixed)* — 66 entries in, 66 out. **Guide §16 and §14 step 2 still describe the pre-split model; that rewrite is Key's, drafted as `N7` in `PROGRESS.md`.** → DEC-067 |
 | D10 | 09-02 | **This file carried its own history** *(defect, fixed)* — twenty-two closed entries became these rows. → DEC-068 |
+| T12 | 09-03 | **Reporting calendar.** A filing calendar, not an earnings calendar: no scheduled date, consensus or surprise exists. → DEC-070, DEC-071 |
 | D11 | 09-03 | **The audit log grew without bound in a file read in full** *(defect, fixed)* — 13,219 bytes over seven rows became seven; the prose is in `docs/AUDITS.md`. → DEC-069 |

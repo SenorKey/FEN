@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/incisor-trading/css/lookup.css">
     <link rel="stylesheet" href="/incisor-trading/css/chart.css">
     <link rel="stylesheet" href="/incisor-trading/css/fundamentals.css">
+    <link rel="stylesheet" href="/incisor-trading/css/reports.css">
     <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
     <!--
@@ -44,6 +45,7 @@
     <script src="/incisor-trading/js/view-sectors.js" defer></script>
     <script src="/incisor-trading/js/view-price-chart.js" defer></script>
     <script src="/incisor-trading/js/view-fundamentals.js" defer></script>
+    <script src="/incisor-trading/js/view-reports.js" defer></script>
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
@@ -374,6 +376,25 @@
                       the service answers, for the same reason the tiles do. The
                       panel starts in its empty state rather than showing a
                       skeleton of a symbol nobody asked for.
+
+                      **Everything inside this card is a figure the price
+                      service returned**, and that is the rule the card has
+                      stated since T9 rather than a description of what it
+                      happens to hold. Market cap and P/E used to sit here as
+                      em dashes with a paragraph underneath explaining that
+                      they come from filings &mdash; the card naming its own
+                      exception &mdash; and they moved to the filings panel
+                      with the paragraph. Volume did not, because volume is a
+                      quote figure.
+
+                      So the card was split along its **provider** and not
+                      along its markup, which is a deliberate deviation from
+                      T11&rsquo;s wording: that note proposed extracting the
+                      whole &lt;dl&gt;, which would have put Open, Previous
+                      close and Volume outside a block whose whole claim is
+                      that it holds what the price service said. Do not
+                      &ldquo;fix&rdquo; it by pulling the price figures out
+                      too.
                     -->
                     <div class="inc-quote" data-quote data-state="empty">
 
@@ -665,6 +686,21 @@
                                 data-track="chart-table">Read this range as a table</summary>
                             <div class="inc-chart-table-scroll">
                                 <table>
+                                    <!--
+                                      The summary above is a control, not a
+                                      label: a screen reader landing inside
+                                      this table has passed it. Added when a
+                                      derived rule over every table on the
+                                      page found this one had none — the
+                                      watchlist's caption rule had been a
+                                      page-wide count of one, so it could
+                                      only ever have been satisfied by the
+                                      first table.
+                                    -->
+                                    <caption class="inc-offscreen">Every
+                                        trading day in the range shown above,
+                                        oldest first: date, open, high, low,
+                                        close and volume.</caption>
                                     <thead>
                                         <tr>
                                             <th scope="col">Date</th>
@@ -939,6 +975,131 @@
                                 No filings have loaded yet.</span>
                         </p>
                     </section>
+
+                <!--
+                  The reporting calendar. Fed by the same GET /fundamentals
+                  the panel above it reads &mdash; a payload is paid for once,
+                  and this asks a different question of the answer already in
+                  hand: that one says what the company earned, this one says
+                  when it said so.
+
+                  It is a separate surface rather than a fifth group up there
+                  because it is a separate question and because nothing on it
+                  is a ratio: those figures divide a filing by the price on
+                  the card, and these are dates.
+
+                  Three things this deliberately does not show, and the copy
+                  below says so rather than leaving a reader to notice. A
+                  scheduled earnings date is announced by the company and
+                  published nowhere we may display; a consensus estimate is an
+                  analyst product, which guide &sect;1 rules out as a non-goal;
+                  and a surprise is the difference between the two. What is
+                  here instead is arithmetic on public filings: the rhythm the
+                  company files at, and each quarter against the same quarter
+                  a year earlier. See server/reporting.py.
+                -->
+                <section class="inc-reports" data-reports data-state="empty"
+                    aria-labelledby="inc-reports-heading">
+                    <h4 class="inc-section-heading" id="inc-reports-heading"><span
+                        class="inc-reports-for" data-reports-symbol hidden></span
+                        ><span>When it reports</span></h4>
+
+                    <p class="inc-reports-message" role="status"
+                        data-reports-message>Look up a symbol above to see when
+                        it last reported.</p>
+
+                    <div class="inc-reports-body" data-reports-body hidden>
+                        <!--
+                          The lead pair, and the second of them is the reason
+                          this surface exists. "Projected" is in the label
+                          rather than in the small print: a date on a page is
+                          read as a date the company gave, and this one was
+                          worked out here from its own past filings. The note
+                          under it carries the arithmetic.
+                        -->
+                        <dl class="inc-reports-lead">
+                            <div class="inc-reports-item">
+                                <dt class="inc-reports-label">Last reported</dt>
+                                <dd class="inc-reports-value"><span
+                                    data-reports-figure="last">&mdash;</span>
+                                    <span class="inc-reports-note"
+                                        data-reports-note="last"></span></dd>
+                            </div>
+                            <div class="inc-reports-item">
+                                <dt class="inc-reports-label">Next report<span
+                                    class="inc-reports-tag">projected</span></dt>
+                                <dd class="inc-reports-value"><span
+                                    data-reports-figure="next">&mdash;</span>
+                                    <span class="inc-reports-note"
+                                        data-reports-note="next"></span></dd>
+                            </div>
+                        </dl>
+
+                        <!--
+                          Five columns at any width, scrolling inside its own
+                          box rather than pushing the body sideways, and
+                          positioned so that stays true of the whole box and
+                          not only its visible half (&sect;13, and the note on
+                          .inc-watch-scroll).
+                        -->
+                        <div class="inc-reports-scroll">
+                            <table class="inc-reports-table">
+                                <caption class="inc-offscreen">Reported
+                                    quarters, newest first, with each
+                                    quarter&rsquo;s earnings set against the
+                                    same quarter a year earlier.</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Quarter ended</th>
+                                        <th scope="col">Reported</th>
+                                        <th scope="col">Earnings<span
+                                            class="inc-offscreen"> per
+                                            share</span></th>
+                                        <!--
+                                          The window the coloured figures
+                                          below cover, named once in the
+                                          header rather than once per row —
+                                          the watchlist settled that, and four
+                                          repeats of "1y" down a table is
+                                          noise.
+                                        -->
+                                        <th scope="col">Change<span
+                                            class="inc-offscreen"> against the
+                                            same quarter a year earlier</span><span
+                                            class="inc-period"
+                                            aria-hidden="true">1y</span></th>
+                                        <th scope="col">Dividend<span
+                                            class="inc-offscreen">
+                                            declared</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-reports-rows></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!--
+                      Page copy, shipped in the document like the panel's
+                      explanations: what this surface cannot tell you is part
+                      of what it teaches, and a reader who assumed the
+                      dividend row was an ex-date would be wrong in a way that
+                      costs them.
+                    -->
+                    <p class="inc-reports-limits">A filing carries the
+                        dividend a company <em>declared</em> for a quarter, not
+                        the ex-dividend or payment date &mdash; those are set
+                        afterwards and are not in the filings. Nor is a
+                        scheduled earnings date: the window above is arithmetic
+                        on this company&rsquo;s own filing history, not
+                        something it has announced.</p>
+
+                    <p class="inc-provenance" role="status"
+                        data-reports-provenance data-provenance-state="pending">
+                        <span class="inc-provenance-dot" aria-hidden="true"></span>
+                        <span data-reports-provenance-message>Sample data. No
+                            filings have loaded yet.</span>
+                    </p>
+                </section>
                 </section>
 
                 <!--

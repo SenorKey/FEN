@@ -276,6 +276,31 @@ class TestDesignRules(unittest.TestCase):
     def test_numbers_are_set_in_tabular_figures(self):
         self.assertIn('tabular-nums', CSS)
 
+    def test_every_table_has_one_off_screen_caption(self):
+        """Derived over every table rather than counted once.
+
+        The watchlist asserted a page-wide count of one caption, and the
+        reporting calendar broke it by doing the same thing correctly — the
+        trap DECISIONS.md records under a count that stops being a rule as
+        soon as a second surface obeys it. Stated per table, it covers the
+        next one somebody adds instead of failing on it.
+
+        Off-screen rather than visible because both tables sit under a heading
+        that already names them: a visible caption would say the same thing
+        twice to a reader who can see it, and nothing at all to one who
+        cannot.
+        """
+        tables = PAGE.with_tag('table')
+        self.assertTrue(tables, 'the page has no tables at all')
+        for table in tables:
+            captions = [element for element in PAGE.descendants(table)
+                        if element['tag'] == 'caption']
+            self.assertEqual(len(captions), 1,
+                             'a table on line %d has %d captions'
+                             % (table['line'], len(captions)))
+            self.assertIn('inc-offscreen',
+                          captions[0]['attrs'].get('class', '').split())
+
     def test_reduced_motion_is_honoured(self):
         self.assertIn('prefers-reduced-motion', CSS)
 

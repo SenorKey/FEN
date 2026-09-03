@@ -603,28 +603,6 @@ chart can slice five ranges out of it without asking again — one symbol, many
 questions. The grid is many symbols, one question, and the question is cheap
 to answer and expensive to ship the inputs for.
 
-## DEC-031 — The sector bars diverge at real zero
-
-*Settled · 08-31*
-
-**Decision**
-
-**The sector bars are a diverging chart whose zero line sits where zero falls,
-not at the centre.**
-
-**Why**
-
-A fixed centre is the obvious way to draw one and it wastes half of every row
-the moment a window is one-sided — which sector windows usually are: nine
-sectors up and two down leaves the entire left half of eleven rows as empty
-grey. The axis spans the data *plus zero*, seeded at zero on both ends so the
-line is always somewhere on the track, and every bar starts at it — so a rise
-and a fall of the same size are the same length in opposite directions, and
-the rows stay comparable because they share one axis. The trade, worth knowing
-before anyone "fixes" it: a bar length means "relative to the biggest mover in
-this window", never "this many percent", which is why the figure is on the row
-and the bar is `aria-hidden`.
-
 ## DEC-032 — A payload is paid for once
 
 *Settled · 08-31*
@@ -865,30 +843,6 @@ on the wrong thing. Derived from the upstream map rather than listed, so a
 third provider is scored by declaring who serves it. **A provider chosen to be
 free has to be free where the counting happens, not only where the calls are
 made.**
-
-## DEC-042 — The quote card split along its provider
-
-*Settled · 09-01*
-
-**Decision**
-
-**The quote card was split along its *provider*, not along its markup.**
-Market cap and P/E moved to the filings panel; `[data-quote]` went from 143
-lines to 127 and now holds only what the price service returned. T11's backlog
-note proposed extracting the whole `<dl class="inc-figures">`.
-
-**Why**
-
-The note's seam was the shape on screen — a list of figures — and the real one
-is where the numbers come from. Extracting the whole list would have put Open,
-Previous close and Volume *outside* `[data-quote]`, contradicting the rule
-that card has stated since T9: everything inside it is a figure the service
-returned. Volume is a quote figure. Market cap and P/E never were — they were
-em dashes with a paragraph underneath explaining that they come from filings,
-which is the card naming its own exception. Splitting on the provider deletes
-the exception rather than relocating it, and the paragraph went with it. **A
-deliberate deviation from the task's own wording; do not "fix" it by pulling
-the price figures out too.**
 
 ## DEC-043 — Ratios divide beside the price shown
 
@@ -1553,3 +1507,94 @@ the three identical provenance sentences, `js/view-fundamentals.js` for the
 fund panel leading with what is absent, `DEC-059` for the 319px sector gap,
 and `D3` for a tile that cannot open its symbol. A finding recorded only in an
 audit is a finding that gets re-found the next time someone reads that file.
+
+## DEC-070 — T12 ships a filing calendar, not an earnings calendar
+
+*Settled · 09-03*
+
+**Decision**
+
+**The reporting surface states when the company reported, projects the next
+report as a window from its own filing rhythm, and compares each quarter with
+the same quarter a year earlier.** It does not carry a scheduled earnings
+date, a consensus estimate, or a surprise against one — the three things
+`T12`'s own wording names first. A deliberate deviation from the task, like
+`DEC-006` and `DEC-018`; do not "complete" T12 by adding them.
+
+**Why**
+
+Each of the three is unavailable for a different reason, and none of them is a
+gap that more searching closes.
+
+- A **scheduled earnings date** is announced by the company and published in
+  no free feed we may display. EDGAR knows when a report was filed and never
+  when the next one will be.
+- A **consensus estimate** is an analyst product, sold. Guide §1 rules analyst
+  price targets out as a non-goal, and a consensus EPS is the same product one
+  column over.
+- A **surprise** is the second minus the first.
+
+What EDGAR does hold is every past report and the day it landed, and a filer's
+rhythm is regular: quarters about ninety days apart, a 10-Q five to seven weeks
+after each close. So the next report is a **window** with its arithmetic on
+screen and the word *projected* in the label rather than in the small print —
+an observation with its basis shown, which is the shape guide §11 asks every
+computed statement here to take. A date on a page is read as a date the company
+gave, so the label carries the qualifier and the note carries the derivation.
+
+The replacement for the surprise is better than the surprise. Setting a quarter
+against **the same quarter a year earlier** is a fact from the filings rather
+than a fact about analysts, and it is the comparison that means something:
+quarterly earnings are seasonal, so a retailer's December against its September
+teaches nothing but Christmas.
+
+**What this cost.** Nothing upstream. The calendar rides `GET /fundamentals`,
+the payload the filings panel already fetches (`DEC-032`), and the two views
+share one request through an in-flight memo in `js/market-data.js` rather than
+asking twice.
+
+**The dividend is what was declared, and the page says so.** A filing carries
+the amount a company declared for a period; the ex-dividend and payment dates
+are set afterwards and are not in it. That sentence is page copy in
+`index.html`, because a reader who took the dividend column for an ex-date
+would be wrong in a way that costs them.
+
+## DEC-071 — The fixture holds two fiscal years and varying filing lags
+
+*Settled · 09-03*
+
+**Decision**
+
+**`server/fixtures/company-facts/` carries eight quarters per filer, not four,
+and each is filed its own number of days after its close — 38 to 45, not a
+constant 42.**
+
+**Why**
+
+Both are the shapes `DEC-070`'s surface reads, and a fixture without either
+lets a broken version of it pass.
+
+*Two years.* The year-ago column needs a year behind the year on screen. With
+four quarters every comparison is blank, and nothing fails to say so — the
+table renders, the em dashes look like missing data, and the one thing the
+surface teaches is invisible. Eight is the shortest history where all four
+visible rows are complete. A real `companyfacts` payload reaches back a decade,
+so this is closer to the upstream shape as well as more useful.
+
+*Varying lags.* A filer that took exactly 42 days four times running would let
+the next report be projected **to the day**, which no real company's calendar
+supports and which would make the window look like a certainty. The spread is
+what the projection is built from, so a fixture with no spread tests nothing.
+
+**What made this safe to change.** Every figure the other surfaces read had to
+stay put. Each fiscal year is drawn from its own random stream, seeded by how
+far back the year is rather than by its position, so prepending one leaves the
+newest year byte-identical: 26 facts in the committed JSON before, the same 26
+with the same values after, plus 26 new ones. Only three `filed` dates moved,
+and none of them is a figure any surface shows.
+
+The older year is worth 90% of the newer one and its dividend 92%, because
+companies grow and raise their payout annually. A year-ago column comparing a
+figure with a redrawn copy of itself would show nothing but the generator's own
+wobble — teaching a reader that earnings are noise, which is the fundamentals
+version of the independent random walks `DEC-056` already records.

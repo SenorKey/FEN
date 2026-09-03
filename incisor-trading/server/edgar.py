@@ -51,7 +51,14 @@ from provider import ProviderError
 #    'quarters': 4,              # periods the flow figures actually cover
 #    'shares_outstanding': 14840000000,
 #    'revenue': ..., 'gross_profit': ..., 'operating_income': ...,
-#    'net_income': ..., 'eps': ..., 'dividends_per_share': ...}
+#    'net_income': ..., 'eps': ..., 'dividends_per_share': ...,
+#    'reports': [ {'start', 'end', 'filed', 'form', 'eps',
+#                  'dividends_per_share'}, ... ]}   newest first
+#
+# `reports` is the same facts read per period instead of summed over four of
+# them. The trailing figures answer what the company has earned; the reports
+# answer when it said so and how each quarter compared with the one a year
+# before, which is a different question off one payload (docs/DECISIONS.md).
 #
 # Every figure is None when the filings do not carry it. Absent is a real
 # answer here in a way it is not for a quote: a company that pays no dividend
@@ -248,6 +255,80 @@ def _cik(payload):
     return None
 
 
+def _quarterly(entries):
+    """Every usable quarterly entry, duplicates kept. None when there are none.
+
+    Unlike _newest_first this collapses nothing: the reports below need every
+    filing of a period, because the earliest of them is the day the company
+    reported and the latest carries the figure it now stands behind.
+    """
+    found = [entry for entry in entries
+             if isinstance(entry, dict) and _is_quarter(entry)
+             and isinstance(entry.get('val'), (int, float))]
+    return found or None
+
+
+def _reported_at(entries):
+    """(start, end) -> (filed, form) of the *earliest* filing carrying it.
+
+    Earliest, which is the opposite of what _newest_first takes for a value
+    and right for the same reason. A restatement corrects what a quarter
+    earned, so the newest filing holds the truest figure — but the day the
+    company reported that quarter is the day it first did. An amendment two
+    years later is not a second earnings date.
+    """
+    out = {}
+    for entry in entries:
+        filed = str(entry.get('filed', ''))
+        if not filed:
+            continue
+        period = (entry.get('start'), entry['end'])
+        held = out.get(period)
+        if held is None or filed < held[0]:
+            form = entry.get('form')
+            out[period] = (filed, form if isinstance(form, str) else None)
+    return out
+
+
+def _per_period(payload, name):
+    """end -> one figure's value for each quarter that filed it."""
+    entries = _first_usable(payload, FLOW_TAGS[name], UNITS[name], _quarterly)
+    if entries is None:
+        return {}
+    return {entry['end']: float(entry['val']) for entry in _newest_first(entries)}
+
+
+def quarterly_reports(payload):
+    """Each quarter the filings describe, newest first.
+
+    The periods come from the income statement rather than from the per-share
+    tags, because a report is a report whether or not the company declared a
+    dividend that quarter: keying on the dividend tag would drop every quarter
+    of a filer that pays none, which is most of them.
+
+    Earnings and dividends are then attached by period end. A quarter with
+    neither is still a report and still carries its dates — an absent figure
+    is a fact about the figure, not a reason to lose the filing.
+    """
+    entries = (_first_usable(payload, FLOW_TAGS['revenue'],
+                             UNITS['revenue'], _quarterly)
+               or _first_usable(payload, FLOW_TAGS['net_income'],
+                                UNITS['net_income'], _quarterly))
+    if entries is None:
+        return []
+
+    eps = _per_period(payload, 'eps')
+    dividends = _per_period(payload, 'dividends_per_share')
+
+    reports = [
+        {'start': start, 'end': end, 'filed': filed, 'form': form,
+         'eps': eps.get(end), 'dividends_per_share': dividends.get(end)}
+        for (start, end), (filed, form) in _reported_at(entries).items()
+    ]
+    reports.sort(key=lambda report: report['end'], reverse=True)
+    return reports
+
+
 def parse_company_facts(payload, symbol):
     """Turn one EDGAR companyfacts payload into the internal shape.
 
@@ -317,4 +398,5 @@ def parse_company_facts(payload, symbol):
         'net_income': figures['net_income'],
         'eps': figures['eps'],
         'dividends_per_share': figures['dividends_per_share'],
+        'reports': quarterly_reports(payload),
     }

@@ -50,7 +50,6 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-028 | **The watchlist holds eight symbols and stores tickers only.** The cap is the call budget, not taste — do not raise it without redoing the arithmetic. |
 | DEC-029 | **The sector grid is eleven funds read at a *week*, ranked to the newest shared date.** No 1D: a week-old series cannot carry a one-session figure. |
 | DEC-030 | **`/sectors` computes; `/history` relays. Both are right.** Many symbols and one question is cheap to answer and costly to ship the inputs for. |
-| DEC-031 | **The sector bars diverge at real zero, not the centre.** A bar length means "relative to this window's biggest mover", never "this many percent". |
 | DEC-032 | **A surface pays for a payload once; every question it already answers is free.** The watchlist sparkline came from bars already being discarded. |
 | DEC-033 | **A measure that was right can be made wrong by the surface that lands next to it** — the watchlist's 620px cap, once T10 landed above it. |
 | DEC-034 | **A control's target is what a finger can hit, not what the box reports.** A positioned overlay is outside the rect: hit-test the corners. |
@@ -61,7 +60,6 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-039 | **A derived rule hides what it does not reach, so the derivation needs its own guard** — `[data-sectors]` matched none of its hooks, in silence. |
 | DEC-040 | **A constraint that rules out a layout does not rule out the element** — the sector bar stacks below 700px rather than being `display: none`. |
 | DEC-041 | **The budget scores one upstream of two** — only what `source.UPSTREAM_OF` marks Alpha Vantage's, so a free EDGAR call cannot cost one of 22. |
-| DEC-042 | **The quote card was split along its *provider*, not its markup.** Volume is a quote figure and stayed. Do not pull the price figures out too. |
 | DEC-043 | **Market cap, P/E and yield are computed in the browser; margins and beta on the server.** The line is whether a figure needs the price the reader sees. |
 | DEC-045 | **A fund is a state, not a failure** — 200 with `filings: null`, in fund language. Fifteen of seventeen symbols are funds: the ordinary answer. |
 | DEC-046 | **EDGAR's contact address is config, not code, and not the routine's to choose.** Without it live filings refuse and say why; the service still boots. |
@@ -72,6 +70,8 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-067 | **The index drops the date column and merges nothing.** Dates live in the detail file; merging is S6's job and D9 was a move — 66 entries in, 66 out, checked by the bijection test. |
 | DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
 | DEC-069 | **An audit is a one-line verdict row plus a dated entry, keyed on date and task — not a new ID namespace.** `O6` never completes, so this section grows forever. |
+| DEC-070 | **T12 ships a filing calendar, not an earnings calendar.** No scheduled date, consensus or surprise is available; the next report is a projected window. |
+| DEC-071 | **The fixture holds two fiscal years and varying filing lags.** One year blanks the year-ago column; a constant lag projects a report to the day. |
 
 ---
 

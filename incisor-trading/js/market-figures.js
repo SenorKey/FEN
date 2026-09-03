@@ -339,6 +339,26 @@
         return parseInt(match[3], 10) + ' ' + month + ' ' + match[1];
     }
 
+    /* The same date with a two-digit year: '27 Jun 26'.
+     *
+     * For a table that has to keep five columns at 390px. Every fact of the
+     * full spelling survives — the day is not dropped, because a fiscal
+     * quarter ends on one and a reader comparing two of them is comparing
+     * days. Only the century goes, which no filing on this page is ambiguous
+     * about.
+     *
+     * Parsed by hand like the two beside it: a Date built from an ISO string
+     * is UTC midnight, and rendering it locally puts a trading date a day
+     * early west of Greenwich. */
+    function formatShortBarDate(iso) {
+        if (typeof iso !== 'string') return DASH;
+        var match = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+        if (!match) return DASH;
+        var month = MONTHS[parseInt(match[2], 10) - 1];
+        if (!month) return DASH;
+        return parseInt(match[3], 10) + ' ' + month + ' ' + match[1].slice(2);
+    }
+
     /* The same date, short enough for an axis: '26 Aug', or 'Aug ’26' when
      * the window is long enough that the day is noise and the year is not.
      *
@@ -467,6 +487,7 @@
         formatSigned: formatSigned,
         formatPercent: formatPercent,
         formatBarDate: formatBarDate,
+        formatShortBarDate: formatShortBarDate,
         formatAxisDate: formatAxisDate,
         formatToPlaces: formatToPlaces,
         formatBigMoney: formatBigMoney,

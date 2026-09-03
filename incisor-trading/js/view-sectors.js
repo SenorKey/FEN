@@ -83,6 +83,13 @@
      * somewhere on the track rather than off the end of an all-positive
      * window.
      *
+     * **The trade, worth knowing before anyone "fixes" it.** Because the axis
+     * is the window's own range, a bar length means "relative to the biggest
+     * mover in this window" and never "this many percent" — the same sector
+     * at the same figure draws a different length under a different window.
+     * That is why the figure sits on the row in words and the bar is
+     * aria-hidden: the bar ranks, and the number measures.
+     *
      * Pure, and exported for the same reason js/chart-geometry.js is: it can
      * then be checked against hand-computed values with no DOM at all.
      */

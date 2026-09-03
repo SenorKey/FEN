@@ -12,6 +12,12 @@ Pure functions, no I/O and no clock. edgar.py turns EDGAR's JSON into facts,
 this turns facts and price series into the figures the panel names, and
 incisor.py fetches and wraps. Nothing here knows where a series came from.
 
+The reporting calendar is the third thing this route answers and it lives in
+reporting.py, because it is a different question off the same payload: the
+figures below say what the company earned, and that one says when it said so.
+One fetch, three surfaces — a payload is paid for once and every question it
+already answers is free.
+
 **What is deliberately not computed here.** Market cap, price/earnings and
 dividend yield all need the last price as well as a filing, and the browser
 already has that price on screen directly above this panel. Computing them
@@ -21,6 +27,8 @@ reader would be right to notice and has no way to resolve. So the wire
 carries shares, earnings and dividends per share, and the three ratios are
 worked out beside the price they belong to (js/market-figures.js).
 """
+
+import reporting
 
 # Sessions the price measures are taken over. A trading year, the same
 # window the quote panel's 52-week range uses, so the figures on one card
@@ -213,13 +221,18 @@ def filings(facts):
 def panel(facts, bars, benchmark_bars):
     """Everything the fundamentals surface is sent for one symbol.
 
-    The two halves are answered independently because they come from
-    different places and either may be missing: a fund files no income
-    statement and still has a price series, and a company listed last month
-    has filings and too few sessions to measure against. That asymmetry is
-    the whole reason `measures` sits beside `filings` rather than inside it.
+    The three parts are answered independently because they come from
+    different places and any may be missing: a fund files no income statement
+    and still has a price series, and a company listed last month has filings
+    and too few sessions to measure against. That asymmetry is the whole
+    reason `measures` sits beside `filings` rather than inside it.
+
+    `reporting` is a third: it needs the per-quarter filings and nothing else,
+    so a company whose figures are all absent can still have a calendar and
+    one with a short history has figures and no projection.
     """
     return {
         'filings': filings(facts),
         'measures': measures(bars, benchmark_bars),
+        'reporting': reporting.calendar(facts),
     }

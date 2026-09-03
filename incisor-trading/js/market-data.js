@@ -51,6 +51,12 @@
      * for more. Anything past this is not the grid we asked for. */
     var MAX_SECTORS = 32;
 
+    /* The route sends one year of reported quarters. A decade of filings is
+     * a payload we did not ask for and a table nobody scrolls, so the ceiling
+     * is generous rather than exact — it bounds the work, and the surface
+     * shows what it was sent. */
+    var MAX_REPORTS = 40;
+
     /* The window names the grid offers: 1M, 3M, 1Y, or YTD. Whitelisted
      * because each one becomes a data attribute and a lookup key. */
     var WINDOW_PATTERN = /^(?:\d{1,2}[DMY]|YTD)$/;
@@ -63,6 +69,14 @@
 
     function isFiniteNumber(value) {
         return typeof value === 'number' && isFinite(value);
+    }
+
+    /* A string field, or '' when it is missing or is not one. The text
+     * counterpart of optionalNumber below: every field on this wire is
+     * allowed to be absent, and a view that had to check the type of each
+     * one would check some of them. */
+    function optionalText(value) {
+        return typeof value === 'string' ? value : '';
     }
 
     function optionalNumber(value) {
@@ -178,7 +192,62 @@
         if (!body || typeof body !== 'object') throw DataError('malformed');
         envelope.filings = readFilings(body.filings);
         envelope.measures = readMeasures(body.measures);
+        envelope.reporting = readReporting(body.reporting);
         return envelope;
+    }
+
+    /* The reporting calendar. Absent for every fund on this page, like the
+     * filings beside it, and absent in one more case of its own: a company
+     * that has filed once has reports and no projection, because one report
+     * is not a rhythm. Each part is read on its own so that a missing one
+     * costs only itself. */
+    function readReporting(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        if (!Array.isArray(raw.quarters)) return null;
+        return {
+            last: readLastReport(raw.last),
+            next: readProjection(raw.next),
+            quarters: raw.quarters.slice(0, MAX_REPORTS).map(readQuarter)
+        };
+    }
+
+    function readLastReport(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        return {
+            end: optionalText(raw.end),
+            filed: optionalText(raw.filed),
+            form: optionalText(raw.form),
+            lagDays: optionalNumber(raw.lag_days)
+        };
+    }
+
+    function readProjection(raw) {
+        if (!raw || typeof raw !== 'object') return null;
+        var earliest = optionalText(raw.earliest);
+        var latest = optionalText(raw.latest);
+        if (!earliest || !latest) return null;
+        return {
+            earliest: earliest,
+            latest: latest,
+            periodEnd: optionalText(raw.period_end),
+            lagMin: optionalNumber(raw.lag_min),
+            lagMax: optionalNumber(raw.lag_max),
+            basisReports: optionalNumber(raw.basis_reports),
+            cadenceDays: optionalNumber(raw.cadence_days)
+        };
+    }
+
+    function readQuarter(raw) {
+        if (!raw || typeof raw !== 'object') return {};
+        return {
+            end: optionalText(raw.end),
+            filed: optionalText(raw.filed),
+            form: optionalText(raw.form),
+            eps: optionalNumber(raw.eps),
+            dividend: optionalNumber(raw.dividend),
+            epsYearAgo: optionalNumber(raw.eps_year_ago),
+            epsChange: optionalNumber(raw.eps_change)
+        };
     }
 
     function readFilings(raw) {
@@ -417,15 +486,45 @@
      * does not ration us, and the beta is measured over bars the page has
      * already fetched. So a lookup costs the same two calls it did before
      * this panel existed.
+     *
+     * Two surfaces read the answer, so a request already in flight for the
+     * same symbol is joined rather than repeated — see inFlight below.
      */
+    /* The request currently in flight, if there is one, and for which symbol.
+     *
+     * Two surfaces read this one response — the filings panel and the
+     * reporting calendar — and js/view-symbol.js starts them in the same
+     * tick, so without this a lookup makes the same request twice. Sharing
+     * the promise rather than caching the result: a settled answer is the
+     * service's business to cache and it already does, for a day, while a
+     * result held here would go stale with nothing to expire it.
+     *
+     * Cleared when it settles, in both directions. A rejected request that
+     * stayed here would hand its failure to every later lookup of that
+     * symbol, which is the one bug this kind of memo reliably grows. */
+    var inFlight = { symbol: null, promise: null };
+
     function fundamentals(symbol) {
         if (typeof symbol !== 'string' || !SYMBOL_PATTERN.test(symbol)) {
             return Promise.reject(DataError('invalid_symbol'));
         }
+        if (inFlight.symbol === symbol && inFlight.promise) {
+            return inFlight.promise;
+        }
+
         var url = BASE + '/fundamentals?symbol=' + encodeURIComponent(symbol);
-        return requestJson(url).then(function (payload) {
+        var request = requestJson(url).then(function (payload) {
             return readFundamentals(payload, symbol);
         });
+        inFlight = { symbol: symbol, promise: request };
+
+        function settled() {
+            if (inFlight.promise === request) {
+                inFlight = { symbol: null, promise: null };
+            }
+        }
+        request.then(settled, settled);
+        return request;
     }
 
     /* The names the page can search by. Local to the service — it reads a

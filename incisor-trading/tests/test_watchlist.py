@@ -188,7 +188,17 @@ class TestWatchlistAccessibility(unittest.TestCase):
         self.assertIn('over the last session', markup)
 
     def test_the_table_has_a_caption_for_a_screen_reader(self):
-        captions = [e for e in PAGE.elements if e['tag'] == 'caption']
+        """Asserted on this table rather than counted across the page.
+
+        It was a page-wide count of one, and the reporting calendar's table
+        broke it by doing the same thing correctly — the trap DECISIONS.md
+        records as a count that stops being a rule the moment a second surface
+        obeys it. The rule that every table has exactly one off-screen caption
+        is now derived over all of them, in test_page.py.
+        """
+        table = [e for e in PAGE.elements
+                 if 'inc-watch-table' in classes(e)][0]
+        captions = [e for e in PAGE.descendants(table) if e['tag'] == 'caption']
         self.assertEqual(len(captions), 1)
         self.assertIn('inc-offscreen', classes(captions[0]))
 

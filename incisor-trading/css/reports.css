@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════════════
+   css/reports.css — the reporting calendar
+   frontendneeded.com · /incisor-trading
+
+   One file per surface that renders market data,
+   which is the seam every stylesheet here is split
+   along (guide §6). This one dresses the surface fed
+   by the same request as the filings panel above it:
+   when the company reported, and what each report
+   said against the same quarter a year earlier.
+
+   Loads after css/fundamentals.css and depends on
+   css/market.css. The direction colours, the arrow,
+   the delta, the period token and the provenance line
+   are shared vocabulary defined once there.
+
+   Two things drive the layout. The lead pair is prose
+   as much as figures — each carries a sentence of its
+   own basis — so it is two blocks and not a grid of
+   aligned numbers. The table below is the opposite:
+   five columns of figures that keep their columns at
+   every width and scroll inside their own box.
+   ═══════════════════════════════════════════════ */
+
+.inc-reports {
+    margin-top: 34px;
+    padding-top: 26px;
+    border-top: 1px solid var(--inc-rule);
+}
+
+/* The ticker before the heading, hidden until there is one, exactly as the
+   chart and the filings panel do it. A head naming the last symbol over a
+   surface that no longer holds it is worse than a head naming none. */
+.inc-reports-for {
+    margin-right: 10px;
+    font-family: var(--inc-mono);
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+}
+
+.inc-reports-message {
+    margin: 10px 0 0;
+    max-width: 62ch;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════════
+   THE LEAD PAIR
+   ═══════════════════════════════════════════════ */
+
+/* Two blocks rather than a row of figures. Each is a date and the sentence
+   that says where it came from, and a sentence does not align with anything
+   — so they sit side by side at width and stack below it, which is what two
+   paragraphs want and what a grid of numbers does not. */
+.inc-reports-lead {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px 34px;
+    margin: 22px 0 0;
+}
+
+.inc-reports-item {
+    margin: 0;
+}
+
+.inc-reports-label {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* "projected", beside the label and not under the figure.
+   The distinction this whole surface turns on is whether a date was filed or
+   worked out here, and a reader who reads only the number has to meet it
+   first. Set in the accent so it reads as a qualifier on the label rather
+   than as another figure. */
+.inc-reports-tag {
+    padding: 2px 7px;
+    border: 1px solid var(--inc-rule-strong);
+    border-radius: 2px;
+    font-family: var(--inc-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+    color: var(--accent);
+}
+
+.inc-reports-value {
+    margin: 7px 0 0;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.12rem;
+    color: var(--ink);
+}
+
+/* The basis, under the figure it explains. Named rather than inherited: a
+   sentence inside a block that took the monospace comes out set as one, and
+   `font-family: inherit` takes the computed value rather than the page's.
+   The same trap css/fundamentals.css records. */
+.inc-reports-note {
+    display: block;
+    margin-top: 6px;
+    max-width: 46ch;
+    font-family: var(--inc-prose);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+/* ═══════════════════════════════════════════════
+   THE TABLE
+   ═══════════════════════════════════════════════ */
+
+/* Scrolls inside its own box rather than pushing the body sideways, and
+   positioned so that is true of the whole box and not only its visible half:
+   the header's off-screen labels are absolute, and a scroller with no
+   `position` does not clip one. See .inc-watch-scroll. */
+.inc-reports-scroll {
+    position: relative;
+    margin-top: 26px;
+    overflow-x: auto;
+}
+
+.inc-reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.84rem;
+}
+
+.inc-reports-table th,
+.inc-reports-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--inc-rule);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.inc-reports-table thead th {
+    padding: 0 12px 6px;
+    border-bottom-color: var(--inc-rule-strong);
+    font-family: var(--inc-prose);
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.inc-reports-table thead th .inc-period {
+    margin-left: 6px;
+    text-transform: none;
+    letter-spacing: 0.06em;
+}
+
+/* The quarter is the row's own heading and reads left to right; every figure
+   beside it is a number and reads right to left. */
+.inc-reports-table th:first-child,
+.inc-reports-table thead th:first-child {
+    padding-left: 0;
+    text-align: left;
+}
+
+.inc-reports-table tbody tr:last-child th,
+.inc-reports-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.inc-reports-period {
+    font-weight: 400;
+    color: var(--ink);
+}
+
+/* The two dates are context for the figures between them, so they are set
+   back a step: a reader scanning this table is scanning earnings, and four
+   rows of equally bright dates would compete with them. */
+.inc-reports-filed {
+    color: var(--muted);
+}
+
+/* Each date ships in two spellings and one of them is shown. The full one
+   here; the short one below 700px, where five columns of full dates do not
+   fit and the alternatives are a column scrolled off a phone or a column
+   deleted. `display: none` rather than off-screen, so a screen reader is
+   read one date and not the same date twice. */
+.inc-reports-date-short {
+    display: none;
+}
+
+.inc-reports-eps {
+    color: var(--ink);
+}
+
+/* The change and the figure it is measured from, on one line. The arrow and
+   the explicit sign come from css/market.css, so the direction survives
+   greyscale and colour blindness without this file deciding anything. */
+.inc-reports-delta {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 7px;
+    margin: 0;
+}
+
+/* What it changed from, beside what it changed by. A percentage with no
+   base is a figure a reader cannot check, and the two are one thought — so
+   it sits inside the coloured line and is not coloured itself: it is a level,
+   not a direction. */
+.inc-reports-from {
+    font-size: 0.76rem;
+    color: var(--muted);
+}
+
+.inc-reports-dividend {
+    color: var(--ink);
+}
+
+/* ═══════════════════════════════════════════════
+   COPY, STATES AND WIDTH
+   ═══════════════════════════════════════════════ */
+
+.inc-reports-limits {
+    margin: 20px 0 0;
+    max-width: 62ch;
+    font-family: var(--inc-prose);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.inc-reports-limits em {
+    font-style: normal;
+    color: var(--ink);
+}
+
+/* The states that show no table, which is three of the five. `!important`
+   because an author `display` rule silently defeats [hidden] and no DOM test
+   sees it — recorded in DECISIONS.md as a trap that has bitten twice. */
+.inc-reports-body[hidden] {
+    display: none !important;
+}
+
+/* A fund has no calendar and no table, and the copy about ex-dates is about
+   a table that is not there. The sentence in the message says what happened;
+   this stops the page explaining a surface it is not showing. */
+.inc-reports[data-state="fund"] .inc-reports-limits,
+.inc-reports[data-state="empty"] .inc-reports-limits,
+.inc-reports[data-state="loading"] .inc-reports-limits,
+.inc-reports[data-state="unavailable"] .inc-reports-limits {
+    display: none;
+}
+
+.inc-reports .inc-provenance {
+    margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+    .inc-reports {
+        margin-top: 28px;
+        padding-top: 22px;
+    }
+
+    .inc-reports-lead {
+        gap: 18px;
+    }
+
+    /* The one column that can lose width without losing meaning: "from 1.95"
+       is the check on the percentage beside it, and on a phone the
+       percentage and its arrow are what the row is for. It comes back at the
+       first width where the table is not already scrolling. */
+    .inc-reports-from {
+        display: none;
+    }
+
+    /* Every column stays, at the shorter spelling and a tighter measure.
+       "27 Jun 26" keeps the day, which a fiscal quarter end needs; only the
+       century goes, and no filing on this page is ambiguous about it. */
+    .inc-reports-date-full {
+        display: none;
+    }
+
+    .inc-reports-date-short {
+        display: inline;
+    }
+
+    .inc-reports-table {
+        font-size: 0.78rem;
+    }
+
+    .inc-reports-table th,
+    .inc-reports-table td {
+        padding: 8px 6px;
+    }
+
+    .inc-reports-table thead th {
+        padding: 0 6px 6px;
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+    }
+}

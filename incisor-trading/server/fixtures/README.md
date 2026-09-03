@@ -16,7 +16,7 @@ shape used to be.
 |---|---|---|
 | `global-quote/` | Alpha Vantage | `GLOBAL_QUOTE` |
 | `time-series-daily/` | Alpha Vantage | `TIME_SERIES_DAILY` (260 sessions — one year) |
-| `company-facts/` | SEC EDGAR | `companyfacts` — four quarters of filings |
+| `company-facts/` | SEC EDGAR | `companyfacts` — eight quarters of filings |
 
 Symbols: `SPY`, `QQQ`, `DIA`, `IWM` — the four ETF proxies the dashboard's
 summary strip is built on — the eleven Select Sector SPDR funds, plus `AAPL`
@@ -87,7 +87,26 @@ that cannot exist: a net margin above a gross margin, or an EPS that disagrees
 with the income and the shares printed beside it on the same card. That is the
 fundamentals version of the independent random walks described above.
 
-Each payload also carries **an annual period alongside the four quarters**,
+**Two fiscal years of quarters, not one.** The trailing figures only ever read
+the newest four, so the second year is there for the reporting calendar (T12):
+a quarter's earnings mean something against the same quarter a year earlier and
+almost nothing against the quarter before it, since these are seasonal figures.
+Four quarters would leave every year-ago comparison blank. Each year is drawn
+from its own seed, keyed to how far back it is rather than to its position, so
+prepending one leaves the newest year's numbers byte-identical — the year every
+other surface on this page reads.
+
+The older year is worth about 90% of the newer one and its dividend 92%, because
+companies grow and raise their payout annually. A year-ago column comparing a
+figure with a redrawn copy of itself would show nothing but the wobble below,
+which teaches a reader that earnings are noise.
+
+**The filing lag varies by quarter** — 38 to 45 days, rather than a constant 42.
+The reporting calendar projects the next report from the spread of the recent
+lags, and a filer that took exactly six weeks four times running would let that
+be projected to the day, which no real company's calendar supports.
+
+Each payload also carries **an annual period alongside each year's four quarters**,
 because every real one does — same tag, distinguished only by being twelve
 months long. A fixture holding only quarters would let a parser that summed
 everything it found pass, and it would then double every revenue figure in

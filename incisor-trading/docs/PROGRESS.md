@@ -3090,3 +3090,109 @@ surface." No other section needs a word changed.
 
 **Next session:** T12 — earnings and dividend dates. No defect is open (D3 is an
 enhancement awaiting your triage) and nothing is due for audit.
+
+---
+
+## 2026-09-03 — T12: a filing calendar, because there is no earnings calendar
+
+**Task:** T12, the top unblocked task. No defect was open at the start (D3 is
+an enhancement awaiting Key's triage) and nothing was due for audit.
+**Verified:** 208 page tests (up 18), 224 service tests (up 19), both green.
+`shoot.py --api --symbol AAPL` and `--symbol XLK`: no console errors, no
+horizontal overflow at any of the four widths. Screenshots in
+`docs/shots/t12-reports/` and `docs/shots/t12-reports-fund/`.
+
+**Three of the four things T12 asks for do not exist here, and the fourth is
+the surface.** The task names a next earnings date, a last report surprise, and
+a dividend ex-date and amount. A scheduled earnings date is announced by the
+company and published in no free feed we may display; a consensus estimate is
+an analyst product, which guide §1 rules out as a non-goal; a surprise is the
+difference between the two; and an ex-date is set after a filing and is not in
+one. What EDGAR does hold is every past report and the day it landed.
+
+So what shipped is a **filing** calendar: when the company last reported and
+how long after the close, a **projected window** for the next one derived from
+its own filing rhythm, and a table of its reported quarters with each set
+against the same quarter a year earlier. `DEC-070`.
+
+**The projection is the one figure on this page that no filing states, and it
+is dressed accordingly.** The word *projected* sits in the label rather than in
+the small print, because a date on a page is read as a date the company gave.
+The note under it carries the whole derivation — quarters about 91 days apart,
+the last four reports filed 38 to 43 days after a close, so a window of 3–8
+November — and ends by saying companies set their own date and can move it.
+That is guide §11's shape applied outside a hint: a computed observation with
+its basis beside it, never an assertion.
+
+**The replacement for the surprise is better than the surprise.** A quarter
+against the same quarter a year earlier is a fact from the filings rather than
+a fact about analysts, and it is the comparison that means anything — quarterly
+earnings are seasonal, so a retailer's December against its September teaches
+nothing but Christmas. Matched on dates rather than by counting four rows back,
+because counting works right up until a filing is missing and then compares two
+different seasons under a heading saying "a year ago".
+
+**It cost nothing upstream, and one request rather than two.** The calendar
+rides `GET /fundamentals` — the payload the filings panel above it already pays
+for (`DEC-032`) — as a third key beside `filings` and `measures`. Both views are
+started in the same tick by `js/view-symbol.js`, so without help each lookup
+would make that request twice; the sharing lives in `js/market-data.js`, which
+joins a caller to a request already in flight and clears the memo when it
+settles. Sharing the promise and not the result, deliberately: a held answer
+would go stale with nothing on the page to expire it, and the service already
+caches filings for a day.
+
+**The fixture had to grow before the surface could be honest** (`DEC-071`).
+Four quarters leave every year-ago figure blank, and nothing fails to say so —
+the table renders and the em dashes look like missing data. It carries eight
+now, and the filing lag varies from 38 to 45 days rather than sitting at a
+constant 42, because a filer that took exactly six weeks four times running
+would let the next report be projected to the day. **Every previously committed
+fact survived unchanged**, checked by indexing both payloads on (tag, start,
+end) rather than by reading the diff: 26 facts in, the same 26 with the same
+values out, plus 26 new ones. Each fiscal year draws from its own stream seeded
+by how far back it is, which is what makes prepending a year a no-op for the
+year every other surface reads.
+
+**Storage: `filing_reports`, keyed like `daily_bars`.** The `fundamentals` table
+is one row per symbol and a quarterly history is a different cardinality, so it
+went beside it rather than into a JSON column. Rows are replaced per symbol
+rather than upserted — an amendment can withdraw a period as well as restate
+one — and the round trip is tested, because a cache that lost the reports would
+leave a surface that worked until its TTL expired.
+
+**Five columns at 390px, which took a second spelling of every date.** The
+first version scrolled, which guide §13 sanctions for a wide table — but the
+dividend column ended up off the side of a phone, where a reader has no reason
+to think there is one, and the watchlist next door fits five columns at that
+width. Dropping a column loses a fact outright (`DEC-040`). So each date cell
+ships "27 Jun 2026" and "27 Jun 26" and `css/reports.css` shows one; the day
+survives, since a fiscal quarter ends on one, and only the century goes.
+
+**A page-wide count broke, and what it was hiding was worth more than the
+fix.** `test_watchlist.py` asserted the page held exactly one `<caption>`, and
+this table's caption failed it — `DEC-061` exactly, a count that stops being a
+rule the moment a second surface obeys it. Restating it as a derived rule over
+every table immediately found a third: **the price chart's data table has
+shipped with no caption at all**, its only label being the `<summary>` control
+a screen reader has already passed by the time it is inside. Fixed in place.
+The page-wide count could never have caught it, because the watchlist was
+satisfying it single-handed.
+
+### For Key
+
+**N8 · `D12` is filed and the next session will take it, which delays T13 by
+one.** `index.html` is at 837 markup lines of 900 and `js/view-symbol.js` at
+593 of 600. Neither is broken, and that is why it is filed rather than fixed —
+but Phase 2 plans five more surfaces and none of them fits. The document has no
+seam by construction (hard rule 10 forbids a build step, the non-goals forbid a
+second route), so the answer there is deletion rather than a split, and neither
+ceiling moves. Flagging it because it is the first time a house rule has
+redirected a session away from the sequenced backlog, and you may prefer T13
+first.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is now a six-file
+situation; the drop-in wording is drafted in the 09-02 entry.
+
+**Next session:** D12 (defect, and the top of the queue), then T13. The
+reporting calendar falls due for audit on 09-06.

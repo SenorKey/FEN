@@ -109,17 +109,48 @@ FILERS = {
               0.171, 0.245, 2_180_000_000, 0.0, 2002),
 }
 
-# How the year's revenue is split across the four quarters. Real filers are
+# How a year's revenue is split across its four quarters. Real filers are
 # seasonal and a flat quarter would make the trailing-twelve-month arithmetic
 # untestable — four identical numbers sum correctly under a wrong window as
 # well as a right one.
 QUARTER_WEIGHTS = (0.22, 0.235, 0.245, 0.30)
 
-# Fiscal quarters end on these dates in the fixture's year, newest last. They
-# are ordinary quarter ends rather than any real company's calendar: the
-# fixture reproduces EDGAR's shape, and a 13-week fiscal year would only add
-# arithmetic nobody reads.
-QUARTER_ENDS = ('2025-09-27', '2025-12-27', '2026-03-28', '2026-06-27')
+# Fiscal quarters end on these dates, oldest last-year first. They are ordinary
+# quarter ends rather than any real company's calendar: the fixture reproduces
+# EDGAR's shape, and a 13-week fiscal year would only add arithmetic nobody
+# reads.
+#
+# **Two years of them, not one.** A quarter's earnings only mean something
+# against the same quarter a year earlier — these are seasonal figures, and
+# comparing a Christmas quarter with the autumn one before it is comparing two
+# different businesses. Four quarters make that comparison impossible, so the
+# reporting surface (backlog T12) would have had nothing to show. A real
+# companyfacts payload reaches back a decade; eight is the shortest history
+# that lets a year-ago column exist at all.
+QUARTER_ENDS = ('2024-09-29', '2024-12-29', '2025-03-30', '2025-06-29',
+                '2025-09-27', '2025-12-27', '2026-03-28', '2026-06-27')
+
+QUARTERS_PER_YEAR = len(QUARTER_WEIGHTS)
+
+# Days between a quarter closing and its report being filed, one per quarter
+# above. Deliberately not a constant: the spread is what the reporting surface
+# reads, and a filer that took exactly 42 days four times running would let a
+# next report be projected to the day, which no real company's calendar
+# supports. Around six weeks each, which is the shape a large filer's 10-Q
+# takes.
+FILING_LAGS = (44, 39, 45, 41, 38, 43, 40, 42)
+
+# What each fiscal year's annual revenue and dividend are worth relative to the
+# newest, oldest first. Companies grow and raise their dividend annually, and a
+# year-ago column comparing a figure with a re-drawn copy of itself would show
+# nothing but the wobble below — a comparison that teaches the reader that
+# earnings are noise.
+YEAR_SCALES = ((0.90, 0.92), (1.0, 1.0))
+
+# The fiscal year the oldest of the quarters above belongs to. EDGAR keys
+# every fact to a filer's own fiscal year rather than to the calendar, and
+# nothing here reads it — it is written because a real payload writes it.
+FIRST_FISCAL_YEAR = 2025
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -243,15 +274,15 @@ def quarters():
 
     A quarter starts the day after the previous one ended, which is how EDGAR
     reports them and what edgar.py checks when it decides whether four periods
-    abut. Filed six weeks after the close, which is inside the SEC deadline
-    for a large filer and near enough for a fixture.
+    abut. Each is filed its own number of days after the close: a constant lag
+    is the one shape a reporting calendar cannot honestly be built from.
     """
     out = []
     previous = datetime.date.fromisoformat(QUARTER_ENDS[0]) - datetime.timedelta(90)
-    for iso in QUARTER_ENDS:
+    for iso, lag in zip(QUARTER_ENDS, FILING_LAGS):
         end = datetime.date.fromisoformat(iso)
         out.append((previous + datetime.timedelta(1), end,
-                    end + datetime.timedelta(42)))
+                    end + datetime.timedelta(lag)))
         previous = end
     return out
 
@@ -266,64 +297,98 @@ def fact(start, end, filed, value, form, fiscal_year, fiscal_period):
     return entry
 
 
+def fiscal_years(periods):
+    """The quarters grouped into fiscal years, oldest year first.
+
+    A year is four consecutive quarters because that is what a year is; the
+    grouping exists so each one can be generated from its own random stream.
+    Prepending a year to the front of one shared stream would have re-drawn
+    every quarter behind it, and the committed JSON for the newest year — the
+    year every other surface on this page reads — would have moved for a
+    reason that has nothing to do with those surfaces.
+    """
+    return [periods[index:index + QUARTERS_PER_YEAR]
+            for index in range(0, len(periods), QUARTERS_PER_YEAR)]
+
+
 def as_company_facts(symbol):
     """The companyfacts envelope: a taxonomy, a tag, a unit, then entries.
 
     Only the tags edgar.py reads are written. A real payload carries hundreds
     and a decade of history for each; reproducing that would make the
-    committed JSON unreviewable in a diff to prove nothing the four quarters
+    committed JSON unreviewable in a diff to prove nothing the eight quarters
     here do not.
     """
     name, cik, revenue, gross, operating, net, shares, dividend, seed = FILERS[symbol]
-    rnd = random.Random(seed)
     periods = quarters()
+    years = fiscal_years(periods)
 
     facts = {'Revenues': [], 'GrossProfit': [], 'OperatingIncomeLoss': [],
              'NetIncomeLoss': [], 'EarningsPerShareDiluted': [],
              'CommonStockDividendsPerShareDeclared': []}
 
-    for index, ((start, end, filed), weight) in enumerate(zip(periods,
-                                                              QUARTER_WEIGHTS)):
-        # A little noise on the margins, so the four quarters are not the same
-        # company four times and a trailing sum is not a multiplication.
-        wobble = 1.0 + rnd.gauss(0.0, 0.03)
-        sales = revenue * weight * wobble
-        income = sales * net * (1.0 + rnd.gauss(0.0, 0.05))
-        quarter = 'Q%d' % (index + 1)
-        form = '10-Q'
-        year = 2026
+    for year_index, year in enumerate(years):
+        sales_scale, dividend_scale = YEAR_SCALES[year_index]
+        year_revenue = revenue * sales_scale
+        year_dividend = round(dividend * dividend_scale, 2)
+        # Seeded off how far back the year is rather than off its position, so
+        # the newest year draws the same numbers whatever is prepended to it.
+        rnd = random.Random(seed + (len(years) - 1 - year_index))
+        fiscal_year = FIRST_FISCAL_YEAR + year_index
 
+        for index, ((start, end, filed), weight) in enumerate(
+                zip(year, QUARTER_WEIGHTS)):
+            # A little noise on the margins, so the four quarters are not the
+            # same company four times and a trailing sum is not a
+            # multiplication.
+            wobble = 1.0 + rnd.gauss(0.0, 0.03)
+            sales = year_revenue * weight * wobble
+            income = sales * net * (1.0 + rnd.gauss(0.0, 0.05))
+            quarter = 'Q%d' % (index + 1)
+            form = '10-Q'
+
+            facts['Revenues'].append(
+                fact(start, end, filed, round(sales), form, fiscal_year, quarter))
+            facts['GrossProfit'].append(
+                fact(start, end, filed, round(sales * gross), form,
+                     fiscal_year, quarter))
+            facts['OperatingIncomeLoss'].append(
+                fact(start, end, filed, round(sales * operating), form,
+                     fiscal_year, quarter))
+            facts['NetIncomeLoss'].append(
+                fact(start, end, filed, round(income), form, fiscal_year, quarter))
+            # Earnings per share is income over shares, not a number of its
+            # own. A panel that shows a P/E computed from a filed EPS beside a
+            # market cap computed from filed shares has to have the two agree.
+            #
+            # The share count is a level, filed once, so both years divide by
+            # the same one. Inventing a buyback history would move a figure no
+            # surface reads to make a figure that is already right look more
+            # detailed.
+            facts['EarningsPerShareDiluted'].append(
+                fact(start, end, filed, round(income / shares, 2), form,
+                     fiscal_year, quarter))
+            if year_dividend:
+                facts['CommonStockDividendsPerShareDeclared'].append(
+                    fact(start, end, filed, year_dividend, form,
+                         fiscal_year, quarter))
+
+        # The annual period, which the parser has to refuse. Every real payload
+        # carries one against the same tags as the quarters, distinguished only
+        # by being twelve months long — so a fixture without it would let a
+        # parser that summed everything it found pass, which is the mistake
+        # worth catching. It is deliberately not the sum of the four quarters
+        # either: a filer's annual figure comes from its 10-K, and a parser
+        # that quietly picked it up would show a plausible number reached the
+        # wrong way.
+        year_start = year[0][0]
+        _, year_end, year_filed = year[-1]
         facts['Revenues'].append(
-            fact(start, end, filed, round(sales), form, year, quarter))
-        facts['GrossProfit'].append(
-            fact(start, end, filed, round(sales * gross), form, year, quarter))
-        facts['OperatingIncomeLoss'].append(
-            fact(start, end, filed, round(sales * operating), form, year, quarter))
+            fact(year_start, year_end, year_filed, round(year_revenue), '10-K',
+                 fiscal_year, 'FY'))
         facts['NetIncomeLoss'].append(
-            fact(start, end, filed, round(income), form, year, quarter))
-        # Earnings per share is income over shares, not a number of its own.
-        # A panel that shows a P/E computed from a filed EPS beside a market
-        # cap computed from filed shares has to have the two agree.
-        facts['EarningsPerShareDiluted'].append(
-            fact(start, end, filed, round(income / shares, 2), form, year, quarter))
-        if dividend:
-            facts['CommonStockDividendsPerShareDeclared'].append(
-                fact(start, end, filed, round(dividend, 2), form, year, quarter))
-
-    # The annual period, which the parser has to refuse. Every real payload
-    # carries one against the same tags as the quarters, distinguished only by
-    # being twelve months long — so a fixture without it would let a parser
-    # that summed everything it found pass, which is the mistake worth
-    # catching. It is deliberately not the sum of the four quarters either: a
-    # filer's annual figure comes from its 10-K, and a parser that quietly
-    # picked it up would show a plausible number reached the wrong way.
-    year_start = periods[0][0]
-    _, year_end, year_filed = periods[-1]
-    facts['Revenues'].append(
-        fact(year_start, year_end, year_filed, round(revenue), '10-K', 2026, 'FY'))
-    facts['NetIncomeLoss'].append(
-        fact(year_start, year_end, year_filed, round(revenue * net), '10-K',
-             2026, 'FY'))
+            fact(year_start, year_end, year_filed, round(year_revenue * net),
+                 '10-K', fiscal_year, 'FY'))
 
     last_start, last_end, last_filed = periods[-1]
     return {
@@ -336,7 +401,8 @@ def as_company_facts(symbol):
                     'units': {'shares': [
                         # A level, not a flow: true on one date, so it carries
                         # an `end` and no `start`.
-                        fact(None, last_end, last_filed, shares, '10-Q', 2026, 'Q3')
+                        fact(None, last_end, last_filed, shares, '10-Q',
+                             FIRST_FISCAL_YEAR + len(years) - 1, 'Q4')
                     ]},
                 }
             },

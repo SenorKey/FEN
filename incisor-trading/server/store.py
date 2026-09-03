@@ -17,6 +17,7 @@ Four tables:
     quotes          one row per symbol: the latest snapshot we hold
     daily_bars      one row per symbol and date: the daily series
     fundamentals    one row per symbol: the figures its last filing carried
+    filing_reports  one row per symbol and quarter: when it was reported
     upstream_calls  one row per call we made, ever
 
 `upstream_calls` predates the fetcher on purpose — see init().
@@ -52,6 +53,15 @@ FUNDAMENTAL_COLUMNS = (
     'entity_name', 'cik', 'as_of', 'filed', 'form', 'quarters',
     'shares_outstanding', 'revenue', 'gross_profit', 'operating_income',
     'net_income', 'eps', 'dividends_per_share',
+)
+
+# One report's columns, paired with the keys edgar.py spells them with.
+# `start` and `end` are reserved-looking words a table is better off not
+# using, so the two names differ and the mapping is written once, here.
+REPORT_COLUMNS = (
+    ('period_start', 'start'), ('period_end', 'end'), ('filed', 'filed'),
+    ('form', 'form'), ('eps', 'eps'),
+    ('dividends_per_share', 'dividends_per_share'),
 )
 
 
@@ -161,9 +171,10 @@ def init():
         )
 
         # One row per symbol, like quotes: a filing is a snapshot of what the
-        # company has reported so far, and the quarter-by-quarter history it
-        # was summed from belongs to EDGAR rather than to us. Every figure is
-        # nullable — see FUNDAMENTAL_COLUMNS.
+        # company has reported so far. Every figure is nullable — see
+        # FUNDAMENTAL_COLUMNS. The quarter-by-quarter history those figures
+        # were summed from is a different cardinality, and lives in
+        # filing_reports below the way bars live beside a quote.
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS fundamentals (
@@ -182,6 +193,26 @@ def init():
                 eps                 REAL,
                 dividends_per_share REAL,
                 fetched_at          TEXT NOT NULL
+            )
+            """
+        )
+
+        # One row per quarter the company has reported, keyed like
+        # daily_bars and for the same reason: a period is immutable once
+        # filed, a refetch overlaps almost entirely with what we hold, and
+        # the rows that do change are restatements worth keeping. Replaced
+        # per symbol on save rather than upserted — see save_fundamentals.
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS filing_reports (
+                symbol              TEXT NOT NULL,
+                period_end          TEXT NOT NULL,
+                period_start        TEXT,
+                filed               TEXT,
+                form                TEXT,
+                eps                 REAL,
+                dividends_per_share REAL,
+                PRIMARY KEY (symbol, period_end)
             )
             """
         )
@@ -290,11 +321,28 @@ def save_fundamentals(facts, fetched_at=None):
     # bound. See the note on save_quote.
     placeholders = ', '.join('?' * (len(FUNDAMENTAL_COLUMNS) + 2))
     columns = ', '.join(('symbol',) + FUNDAMENTAL_COLUMNS + ('fetched_at',))
+
+    symbol = facts['symbol']
+    report_columns = ', '.join(column for column, _ in REPORT_COLUMNS)
+    report_rows = [
+        (symbol,) + tuple(report.get(key) for _, key in REPORT_COLUMNS)
+        for report in facts.get('reports') or []
+    ]
     with connect() as connection:
         connection.execute(
             'INSERT OR REPLACE INTO fundamentals (%s) VALUES (%s)'
             % (columns, placeholders),
             values)
+        # Deleted and rewritten rather than upserted, unlike bars. An
+        # amendment can withdraw a period as well as restate one, and a
+        # quarter that has stopped being reported would otherwise stand here
+        # forever. Eight rows a symbol is not a table worth optimising.
+        connection.execute('DELETE FROM filing_reports WHERE symbol = ?',
+                           (symbol,))
+        connection.executemany(
+            'INSERT INTO filing_reports (symbol, %s) VALUES (%s)'
+            % (report_columns, ', '.join('?' * (len(REPORT_COLUMNS) + 1))),
+            report_rows)
 
 
 def load_fundamentals(symbol):
@@ -307,7 +355,28 @@ def load_fundamentals(symbol):
     facts = {'symbol': row['symbol']}
     for column in FUNDAMENTAL_COLUMNS:
         facts[column] = row[column]
+    facts['reports'] = load_filing_reports(symbol)
     return facts, row['fetched_at']
+
+
+def load_filing_reports(symbol):
+    """One symbol's reported quarters, newest first, as edgar.py spells them.
+
+    Ordered here rather than by the caller, so a cached answer and a fresh
+    one arrive the same way round. A surface that showed the newest quarter
+    first only while the cache was cold would be a fault nobody could
+    reproduce twice.
+    """
+    with connect() as connection:
+        rows = connection.execute(
+            """
+            SELECT period_start, period_end, filed, form, eps,
+                   dividends_per_share
+            FROM filing_reports WHERE symbol = ? ORDER BY period_end DESC
+            """,
+            (symbol,)).fetchall()
+    return [{key: row[column] for column, key in REPORT_COLUMNS}
+            for row in rows]
 
 
 # --- Upstream call log ------------------------------------------------------

@@ -90,6 +90,12 @@
      * one this card is showing. */
     var filings = window.IncisorFundamentals;
 
+    /* The reporting calendar, fed by the same request the filings panel
+     * makes. It is handed no price — nothing on it is a ratio — so it takes
+     * the symbol alone, and js/market-data.js joins the two views onto one
+     * request rather than making it twice. */
+    var reports = window.IncisorReports;
+
     /* The Watch toggle sits on this card and belongs to the watchlist, the
      * same way the chart sits beside it and owns itself. All this panel does
      * is say which symbol is on screen; whether it is watched, whether the
@@ -356,6 +362,7 @@
         // has no card for the filings to sit under. The price goes with it —
         // see the note where `filings` is declared.
         if (filings) filings.show(symbol, quote.price);
+        if (reports) reports.show(symbol);
 
         // Offered on a quote rather than on a search, so the button never
         // appears beside figures that turned out not to exist.
@@ -464,6 +471,7 @@
             // under the name of one that has none.
             if (chart) chart.reset();
             if (filings) filings.reset();
+            if (reports) reports.reset();
             if (watchlist) watchlist.offer(null);
         });
     }
@@ -475,6 +483,7 @@
             setHint(adviceFor('invalid_symbol'));
             if (chart) chart.reset();
             if (filings) filings.reset();
+            if (reports) reports.reset();
             if (watchlist) watchlist.offer(null);
             return;
         }
