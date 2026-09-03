@@ -1223,34 +1223,31 @@
                 aria-labelledby="tab-trade" tabindex="0" hidden>
 
                 <h2 class="inc-panel-heading">Your paper portfolio</h2>
-                <p class="inc-panel-note">The order ticket, positions table and
-                    performance chart are not built yet. Everything stays in
-                    this browser &mdash; there is no account and no server copy.</p>
 
-                <dl class="inc-stat-row">
-                    <div class="inc-stat">
-                        <dt class="inc-stat-label">Cash</dt>
-                        <dd class="inc-stat-value">$100,000.00</dd>
-                    </div>
-                    <div class="inc-stat">
-                        <dt class="inc-stat-label">Positions</dt>
-                        <dd class="inc-stat-value">$0.00</dd>
-                    </div>
-                    <div class="inc-stat">
-                        <dt class="inc-stat-label">Total value</dt>
-                        <dd class="inc-stat-value">$100,000.00</dd>
-                    </div>
-                    <div class="inc-stat">
-                        <dt class="inc-stat-label">Total return</dt>
-                        <dd class="inc-stat-value inc-flat">
-                            <span class="inc-arrow" aria-hidden="true">&#9644;</span>
-                            0.00%
-                        </dd>
-                    </div>
-                </dl>
+                <!--
+                  Nothing here yet, and nothing pretending to be. This panel
+                  shipped a four-figure stat row reading Cash $100,000.00 /
+                  Positions $0.00 / Total value $100,000.00 / Total return
+                  0.00%, which is a portfolio that does not exist: no balance
+                  has been created, no store has been read, and the tiles at
+                  the top of the dashboard state the rule it broke &mdash; a
+                  market page never prints a figure it did not work out.
+                  A reader could have read it as their balance, because that
+                  is exactly what it was shaped like.
 
-                <p class="inc-empty">No positions yet. You start with $100,000 in
-                    fake money, and you can reset it whenever you like.</p>
+                  What replaces it is a sentence, and Phase 2 builds the real
+                  thing over a store rather than filling this in. When it
+                  does, its surfaces are built by their views rather than
+                  served here: this panel ships hidden behind a tab and holds
+                  no fact a reader sees before a script runs, which is the
+                  opposite of the dashboard, where every served empty state is
+                  true on its own. See docs/DECISIONS.md, DEC-072.
+                -->
+                <p class="inc-empty">Not built yet. When it is, you will start
+                    with $100,000 in fake money, place orders against delayed
+                    prices, and be able to reset the whole thing whenever you
+                    like. Everything will stay in this browser &mdash; there is
+                    no account and no copy on the server.</p>
             </section>
 
             <!-- ── Learn ────────────────────────────────────────── -->

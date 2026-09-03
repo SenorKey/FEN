@@ -302,40 +302,6 @@
     color: var(--muted);
 }
 
-/* ═══════════════════════════════════════════════
-   PORTFOLIO STATS
-   ═══════════════════════════════════════════════ */
-
-.inc-stat-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-}
-
-.inc-stat {
-    padding: 14px 16px;
-    border: 1px solid var(--inc-rule);
-    border-radius: 5px;
-    background: var(--inc-panel-bg);
-}
-
-.inc-stat-label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.inc-stat-value {
-    margin-top: 7px;
-    font-family: var(--inc-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 1.15rem;
-    font-weight: 500;
-}
-
 .inc-empty {
     margin-top: 18px;
     padding: 22px;

@@ -18,7 +18,7 @@ Usage:
     ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>]
                                           [--api http://127.0.0.1:8789]
                                           [--symbol SPY [--range 5Y]]
-                                          [--search app]
+                                          [--search app] [--tab trade]
                                           [--explain] [--sector-window 1M]
                                           [--watch SPY,QQQ] [--block-storage]
 
@@ -501,6 +501,10 @@ def main():
                          "ranked, so a window where every sector fell draws "
                          "the mirror image of one where they rose, and only "
                          "one of the two is the default.")
+    ap.add_argument("--tab", default=None, choices=["dashboard", "trade", "learn"],
+                    help="press a tab before shooting. The Trade and Learn "
+                         "panels ship hidden, so without this the tool can "
+                         "only ever photograph the dashboard.")
     ap.add_argument("--block-storage", action="store_true",
                     help="make localStorage throw on access, the way a "
                          "private window or a browser with site data blocked "
@@ -591,6 +595,21 @@ def main():
                 except Exception as error:
                     problems.append(f"{label}: the sector grid never settled — "
                                     f"{type(error).__name__}")
+
+            # Two of the three panels ship hidden behind a tab, so they had
+            # never been photographed at all — the tool could reach every
+            # state that needed a search and none that needed a tab press.
+            # After the press the panel is waited for rather than assumed:
+            # incisor.js does the unhiding, so a shell that failed to load
+            # would otherwise be photographed as an empty page.
+            if args.tab:
+                try:
+                    page.click('#tab-' + args.tab)
+                    page.wait_for_selector(
+                        '#panel-%s:not([hidden])' % args.tab, timeout=10000)
+                except Exception as error:
+                    problems.append(f"{label}: the {args.tab} tab never "
+                                    f"opened — {type(error).__name__}")
 
             # Horizontal overflow is a guide §13 violation, so it fails the run
             # rather than being left for a human to spot in an image.
