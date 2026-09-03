@@ -36,6 +36,9 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/match-analysis/` — Live tactical scouting React app (`noindex,nofollow`)
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
+- `/claude-usage/` — Live Claude Code session-window dial (`noindex,nofollow`); reads a
+  gitignored `state.json` synced up from the laptop. Sync tooling lives outside this repo
+  at `~/.claude/usage-dashboard/` — it names LAN hosts and paths, so it stays off GitHub
 - `/gallimaufry/` — Returns 404 via `.htaccess`
 
 Plus a custom `/404.html` for unmatched routes.
@@ -45,7 +48,10 @@ Plus a custom `/404.html` for unmatched routes.
 - `index.html`, `home.css`, `home.js` — Home page at the root
 - `assets/css/styles.css` — Shared base styles (golden-ratio shell, nav, typography, gallery)
 - `assets/js/gallery.js` — Shared photo-gallery cycler
-- `assets/fonts/` — Self-hosted woff2 (DM Sans, Playfair Display)
+- `assets/fonts/` — Self-hosted woff2. Bricolage Grotesque (variable, 200–800) is the
+  site face. DM Sans and Playfair Display are still shipped: the Preside by Side,
+  Match Analysis and Incisor apps are deliberately pinned to them and do not follow
+  the shared stylesheet
 - `assets/images/` — Site images, OG cards, gallery shots
 - One folder per page, each containing `index.html` + a page-specific `.css` (and `.js` where needed)
 - Match Analysis lives in `/match-analysis/` as four split JSX files (`app.jsx`, `pitch.jsx`, `scouting-form.jsx`, `timeline.jsx`) loaded in order via Babel-standalone — no bundler

@@ -148,3 +148,6 @@ readmesite.html
 
 .DS_Store
 .claude/worktrees/
+
+# Live Claude usage mirror — rsynced onto the server, never committed
+claude-usage/state.json
