@@ -45,7 +45,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-023 | **An error may not point at something no longer on screen** — a failed lookup closes the list, so the panel names the symbols instead. |
 | DEC-024 | **A pointer surface listens for down, move, leave and cancel, and a *touch* leave keeps its reading.** A tap fires no `pointermove` at all. |
 | DEC-025 | **The site is one deliberate dark treatment; `prefers-color-scheme` is not a gap.** `/assets` has no light palette and is out of bounds. Do not refile. |
-| DEC-026 | **The 600-line rule is measured three ways: 600 per stylesheet and script, 900 per document, 150 per surface.** The surface list is derived, never listed. |
+| DEC-026 | **The 600-line rule is measured three ways: 600 lines per stylesheet and script, 650 elements per document, 150 lines per surface.** The surface list is derived, never listed. |
 | DEC-027 | **Configuration is read at the edge, below the config load, and nowhere else.** An AST test enforces it (D4). |
 | DEC-028 | **The watchlist holds eight symbols and stores tickers only.** The cap is the call budget, not taste — do not raise it without redoing the arithmetic. |
 | DEC-029 | **The sector grid is eleven funds read at a *week*, ranked to the newest shared date.** No 1D: a week-old series cannot carry a one-session figure. |
@@ -56,7 +56,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-035 | **A control whose only affordance is hover has no affordance** — every sortable column carries a glyph, not only the sorted one. |
 | DEC-036 | **Every sideways-scrolling box sets `position: relative`** — `overflow-x` does not clip a positioned child. Two of the three are preventive, not dead. |
 | DEC-037 | **`shoot.py` measures a fourth width it does not photograph: 320px, full watchlist, overflow only**, skipped with a stated reason without `--api`. |
-| DEC-038 | **The document ceiling counts markup only; comments are free.** On the one file that cannot split, charging for comments makes deletion the cheap way out. |
+| DEC-038 | **The document ceiling counts elements, not lines** — 650, at 433 today. Prose and comments are free; a line charges for surfaces, teaching and wrapping alike. |
 | DEC-039 | **A derived rule hides what it does not reach, so the derivation needs its own guard** — `[data-sectors]` matched none of its hooks, in silence. |
 | DEC-040 | **A constraint that rules out a layout does not rule out the element** — the sector bar stacks below 700px rather than being `display: none`. |
 | DEC-041 | **The budget scores one upstream of two** — only what `source.UPSTREAM_OF` marks Alpha Vantage's, so a free EDGAR call cannot cost one of 22. |

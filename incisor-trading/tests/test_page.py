@@ -61,14 +61,6 @@ def _rules(stylesheet):
             for selector, body in re.findall(r'([^{}]+)\{([^{}]*)\}', stylesheet)]
 
 
-def markup_lines(source):
-    """Lines of actual markup: comments and blank lines do not count.
-
-    The comment is removed rather than the line, so a line that ends a
-    comment and opens an element still counts as markup.
-    """
-    stripped = re.sub(r'<!--.*?-->', '', source, flags=re.S)
-    return len([line for line in stripped.splitlines() if line.strip()])
 
 
 def visible_text(source):
@@ -402,34 +394,83 @@ class TestHouseStyle(unittest.TestCase):
             self.assertLess(len(read(name).splitlines()), 600,
                             '%s needs a split' % name)
 
-    def test_the_served_document_stays_under_900_markup_lines(self):
-        """The same rule, on the one file that cannot obey it as written.
+    def test_the_served_document_stays_under_650_elements(self):
+        """The same rule, on the one file that cannot obey it as written, and
+        in the only unit that measures what the rule is for.
 
         A served document has no seam. Hard rule 10 forbids a build step, so
         there is no include, and the non-goals forbid a second route to move
         markup to — which leaves "split it along a real seam" with nothing to
-        split. Capping the document at the code number would not be a
-        readability rule at all; it would be a cap on how many surfaces this
-        route may carry, and the backlog plans four more.
+        split. So this is a ceiling rather than a seam: room for the surfaces
+        still planned, and a loud failure if the page ever starts carrying a
+        second route's worth of markup.
 
-        So the number that protects readability is the per-surface one below,
-        and this is a ceiling rather than a seam: room for the surfaces still
-        planned, and a loud failure if the page ever starts carrying a second
-        route's worth of markup.
+        **Why elements and not lines.** A line of a served document is three
+        things at once — a surface the page carries, prose the page teaches,
+        and wherever the author happened to wrap the source — and only the
+        first is what a ceiling on this file is guarding. DEC-038 already made
+        comments free here, because charging for the reasoning made deleting
+        the reasoning the cheap way past a rule with no other way past it.
+        Page copy is that same argument one step over, on a page whose mission
+        is teaching, and D12 measured what it costs: of 817 markup lines 138
+        were copy, structure alone was already under target, and the only
+        route to the target by deletion ran through what the page explains.
 
-        Comments and blank lines are not counted, and that is the correction
-        T10a makes rather than a loophole. Every other shipped file answers a
-        length rule by splitting; this one has nothing to split, so the only
-        move it leaves is deletion — and a quarter of this document is the
-        reasoning guide §16 says belongs beside the code it explains. A
-        ceiling that makes deleting that reasoning the cheapest way past it is
-        measuring the wrong thing. Surfaces are markup; explanations are not.
+        Lines cannot separate the two, which is the finding that settled the
+        unit rather than the threshold. The copy is interleaved with the tags
+        that carry it: just 59 of those 817 lines were text and nothing else,
+        so no line-based measure can charge for one and not the other.
+        Elements can: prose adds none however long it runs, rewrapping the
+        source adds none, and a new surface adds many.
 
-        The headroom this buys is not unguarded: every line of it lands inside
-        some surface, and no surface may pass the 150 below.
+        **Where 650 comes from.** The page is 433 elements today — nine
+        dashboard surfaces at 342 of them, and 91 of page chrome. The largest
+        single surface ever shipped here is the price chart at 41. DEC-072
+        routes Phase 2's surfaces into the view rather than this document, so
+        what is still planned to land *here* is Phase 3's replay panel and
+        Phase 4's hint surfaces: 650 leaves room for five more surfaces the
+        size of the biggest one built so far, and fails well before the page
+        could carry twice what it carries now.
+
+        The headroom this buys is not unguarded, and the guard is the tight
+        one: every element lands inside some surface, no surface may pass the
+        150 below, and that rule still counts every line — copy, comments and
+        wrapping included. The price chart sits at 125 of its 150.
         """
-        self.assertLess(markup_lines(HTML), 900,
+        self.assertLess(len(PAGE.elements), 650,
                         'index.html is carrying more than one route')
+
+    def test_the_element_measure_charges_for_surfaces_and_not_for_prose(self):
+        """The measure above was changed, and a change to what a length rule
+        counts has to be shown not to have counted its way out of the rule.
+
+        Two properties, on markup built here rather than on the page, so the
+        assertions describe the rule rather than whatever index.html happens
+        to hold today. Prose is free however long it runs and however it is
+        wrapped — which is the whole point of the change, and the reason
+        deleting what the page teaches is no longer the cheap way past a
+        ceiling. A surface is not free, which is the reason there is still a
+        ceiling at all.
+        """
+        chrome = '<main>\n<div data-surface></div>\n</main>'
+        base = len(Page(chrome).elements)
+
+        # Fifty lines of copy, and the same copy rewrapped: neither is a
+        # surface, and neither moves the number the ceiling reads.
+        copy = chrome.replace('</main>',
+                              '<p>' + 'sentence\n' * 50 + '</p>\n</main>')
+        rewrapped = chrome.replace('</main>',
+                                   '<p>' + 'sentence ' * 50 + '</p>\n</main>')
+        self.assertEqual(len(Page(copy).elements), base + 1)
+        self.assertEqual(len(Page(rewrapped).elements), base + 1)
+
+        # A surface the size of the ones this page ships is not free, so the
+        # ceiling still answers the question it was written to answer.
+        surface = chrome.replace('</main>',
+                                 '<div data-new>\n'
+                                 + '<span data-new-hook="0"></span>\n' * 40
+                                 + '</div>\n</main>')
+        self.assertEqual(len(Page(surface).elements), base + 41)
 
     def test_no_surface_outgrows_what_can_be_read_at_once(self):
         """What the 600-line rule is actually for, applied where it fits.

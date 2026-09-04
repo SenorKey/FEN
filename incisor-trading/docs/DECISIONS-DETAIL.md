@@ -742,30 +742,64 @@ nothing is worse than a stated skip. One run costs 32 requests against a
 60-a-minute per-IP limit, so the fourth load does not put the tool near its
 own service's ceiling.
 
-## DEC-038 — The document ceiling counts markup only
+## DEC-038 — The document ceiling counts elements, not lines
 
-*Settled · 09-01*
+*Settled · 09-01 · superseded in its unit 09-04, its reasoning carried forward*
 
 **Decision**
 
-**The document ceiling counts markup only — comments and blank lines are
-free.** 596 of 894, against 900. **This supersedes D2's all-lines measure, not
-its reasoning**, which was right that the document has no seam.
+**The document ceiling counts elements — 650, against 433 today.** Comments,
+blank lines and page copy are all free, because none of them is a surface.
+This supersedes the markup-line measure this entry set on 09-01, which itself
+superseded D2's all-lines measure. **Each supersede kept the reasoning and
+narrowed what gets charged for**; the reasoning has been right since D2 and the
+unit has not.
 
 **Why**
 
-Every other shipped file can answer a length rule by splitting. This one
-cannot, so the only move it has left is deletion — and a quarter of it is the
-reasoning guide §16 puts beside the code rather than here: the ET the clock
-must not overwrite, why the proxy symbols live in markup, why the watch toggle
-sits outside the quote card, why there is no `gtag`. A ceiling that prices an
-explanation the same as a surface makes deleting the memory the cheap way past
-it, on the one file where that is the *only* way past it. Measured over markup
-the document is 596 lines — under the 600 every other file obeys, which
-answers whether it is unreadable: it is not long, it is well explained. **The
-rule that actually binds is the per-surface 150**, and it is not close: the
-quote card is at 143 (T11 has to split it before it adds anything) while the
-document sits at 66% of its ceiling. Do not re-add comments to the count.
+The original argument, unchanged: every other shipped file answers a length
+rule by splitting, and this one cannot — hard rule 10 forbids a build step, so
+there is no include, and the non-goals forbid a second route to move markup to.
+Deletion is the only move it has left. So a ceiling on this file decides what
+gets deleted, and it should charge for the thing it is guarding against — a
+second route's worth of surfaces — and for nothing else.
+
+On 09-01 that meant making comments free. **D12 found the same argument one
+step over, and this time it cost something to ignore.** Reaching D12's target
+by deletion meant deleting page copy: 138 of 817 markup lines, on a page whose
+mission is teaching. Structure alone was 679, already under the 719 target. The
+ceiling was not identifying anything wrong with the document; it was pricing
+the explanations at the same rate as the surfaces and pointing at the
+explanations because they were the softer target.
+
+**Why the unit changed rather than the number.** D12 named two ways out —
+delete the copy, or extend this entry to count structure and not the copy
+inside it — and the measurement closed the first and reshaped the second. A
+line-based rule cannot separate structure from copy, because the copy is
+interleaved with the tags that carry it: only 59 of those 817 lines were text
+and nothing else. Every line-based variant charges for all three of what a
+served document's lines conflate — surfaces carried, prose taught, and wherever
+the author wrapped the source. Elements conflate none of them. Prose adds no
+element however long it runs, rewrapping adds none, and a surface adds many.
+
+**Where 650 comes from.** 433 elements today: 342 across nine dashboard
+surfaces, 91 of page chrome. The largest surface ever shipped here is the price
+chart at 41. DEC-072 routes Phase 2's surfaces into the view rather than into
+this document, so what is still planned to land here is Phase 3's replay panel
+and Phase 4's hint surfaces. 650 is room for five more chart-sized surfaces —
+verified: five fit at 638, six trip it at 679, and a second copy of the whole
+page trips it at 866. It is a ceiling with headroom rather than one set at the
+achieved value, which is the deadlock the 09-03 session found in the docs
+budgets and §16 now rules out.
+
+**What still binds.** The per-surface 150 is the rule that protects
+readability, it counts every line — copy, comments and wrapping included — and
+it is the tight one: the price chart is at 125 of 150, the fundamentals panel
+at 116. `test_the_element_measure_charges_for_surfaces_and_not_for_prose`
+asserts the loosening did not loosen into nothing, in the idiom this file's
+other length rules already use.
+
+**Do not re-add comments, copy, or line count to the measure.**
 
 ## DEC-039 — A derived rule needs its own guard
 
