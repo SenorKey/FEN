@@ -32,7 +32,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-009 | **No `gtag` here, unlike every FEN page; `beacon.js` stays with generic `data-track` labels.** Deliberate — a ticker label would leave the browser. |
 | DEC-010 | **No line on this page is coloured by direction.** The colour goes on the labelled figure beside it, which names its own period. |
 | DEC-011 | **`incisor.css` is page furniture; `css/market.css` renders numbers; `js/` is pure logic plus one network seam.** The seam is data, not bytes. |
-| DEC-012 | **`docs/shots/` keeps the newest set plus any state it does not show.** An old shot shows markup that no longer exists, which is worse than none. |
+| DEC-012 | **Only `docs/shots/look-*/` is committed; other sets stay local.** Shots are reproducible and never served, and 321 blobs sat behind a repo the server pulls. |
 | DEC-013 | **A market-data surface owns a view module and a stylesheet; one outgrowing a file splits at drawing versus deciding.** Supersedes DEC-011's placement. |
 | DEC-014 | **The quote panel costs two calls, `/history` and `/quote`; tiles still cost one.** A daily series has no session in progress, so the day range is not in it. |
 | DEC-015 | **Names come from committed `server/catalog.py`, never provider symbol search** — a call per keystroke against 22 a day is a disqualification. |

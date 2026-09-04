@@ -216,24 +216,30 @@ all add to the moved half. The JS split is what keeps an unattended session
 able to verify anything — `market-clock.js`, `market-figures.js` and
 `market-data.js` all run in JavaScriptCore with no DOM.
 
-## DEC-012 — docs/shots keeps only the current set
+## DEC-012 — Only a look branch's screenshots are committed
 
-*Settled · 08-28*
+`tools/shoot.py` writes a set from the code in seconds, and `docs/` is deny-all,
+so no screenshot is ever served to anyone. They are reproducible output rather
+than source.
 
-**Decision**
+Committing every set put **321 blobs** under `docs/shots/` and most of a 124MB
+`.git` behind a repository the Fedora box pulls over a residential line. The
+trap is that deleting does not undo it — a PNG removed from the working tree
+stays in history — so the only available fix is to stop adding more.
 
-**`docs/shots/` keeps the newest set for the page as it stands now, plus any
-set showing a state that one does not** — superseded sets are deleted, not
-accumulated
+The exception is a look branch's set. `DESIGN-BRANCHES.md` is a shelf Key
+browses to compare visual directions, and that only works if the images are
+present without checking out each branch in turn. Those live in
+`docs/shots/look-<name>/`, and the `look-` prefix is load-bearing: it is what
+the `.gitignore` exception matches, so a set filed under any other name is not
+committed at all.
 
-**Why**
+On disk the older rule still holds — keep the newest set for the page as it
+stands, plus any set showing a state that one does not: service stopped, storage
+blocked, a chart range, a symbol that does not exist. A superseded set is worse
+than none, because it shows markup that no longer exists.
 
-One set per task would be a permanent 400KB a session in a repo served off a
-home connection, and an old set is worse than no set: it shows markup that no
-longer exists to someone trying to review what does. The T1 and T5 sets went
-at T6, which shoots the same page at the same three widths and includes the
-clock they were taken for. What they proved — clean console, no overflow at
-390 — is re-proved by every `shoot.py` run, and that is the durable record.
+Supersedes the retention-only rule of 2026-08-28.
 
 ## DEC-013 — A surface owns a view module and a stylesheet
 

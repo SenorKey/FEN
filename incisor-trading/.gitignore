@@ -4,3 +4,18 @@
 # Byte-code from running tools/ directly. Nothing here is imported by the
 # service, but shoot.py is importable and a stray cache should not be tracked.
 __pycache__/
+
+# Screenshots are reproducible output, not source: tools/shoot.py regenerates a
+# set from the code in seconds, and docs/ is deny-all so none of them is ever
+# served. Committing every set put 321 blobs and most of a 124MB .git behind a
+# repo the server pulls over a residential line, and deleting a PNG from the
+# tree does not remove it from history — so the fix has to be not adding more.
+#
+# The exception is a look branch's set (guide §8). DESIGN-BRANCHES.md is a shelf
+# Key browses to compare visual directions, and that only works if the images
+# are there without checking out each branch in turn. Those go in
+# docs/shots/look-<branch>/ and are committed; everything else is local.
+docs/shots/*
+!docs/shots/.gitkeep
+!docs/shots/README.md
+!docs/shots/look-*/

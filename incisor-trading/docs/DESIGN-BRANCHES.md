@@ -35,6 +35,13 @@ git checkout incisor-dev
 
 ---
 
+**Where the images go.** `docs/shots/look-<name>/` — the `look-` prefix is not
+cosmetic, it is what the gitignore exception matches. Every other screenshot set
+is local only, because they are reproducible from the code; a look branch's set
+is committed so this shelf can be browsed without checking out each branch in
+turn. A set filed anywhere else will not be committed and the shelf will show
+nothing.
+
 ## Directions
 
 _None registered yet — the first round is task T13b, after the dashboard is
@@ -52,9 +59,9 @@ what it trades away, not only what it wins.>
 
 | | |
 |---|---|
-| Desktop | `docs/shots/<name>/desktop.png` |
-| Mobile | `docs/shots/<name>/mobile.png` |
-| Dark | `docs/shots/<name>/dark.png` |
+| Desktop | `docs/shots/look-<name>/desktop.png` |
+| Mobile | `docs/shots/look-<name>/mobile.png` |
+| Dark | `docs/shots/look-<name>/dark.png` |
 
 **Strongest at:** <where this look earns its keep>
 **Weakest at:** <where it struggles — dense tables, small screens, whatever>

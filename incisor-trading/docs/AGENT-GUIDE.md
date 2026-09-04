@@ -639,9 +639,11 @@ entry will not fit right now, do one of these:
 A row that has been superseded is rewritten to say so in one line, not left in
 full alongside its replacement.
 
-Screenshots in `docs/shots/` are the other thing that grows without bound. Keep
-one set per registered look branch, replace rather than accumulate, and delete
-the folder when a direction moves to *Retired* in `DESIGN-BRANCHES.md`.
+Screenshots grow without bound too, and in the one place where deleting does
+not help: a PNG removed from the tree stays in history. So **only a look
+branch's set is committed** — `docs/shots/look-<name>/`, which
+`DESIGN-BRANCHES.md` needs in order to be browsable. Every other set is local
+and gitignored; `shoot.py` regenerates one from the code in seconds.
 
 ---
 

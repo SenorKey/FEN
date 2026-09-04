@@ -4,7 +4,23 @@ Written by `tools/shoot.py`, which is also the check that fails a session on a
 console error or horizontal overflow. A green run means nothing is broken; these
 images are how anyone finds out whether it looks good.
 
-## What is kept
+## What is committed
+
+**Only a look branch's set.** Everything else is local and gitignored.
+
+Screenshots are reproducible output, not source: `shoot.py` regenerates a set
+from the code in seconds, and `docs/` is deny-all so none of them is ever
+served. Committing every set put 321 blobs behind a repository the server pulls
+over a residential line, and removing a PNG from the tree does not remove it
+from history — so the only fix is not adding more.
+
+A look branch is the exception because `DESIGN-BRANCHES.md` is a shelf Key
+browses to compare visual directions, and that only works if the images are
+there without checking out each branch in turn. Those go in
+`docs/shots/look-<branch>/`, and the `look-` prefix is what the gitignore
+exception matches — a set filed anywhere else will not be committed.
+
+## What is kept on disk
 
 The newest set for the page **as it stands now**, plus any set showing a state
 that one does not — service stopped, storage blocked, a chart range, a symbol

@@ -3499,3 +3499,36 @@ in history, and the server pulls this repo over a residential line. Screenshots
 are reproducible output rather than source: `shoot.py` regenerates a task set in
 seconds. Left for Key, since it changes how review works.
 
+## 2026-09-04 — Attended: stop committing screenshots, except the shelf
+**Outcome:** shipped
+**Changed:** `.gitignore`, `docs/shots/README.md`, `DESIGN-BRANCHES.md`,
+`DECISIONS.md` + `-DETAIL.md` (DEC-012 superseded), `AGENT-GUIDE.md` (§16)
+**Verified:** both suites green; 37 files untracked and **all 36 PNGs still on
+disk** — this changes what git carries, not what the routine can look at.
+
+Key's call, and his reasoning was right: these are sample screenshots and there
+is no reason for GitHub to hold them. Two corrections went with it.
+
+**Gitignoring stops the growth; it does not shrink what is already there.** The
+124MB `.git` keeps all 321 blobs, because a PNG removed from the working tree
+stays in history. Rewriting history would fix that and is not worth doing on a
+branch already pushed to a public repo. So this is a bleed-stop, not a cleanup.
+
+**The ongoing cost was smaller than "eats resources on every push" suggests** —
+git sends only new objects, so a push has been carrying the session's new
+screenshots, one to three megabytes, not the whole 124MB. The real number is the
+accumulation: every set ever taken, kept forever, for images nobody serves.
+
+**One category stays committed.** A look branch's set, at
+`docs/shots/look-<name>/`. `DESIGN-BRANCHES.md` is a shelf for comparing visual
+directions and it only works if the images are there without checking out each
+branch in turn. The `look-` prefix is load-bearing rather than cosmetic — it is
+what the `.gitignore` exception matches — so that is written in three places a
+session might look: the ignore file, the shelf, and the shots README. No look
+branch exists yet, so nothing committed today is load-bearing.
+
+**The index cap caught me writing an essay into it.** The first DEC-012 rewrite
+ran to 250 characters and `test_no_index_line_exceeds_the_cap` failed. The
+reasoning went to `DECISIONS-DETAIL.md` and the index line came back at 171.
+That is the mechanism working on the person who specified it.
+
