@@ -3379,3 +3379,80 @@ it is a look decision, so it belongs to Key through `DESIGN-BRANCHES.md` rather
 than to the routine. §13 arguing "the page belongs to the site" and the figures
 having been set against DM Sans both point somewhere, and neither settles it.
 
+
+## 2026-09-04 — D12 attempt 2: the unit was wrong, not the number
+**Outcome:** shipped — D12 closed
+**Changed:** `tests/test_page.py` (the document ceiling and a guard for it),
+`DECISIONS.md` (DEC-038 superseded in its unit, DEC-026 restated),
+`DECISIONS-DETAIL.md` (DEC-038 rewritten), `BACKLOG.md` (D12 to `## Done`)
+**Verified:** 209 page tests, 224 service tests green; `shoot.py` clean at
+three widths, no console errors, no horizontal overflow. `git status` clean
+outside `incisor-trading/`.
+
+**The defect took the session, per guide §14 step 4** — a defect is a whole
+session's work and is not paired with a task, so T13 was not started.
+
+**Attempt 1 was right that there is nothing to delete, and I checked its
+finding rather than inheriting it.** It measured the panels; I measured the
+wrappers, which is where structural fat usually hides. Of eleven blocks with a
+single element child, none is redundant: four are tile symbol lines that also
+carry text, three are the `overflow-x` containers `DEC-036` requires, and the
+rest are semantic `<em>`. So both searches for the 98 lines came back empty,
+from different directions.
+
+**The decision D12 left to this attempt: extend `DEC-038`, not delete copy.**
+And measuring reshaped the extension as well as choosing it. The obvious form —
+make text-node lines free, the way comments are already free — does not work
+and cannot be made to: only **59 of the 817 lines are text and nothing else**,
+because the copy is interleaved with the tags that carry it. Every line-based
+variant charges for all three of the things a served document's lines conflate:
+surfaces carried, prose taught, and wherever the author happened to wrap the
+source. **The ceiling is guarding only the first.** Elements conflate none of
+them — prose adds none however long it runs, rewrapping adds none, a surface
+adds many.
+
+**650, and where it comes from.** 433 elements today: 342 across nine dashboard
+surfaces, 91 of page chrome. The largest surface ever shipped here is the price
+chart at 41 elements. `DEC-072` routes Phase 2 into the view rather than this
+document, so what is still planned to land *here* is Phase 3's replay panel and
+Phase 4's hint surfaces. 650 is room for five more chart-sized surfaces —
+checked: five fit at 638, six trip it at 679, a second copy of the page trips
+it at 866. Headroom by construction rather than a number set at the achieved
+value, which is the deadlock the 09-03 session found in the docs budgets.
+
+**What stops this being an escape hatch.** The per-surface 150 is untouched,
+still counts every line including copy and comments, and is the rule that was
+ever protecting readability — it is also the tight one, with the price chart at
+125 of 150 and the fundamentals panel at 116. A new test asserts the loosening
+did not loosen into nothing, in the idiom the neighbouring length rules already
+use: fifty lines of prose and the same prose rewrapped both cost one element,
+and a chart-sized surface costs 41.
+
+**On D12's acceptance wording, plainly.** It asked for the space to be found
+"by deleting or splitting rather than by moving a number". The script half met
+that exactly — `view-symbol.js` split at a real seam. The document half did
+not, and could not: I did not move the number, I replaced the measure, which is
+the alternative D12's own text named after attempt 1 corrected its premise.
+Recording that as what happened rather than as a criterion met.
+
+### For Key
+
+**N9 · resolved 09-04.** D12's 80% criterion was unreachable for `index.html`
+by deletion, as flagged. Closed by changing what the ceiling counts rather than
+by rescoping the criterion or deleting page copy; the arithmetic is in
+`DECISIONS-DETAIL.md` under `DEC-038`. Say if you would rather the document had
+simply been given a higher line ceiling — that is the change I did not make.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is now a six-file
+situation; the drop-in wording is drafted in the 09-02 entry.
+
+**N10 · resolved 09-04 for now.** `BACKLOG.md` is at 21,031 of 27,500 after D12
+collapsed to a `## Done` row, and `DECISIONS.md` at 11,914 of 15,000, so filing
+is unblocked and `S6` is not forced. `docs/shots/` is the half that is not
+resolved: 14MB across sixteen folders. I declined to add a seventeenth this
+session — the run was green but photographed markup identical to the existing
+sets, so under `DEC-012` it was deleted rather than kept.
+
+**Next session:** no open defects. T13 is the top of the queue — dashboard
+polish, accessibility, CSP. The reporting calendar (T12) falls due for audit on
+09-06, and a due audit is taken instead of a task.
