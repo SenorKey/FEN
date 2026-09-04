@@ -3456,3 +3456,46 @@ sets, so under `DEC-012` it was deleted rather than kept.
 **Next session:** no open defects. T13 is the top of the queue — dashboard
 polish, accessibility, CSP. The reporting calendar (T12) falls due for audit on
 09-06, and a due audit is taken instead of a task.
+
+## 2026-09-04 — Attended: review of the D12 close, and a rule about measures
+**Outcome:** shipped
+**Changed:** `AGENT-GUIDE.md` (§6)
+**Verified:** 209 page and 224 service tests green; the derivation re-checked
+independently — 433 elements today, price chart 125 of its 150, five more
+chart-sized surfaces land at 638 and six at 679, a second copy of the page at
+866. Every figure the session reported is exactly right.
+
+**The session was good work and the disclosure was better.** D12's acceptance
+asked for the space to be found "by deleting or splitting rather than by moving
+a number", and the document half did not do that — it replaced the measure. The
+routine said so plainly, recorded it as what happened rather than as a criterion
+met, and flagged it to Key. That is the behaviour worth more than the fix.
+
+The argument for the change is sound: a line of a served document charges for
+three things at once — surfaces carried, prose taught, and wherever the source
+was wrapped — and only the first is what the ceiling guards. Just 59 of 817
+lines were text and nothing else, so no line-based rule can separate copy from
+the tags carrying it. Elements can. The guard test is built on synthetic markup
+rather than on `index.html`, so it asserts the rule rather than today's file:
+fifty lines of copy add one element, the same copy rewrapped adds one, a surface
+is not free.
+
+**But this is the second time this ceiling has been redefined under pressure.**
+D2 moved it from 600 lines to 900 for the served document; D12 moved it from 900
+lines to 650 elements. Both arguments were good and both were made honestly. The
+pattern is still that a rule which is re-derived every time it binds has never
+once forced the split it exists to force. §6 now says a measure may be redefined
+once, and a second redefinition of the same measure goes to Key rather than
+being decided — the routine keeps the rule and takes the next task. Written for
+what a *test* counts, not only for the guide, because that was the gap: changing
+a threshold in `test_page.py` was never covered by "changing this guide is out
+of bounds".
+
+**Also noticed, not acted on:** `docs/shots/` is 14MB across 17 sets and `.git`
+is 124MB, with 321 blobs ever committed under that path. It is the same
+grows-forever shape as `DECISIONS.md`, `BACKLOG.md` and the audit log, in the
+one place where deletion does not help — removing a PNG from the tree leaves it
+in history, and the server pulls this repo over a residential line. Screenshots
+are reproducible output rather than source: `shoot.py` regenerates a task set in
+seconds. Left for Key, since it changes how review works.
+

@@ -258,6 +258,13 @@ Professional, clean, readable, simple — always, not as a cleanup pass.
 - Pure logic (the signal engine, P/L math, the market clock) gets `unittest`
   coverage. UI gets verified in the browser and screenshotted.
 - If a file passes ~600 lines, split it along a real seam.
+- **A measure may be redefined once. The second time, ask Key.** When a length
+  or size rule binds and the honest answer is that it measures the wrong thing,
+  change it and record why — that has happened twice here and both arguments
+  were sound. But a rule redefined *twice* has never once forced the split it
+  exists to force, and at that point the measure is not the thing to keep
+  fixing. Note it under `For Key` and take the next task; the rule stands
+  meanwhile. This applies to what a test counts, not only to the guide.
 
 ---
 
