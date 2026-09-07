@@ -145,9 +145,9 @@ audit-log row below. Open here: T10b, blocked, then T13.
 
 ## Phase 5 — Promotion (Key does these, not the routine)
 
-- [!] **T26b · Deploy rehearsal on the Fedora box** — **blocked until Key is
-  home and can reach the server (noted 2026-09-02; he is away and has no remote
-  access).** Not a promotion step and not the routine's to run: it is a trial
+- [ ] **T26b · Deploy rehearsal on the Fedora box** — **unblocked 2026-09-07**;
+  Key is home. The ordered checklist is `docs/DEPLOY-REHEARSAL.md`, and it is
+  his to run — hard rule 5 keeps the routine off the server.** Not a promotion step and not the routine's to run: it is a trial
   install of what already exists, done early because the cost of waiting
   compounds. Nothing here has ever run where it will run. Nine surfaces, a Flask
   service, an Apache snippet and a systemd unit have only ever been exercised on

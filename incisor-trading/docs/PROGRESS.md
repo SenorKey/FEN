@@ -3621,3 +3621,40 @@ situation; drop-in wording drafted in the 09-02 entry.
 the queue — dashboard polish, accessibility, CSP headers. Worth knowing before
 starting it: `T13`'s acceptance names screenshots at 375px, and that width is
 now measured on every run rather than assumed.
+
+## 2026-09-07 — Attended: readiness check for the deploy rehearsal
+**Outcome:** shipped
+**Changed:** `docs/DEPLOY-REHEARSAL.md` (new), `server/apache-snippet.conf`,
+`BACKLOG.md` (T26b unblocked)
+**Verified:** all five browser-facing routes are proxied and `/health` is not;
+both suites green.
+
+Key is home and ready to run T26b. Checked the deploy package before he starts,
+since a missing artifact costs an evening on the box and nothing to catch here.
+
+**One blocker, and it is the one that would have wasted the trip.** `main` has
+no `incisor-trading/` directory — the server pulls `main`, and all 102 commits
+are on `incisor-dev`. A normal `git pull origin main` would have got none of
+this. `incisor-dev` fully contains `main`, so checking it out on the server
+serves the same site plus the hidden page; the checklist says to return to
+`main` afterwards, because the daily pull habit would otherwise start doing
+something unexpected.
+
+**One gap found and fixed.** The vhost denied `server`, `docs` and `tests` but
+not `tools`, which was protected only by its own `.htaccess`. The other three
+carry both, and an `.htaccess` is honoured only while `AllowOverride` permits
+it — a directory protected by one mechanism is protected until someone changes
+that mechanism for an unrelated reason. `tools` is denied in both places now,
+and step 10 of the checklist tests all four.
+
+Route parity checked the way D5 should have been: every route the service
+defines against every route the snippet proxies. Five browser-facing routes
+match, `/health` is deliberately absent.
+
+**The rehearsal runs in fixture mode.** No upstream call, no quota spent, no
+provider licence question touched — this is about plumbing. The expected fault
+is SELinux blocking `mod_proxy` from reaching `127.0.0.1:8789` until
+`httpd_can_network_connect` is set, and the checklist proves the service works
+on the box *before* Apache is involved, so a failure after that point is
+localised rather than guessed at.
+
