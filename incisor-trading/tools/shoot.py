@@ -330,19 +330,63 @@ WATCHLIST_VERSION = 1
 # room first, and it is what D6 was hiding under.
 NARROW_WIDTH = 320
 
+# The width guide §15 names as the mobile check. Between it and the 390px
+# photographed viewport sits the gap this tool used to have: the reporting
+# calendar clipped 18px here and 3px there, so the only measurement taken was
+# the one that barely passed.
+GUIDE_WIDTH = 375
+
 # The widest the watchlist ever is: full at its cap of eight, every row priced,
 # and the longest ticker the catalogue holds among them. Only symbols with
 # committed fixtures, so the rows carry real figures rather than the narrower
 # "unavailable" state.
 NARROW_WATCHLIST = "BRK.B,XLRE,AAPL,SPY,QQQ,DIA,IWM,XLK"
 
+# A filer rather than a fund, so the narrow pass reaches the reporting
+# calendar's table and the filings panel's figures. Every fund on this page
+# answers both with a sentence, which measures nothing.
+NARROW_SYMBOL = "AAPL"
 
-def check_narrow(browser, base, args, problems):
+
+# Guide §13 sends a wide table sideways inside its own box so the body never
+# moves, and every table on this page takes that offer. What nothing checked is
+# whether the box then has anything to scroll — the body measurement is clean
+# either way, so a column hanging off the edge of a phone looked exactly like a
+# column that fit.
+#
+# It was not hypothetical. The reporting calendar shipped clipping 18px at
+# 375px, the width guide §15 names, which cut a 0.26 dividend to "0.2" — a
+# plausible number, and the wrong one. Four sessions and two green suites went
+# past it. See DEC-073.
+#
+# Failed at the photographed widths, where §15 asks the page to fit. The 320px
+# pass reports the same numbers without failing on them: 320 is below every
+# width the guide checks, and a table that scrolls there is the container doing
+# its job rather than a defect.
+def clipped_boxes(page):
+    """Every overflow-x box whose content is wider than the box."""
+    return page.evaluate(
+        "() => [...document.querySelectorAll('*')]"
+        ".filter(el => getComputedStyle(el).overflowX === 'auto')"
+        ".map(el => ({cls: String(el.className).split(' ')[0],"
+        "             clip: el.scrollWidth - el.clientWidth}))"
+        ".filter(b => b.clip > 1)"
+    )
+
+
+def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
+                 label="narrow", fail_on_clip=False):
     """Assert §13's promise at a width no screenshot is taken at.
 
-    Measured rather than photographed: this is one property, it is a number,
-    and a fourth set of images every session is a permanent cost in a repo
-    served off a home connection.
+    Measured rather than photographed: these are numbers, not pictures, and a
+    fifth set of images every session is a permanent cost in a repo served off
+    a home connection.
+
+    Run at two widths, and they are asking different questions. **375** is the
+    width guide §15 names, so a table that does not fit there is a defect and
+    fails the run. **320** is below every width the guide checks, so the same
+    measurement is printed and not enforced: a table that scrolls at 320 is
+    the container doing its job.
 
     It needs the service, and that is not a convenience. With no upstream the
     rows fall back to a short "unavailable" and the table fits — so a run
@@ -350,20 +394,21 @@ def check_narrow(browser, base, args, problems):
     Say so and skip, rather than bank a pass that stands for nothing.
     """
     if not args.api:
-        print(f"  narrow   {NARROW_WIDTH}px -> skipped (needs --api; an "
+        print(f"  {label:8} {width}px -> skipped (needs --api; an "
               f"unpriced table is narrower than the rule is about)")
         return
     if args.block_storage:
-        print(f"  narrow   {NARROW_WIDTH}px -> skipped (--block-storage "
+        print(f"  {label:8} {width}px -> skipped (--block-storage "
               f"leaves nothing to seed the watchlist with)")
         return
 
     ctx = browser.new_context(
-        viewport={"width": NARROW_WIDTH, "height": 800},
+        viewport={"width": width, "height": 800},
         is_mobile=True, has_touch=True, device_scale_factor=2,
         color_scheme=args.theme,
     )
-    ctx.set_extra_http_headers({CLIENT_HEADER: client_address(len(VIEWPORTS))})
+    ctx.set_extra_http_headers({CLIENT_HEADER: client_address(
+        len(VIEWPORTS) + (0 if fail_on_clip else 1))})
     seed_storage(ctx, argparse.Namespace(block_storage=False,
                                          watch=NARROW_WATCHLIST))
     page = ctx.new_page()
@@ -371,7 +416,20 @@ def check_narrow(browser, base, args, problems):
     try:
         page.wait_for_selector(WATCHLIST_READY, timeout=10000)
     except Exception as error:
-        problems.append(f"narrow: the watchlist never settled — "
+        problems.append(f"{label}: the watchlist never settled — "
+                        f"{type(error).__name__}")
+
+    # A symbol is looked up here even when the run did not ask for one. The
+    # panels behind a lookup ship empty — one sentence each — so a 320px pass
+    # that never searches measures the page with its three widest tables
+    # absent, which is the state the width rule is not about. This is where
+    # the reporting calendar's clipped column was hiding.
+    try:
+        page.fill(SEARCH_INPUT, NARROW_SYMBOL)
+        page.press(SEARCH_INPUT, "Enter")
+        page.wait_for_selector(SETTLED, timeout=10000)
+    except Exception as error:
+        problems.append(f"{label}: {NARROW_SYMBOL} never settled — "
                         f"{type(error).__name__}")
 
     overflow = page.evaluate(
@@ -380,11 +438,21 @@ def check_narrow(browser, base, args, problems):
     )
     if overflow["sw"] > overflow["vw"] + 1:
         problems.append(
-            f"narrow: body scrolls horizontally with a full watchlist "
+            f"{label}: body scrolls horizontally with a full watchlist "
             f"({overflow['sw']}px in a {overflow['vw']}px viewport)"
         )
-    print(f"  narrow   {NARROW_WIDTH}x800 (mobile emulation)"
-          f" -> overflow check only, no shot")
+
+    clipped = clipped_boxes(page)
+    for box in clipped:
+        if fail_on_clip:
+            problems.append(
+                f"{label}: .{box['cls']} clips {box['clip']}px of its own "
+                f"content at the width §15 checks"
+            )
+    detail = (", ".join(f".{b['cls']} {b['clip']}px" for b in clipped)
+              if clipped else "nothing clipped")
+    print(f"  {label:8} {width}x800 (mobile emulation)"
+          f" -> measured, no shot ({detail})")
     ctx.close()
 
 
@@ -622,6 +690,11 @@ def main():
                     f"{label}: body scrolls horizontally "
                     f"({overflow['sw']}px in a {overflow['vw']}px viewport)"
                 )
+            for box in clipped_boxes(page):
+                problems.append(
+                    f"{label}: .{box['cls']} clips {box['clip']}px of its own "
+                    f"content"
+                )
             for err in errors:
                 benign = BENIGN_CONSOLE
                 if not args.api:
@@ -644,6 +717,8 @@ def main():
                   f" -> {out.name}/{label}.png")
             ctx.close()
 
+        check_narrow(browser, base, args, problems, width=GUIDE_WIDTH,
+                     label="guide", fail_on_clip=True)
         check_narrow(browser, base, args, problems)
         browser.close()
 
