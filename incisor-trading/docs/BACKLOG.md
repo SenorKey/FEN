@@ -276,6 +276,22 @@ phase. When the call is unclear, file it as a defect.
   `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
   Until then `incisor.css` keeps DM Sans and its comments say why.
 
+- [x] **D14 · `server/` was served, because only the vhost denied it** `[defect]`
+  *(found and fixed 2026-09-07, during the T26b rehearsal)* — the first fault
+  the rehearsal produced, and it produced it within two commands. With the
+  branch checked out on the box and the vhost snippet not yet installed,
+  `/incisor-trading/server/incisor.py` answered **200** while `docs/`, `tests/`
+  and `tools/` answered 403. Those three carry their own `.htaccess`; `server/`
+  carried none and relied entirely on the `<Directory>` block in
+  `apache-snippet.conf`, which is pasted into the vhost by hand as a separate
+  step. Everything between the branch landing and that step is a window where
+  the whole service source is readable — and the window is open by default,
+  because pulling the branch is the easy half.
+  Fixed by giving `server/` the same `.htaccess` the other three have. The
+  irony is exact: the vhost snippet gained a comment that same morning saying a
+  directory guarded by one mechanism is guarded only until someone changes that
+  mechanism — and `server/` was relying on the one mechanism not yet installed.
+
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is

@@ -1,0 +1,12 @@
+# Service source — never served, in either of the two ways this can be enforced.
+#
+# The vhost <Directory> block in apache-snippet.conf denies this too, and that
+# is the belt to this pair of braces. Found the hard way during the T26b deploy
+# rehearsal: server/ was the one source directory protected *only* by the vhost,
+# the vhost snippet is installed by hand as a separate step, and between the
+# branch landing on the box and that step happening, incisor.py was served with
+# a 200 while docs/, tests/ and tools/ were correctly 403.
+#
+# A directory guarded by one mechanism is guarded until someone changes that
+# mechanism, or has not yet added it.
+Require all denied
