@@ -166,8 +166,15 @@
      * spelling, and the two ways out of that are both worse: scrolling puts
      * the dividend column off the side of a phone, where a reader has no
      * reason to think there is one, and dropping a column loses a fact
-     * outright. Two spellings and a media query keeps every column at every
-     * width, which is what the watchlist manages with five of its own.
+     * outright.
+     *
+     * The dates were half of what that costs and this comment used to claim
+     * they were all of it. They are not: the *labels* set three of the five
+     * column widths, and until the T12 audit this table scrolled on every
+     * phone it was ever opened on — silently, because the box scrolls inside
+     * itself and the body never overflowed, so nothing failed. The short
+     * column spellings in css/reports.css are the other half. Both are
+     * needed, and neither is enough alone.
      *
      * The hidden one is `display: none` rather than off-screen text, so a
      * screen reader is read one date and not the same date twice. */

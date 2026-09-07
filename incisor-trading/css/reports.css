@@ -196,6 +196,21 @@
     display: none;
 }
 
+/* Three of the five column labels ship in two spellings, for the same reason
+   the dates do: below 700px the label — not the figure under it — is what
+   sets the column's width. "Quarter ended", "Earnings" and "Dividend" each
+   run wider than any value beneath them, and together they were the 54px
+   that pushed this table past a phone.
+
+   The accessible name is the full wording at every width and is not one of
+   the two spellings: both visible ones are aria-hidden, and an .inc-offscreen
+   label carries "Quarter ended", "Earnings per share" and "Dividend declared"
+   whatever is on screen. So the short spelling shortens what is drawn and
+   nothing that is read out. */
+.inc-reports-head-short {
+    display: none;
+}
+
 .inc-reports-eps {
     color: var(--ink);
 }
@@ -283,12 +298,24 @@
 
     /* Every column stays, at the shorter spelling and a tighter measure.
        "27 Jun 26" keeps the day, which a fiscal quarter end needs; only the
-       century goes, and no filing on this page is ambiguous about it. */
+       century goes, and no filing on this page is ambiguous about it.
+
+       The dates alone were not enough, and for four sessions this table was
+       clipping instead: 18px of it at 375px, which cut a 0.26 dividend to a
+       plausible, wrong "0.2". The short column labels below carry the rest. */
     .inc-reports-date-full {
         display: none;
     }
 
     .inc-reports-date-short {
+        display: inline;
+    }
+
+    .inc-reports-head-full {
+        display: none;
+    }
+
+    .inc-reports-head-short {
         display: inline;
     }
 
@@ -305,5 +332,32 @@
         padding: 0 6px 6px;
         font-size: 0.58rem;
         letter-spacing: 0.08em;
+    }
+}
+
+/* One more turn of the screw for the narrowest phones.
+   The short labels above are enough down to 360px. Below that the figures
+   themselves are what is left — five columns of them need 306px and a 320px
+   screen offers 288 — so the gutters give up the last of it rather than a
+   column giving up its place. 4px still reads as a gap between right-aligned
+   numbers; a sixth column would not fit here however this is tuned, and that
+   is a design constraint on this table rather than a number to keep cutting. */
+@media (max-width: 360px) {
+    .inc-reports-table th,
+    .inc-reports-table td {
+        padding: 8px 4px;
+    }
+
+    .inc-reports-table thead th {
+        padding: 0 4px 6px;
+    }
+
+    .inc-reports-table th:first-child,
+    .inc-reports-table thead th:first-child {
+        padding-left: 0;
+    }
+
+    .inc-reports-delta {
+        gap: 5px;
     }
 }

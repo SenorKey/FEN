@@ -145,13 +145,52 @@ class TestTheSurfaceMeetsTheHouseRules(unittest.TestCase):
         self.assertIn('setDirection', VIEW)
 
     def test_the_table_scrolls_inside_its_own_box(self):
-        """Five columns at any width. The body never scrolls sideways, and
-        the scroller is positioned so that is true of the whole box and not
-        only its visible half."""
+        """The body never scrolls sideways, and the scroller is positioned so
+        that is true of the whole box and not only its visible half.
+
+        This is the floor and not the plan. The table used to reach it on
+        every phone — 18px of it hanging off the side at 375px, which cut a
+        0.26 dividend to a plausible "0.2" — because the box scrolling inside
+        itself is invisible to every measurement taken here. The columns are
+        made to fit below; tools/shoot.py is what checks that they do."""
         rule = STYLES[STYLES.index('.inc-reports-scroll {'):]
         rule = rule[:rule.index('}')]
         self.assertIn('overflow-x: auto', rule)
         self.assertIn('position: relative', rule)
+
+    def test_the_narrow_column_labels_shorten_the_drawing_and_not_the_name(self):
+        """Three labels set their column's width rather than the figures
+        under them, so each ships in two visible spellings with a media query
+        choosing one — the pattern the dates beside them already use.
+
+        What must not follow the spelling is the accessible name. Both
+        visible spellings are aria-hidden and an .inc-offscreen label carries
+        the full wording, so a screen reader is read "Dividend declared" at
+        every width and never "Div"."""
+        headers = re.findall(r'<th scope="col".*?</th>', surface_markup(),
+                             re.S)
+        self.assertEqual(len(headers), 5)
+        shortened = [h for h in headers if 'inc-reports-head-short' in h]
+        self.assertEqual(len(shortened), 3,
+                         'the three labels wider than their own figures')
+
+        for header in shortened:
+            spoken = re.search(r'inc-offscreen">(.*?)</span>', header, re.S)
+            self.assertIsNotNone(spoken, header)
+            self.assertNotIn('aria-hidden',
+                             header[:header.index('inc-offscreen')],
+                             'the spoken label is the one that is not hidden')
+            self.assertIn('inc-reports-head-full', header)
+            self.assertEqual(header.count('aria-hidden="true"'), 2, header)
+
+        spellings = ' '.join(shortened)
+        for word in ('Quarter', 'EPS', 'Div', 'Earnings per', 'Dividend'):
+            self.assertIn(word, spellings)
+
+        self.assertIn('.inc-reports-head-short {\n    display: none;', STYLES)
+        narrow = STYLES[STYLES.index('@media (max-width: 700px)'):]
+        self.assertIn('.inc-reports-head-full', narrow)
+        self.assertIn('.inc-reports-head-short', narrow)
 
     def test_nothing_here_reaches_the_beacon_with_a_ticker(self):
         """There is no control on this surface at all, which is the simplest
