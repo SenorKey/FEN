@@ -261,10 +261,19 @@
             // Every ETF on this page lands here and it is the ordinary
             // answer, not a failure. A fund files no quarterly report, so
             // there is no calendar to show and no table to leave empty.
+            //
+            // It says the dates half and nothing else. The filings panel
+            // directly above reaches its own fund state from the same
+            // payload and explains there what a fund is — so this used to
+            // open on the same clause the reader had just finished
+            // ("No company files for SPY... a fund holds shares in companies
+            // that..."), twice within a screen on a phone. The second one
+            // teaches nothing the first did not; what is this surface's to
+            // say is why there are no *dates*.
             setState('fund');
-            say('No company files for ' + symbol + ', so there is no '
-                + 'reporting calendar. A fund holds shares in companies that '
-                + 'each report on their own schedule.');
+            say('A fund files no quarterly report of its own, so ' + symbol
+                + ' has no reporting calendar and no filing dates to project '
+                + 'from.');
             renderProvenance(envelope);
             return;
         }

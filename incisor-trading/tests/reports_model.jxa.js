@@ -461,8 +461,18 @@ function run(argv) {
     equal('a fund reaches its own state rather than an error',
         view.state(), 'fund');
     equal('and shows no table at all', view.bodyHidden(), true);
-    contains('saying what a fund is instead',
+    contains('saying there is no calendar instead',
         view.text('[data-reports-message]'), 'no reporting calendar');
+
+    /* The filings panel directly above reaches its own fund state from this
+     * same payload and is where a reader is told what a fund is. This surface
+     * used to open on that panel's own first clause, so a fund was explained
+     * twice within a screen. It answers for the dates and leaves the teaching
+     * where it already was. See the T12 audit, 09-07. */
+    var fundSaid = view.text('[data-reports-message]');
+    equal('and not by repeating the panel above word for word',
+        fundSaid.indexOf('No company files for') === -1
+            && fundSaid.indexOf('holds shares in companies') === -1, true);
 
     view.api.show('DEAD');
     equal('a service that is down is not a company state',
