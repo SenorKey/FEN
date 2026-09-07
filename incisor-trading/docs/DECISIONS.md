@@ -55,7 +55,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-034 | **A control's target is what a finger can hit, not what the box reports.** A positioned overlay is outside the rect: hit-test the corners. |
 | DEC-035 | **A control whose only affordance is hover has no affordance** — every sortable column carries a glyph, not only the sorted one. |
 | DEC-036 | **Every sideways-scrolling box sets `position: relative`** — `overflow-x` does not clip a positioned child. Two of the three are preventive, not dead. |
-| DEC-037 | **`shoot.py` measures a fourth width it does not photograph: 320px, full watchlist, overflow only**, skipped with a stated reason without `--api`. |
+| DEC-037 | **`shoot.py` measures two widths it does not photograph: 375px, which fails on a clip, and 320px, which reports one.** Both look up a symbol. Widened by DEC-073. |
 | DEC-038 | **The document ceiling counts elements, not lines** — 650, at 433 today. Prose and comments are free; a line charges for surfaces, teaching and wrapping alike. |
 | DEC-039 | **A derived rule hides what it does not reach, so the derivation needs its own guard** — `[data-sectors]` matched none of its hooks, in silence. |
 | DEC-040 | **A constraint that rules out a layout does not rule out the element** — the sector bar stacks below 700px rather than being `display: none`. |
@@ -72,6 +72,9 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-070 | **T12 ships a filing calendar, not an earnings calendar.** No scheduled date, consensus or surprise is available; the next report is a projected window. |
 | DEC-071 | **The fixture holds two fiscal years and varying filing lags.** One year blanks the year-ago column; a constant lag projects a report to the day. |
 | DEC-072 | **Phase 2 builds its surfaces in the view, not the served document.** A panel behind a tab states no fact before a script runs, unlike every dashboard empty state. |
+| DEC-073 | **A box that scrolls inside itself is not measured by a body that does not.** The calendar clipped a dividend to "0.2" at 375px for four sessions; nothing failed. |
+| DEC-074 | **Where a column label is wider than every figure under it, the label shortens — not the data, and never the accessible name.** Both spellings ship, aria-hidden. |
+| DEC-075 | **Two panels fed by one payload divide the teaching between them.** The second says only its own half; a fund was explained twice within a screen on a phone. |
 
 ---
 

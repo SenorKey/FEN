@@ -1653,3 +1653,123 @@ document's growth is capped by construction rather than by a ceiling it was
 going to hit mid-task. The distinction to keep, if this is ever revisited: it
 is not "interactive surfaces are built in JS" — the watchlist is interactive
 and its empty state is served, because that empty state is true.
+
+---
+
+## DEC-073 — A box that scrolls inside itself is not measured by a body that does not
+
+*Settled · 09-07 · found in the T12 audit*
+
+**Decision**
+
+**`tools/shoot.py` measures every `overflow-x: auto` box against its own
+content.** A clipping box fails the run at the photographed widths and at
+375px; at 320px the same numbers are printed and not enforced. Both measured
+widths look up a symbol first.
+
+**Why**
+
+Guide §13 offers a wide table a way out — scroll inside your own box, and the
+body never moves. Every table here takes it. What nothing checked is whether
+the box then *has* anything to scroll, and the two cases are identical to
+every measurement the project had: the body scrollWidth is clean either way,
+the DOM stub cannot do layout, and a screenshot of a table whose last column
+is 18px off the edge looks like a table.
+
+The reporting calendar shipped in that state on 09-03 and stayed in it for
+four sessions. At 375px — the width §15 names — it was 18px over its box, so
+the dividend column rendered `0.2` for a value of `0.26`. Not a missing
+number: a plausible, wrong one, with nothing on screen saying it was cut.
+
+Three separate stand-ins were each failing in the direction nobody checked,
+which is DEC-064 exactly:
+
+- **the body measurement** passed, because the container was doing its job;
+- **the 320px pass** never looked up a symbol, so the three widest tables on
+  the page were in their one-sentence empty states when the only narrow
+  measurement was taken;
+- **375px was not measured at all.** It sits below the 390px photographed
+  viewport, where the same table clipped 3px — so the only number ever taken
+  was the one that barely passed.
+
+The runner for this surface says in its own docstring that whether five
+columns read as a table at 375px is `shoot.py`'s job. The handoff was written
+down at one end and never held at the other, and neither end failed.
+
+**Why 320 reports rather than fails.** 320 is below every width the guide
+checks, and §13 sanctions the scroll. A table that scrolls there is the
+container working, not a defect — the watchlist does it today at 18px and is
+right to. Failing there would make the tool red about a decision that was
+made deliberately, and a permanently red tool is one nobody reads.
+
+## DEC-074 — The label shortens, not the data, and never the accessible name
+
+*Settled · 09-07 · the T12 audit's fix*
+
+**Decision**
+
+**Where a column label is wider than every figure beneath it, the label ships
+in two visible spellings and a media query picks one.** Both are
+`aria-hidden`; a separate `.inc-offscreen` span carries the full wording at
+every width.
+
+**Why**
+
+The reporting calendar's table needed 360px in a 288px box at 320px. The
+instinct is to attack the data — drop a column, shorten a date, shrink the
+type — and all three lose something. Measuring first said the data was not
+the problem: with every header emptied the table still wanted 306px, and
+three labels were 54px of the difference. "Quarter ended", "Earnings" and
+"Dividend" each run wider than any value under them.
+
+So they shorten to Quarter, EPS and Div below 700px, the dates keep their
+existing two spellings, and below 360px the gutters give up 2px each. Every
+column survives at every width, which is what the module claimed all along
+and had never been true.
+
+**The half worth keeping is the accessible name.** The obvious version puts
+the full and short wordings in the two swapped spans, and then a screen
+reader is read "Div" on a phone — the spelling following the drawing, which
+is the DEC-060 trap arriving through a new channel. Instead both visible
+spellings are hidden from the tree and the spoken label is a third,
+always-present span carrying "Dividend declared". That is stricter than what
+shipped before, where the name was assembled from whatever was on screen plus
+a fragment. A test asserts two `aria-hidden` attributes per shortened header
+and fails if a visible spelling stops being one.
+
+**The constraint this leaves.** Five columns is what this table holds at
+320px, with 0px to spare. A sixth does not fit however the labels are tuned,
+and that is a fact about the surface rather than a number to keep cutting.
+
+## DEC-075 — Two panels fed by one payload divide the teaching between them
+
+*Settled · 09-07 · found in the T12 audit*
+
+**Decision**
+
+**When two surfaces render from one response, the second states only the half
+that is its own.** The filings panel explains what a fund is; the reporting
+calendar explains why there are no dates.
+
+**Why**
+
+`GET /fundamentals` feeds both, and both reach a fund state from the same
+`filings: null`. Written independently, they arrived at nearly the same
+paragraph: each opened "No company files for SPY" and each explained that a
+fund holds shares in companies that file or report their own. On desktop they
+are 330px apart and on a phone about 600px — closer in reading time, which is
+why the audit found it in the mobile image and nearly missed it on the wide one.
+
+Fifteen of the seventeen symbols in `server/catalog.py` are funds (DEC-045),
+so this pair is not an edge case: it is what most lookups on this page
+produce. The reader was being taught the same thing twice, in a row, in
+slightly different words — which reads less like emphasis than like one of
+the two panels having failed to notice the other.
+
+The general rule is the one worth carrying: a shared payload makes the
+*duplication* easy to write, because each surface is authored against the
+payload rather than against the page. Whichever panel renders second states
+its own half and trusts the first. Asserted as an absence — the calendar's
+fund message must not contain either phrase the panel above owns — because a
+test that only checks the new wording passes again the moment the old wording
+returns beside it.

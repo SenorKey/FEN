@@ -3532,3 +3532,92 @@ ran to 250 characters and `test_no_index_line_exceeds_the_cap` failed. The
 reasoning went to `DECISIONS-DETAIL.md` and the index line came back at 171.
 That is the mechanism working on the person who specified it.
 
+
+## 2026-09-07 — T12 audit: the calendar was clipping a number on every phone
+**Outcome:** shipped — verdict *minor edits*, both edits made
+**Changed:** `tools/shoot.py`, `index.html`, `css/reports.css`,
+`js/view-reports.js`, `tests/test_reports_panel.py`,
+`tests/reports_model.jxa.js`, `docs/AUDITS.md`, `docs/BACKLOG.md`,
+`docs/DECISIONS.md` + `-DETAIL.md`
+**Verified:** 210 page tests, 224 service tests green; `shoot.py --api` clean
+at five widths across the company, fund and service-down states. Both new
+guards confirmed to fail on the old behaviour before being trusted. `git
+status` clean outside `incisor-trading/`.
+
+**The reporting calendar fell due and the audit was the session** (guide §14
+step 4b, §18). No open defects: `D3` and `D13` are both `[enhancement]`.
+
+**The finding is one I could not have got from the source, which is what §18
+is for.** At 375px — the width §15 names as the mobile check — the table was
+18px wider than its box, so the dividend column rendered **`0.2` for a value
+of `0.26`**. Not a missing figure, a plausible wrong one, with nothing on
+screen saying it was cut. It had been like that since 09-03.
+
+**Three stand-ins were failing in the same direction at once**, which is
+`DEC-064` almost to the letter. The body never overflows, because the box
+scrolls inside itself exactly as §13 offers. The DOM stub cannot do layout.
+And `shoot.py`'s 320px pass — the one measurement taken below a phone — never
+looks up a symbol, so the three widest tables on the page were sitting in
+their one-sentence empty states while it measured. 375px was not measured at
+all: it falls between the 320 pass and the 390 photographed viewport, and at
+390 the same table clipped 3px, which passed.
+
+`reports_model.jxa.js` says in its own docstring that whether five columns
+read as a table at 375px is `shoot.py`'s job. The handoff was written down at
+one end and never held at the other, and nothing failed to say so.
+
+**The fix was in the labels, not the data, and measuring is what said so.**
+With every header emptied the table still wanted 306px against a 288px box at
+320 — so shortening dates further or dropping a column, the two obvious
+moves, were both attacking the wrong 306px. Three *labels* were 54px of the
+difference: "Quarter ended", "Earnings" and "Dividend" each run wider than any
+figure beneath them. They now ship in two spellings like the dates already
+did. Desktop is untouched.
+
+**What I changed my mind about while writing it.** The first version put the
+full and short wordings in the two swapped spans, which is the tidy version
+and quietly makes a screen reader say "Div" — the spelling following the
+drawing, `DEC-060` arriving through a channel it had not used yet. Both
+visible spellings are `aria-hidden` now and the spoken label is a third,
+always-present span. That is stricter than what shipped before.
+
+**The second edit was the fund state**, and it is only visible in an image:
+the filings panel and the calendar both open on "No company files for SPY" and
+both explain that a fund holds shares in companies that file their own. Two
+panels, one payload, 600px apart on a phone, and fifteen of seventeen
+catalogue symbols are funds — so that pair is what most lookups produce. The
+calendar answers for the dates now and leaves the teaching where it was
+already better done.
+
+**`shoot.py` grew the check that would have caught this**, and it is the part
+of this session most likely to matter later: every `overflow-x` box is now
+measured against its own content, 375px is measured at all, and both narrow
+passes look up a symbol first. A clip fails at 375 and at the photographed
+widths; at 320 it is printed and not enforced, because 320 is below every
+width the guide checks and a table scrolling there is the container doing its
+job — the watchlist does exactly that, at 18px, and is right to.
+
+**Both guards were confirmed by breaking the fix and watching them fail** —
+the 375 pass reported the original 18px, and the header test failed when a
+visible spelling stopped being `aria-hidden`. A guard that has never failed
+is `DEC-064` again, one level up.
+
+**Looked at and left:** the closing paragraph keeps a prose measure under a
+full-width table, so the right half of that row is empty. That is a measure
+doing its job and the panel above does the same. Not filed — it implies no
+work.
+
+### For Key
+
+**N11 · new, low priority.** `.claude/launch.json` is outside
+`/incisor-trading/` so the `incisor-api` config guide §15 asks for still
+cannot be added by the routine. Sessions start the service by hand on a spare
+port. Third session this has come up; noting it once rather than each time.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is a six-file
+situation; drop-in wording drafted in the 09-02 entry.
+
+**Next session:** no open defects, nothing due for audit. `T13` is the top of
+the queue — dashboard polish, accessibility, CSP headers. Worth knowing before
+starting it: `T13`'s acceptance names screenshots at 375px, and that width is
+now measured on every run rather than assumed.

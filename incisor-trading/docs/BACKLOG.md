@@ -23,8 +23,8 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ## Phase 1 — Dashboard
 
-**Complete — T5 through T12, T10a included.** Every surface among them except
-T12 has an audit-log row below. Open here: T10b, blocked, then T13.
+**Complete — T5 through T12, T10a included.** Every surface among them has an
+audit-log row below. Open here: T10b, blocked, then T13.
 
 - [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -242,9 +242,8 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Nothing is due yet.** The reporting calendar (T12) shipped 09-03 and has no
-row below; it falls due on 09-06, three sessions on. Every older surface has
-one.
+**Nothing is due.** Every surface shipped so far has a row below. The next
+audit falls due three sessions after the next surface ships.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -255,6 +254,7 @@ one.
 | 08-31 | **Watchlist** (T9) | Minor edits | It kept three numbers out of 260 bars, and the trend column was free. Remove target 28x22, under WCAG 2.2. |
 | 09-01 | **Sector grid** (T10) | Minor edits | Below 560px the bar was `display: none` — the one width where a ranked list was a column of figures. |
 | 09-02 | **Fundamentals panel** (T11) | Minor edits | Fifteen of seventeen symbols are funds, and the fund state answered with one number under a fuller promise. |
+| 09-07 | **Reporting calendar** (T12) | Minor edits | At 375px a 0.26 dividend read "0.2": the table was 18px over its box, and a body that never overflows hid it. |
 
 ## Discovered
 

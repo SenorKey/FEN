@@ -263,3 +263,38 @@ the explanations makes no request at all.
 **Looked at and left.** The fund panel still leads with a paragraph about what is
 absent before showing what is present, which is the right order for a reader who
 searched a ticker expecting a company. Restated in `js/view-fundamentals.js`.
+
+## 09-07 — Reporting calendar (T12)
+
+*Verdict: minor edits.*
+
+**Useful.** For a company, decisively — nothing else on the page answers when a
+filing landed or when the next one is likely, and it teaches while it does it:
+the window is arithmetic on the company's own filing rhythm, it says so, and it
+says companies move the date. For a fund it was a second copy of the paragraph
+directly above it. Both panels opened on "No company files for SPY" and both
+explained that a fund holds shares in companies that file their own, about
+600px apart on a phone. Fifteen of seventeen catalogue symbols are funds, so
+that pair is what most lookups actually produce. The calendar now answers only
+for the dates and leaves the teaching where it already was and was better done.
+
+**Easy.** No controls at all, so nothing to tab to and nothing to mis-hit; the
+change column pairs green with an arrow and an explicit sign, and its window is
+named once in the header. But it failed at width, and failed silently: at 375px
+— the width §15 names — the table was 18px wider than its box, so the dividend
+column read **"0.2" for a value of 0.26**. A cut number that still looks like a
+number is worse than a missing one. It had been in that state since it shipped;
+the body never overflows, so nothing failed. Fixed by shortening the three
+column labels that were setting their columns' widths, not the figures. See
+DEC-073, DEC-074.
+
+**Beautiful.** At desktop it holds up beside the fundamentals panel it sits
+under — same tabular figures, aligned columns, consistent decimals — and the
+projected window reading as prose beside a date is the best-composed thing on
+the surface. Left alone: the closing paragraph keeps a prose measure under a
+full-width table, which leaves the right half of that row empty. That is a
+measure doing its job, and the panel above does the same.
+
+**Performing.** The cheapest surface on the page. Zero additional upstream
+calls — it reads the `/fundamentals` payload the panel above already paid for
+(DEC-032) — and it renders in the same tick, blocking nothing.
