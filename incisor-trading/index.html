@@ -173,8 +173,16 @@
             </div>
 
             <!-- ── Dashboard ────────────────────────────────────── -->
+            <!--
+              No tabindex, unlike the two panels below. A tabpanel goes in the
+              tab sequence only when it holds nothing focusable, so that a
+              keyboard reader can reach its text at all; this one holds the
+              search box, five chart ranges, the sort buttons and the rest, so
+              adding it would put a 3,993px-tall stop in front of them that
+              lands on nothing a reader can see.
+            -->
             <section class="inc-panel" id="panel-dashboard" role="tabpanel"
-                aria-labelledby="tab-dashboard" tabindex="0">
+                aria-labelledby="tab-dashboard">
 
                 <h2 class="inc-panel-heading">Market overview</h2>
                 <p class="inc-panel-note">Where the four most-quoted US indexes

@@ -388,6 +388,38 @@ class TestDesignRules(unittest.TestCase):
     def test_focus_is_visible(self):
         self.assertIn(':focus-visible', CSS)
 
+    def test_no_plain_focus_rule_cancels_a_focus_visible_ring(self):
+        """DEC-065 in a second property, and it had already happened.
+
+        `.inc-panel:focus-visible` drew a 2px ring and `.inc-panel:focus {
+        outline: none }` sat below it at equal specificity, so the later rule
+        won and the two panels that are real tab stops focused invisibly. No
+        DOM test can see this: the attribute, the tabindex and the rule that
+        draws the ring are all present and correct, and the computed style is
+        the only place the loss shows.
+
+        Checked per stylesheet, because the cancelling rule has to be in the
+        same file to win on order alone.
+        """
+        for name in CSS_FILES:
+            ringed, cancelled = set(), {}
+            for selector, body in _rules(read(name)):
+                for part in selector.split(','):
+                    part = part.strip()
+                    if not part.endswith((':focus', ':focus-visible')):
+                        continue
+                    base = part.rsplit(':focus', 1)[0]
+                    outline = re.search(r'outline\s*:\s*([^;]+)', body)
+                    if part.endswith(':focus-visible') and outline \
+                            and 'none' not in outline.group(1):
+                        ringed.add(base)
+                    elif part.endswith(':focus') and outline \
+                            and re.match(r'\s*(none|0)\b', outline.group(1)):
+                        cancelled[base] = selector.strip()
+            for base in sorted(ringed & set(cancelled)):
+                self.fail('%s: `%s` cancels the ring %s:focus-visible draws, '
+                          'and wins on order' % (name, cancelled[base], base))
+
     def test_every_sideways_scroller_clips_what_is_positioned_inside_it(self):
         """Guide section 13: a wide surface scrolls inside its own container,
         and the body never scrolls horizontally.

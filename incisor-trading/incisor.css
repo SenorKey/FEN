@@ -309,7 +309,13 @@ body.incisor .nav-dropdown-menu {
 }
 
 /* A visible, high-contrast focus ring on every interactive element.
-   :focus-visible so a mouse click doesn't leave a ring behind. */
+   :focus-visible so a mouse click doesn't leave a ring behind.
+
+   .inc-panel is here because the Trade and Learn panels hold no focusable
+   content and so carry tabindex="0" to be readable by keyboard at all — they
+   are real tab stops and need a real ring. A `.inc-panel:focus { outline:
+   none }` rule used to sit below this one at equal specificity and quietly
+   won, which no DOM test can see (DEC-065, in a second property). */
 .inc-tab:focus-visible,
 .inc-panel:focus-visible,
 .inc-footer a:focus-visible {
@@ -320,10 +326,6 @@ body.incisor .nav-dropdown-menu {
 
 .inc-panel {
     padding-top: 28px;
-}
-
-.inc-panel:focus {
-    outline: none;
 }
 
 .inc-panel-heading {
