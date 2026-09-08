@@ -374,6 +374,74 @@ def clipped_boxes(page):
     )
 
 
+# The label beacon.js computes for a control, in its own order of preference:
+# data-track, then aria-label, then id, then the text. Copied rather than
+# imported because /assets is outside this page's bounds — if it drifts, the
+# labels this reports are the ones that stopped being posted, which is the
+# safe direction to be wrong in.
+BEACON_LABEL = """(el) => {
+    var text = el.getAttribute('data-track') || el.getAttribute('aria-label') ||
+        el.id || (el.textContent || '').trim().replace(/\\s+/g, ' ');
+    return (text || '<' + el.tagName.toLowerCase() + '>').slice(0, 80);
+}"""
+
+# beacon.js binds `button, a, [data-track]` and skips the site nav, so this is
+# the exact set of things a click can post from.
+BEACON_LABELS = """() => {
+    const label = %s;
+    return [...document.querySelectorAll('button, a, [data-track]')]
+        .filter(el => !el.closest('nav, .site-nav, .site-header'))
+        .map(el => label(el));
+}""" % BEACON_LABEL
+
+
+def check_beacon_labels(page, problems, label):
+    """Guide §5: no ticker, quantity or dollar amount may reach the beacon.
+
+    tests/test_page.py asserts this over the served markup, which is a
+    fraction of it: the watchlist's remove buttons, the search results and
+    every chart range are created by a view after a fetch, and a control that
+    does not exist until then cannot be checked by reading index.html. This
+    reads the labels off the live DOM, in whatever state the run has driven
+    the page into.
+
+    **The tickers are derived from the page, not listed here.** A digit test
+    alone passes `"remove SPY"`, which is the exact leak the rule exists to
+    stop, and a list written into this file would drift from
+    server/catalog.py in the direction that silently stops catching things.
+    So the symbols checked for are the ones this page is currently showing —
+    which are also the only ones it could leak.
+    """
+    found = page.evaluate("""() => {
+        const symbols = new Set();
+        document.querySelectorAll('[data-watch-remove], [data-watch-row]')
+            .forEach(el => symbols.add(el.getAttribute('data-watch-remove') ||
+                                       el.getAttribute('data-watch-row')));
+        document.querySelectorAll('[data-symbol], [data-search-symbol]')
+            .forEach(el => symbols.add(el.getAttribute('data-symbol') ||
+                                       el.getAttribute('data-search-symbol')));
+        const label = %s;
+        return {
+            symbols: [...symbols].filter(Boolean),
+            labels: [...new Set([...document.querySelectorAll(
+                        'button, a, [data-track]')]
+                .filter(el => !el.closest('nav, .site-nav, .site-header'))
+                .map(el => label(el)))],
+        };
+    }""" % BEACON_LABEL)
+
+    for value in sorted(found["labels"]):
+        carries = [symbol for symbol in found["symbols"]
+                   if symbol and symbol in value]
+        if any(character.isdigit() or character == "$" for character in value):
+            carries.append("a figure")
+        if carries:
+            problems.append(
+                f"{label}: a control would post {value!r} to the beacon, "
+                f"which carries {', '.join(sorted(set(carries)))} (guide §5)"
+            )
+
+
 def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
                  label="narrow", fail_on_clip=False):
     """Assert §13's promise at a width no screenshot is taken at.
@@ -695,6 +763,7 @@ def main():
                     f"{label}: .{box['cls']} clips {box['clip']}px of its own "
                     f"content"
                 )
+            check_beacon_labels(page, problems, label)
             for err in errors:
                 benign = BENIGN_CONSOLE
                 if not args.api:
