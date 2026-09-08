@@ -959,6 +959,123 @@ body {
 .cn-out .cn-t b { font-weight: 600; }
 
 /* ═══════════════════════════════════════════════
+   The decision tree
+
+   Inline SVG so the connectors are exact. Text is styled here rather
+   than in the markup, so the diagram inherits the page's faces and
+   there is one place to change a colour.
+   ═══════════════════════════════════════════════ */
+
+.band-tree { background: var(--bg-band); }
+
+.tree-scroll {
+  margin-top: 56px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+
+.tree {
+  display: block;
+  width: 100%;
+  min-width: 940px;   /* below this the labels collide; scroll instead */
+  height: auto;
+}
+
+/* nodes */
+.tree .n {
+  fill: var(--bg);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.tree .n-test { stroke: rgba(192, 104, 122, 0.55); fill: rgba(192, 104, 122, 0.05); }
+.tree .n-p { stroke: var(--p-edge); fill: rgba(45, 212, 191, 0.05); }
+.tree .n-d { stroke: var(--d-edge); fill: rgba(167, 139, 250, 0.05); }
+
+.tree .n-out-p { stroke: var(--p); fill: rgba(45, 212, 191, 0.11); }
+.tree .n-out-d { stroke: var(--d); fill: rgba(167, 139, 250, 0.11); }
+
+.tree .n-term-p { stroke: var(--p-edge); fill: rgba(45, 212, 191, 0.05); }
+.tree .n-term-d { stroke: var(--d-edge); fill: rgba(167, 139, 250, 0.05); }
+
+.tree .n-bypass {
+  stroke: rgba(192, 104, 122, 0.5);
+  stroke-dasharray: 5 4;
+  fill: rgba(192, 104, 122, 0.035);
+}
+
+/* node text */
+.tree text { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+
+.tree .t-k {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  fill: var(--faint);
+}
+
+.tree .t-h {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  fill: var(--ink);
+}
+
+.tree .t-b {
+  font-size: 12.5px;
+  font-weight: 300;
+  fill: var(--muted);
+}
+
+/* Kicker colour follows the node it labels. */
+.tree .k-c { fill: rgba(192, 104, 122, 0.85); }
+.tree .k-p { fill: rgba(45, 212, 191, 0.8); }
+.tree .k-d { fill: rgba(167, 139, 250, 0.8); }
+
+/* edges */
+.tree .ln,
+.tree .ln-n,
+.tree .ln-n0,
+.tree .ln-b {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tree .ln { stroke: rgba(240, 249, 255, 0.22); stroke-width: 1.4; marker-end: url(#ah); }
+.tree .ln-n { stroke: rgba(167, 139, 250, 0.45); stroke-width: 1.4; stroke-dasharray: 4 4; marker-end: url(#ahn); }
+.tree .ln-n0 { stroke: rgba(167, 139, 250, 0.45); stroke-width: 1.4; stroke-dasharray: 4 4; }
+.tree .ln-b { stroke: rgba(192, 104, 122, 0.55); stroke-width: 1.4; stroke-dasharray: 5 4; marker-end: url(#ahb); }
+
+.tree .ah { fill: rgba(240, 249, 255, 0.34); }
+.tree .ahn { fill: rgba(167, 139, 250, 0.7); }
+.tree .ahb { fill: rgba(192, 104, 122, 0.75); }
+
+/* edge labels */
+.tree .e-y,
+.tree .e-n {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.tree .e-y { fill: var(--p); }
+.tree .e-n { fill: var(--d); }
+
+.tree-caption {
+  margin-top: 26px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 48em;
+}
+
+/* ═══════════════════════════════════════════════
    Rulings
    ═══════════════════════════════════════════════ */
 
@@ -1168,6 +1285,13 @@ body {
   /* Ledger stacks: question, plaintiff, defendant, court. Reading order
      is preserved, and the two sides keep their coloured top rules so the
      ownership of each block stays obvious without the grid. */
+  /* The tree keeps its geometry and scrolls sideways; squeezing it
+     collides the labels. A hint rule shows there is more to the right. */
+  .tree-scroll {
+    margin-inline: calc(var(--gut) * -1);
+    padding-inline: var(--gut);
+  }
+
   .ledger-key { display: none; }
   .ledger-head { display: block; margin-top: 40px; }
   .depth-all { width: 100%; justify-content: center; margin-bottom: 0; }
