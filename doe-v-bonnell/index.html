@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This page deliberately does not load /assets/css/styles.css. The shared
+         shell pins the body to 100vh with overflow hidden for the golden-ratio
+         layout; this is a long-form scrolling document. The nav, skip link and
+         design tokens are ported into doe-v-bonnell.css so the page still reads
+         as part of the site. Same precedent as /preside-by-side/. -->
+    <link rel="stylesheet" href="/doe-v-bonnell/doe-v-bonnell.css">
+
+    <!-- JetBrains Mono carries the docket citations, dates and labels, the same
+         way it does on /trtbench/. Display and body ride the site's own
+         Playfair / Bricolage stack, self-hosted. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Doe v. Bonnell II — a side-by-side reading of both sides of the case, built from the full public docket of No. 1:25-cv-20757 in the Southern District of Florida.">
+    <link rel="canonical" href="https://frontendneeded.com/doe-v-bonnell/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/doe-v-bonnell/">
+    <meta property="og:title" content="Doe v. Bonnell — Both Sides of the Case">
+    <meta property="og:description"
+        content="Both sides agree the video was shared. The case turns on a single date. A side-by-side reading of the full public docket.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Doe v. Bonnell — Both Sides</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/trtbench">Trtbench</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/fresh-pull">Fresh Pull</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead">
+            <div class="wrap">
+                <p class="eyebrow">United States District Court &middot; Southern District of Florida &middot; No.
+                    1:25-cv-20757-JB</p>
+                <h1 class="masthead-title">Doe <em>v.</em> Bonnell</h1>
+                <p class="masthead-lede">A civil suit over an intimate video shared without permission. Both sides
+                    agree it was shared. Almost everything else &mdash; including whether a federal court may hear the
+                    case at all &mdash; turns on a single date.</p>
+
+                <dl class="docket-meta">
+                    <div>
+                        <dt>Filed</dt>
+                        <dd>18 Feb 2025</dd>
+                    </div>
+                    <div>
+                        <dt>Before</dt>
+                        <dd>Becerra, J. &middot; Torres, M.J.</dd>
+                    </div>
+                    <div>
+                        <dt>Docket</dt>
+                        <dd>293 entries</dd>
+                    </div>
+                    <div>
+                        <dt>Status</dt>
+                        <dd><span class="pip pip-open"></span>Undecided</dd>
+                    </div>
+                </dl>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The pivot
+             ═══════════════════════════════════════════════ -->
+        <section class="thesis" aria-label="The central question">
+            <div class="wrap">
+                <p class="thesis-text">The federal statute the case is built on took effect on
+                    <strong>1&nbsp;October&nbsp;2022</strong>. It does not reach backwards. So the question is not
+                    really <em>whether</em> he shared it &mdash; he says he did. The question is <em>when</em>.</p>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Common ground
+             ═══════════════════════════════════════════════ -->
+        <section class="band" id="common-ground" aria-labelledby="cg-h">
+            <div class="wrap">
+                <p class="kicker">01 &mdash; Orientation</p>
+                <h2 class="section-title" id="cg-h">What both sides agree on</h2>
+                <p class="section-lede">Adversarial records usually hide their common ground. This one has more of it
+                    than the public argument suggests. Five things are not in dispute.</p>
+
+                <ol class="agreed">
+                    <li class="agreed-item">
+                        <span class="agreed-num">i</span>
+                        <h3>The recording itself was consensual.</h3>
+                        <p>They met in Miami in September 2020 and recorded the encounter together. Neither party has
+                            ever claimed otherwise, and the court noted as much.</p>
+                    </li>
+                    <li class="agreed-item">
+                        <span class="agreed-num">ii</span>
+                        <h3>He sent it to someone else.</h3>
+                        <p>Bonnell states in his own sworn declaration that he transmitted the video over Discord to a
+                            user he knew as &ldquo;Rose.&rdquo; That transmission is admitted, not alleged.</p>
+                    </li>
+                    <li class="agreed-item">
+                        <span class="agreed-num">iii</span>
+                        <h3>He had no express permission to do it.</h3>
+                        <p>He testified under oath that he never obtained verbal or written consent to share the video.
+                            His position is that the context of their exchanges implied it.</p>
+                    </li>
+                    <li class="agreed-item">
+                        <span class="agreed-num">iv</span>
+                        <h3>Neither of them put it on the internet.</h3>
+                        <p>In November 2024 a third party operating as &ldquo;SoloTinyLeaks&rdquo; published a cache of
+                            Bonnell&rsquo;s private files, including this video, to a forum. Both sides say that
+                            happened without their consent.</p>
+                    </li>
+                    <li class="agreed-item">
+                        <span class="agreed-num">v</span>
+                        <h3>She never agreed to any of that.</h3>
+                        <p>No one contends the plaintiff consented to public distribution. The dispute is about
+                            responsibility for it, not about her permission.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             The hinge — sorting events across the statutory line
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-hinge" id="the-line" aria-labelledby="line-h">
+            <div class="wrap">
+                <p class="kicker">02 &mdash; The hinge</p>
+                <h2 class="section-title" id="line-h">One date sorts the whole case</h2>
+                <p class="section-lede">The claim is brought under 15 U.S.C. &sect;&nbsp;6851, a federal civil remedy
+                    for the disclosure of intimate images. Congress gave it no retroactive effect, and both sides now
+                    accept that. Every event in the case therefore falls on one side of the line or the other &mdash;
+                    and only one side can support a federal claim.</p>
+
+                <div class="hinge" role="group" aria-label="Events sorted by the statute's effective date">
+
+                    <div class="hinge-zone hinge-before">
+                        <p class="hinge-zone-label">Before the statute</p>
+                        <p class="hinge-zone-note">Outside the reach of the federal claim</p>
+
+                        <ul class="hinge-events">
+                            <li>
+                                <span class="hinge-date">Sept 2020</span>
+                                <span class="hinge-event">The video is recorded, consensually, in Miami.</span>
+                            </li>
+                            <li class="is-key">
+                                <span class="hinge-date">9 Apr 2022</span>
+                                <span class="hinge-event">Bonnell sends the video to &ldquo;Rose.&rdquo; <b>He admits
+                                        this. The plaintiff now accepts the date.</b></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="hinge-line" aria-hidden="true">
+                        <span class="hinge-line-date">1 Oct 2022</span>
+                        <span class="hinge-line-label">&sect; 6851 takes effect</span>
+                    </div>
+
+                    <div class="hinge-zone hinge-after">
+                        <p class="hinge-zone-label">After the statute</p>
+                        <p class="hinge-zone-note">The only ground a federal claim can stand on</p>
+
+                        <ul class="hinge-events">
+                            <li class="is-key is-contested">
+                                <span class="hinge-date">3 Nov 2023</span>
+                                <span class="hinge-event">A second transmission, to a witness known as
+                                    &ldquo;Abbymc,&rdquo; is alleged. <b>Contested. This is the case.</b></span>
+                            </li>
+                            <li>
+                                <span class="hinge-date">Nov 2024</span>
+                                <span class="hinge-event">A third party publishes the video to a forum, from which it
+                                    spreads.</span>
+                            </li>
+                            <li>
+                                <span class="hinge-date">Feb 2025</span>
+                                <span class="hinge-event">Suit filed in the Southern District of Florida.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="hinge-caption">The plaintiff argues a second route across the line: that the statute&rsquo;s
+                    definition of &ldquo;disclose&rdquo; includes <em>making accessible</em>, and the file stayed
+                    reachable long after October 2022. That argument is live and undecided.</p>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             The ledger — side by side
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
+            <div class="wrap">
+                <p class="kicker">03 &mdash; Side by side</p>
+                <h2 class="section-title" id="sbs-h">Seven questions, two answers each</h2>
+                <p class="section-lede">Positions as each side has actually argued them in its filings &mdash; not as
+                    the other side characterises them. Where a court has spoken, it is marked.</p>
+
+                <div class="ledger-key" aria-hidden="true">
+                    <span class="lk lk-p">Plaintiff &mdash; Jane Doe</span>
+                    <span class="lk lk-d">Defendant &mdash; Steven Bonnell II</span>
+                </div>
+
+                <div class="ledger">
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">1</span>Did he share it without her consent?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>Yes, and he has admitted it. She authorised no one. Her account is that she agreed he
+                                could show it to his then-fiancée and was explicit that it go no further.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>He does not deny the transmission. He argues the surrounding exchanges implied
+                                permission, and that he never identified her by name to the recipient.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>No merits ruling. He testified he
+                            obtained neither verbal nor written consent.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">2</span>When did that transmission happen?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>Pleaded October 2022, then &ldquo;sometime in 2022,&rdquo; and in May 2026 conceded 9
+                                April 2022 &mdash; before the statute. Her expert reached that date first.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>9 April 2022. The screenshot reading <span class="mono">10/04/22</span> is the
+                                recipient&rsquo;s side of the chat in day/month format, because the account was run
+                                from the United Kingdom.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Called the timeline &ldquo;murky at
+                            best&rdquo; in September 2025. The concession came eight months later.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">3</span>Was there a second transmission, after the
+                            statute?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>Yes &mdash; November 2023, to &ldquo;Abbymc,&rdquo; supported by two sworn declarations
+                                and a message that witness sent a friend the same morning.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>It never happened. His preserved logs list every file he sent her and the video is not
+                                among them. The witness never testified, produced nothing under subpoena, and later
+                                distanced herself.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Undecided. This is the question summary
+                            judgment turns on.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">4</span>Does leaving a file reachable count as sharing
+                            it?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>The statute defines &ldquo;disclose&rdquo; to include <em>make accessible</em> &mdash; a
+                                continuing state, not a single moment. He controlled the file and left it reachable
+                                until he deleted it in November 2024.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>A private link sent to one person is not publication. Courts have held that an
+                                unguessable, unindexed link is not public access, and no court has stretched the
+                                statute this way.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Undecided, but treated as serious enough
+                            to allow the amendment that raised it.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">5</span>Does her earlier conduct amount to consent?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>The statute forecloses the argument in terms: agreeing to be recorded is not agreeing to
+                                distribution, and having shared something once is not agreement to share it again.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>He has not moved for judgment on consent. He offers the history for credibility and
+                                damages &mdash; pointing to a public statement of hers he says his own exhibits
+                                contradict.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Not ruled. Both sides have asked to
+                            exclude the other&rsquo;s material at trial.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">6</span>Did he destroy evidence?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>He deleted his side of conversations with several women after a preservation letter, and
+                                swore to a &ldquo;true and correct&rdquo; log of everything he sent one of them that
+                                omits two links his own production shows him sending.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>Nothing was lost. Removing material from public view at her request is not destruction,
+                                the omission was inadvertent, and the motion arrived five months after discovery closed
+                                &mdash; a discovery complaint relabelled as spoliation.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Heard 19 August 2026. Undecided.</p>
+                    </article>
+
+                    <article class="row">
+                        <h3 class="row-q"><span class="row-n">7</span>Should a federal court hear this at all?</h3>
+                        <div class="side side-p">
+                            <p class="side-tag">Plaintiff</p>
+                            <p>Yes. The November 2023 transmission and the continuing accessibility of the file both
+                                land after the statute took effect, and either is enough.</p>
+                        </div>
+                        <div class="side side-d">
+                            <p class="side-tag">Defendant</p>
+                            <p>No. The only established transmission predates the statute by nearly six months. Without
+                                the federal count, the state-law claims should be dismissed with it.</p>
+                        </div>
+                        <p class="row-court"><span class="rc-mark">Court</span>Warned in October 2025 that jurisdiction
+                            may be absent. Still undecided.</p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Rulings
+             ═══════════════════════════════════════════════ -->
+        <section class="band" id="rulings" aria-labelledby="rul-h">
+            <div class="wrap">
+                <p class="kicker">04 &mdash; The record so far</p>
+                <h2 class="section-title" id="rul-h">What has actually been decided</h2>
+                <p class="section-lede">Nothing on the merits. Every ruling to date has been procedural &mdash; about
+                    remedies, deadlines, secrecy and speech. The pattern is one-sided, though not for the reason a
+                    headline would suggest.</p>
+
+                <ul class="rulings">
+                    <li><span class="r-date">Feb 2025</span><span class="r-what">Leave to proceed as
+                            &ldquo;Jane&nbsp;Doe&rdquo;</span><span class="chip chip-g">Granted</span></li>
+                    <li><span class="r-date">Apr 2025</span><span class="r-what">Temporary restraining
+                            order</span><span class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Sep 2025</span><span class="r-what">Protective order over
+                            discovery</span><span class="chip chip-p">Granted in part</span></li>
+                    <li><span class="r-date">Sep 2025</span><span class="r-what">Leave to amend the
+                            complaint</span><span class="chip chip-g">Granted</span></li>
+                    <li><span class="r-date">Oct 2025</span><span class="r-what">Preliminary injunction</span><span
+                            class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Oct 2025</span><span class="r-what">Order compelling the forum to remove
+                            the video</span><span class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Oct 2025</span><span class="r-what">Sealing the hearing
+                            transcript</span><span class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Nov 2025</span><span class="r-what">Request for evidence from
+                            Sweden</span><span class="chip chip-g">Granted</span></li>
+                    <li><span class="r-date">Mar 2026</span><span class="r-what">Order restricting public
+                            commentary</span><span class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Mar 2026</span><span class="r-what">Contempt over the sealed
+                            transcript</span><span class="chip chip-d">Denied</span></li>
+                    <li><span class="r-date">Apr 2026</span><span class="r-what">More time for discovery</span><span
+                            class="chip chip-d">Denied</span></li>
+                </ul>
+
+                <p class="rulings-note">The plaintiff has lost most of what she has asked for &mdash; on delay, on
+                    choosing the wrong procedural vehicle, on asking for a restraint the First Amendment does not
+                    permit in a civil case. None of it goes to whether her underlying account is true. The judge who
+                    denied her injunction also found her testimony <em>&ldquo;fully credible.&rdquo;</em></p>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Open
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-open" id="open" aria-labelledby="open-h">
+            <div class="wrap">
+                <p class="kicker">05 &mdash; Where it stands</p>
+                <h2 class="section-title" id="open-h">Still open</h2>
+                <p class="section-lede">As of the last filing in the public record, 20 August 2026, seven motions were
+                    fully briefed and awaiting decision &mdash; including both that could end the case outright.</p>
+
+                <div class="open-grid">
+                    <div class="open-card is-major">
+                        <p class="oc-date">Sep 2025</p>
+                        <h3>Motion to dismiss</h3>
+                        <p>For lack of subject-matter jurisdiction. Could end the case.</p>
+                    </div>
+                    <div class="open-card is-major">
+                        <p class="oc-date">Jan 2026</p>
+                        <h3>Summary judgment</h3>
+                        <p>The same jurisdictional argument, on the full discovery record.</p>
+                    </div>
+                    <div class="open-card">
+                        <p class="oc-date">May 2026</p>
+                        <h3>Spoliation sanctions</h3>
+                        <p>Heard 19 August 2026. The plaintiff asks for judgment on liability.</p>
+                    </div>
+                    <div class="open-card">
+                        <p class="oc-date">Dec 2025</p>
+                        <h3>Two sanctions motions</h3>
+                        <p>Each side asks that the other be sanctioned for its filings.</p>
+                    </div>
+                    <div class="open-card">
+                        <p class="oc-date">Mar 2026</p>
+                        <h3>Two motions in limine</h3>
+                        <p>What a jury would be allowed to hear, if there is a trial.</p>
+                    </div>
+                    <div class="open-card">
+                        <p class="oc-date">Apr 2026</p>
+                        <h3>Continuance</h3>
+                        <p>Whether the trial date holds.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Notes
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">06 &mdash; Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Built from the complete public docket &mdash; 439 filings across 293 entries &mdash; as
+                            archived by the Free Law Project from PACER. Every characterisation here comes from a
+                            filing, an exhibit, or a signed order.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is sealed</h3>
+                        <p>A great deal. The plaintiff&rsquo;s legal name, several witness identities, all four
+                            deposition transcripts and many exhibits were never filed publicly. Some of what each side
+                            relies on cannot be read by anyone outside the case.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names</h3>
+                        <p>The plaintiff sued under a pseudonym and the court granted it. Non-party witnesses appear
+                            here only by the screen names already used in public filings. The explicit material quoted
+                            in the record is described, not reproduced.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Allegations are allegations. No court has
+                            resolved the central factual dispute, and the two motions that could have were still
+                            pending when this record ends.</p>
+                    </div>
+                </div>
+
+                <p class="notes-updated">Record reviewed through <span class="mono">20 August 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Doe v. Bonnell II, No. 1:25-cv-20757-JB (S.D. Fla.)</p>
+            </div>
+        </footer>
+
+    </main>
+</body>
+
+</html>
