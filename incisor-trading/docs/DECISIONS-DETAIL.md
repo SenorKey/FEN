@@ -1773,3 +1773,36 @@ its own half and trusts the first. Asserted as an absence — the calendar's
 fund message must not contain either phrase the panel above owns — because a
 test that only checks the new wording passes again the moment the old wording
 returns beside it.
+
+---
+
+## DEC-076 — Two mechanisms deny a directory, never one
+
+*Recurring trap · 09-08 · bit twice on 09-07*
+
+**Trap**
+
+**Every directory under `incisor-trading/` that must not be served carries both
+its own `.htaccess` and a `<Directory>` deny in `apache-snippet.conf`.** Four
+of them: `server`, `docs`, `tests`, `tools`.
+
+**Why**
+
+It bit twice in one day, which is what promotes it here. The morning's
+readiness check found `tools` denied by its `.htaccess` alone; the same
+afternoon the rehearsal found `server/incisor.py` answering **200** on the box,
+denied by the vhost alone — and the vhost snippet is pasted in by hand as a
+separate step, so the whole service source was readable from the moment the
+branch landed until someone remembered.
+
+The two mechanisms fail in opposite directions, which is the point of having
+both. An `.htaccess` is honoured only while `AllowOverride` permits it, and
+that is a global decision someone changes for an unrelated reason. A vhost
+block is honoured always, but only once installed, and installing it is the
+step most easily skipped — pulling the branch is the easy half.
+
+Neither failure announces itself. A directory that should 403 and answers 200
+looks exactly like a directory nobody has looked at, and no test on this
+machine can see it: the check is `curl` against the real host, which is why it
+is step 10 of `docs/DEPLOY-REHEARSAL.md` and why that step tests all four
+rather than the one that was broken.

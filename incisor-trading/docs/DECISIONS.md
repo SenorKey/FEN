@@ -110,3 +110,4 @@ there will be a third.
 | DEC-064 | **A stand-in fails silently in the direction nobody checks.** Ask what stands in for this locally and what it papers over; assert against something derived. |
 | DEC-065 | **An author `display` rule silently defeats `[hidden]`, and no DOM test sees it.** One `!important` rule fixes it; confirm hidden things in an image. |
 | DEC-066 | **The greps in `test_page.py` are blunt substring checks and mislead three ways** — unread files, prose matching a token, per-file rules concatenated. |
+| DEC-076 | **A directory kept out of the web root by one mechanism is exposed the moment that mechanism is absent** — `tools`, then `server/` the same day. Both `.htaccess` and the vhost, always. |

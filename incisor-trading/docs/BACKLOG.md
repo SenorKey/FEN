@@ -276,22 +276,6 @@ phase. When the call is unclear, file it as a defect.
   `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
   Until then `incisor.css` keeps DM Sans and its comments say why.
 
-- [x] **D14 · `server/` was served, because only the vhost denied it** `[defect]`
-  *(found and fixed 2026-09-07, during the T26b rehearsal)* — the first fault
-  the rehearsal produced, and it produced it within two commands. With the
-  branch checked out on the box and the vhost snippet not yet installed,
-  `/incisor-trading/server/incisor.py` answered **200** while `docs/`, `tests/`
-  and `tools/` answered 403. Those three carry their own `.htaccess`; `server/`
-  carried none and relied entirely on the `<Directory>` block in
-  `apache-snippet.conf`, which is pasted into the vhost by hand as a separate
-  step. Everything between the branch landing and that step is a window where
-  the whole service source is readable — and the window is open by default,
-  because pulling the branch is the easy half.
-  Fixed by giving `server/` the same `.htaccess` the other three have. The
-  irony is exact: the vhost snippet gained a comment that same morning saying a
-  directory guarded by one mechanism is guarded only until someone changes that
-  mechanism — and `server/` was relying on the one mechanism not yet installed.
-
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is
@@ -349,3 +333,4 @@ session that must *act* on any of this goes.
 | T12 | 09-03 | **Reporting calendar.** A filing calendar, not an earnings calendar: no scheduled date, consensus or surprise exists. → DEC-070, DEC-071 |
 | D11 | 09-03 | **The audit log grew without bound in a file read in full** *(defect, fixed)* — 13,219 bytes over seven rows became seven; the prose is in `docs/AUDITS.md`. → DEC-069 |
 | D12 | 09-04 | **Two length rules were one surface from failing** *(defect, fixed)* — the script split at a real seam; the document had no fat to cut, and its ceiling was charging for the prose it teaches with. Elements now, 433 of 650. → DEC-038, DEC-026 |
+| D14 | 09-07 | **`server/` was served, because only the vhost denied it** *(defect, fixed)* — the rehearsal's first fault, in two commands: the source was readable from the branch landing until the vhost snippet was pasted in by hand. → DEC-076 |
