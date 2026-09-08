@@ -544,6 +544,421 @@ body {
 .hinge-caption em { color: var(--d-dim); font-style: normal; }
 
 /* ═══════════════════════════════════════════════
+   The ledger — side by side, in three depths
+
+   Depth 1 is always open: each side's position in its own words.
+   Depth 2 and 3 are <details> drawers, so the page works with no
+   JavaScript at all and every control is keyboard-reachable.
+   ═══════════════════════════════════════════════ */
+
+.ledger-key {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 56px;
+  padding-bottom: 12px;
+}
+
+.lk {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 2px solid;
+}
+
+.lk-p { color: var(--p-dim); border-color: var(--p); }
+.lk-d { color: var(--d-dim); border-color: var(--d); }
+
+.ledger { border-top: 1px solid var(--rule); }
+
+.row {
+  padding: 46px 0 40px;
+  border-bottom: 1px solid var(--rule-soft);
+  scroll-margin-top: 60px;
+}
+
+.row-q {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  max-width: 26em;
+}
+
+.row-n {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--court);
+  flex: 0 0 auto;
+  letter-spacing: 0.08em;
+  transform: translateY(-2px);
+}
+
+/* ── Depth 1 — the positions ── */
+
+.row-sum {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.side { padding-top: 16px; border-top: 2px solid; }
+.side-p { border-color: var(--p-edge); }
+.side-d { border-color: var(--d-edge); }
+
+.side-tag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.side-p .side-tag { color: var(--p); }
+.side-d .side-tag { color: var(--d); }
+
+.side p:not(.side-tag) {
+  font-size: 0.96rem;
+  color: var(--ink-2);
+  font-weight: 300;
+  line-height: 1.62;
+}
+
+.side .mono { color: var(--ink); }
+
+.row-court {
+  margin-top: 26px;
+  padding: 12px 0 12px 18px;
+  border-left: 2px solid rgba(192, 104, 122, 0.45);
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.rc-mark {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+  margin-right: 14px;
+}
+
+/* ── Ledger head: column key + the global depth control ── */
+
+.ledger-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 56px;
+  padding-bottom: 12px;
+}
+
+.ledger-head .ledger-key { flex: 1; margin-top: 0; padding-bottom: 0; }
+
+.depth-all {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 9px 15px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  margin-bottom: 10px;
+}
+
+.depth-all:hover {
+  background: rgba(240, 249, 255, 0.045);
+  border-color: rgba(240, 249, 255, 0.2);
+  color: var(--ink);
+}
+
+.da-i { position: relative; width: 9px; height: 9px; flex: 0 0 9px; }
+
+.da-i::before,
+.da-i::after {
+  content: '';
+  position: absolute;
+  background: var(--court);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.da-i::before { inset: 3.5px 0; height: 2px; }
+.da-i::after { inset: 0 3.5px; width: 2px; }
+
+.depth-all.is-open .da-i::after { transform: scaleY(0); opacity: 0; }
+
+/* ── Drawers — depth 2 and 3 ── */
+
+.drawer { margin-top: 14px; }
+.drawer:first-of-type { margin-top: 26px; }
+
+.drawer > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: rgba(240, 249, 255, 0.014);
+  transition: background 0.18s, border-color 0.18s;
+  user-select: none;
+}
+
+.drawer > summary::-webkit-details-marker { display: none; }
+.drawer > summary::marker { content: ''; }
+
+.drawer > summary:hover {
+  background: rgba(240, 249, 255, 0.04);
+  border-color: rgba(240, 249, 255, 0.16);
+}
+
+/* A + that becomes a − when the drawer opens */
+.dw-i {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+}
+
+.dw-i::before,
+.dw-i::after {
+  content: '';
+  position: absolute;
+  background: var(--court);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.dw-i::before { inset: 4px 0; height: 2px; }
+.dw-i::after { inset: 0 4px; width: 2px; }
+
+.drawer[open] > summary .dw-i::after { transform: scaleY(0); opacity: 0; }
+
+.dw-l {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.dw-n {
+  font-size: 0.83rem;
+  color: var(--faint);
+  font-weight: 300;
+}
+
+.dw-body { padding: 30px 0 6px; }
+
+/* ── Depth 2 — the fuller argument ── */
+
+.dp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.dp { padding: 26px 26px 28px; background: var(--bg); }
+.dp-p { background: linear-gradient(180deg, var(--p-wash), transparent 42%), var(--bg); }
+.dp-d { background: linear-gradient(180deg, var(--d-wash), transparent 42%), var(--bg); }
+
+.dp-tag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.dp-p .dp-tag { color: var(--p); }
+.dp-d .dp-tag { color: var(--d); }
+
+.dp-block { margin-bottom: 20px; }
+.dp-block:last-child { margin-bottom: 0; }
+
+.dp-block h5 {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 7px;
+  font-weight: 400;
+}
+
+.dp-block p {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  font-weight: 300;
+  line-height: 1.66;
+}
+
+.dp-block em { font-style: italic; color: var(--ink); }
+
+/* The weak point is the honest part of each column, so it is marked
+   rather than buried — same treatment on both sides. */
+.dp-weak {
+  margin-top: 24px;
+  padding: 14px 16px;
+  border-radius: 2px;
+  background: rgba(240, 249, 255, 0.028);
+  border-left: 2px solid rgba(240, 249, 255, 0.22);
+}
+
+.dp-weak h5 { color: var(--muted); }
+.dp-weak p { color: var(--muted); }
+
+/* ── Depth 3 — the logic chain ── */
+
+.chain {
+  list-style: none;
+  position: relative;
+  padding-left: 30px;
+}
+
+/* the spine */
+.chain::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--rule) 6%, var(--rule) 94%, transparent);
+}
+
+.cn { position: relative; padding: 0 0 26px; }
+.cn:last-child { padding-bottom: 0; }
+
+.cn::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--rule);
+}
+
+.cn-test::before { border-color: var(--court); }
+.cn-p::before { border-color: var(--p); }
+.cn-d::before { border-color: var(--d); }
+
+.cn-k {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--faint);
+}
+
+.cn-test .cn-k { color: var(--court); }
+.cn-p .cn-k { color: var(--p); }
+.cn-d .cn-k { color: var(--d); }
+
+.cn-t {
+  font-size: 0.93rem;
+  color: var(--ink-2);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 46em;
+}
+
+.cn-t b { font-weight: 500; color: var(--ink); }
+.cn-t em { font-style: italic; color: var(--ink); }
+
+.cn-test .cn-t { color: var(--ink); font-weight: 400; }
+
+/* branch */
+.cn-fork::before {
+  border-radius: 1px;
+  transform: rotate(45deg);
+  border-color: var(--muted);
+}
+
+.fork {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 2px;
+}
+
+.arm {
+  padding: 14px 16px 16px;
+  border-radius: 2px;
+  border-top: 2px solid;
+}
+
+.arm-p { background: var(--p-wash); border-color: var(--p-edge); }
+.arm-d { background: var(--d-wash); border-color: var(--d-edge); }
+
+.arm-k {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+.arm-p .arm-k { color: var(--p); }
+.arm-d .arm-k { color: var(--d); }
+
+.arm-t {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  font-weight: 300;
+  line-height: 1.58;
+}
+
+.arm-t b { font-weight: 500; color: var(--ink); }
+
+/* terminal */
+.cn-out::before {
+  background: var(--court);
+  border-color: var(--court);
+  box-shadow: 0 0 0 4px rgba(192, 104, 122, 0.16);
+}
+
+.cn-out {
+  margin-top: 6px;
+  padding: 16px 20px;
+  border-radius: 2px;
+  background: linear-gradient(100deg, rgba(192, 104, 122, 0.09), transparent 68%);
+  border-left: 2px solid var(--court);
+}
+
+.cn-out .cn-k { color: var(--court); }
+.cn-out .cn-t { color: var(--ink); font-size: 0.96rem; font-weight: 300; }
+.cn-out .cn-t b { font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
    Rulings
    ═══════════════════════════════════════════════ */
 
@@ -749,6 +1164,23 @@ body {
     writing-mode: horizontal-tb;
     padding: 6px 10px;
   }
+
+  /* Ledger stacks: question, plaintiff, defendant, court. Reading order
+     is preserved, and the two sides keep their coloured top rules so the
+     ownership of each block stays obvious without the grid. */
+  .ledger-key { display: none; }
+  .ledger-head { display: block; margin-top: 40px; }
+  .depth-all { width: 100%; justify-content: center; margin-bottom: 0; }
+  .row-sum, .dp-grid, .fork { grid-template-columns: 1fr; }
+  .row-sum { gap: 26px; }
+  .dp-grid { gap: 1px; }
+  .row { padding: 34px 0 30px; }
+  .row-q { gap: 14px; margin-bottom: 22px; }
+  .dw-n { display: none; }
+  .dw-body { padding: 22px 0 4px; }
+  .dp { padding: 22px 20px 24px; }
+  .chain { padding-left: 24px; }
+  .cn::before { left: -24px; }
 
   .rulings li { grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; }
   .r-date { grid-column: 1; font-size: 0.66rem; }
