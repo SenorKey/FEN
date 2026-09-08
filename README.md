@@ -30,6 +30,9 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/preside-by-side/` — Side-by-side presidential misconduct comparison app
 - `/fresh-pull/` — One-click browsing data cleaner for Chrome
 - `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
+- `/doe-v-bonnell/` — Side-by-side reading of both sides of *Doe v. Bonnell II*, built from the
+  full public docket. Standalone page: it does not load the shared stylesheet, since the
+  golden-ratio shell pins the body to 100vh and this is a scrolling document
 
 **Hidden / unlisted** (excluded from sitemap and disallowed in robots.txt):
 

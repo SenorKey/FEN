@@ -799,7 +799,7 @@ body {
 .dp-block { margin-bottom: 20px; }
 .dp-block:last-child { margin-bottom: 0; }
 
-.dp-block h5 {
+.dp-block h4 {
   font-family: var(--mono);
   font-size: 0.6rem;
   letter-spacing: 0.15em;
@@ -828,7 +828,7 @@ body {
   border-left: 2px solid rgba(240, 249, 255, 0.22);
 }
 
-.dp-weak h5 { color: var(--muted); }
+.dp-weak h4 { color: var(--muted); }
 .dp-weak p { color: var(--muted); }
 
 /* ── Depth 3 — the logic chain ── */
@@ -1134,9 +1134,11 @@ body {
    Still open
    ═══════════════════════════════════════════════ */
 
+/* Fixed at three so the six cards fill two rows exactly. auto-fit would
+   leave empty cells, and the 1px-gap technique paints them as blanks. */
 .open-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   margin-top: 56px;
   background: var(--rule);
@@ -1294,7 +1296,16 @@ body {
 
   .ledger-key { display: none; }
   .ledger-head { display: block; margin-top: 40px; }
-  .depth-all { width: 100%; justify-content: center; margin-bottom: 0; }
+
+  /* Both controls grow to a 44px tap target on touch. */
+  .depth-all {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 14px 15px;
+  }
+
+  .drawer > summary { padding: 14px 16px; }
   .row-sum, .dp-grid, .fork { grid-template-columns: 1fr; }
   .row-sum { gap: 26px; }
   .dp-grid { gap: 1px; }
@@ -1305,6 +1316,8 @@ body {
   .dp { padding: 22px 20px 24px; }
   .chain { padding-left: 24px; }
   .cn::before { left: -24px; }
+
+  .open-grid { grid-template-columns: 1fr; }
 
   .rulings li { grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; }
   .r-date { grid-column: 1; font-size: 0.66rem; }
