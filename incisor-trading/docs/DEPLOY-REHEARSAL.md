@@ -38,6 +38,15 @@ which gunicorn && python3 -c "import flask, requests; print('flask', flask.__ver
 If anything is missing, that is fault number one — record it, then
 `sudo dnf install python3-flask python3-requests python3-gunicorn`.
 
+The snippet also needs **`mod_headers`**, which the proxy modules do not imply.
+It sets the page's security headers (T13), and Apache refuses to start on an
+unknown `Header` directive rather than skipping it — so a missing module is a
+failed `configtest` at step 8, not a quiet loss of the policy:
+
+```bash
+httpd -M 2>/dev/null | grep -E 'headers|proxy_http'
+```
+
 ---
 
 ## 2. Get the code onto the box
@@ -168,10 +177,22 @@ for d in server/incisor.py docs/AGENT-GUIDE.md tests/test_page.py tools/shoot.py
 
 ## 11. The page itself
 
-Open `https://frontendneeded.com/incisor-trading/` and check:
+The security headers first, because they are the half of the policy that only
+exists once the snippet is installed — the meta tag in `index.html` carries the
+rest and would make a missing header look like nothing at all:
+
+```bash
+curl -sI https://frontendneeded.com/incisor-trading/ | grep -iE 'content-security-policy|x-content-type-options'
+```
+
+Both must be present, and the policy must end in `frame-ancestors 'none'` —
+that directive exists **only** in the header, because a meta tag ignores it.
+If it is absent the page is framable and nothing on the page says so.
+
+Then open `https://frontendneeded.com/incisor-trading/` and check:
 
 - it renders, with tiles, sectors, search, chart and watchlist
-- the console is clean
+- **the console is clean — a CSP violation reports there and nowhere else**
 - `view-source:` still shows `<meta name="robots" content="noindex,nofollow">`
 - it is **not** in the nav, and **not** in `sitemap.xml`
 - it looks right on a phone on the real connection, not just in emulation

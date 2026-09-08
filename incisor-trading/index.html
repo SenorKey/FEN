@@ -13,6 +13,36 @@
       to change on the day.
     -->
     <meta name="robots" content="noindex,nofollow">
+
+    <!--
+      Content-Security-Policy (T13). The page is entirely same-origin — every
+      script, stylesheet, font and fetch comes from this host, there is no
+      inline script, no inline style attribute, no eval, no image and no
+      frame — so the policy is a whitelist of exactly that and `default-src
+      'none'` refuses the rest. Anything a future surface adds has to be named
+      here first, which is the point.
+
+      It ships in a meta tag AND as a header in server/apache-snippet.conf,
+      for the reason DEC-076 records: the vhost snippet is pasted in by hand
+      as a separate step, so a directory or a policy that lives only there is
+      absent from the moment the branch lands until someone remembers. The
+      meta tag travels with the file.
+
+      `frame-ancestors` and `X-Content-Type-Options` are deliberately not
+      here: a meta tag cannot express the first and cannot set the second at
+      all. The header carries both, and until it is installed the page is
+      framable — which is worth knowing rather than assuming.
+    -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none';
+                 script-src 'self';
+                 style-src 'self';
+                 font-src 'self';
+                 img-src 'self';
+                 connect-src 'self';
+                 base-uri 'none';
+                 form-action 'none'">
+
     <meta name="description"
         content="Incisor Trading — a stock market dashboard and zero-risk paper-trading
                  game. Educational only, delayed data, no real money.">

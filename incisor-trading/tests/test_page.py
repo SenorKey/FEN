@@ -189,6 +189,28 @@ class TestNoThirdPartyOrigins(unittest.TestCase):
         self.assertIsNone(re.search(r'url\(\s*[\'"]?(https?:)?//', CSS))
 
 
+def _directives(policy):
+    """A CSP string as {directive: [source, ...]}."""
+    parsed = {}
+    for clause in policy.split(';'):
+        parts = clause.split()
+        if parts:
+            parsed[parts[0]] = parts[1:]
+    return parsed
+
+
+# What the browser loads, by the directive that governs it. Derived from the
+# document rather than listed, because the failure this guards against is a
+# surface adding a kind of resource nobody thought to name in the policy —
+# and a list written out here would be updated in the same commit that broke
+# it. `default-src 'none'` means an unnamed kind is refused outright.
+GOVERNED_BY = (
+    ('script-src', r'<script[^>]*\ssrc='),
+    ('style-src', r'<link[^>]*\srel=["\']stylesheet'),
+    ('img-src', r'<link[^>]*\srel=["\']icon|<img\b'),
+)
+
+
 class TestReadyForTheContentSecurityPolicy(unittest.TestCase):
     """T13 adds a strict CSP. These are the things that would break under it."""
 
@@ -205,6 +227,73 @@ class TestReadyForTheContentSecurityPolicy(unittest.TestCase):
 
     def test_no_inline_script_blocks(self):
         self.assertIsNone(re.search(r'<script(?![^>]*\ssrc=)[^>]*>\s*\S', HTML))
+
+
+class TestTheContentSecurityPolicy(unittest.TestCase):
+    """T13 shipped it. It rides in two places, and they have to agree.
+
+    The meta tag travels with the file and is live the moment the branch
+    lands; the header in apache-snippet.conf is stronger but arrives only
+    when someone pastes it into the vhost. DEC-076 is the reason for both.
+    """
+
+    def setUp(self):
+        # The quote character is captured and back-referenced: the policy
+        # contains `'none'`, so a pattern closing on either quote stops inside
+        # the first source and parses a policy nobody wrote.
+        meta = re.search(
+            r'<meta\s+http-equiv=(["\'])Content-Security-Policy\1\s+'
+            r'content=(["\'])(.*?)\2', HTML, re.S | re.I)
+        self.assertIsNotNone(meta, 'the page ships no CSP meta tag')
+        self.meta = _directives(' '.join(meta.group(3).split()))
+
+        header = re.search(
+            r'Header always set Content-Security-Policy "(.*?)"', PROXY_SNIPPET)
+        self.assertIsNotNone(header, 'the vhost snippet sets no CSP header')
+        self.header = _directives(header.group(1))
+
+    def test_the_policy_actually_restricts_something(self):
+        """A malformed policy is ignored silently, and an ignored policy looks
+        exactly like a working one in a console check (DEC-064). Assert the
+        floor it rests on rather than that it parsed."""
+        for name, policy in (('meta', self.meta), ('header', self.header)):
+            self.assertEqual(policy.get('default-src'), ["'none'"],
+                             '%s does not default to refusing' % name)
+
+    def test_neither_policy_unlocks_the_thing_it_exists_to_lock(self):
+        for name, policy in (('meta', self.meta), ('header', self.header)):
+            for sources in policy.values():
+                for source in sources:
+                    self.assertNotIn('unsafe', source, '%s allows %s' % (name, source))
+
+    def test_the_two_policies_agree_wherever_they_overlap(self):
+        for directive, sources in self.meta.items():
+            self.assertEqual(sources, self.header.get(directive),
+                             '%s differs between the meta tag and the header'
+                             % directive)
+
+    def test_the_header_carries_what_a_meta_tag_cannot(self):
+        """frame-ancestors is ignored in a meta tag by spec, so leaving it to
+        the tag would drop it in silence — the page would be framable and
+        nothing would say so."""
+        self.assertEqual(self.header.get('frame-ancestors'), ["'none'"])
+        self.assertNotIn('frame-ancestors', self.meta)
+        self.assertIn('Header always set X-Content-Type-Options "nosniff"',
+                      PROXY_SNIPPET)
+
+    def test_every_kind_of_resource_the_page_loads_is_named_in_the_policy(self):
+        """The one check that is derived from the document. A surface adding a
+        kind of resource the policy does not name gets refused by
+        `default-src 'none'`, and this is what says so before a browser does."""
+        for directive, pattern in GOVERNED_BY:
+            if re.search(pattern, HTML, re.I):
+                self.assertIn(directive, self.meta,
+                              'the page loads something %s governs, and the '
+                              'policy does not name it' % directive)
+
+    def test_the_page_fetches_from_its_own_origin_and_the_policy_says_so(self):
+        self.assertTrue(re.search(r'\bfetch\s*\(', JS), 'the page stopped fetching')
+        self.assertEqual(self.meta.get('connect-src'), ["'self'"])
 
 
 class TestClientSecurity(unittest.TestCase):
