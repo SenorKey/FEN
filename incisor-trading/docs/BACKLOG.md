@@ -24,7 +24,7 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 ## Phase 1 — Dashboard
 
 **Complete — T5 through T12, T10a included.** Every surface among them has an
-audit-log row below. Open here: T10b, blocked, then T13.
+audit-log row below. Open here: T10b, blocked, then T13b.
 
 - [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -51,15 +51,6 @@ audit-log row below. Open here: T10b, blocked, then T13.
   *Unblock when:* Key's written display permission exists, at which point this
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
-
-- [ ] **T13 · Dashboard polish, accessibility, and security pass** — accessibility
-  audit, mobile pass, number formatting consistency, delay labels and attribution
-  verified on every surface, designed empty/error/loading states for every panel.
-  Add the `Content-Security-Policy` and `X-Content-Type-Options` headers. Audit
-  every control for a generic `data-track` label so no ticker or dollar amount
-  reaches the beacon. Confirm no `innerHTML` receives network or storage data.
-  *Accept:* screenshots at 375px and desktop; keyboard-only walkthrough noted;
-  CSP verified with no console violations; a grep for `innerHTML` comes back clean.
 
 - [ ] **T13b · Visual directions, round one** — spin up two or three genuinely
   distinct `incisor-look/*` branches off the finished dashboard, each a complete,
@@ -334,3 +325,4 @@ session that must *act* on any of this goes.
 | D11 | 09-03 | **The audit log grew without bound in a file read in full** *(defect, fixed)* — 13,219 bytes over seven rows became seven; the prose is in `docs/AUDITS.md`. → DEC-069 |
 | D12 | 09-04 | **Two length rules were one surface from failing** *(defect, fixed)* — the script split at a real seam; the document had no fat to cut, and its ceiling was charging for the prose it teaches with. Elements now, 433 of 650. → DEC-038, DEC-026 |
 | D14 | 09-07 | **`server/` was served, because only the vhost denied it** *(defect, fixed)* — the rehearsal's first fault, in two commands: the source was readable from the branch landing until the vhost snippet was pasted in by hand. → DEC-076 |
+| T13 | 09-08 | **Dashboard polish, accessibility and security pass.** CSP in meta and vhost; a dead tab stop and an invisible focus ring fixed; three panels stopped denying a failed lookup. → DEC-076, DEC-077, DEC-078 |

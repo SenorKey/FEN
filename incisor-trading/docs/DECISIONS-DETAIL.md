@@ -1806,3 +1806,84 @@ looks exactly like a directory nobody has looked at, and no test on this
 machine can see it: the check is `curl` against the real host, which is why it
 is step 10 of `docs/DEPLOY-REHEARSAL.md` and why that step tests all four
 rather than the one that was broken.
+
+---
+
+## DEC-077 — The policy the page turned out to need
+
+*Settled · 09-08 · T13*
+
+**Decision**
+
+```
+default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self';
+img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'
+```
+
+plus `frame-ancestors 'none'` in the header only. Never add an `unsafe-`
+source; a surface needing one is a surface built the wrong way.
+
+**Why**
+
+The page needed no loosening at all, which was not a foregone conclusion — it
+was the result of choices made before the policy existed. There is no inline
+script, no `style=` attribute, no `eval`, no image, no iframe, no form and no
+remote origin; every fetch was already relative and the fonts are self-hosted
+because guide §4 rules out a font CDN. `chart-canvas.js` and `quote-card.js`
+had already been written to set custom properties through the CSSOM rather
+than as style attributes, naming T13 in their comments.
+
+`frame-ancestors` is header-only because a meta tag ignores it by spec, and
+`X-Content-Type-Options` is not a CSP directive at all. Leaving either to the
+tag would have dropped it silently.
+
+**How it was verified, and why not by reading it**
+
+A malformed policy is discarded by the browser and produces exactly the
+console output a working one does: none. So it was checked by trying the
+things it forbids — an injected inline script did not run, a cross-origin
+fetch was refused, a `style` attribute was dropped — and the things it must
+not forbid: a same-origin fetch and a CSSOM custom property, which the chart
+and the range marker depend on. The tests assert the floor (`default-src` is
+`'none'`, no source contains `unsafe`, the two copies agree) rather than that
+the string parsed.
+
+---
+
+## DEC-078 — Cleared is not empty
+
+*Settled · 09-08 · T13*
+
+**Decision**
+
+**A surface cleared because a lookup *failed* states that, and never falls
+back to the state meaning nobody has asked for anything yet.** It states its
+own half only; the surface that owns the reason gives the reason (DEC-075).
+
+**Why**
+
+With the price service unreachable and AAPL searched for, the chart said "No
+symbol looked up yet. The chart fills in once you search for one above", and
+the filings panel and reporting calendar said their equivalents — while the
+card between them said the service could not be reached, so AAPL could not be
+looked up. The page contradicted itself twice within a screen, and the two
+panels below instructed the reader to repeat the action that had just failed.
+
+The cause is worth remembering because it is cheap to repeat: the failure
+path called `reset()`, and `reset()` is written for a page nobody has
+searched. All three views already had an `unavailable` state, styled and
+designed, and it was simply unreachable from the quote-failure path — the
+defect was one function call each, in a page where every state involved
+already existed.
+
+The branch that keeps `reset()` is the one where what was typed is not a
+symbol at all: nothing became a lookup, so those panels were never asked for
+anything and the empty wording is still true.
+
+**What hid it**
+
+`symbol_model.jxa.js` never mounted the three views, so `window.IncisorPriceChart`
+was undefined and the view's `if (chart)` guard skipped every call in silence
+— a stand-in failing in the direction nobody checks (DEC-064). It mounts
+recording spies now, so *which* way the panels are cleared is asserted rather
+than assumed.

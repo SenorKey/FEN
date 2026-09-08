@@ -3658,3 +3658,96 @@ is SELinux blocking `mod_proxy` from reaching `127.0.0.1:8789` until
 on the box *before* Apache is involved, so a failure after that point is
 localised rather than guessed at.
 
+
+## 2026-09-08 — T13: the security pass was clean, the accessibility pass was not
+**Outcome:** shipped — T13 complete
+**Changed:** `index.html`, `incisor.css`, `js/view-symbol.js`,
+`js/view-price-chart.js`, `js/view-fundamentals.js`, `js/view-reports.js`,
+`server/apache-snippet.conf`, `tools/shoot.py`, `tests/test_page.py`,
+`tests/symbol_model.jxa.js`, `docs/DEPLOY-REHEARSAL.md`, `BACKLOG.md`,
+`DECISIONS.md` + `-DETAIL.md`
+**Verified:** 217 page tests, 224 service tests green; `shoot.py --api` clean
+at five widths; a 375px full-page shot taken and looked at; every new guard
+confirmed to fail on the behaviour it guards before being trusted. `git
+status` clean outside `incisor-trading/`.
+
+**The suite was red before I started, from last session.** D14 was fixed and
+committed but left as a checked bullet, which `test_no_completed_task_is_still_a_bullet`
+fails on. Collapsed it, and promoted what it had learned: the same thing had
+bitten `tools` that morning and `server/` that afternoon, so DEC-076 now
+carries "two mechanisms deny a directory, never one" rather than it living
+in a bullet that was about to be deleted.
+
+**The security half of T13 was the easy half, and that is a result about
+earlier sessions rather than this one.** The page needed no CSP loosening at
+all: no inline script, no `style=` attribute, no `eval`, no image, no form, no
+remote origin, every fetch already relative, fonts self-hosted because §4
+rules out a CDN. `chart-canvas.js` and `quote-card.js` were already writing
+custom properties through the CSSOM and saying "T13" in their comments. So
+the policy is `default-src 'none'` plus five named sources, which is as tight
+as this page can be asked to be.
+
+**I did not trust the green console check, and should not have.** A malformed
+policy is discarded by the browser and produces exactly the output a working
+one does — nothing. So it was verified by trying what it forbids (an injected
+inline script did not run, a cross-origin fetch was refused, a `style`
+attribute was dropped) and what it must not forbid (a same-origin fetch, and
+the CSSOM writes the chart depends on). The tests assert that floor rather
+than that the string parsed.
+
+**Two accessibility defects, and neither is visible in the markup.** The
+dashboard panel carried `tabindex="0"` while holding the search box, five
+chart ranges and the sort buttons — a 3,993px-tall tab stop in front of its
+own contents that showed nothing when focused. And all three panels were
+focusing invisibly, because `.inc-panel:focus { outline: none }` sat below
+`.inc-panel:focus-visible` at equal specificity and won on order. The
+tabindex, the ARIA and the rule drawing the ring were all present and
+correct; only the computed style showed the loss. That is DEC-065 in a second
+property, so its row now names both.
+
+**The finding I did not expect was in the error states.** With the service
+unreachable and AAPL searched for, the chart, the filings panel and the
+reporting calendar all said "Look up a symbol above" — about the symbol they
+had just been asked for and could not get — while the card between them said
+the service could not be reached. The page contradicted itself twice within a
+screen and told the reader to repeat the action that had just failed. One
+function call each: the failure path called `reset()`, which is written for a
+page nobody has searched. All three already had a designed `unavailable`
+state that was simply unreachable from there.
+
+**Three of my own checks were worthless when first written, and the break
+test is the only reason I know.** The beacon audit drove the page with the
+wrong localStorage key and the wrong search selector, so it visited nothing
+and passed; then its shoot.py version flagged digits only, so `remove SPY`
+passed — the exact leak guide §5 exists to stop. And the keyboard walk began
+at stop 17 for three runs, because `blur()` does not reset the sequential
+focus starting point, so the skip link, the nav, the tabs and the search box
+went unchecked while the output looked complete. Each was caught by breaking
+the thing on purpose and watching for a failure that did not come.
+
+**Looked at and left:** the `.inc-watch-remove` box is 28×22, which the T9
+audit logged as under WCAG 2.2. Hit-tested at the corners rather than
+measured (DEC-034) it is 52×41 on desktop and 42×44 on a phone, because the
+`::before` overlay extends it past its own rect. Nothing to do; the audit note
+can rest. Number formatting is centralised in `market-figures.js` — the only
+`toFixed` outside it are CSS percentages — and the two percentage conventions
+(2dp on a move, 1dp unsigned on a margin) are deliberate and explained where
+they are written.
+
+### For Key
+
+**N12 · new, low priority.** Something was already listening on 8789 when
+this session started, answering `/health` but 500ing every data route — a
+stale instance from an earlier session, or yours. I did not touch it and used
+8799 instead. Worth killing if it is not yours.
+
+**N11 · still open, unchanged.** `.claude/launch.json` is outside
+`/incisor-trading/`, so the `incisor-api` config guide §15 asks for still
+cannot be added by the routine.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is a six-file
+situation; drop-in wording drafted in the 09-02 entry.
+
+**Next session:** no open defects, nothing due for audit. `T13b` is the top of
+the queue — two or three `incisor-look/*` directions off the finished
+dashboard, registered in `DESIGN-BRANCHES.md`. Phase 1 closes with it.

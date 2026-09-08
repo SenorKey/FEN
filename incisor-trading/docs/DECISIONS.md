@@ -75,6 +75,8 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-073 | **A box that scrolls inside itself is not measured by a body that does not.** The calendar clipped a dividend to "0.2" at 375px for four sessions; nothing failed. |
 | DEC-074 | **Where a column label is wider than every figure under it, the label shortens — not the data, and never the accessible name.** Both spellings ship, aria-hidden. |
 | DEC-075 | **Two panels fed by one payload divide the teaching between them.** The second says only its own half; a fund was explained twice within a screen on a phone. |
+| DEC-077 | **The page's CSP needs no loosening: `default-src 'none'` plus `'self'` for script, style, font, img and connect.** No inline anything, no eval, no remote origin. Never add `unsafe-*`. |
+| DEC-078 | **A panel cleared after a *failed* lookup says the lookup failed, never that nothing was asked for.** Three said "Look up a symbol above" about the symbol they had just been denied. |
 
 ---
 
@@ -108,6 +110,6 @@ there will be a third.
 | DEC-062 | **A screenshot taken straight after an interaction catches a transition in flight.** `shoot.py` passes `animations="disabled"`. |
 | DEC-063 | **A full-page screenshot composites the fixed site nav mid-image**, moving with the page height. Check the previous shot before filing an overlap. |
 | DEC-064 | **A stand-in fails silently in the direction nobody checks.** Ask what stands in for this locally and what it papers over; assert against something derived. |
-| DEC-065 | **An author `display` rule silently defeats `[hidden]`, and no DOM test sees it.** One `!important` rule fixes it; confirm hidden things in an image. |
+| DEC-065 | **A later rule at equal specificity defeats an earlier one and no DOM test sees it** — `display` over `[hidden]`, `:focus` over `:focus-visible`. Assert the pair. |
 | DEC-066 | **The greps in `test_page.py` are blunt substring checks and mislead three ways** — unread files, prose matching a token, per-file rules concatenated. |
 | DEC-076 | **A directory kept out of the web root by one mechanism is exposed the moment that mechanism is absent** — `tools`, then `server/` the same day. Both `.htaccess` and the vhost, always. |
