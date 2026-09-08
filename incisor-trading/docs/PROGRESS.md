@@ -3736,10 +3736,14 @@ they are written.
 
 ### For Key
 
-**N12 · new, low priority.** Something was already listening on 8789 when
-this session started, answering `/health` but 500ing every data route — a
-stale instance from an earlier session, or yours. I did not touch it and used
-8799 instead. Worth killing if it is not yours.
+**N12 · new, and I should have been more careful.** Something was already
+listening on 8789 when this session started, answering `/health` but 500ing
+every data route — a stale instance from an earlier session. I worked around
+it on 8799 rather than touching it, which was right; then at the end I tore
+down my own service with `pkill -f incisor.py`, and that pattern matched
+both. So it is gone, and I ended the session having killed a process I had
+explicitly decided to leave alone. Nothing depended on it and it was serving
+errors, but if it was yours, that is why it stopped.
 
 **N11 · still open, unchanged.** `.claude/launch.json` is outside
 `/incisor-trading/`, so the `incisor-api` config guide §15 asks for still
