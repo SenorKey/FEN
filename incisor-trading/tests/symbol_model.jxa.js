@@ -456,7 +456,26 @@ function run(argv) {
         var timers = {};
         var nextTimer = 1;
 
+        /* The three panels view-symbol.js drives beside the card. Spies
+         * rather than the real views: what matters here is *which* way it
+         * clears them, and reset() (nothing was asked for) and lookupFailed()
+         * (this symbol could not be got) are two different sentences on
+         * screen. Without these the calls are skipped entirely, because the
+         * view guards each one with `if (chart)`. */
+        var drove = [];
+        function spy(name) {
+            return {
+                show: function () { drove.push(name + '.show'); },
+                unavailable: function () { drove.push(name + '.unavailable'); },
+                lookupFailed: function () { drove.push(name + '.lookupFailed'); },
+                reset: function () { drove.push(name + '.reset'); }
+            };
+        }
+
         var windowStub = {
+            IncisorPriceChart: spy('chart'),
+            IncisorFundamentals: spy('filings'),
+            IncisorReports: spy('reports'),
             setTimeout: function (fn) {
                 var id = nextTimer++;
                 timers[id] = fn;
@@ -524,6 +543,7 @@ function run(argv) {
             return page.text('[data-figure="' + name + '"]');
         };
         page.state = function () { return page.panel.getAttribute('data-state'); };
+        page.drove = function () { return drove.slice(); };
         return page;
     }
 
@@ -809,6 +829,27 @@ function run(argv) {
         down.text('[data-quote-message]'));
     equal('and does not advise trying another ticker, which would fix nothing',
         down.hint.textContent, '');
+    /* The three panels below the card. They used to be reset(), which is the
+     * state for a page nobody has searched — so all three told a reader whose
+     * lookup had just failed to look a symbol up. */
+    check('the chart is told the lookup failed, not reset',
+        down.drove().indexOf('chart.lookupFailed') !== -1
+            && down.drove().indexOf('chart.reset') === -1,
+        down.drove().join(', '));
+    check('and so are the filings and the calendar',
+        down.drove().indexOf('filings.lookupFailed') !== -1
+            && down.drove().indexOf('reports.lookupFailed') !== -1,
+        down.drove().join(', '));
+
+    /* Typed rubbish is the other branch and it stays reset(): what was typed
+     * never became a lookup, so those panels were never asked for anything. */
+    var rubbish = mount({ quotes: { AAPL: APPLE } });
+    rubbish.type('!!!!');
+    rubbish.press('Enter');
+    check('but something that is not a symbol still resets them',
+        rubbish.drove().indexOf('chart.reset') !== -1
+            && rubbish.drove().indexOf('chart.lookupFailed') === -1,
+        rubbish.drove().join(', '));
 
     var noCatalog = mount({ catalog: false, quotes: { AAPL: APPLE },
         bars: { AAPL: appleBars() } });

@@ -342,11 +342,13 @@
             setState(error && error.kind === 'not_found' ? 'not-found' : 'error');
             say(failureMessage(error && error.kind, symbol));
             setHint(adviceFor(error && error.kind));
-            // Cleared rather than left showing the previous symbol's prices
-            // under the name of one that has none.
-            if (chart) chart.reset();
-            if (filings) filings.reset();
-            if (reports) reports.reset();
+            // Not reset(): that is the state for a page nobody has searched
+            // yet, and it told a reader whose lookup had just failed to look
+            // one up. Three panels said "Look up a symbol above" about the
+            // symbol they had been asked for and could not get.
+            if (chart) chart.lookupFailed(symbol);
+            if (filings) filings.lookupFailed(symbol);
+            if (reports) reports.lookupFailed(symbol);
             if (watchlist) watchlist.offer(null);
         });
     }
@@ -356,6 +358,10 @@
             setState('not-found');
             say(failureMessage('invalid_symbol', symbol));
             setHint(adviceFor('invalid_symbol'));
+            // reset() and not lookupFailed() here, unlike the branch above:
+            // what was typed never became a lookup, so the panels below were
+            // never asked for anything and "look up a symbol" is still the
+            // useful thing to say.
             if (chart) chart.reset();
             if (filings) filings.reset();
             if (reports) reports.reset();

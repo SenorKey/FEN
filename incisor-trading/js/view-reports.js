@@ -309,6 +309,18 @@
         });
     }
 
+    /* The lookup failed upstream of this panel, so no dates were ever
+     * requested. Its own half only — the card above says why (DEC-075). */
+    function lookupFailed(symbol) {
+        showing = null;
+        blank();
+        setState('unavailable');
+        nameSymbol(null);
+        say('No filing dates for ' + symbol + '. The lookup above did not '
+            + 'come back.');
+        renderProvenance(null);
+    }
+
     function reset() {
         showing = null;
         blank();
@@ -320,7 +332,11 @@
     function start() {
         if (!panel || !body || !rows) return;
         if (!dom || !data || !figures) return;
-        global.IncisorReports = { show: show, reset: reset };
+        global.IncisorReports = {
+            show: show,
+            lookupFailed: lookupFailed,
+            reset: reset
+        };
     }
 
     start();

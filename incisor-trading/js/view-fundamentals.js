@@ -331,6 +331,18 @@
         });
     }
 
+    /* The lookup failed upstream of this panel, so no filings were ever
+     * requested. Its own half only — the card above says why (DEC-075). */
+    function lookupFailed(symbol) {
+        showing = null;
+        blankFigures();
+        setState('unavailable');
+        nameSymbol(null);
+        say('No filings for ' + symbol + '. The lookup above did not come '
+            + 'back.');
+        renderProvenance(null, null, null);
+    }
+
     function reset() {
         showing = null;
         blankFigures();
@@ -364,7 +376,11 @@
         });
         setExplained(false);
 
-        global.IncisorFundamentals = { show: show, reset: reset };
+        global.IncisorFundamentals = {
+            show: show,
+            lookupFailed: lookupFailed,
+            reset: reset
+        };
     }
 
     start();

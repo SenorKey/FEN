@@ -322,6 +322,19 @@
             + 'come back.');
     }
 
+    /* The lookup itself failed, so there is no quote either.
+     *
+     * Distinct from reset(), which says nothing was asked for — after a failed
+     * lookup that is untrue, and it sends the reader back to a search box to
+     * repeat what they just did. Only this panel's own half is stated: the
+     * card above carries the reason, and saying it twice within a screen is
+     * what DEC-075 is about. */
+    function lookupFailed(name) {
+        symbol = name || '';
+        blank('unavailable', 'No chart for ' + (name || 'this symbol')
+            + '. The lookup above did not come back.');
+    }
+
     function reset() {
         symbol = '';
         blank('empty', 'No symbol looked up yet. The chart fills in once you '
@@ -445,6 +458,7 @@
         global.IncisorPriceChart = {
             show: show,
             unavailable: unavailable,
+            lookupFailed: lookupFailed,
             reset: reset
         };
     }
