@@ -49,6 +49,12 @@
   padding: 0;
 }
 
+/* Both JS-only controls ship with the hidden attribute and are given a
+   display by their own rule, which would otherwise win over the user
+   agent's [hidden]. Without this they appear for readers with no
+   JavaScript, as dead buttons. */
+[hidden] { display: none !important; }
+
 /* ── Tokens ── */
 
 :root {
@@ -931,32 +937,8 @@ body {
 }
 
 /* ═══════════════════════════════════════════════
-   Rulings
+   Outcome chips
    ═══════════════════════════════════════════════ */
-
-.rulings { list-style: none; margin-top: 56px; border-top: 1px solid var(--rule); }
-
-.rulings li {
-  display: grid;
-  grid-template-columns: 116px 1fr auto;
-  gap: 24px;
-  align-items: center;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--rule-soft);
-  transition: background 0.18s;
-}
-
-.rulings li:hover { background: rgba(240, 249, 255, 0.018); }
-
-.r-date {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--faint);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.r-what { font-size: 0.98rem; color: var(--ink-2); font-weight: 300; }
 
 .chip {
   font-family: var(--mono);
@@ -972,18 +954,6 @@ body {
 .chip-g { color: var(--p-dim); border-color: var(--p-edge); background: var(--p-wash); }
 .chip-d { color: var(--d-dim); border-color: var(--d-edge); background: var(--d-wash); }
 .chip-p { color: #e0b7c1; border-color: rgba(192, 104, 122, 0.34); background: rgba(192, 104, 122, 0.08); }
-
-.rulings-note {
-  margin-top: 34px;
-  font-size: 0.95rem;
-  color: var(--muted);
-  max-width: 46em;
-  font-weight: 300;
-  padding-left: 20px;
-  border-left: 2px solid rgba(192, 104, 122, 0.4);
-}
-
-.rulings-note em { color: var(--court); font-style: italic; }
 
 /* ═══════════════════════════════════════════════
    Chronology
@@ -1180,6 +1150,98 @@ body {
 /* the beats the case actually turns on */
 .tl-ev.is-key .tl-c { box-shadow: inset 0 0 0 1px rgba(240, 249, 255, 0.09); }
 .tl-ev.is-flag .tl-c { border-style: dashed; }
+
+/* ── the extra layer ──
+   Open by default. With no JavaScript the detail is simply present and
+   the toggle never appears, so nothing sits behind a dead control.
+   The height animates with grid-template-rows 0fr -> 1fr, which gets a
+   real transition to auto height without measuring anything in script. */
+
+.tl-x { display: grid; grid-template-rows: 1fr; }
+.tl-x-in { overflow: hidden; min-height: 0; }
+
+.tl.js-collapse .tl-x { grid-template-rows: 0fr; }
+.tl.js-collapse .tl-x-in { opacity: 0; }
+.tl.js-collapse .tl-c.is-open .tl-x { grid-template-rows: 1fr; }
+.tl.js-collapse .tl-c.is-open .tl-x-in { opacity: 1; }
+
+/* Armed a frame after the collapse, so the initial close does not animate. */
+.tl.js-anim .tl-x { transition: grid-template-rows 0.36s cubic-bezier(0.4, 0, 0.2, 1); }
+.tl.js-anim .tl-x-in { transition: opacity 0.16s ease; }
+.tl.js-anim .tl-c.is-open .tl-x-in { transition: opacity 0.3s ease 0.12s; }
+
+.tl-x-t {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.87rem;
+  color: var(--ink-2);
+  font-weight: 300;
+  line-height: 1.62;
+}
+
+.tl-cite {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
+/* ── the toggle ── */
+
+.tl-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--faint);
+  transition: color 0.18s;
+}
+
+.tl-more:hover { color: var(--ink-2); }
+
+.tl-more-i { position: relative; width: 8px; height: 8px; flex: 0 0 8px; }
+
+.tl-more-i::before,
+.tl-more-i::after {
+  content: '';
+  position: absolute;
+  background: var(--muted);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.tl-more-i::before { inset: 3px 0; height: 2px; }
+.tl-more-i::after { inset: 0 3px; width: 2px; }
+
+.tl-c.is-open .tl-more-i::after { transform: scaleY(0); opacity: 0; }
+
+/* the mark takes the colour of whoever the card belongs to */
+.tl-p .tl-more-i::before, .tl-p .tl-more-i::after { background: var(--p); }
+.tl-d .tl-more-i::before, .tl-d .tl-more-i::after { background: var(--d); }
+.tl-court .tl-more-i::before, .tl-court .tl-more-i::after { background: var(--court); }
+
+/* ── closing note ── */
+
+.tl-close {
+  max-width: 640px;
+  margin: 46px auto 0;
+  padding-left: 20px;
+  border-left: 2px solid rgba(192, 104, 122, 0.4);
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.tl-close em { color: var(--court); font-style: italic; }
 
 /* ── phase divider ── */
 
@@ -1414,6 +1476,7 @@ body {
   }
 
   .drawer > summary { padding: 14px 16px; }
+  .tl-more { min-height: 44px; padding: 8px 0; }
 
   /* The rail moves to the left edge and every card hangs off it, so
      colour is what says whose move it was rather than the side. */
@@ -1450,11 +1513,8 @@ body {
   .tl-end { padding: 30px 0 0 30px; }
   .tl-end-in { padding: 22px 20px 24px; }
   .tl-open li { grid-template-columns: 1fr; gap: 2px; }
+  .tl-close { margin: 34px 0 0; padding-left: 30px; border-left: 0; }
 
-  .rulings li { grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; }
-  .r-date { grid-column: 1; font-size: 0.66rem; }
-  .chip { grid-row: 1 / span 2; align-self: center; }
-  .r-what { grid-column: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
