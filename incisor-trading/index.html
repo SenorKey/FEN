@@ -56,6 +56,15 @@
     <link rel="stylesheet" href="/incisor-trading/css/reports.css">
     <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
+
+    <!--
+      Loaded last, and only on this branch. incisor-look/workbench is a visual
+      direction on the review shelf (guide §8), not the working line: it
+      overrides arrangement and type by cascade position and touches no hook,
+      no state and no colour. Deleting this one link returns the page to
+      incisor-dev.
+    -->
+    <link rel="stylesheet" href="/incisor-trading/css/look-workbench.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the two
       logic modules are in place before any view runs, and each view runs

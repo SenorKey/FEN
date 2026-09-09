@@ -1,0 +1,228 @@
+/* ═══════════════════════════════════════════════
+   look-workbench.css — a visual direction, not the
+   working line. Branch: incisor-look/workbench.
+
+   The opposite answer to the one incisor-look/broadsheet
+   gives. Broadsheet reads the page as a document and
+   commits to print: wide measure, hairline rules,
+   editorial headlines, air. This direction reads it as
+   an instrument and commits to that: an identity rail
+   down the left with the market clock pinned in it, a
+   work area to the right, hard-edged modules with their
+   own chrome, and labels where the headlines were.
+
+   The bet is about what the reader is doing. A page you
+   read wants a measure and a rhythm. A page you *use* —
+   look a symbol up, read its chart, add it to a list,
+   look the next one up — wants its context to stay put
+   while the middle changes, and wants each surface to
+   announce what it is in as few pixels as possible.
+   That is why the clock sticks and the Playfair goes.
+
+   What it deliberately keeps: the palette, the gold,
+   the direction colours and their glyphs, DM Sans for
+   prose, and the site nav above it all. This is not a
+   trading terminal wearing FEN's URL — guide §13 rules
+   that out and it would be the wrong page anyway. It
+   is the same page, arranged for working rather than
+   for reading.
+
+   One stylesheet, loaded last, overriding by cascade
+   position rather than weight. No !important, no markup
+   change, no hook touched.
+   ═══════════════════════════════════════════════ */
+
+/* ── Density ─────────────────────────────────────────
+   Applied at every width, phone included: the type
+   scale is part of the direction, not a desktop
+   affordance. Figures are untouched — they are the
+   content (guide §13) and shrinking them would be
+   shrinking the thing the page is for. */
+
+body.incisor .inc-panel-note,
+body.incisor .inc-proxy-note,
+body.incisor .inc-prose p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    max-width: 68ch;
+}
+
+body.incisor .inc-panel {
+    padding-top: 20px;
+}
+
+/* ── Labels, not headlines ───────────────────────────
+   Playfair narrates; this page is being operated. Every
+   heading becomes a machine label in the figure face,
+   which also puts headings and the numbers under them
+   in the same typeface for the first time. */
+
+body.incisor .inc-panel-heading,
+body.incisor .inc-section-heading {
+    font-family: var(--inc-mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+/* The two panels that name their symbol keep the symbol
+   at reading size — it is the answer to "what am I
+   looking at", not part of the label. */
+body.incisor .inc-fundamental-for,
+body.incisor .inc-reports-for {
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+}
+
+body.incisor .inc-title {
+    font-size: clamp(1.9rem, 4.4vw, 2.5rem);
+}
+
+/* ── Module chrome ───────────────────────────────────
+   Every surface gets a visible edge and a tinted head,
+   so the page reads as a set of instruments rather than
+   a continuous column. The lookup section is left
+   unbordered on purpose: it is a container for four
+   modules, and a box around boxes is one edge too many.
+
+   Square-ish corners rather than the working line's
+   5px — a 2px radius still catches the light at the
+   corner without softening the module. */
+
+body.incisor .inc-sectors,
+body.incisor .inc-quote,
+body.incisor .inc-chart,
+body.incisor .inc-fundamental,
+body.incisor .inc-reports,
+body.incisor .inc-watchlist,
+body.incisor .inc-tile {
+    border: 1px solid var(--inc-rule);
+    border-radius: 2px;
+    background: var(--inc-panel-bg);
+    padding: 16px 18px;
+}
+
+body.incisor .inc-sectors,
+body.incisor .inc-reports,
+body.incisor .inc-watchlist {
+    margin-top: 26px;
+}
+
+/* A module's label sits in a tinted strip across its
+   top, flush to the module's own edges — which is what
+   the negative margins are for: the strip has to reach
+   the border the padding holds it away from. */
+body.incisor .inc-sectors > .inc-section-heading,
+body.incisor .inc-watchlist > .inc-section-heading,
+body.incisor .inc-fundamental .inc-fundamental-head,
+body.incisor .inc-reports > .inc-section-heading {
+    margin: -16px -18px 14px;
+    padding: 9px 18px;
+    border-bottom: 1px solid var(--inc-rule);
+    background: rgba(var(--accent-rgb), 0.055);
+}
+
+/* The fundamentals head is a flex row holding the label
+   and its explain button, so the strip is that row. */
+body.incisor .inc-fundamental .inc-fundamental-head {
+    align-items: center;
+}
+
+/* ── The tile band ───────────────────────────────────
+   Four readouts rather than four cards: tighter, with
+   the price doing all the talking. */
+
+body.incisor .inc-tile-grid {
+    gap: 8px;
+}
+
+body.incisor .inc-tile {
+    padding: 13px 14px;
+}
+
+body.incisor .inc-tile-price {
+    font-size: 1.55rem;
+}
+
+/* ── The two-pane shell ──────────────────────────────
+   Below 1100px this is the working line's single
+   column — a rail is a thing you can afford only when
+   there is width to spare, and taking 300px from a
+   tablet would leave the sector bars unreadable. 300
+   is what the clock's longest line needs: "CLOSED
+   Opens 9:30am ET · in 9h 00m" reached the rail's edge
+   at 280 with nothing to spare.
+
+   Rows are `auto 1fr` so the masthead sizes to itself
+   and the clock's row takes the remaining height. The
+   clock then sticks inside a cell as tall as the page,
+   which is what keeps it in the margin the whole way
+   down. The tab strip spans both rows, because the work
+   area is one column beside both of them. */
+
+@media (min-width: 1100px) {
+
+    body.incisor .inc-page,
+    body.incisor .inc-footer {
+        max-width: 1400px;
+    }
+
+    body.incisor .inc-page {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        column-gap: 40px;
+        padding: 32px 32px 56px;
+    }
+
+    body.incisor .inc-masthead {
+        grid-column: 1;
+        grid-row: 1;
+        border-bottom: none;
+        padding-bottom: 18px;
+    }
+
+    body.incisor .inc-clock {
+        grid-column: 1;
+        grid-row: 2;
+        align-self: start;
+        /* Clear of the site's 44px fixed nav. */
+        position: sticky;
+        top: 60px;
+        margin-top: 0;
+        padding: 12px 0 0;
+        border-top: 1px solid var(--inc-rule);
+    }
+
+    body.incisor .inc-tabs {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        margin-top: 0;
+        /* The rail's edge. On the work area rather than
+           the rail itself, so it runs the full height of
+           the content instead of stopping where the
+           clock does. */
+        border-left: 1px solid var(--inc-rule);
+        padding-left: 40px;
+        margin-left: -40px;
+    }
+
+    /* The mode switch stays reachable from anywhere in a
+       4,000px panel. It needs its own background: a
+       sticky strip over scrolling figures is unreadable
+       without one, and the strip is what the reader aims
+       at rather than something they scroll back for. */
+    body.incisor .inc-tablist {
+        position: sticky;
+        top: 44px;
+        z-index: 2;
+        background: var(--bg);
+    }
+
+    body.incisor .inc-footer {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+}
