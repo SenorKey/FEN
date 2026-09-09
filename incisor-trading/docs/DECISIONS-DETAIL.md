@@ -1887,3 +1887,133 @@ was undefined and the view's `if (chart)` guard skipped every call in silence
 — a stand-in failing in the direction nobody checks (DEC-064). It mounts
 recording spies now, so *which* way the panels are cleared is asserted rather
 than assumed.
+
+---
+
+## DEC-079 — Two directions, or one in two palettes
+
+*Settled · 09-08 · T13b*
+
+**Decision**
+
+**Two look branches may not share their most visible move.** Where both would
+reach for the same idea, it belongs to whichever direction it is more native
+to, and the other does without it.
+
+**Why**
+
+`incisor-look/workbench` was built with the same side-by-side lead as
+`incisor-look/broadsheet` — search and quote in a narrow left column, the chart
+filling the width beside them — and it worked there. It was removed anyway.
+
+Guide §8 asks that directions actually differ, and names the failure mode as
+three variations on one layout with different accent colours. The subtler
+version of that failure is two layouts sharing the one move a reviewer will
+notice first. Both pages would have opened with the same gesture, and the
+comparison would have come down to chrome and type, which is the comparison
+that was already going to be made *inside* each direction rather than between
+them.
+
+The move is more native to broadsheet, which is about using a printed measure,
+than to workbench, which is about keeping context on screen while the middle
+changes. So broadsheet keeps it.
+
+**What this costs**
+
+Workbench's lookup is a single column at every width, which is worse than it
+could be, and Key may well pick the direction whose lead is weaker. That is the
+intended trade: a shelf exists to make a choice legible, and two directions that
+open identically make it less so. If workbench is chosen, the lead is the first
+thing to port into it — it is a known-good twelve-line block, on the branch, in
+this file's history.
+
+---
+
+## DEC-080 — What a committed screenshot costs
+
+*Settled · 09-08 · T13b*
+
+**Decision**
+
+**A look branch's committed set is quantised to 256 colours and its mobile shot
+halved back to CSS pixels; and the set is committed on `incisor-dev` beside
+`DESIGN-BRANCHES.md`, not only on the look branch.**
+
+**Why**
+
+Two separate points, both about the same six files.
+
+*Size.* DEC-012 settled that only a look branch's set is committed, because a
+PNG removed from the tree stays in history and 321 of them sat behind a repo
+the server pulls over a residential line. That makes these six the only
+screenshots the repo can never take back, which is exactly the set worth
+compressing. Out of `shoot.py` they were 2.8MB; at 256 colours, with the mobile
+shot halved from its `device_scale_factor` 2 capture back to 390px, they are
+900KB and there is no visible difference — the page is a near-black field, bone
+white, one gold and two direction colours, so an adaptive palette loses
+nothing. Guide §8 asks for "reasonably compressed" and this is the number that
+phrase means here.
+
+*Place.* The gitignore's own reasoning says the set is committed "so this shelf
+can be browsed without checking out each branch in turn" — which only works if
+the images are on the branch the shelf is *read* from. `DESIGN-BRANCHES.md`
+lives on `incisor-dev`; if the shots live only on the look branches, every
+image link in it is broken for the one person it is written for. So both:
+the branch carries its own set, and `incisor-dev` carries a copy. Git stores
+identical blobs once, so the copy costs nothing.
+
+The compression was a scratchpad script, which is a step nothing enforces —
+filed as `D15` to move it into `shoot.py`, which already knows the `--out`
+path and can see the `look-` prefix that decides whether it applies.
+
+---
+
+## DEC-081 — One working tree, two sessions
+
+*Settled · 09-08 · T13b*
+
+**Decision**
+
+**The routine does its git work in a `git worktree` under the scratchpad, not
+in `/Users/keypanzarella/FEN` itself.** Step 1's clean-tree check says whether
+another session was working *when this one started*; it says nothing about
+whether one starts afterwards.
+
+**Why**
+
+On 09-08 the tree was clean at step 1 and a second session began editing
+`doe-v-bonnell/` about two minutes later. What followed is worth recording
+precisely, because none of it was visible while it was happening:
+
+1. This session's `git checkout incisor-dev` moved HEAD out from under that
+   session.
+2. That session moved HEAD back to `doe-v-bonnell-page`.
+3. This session then ran `git checkout -b incisor-look/broadsheet`, which
+   branched from `doe-v-bonnell-page` rather than from `incisor-dev` — the
+   base was whatever HEAD happened to be, and it was not what §7 asks for.
+4. That session committed its work while HEAD was on the look branch, so its
+   commit landed there.
+5. This session's `git commit --amend`, meant for its own commit, rewrote
+   *that* commit instead — folding compressed screenshots into a page commit
+   and keeping the other session's message.
+
+Nothing was lost: both sessions' work survives, the look branch was rebased
+onto `incisor-dev` where it belongs, and the other session recommitted its own
+work on its own branch. But that outcome owed more to luck than to anything
+either session did.
+
+**Why a worktree rather than more care**
+
+The failure is structural, not careless. `HEAD` is one pointer per checkout, so
+two agents in one directory are two writers to one variable with no lock, and
+every rule that could be written — check `git status` first, re-read the branch
+before committing — narrows the window without closing it. `git worktree add`
+gives this session its own checkout and its own HEAD against the same object
+store: branches, commits and pushes all work normally, and the other session's
+directory is never touched. Hard rule 11 says do not touch Key's uncommitted
+work; a worktree is how that becomes structurally true rather than a promise.
+
+Remove it at the end of the session (`git worktree remove`), and note that a
+branch checked out in one worktree cannot be checked out in another — which is
+a feature here, not a limitation.
+

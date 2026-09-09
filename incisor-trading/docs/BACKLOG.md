@@ -23,8 +23,9 @@ Legend: `[ ]` open · `[x]` done · `[!]` blocked (say why inline)
 
 ## Phase 1 — Dashboard
 
-**Complete — T5 through T12, T10a included.** Every surface among them has an
-audit-log row below. Open here: T10b, blocked, then T13b.
+**Complete — T5 through T13b, T10a included.** Every surface among them has an
+audit-log row below. Open here: T10b alone, and it is blocked on a permission
+that is Key's to obtain, not the routine's to work around.
 
 - [!] **T10b · Market movers** — top gainers, losers and most actively traded.
   The half of T10 that was deferred rather than deprioritised: it needs a
@@ -51,13 +52,6 @@ audit-log row below. Open here: T10b, blocked, then T13b.
   *Unblock when:* Key's written display permission exists, at which point this
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
-
-- [ ] **T13b · Visual directions, round one** — spin up two or three genuinely
-  distinct `incisor-look/*` branches off the finished dashboard, each a complete,
-  screenshottable treatment rather than a recolour. Register every one in
-  `docs/DESIGN-BRANCHES.md` with concept, screenshots at both widths, and the
-  preview command. *Accept:* the register renders correctly and each branch checks
-  out and runs; directions differ in layout or hierarchy, not just palette.
 
 ---
 
@@ -254,6 +248,20 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
+- [ ] **D15 · `shoot.py` should compress the set it knows will be committed**
+  `[enhancement]` *(2026-09-08)* — a look branch's shots are the only ones that
+  enter history (DEC-012), and history is the one place a PNG cannot be deleted
+  from. T13b's six came out of the tool at 2.8MB and went in at 900KB, with no
+  visible difference on a page whose palette is six colours: mobile is captured
+  at `device_scale_factor` 2 and was halved back to CSS pixels, then all three
+  were quantised to 256 colours. That was a script in a scratchpad, run from
+  memory, on a step nothing enforces — so the next look branch commits 2.8MB
+  unless whoever builds it happens to remember. It belongs in `shoot.py`, which
+  already knows the `--out` path and can see the `look-` prefix that decides it.
+  *Accept:* a run writing to `docs/shots/look-*/` compresses what it writes and
+  says so in its summary line; every other run is untouched, since those sets
+  are gitignored and reproducible in seconds.
+
 - [ ] **D13 · Decide whether this page takes the site's new face**
   `[enhancement]` *(2026-09-03)* — Key moved the site to Bricolage Grotesque in
   a change that was not meant to reach `/incisor-trading/`. The page still
@@ -326,3 +334,4 @@ session that must *act* on any of this goes.
 | D12 | 09-04 | **Two length rules were one surface from failing** *(defect, fixed)* — the script split at a real seam; the document had no fat to cut, and its ceiling was charging for the prose it teaches with. Elements now, 433 of 650. → DEC-038, DEC-026 |
 | D14 | 09-07 | **`server/` was served, because only the vhost denied it** *(defect, fixed)* — the rehearsal's first fault, in two commands: the source was readable from the branch landing until the vhost snippet was pasted in by hand. → DEC-076 |
 | T13 | 09-08 | **Dashboard polish, accessibility and security pass.** CSP in meta and vhost; a dead tab stop and an invisible focus ring fixed; three panels stopped denying a failed lookup. → DEC-076, DEC-077, DEC-078 |
+| T13b | 09-08 | **Visual directions, round one.** Two opposed look branches — `broadsheet` (a document) and `workbench` (an instrument) — registered with shots. → DEC-079, DEC-080, DEC-081 |

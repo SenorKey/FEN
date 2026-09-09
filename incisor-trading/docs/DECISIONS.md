@@ -77,6 +77,9 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-075 | **Two panels fed by one payload divide the teaching between them.** The second says only its own half; a fund was explained twice within a screen on a phone. |
 | DEC-077 | **The page's CSP needs no loosening: `default-src 'none'` plus `'self'` for script, style, font, img and connect.** No inline anything, no eval, no remote origin. Never add `unsafe-*`. |
 | DEC-078 | **A panel cleared after a *failed* lookup says the lookup failed, never that nothing was asked for.** Three said "Look up a symbol above" about the symbol they had just been denied. |
+| DEC-079 | **Two look directions may not share their most visible move.** Workbench built the quote-beside-chart lead and then dropped it: one idea in two branches is one direction in two palettes. |
+| DEC-080 | **A committed look set is quantised, its mobile shot halved to CSS pixels, and copied onto `incisor-dev`.** 2.8MB became 900KB; the shelf is browsed from the working line. |
+| DEC-081 | **The routine works in a `git worktree`, never the shared checkout.** A second session was live in it on 09-08; two checkouts crossed and an amend of mine rewrote its commit. |
 
 ---
 

@@ -3755,3 +3755,104 @@ situation; drop-in wording drafted in the 09-02 entry.
 **Next session:** no open defects, nothing due for audit. `T13b` is the top of
 the queue — two or three `incisor-look/*` directions off the finished
 dashboard, registered in `DESIGN-BRANCHES.md`. Phase 1 closes with it.
+
+
+## 2026-09-08 — T13b: two directions, and a second session in the same tree
+**Outcome:** shipped — T13b complete, Phase 1 closed
+**Changed:** on `incisor-look/broadsheet`: `css/look-broadsheet.css`, `index.html`.
+On `incisor-look/workbench`: `css/look-workbench.css`, `index.html`. On
+`incisor-dev`: `docs/DESIGN-BRANCHES.md`, `BACKLOG.md`, `DECISIONS.md` +
+`-DETAIL.md`, `docs/shots/look-*/`.
+**Verified:** `shoot.py --api` clean on both branches at five widths; 217 page
+tests and 224 service tests green on each; the workbench rail and tab strip
+checked scrolled, in a real viewport, not from the register images. `git status`
+in the routine's worktree shows changes only under `incisor-trading/`.
+
+**Two directions, deliberately opposed.** `broadsheet` reads the page as a
+document and commits to print — 1320px measure, hairline rules where the card
+fills were, tiles as one ruled band, the clock as a dateline level with the
+nameplate, and the quote card beside its own chart. `workbench` reads it as an
+instrument — a 300px rail with the market clock pinned in it the whole way down,
+a sticky mode switch, hard-edged modules with tinted label strips, and the
+figure face doing the headings instead of Playfair. Both are one stylesheet
+loaded last and one `<link>`: no hook, no state, no colour, no markup. Deleting
+the link returns the page to `incisor-dev`.
+
+**Workbench had broadsheet's lead and I took it out.** The side-by-side search,
+quote and chart was built there, worked, and was deleted, because guide §8's
+"directions should actually differ" has a subtler failure than three palettes:
+two layouts sharing the one move a reviewer notices first. Both pages would have
+opened with the same gesture and the comparison would have collapsed onto chrome
+and type. Recorded as DEC-079, with a note that the block is twelve lines and on
+the branch if workbench is the one Key picks.
+
+**A bad read of the markup cost a cycle, and the tool caught it.** I placed the
+reporting calendar as a sibling of the lookup section because `index.html`
+indents it that way. It is a child of it, so the grid auto-placed it into a
+420px column and clipped 123px of five quarters of filings inside its own
+scroller. Nothing about that is visible in a screenshot at a glance — the table
+just looks narrower — and it failed the run because DEC-073's clip check
+measures what a scrolling box has to scroll. Both stylesheets now say where
+reports actually lives, next to the rule that places it, which is where guide
+§16 says that kind of reason belongs.
+
+**A second session was working in the same checkout, and we collided.** The tree
+was clean at step 1; another session began editing `doe-v-bonnell/` about two
+minutes later. Over the next few minutes: my `git checkout` moved HEAD out from
+under it, it moved HEAD back, my `checkout -b` therefore branched from
+`doe-v-bonnell-page` instead of `incisor-dev`, its commit landed on my look
+branch, and my `commit --amend` rewrote *its* commit — folding my screenshots
+into a page commit and keeping its message. **Nothing was lost.** It recommitted
+its own work on its own branch, and I rebased the look branch onto `incisor-dev`
+where §7 asks it to be. But that came out well by luck, not by care: two agents
+in one directory are two writers to one `HEAD` with no lock. The rest of the
+session ran in a `git worktree` under the scratchpad, which gives this session
+its own checkout and its own HEAD against the same objects, and leaves the other
+session's directory untouched. DEC-081, in full, including the sequence.
+
+**Shots: 2.8MB out of the tool, 900KB in.** A look branch's set is the only one
+that enters history (DEC-012) and history is where a PNG cannot be deleted from,
+so it is the set worth compressing: mobile halved back to CSS pixels from its
+2x capture, all three quantised to 256 colours, no visible difference on a page
+with six colours in it. They are committed on `incisor-dev` too, because
+`DESIGN-BRANCHES.md` is read there and image links pointing at a branch nobody
+has checked out are broken links. DEC-080; filed as `D15` to move the step into
+`shoot.py`, since doing it from memory is a step that will be skipped.
+
+**Looked at and left:** the workbench rail holds two things and has room for six
+— 3,000px of empty margin at desktop. That is a real weakness and it is written
+into the register as one rather than fixed, because filling it is a design
+decision about a direction Key has not chosen yet. Neither direction questions
+the *order* of the page; a third that shows one surface at a time is the one
+worth building next, noted in the register under `O2`.
+
+### For Key
+
+**N13 · new, and the one to read.** A second Claude session was editing
+`doe-v-bonnell/` in `/Users/keypanzarella/FEN` while this one ran, and we
+crossed each other's `git checkout` three times. Your doe-v-bonnell work is
+intact and committed on `doe-v-bonnell-page` — I have not touched those files,
+and the one commit of yours my `--amend` corrupted was superseded when your
+session recommitted. Nothing of yours is missing. The routine now works in a
+`git worktree` so this cannot recur from my side, but **two sessions in one
+checkout is not safe in general**, and the only reliable fix is one checkout
+each. If you run a second session in this repo again, a worktree for it costs
+one command.
+
+**N12 · resolved 09-08.** Nothing was listening on 8789 at the start of this
+session, so the stale instance is gone and the pattern that killed it did no
+lasting harm. This session ran its own service on 8789 in fixture mode and shut
+it down at the end.
+
+**N11 · still open, unchanged.** `.claude/launch.json` is outside
+`/incisor-trading/`, so the `incisor-api` config guide §15 asks for still cannot
+be added by the routine.
+
+**N7 · still open, unchanged.** Guide §16's four-file table is a six-file
+situation; drop-in wording drafted in the 09-02 entry.
+
+**Next session:** Phase 1 is closed except T10b, which is blocked on your written
+display permission and has nothing left to research. That makes `T14 · Portfolio
+model` the top of the queue and the start of Phase 2. No open defects; the audit
+queue is empty until three sessions after the next surface ships.
+
