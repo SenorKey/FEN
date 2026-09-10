@@ -7,34 +7,43 @@
    long-form scrolling document, so the nav, skip link and design
    tokens are ported here instead. Same precedent as Preside by Side.
 
-   Colour carries the argument: teal is the plaintiff, violet is the
-   defendant, and the site's dusty rose is reserved for the court.
-   Nothing else is allowed to use those three.
+   A printed record rather than a screen. The ground is warm stock, the
+   parties are two spot inks, and every tint multiplies into the paper
+   the way ink does instead of glowing on top of it. Where the two side
+   colours overlap behind the masthead they overprint into a third
+   colour neither side chose, which is a fair description of the case.
+
+   Colour carries the argument: red is the plaintiff, blue is the
+   defendant, sepia is the court. Nothing else may use those three.
    ═══════════════════════════════════════════════ */
 
 /* ── Fonts ── */
 
+/* Fraunces is self-hosted rather than pulled from the font CDN: the CDN
+   build ships without the SOFT and WONK axes, which are the two doing the
+   work at display size. This is the full variable cut. Display sizes only,
+   and swapped in, so it never blocks the body text.
+
+   It ships with unusual defaults - wght 900, opsz 9, WONK 1 - so every
+   axis is named explicitly wherever it is used, rather than left to
+   inherit or to arrive through font-weight.
+
+   IBM Plex Sans takes the body, from the font CDN; it was drawn for
+   technical and institutional documents, which is the register here.
+   JetBrains Mono carries the docket citations, dates and labels. */
+
 @font-face {
-  font-family: 'Bricolage Grotesque';
-  src: url('/assets/fonts/bricolage-grotesque-latin-var.woff2') format('woff2');
-  font-weight: 200 800;
+  font-family: 'Fraunces';
+  src: url('/assets/fonts/Fraunces-VariableFont_SOFT%2CWONK%2Copsz%2Cwght.ttf') format('truetype-variations');
+  font-weight: 100 900;
   font-style: normal;
-  font-stretch: 100%;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Playfair Display';
-  src: url('/assets/fonts/playfair-display-latin-700-normal.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('/assets/fonts/playfair-display-latin-700-italic.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Fraunces';
+  src: url('/assets/fonts/Fraunces-Italic-VariableFont_SOFT%2CWONK%2Copsz%2Cwght.ttf') format('truetype-variations');
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
@@ -58,35 +67,54 @@
 /* ── Tokens ── */
 
 :root {
-  --bg: #0f1428;
-  --bg-band: #0c1122;
-  --bg-deep: #0a0e1a;
+  --display: 'Fraunces', Georgia, serif;
+  --body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --ink: #f0f9ff;
-  --ink-2: rgba(240, 249, 255, 0.74);
-  --muted: rgba(240, 249, 255, 0.46);
-  --faint: rgba(240, 249, 255, 0.26);
-  --rule: rgba(240, 249, 255, 0.09);
-  --rule-soft: rgba(240, 249, 255, 0.055);
+  /* ── The stock ── */
+  --paper: #efe9dc;
+  --bg: var(--paper);
+  --bg-band: #e7dfcf;
+  --bg-deep: #ddd3bf;
 
-  /* The court's voice — the site's own accent, used nowhere else here */
-  --court: #c0687a;
+  /* ── The ink ──
+     Warm near-black rather than pure black: pure black on warm stock
+     reads as a screen artefact, not as print.
+
+     The secondary steps are set by contrast against the paper. Alphas
+     that read correctly as white over near-black read far weaker as ink
+     over stock, and the hierarchy is held by the gaps between these
+     four rather than by how faint the faintest one is. */
+  --ink: #17140f;
+  --ink-2: rgba(23, 20, 15, 0.9);
+  --muted: rgba(23, 20, 15, 0.8);
+  --faint: rgba(23, 20, 15, 0.66);
+  --rule: rgba(23, 20, 15, 0.15);
+  --rule-soft: rgba(23, 20, 15, 0.075);
+
+  /* The court's voice, used nowhere else here */
+  --court: #6f4a2e;
 
   /* The two sides */
-  --p: #2dd4bf;
-  --p-dim: #7fe3d8;
-  --p-wash: rgba(45, 212, 191, 0.075);
-  --p-edge: rgba(45, 212, 191, 0.3);
+  --p: #b0302a;
+  --p-dim: #8d3830;
+  --p-wash: rgba(176, 48, 42, 0.085);
+  --p-edge: rgba(176, 48, 42, 0.4);
 
-  --d: #a78bfa;
-  --d-dim: #c9b8fd;
-  --d-wash: rgba(167, 139, 250, 0.075);
-  --d-edge: rgba(167, 139, 250, 0.3);
-
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --d: #1f4076;
+  --d-dim: #35507e;
+  --d-wash: rgba(31, 64, 118, 0.085);
+  --d-edge: rgba(31, 64, 118, 0.4);
 
   --wrap: 1180px;
   --gut: 56px;
+
+  /* How far Skip ahead steps aside for Back to top. CSS cannot ask one
+     element how wide another is, so the script measures Back to top and
+     writes its real width here. This is only the value used for the first
+     frame, before that runs. */
+  --totop-w: 134px;
+  --ctl-gap: 10px;
 }
 
 /* ── Base ── */
@@ -97,13 +125,32 @@ html {
 }
 
 body {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: var(--body);
   background: var(--bg);
   color: var(--ink);
-  line-height: 1.62;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.66;
+  font-size: 16.5px;
   text-rendering: optimizeLegibility;
+}
+
+/* ── The tooth of the stock ──
+   Fractal noise, multiplied in at almost nothing. It does no work you
+   could point at and all of the work that makes the ground read as
+   paper rather than as a beige rectangle. Above the exhibit wash so the
+   whole plate shares one grain, below the nav so the nav stays crisp. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media print {
+  body::after { display: none; }
 }
 
 .wrap {
@@ -119,8 +166,8 @@ body {
 }
 
 ::selection {
-  background: rgba(192, 104, 122, 0.32);
-  color: #fff;
+  background: rgba(111, 74, 46, 0.24);
+  color: var(--ink);
 }
 
 :focus-visible {
@@ -134,9 +181,8 @@ body {
 .site-nav {
   background: var(--bg-deep);
   border-bottom: 1px solid transparent;
-  border-image: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.25),
-      rgba(196, 181, 253, 0.2), rgba(45, 212, 191, 0.25), transparent) 1;
-  box-shadow: 0 1px 12px rgba(45, 212, 191, 0.05);
+  border-image: linear-gradient(90deg, transparent, var(--p-edge),
+      rgba(111, 74, 46, 0.4), var(--d-edge), transparent) 1;
   padding: 0 var(--gut);
   display: flex;
   align-items: center;
@@ -148,7 +194,7 @@ body {
 }
 
 .site-nav a {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(23, 20, 15, 0.62);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -158,15 +204,19 @@ body {
 }
 
 .site-nav a:hover,
-.site-nav a.active { color: #fff; }
+.site-nav a.active { color: var(--ink); }
+
+/* Hire Me sits apart from the site links rather than beside them. Targeted by
+   href so it works wherever it falls in the bar. */
+.site-nav a[href="/hire-me"] { margin-left: auto; }
 
 .site-nav .nav-home { color: var(--court); margin-right: 8px; }
-.site-nav .nav-home:hover { color: #fff; }
+.site-nav .nav-home:hover { color: var(--ink); }
 
 .nav-dropdown { position: relative; display: flex; align-items: center; height: 100%; }
 
 .nav-dropdown-toggle {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(23, 20, 15, 0.62);
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -176,7 +226,7 @@ body {
 }
 
 .nav-dropdown:hover .nav-dropdown-toggle,
-.nav-dropdown:focus-within .nav-dropdown-toggle { color: #fff; }
+.nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--ink); }
 
 .nav-dropdown-menu {
   display: none;
@@ -184,7 +234,8 @@ body {
   top: 100%;
   left: 0;
   background: var(--bg-deep);
-  border-top: 1px solid rgba(45, 212, 191, 0.1);
+  border-top: 1px solid var(--rule);
+  box-shadow: 0 6px 18px rgba(23, 20, 15, 0.11);
   min-width: 160px;
   padding: 6px 0;
   z-index: 100;
@@ -209,7 +260,6 @@ body {
   color: var(--bg);
   font-size: 0.85rem;
   font-weight: 500;
-  border-radius: 0 0 6px 6px;
   text-decoration: none;
   transition: top 0.15s;
 }
@@ -227,15 +277,19 @@ body {
   border-bottom: 1px solid var(--rule);
 }
 
-/* Two faint pools of the side colours, meeting in the middle. The whole
-   page's thesis, stated in the background before a word is read. */
+/* Two pools of the side colours, meeting in the middle. The whole page's
+   thesis, stated in the background before a word is read - and on stock
+   they can do what two inks actually do when they meet: multiply. Red
+   over blue makes a plum neither side picked, directly under the title.
+   Nothing else on the page is allowed this trick. */
 .masthead::before {
   content: '';
   position: absolute;
   inset: 0;
+  mix-blend-mode: multiply;
   background:
-    radial-gradient(ellipse 60% 70% at 12% 8%, rgba(45, 212, 191, 0.13), transparent 62%),
-    radial-gradient(ellipse 60% 70% at 88% 12%, rgba(167, 139, 250, 0.13), transparent 62%);
+    radial-gradient(ellipse 62% 72% at 14% 6%, rgba(176, 48, 42, 0.3), transparent 64%),
+    radial-gradient(ellipse 62% 72% at 86% 10%, rgba(31, 64, 118, 0.28), transparent 64%);
   pointer-events: none;
 }
 
@@ -250,16 +304,21 @@ body {
   margin-bottom: 30px;
 }
 
+/* Fraunces is cut for its size rather than scaled to it, so opsz is set
+   per use. WONK swaps in the angled alternates, and is only earned at
+   display size; at heading size and below the axis is off. */
 .masthead-title {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 1;
   font-size: clamp(3.2rem, 10vw, 7.2rem);
   line-height: 0.94;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.018em;
   margin-bottom: 30px;
 }
 
 .masthead-title em {
+  font-variation-settings: 'opsz' 144, 'SOFT' 14, 'WONK' 1;
   font-style: italic;
   color: var(--court);
   font-size: 0.62em;
@@ -320,7 +379,7 @@ body {
 
 .pip-open {
   background: var(--court);
-  box-shadow: 0 0 0 3px rgba(192, 104, 122, 0.18);
+  box-shadow: 0 0 0 3px rgba(111, 74, 46, 0.2);
 }
 
 /* ═══════════════════════════════════════════════
@@ -347,11 +406,12 @@ body {
 }
 
 .section-title {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 72, 'SOFT' 0, 'WONK' 1;
   font-size: clamp(1.9rem, 4.3vw, 3.1rem);
   line-height: 1.08;
-  letter-spacing: -0.028em;
+  letter-spacing: -0.012em;
   margin-bottom: 22px;
   max-width: 18em;
 }
@@ -441,8 +501,9 @@ body {
 }
 
 .row-q {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 0;
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
   line-height: 1.24;
   letter-spacing: -0.02em;
@@ -497,7 +558,7 @@ body {
 .row-court {
   margin-top: 26px;
   padding: 12px 0 12px 18px;
-  border-left: 2px solid rgba(192, 104, 122, 0.45);
+  border-left: 2px solid rgba(111, 74, 46, 0.5);
   font-size: 0.9rem;
   color: var(--muted);
   font-weight: 300;
@@ -545,8 +606,8 @@ body {
 }
 
 .depth-all:hover {
-  background: rgba(240, 249, 255, 0.045);
-  border-color: rgba(240, 249, 255, 0.2);
+  background: rgba(23, 20, 15, 0.05);
+  border-color: rgba(23, 20, 15, 0.24);
   color: var(--ink);
 }
 
@@ -579,7 +640,7 @@ body {
   padding: 11px 16px;
   border: 1px solid var(--rule);
   border-radius: 2px;
-  background: rgba(240, 249, 255, 0.014);
+  background: rgba(255, 252, 245, 0.5);
   transition: background 0.18s, border-color 0.18s;
   user-select: none;
 }
@@ -588,8 +649,8 @@ body {
 .drawer > summary::marker { content: ''; }
 
 .drawer > summary:hover {
-  background: rgba(240, 249, 255, 0.04);
-  border-color: rgba(240, 249, 255, 0.16);
+  background: rgba(255, 252, 245, 0.9);
+  border-color: rgba(23, 20, 15, 0.2);
 }
 
 /* A + that becomes a − when the drawer opens */
@@ -660,6 +721,17 @@ body {
 .dp-block { margin-bottom: 20px; }
 .dp-block:last-child { margin-bottom: 0; }
 
+/* What a side's case rests on, in docket numbers. Set below the prose it
+   belongs to and in the same faint mono as the chronology's citations, so
+   the two read as one apparatus rather than two. */
+.dp-cite {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
 .dp-block h4 {
   font-family: var(--mono);
   font-size: 0.6rem;
@@ -685,8 +757,8 @@ body {
   margin-top: 24px;
   padding: 14px 16px;
   border-radius: 2px;
-  background: rgba(240, 249, 255, 0.028);
-  border-left: 2px solid rgba(240, 249, 255, 0.22);
+  background: rgba(23, 20, 15, 0.035);
+  border-left: 2px solid rgba(23, 20, 15, 0.24);
 }
 
 .dp-weak h4 { color: var(--muted); }
@@ -804,14 +876,14 @@ body {
 .cn-out::before {
   background: var(--court);
   border-color: var(--court);
-  box-shadow: 0 0 0 4px rgba(192, 104, 122, 0.16);
+  box-shadow: 0 0 0 4px rgba(111, 74, 46, 0.16);
 }
 
 .cn-out {
   margin-top: 6px;
   padding: 16px 20px;
   border-radius: 2px;
-  background: linear-gradient(100deg, rgba(192, 104, 122, 0.09), transparent 68%);
+  background: linear-gradient(100deg, rgba(111, 74, 46, 0.13), transparent 68%);
   border-left: 2px solid var(--court);
 }
 
@@ -852,24 +924,24 @@ body {
   stroke-width: 1;
 }
 
-.tree .n-test { stroke: rgba(192, 104, 122, 0.55); fill: rgba(192, 104, 122, 0.05); }
-.tree .n-p { stroke: var(--p-edge); fill: rgba(45, 212, 191, 0.05); }
-.tree .n-d { stroke: var(--d-edge); fill: rgba(167, 139, 250, 0.05); }
+.tree .n-test { stroke: rgba(111, 74, 46, 0.62); fill: rgba(111, 74, 46, 0.07); }
+.tree .n-p { stroke: var(--p-edge); fill: rgba(176, 48, 42, 0.09); }
+.tree .n-d { stroke: var(--d-edge); fill: rgba(31, 64, 118, 0.09); }
 
-.tree .n-out-p { stroke: var(--p); fill: rgba(45, 212, 191, 0.11); }
-.tree .n-out-d { stroke: var(--d); fill: rgba(167, 139, 250, 0.11); }
+.tree .n-out-p { stroke: var(--p); fill: rgba(176, 48, 42, 0.17); }
+.tree .n-out-d { stroke: var(--d); fill: rgba(31, 64, 118, 0.17); }
 
-.tree .n-term-p { stroke: var(--p-edge); fill: rgba(45, 212, 191, 0.05); }
-.tree .n-term-d { stroke: var(--d-edge); fill: rgba(167, 139, 250, 0.05); }
+.tree .n-term-p { stroke: var(--p-edge); fill: rgba(176, 48, 42, 0.09); }
+.tree .n-term-d { stroke: var(--d-edge); fill: rgba(31, 64, 118, 0.09); }
 
 .tree .n-bypass {
-  stroke: rgba(192, 104, 122, 0.5);
+  stroke: rgba(111, 74, 46, 0.55);
   stroke-dasharray: 5 4;
-  fill: rgba(192, 104, 122, 0.035);
+  fill: rgba(111, 74, 46, 0.05);
 }
 
 /* node text */
-.tree text { font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+.tree text { font-family: var(--body); }
 
 .tree .t-k {
   font-family: var(--mono);
@@ -893,9 +965,9 @@ body {
 }
 
 /* Kicker colour follows the node it labels. */
-.tree .k-c { fill: rgba(192, 104, 122, 0.85); }
-.tree .k-p { fill: rgba(45, 212, 191, 0.8); }
-.tree .k-d { fill: rgba(167, 139, 250, 0.8); }
+.tree .k-c { fill: rgba(111, 74, 46, 0.9); }
+.tree .k-p { fill: rgba(176, 48, 42, 0.9); }
+.tree .k-d { fill: rgba(31, 64, 118, 0.9); }
 
 /* edges */
 .tree .ln,
@@ -907,14 +979,14 @@ body {
   stroke-linejoin: round;
 }
 
-.tree .ln { stroke: rgba(240, 249, 255, 0.22); stroke-width: 1.4; marker-end: url(#ah); }
-.tree .ln-n { stroke: rgba(167, 139, 250, 0.45); stroke-width: 1.4; stroke-dasharray: 4 4; marker-end: url(#ahn); }
-.tree .ln-n0 { stroke: rgba(167, 139, 250, 0.45); stroke-width: 1.4; stroke-dasharray: 4 4; }
-.tree .ln-b { stroke: rgba(192, 104, 122, 0.55); stroke-width: 1.4; stroke-dasharray: 5 4; marker-end: url(#ahb); }
+.tree .ln { stroke: rgba(23, 20, 15, 0.3); stroke-width: 1.4; marker-end: url(#ah); }
+.tree .ln-n { stroke: rgba(31, 64, 118, 0.5); stroke-width: 1.4; stroke-dasharray: 4 4; marker-end: url(#ahn); }
+.tree .ln-n0 { stroke: rgba(31, 64, 118, 0.5); stroke-width: 1.4; stroke-dasharray: 4 4; }
+.tree .ln-b { stroke: rgba(111, 74, 46, 0.6); stroke-width: 1.4; stroke-dasharray: 5 4; marker-end: url(#ahb); }
 
-.tree .ah { fill: rgba(240, 249, 255, 0.34); }
-.tree .ahn { fill: rgba(167, 139, 250, 0.7); }
-.tree .ahb { fill: rgba(192, 104, 122, 0.75); }
+.tree .ah { fill: rgba(23, 20, 15, 0.42); }
+.tree .ahn { fill: rgba(31, 64, 118, 0.72); }
+.tree .ahb { fill: rgba(111, 74, 46, 0.8); }
 
 /* edge labels */
 .tree .e-y,
@@ -953,7 +1025,7 @@ body {
 
 .chip-g { color: var(--p-dim); border-color: var(--p-edge); background: var(--p-wash); }
 .chip-d { color: var(--d-dim); border-color: var(--d-edge); background: var(--d-wash); }
-.chip-p { color: #e0b7c1; border-color: rgba(192, 104, 122, 0.34); background: rgba(192, 104, 122, 0.08); }
+.chip-p { color: #6b3f22; border-color: rgba(111, 74, 46, 0.38); background: rgba(111, 74, 46, 0.09); }
 
 /* ═══════════════════════════════════════════════
    Chronology
@@ -1044,13 +1116,22 @@ body {
 
 .tl-p::before { border-color: var(--p); }
 .tl-d::before { border-color: var(--d); }
-.tl-n::before { border-color: rgba(240, 249, 255, 0.3); }
+.tl-n::before { border-color: rgba(23, 20, 15, 0.3); }
 
 .tl-court::before {
   background: var(--court);
   border-color: var(--court);
-  box-shadow: 0 0 0 4px rgba(192, 104, 122, 0.14);
+  box-shadow: 0 0 0 4px rgba(111, 74, 46, 0.16);
 }
+
+/* Every tinted panel lays a wash over var(--bg). Blending those layers
+   with multiply is the difference between a tint that sits on the stock
+   and one that soaks into it, and it is why the page reads as printed. */
+.tl-p .tl-c,
+.tl-d .tl-c,
+.tl-court .tl-c,
+.tl-mark-in,
+.cn-out { background-blend-mode: multiply; }
 
 .tl-c {
   position: relative;
@@ -1089,8 +1170,8 @@ body {
 .tl-n::before { top: 6px; }
 
 .tl-court .tl-c {
-  border: 1px solid rgba(192, 104, 122, 0.3);
-  background: linear-gradient(180deg, rgba(192, 104, 122, 0.07), transparent 70%), var(--bg);
+  border: 1px solid rgba(111, 74, 46, 0.34);
+  background: linear-gradient(180deg, rgba(111, 74, 46, 0.1), transparent 70%), var(--bg);
 }
 
 .tl-n .tl-c {
@@ -1130,8 +1211,10 @@ body {
 .tl-n .tl-date { justify-content: center; }
 
 .tl-h {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 24, 'SOFT' 0, 'WONK' 0;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.34;
   letter-spacing: -0.014em;
   color: var(--ink);
@@ -1148,7 +1231,7 @@ body {
 }
 
 /* the beats the case actually turns on */
-.tl-ev.is-key .tl-c { box-shadow: inset 0 0 0 1px rgba(240, 249, 255, 0.09); }
+.tl-ev.is-key .tl-c { box-shadow: inset 0 0 0 1px rgba(23, 20, 15, 0.13); }
 .tl-ev.is-flag .tl-c { border-style: dashed; }
 
 /* ── the extra layer ──
@@ -1186,6 +1269,33 @@ body {
   font-size: 0.6rem;
   letter-spacing: 0.1em;
   color: var(--faint);
+}
+
+/* ── the citation as a door ──
+   Every docket number in a citation links to the filing itself. The
+   underline is offset and thin so a line of citations still reads as a
+   citation rather than as a row of links, and the arrow marks that the
+   filing opens away from the page. Entries with no PDF - the court's
+   paperless orders - stay plain text, because there is nothing to open. */
+.cite-doc {
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.cite-doc::after {
+  content: '\2197';
+  margin-left: 0.15em;
+  opacity: 0.5;
+}
+
+.cite-doc:hover,
+.cite-doc:focus-visible {
+  color: var(--court);
+  text-decoration-color: var(--court);
 }
 
 /* ── the toggle ── */
@@ -1235,7 +1345,7 @@ body {
   max-width: 640px;
   margin: 46px auto 0;
   padding-left: 20px;
-  border-left: 2px solid rgba(192, 104, 122, 0.4);
+  border-left: 2px solid rgba(111, 74, 46, 0.45);
   font-size: 0.92rem;
   color: var(--muted);
   font-weight: 300;
@@ -1276,9 +1386,8 @@ body {
   padding: 22px 28px 24px;
   text-align: center;
   border-radius: 2px;
-  border: 1px solid rgba(192, 104, 122, 0.4);
-  background: linear-gradient(180deg, rgba(192, 104, 122, 0.12), rgba(192, 104, 122, 0.03)), var(--bg);
-  box-shadow: 0 0 40px rgba(192, 104, 122, 0.07);
+  border: 1px solid rgba(111, 74, 46, 0.45);
+  background: linear-gradient(180deg, rgba(111, 74, 46, 0.16), rgba(111, 74, 46, 0.04)), var(--bg);
 }
 
 .tl-mark-d {
@@ -1290,10 +1399,11 @@ body {
 }
 
 .tl-mark-t {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--body);
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.005em;
   margin-bottom: 10px;
 }
 
@@ -1426,11 +1536,735 @@ body {
 }
 
 /* ═══════════════════════════════════════════════
+   Exhibit wash
+
+   The screenshot exhibits, recreated in text and run down the outer
+   edges of the page at low opacity, drifting slower than the argument
+   they sit behind. Plaintiff's evidence left, defendant's right.
+
+   It is an overlay rather than a true backdrop. Every band on this page
+   paints an opaque background, so a layer underneath them would simply
+   never be seen; instead this sits above at a low ceiling and is masked
+   away before it reaches the reading column, which produces the same
+   read without touching the bands' colour.
+
+   The layer is inert: aria-hidden in the markup, unselectable, and
+   transparent to the pointer. Find-in-page can still match the text,
+   but the layer is fixed, so a match highlights faintly in the margin
+   rather than dragging the reader somewhere they cannot see.
+   ═══════════════════════════════════════════════ */
+
+.exhibits {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  contain: layout paint style;
+
+  /* The three numbers worth touching. --ex-peak is the ceiling for the
+     whole layer, so the wash is never at full strength anywhere on the
+     page; --ex-edge is where the reading column begins; --ex-fade is
+     how far past that edge the wash takes to vanish completely, and it
+     shortens with the margin, so a narrow window kills the wash off
+     faster rather than letting it creep under the argument. */
+  --ex-peak: 0.26;
+  --ex-edge: max(0px, (100vw - var(--wrap)) / 2);
+  --ex-fade: clamp(90px, var(--ex-edge), 190px);
+
+  opacity: var(--ex-peak);
+
+  /* Fullest against the outer edge, well under half by the time it
+     meets the text column, gone entirely under the argument itself. */
+  -webkit-mask-image: linear-gradient(to right,
+      #000 0,
+      rgba(0, 0, 0, 0.42) var(--ex-edge),
+      transparent calc(var(--ex-edge) + var(--ex-fade)),
+      transparent calc(100% - var(--ex-edge) - var(--ex-fade)),
+      rgba(0, 0, 0, 0.42) calc(100% - var(--ex-edge)),
+      #000 100%);
+  mask-image: linear-gradient(to right,
+      #000 0,
+      rgba(0, 0, 0, 0.42) var(--ex-edge),
+      transparent calc(var(--ex-edge) + var(--ex-fade)),
+      transparent calc(100% - var(--ex-edge) - var(--ex-fade)),
+      rgba(0, 0, 0, 0.42) calc(100% - var(--ex-edge)),
+      #000 100%);
+}
+
+.ex-col {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+
+  /* Cards enter and leave rather than being guillotined by the viewport. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent);
+}
+
+.ex-col-p { left: 0; }
+.ex-col-d { right: 0; }
+
+/* The script drives the transform. With no script the strips simply sit
+   where they are and the wash becomes a static margin texture. */
+.ex-strip {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 0 26px;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.ex-col-d .ex-strip { text-align: right; }
+
+/* ── a recreated exhibit ── */
+
+.ex-c {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  line-height: 1.55;
+  margin: 0 0 34px;
+  padding: 12px 14px 11px;
+  border: 1px solid rgba(23, 20, 15, 0.17);
+  /* A card lighter than the stock reads as a white box sitting on top of
+     the page. Ink is subtractive, so the card is instead the faintest
+     possible darkening of the paper, and its edge does the rest. */
+  background: rgba(23, 20, 15, 0.025);
+}
+
+.ex-col-p .ex-c { border-left: 2px solid var(--p); }
+.ex-col-d .ex-c { border-right: 2px solid var(--d); }
+
+.ex-col-p .ex-h b,
+.ex-col-p .ex-cite { color: var(--p); }
+
+.ex-col-d .ex-h b,
+.ex-col-d .ex-cite { color: var(--d); }
+
+.ex-h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.ex-col-d .ex-h { justify-content: flex-end; }
+
+.ex-h b { font-weight: 600; }
+
+.ex-h time,
+.ex-h span {
+  font-size: 0.88em;
+  color: var(--muted);
+}
+
+.ex-h-2 { margin-top: 10px; }
+
+.ex-t { color: var(--ink-2); }
+.ex-t-2 { margin-top: 4px; }
+
+/* The highlighter the filing party drew on the exhibit itself. */
+.ex-c mark {
+  background: rgba(236, 206, 62, 0.55);
+  color: var(--ink);
+}
+
+/* The leaked Drive links, with the European date stamps that became
+   half the argument. */
+.ex-l {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 5px;
+  color: var(--faint);
+}
+
+.ex-l time { color: var(--muted); }
+.ex-u { color: var(--p-dim); word-break: break-all; }
+
+.ex-meta {
+  margin-top: 8px;
+  font-size: 0.92em;
+  color: var(--faint);
+}
+
+.ex-note {
+  margin-top: 6px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* The video attachment, as the export rendered it. */
+.ex-att {
+  margin-top: 6px;
+  padding: 13px 15px;
+  background: rgba(23, 20, 15, 0.06);
+  color: var(--muted);
+}
+
+.ex-cite {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 0.86em;
+  letter-spacing: 0.02em;
+}
+
+/* ── the sealed version of the same conversation ──
+   Exhibit B is the exchange above with everything but the timestamps
+   blacked out. It is the most honest picture of this record there is. */
+
+.ex-bar {
+  display: block;
+  height: 11px;
+  margin-top: 5px;
+  background: #14110c;
+}
+
+.ex-col-d .ex-bar { margin-left: auto; }
+
+.ex-b1 { width: 34%; }
+.ex-b2 { width: 53%; }
+.ex-b3 { width: 71%; }
+.ex-b4 { width: 88%; }
+
+/* ── the text-message exhibits ── */
+
+.ex-sms .ex-bub {
+  padding: 10px 13px;
+  border-radius: 14px;
+  background: rgba(23, 20, 15, 0.07);
+  color: var(--ink-2);
+  text-align: left;
+}
+
+/* ═══════════════════════════════════════════════
+   Skip ahead
+
+   The chronology runs to about ten screens, and the ledger to fourteen
+   with every drawer open. A reader who does not want either should not
+   have to scroll the whole of it to get out, so those two sections
+   carry an exit. The other three are barely over a screen and do not.
+
+   It is an ordinary anchor. No script, no handler: the smooth scroll
+   and the reduced-motion opt-out are the ones already set on <html>,
+   and with JavaScript off it still works, because it was never doing
+   anything JavaScript was needed for.
+
+   Sticky to the bottom of the viewport rather than fixed to it, which
+   is the whole trick. It rides along for the length of its own section
+   and then settles at the end of it, so it is there for exactly as
+   long as it is useful and never follows the reader into the next
+   section to nag them.
+   ═══════════════════════════════════════════════ */
+
+.skip-next {
+  position: sticky;
+  bottom: 26px;
+  z-index: 5;
+
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: max-content;
+  max-width: 100%;
+  margin: 72px 0 0 auto;
+
+  padding: 11px 15px;
+  border: 1px solid var(--rule);
+  /* Deeper than either ground it floats over, so it reads on the band
+     sections and the plain ones alike, and stays legible over the text
+     it covers. */
+  background: var(--bg-deep);
+  box-shadow: 0 5px 18px rgba(23, 20, 15, 0.14);
+
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--ink-2);
+  transition: color 0.2s, border-color 0.2s, transform 0.25s;
+}
+
+/* Set against the pill's own ground rather than inherited from the
+   page's secondary steps, which are pitched for the stock behind them. */
+.skip-next-l { color: var(--muted); }
+
+.has-to-top .skip-next {
+  transform: translateX(calc(-1 * (var(--totop-w) + var(--ctl-gap))));
+}
+.skip-next-t { color: var(--ink); }
+
+.skip-next:hover,
+.skip-next:focus-visible { border-color: var(--court); }
+
+.skip-next:hover .skip-next-l,
+.skip-next:focus-visible .skip-next-l { color: var(--ink); }
+
+.skip-next-a { transition: transform 0.2s; }
+.skip-next:hover .skip-next-a { transform: translateY(2px); }
+
+/* The nav is sticky and 44px tall, so a section arrived at by anchor
+   would otherwise land with its top edge tucked underneath it. The
+   masthead is in that list because #top is what Back to top returns to,
+   and landing it under the nav puts the page back at scroll zero. */
+.band,
+.masthead { scroll-margin-top: 44px; }
+
+/* ── Back to top ──
+   Fixed rather than sticky, because unlike Skip ahead this one is not
+   scoped to a section: once the masthead is off screen there is no way
+   back to the top that does not involve scrolling nine screens, and
+   that stays true until the reader returns.
+
+   The two controls read as one cluster. This one is the constant of the
+   pair - it outlives any single section - so it holds the right edge of
+   the reading column, and Skip ahead steps left to sit beside it when
+   both are out. The step is a transform rather than a margin so that
+   arriving and leaving costs no layout.
+
+   Visibility is driven by an IntersectionObserver on the masthead, not
+   by a scroll handler: the button is needed exactly when the top of the
+   page is not on screen, which is precisely what the observer reports,
+   and it costs nothing per frame. */
+.to-top {
+  position: fixed;
+  /* The right edge of .wrap's content box, so the cluster lines up with
+     the column rather than with the window. */
+  right: calc(max(0px, (100vw - var(--wrap)) / 2) + var(--gut));
+  bottom: 26px;
+  z-index: 5;
+
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+
+  /* Sized by its own content, never by a number written here. A fixed
+     width had five pixels of slack, which held at a 16px default and
+     nothing else: at a larger base size, under zoom, or during the
+     moment before the mono face loads, the label needed more room, and
+     a flex item is allowed to shrink to its longest word rather than
+     overflow - so the text wrapped and the button grew a line taller
+     than its neighbour. nowrap makes that impossible; max-content makes
+     it unnecessary. */
+  width: max-content;
+  white-space: nowrap;
+
+  padding: 11px 15px;
+  border: 1px solid var(--rule);
+  background: var(--bg-deep);
+  box-shadow: 0 5px 18px rgba(23, 20, 15, 0.14);
+
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--ink-2);
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.25s, transform 0.25s, border-color 0.2s;
+}
+
+.to-top.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.to-top:hover,
+.to-top:focus-visible { border-color: var(--court); }
+
+.to-top:hover .to-top-a { transform: translateY(-2px); }
+.to-top-a { transition: transform 0.2s; }
+
+@media print {
+  .to-top { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   Corrections
+
+   The page argues that both sides deserve their best case. Inviting the
+   reader to say where that failed is the same commitment, pointed at
+   itself - so this sits inside the Notes, next to what the page admits
+   it cannot see, rather than floating as a widget.
+   ═══════════════════════════════════════════════ */
+
+.fix {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--rule);
+}
+
+.fix-h {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+.fix-n {
+  margin: 12px 0 26px;
+  max-width: 46em;
+  color: var(--ink-2);
+}
+
+.fix-n strong { color: var(--court); font-weight: 600; }
+
+.fix-form { max-width: 46em; }
+
+/* The three words, as the choice itself. */
+.fix-kind { border: 0; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+.fix-kind legend {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 10px;
+}
+
+.fix-kind label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 252, 245, 0.5);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.fix-kind label:hover { border-color: var(--court); color: var(--ink); }
+
+.fix-kind input { accent-color: var(--court); margin: 0; }
+
+.fix-kind label:has(input:checked) {
+  border-color: var(--court);
+  background: rgba(111, 74, 46, 0.09);
+  color: var(--ink);
+}
+
+.fix-kind label:has(input:focus-visible) { outline: 2px solid var(--p); outline-offset: 2px; }
+
+.fix-in {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 252, 245, 0.62);
+  font-family: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink);
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.fix-in::placeholder { color: var(--faint); }
+
+.fix-in:focus {
+  outline: none;
+  border-color: var(--court);
+  background: rgba(255, 252, 245, 0.95);
+}
+
+.fix-detail { resize: vertical; min-height: 6.5em; }
+
+.fix-in.is-invalid { border-color: var(--p); }
+
+/* Hidden from people, not from bots: display:none and type=hidden are
+   both things a scraper can notice. */
+.fix-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.fix-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.fix-send {
+  padding: 11px 20px;
+  border: 1px solid var(--court);
+  background: rgba(111, 74, 46, 0.1);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--court);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.fix-send:hover:not(:disabled) { background: var(--court); color: var(--paper); }
+.fix-send:disabled { opacity: 0.55; cursor: default; }
+
+.fix-status {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.fix-status.is-error { color: var(--p); }
+.fix-status.is-success { color: var(--d); }
+
+.fix-p {
+  margin-top: 20px;
+  max-width: 46em;
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+
+/* ── a term, marked where you meet it ──
+   A dotted rule under a word is the old convention for "this has a
+   definition", and it is quiet enough to survive being used a hundred
+   times. Marked once per card rather than at every occurrence, so the
+   page reads as prose with a few doors in it rather than as a page of
+   links. The definition also rides in the title attribute, which costs
+   nothing and gives a hover a reason to exist. */
+.term {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-color: rgba(111, 74, 46, 0.45);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: help;
+  transition: color 0.15s, background-color 0.15s, text-decoration-color 0.15s;
+}
+
+.term:hover,
+.term:focus-visible {
+  color: var(--court);
+  text-decoration-color: var(--court);
+  background-color: rgba(111, 74, 46, 0.08);
+}
+
+/* Where the reader lands. The entry lights and settles, which is enough
+   to say "here" without holding on to the page afterwards. Both the row
+   and the term itself move, because the definition is the thing wanted
+   and the word is the thing recognised. */
+@keyframes term-found {
+  0%   { background-color: rgba(111, 74, 46, 0.26); }
+  55%  { background-color: rgba(111, 74, 46, 0.18); }
+  100% { background-color: rgba(111, 74, 46, 0); }
+}
+
+@keyframes term-found-dt {
+  0%   { color: var(--court); }
+  55%  { color: var(--court); }
+  100% { color: var(--ink); }
+}
+
+.gloss-l > div.is-found {
+  animation: term-found 1.9s ease-out;
+  border-radius: 2px;
+}
+
+.gloss-l > div.is-found dt { animation: term-found-dt 1.9s ease-out; }
+
+/* Without a script the anchor still lands, and :target still marks it. */
+.gloss-l dt:target { color: var(--court); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gloss-l > div.is-found,
+  .gloss-l > div.is-found dt { animation: none; }
+  .gloss-l > div.is-found { background-color: rgba(111, 74, 46, 0.16); }
+}
+
+/* ═══════════════════════════════════════════════
+   Terms
+
+   A page that has to satisfy a lawyer and a stranger at the same time
+   can do it one of two ways: write down to one, or let the other look
+   things up. This is the second. The prose keeps the words a court
+   actually uses, and every one of them is defined here.
+
+   It is a <details>, which means the button is a real button, the
+   keyboard works, Escape is unnecessary because nothing is trapped,
+   and none of it depends on a script. The reader most likely to need
+   a glossary is the least likely to be running one.
+
+   Bottom left, opposite the navigation cluster on the right: looking
+   something up and moving through the page are different intentions
+   and should not share a corner.
+   ═══════════════════════════════════════════════ */
+
+.gloss {
+  position: fixed;
+  left: max(var(--gut), calc((100vw - var(--wrap)) / 2 + var(--gut)));
+  bottom: 26px;
+  z-index: 6;
+}
+
+.gloss-b {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  width: max-content;
+  padding: 11px 15px;
+  border: 1px solid var(--rule);
+  background: var(--bg-deep);
+  box-shadow: 0 5px 18px rgba(23, 20, 15, 0.14);
+
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  white-space: nowrap;
+  cursor: pointer;
+  list-style: none;
+  transition: border-color 0.2s;
+}
+
+.gloss-b::-webkit-details-marker { display: none; }
+
+.gloss-b:hover,
+.gloss[open] .gloss-b { border-color: var(--court); }
+
+.gloss-b-i {
+  color: var(--court);
+  font-weight: 600;
+}
+
+/* The panel opens upward, because the button lives at the foot of the
+   window and there is nothing below it. */
+.gloss-p {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 10px);
+  width: min(30rem, calc(100vw - 2 * var(--gut)));
+  max-height: min(62vh, 620px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding: 26px 28px 28px;
+  border: 1px solid var(--rule);
+  background: var(--bg-deep);
+  box-shadow: 0 14px 46px rgba(23, 20, 15, 0.2);
+}
+
+.gloss-h {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 1;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+
+.gloss-n {
+  margin: 6px 0 22px;
+  font-size: 0.86rem;
+  color: var(--muted);
+}
+
+.gloss-s {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+  margin: 22px 0 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.gloss-l > div {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 4px 16px;
+  padding: 8px 0;
+}
+
+.gloss-l dt {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  padding-top: 0.15em;
+}
+
+.gloss-l dd {
+  font-size: 0.86rem;
+  line-height: 1.56;
+  color: var(--ink-2);
+}
+
+.gloss-l em { color: var(--ink); font-style: italic; }
+
+@media print {
+  .gloss { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════ */
 
+/* Below this the reading column fills the window and there is no outer
+   page left to wash. */
+@media (max-width: 1280px) {
+  .exhibits { display: none; }
+}
+
 @media (max-width: 900px) {
   :root { --gut: 24px; }
+
+  /* Shorter nav at this width. */
+  .band { scroll-margin-top: 40px; }
+
+  :root { --ctl-gap: 8px; }
+
+  /* No room for three controls on one line at this width, so Terms takes
+     the row above the navigation pair rather than shortening either. */
+  .gloss { bottom: 74px; left: var(--gut); }
+  .gloss-b { padding: 10px 12px; font-size: 0.66rem; }
+  .gloss-b-l { display: none; }
+  .gloss-p { width: calc(100vw - 2 * var(--gut)); max-height: 58vh; padding: 20px 20px 22px; }
+  .gloss-l > div { grid-template-columns: 1fr; gap: 2px; }
+
+  .skip-next {
+    margin-top: 48px;
+    padding: 10px 13px;
+    gap: 8px;
+    font-size: 0.66rem;
+  }
+
+  /* Skip ahead runs most of the width at this size, so Back to top drops
+     to its arrow rather than sitting on top of it. The anchor carries an
+     aria-label, so losing the visible words costs nothing to a screen
+     reader. */
+  /* No bottom offset of its own: the pair shares one baseline, and Skip
+     ahead sets it. The vertical padding and the type size are Skip
+     ahead's too, so the two boxes come out exactly the same height
+     rather than a pixel apart. */
+  .to-top {
+    padding: 10px 12px;
+    font-size: 0.66rem;
+  }
+
+  .to-top-l { display: none; }
 
   .site-nav { padding: 0 16px; gap: 14px; height: 40px; }
   .site-nav a, .nav-dropdown-toggle { font-size: 0.7rem; white-space: nowrap; }
@@ -1523,4 +2357,15 @@ body {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* The parallax is the whole point of the wash, so without it the layer
+   is just clutter in the margin. The script leaves the strips alone at
+   this setting; this drops them back to a lower, quieter presence. */
+@media (prefers-reduced-motion: reduce) {
+  .exhibits { --ex-peak: 0.2; }
+}
+
+@media print {
+  .exhibits { display: none; }
 }
