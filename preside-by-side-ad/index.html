@@ -52,131 +52,81 @@
     </nav>
 
     <!--
-      The page is a rebuild of the app's own front: an editorial masthead
-      over a split blue/red field, two president badges straddling the
-      seam between them, and a live-looking diverging bar chart below.
-      All of it is CSS — there is no screenshot on this page.
+      The page is a flag. Thirteen stripes tall, canton two fifths wide
+      and seven stripes deep. The canton is the hero block; the seven
+      coloured stripes are severity tracks, and the pale ones carry the
+      running copy.
     -->
     <main id="main-content" class="stage">
 
-        <header class="masthead">
-            <!--
-              Atmospheric only. The badge beside each portrait names the
-              president in text, so an alt here would just repeat it.
-            -->
-            <img class="portrait portrait--left" src="/assets/images/biden.webp" alt="" aria-hidden="true">
-            <img class="portrait portrait--right" src="/assets/images/trump.webp" alt="" aria-hidden="true">
-
+        <header class="canton">
             <p class="eyebrow">A Comparison</p>
             <h1 class="wordmark">Preside <em>by</em> Side</h1>
-            <p class="tagline">Pick any two American presidents and stack their faults side by side.</p>
-
-            <!--
-              Zero-height row pinned to the bottom of the masthead. The
-              two badges sit at 25% and 75%, the launch button on the
-              centerline at 50% — the three anchors the app uses for its
-              pickers and the view toggle between them.
-            -->
-            <div class="boundary">
-                <div class="badge badge--left" data-party="democrat">
-                    <span class="badge-first">Joseph R.</span>
-                    <span class="badge-last">Biden</span>
-                    <span class="badge-detail">46<sup>th</sup> President</span>
-                    <span class="badge-party">Democrat</span>
-                </div>
-
-                <div class="launch">
-                    <a class="launch-btn" href="/preside-by-side">
-                        Open Preside by Side
-                        <span class="launch-chev" aria-hidden="true">›</span>
-                    </a>
-                    <p class="launch-note">No login — score any fault yourself, or read the sources first.</p>
-                </div>
-
-                <div class="badge badge--right" data-party="republican">
-                    <span class="badge-first">Donald J.</span>
-                    <span class="badge-last">Trump</span>
-                    <span class="badge-detail">45<sup>th</sup> &amp; 47<sup>th</sup> President</span>
-                    <span class="badge-party">Republican</span>
-                </div>
-            </div>
+            <p class="tagline">Pick any two American presidents. Stack their faults side by side, weighted by
+                severity.</p>
+            <a class="launch" href="/preside-by-side">
+                Open Preside by Side
+                <span class="launch-chev" aria-hidden="true">›</span>
+            </a>
+            <p class="launch-note">No login — score any fault yourself, or read the sources first.</p>
         </header>
 
-        <div class="field">
-            <div class="side side--left" data-party="democrat" aria-hidden="true"></div>
-            <div class="side side--right" data-party="republican" aria-hidden="true"></div>
-            <div class="centerline" aria-hidden="true"></div>
+        <!-- The separator leads the bold half rather than trailing the
+             plain one, so a wrap never leaves a dangling "·". -->
+        <p class="key">Each stripe, one documented fault · scored 1&ndash;10 for severity
+            <b>· 18 presidents, 180 on the record</b>
+        </p>
 
-            <div class="compare-zone">
-                <!--
-                  Every label and number below is real: the shortLabel and
-                  AI severity of the four highest-scored events for each
-                  president in /preside-by-side/data/presidents/. Each bar
-                  carries its severity in --severity (which drives the
-                  width) and its row position in --i (which staggers the
-                  entrance).
-                -->
-                <div class="compare">
-                    <ol class="bars bars--left" data-party="democrat"
-                        aria-label="Sample chart — Joseph R. Biden, four faults scored 1 to 10 by severity">
-                        <li class="bar" style="--severity: 8; --i: 0">
-                            <span class="bar-name">Afghanistan Exit</span>
-                            <span class="bar-fill"><span class="bar-num">8</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 7; --i: 1">
-                            <span class="bar-name">Hunter Pardon</span>
-                            <span class="bar-fill"><span class="bar-num">7</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 6; --i: 2">
-                            <span class="bar-name">Classified Docs</span>
-                            <span class="bar-fill"><span class="bar-num">6</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 5; --i: 3">
-                            <span class="bar-name">Loan Overreach</span>
-                            <span class="bar-fill"><span class="bar-num">5</span></span>
-                        </li>
-                    </ol>
+        <!--
+          Illustrative, not a preview: no president is named and no
+          stripe is tied to an event. The seven numbers are real severity
+          values from the dataset, chosen to make a shape.
 
-                    <ol class="bars bars--right" data-party="republican"
-                        aria-label="Sample chart — Donald J. Trump, four faults scored 1 to 10 by severity">
-                        <li class="bar" style="--severity: 10; --i: 0">
-                            <span class="bar-name">Election Overturn</span>
-                            <span class="bar-fill"><span class="bar-num">10</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 9; --i: 1">
-                            <span class="bar-name">Jan. 6 Capitol</span>
-                            <span class="bar-fill"><span class="bar-num">9</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 8; --i: 2">
-                            <span class="bar-name">Family Separation</span>
-                            <span class="bar-fill"><span class="bar-num">8</span></span>
-                        </li>
-                        <li class="bar" style="--severity: 7; --i: 3">
-                            <span class="bar-name">Ukraine Aid Freeze</span>
-                            <span class="bar-fill"><span class="bar-num">7</span></span>
-                        </li>
-                    </ol>
-                </div>
+          --row places the stripe in the flag (odd rows are the coloured
+          ones), --severity sets its length on the shared scale, and --i
+          orders the sweep. The canton covers the start of rows 1–7, the
+          way a real flag's stripes run behind the union — every track
+          still begins at the same left edge, so the tips stay
+          comparable straight down the flag.
 
-                <p class="sample-note">One of 153 pairings · 18 presidents · 180 documented faults</p>
+          aria-hidden: the marks carry no information a reader needs —
+          the key above says in words what the chart says in shapes.
+        -->
+        <div class="tracks" aria-hidden="true">
+            <div class="track track--blue" style="--row: 1;  --severity: 8;  --i: 0">
+                <span class="track-fill"><span class="track-num">8</span></span>
             </div>
-
-            <!-- The small print the old page carried as body copy. -->
-            <div class="notes">
-                <section class="note note--left">
-                    <h2 class="note-label">Weighted by severity</h2>
-                    <p class="note-text">Every fault is a bar — longer and brighter as the severity climbs. Scores
-                        start as AI-assisted estimates on a 1–10 scale, then re-weight from the running average of
-                        reader votes. Rate them yourself and the chart redraws.</p>
-                </section>
-                <section class="note note--right">
-                    <h2 class="note-label">A partial view, on purpose</h2>
-                    <p class="note-text">Each bar cites primary government documents, court rulings, inspector general
-                        reports and established journalism. Achievements are set aside here — the point is to see the
-                        low points laid out next to each other, across parties and eras.</p>
-                </section>
+            <div class="track track--red" style="--row: 3;  --severity: 10; --i: 1">
+                <span class="track-fill"><span class="track-num">10</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 5;  --severity: 6;  --i: 2">
+                <span class="track-fill"><span class="track-num">6</span></span>
+            </div>
+            <div class="track track--red" style="--row: 7;  --severity: 9;  --i: 3">
+                <span class="track-fill"><span class="track-num">9</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 9;  --severity: 7;  --i: 4">
+                <span class="track-fill"><span class="track-num">7</span></span>
+            </div>
+            <div class="track track--red" style="--row: 11; --severity: 4;  --i: 5">
+                <span class="track-fill"><span class="track-num">4</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 13; --severity: 5;  --i: 6">
+                <span class="track-fill"><span class="track-num">5</span></span>
             </div>
         </div>
+
+        <section class="note" style="--row: 10">
+            <h2 class="note-label">Weighted by severity</h2>
+            <p class="note-text">Scores start as AI-assisted estimates and re-weight from the running average of
+                reader votes. Rate a fault yourself and the chart redraws.</p>
+        </section>
+
+        <section class="note" style="--row: 12">
+            <h2 class="note-label">A partial view, on purpose</h2>
+            <p class="note-text">Every fault cites primary documents, court rulings and inspector general reports.
+                Achievements are set aside here — the point is the low points, across parties and eras.</p>
+        </section>
 
     </main>
 </body>
