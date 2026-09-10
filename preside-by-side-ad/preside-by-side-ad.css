@@ -2,187 +2,1064 @@
    preside-by-side-ad.css — Styles for /preside-by-side-ad
    frontendneeded.com
 
-   USA color-coded: navy field, red accent, with a
-   blue→white→red flag-stripe accent bar.
+   The promo page IS the product. Rather than describing
+   Preside by Side inside the site's golden-ratio shell,
+   this page rebuilds the app's own silhouette in CSS: a
+   split blue/red field divided by a glowing centerline,
+   an editorial masthead, two president badges straddling
+   the boundary, and a diverging bar chart of real events
+   from the dataset. Nothing here is a screenshot.
+
+   The palette, patterns, type and motion are lifted from
+   /preside-by-side/preside-by-side.css on purpose, so
+   clicking through feels like the same room.
+   ═══════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════
+   TOKENS
+
+   Font stacks are copied verbatim from the app rather
+   than improved on. Neither Fraunces nor IBM Plex Sans
+   is loaded as a webfont there — both resolve to their
+   fallbacks — so matching the stack (instead of
+   self-hosting the real cuts here) is what keeps the ad
+   page and the app typographically identical.
    ═══════════════════════════════════════════════ */
 
 :root {
-    --accent: #c81e2a;
-    --accent-rgb: 200, 30, 42;
-    --bg: #0a1530;
+    /* Democrat — blue */
+    --blue-deep: #0a1845;
+    --blue-mid: #1e3a8a;
+    --blue-bright: #2952d4;
+    --blue-glow: #4d7fff;
+    --blue-pale: #6e9eff;
+
+    /* Republican — red */
+    --red-deep: #4a0810;
+    --red-mid: #8c0e1a;
+    --red-bright: #c81e2a;
+    --red-glow: #e74154;
+    --red-pale: #ff6b78;
+
+    /* Neutrals */
+    --ink: #f8f5ee;
+    --ink-dim: rgba(248, 245, 238, 0.72);
+    --ink-faint: rgba(248, 245, 238, 0.45);
+    --night: #0a0a14;
+    --night-soft: #14141f;
+
+    /* The shared nav reads --accent for the FEN home link. */
+    --accent: #e74154;
+    --accent-rgb: 231, 65, 84;
+    --bg: var(--night);
+
+    /* Type */
+    --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+    /* Bar geometry. Each side owns half the viewport, less --bar-edge
+       of breathing room at the outer margin; a bar's width is a
+       percentage of what's left, so severity 10 lands at 76% and the
+       remaining 24% (plus the edge) is the gutter the outer label sits
+       in. Same shape as the app's chart, with a little more gutter —
+       this page has no per-label shrink-to-fit pass to fall back on. */
+    --bar-edge: clamp(14px, 2vw, 30px);
+    --bar-base: 13%;
+    --bar-step: 6.3%;
+    --bar-h: clamp(34px, 5vh, 50px);
+    --bar-gap: clamp(8px, 1.5vh, 15px);
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+    --stagger: 0.11s;
 }
 
+/* Party theming. Whichever element carries data-party defines the
+   --party-* variables for everything inside it, so a side, a badge and
+   a bar list all tint from one declaration. */
+
+[data-party="democrat"] {
+    --party-bg-1: var(--blue-deep);
+    --party-bg-2: var(--blue-mid);
+    --party-bg-3: #1a2e6f;
+    --party-bg-4: #0a1438;
+    --party-bright: var(--blue-bright);
+    --party-glow: var(--blue-glow);
+    --party-pale: var(--blue-pale);
+    --party-rgb: 77, 127, 255;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><polygon points='40,12 47.5,33 70,33 51.5,46.5 58.5,68 40,55 21.5,68 28.5,46.5 10,33 32.5,33' fill='white' fill-opacity='0.07'/></svg>");
+    --party-pattern-size: 80px 80px;
+}
+
+[data-party="republican"] {
+    --party-bg-1: var(--red-deep);
+    --party-bg-2: var(--red-mid);
+    --party-bg-3: #6f1018;
+    --party-bg-4: #3a0810;
+    --party-bright: var(--red-bright);
+    --party-glow: var(--red-glow);
+    --party-pale: var(--red-pale);
+    --party-rgb: 231, 65, 84;
+    --party-pattern: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='40' viewBox='0 0 100 40'><rect x='0' y='0' width='100' height='20' fill='white' fill-opacity='0.06'/></svg>");
+    --party-pattern-size: 100px 40px;
+}
+
+
+/* ═══════════════════════════════════════════════
+   NAV — folded into the masthead
+
+   styles.css gives the nav its own dark navy. Here it is
+   retinted to the masthead's near-black so the bar reads
+   as the top edge of the header rather than a separate
+   strip sitting on it.
+   ═══════════════════════════════════════════════ */
+
 .site-nav {
-    background: #050a1a;
+    background: var(--night);
+    border-image: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: none;
+}
+
+.site-nav,
+.site-nav a,
+.nav-dropdown-toggle,
+.nav-dropdown-menu a {
+    font-family: var(--font-body);
 }
 
 .nav-dropdown-menu {
-    background: #050a1a;
+    background: var(--night-soft);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Golden-ratio section lines — override the shared
-   teal/violet tinted dividers with pure white, both the
-   border-image gradient and the soft box-shadow glow.
-   Covers the horizontal rule under .gr-top, the vertical
-   rule between .gr-left and .gr-right, and (under the
-   stacked mobile layout) the horizontal rule under
-   .gr-left. */
-.gr-top {
-    border-image: linear-gradient(90deg,
-            transparent,
-            rgba(255, 255, 255, 0.55),
-            rgba(255, 255, 255, 0.85),
-            rgba(255, 255, 255, 0.55),
-            transparent) 1;
-    box-shadow:
-        0 1px 30px rgba(255, 255, 255, 0.10),
-        0 1px 60px rgba(255, 255, 255, 0.06);
-}
-
-.gr-left {
-    border-image: linear-gradient(180deg,
-            transparent,
-            rgba(255, 255, 255, 0.55),
-            rgba(255, 255, 255, 0.85),
-            rgba(255, 255, 255, 0.55),
-            transparent) 1;
-    box-shadow:
-        1px 0 30px rgba(255, 255, 255, 0.10),
-        1px 0 60px rgba(255, 255, 255, 0.06);
-}
-
-@media (max-width: 1000px) {
-    .gr-left {
-        border-image: linear-gradient(90deg,
-                transparent,
-                rgba(255, 255, 255, 0.55),
-                rgba(255, 255, 255, 0.85),
-                rgba(255, 255, 255, 0.55),
-                transparent) 1;
-        box-shadow:
-            0 1px 30px rgba(255, 255, 255, 0.10),
-            0 1px 60px rgba(255, 255, 255, 0.06);
-    }
-}
-
-/* Photo-frame — re-tint the shared violet border / teal
-   glow to a clean white-on-navy so it matches the rest of
-   the page's USA palette. */
-.photo-frame {
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow:
-        0 0 20px rgba(255, 255, 255, 0.06),
-        0 8px 28px rgba(0, 0, 0, 0.5);
-}
-
-/* Flag-stripe accent bar — overrides the solid-color
-   default from styles.css with a red→white→blue gradient.
-   Slightly wider than the shared 48px so the three bands
-   actually read. */
-.accent-bar {
-    width: 96px;
-    background: linear-gradient(90deg,
-            #c81e2a 0%,
-            #f5f1e8 50%,
-            #2952d4 100%);
-    box-shadow: 0 0 12px rgba(200, 30, 42, 0.25);
-}
 
 /* ═══════════════════════════════════════════════
-   GR-RIGHT — US flag CTA panel
+   STAGE — one screen, two rows
 
-   Ported from the suggestion-box treatment on the real
-   /preside-by-side page: a stretched US flag SVG painted
-   under a dark overlay so the CTA copy and button stay
-   legible. Copy sits at the top; the button is pinned to
-   the bottom-right via flex column + margin-top: auto +
-   align-self: flex-end.
+   Row 1 is the masthead (its own height), row 2 is the
+   split field (everything left over). body in styles.css
+   is already a 100vh flex column with overflow hidden,
+   so the stage just claims the remainder. The responsive
+   block near the end of this file unlocks scrolling on
+   narrow or short viewports.
    ═══════════════════════════════════════════════ */
-.gr-right {
+
+body {
+    background: var(--night);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* ═══════════════════════════════════════════════
+   MASTHEAD
+   ═══════════════════════════════════════════════ */
+
+.masthead {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    background-image:
-        linear-gradient(rgba(6, 8, 18, 0.58), rgba(6, 8, 18, 0.72)),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1235 650' preserveAspectRatio='none'><rect width='1235' height='650' fill='rgb(244,242,236)'/><rect y='0' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='100' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='200' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='300' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='400' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='500' width='1235' height='50' fill='rgb(178,34,52)'/><rect y='600' width='1235' height='50' fill='rgb(178,34,52)'/><rect width='494' height='350' fill='rgb(54,53,99)'/><defs><polygon id='s' points='0,-16 4,-5 15,-5 6,2 9,13 0,6 -9,13 -6,2 -15,-5 -4,-5' fill='rgb(244,242,236)'/></defs><use href='%23s' x='41' y='35'/><use href='%23s' x='124' y='35'/><use href='%23s' x='206' y='35'/><use href='%23s' x='288' y='35'/><use href='%23s' x='370' y='35'/><use href='%23s' x='453' y='35'/><use href='%23s' x='82' y='70'/><use href='%23s' x='165' y='70'/><use href='%23s' x='247' y='70'/><use href='%23s' x='329' y='70'/><use href='%23s' x='412' y='70'/><use href='%23s' x='41' y='105'/><use href='%23s' x='124' y='105'/><use href='%23s' x='206' y='105'/><use href='%23s' x='288' y='105'/><use href='%23s' x='370' y='105'/><use href='%23s' x='453' y='105'/><use href='%23s' x='82' y='140'/><use href='%23s' x='165' y='140'/><use href='%23s' x='247' y='140'/><use href='%23s' x='329' y='140'/><use href='%23s' x='412' y='140'/><use href='%23s' x='41' y='175'/><use href='%23s' x='124' y='175'/><use href='%23s' x='206' y='175'/><use href='%23s' x='288' y='175'/><use href='%23s' x='370' y='175'/><use href='%23s' x='453' y='175'/><use href='%23s' x='82' y='210'/><use href='%23s' x='165' y='210'/><use href='%23s' x='247' y='210'/><use href='%23s' x='329' y='210'/><use href='%23s' x='412' y='210'/><use href='%23s' x='41' y='245'/><use href='%23s' x='124' y='245'/><use href='%23s' x='206' y='245'/><use href='%23s' x='288' y='245'/><use href='%23s' x='370' y='245'/><use href='%23s' x='453' y='245'/><use href='%23s' x='82' y='280'/><use href='%23s' x='165' y='280'/><use href='%23s' x='247' y='280'/><use href='%23s' x='329' y='280'/><use href='%23s' x='412' y='280'/><use href='%23s' x='41' y='315'/><use href='%23s' x='124' y='315'/><use href='%23s' x='206' y='315'/><use href='%23s' x='288' y='315'/><use href='%23s' x='370' y='315'/><use href='%23s' x='453' y='315'/></svg>");
-    background-size: 100% 100%, 100% 100%;
-    background-position: center, top left;
-    background-repeat: no-repeat, no-repeat;
-    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+    z-index: 3;
+    text-align: center;
+    /* Bottom padding reserves room for the top half of the badges,
+       which hang off the boundary between this row and the field. */
+    padding: clamp(26px, 4.5vh, 52px) 24px clamp(52px, 7vh, 72px);
+    background:
+        radial-gradient(ellipse at center top, rgba(255, 255, 255, 0.045) 0%, transparent 62%),
+        linear-gradient(180deg, var(--night) 0%, var(--night-soft) 100%);
 }
 
-.cta-copy {
-    display: flex;
-    flex-direction: column;
+/* Portraits — anchored to the far edges, standing on the boundary the
+   badges straddle. Purely atmospheric here: the badge beside each one
+   already names the president in text, so they carry an empty alt
+   rather than repeating it to a screen reader. */
+.portrait {
+    position: absolute;
+    bottom: 0;
+    height: 88%;
+    width: auto;
+    max-width: 20%;
+    object-fit: contain;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    animation: portraitIn 1s var(--ease-soft) 0.75s forwards;
 }
 
-.cta-copy .section-label {
-    margin-top: 0;
+.portrait--left {
+    left: 0;
+    object-position: bottom left;
 }
 
-.cta-headline {
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-    font-weight: 800;
+.portrait--right {
+    right: 0;
+    object-position: bottom right;
+}
+
+.eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: clamp(10px, 1.8vh, 18px);
+    animation: riseIn 0.7s var(--ease-out) 0.05s backwards;
+}
+
+.wordmark {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.1rem, 6vw, 4.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: 'opsz' 144;
+    animation: riseIn 0.8s var(--ease-out) 0.12s backwards;
+}
+
+.wordmark em {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.7em;
+    color: var(--ink-dim);
+    font-variation-settings: 'opsz' 100;
+    margin: 0 0.1em;
+    display: inline-block;
+    transform: translateY(-0.15em);
+}
+
+.tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.92rem, 1.5vw, 1.18rem);
+    color: var(--ink-dim);
+    margin: clamp(14px, 2.4vh, 24px) auto 0;
+    max-width: 60ch;
+    animation: riseIn 0.8s var(--ease-out) 0.2s backwards;
+}
+
+
+/* ═══════════════════════════════════════════════
+   BOUNDARY — badges + launch, straddling the seam
+
+   A zero-height row pinned to the bottom of the masthead.
+   Each child is centred on the seam via translate(-50%, -50%),
+   at 25% / 50% / 75% — the same three anchors the app uses
+   for its two pickers and the view toggle between them.
+   ═══════════════════════════════════════════════ */
+
+.boundary {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    z-index: 26;
+}
+
+.badge,
+.launch {
+    position: absolute;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.badge--left {
+    left: 25%;
+}
+
+.badge--right {
+    left: 75%;
+}
+
+.launch {
+    left: 50%;
+    text-align: center;
+}
+
+/* ── President badges — display only ──
+   Deliberately not buttons: the picker lives in the app. They read as
+   captions naming the pair the sample chart below belongs to. */
+.badge {
+    min-width: clamp(150px, 15vw, 208px);
+    padding: clamp(9px, 1.5vh, 16px) 22px clamp(8px, 1.3vh, 14px);
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(var(--party-rgb), 0.45);
+    border-radius: 2px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    animation: riseInCentered 0.7s var(--ease-out) 0.34s backwards;
+}
+
+.badge-first {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+}
+
+.badge-last {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    line-height: 1;
     letter-spacing: -0.02em;
-    line-height: 1.05;
-    color: #f5f1e8;
-    margin: 6px 0 12px;
-    text-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.85),
-        0 0 18px rgba(0, 0, 0, 0.55);
+    font-variation-settings: 'opsz' 144;
+    color: var(--ink);
 }
 
-.cta-body {
-    font-size: 0.9rem;
-    line-height: 1.45;
-    color: #f5f1e8;
-    margin: 0;
-    max-width: 28ch;
-    text-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.8),
-        0 0 12px rgba(0, 0, 0, 0.4);
+.badge-detail {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+    margin-top: 5px;
+    font-variation-settings: 'opsz' 9;
 }
 
-/* Button pinned bottom-right. margin-top:auto pushes it
-   to the bottom of the flex column; align-self:flex-end
-   pulls it to the right edge. */
-.cta-button {
-    margin-top: auto;
-    align-self: flex-end;
+.badge-detail sup {
+    font-size: 0.65em;
+    margin-left: 1px;
+}
+
+.badge-party {
+    display: block;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--party-glow);
+    margin-top: 5px;
+    opacity: 0.85;
+}
+
+/* ── Launch CTA — takes the view toggle's seat on the centerline ──
+   Party-neutral cream so neither side's colour claims it, matching the
+   app's active toggle segment. */
+.launch-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.01em;
-    color: #14141f;
+    padding: 13px 26px;
+    border-radius: 999px;
     background: linear-gradient(180deg, #faf7f0, #e0d9c8);
-    border: 1px solid rgba(248, 245, 238, 0.7);
-    border-radius: 6px;
-    padding: 10px 18px;
+    color: #14141f;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    white-space: nowrap;
     text-decoration: none;
     box-shadow:
-        0 4px 16px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    transition: transform 0.2s var(--ease-soft), box-shadow 0.25s var(--ease-soft), background 0.25s;
+    animation: riseIn 0.7s var(--ease-out) 0.42s backwards;
 }
 
-.cta-button:hover {
+.launch-btn:hover {
     transform: translateY(-2px);
     background: linear-gradient(180deg, #ffffff, #ece5d2);
     box-shadow:
-        0 8px 22px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(0, 0, 0, 0.2);
+        0 16px 46px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
-.cta-button:active {
+.launch-btn:active {
     transform: translateY(0);
 }
 
-.cta-button-chev {
-    font-size: 1.15rem;
-    line-height: 1;
+.launch-btn:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+}
+
+.launch-chev {
+    font-size: 1.1rem;
+    line-height: 0;
     transform: translateY(-1px);
+}
+
+.launch-note {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 12px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+    pointer-events: none;
+    animation: fadeIn 0.7s var(--ease-soft) 0.62s backwards;
+}
+
+
+/* ═══════════════════════════════════════════════
+   FIELD — the split
+   ═══════════════════════════════════════════════ */
+
+.field {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    /* Clears the bottom half of the badges and the note under the CTA. */
+    padding-top: clamp(58px, 9vh, 92px);
+}
+
+.side {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.side--left {
+    left: 0;
+    background:
+        var(--party-pattern) repeat,
+        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%),
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%);
+    background-size: var(--party-pattern-size), auto, auto;
+}
+
+.side--right {
+    right: 0;
+    background:
+        var(--party-pattern) repeat,
+        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%),
+        linear-gradient(180deg,
+            var(--party-bg-1) 0%,
+            var(--party-bg-2) 35%,
+            var(--party-bg-3) 65%,
+            var(--party-bg-4) 100%);
+    background-size: var(--party-pattern-size), auto, auto;
+}
+
+/* Vignette — darkens both ends of the field so the bars in the middle
+   and the prose at the bottom keep their contrast over the patterns. */
+.field::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.45) 0%, transparent 42%),
+        radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.6) 0%, transparent 55%);
+}
+
+.centerline {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.15) 60%,
+            rgba(255, 255, 255, 0) 100%);
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
+    z-index: 5;
+    pointer-events: none;
+}
+
+
+/* ═══════════════════════════════════════════════
+   COMPARISON — the diverging chart
+
+   Two lists, one per half, sharing a row rhythm so the
+   bars line up across the centerline. Every label and
+   number below is real data from
+   /preside-by-side/data/presidents/*.json.
+   ═══════════════════════════════════════════════ */
+
+.compare-zone {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(14px, 2.6vh, 26px);
+}
+
+.compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.bars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bar-gap);
+    min-width: 0;
+}
+
+/* Padding on the outer side only — the inner side has to reach the
+   centerline. Every bar percentage resolves against what's left, so the
+   edge gap is added to the label gutter rather than taken out of it. */
+.bars--left {
+    padding-left: var(--bar-edge);
+}
+
+.bars--right {
+    padding-right: var(--bar-edge);
+}
+
+.bar {
+    position: relative;
+    display: flex;
+    min-width: 0;
+}
+
+.bars--left .bar {
+    justify-content: flex-end;
+}
+
+.bars--right .bar {
+    justify-content: flex-start;
+}
+
+/* The fill. Width is severity-driven; the clip-path reveal sweeps out
+   from the centerline so both sides open away from the seam. */
+.bar-fill {
+    position: relative;
+    width: calc(var(--bar-base) + var(--severity) * var(--bar-step));
+    height: var(--bar-h);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(10px, 1.2vw, 18px);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: 0.9s var(--ease-out) backwards;
+    animation-delay: calc(0.5s + var(--i) * var(--stagger));
+}
+
+.bars--left .bar-fill {
+    justify-content: flex-start;
+    border-radius: 3px 0 0 3px;
+    background: linear-gradient(90deg,
+            var(--party-pale) 0%,
+            var(--party-glow) 35%,
+            var(--party-bright) 100%);
+    animation-name: revealFromRight;
+}
+
+.bars--right .bar-fill {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(270deg,
+            var(--party-pale) 0%,
+            var(--party-glow) 35%,
+            var(--party-bright) 100%);
+    animation-name: revealFromLeft;
+}
+
+/* Severity number, riding the bar's outer tip. */
+.bar-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.05rem, 1.6vw, 1.55rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 144;
+    color: var(--ink);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    animation: fadeIn 0.5s var(--ease-soft) forwards;
+    animation-delay: calc(1.05s + var(--i) * var(--stagger));
+}
+
+/* Event name, in the outer gutter. It is a sibling of the fill, not a
+   child, so the fill's clip-path reveal never touches it. */
+.bar-name {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(0.78rem, 1vw, 1.02rem);
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+    color: var(--ink);
+    white-space: nowrap;
+    font-variation-settings: 'opsz' 36;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    animation: fadeIn 0.5s var(--ease-soft) forwards;
+    animation-delay: calc(1.15s + var(--i) * var(--stagger));
+}
+
+.bars--left .bar-name {
+    /* Parked just outside where a severity-10 bar would end, so every
+       label on the side lines up on one edge regardless of bar length. */
+    right: calc(var(--bar-base) + 10 * var(--bar-step) + 16px);
+    text-align: right;
+}
+
+.bars--right .bar-name {
+    left: calc(var(--bar-base) + 10 * var(--bar-step) + 16px);
+    text-align: left;
+}
+
+/* Caption under the chart — states plainly that the pairing on screen
+   is one of many, and how much data sits behind it. */
+.sample-note {
+    text-align: center;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.8s var(--ease-soft) 1.6s backwards;
+}
+
+
+/* ═══════════════════════════════════════════════
+   NOTES — the honest small print, in the low corners
+
+   Carries what the old page's body copy said: how the
+   scores are made, what they cite, and what the project
+   leaves out on purpose.
+   ═══════════════════════════════════════════════ */
+
+.notes {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: clamp(24px, 6vw, 90px);
+    padding: clamp(18px, 3vh, 34px) clamp(20px, 4vw, 60px) clamp(20px, 3.5vh, 40px);
+    animation: fadeIn 0.9s var(--ease-soft) 1.75s backwards;
+}
+
+.note {
+    max-width: 40ch;
+}
+
+.note--right {
+    text-align: right;
+}
+
+/* Flex rather than a floated pseudo-element, so the leading hairline
+   lands on the outer side of the text on both notes — left of the label
+   in the left corner, right of it in the right corner. */
+.note-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+}
+
+.note-label::before {
+    content: '';
+    flex: 0 0 16px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+}
+
+.note--right .note-label {
+    flex-direction: row-reverse;
+}
+
+.note-text {
+    font-size: clamp(0.74rem, 0.9vw, 0.85rem);
+    line-height: 1.6;
+    color: rgba(248, 245, 238, 0.82);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
+@keyframes revealFromRight {
+
+    /* Left-side bars open from the centerline outward. */
+    from {
+        clip-path: inset(0 0 0 100%);
+        opacity: 0;
+    }
+
+    to {
+        clip-path: inset(0);
+        opacity: 1;
+    }
+}
+
+@keyframes revealFromLeft {
+    from {
+        clip-path: inset(0 100% 0 0);
+        opacity: 0;
+    }
+
+    to {
+        clip-path: inset(0);
+        opacity: 1;
+    }
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* A badge is centred on the seam with translate(-50%, -50%), so its
+   entrance has to compose with that transform rather than replace it.
+   The CTA needs no variant: .launch owns the centering, and .launch-btn
+   inside it animates on its own untransformed box. */
+@keyframes riseInCentered {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes portraitIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 0.68;
+        transform: translateY(0);
+    }
+}
+
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+
+   Three regimes:
+     ≥1100px  the full one-screen layout above
+     ≤1100px  tighter bars and labels, still one screen
+     ≤820px   the page unlocks and scrolls; labels move
+              above their bars and the CTA drops below
+              the badges
+
+   Short viewports are handled on their own. The split is a
+   width decision, so a wide-but-short window keeps it and
+   only trims the masthead — folding it into the stacked
+   phone layout gave a 1280px-wide screen phone-sized,
+   full-width bars.
+   ═══════════════════════════════════════════════ */
+
+/* Portraits need real gutter to sit in; below this the badges reach the
+   edges and they would collide. */
+@media (max-width: 1320px) {
+    .portrait {
+        display: none;
+    }
+}
+
+@media (max-width: 1100px) {
+    :root {
+        --bar-base: 12%;
+        --bar-step: 5.8%;
+    }
+
+    .bar-name {
+        white-space: normal;
+        max-width: 15ch;
+    }
+
+    .launch-btn {
+        font-size: 0.66rem;
+        padding: 11px 20px;
+    }
+
+    .launch-note {
+        font-size: 0.68rem;
+    }
+}
+
+/* 821–1000px: the badges have closed in on the centerline far enough
+   that the one-line caption under the CTA reaches them. Wrap it into
+   the gap between the two badges instead, and drop the bars far enough
+   to clear its second line. */
+@media (min-width: 821px) and (max-width: 1000px) {
+    .launch-note {
+        white-space: normal;
+        max-width: 26ch;
+        font-size: 0.64rem;
+        line-height: 1.35;
+    }
+
+    .field {
+        padding-top: clamp(78px, 12vh, 104px);
+    }
+}
+
+/* Short-but-wide viewports: keep the split, buy back vertical room. */
+@media (min-width: 821px) and (max-height: 660px) {
+    .masthead {
+        padding-top: 18px;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    .notes {
+        gap: 40px;
+    }
+
+    .note-text {
+        font-size: 0.72rem;
+        line-height: 1.5;
+    }
+}
+
+/* Shorter than this and the split layout stops fitting a wide window's
+   height, so the page scrolls rather than clipping the notes off the
+   bottom. Layout is otherwise untouched — this only releases the 100vh
+   lock that styles.css puts on body. */
+@media (min-width: 821px) and (max-height: 560px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+
+    .stage {
+        min-height: 0;
+        overflow: visible;
+    }
+}
+
+@media (max-width: 820px) {
+
+    /* Unlock the viewport lock inherited from styles.css. min-height
+       keeps body a full-viewport flex column, so .stage still grows to
+       the bottom of the screen on a short page and the split field
+       doesn't stop where the notes end. */
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+
+    .stage {
+        min-height: 0;
+        overflow: visible;
+    }
+
+    .masthead {
+        padding-bottom: 26px;
+    }
+
+    /* The boundary row rejoins the flow: badges side by side, CTA under
+       them. Nothing straddles a seam at this width. */
+    .boundary {
+        position: static;
+        height: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 12px;
+        margin-top: 26px;
+    }
+
+    .badge,
+    .launch {
+        position: static;
+        transform: none;
+    }
+
+    .badge {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 230px;
+        animation-name: riseIn;
+    }
+
+    .launch {
+        flex: 1 1 100%;
+        order: 1;
+        margin-top: 4px;
+    }
+
+    .launch-note {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+        white-space: normal;
+    }
+
+    .field {
+        padding-top: 30px;
+        min-height: 0;
+    }
+
+    /* Bars reach the viewport edge; the label moves above its bar,
+       flush to the centerline end, which is where the app puts it on
+       phones too. */
+    :root {
+        --bar-base: 22%;
+        --bar-step: 7.8%;
+        --bar-h: 34px;
+        --bar-gap: 6px;
+    }
+
+    .bar {
+        display: block;
+    }
+
+    .bar-name {
+        position: static;
+        transform: none;
+        display: block;
+        max-width: none;
+        font-size: 0.76rem;
+        margin-bottom: 3px;
+        opacity: 1;
+        animation: none;
+    }
+
+    .bars--left .bar-name {
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .bars--right .bar-name {
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    .bars--left .bar-fill {
+        margin-left: auto;
+    }
+
+    .bar-num {
+        font-size: 1rem;
+    }
+
+    .notes {
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 30px;
+        padding-bottom: 44px;
+        background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(5, 6, 14, 0.72) 22%,
+                rgba(5, 6, 14, 0.88) 100%);
+    }
+
+    .note {
+        max-width: none;
+    }
+
+    .note--right {
+        text-align: left;
+    }
+
+    .note--right .note-label {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 460px) {
+    .badge-detail,
+    .badge-party {
+        display: none;
+    }
+
+    .badge {
+        padding: 10px 14px;
+    }
+
+    .sample-note {
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════
+   REDUCED MOTION — everything arrives already there
+   ═══════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001s !important;
+        animation-delay: 0s !important;
+        transition-duration: 0.001s !important;
+    }
+
+    .portrait {
+        opacity: 0.68;
+    }
 }
