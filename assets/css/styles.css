@@ -280,6 +280,11 @@ p.body-text+h3.sub {
   flex-shrink: 0;
 }
 
+/* Hire Me sits apart from the site links rather than beside them. Targeted by
+   href so it works wherever it falls in the bar: on the home page it is
+   followed by "etc.", and the pair travels right together. */
+.site-nav a[href="/hire-me"] { margin-left: auto; }
+
 .site-nav a {
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.78rem;
