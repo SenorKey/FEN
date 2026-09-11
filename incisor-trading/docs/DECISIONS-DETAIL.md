@@ -2113,3 +2113,69 @@ run stopped correctly: tracked files were modified then.
 
 The guide's wording is Key's to change (N14). Until it does, this is how it is
 read.
+
+---
+
+## DEC-085 — Forward fill is the first timestamped price after the order
+
+*Settled · 09-11 · T15*
+
+**Decision**
+
+**Each daily bar is two prices with known moments: its open at 9:30am ET and
+its close at 4:00pm ET, or 1:00pm on an early close (`market-clock.js`
+`sessionOn`). An order fills at the first of those strictly after it was
+placed.** Placed mid-session, it fills at that session's close; placed while
+the market is closed, it queues for the next open. Limit orders also use the
+day's low (buy) or high (sell), filling at the limit, recorded at the close —
+but only for sessions they were open through from the bell.
+
+**Why**
+
+Guide §12 says "the next price the server fetches", which with end-of-day
+data would mean the moment a bar is *published*, hours after it happened, and
+would differ between live and fixture mode. The bar's own market moment is
+the same in both, is deterministic, and is the fairer reading: it is the price
+that really came next. It also makes the market-hours gate fall out of the
+rule rather than sitting beside it — there is no price to fill at until the
+next open.
+
+A session joined halfway offers only its close because its low may have come
+before the order existed; using it would let an order fill at a price that
+happened in its past. The same session's open is skipped for the same reason.
+
+In fixture mode prices never advance, so an order placed today never fills.
+That is stated on the ticket and under the open orders rather than papered
+over with a simulated next bar: a generated price for tomorrow is exactly the
+invented figure DEC-072 forbids.
+
+---
+
+## DEC-086 — What an open order holds back, and six symbols in play
+
+*Settled · 09-11 · T15*
+
+**Decision**
+
+**A buy holds back cash while open: a limit at its limit, a market order at
+the last close plus 5%. A sell holds back its shares. The portfolio may hold
+or have on order six distinct symbols.** Open orders are not re-judged on
+load — only their shape is checked — so free cash may read below zero.
+
+**Why**
+
+Without a hold two open orders can spend one balance, and the refusal comes a
+day later at the fill. A market order's price is unknown, so it holds back a
+buffer; 5% covers an ordinary overnight gap and still lets a reader put most
+of the balance to work. A gap past it is refused at the fill by the ledger's
+own rule (DEC-082), and the open-orders list says so.
+
+Re-judging stored orders against today's cash would turn a real state — one
+order filled higher than expected, leaving another over-held — into a
+"corrupt" portfolio, discarding the reader's work over a price.
+
+Six is the call budget, like the watchlist's eight (DEC-028): every symbol in
+play costs one `/history` a valuation. Four tiles, eight watched rows and six
+positions leave four of 22, two lookups, for a reader whose lists share
+nothing. `test_orders.py` asserts that arithmetic. **Do not raise it without
+redoing the sum.**

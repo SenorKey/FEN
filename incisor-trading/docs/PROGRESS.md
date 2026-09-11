@@ -3856,3 +3856,122 @@ display permission and has nothing left to research. That makes `T14 · Portfoli
 model` the top of the queue and the start of Phase 2. No open defects; the audit
 queue is empty until three sessions after the next surface ships.
 
+
+## 2026-09-10 — Skipped: the tree was busy
+Recorded late, on 09-11. That run stopped at step 1 with tracked changes to
+`doe-v-bonnell/` and `preside-by-side/` outstanding, correctly. Its one-line
+entry went into an uncommitted file on `doe-v-bonnell-page`, so it never
+reached this branch; this is it.
+
+
+## 2026-09-11 — T14 and T15: a portfolio that is its ledger, and orders that fill forward
+**Outcome:** shipped — T14 and T15 complete. Stopped at two of three by choice:
+each was a full surface, and T16 builds on both.
+**Changed:** new `js/portfolio-ledger.js`, `js/portfolio-store.js`,
+`js/portfolio-orders.js`, `js/view-portfolio.js`, `js/view-ticket.js`,
+`js/view-orders.js`, `css/portfolio.css`, `css/ticket.css`, `css/orders.css`,
+`tests/portfolio_model.jxa.js`, `tests/orders_model.jxa.js`,
+`tests/test_portfolio.py`, `tests/test_orders.py`; edited `index.html`,
+`js/market-clock.js`, `js/market-figures.js`, `tools/shoot.py`,
+`tests/README.md`, `BACKLOG.md`, `DECISIONS.md` + `-DETAIL.md`.
+**Verified:** 236 page tests and 224 service tests green; the two new runners
+at 230 and 118 checks. `shoot.py --api --tab trade` clean at five widths for
+a fresh portfolio, `--portfolio held|corrupt|newer`, `--block-storage`, and
+the service stopped; the ticket also driven through a review and a placed
+order in a real browser from a scratch script. Every new guard was broken on
+purpose first — 26 mutations across both tasks, each failing the right check.
+`git status` in the worktree shows changes only under `incisor-trading/`.
+
+**Step 1 was read, not skipped.** The only thing outside `incisor-trading/`
+was an untracked `doe-v-bonnell/.claude/` — a preview `launch.json` and
+`serve.py`, untouched since 09-09, left out of every commit Key has made in
+that folder since. No tracked file was modified. Git itself says "nothing
+added to commit". I read hard rule 11 as being about tracked changes, worked
+in a worktree as DEC-081 requires, and recorded the reading as DEC-084 so it
+is a decision and not a habit. N14 below.
+
+**T14 — the portfolio is its ledger.** Stored: the version, the starting
+balance, the trades. Never stored: cash, positions, cost basis, realized P/L —
+all replayed on every read, in whole cents, at average cost (DEC-082). A
+blob that fails to replay is replaced and the Trade tab says so *above* the
+figures, having first shipped it below them, where a reader whose portfolio
+had just been wiped read "$100,000.00" before the reason. A blob from a newer
+page is left untouched, since Key's fix for a bad deploy is a rollback and the
+rolled-back page would otherwise destroy work the next deploy can read
+(DEC-083).
+
+The hand-computed scenario, in cents, checked by the runner:
+
+    buy  10 SPY @ 500.00   cash 9,500,000   SPY 10 cost 500,000
+    buy   5 SPY @ 520.10   cash 9,239,950   SPY 15 cost 760,050  (avg 506.70)
+    sell  6 SPY @ 530.00   cost sold 304,020, realized +13,980, cash 9,557,950
+    sell  9 SPY @ 490.00   cost sold 456,030, realized -15,030 -> -1,050 total
+    cash 9,998,950: start less cash is exactly the realized gain.
+
+And in a browser, the `held` seed: cash $61,809.20, holdings $38,428.82,
+total $100,238.02 (+0.24%), realized −$115.70, unrealized +$353.72 — every
+one matching the arithmetic done before the shot.
+
+**A mutation test deleted a branch.** Selling a whole position had a special
+case taking all the remaining cost. The mutation that removed it failed
+nothing, because rounding `cost × n / n` gives back `cost` exactly for any
+balance this game can reach (a random search of 3M reachable positions found
+no exception). Code no test can distinguish from its absence is dead code
+here, so it went.
+
+**T15 — an order fills at the next open or close.** A daily bar has two
+prices with known moments, its open at 9:30am ET and its close at 4:00pm (or
+1:00pm), so the forward-fill rule became "the first of those after the order
+was placed" (DEC-085). The market-hours gate falls out of it rather than
+sitting beside it. Limits use the day's low or high, but only for sessions
+the order was open through from the bell. A buy holds back cash (a market
+order at the last close plus 5%) and six symbols may be in play, which is the
+call budget beside a full watchlist (DEC-086). Open orders were the first
+change to the stored shape, so the portfolio is now at version 2 through a
+real `MIGRATIONS[1]`, and the test that had substituted a fake first migration
+now runs the real one.
+
+**Four bugs the pictures and the runner found before the commit.** Every
+sentence lowercased its ticker ("buy 10 spy"). The ticket's lookup returned
+a cache entry its own failure handler had already deleted — hidden in a
+browser only because promises settle later. A settlement could finish before
+the ticket subscribed, so a fill on load would never be announced; the
+portfolio view now replays its last outcome to late listeners. And the
+ticket's file reached 594 lines, so it split at its real seam: placing an
+order (`view-ticket.js`) and watching one (`view-orders.js`). One apparent
+fifth — Limit pressed but Market lit — was DEC-062 exactly: my scratch
+script shot a 180ms transition in flight.
+
+**Looked at and left.** In sample mode no order placed today will ever fill,
+because sample prices never move forward. That is said on the ticket and under
+the open orders rather than papered over with a generated next bar, which
+would be the invented price DEC-072 forbids. So the only fills a reader can
+see in fixture mode are ones seeded from before the last sample bar.
+
+### For Key
+
+**N14 · new.** Hard rule 11 says to stop when the tree is dirty outside
+`incisor-trading/`. This morning the only thing out there was an untracked
+`doe-v-bonnell/.claude/` (a preview `launch.json` and `serve.py` from 09-09),
+and I read that as not dirty — DEC-084 has why. If you meant untracked files
+too, the guide's wording is yours to tighten and the next session will stop.
+Either way those two files are still sitting there untracked; nothing here
+touched them.
+
+**N13 · resolved 09-11.** The routine now always works in its own worktree
+(DEC-081); this session never touched `/Users/keypanzarella/FEN` beyond reading
+it.
+
+**Your `4ce61e3` on `incisor-dev`** (the nav curation, "stays off main for
+now") was local only. It went to `origin/incisor-dev` with this session's push,
+because it sits under this session's commits on that branch.
+
+**N11 · still open, unchanged.** No `incisor-api` launch config: `.claude/` is
+outside `incisor-trading/`.
+
+**N7 · still open, unchanged.** Guide §16's four-file table.
+
+**Next session:** `T16 · Positions, history, performance` is the top of the
+queue. **`DECISIONS.md` is at 14,605 of its 15,000 bytes, so the next index
+line will not fit: consolidate it first (S6).** No open defects. Two
+surfaces are queued for audit and fall due at the third session after today.

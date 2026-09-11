@@ -57,18 +57,6 @@ that is Key's to obtain, not the routine's to work around.
 
 ## Phase 2 — Paper trading (live sim)
 
-- [ ] **T15 · Order ticket** — market and limit orders, long only, whole shares.
-  Enforces the **forward-fill rule** (§7 of the guide) and the market-hours gate;
-  orders placed while closed queue to the next open. *Accept:* an order placed
-  against a fixture fills at the *next* price, not the displayed one; insufficient
-  funds and invalid quantity are rejected with clear messages.
-  *Inherited from T14:* a fill is `store.record(entry)` and its refusals are
-  `ledger.apply`'s — no second rule set (DEC-082). Queued orders are new stored
-  state, so they are the first real migration: `MIGRATIONS[1]` and `VERSION = 2`
-  in one commit (DEC-083). And every held symbol costs one `/history` call to
-  value, so decide a cap on distinct holdings the way DEC-028 capped the
-  watchlist, with the arithmetic written down.
-
 - [ ] **T16 · Positions, history, performance** — holdings table, transaction log,
   equity curve vs. a buy-and-hold SPY benchmark over the same period.
   *Accept:* P/L math verified against a hand-computed scenario written into the
@@ -228,8 +216,9 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Nothing is due yet.** Queued: **Portfolio summary** (T14, shipped 09-11),
-due at the third session after that one.
+**Nothing is due yet.** Queued, both shipped 09-11 and due at the third
+session after that one: **Portfolio summary** (T14), then **Order ticket and
+open orders** (T15).
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -337,3 +326,4 @@ session that must *act* on any of this goes.
 | T13 | 09-08 | **Dashboard polish, accessibility and security pass.** CSP in meta and vhost; a dead tab stop and an invisible focus ring fixed; three panels stopped denying a failed lookup. → DEC-076, DEC-077, DEC-078 |
 | T13b | 09-08 | **Visual directions, round one.** Two opposed look branches — `broadsheet` (a document) and `workbench` (an instrument) — registered with shots. → DEC-079, DEC-080, DEC-081 |
 | T14 | 09-11 | **Portfolio model.** A replayed ledger in `localStorage`, an account summary on the Trade tab, and a notice for a blob that was unreadable or written by a newer page. → DEC-082, DEC-083 |
+| T15 | 09-11 | **Order ticket and open orders.** Fills at the first bar open or close after placing; buys hold back cash; open orders were the first migration, v1 to v2. → DEC-085, DEC-086 |

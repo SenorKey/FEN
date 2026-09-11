@@ -83,6 +83,8 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-082 | **The portfolio is its ledger: totals are replayed, never stored; cents; average cost.** `ledger.apply` is the one judge of a trade — T15 gets no second copy of the rules. |
 | DEC-083 | **A stored blob from a newer page is never overwritten** — a rollback would destroy work. Older blobs migrate one `MIGRATIONS[v]` step at a time; bump and step land together. |
 | DEC-084 | **Step 1 is failed by a changed tracked file outside `incisor-trading/`, not by an untracked one.** A stray preview config would skip every day; the worktree already protects Key. |
+| DEC-085 | **An order fills at the first bar open (9:30 ET) or close after it was placed** — the bar's market moment, not its publication. Mid-session limits get the close only. |
+| DEC-086 | **Open buys hold back cash — a limit at its limit, market at last close +5% — and six symbols may be in play.** Six is the call budget, like DEC-028: redo the sum to raise it. |
 
 ---
 
