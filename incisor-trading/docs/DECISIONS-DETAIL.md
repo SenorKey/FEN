@@ -2017,3 +2017,99 @@ Remove it at the end of the session (`git worktree remove`), and note that a
 branch checked out in one worktree cannot be checked out in another — which is
 a feature here, not a limitation.
 
+
+---
+
+## DEC-082 — The portfolio is its ledger, in cents, at average cost
+
+*Settled · 09-11 · T14*
+
+**Decision**
+
+**`localStorage` holds the version, the starting balance and the list of
+trades — nothing else. Cash, positions, cost basis and realized P/L are
+replayed from the ledger on every read. Money is whole cents, each trade's
+extended amount rounded once. Cost basis is average cost.** Every Phase 2
+surface builds on this: the ticket appends through `ledger.apply`, the
+positions table reads `valuation`, and a split (T17) is one more entry kind.
+
+**Why**
+
+*Replay, not stored totals.* Totals kept beside the trades that produced them
+are two records of one fact, and a blob where they disagree has no right
+answer. Replaying leaves nothing to disagree with, makes validation the same
+act as reading, and is the shape T16's equity curve needs anyway — holdings as
+they stood on a past date. A ledger with one bad entry is refused whole: a
+dropped trade changes every figure after it.
+
+*One judge.* `apply` is the only place a trade is checked, for replay and for
+new orders both. A ticket with its own "enough cash" rule could accept a trade
+that makes the whole ledger unreadable on the next load. **Do not give T15 a
+second copy of the rules.**
+
+*Cents.* Float dollars drift by fractions of a cent over a few hundred trades,
+and a round trip at one price reading $99,999.99 discredits every other figure.
+Prices stay as the service sent them, since sub-dollar shares quote past the
+cent. The runner checks 600 trades at `0.1 + 0.2` drift by nothing.
+
+*Average cost, not FIFO lots.* Lots change realized P/L only for tax, and
+there is no tax here. The closing-sale special case was removed after a
+mutation test showed it unobservable: `round(cost × n / n)` is exactly `cost`
+for any cost below 2^51 cents.
+
+*Nothing written on open.* A fresh portfolio is the starting balance and no
+trades, so a first visit leaves no site data behind.
+
+---
+
+## DEC-083 — A blob from a newer page is left untouched
+
+*Settled · 09-11 · T14*
+
+**Decision**
+
+**A stored blob whose version is higher than the page's is not corrupt and is
+never overwritten.** The page runs on a fresh portfolio in memory, reports
+itself not persistent, and says so on screen. Reset does not overwrite it
+either. An *older* blob is migrated by `MIGRATIONS[v]` steps, one version at a
+time, and written back once; a gap or a failing step is recovered as corrupt.
+
+**Why**
+
+Rollback is how a bad deploy gets fixed: Key reverts `main`. The reverted page
+then meets portfolios the newer one wrote. Treating those as corrupt — the
+watchlist's rule — would destroy work the next deploy can read. This applies
+to any future versioned store, not only this one.
+
+The migration runner shipped with an empty table and is tested two ways: with
+steps written in the runner, and by evaluating the shipped store with `VERSION
+= 2` and one real step substituted in, so the load-and-write-back path is
+proven before the first real migration. **The first schema change adds
+`MIGRATIONS[1]` and bumps `VERSION` in the same commit.**
+
+---
+
+## DEC-084 — Step 1 reads "busy" as a tracked change, not an untracked file
+
+*Settled · 09-11 · routine protocol*
+
+**Decision**
+
+**Hard rule 11's clean-tree check is failed by a modified or staged tracked
+file outside `incisor-trading/`. An untracked file alone does not fail it.**
+The routine never touches either; it works in its own worktree (DEC-081).
+
+**Why**
+
+On 09-11 the only thing outside `incisor-trading/` was an untracked
+`doe-v-bonnell/.claude/` (a preview `launch.json` and `serve.py`), unchanged
+since 09-09 and left out while Key committed everything else in that folder —
+local tooling, not work in progress. `git status` itself reports "nothing
+added to commit". Stopping on it would have skipped every session until Key
+happened to delete it. And the rule exists to stop the routine stashing,
+committing, checking out over or cleaning Key's work; since DEC-081, a session
+in its own worktree cannot do any of those to the shared checkout. The 09-10
+run stopped correctly: tracked files were modified then.
+
+The guide's wording is Key's to change (N14). Until it does, this is how it is
+read.

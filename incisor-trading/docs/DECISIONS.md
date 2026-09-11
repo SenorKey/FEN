@@ -80,6 +80,9 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-079 | **Two look directions may not share their most visible move.** Workbench built the quote-beside-chart lead and then dropped it: one idea in two branches is one direction in two palettes. |
 | DEC-080 | **A committed look set is quantised, its mobile shot halved to CSS pixels, and copied onto `incisor-dev`.** 2.8MB became 900KB; the shelf is browsed from the working line. |
 | DEC-081 | **The routine works in a `git worktree`, never the shared checkout.** A second session was live in it on 09-08; two checkouts crossed and an amend of mine rewrote its commit. |
+| DEC-082 | **The portfolio is its ledger: totals are replayed, never stored; cents; average cost.** `ledger.apply` is the one judge of a trade — T15 gets no second copy of the rules. |
+| DEC-083 | **A stored blob from a newer page is never overwritten** — a rollback would destroy work. Older blobs migrate one `MIGRATIONS[v]` step at a time; bump and step land together. |
+| DEC-084 | **Step 1 is failed by a changed tracked file outside `incisor-trading/`, not by an untracked one.** A stray preview config would skip every day; the worktree already protects Key. |
 
 ---
 
