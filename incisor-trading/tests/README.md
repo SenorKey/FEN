@@ -30,6 +30,10 @@ the count went stale three suites ago:
 - **`test_portfolio.py`** — the paper portfolio: the ledger against a P/L
   scenario worked out by hand in cents, the store against every corrupt blob
   and a blob from a newer page, the migration path, and the summary view.
+- **`test_orders.py`** — the order book: forward fill against hand-read bars
+  and their ET session times, what an order holds back, the six-symbol cap,
+  settling in the order prices happened, and the ticket and open orders
+  driven through their controls.
 - **`test_shoot_tool.py`** — not the page: `tools/shoot.py`'s stand-in for
   Apache. It has to identify its callers the way a real proxy does, or its
   findings are about itself (D7).

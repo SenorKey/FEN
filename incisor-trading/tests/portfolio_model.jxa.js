@@ -10,11 +10,9 @@
  * "Survives a reload" is checked the way a reload works: one store records
  * trades, is thrown away, and a second is opened over the same storage.
  *
- * The migration path is exercised twice. `migrate` is driven directly with
- * steps written here, and then the shipped store is evaluated a second time
- * with VERSION and MIGRATIONS substituted for a first real migration — so the
- * load path that runs a step and writes the result back is tested before any
- * step exists, rather than on the day the first one ships.
+ * The migration path is exercised twice: `migrate` driven directly with
+ * steps written here, and the shipped store opened over a version 1 blob,
+ * from before open orders existed, which is the first real migration.
  *
  * Run by test_portfolio.py. Arguments: <page-dir>
  */
@@ -82,6 +80,7 @@ function run(argv) {
         (new Function('exports', read(pageDir + '/tests/dom_stub.jxa.js')))(stub);
         (new Function('window', read(pageDir + '/js/market-figures.js')))(box);
         (new Function('window', read(pageDir + '/js/portfolio-ledger.js')))(box);
+        (new Function('window', read(pageDir + '/js/portfolio-orders.js')))(box);
         (new Function('window', STORE_SOURCE))(box);
         check('the modules parse and run', !!box.IncisorPortfolioLedger
             && !!box.IncisorPortfolioStore);
@@ -343,9 +342,11 @@ function run(argv) {
         return memoryStorage(seed);
     }
 
-    function blobText(trades, version, cash) {
-        return JSON.stringify({ v: version === undefined ? storage.VERSION : version,
-            startingCash: cash === undefined ? START : cash, ledger: trades });
+    function blobText(trades, version, cash, orders) {
+        var v = version === undefined ? storage.VERSION : version;
+        var blob = { v: v, startingCash: cash === undefined ? START : cash, ledger: trades };
+        if (v !== 1) blob.orders = orders || [];
+        return JSON.stringify(blob);
     }
 
     function stored(held) {
@@ -364,8 +365,8 @@ function run(argv) {
 
     equal('a trade is recorded', fresh.record(scenario[0]), 'recorded');
     equal('and written through', emptyBox.writes, 1);
-    same('the stored shape is the version, the start and the ledger',
-        Object.keys(stored(emptyBox)), ['v', 'startingCash', 'ledger']);
+    same('the stored shape is the version, the start, the ledger and the orders',
+        Object.keys(stored(emptyBox)), ['v', 'startingCash', 'ledger', 'orders']);
     fresh.record(scenario[1]);
 
     var reloaded = storage.open(emptyBox);
@@ -406,7 +407,15 @@ function run(argv) {
         'version zero': blobText([], 0),
         'a version as text': blobText([], '1'),
         'a fractional version': blobText([], 1.5),
-        'a starting balance of zero': blobText([], undefined, 0)
+        'a starting balance of zero': blobText([], undefined, 0),
+        'orders that are not a list': blobText([], undefined, undefined, { 0: 1 }),
+        'an order that is not one': blobText([], undefined, undefined,
+            [{ id: 'o1', kind: 'short' }]),
+        'two orders sharing an id': blobText([], undefined, undefined, [
+            { id: 'o1', kind: 'buy', symbol: 'SPY', shares: 1, type: 'market',
+                limit: null, reference: 500, placedAt: AT },
+            { id: 'o1', kind: 'buy', symbol: 'QQQ', shares: 1, type: 'market',
+                limit: null, reference: 400, placedAt: AT }])
     };
     Object.keys(corrupt).forEach(function (name) {
         var held = seeded(corrupt[name]);
@@ -481,26 +490,17 @@ function run(argv) {
     equal('a blob with no version is refused', storage.migrate({}, steps, 3), null);
     equal('something that is not a blob is refused', storage.migrate('v1', steps, 3), null);
 
-    /* The shipped store with its first real migration substituted in. If
-     * either line stops matching, this fails rather than silently testing an
-     * unmodified store. */
-    var versionLine = 'var VERSION = 1;';
-    var migrationsLine = 'var MIGRATIONS = {};';
-    check('the store declares the lines the migration test substitutes',
-        STORE_SOURCE.indexOf(versionLine) !== -1
-            && STORE_SOURCE.indexOf(migrationsLine) !== -1);
-    var future = { IncisorPortfolioLedger: ledger };
-    (new Function('window', STORE_SOURCE
-        .replace(versionLine, 'var VERSION = 2;')
-        .replace(migrationsLine, 'var MIGRATIONS = { 1: function (old) { return '
-            + '{ v: 2, startingCash: old.startingCash, ledger: old.ledger }; } };')))(future);
+    /* The first real migration: a portfolio saved before orders existed. */
     var oldBox = seeded(blobText([scenario[0]], 1));
-    var migrated = future.IncisorPortfolioStore.open(oldBox);
-    equal('an older blob is restored through its migration', migrated.status(), 'restored');
+    var migrated = storage.open(oldBox);
+    equal('a version 1 portfolio is restored through its migration',
+        migrated.status(), 'restored');
     equal('with its trades intact', migrated.state().positions.SPY.shares, 10);
-    equal('and is written back at the new version', stored(oldBox).v, 2);
+    same('and no open orders', migrated.orders(), []);
+    equal('and is written back at the new version', stored(oldBox).v, storage.VERSION);
+    same('with an empty order list', stored(oldBox).orders, []);
     equal('once', oldBox.writes, 1);
-    future.IncisorPortfolioStore.open(oldBox);
+    storage.open(oldBox);
     equal('so the step does not run again on the next load', oldBox.writes, 1);
 
     /* ── The view ───────────────────────────────────────────────── */
@@ -545,7 +545,9 @@ function run(argv) {
         };
         var documentStub = stub.makeDocument([root]);
         (new Function('window', read(pageDir + '/js/dom.js')))(windowStub);
+        (new Function('window', read(pageDir + '/js/market-clock.js')))(windowStub);
         (new Function('window', read(pageDir + '/js/portfolio-ledger.js')))(windowStub);
+        (new Function('window', read(pageDir + '/js/portfolio-orders.js')))(windowStub);
         if (without !== 'store') {
             (new Function('window', STORE_SOURCE))(windowStub);
         }
@@ -569,7 +571,12 @@ function run(argv) {
                 return child.textContent;
             }).join('');
         }
+        /* The asides in figure order: cash, holdings, realized, unrealized. */
+        function aside(index) {
+            return root.querySelectorAll('.inc-folio-aside')[index].textContent;
+        }
         return { root: root, asked: asked, text: text, values: values, change: change,
+            aside: aside,
             node: function (className) { return root.querySelector('.' + className); } };
     }
 
@@ -590,9 +597,9 @@ function run(argv) {
         .querySelector('.inc-period').textContent, 'since start');
     check('view: a flat return is coloured flat',
         first.node('inc-folio-change').classList.contains('inc-flat'));
-    equal('view: no positions', first.text('inc-folio-aside'), 'No positions');
-    check('view: no trades yet, and why',
-        /^No trades yet\. Placing orders is not built/.test(first.text('inc-folio-activity')));
+    equal('view: no positions', first.aside(1), 'No positions');
+    equal('view: nothing held back with no open orders', first.aside(0), '');
+    equal('view: no trades yet', first.text('inc-folio-activity'), 'No trades yet.');
     equal('view: no notice for a first visit', first.node('inc-folio-notice').hidden, true);
     equal('view: the notice is announced', first.node('inc-folio-notice')
         .getAttribute('role'), 'status');
@@ -629,7 +636,7 @@ function run(argv) {
     equal('view: the return is signed and pointed', priced.change(), '▲+$50.00 (+0.05%)');
     check('view: and coloured up', priced.node('inc-folio-change').classList.contains('inc-up'));
     check('view: every coloured figure carries an arrow', everyColourHasAnArrow(priced.root));
-    equal('view: two positions', priced.text('inc-folio-aside'), '2 positions');
+    equal('view: two positions', priced.aside(1), '2 positions');
     equal('view: two trades', priced.text('inc-folio-activity'), '2 trades so far.');
     equal('view: priced figures state where the prices came from',
         priced.node('inc-provenance').hidden, false);

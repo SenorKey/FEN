@@ -1,0 +1,112 @@
+/* Open orders: js/view-orders.js.
+ *
+ * A ruled list rather than a table. Each order is one sentence and two
+ * lines of terms, and a table would give "placed" and "fills at" columns
+ * that are mostly the same few words repeated down the page. What the order
+ * does is in the figure face, like every other quantity here; the terms
+ * under it are prose.
+ *
+ * Everything here is built by the view, so none of these classes appears in
+ * the served document.
+ */
+
+.inc-open-orders {
+    margin-top: 34px;
+}
+
+.inc-orders-heading {
+    margin-bottom: 4px;
+}
+
+/* What happened to the orders, not a warning: the accent's tint, like the
+ * ticket's own reply, rather than the red the storage notices use. */
+.inc-orders-outcome,
+.inc-orders-status {
+    margin-top: 10px;
+    max-width: 72ch;
+    padding: 9px 14px;
+    border: 1px solid var(--inc-rule-strong);
+    border-radius: 4px;
+    background: rgba(var(--accent-rgb), 0.06);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.inc-orders {
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--inc-rule);
+}
+
+.inc-order {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 18px;
+    row-gap: 3px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--inc-rule);
+}
+
+.inc-order-what {
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.92rem;
+    font-weight: 500;
+}
+
+.inc-order-terms,
+.inc-order-when {
+    grid-column: 1;
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--muted);
+}
+
+.inc-order-cancel {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--inc-rule-strong);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease;
+}
+
+.inc-order-cancel:hover {
+    color: var(--ink);
+    border-color: var(--accent);
+}
+
+.inc-order-cancel:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.inc-orders-empty,
+.inc-orders-sample {
+    margin-top: 10px;
+    max-width: 72ch;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+/* A finger's target on a phone (WCAG 2.2's 24px is the floor; 44px is what
+ * the rest of this page's controls give a thumb). */
+@media (max-width: 480px) {
+    .inc-order-cancel {
+        min-height: 44px;
+    }
+}

@@ -330,12 +330,40 @@
             next: next && {
                 event: next.event,
                 at: next.at,
+                // The Eastern date it lands on, which is the date of the bar
+                // that will carry its price.
+                date: next.date.year + '-' + pad(next.date.month) + '-'
+                    + pad(next.date.day),
                 when: eventWhen(wall, next),
                 // Whether the event lands on the date it is now, which is
                 // what decides if a countdown beside it is worth its width.
                 sameDay: daysBetween(wall, next.date) === 0,
                 seconds: Math.max(0, Math.round((next.at - when) / 1000))
             }
+        };
+    }
+
+    /* When the regular session on one trading date opened and closed, as
+     * instants, or null if the market did not trade that day.
+     *
+     * For the order book: a daily bar carries a date and no times, and an
+     * order fills at the first price after it was placed — so each bar's open
+     * and close have to become moments before they can be compared with the
+     * moment an order was placed. The date is 'YYYY-MM-DD', read as an
+     * Eastern calendar date, which is what a bar's date is.
+     */
+    function sessionOn(isoDate) {
+        var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate || '');
+        if (!match) return null;
+        var year = Number(match[1]);
+        var month = Number(match[2]);
+        var date = Number(match[3]);
+        var day = dayInfo(year, month, date);
+        if (!day.isTradingDay) return null;
+        return {
+            open: instantAt(year, month, date, REGULAR_OPEN),
+            close: instantAt(year, month, date, day.close),
+            isEarlyClose: day.isEarlyClose
         };
     }
 
@@ -361,6 +389,7 @@
 
     global.IncisorMarketClock = {
         sessionAt: sessionAt,
+        sessionOn: sessionOn,
         formatCountdown: formatCountdown,
         // Exposed for the tests, and because a holiday list is a genuinely
         // useful thing to be able to ask this module for.

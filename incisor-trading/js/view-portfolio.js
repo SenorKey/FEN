@@ -18,8 +18,19 @@
  * return — show a dash rather than a sum that left one out. Cash and
  * realized gain need no price and are shown at once.
  *
+ * It also owns the moment open orders fill. The series fetched to value the
+ * portfolio are the same series an order fills from, so once every symbol
+ * held or on order has answered, the store settles against them in one pass
+ * (js/portfolio-orders.js) and anything listening — the order ticket — is
+ * told what filled and what was refused. Settling waits for all of them
+ * because fills are applied in the order their prices happened, and a fill
+ * applied before an earlier one on another symbol could spend its cash.
+ *
  * Contract with the markup: a [data-portfolio] block, holding a served
  * [data-portfolio-fallback] line this hides once it has drawn.
+ *
+ * Exposes window.IncisorPortfolio, the store and a change signal, for
+ * js/view-orders.js and js/view-ticket.js.
  */
 
 (function (global) {
@@ -29,7 +40,9 @@
     var data = global.IncisorMarketData;
     var figures = global.IncisorMarketFigures;
     var ledgerMath = global.IncisorPortfolioLedger;
+    var orderMath = global.IncisorPortfolioOrders;
     var storage = global.IncisorPortfolioStore;
+    var clock = global.IncisorMarketClock;
 
     var root = document.querySelector('[data-portfolio]');
 
@@ -44,6 +57,26 @@
 
     /* The first payload that answered, for the provenance line. */
     var provenancePayload = null;
+
+    /* symbol -> daily bars, for every symbol held or on order that answered.
+     * What open orders are settled against. */
+    var barsBySymbol = {};
+
+    /* Requests still out. Settling waits for this to reach zero. */
+    var outstanding = 0;
+
+    /* Called with a settlement's outcome, or null for any other change. */
+    var listeners = [];
+
+    /* The settlement this page load made, handed to a listener that arrives
+     * after it: prices can answer before the ticket has subscribed, and a
+     * fill the reader is never told about looks like a balance that moved on
+     * its own. */
+    var settled = null;
+
+    /* Whether any payload this page holds was the generated sample — told to
+     * this module by the ticket too, whose lookups it does not see. */
+    var sampleSeen = false;
 
     /* The nodes render() writes into, built once by build(). */
     var nodes = {};
@@ -91,7 +124,10 @@
         nodes.change.period = element('span', 'inc-period', 'since start');
         change.appendChild(nodes.change.period);
 
-        nodes.cash = figureGroup(list, 'inc-folio-part', 'Cash').value;
+        var cash = figureGroup(list, 'inc-folio-part', 'Cash');
+        nodes.cash = cash.value;
+        nodes.heldBack = element('dd', 'inc-folio-aside');
+        cash.group.appendChild(nodes.heldBack);
 
         var holdings = figureGroup(list, 'inc-folio-part', 'Holdings');
         nodes.holdings = holdings.value;
@@ -151,11 +187,25 @@
     }
 
     function activityText(trades) {
-        if (trades === 0) {
-            return 'No trades yet. Placing orders is not built, so for now the '
-                + 'whole balance sits in cash.';
-        }
+        if (trades === 0) return 'No trades yet.';
         return (trades === 1 ? '1 trade' : trades + ' trades') + ' so far.';
+    }
+
+    /* What open buy orders are holding back, under the cash: without it a
+     * reader sees a balance the ticket then refuses to spend. */
+    function heldBackText(orders) {
+        var held = 0;
+        var buys = 0;
+        orders.forEach(function (order) {
+            var amount = orderMath.heldBackFor(order);
+            if (amount > 0) {
+                held += amount;
+                buys += 1;
+            }
+        });
+        if (buys === 0) return '';
+        return figures.formatMoney(held / 100) + ' held for '
+            + (buys === 1 ? '1 open order' : buys + ' open orders');
     }
 
     /* What the reader is told about where this portfolio came from. Every
@@ -211,6 +261,8 @@
 
         nodes.total.textContent = figures.formatMoney(dollars(value.total));
         nodes.cash.textContent = figures.formatMoney(dollars(value.cash));
+        nodes.heldBack.textContent = heldBackText(store.orders());
+        nodes.heldBack.hidden = nodes.heldBack.textContent === '';
         nodes.holdings.textContent = figures.formatMoney(dollars(value.holdings));
         nodes.positions.textContent = positionsText(value.rows.length);
 
@@ -239,24 +291,63 @@
         root.setAttribute('data-state', status);
     }
 
-    /* ── Prices ─────────────────────────────────────────────────── */
+    /* ── Prices and fills ────────────────────────────────────────── */
 
-    function priceSymbol(symbol) {
+    function notify(outcome) {
+        listeners.forEach(function (listener) { listener(outcome); });
+    }
+
+    /* Every open order whose price has now arrived, filled in one pass. */
+    function settleOrders() {
+        settled = store.settle(barsBySymbol, clock);
+        render();
+        notify(settled);
+    }
+
+    function answered() {
+        outstanding -= 1;
+        if (outstanding === 0) settleOrders();
+        else render();
+    }
+
+    function fetchSymbol(symbol) {
         data.history(symbol).then(function (payload) {
             var quote = figures.quoteFromBars(payload.bars);
+            barsBySymbol[symbol] = payload.bars;
+            if (payload.source === 'fixture') sampleSeen = true;
             if (quote) {
                 prices[symbol] = quote.close;
                 if (!provenancePayload) provenancePayload = payload;
             } else {
                 failed[symbol] = true;
             }
-            render();
+            answered();
         }, function () {
             // Silent in the console for the watchlist's reason: the failure
             // is stated on screen, and tools/shoot.py fails a run on an error.
             failed[symbol] = true;
-            render();
+            answered();
         });
+    }
+
+    /* The module's face to js/view-ticket.js. `changed` is how the ticket
+     * says it placed or cancelled something, so the cash held back redraws. */
+    function expose() {
+        global.IncisorPortfolio = {
+            store: function () { return store; },
+            onChange: function (listener) {
+                listeners.push(listener);
+                if (settled) listener(settled);
+            },
+            changed: function () {
+                render();
+                notify(null);
+            },
+            /* Whether the prices this page holds are the generated sample,
+             * which never moves forward — so an order placed now never fills. */
+            isSample: function () { return sampleSeen; },
+            sawSample: function () { sampleSeen = true; }
+        };
     }
 
     /* ── Wiring ─────────────────────────────────────────────────── */
@@ -264,7 +355,10 @@
     function start() {
         // No panel, or a module that failed to load: the served line stays,
         // and it says only that the portfolio opens here, which stays true.
-        if (!root || !dom || !data || !figures || !ledgerMath || !storage) return;
+        if (!root || !dom || !data || !figures || !ledgerMath || !orderMath
+                || !storage || !clock) {
+            return;
+        }
 
         // Read once, inside a guard: the property access itself throws in a
         // private window and where site data is blocked.
@@ -281,7 +375,10 @@
         if (fallback) fallback.hidden = true;
 
         render();
-        Object.keys(store.state().positions).forEach(priceSymbol);
+        expose();
+        var symbols = orderMath.symbolsInPlay(store.state(), store.orders());
+        outstanding = symbols.length;
+        symbols.forEach(fetchSymbol);
     }
 
     start();

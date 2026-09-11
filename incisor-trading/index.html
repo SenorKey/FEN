@@ -57,6 +57,8 @@
     <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
     <link rel="stylesheet" href="/incisor-trading/css/portfolio.css">
+    <link rel="stylesheet" href="/incisor-trading/css/ticket.css">
+    <link rel="stylesheet" href="/incisor-trading/css/orders.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the
       logic modules are in place before any view runs, and each view runs
@@ -73,6 +75,7 @@
     <script src="/incisor-trading/js/symbol-search.js" defer></script>
     <script src="/incisor-trading/js/watchlist-store.js" defer></script>
     <script src="/incisor-trading/js/portfolio-ledger.js" defer></script>
+    <script src="/incisor-trading/js/portfolio-orders.js" defer></script>
     <script src="/incisor-trading/js/portfolio-store.js" defer></script>
     <script src="/incisor-trading/js/quote-card.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
@@ -83,6 +86,8 @@
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/js/view-portfolio.js" defer></script>
+    <script src="/incisor-trading/js/view-orders.js" defer></script>
+    <script src="/incisor-trading/js/view-ticket.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
@@ -1299,6 +1304,11 @@
                     <p class="inc-empty" data-portfolio-fallback>Your portfolio
                         opens here once the page&rsquo;s scripts have run.</p>
                 </div>
+
+                <!-- The order ticket, and the orders it opened. Built by
+                     js/view-ticket.js and js/view-orders.js. -->
+                <div class="inc-ticket" data-ticket></div>
+                <div class="inc-open-orders" data-orders></div>
             </section>
 
             <!-- ── Learn ────────────────────────────────────────── -->

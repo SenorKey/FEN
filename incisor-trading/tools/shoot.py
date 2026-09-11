@@ -329,19 +329,31 @@ PORTFOLIO_KEY = "incisor.portfolio"
 
 # What --portfolio writes before the page loads, kept in step with
 # js/portfolio-store.js. Every one is a state only storage can produce: no
-# fresh visitor reaches "recovered" or "newer", and until the page can place
-# orders nothing reaches a portfolio holding positions either. "held" trades
-# at fixture closes from June and July, so its three gains point three ways.
+# fresh visitor reaches "recovered" or "newer", and sample prices never move
+# forward, so no order placed in a run can ever fill. "held" trades at
+# fixture closes from June and July, so its three gains point three ways, and
+# holds three open orders: one placed the evening before the last sample bar,
+# which fills at that bar's open on load, and two that stay open.
 PORTFOLIO_SEEDS = {
     "corrupt": "portfolio",
     "newer": json.dumps({"v": 99, "startingCash": 10000000, "ledger": []}),
-    "held": json.dumps({"v": 1, "startingCash": 10000000, "ledger": [
+    "held": json.dumps({"v": 2, "startingCash": 10000000, "ledger": [
         {"kind": "buy", "symbol": "SPY", "shares": 40, "price": 751.57,
          "at": "2026-06-04T15:02:11.000Z"},
         {"kind": "buy", "symbol": "AAPL", "shares": 60, "price": 258.80,
          "at": "2026-06-04T15:04:40.000Z"},
         {"kind": "sell", "symbol": "SPY", "shares": 10, "price": 740.00,
          "at": "2026-07-15T18:30:02.000Z"},
+    ], "orders": [
+        {"id": "o1", "kind": "buy", "symbol": "QQQ", "shares": 20,
+         "type": "market", "limit": None, "reference": 600.0,
+         "placedAt": "2026-08-25T21:10:00.000Z"},
+        {"id": "o2", "kind": "buy", "symbol": "AAPL", "shares": 10,
+         "type": "limit", "limit": 250.0, "reference": 273.78,
+         "placedAt": "2026-09-10T15:20:00.000Z"},
+        {"id": "o3", "kind": "sell", "symbol": "SPY", "shares": 5,
+         "type": "market", "limit": None, "reference": 733.40,
+         "placedAt": "2026-09-11T14:05:00.000Z"},
     ]}),
 }
 
@@ -564,6 +576,15 @@ def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
             ".filter(n => n.scrollWidth > n.clientWidth + 1)"
             ".map(n => n.textContent)"
         )
+        # The ticket is a form, and a form is the other thing that pushes a
+        # body sideways at a narrow width: measured with the tab open.
+        trade = page.evaluate(
+            "() => {const d=document.documentElement;"
+            "return {vw:d.clientWidth, sw:d.scrollWidth};}"
+        )
+        if trade["sw"] > trade["vw"] + 1:
+            problems.append(f"{label}: the Trade tab scrolls horizontally "
+                            f"({trade['sw']}px in a {trade['vw']}px viewport)")
     except Exception as error:
         problems.append(f"{label}: the portfolio never settled — "
                         f"{type(error).__name__}")
