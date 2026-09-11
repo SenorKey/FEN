@@ -262,6 +262,26 @@
         return sign + '$' + priceFormat.format(size);
     }
 
+    /* '$100,000.00' — a balance, to the cent and in full.
+     *
+     * The reader's own money is never abbreviated the way a company's is:
+     * formatBigMoney's '$100K' is right for revenue nobody will reconcile
+     * and wrong for a balance a reader checks against the trades they made.
+     * The sign goes before the dollar, which is how a loss is written. */
+    function formatMoney(value) {
+        if (!isFiniteNumber(value)) return DASH;
+        var sign = value < 0 ? MINUS : '';
+        return sign + '$' + priceFormat.format(Math.abs(value));
+    }
+
+    /* '+$1,204.50' — money that moved, signed on both sides like every other
+     * change on the page so it reads without its colour. */
+    function formatSignedMoney(value) {
+        if (!isFiniteNumber(value)) return DASH;
+        var sign = value > 0 ? '+' : (value < 0 ? MINUS : '');
+        return sign + '$' + priceFormat.format(Math.abs(value));
+    }
+
     /* A fraction as a percentage: 0.465 -> '46.5%'.
      *
      * Unsigned, unlike formatPercent, and that is the point of having two. A
@@ -491,6 +511,8 @@
         formatAxisDate: formatAxisDate,
         formatToPlaces: formatToPlaces,
         formatBigMoney: formatBigMoney,
+        formatMoney: formatMoney,
+        formatSignedMoney: formatSignedMoney,
         formatMarginPercent: formatMarginPercent,
         formatRatio: formatRatio,
         marketCap: marketCap,

@@ -21,6 +21,7 @@ Usage:
                                           [--search app] [--tab trade]
                                           [--explain] [--sector-window 1M]
                                           [--watch SPY,QQQ] [--block-storage]
+                                          [--portfolio corrupt|newer|held]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
@@ -51,7 +52,9 @@ way to photograph the watchlist as a returning visitor sees it — a fresh
 browser context has no site data, so a list built by clicking would only show
 that the click worked. --block-storage makes localStorage throw on access, the
 way a private window does, so the degraded state is a picture rather than a
-claim.
+claim. --portfolio does the same for the paper portfolio: a stored one that
+cannot be read, one a newer page saved, or one holding positions — three
+states a fresh browser context can never be in.
 
 --chart-no-history is the one state no fixture can produce: a quote that
 arrives with no series behind it, which the chart says in its own space rather
@@ -322,6 +325,30 @@ WATCHLIST_KEY = "incisor.watchlist"
 # empty list, which looks exactly like the seeding not working.
 WATCHLIST_VERSION = 1
 
+PORTFOLIO_KEY = "incisor.portfolio"
+
+# What --portfolio writes before the page loads, kept in step with
+# js/portfolio-store.js. Every one is a state only storage can produce: no
+# fresh visitor reaches "recovered" or "newer", and until the page can place
+# orders nothing reaches a portfolio holding positions either. "held" trades
+# at fixture closes from June and July, so its three gains point three ways.
+PORTFOLIO_SEEDS = {
+    "corrupt": "portfolio",
+    "newer": json.dumps({"v": 99, "startingCash": 10000000, "ledger": []}),
+    "held": json.dumps({"v": 1, "startingCash": 10000000, "ledger": [
+        {"kind": "buy", "symbol": "SPY", "shares": 40, "price": 751.57,
+         "at": "2026-06-04T15:02:11.000Z"},
+        {"kind": "buy", "symbol": "AAPL", "shares": 60, "price": 258.80,
+         "at": "2026-06-04T15:04:40.000Z"},
+        {"kind": "sell", "symbol": "SPY", "shares": 10, "price": 740.00,
+         "at": "2026-07-15T18:30:02.000Z"},
+    ]}),
+}
+
+# Settled either way: a position whose price failed is a state worth shooting.
+PORTFOLIO_SETTLED = ('[data-portfolio]:not([data-state="pending"])'
+                     ':not([data-state="pricing"])')
+
 
 # The narrowest screen this page is checked on, below every viewport it is
 # photographed at. Guide §13 is unconditional — the body never scrolls
@@ -478,7 +505,8 @@ def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
     ctx.set_extra_http_headers({CLIENT_HEADER: client_address(
         len(VIEWPORTS) + (0 if fail_on_clip else 1))})
     seed_storage(ctx, argparse.Namespace(block_storage=False,
-                                         watch=NARROW_WATCHLIST))
+                                         watch=NARROW_WATCHLIST,
+                                         portfolio="held"))
     page = ctx.new_page()
     page.goto(base + PAGE, wait_until="networkidle")
     try:
@@ -519,6 +547,33 @@ def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
             )
     detail = (", ".join(f".{b['cls']} {b['clip']}px" for b in clipped)
               if clipped else "nothing clipped")
+
+    # The Trade panel is hidden while the dashboard is measured, so nothing
+    # above has seen it. Its figures are set not to wrap — a balance broken
+    # over two lines reads as two numbers — which means a figure too wide for
+    # its cell spills into the next one rather than pushing the body, and the
+    # body check alone would pass it. So each figure is measured against its
+    # own box, with positions held so every figure carries its longest text.
+    spilled = []
+    try:
+        page.click('#tab-trade')
+        page.wait_for_selector(PORTFOLIO_SETTLED, timeout=10000)
+        spilled = page.evaluate(
+            "() => [...document.querySelectorAll("
+            "'.inc-folio-value, .inc-folio-change')]"
+            ".filter(n => n.scrollWidth > n.clientWidth + 1)"
+            ".map(n => n.textContent)"
+        )
+    except Exception as error:
+        problems.append(f"{label}: the portfolio never settled — "
+                        f"{type(error).__name__}")
+    for figure in spilled:
+        if fail_on_clip:
+            problems.append(f"{label}: portfolio figure '{figure}' is wider "
+                            f"than its cell at the width §15 checks")
+    if spilled:
+        detail += ", %d portfolio figure(s) spill" % len(spilled)
+
     print(f"  {label:8} {width}x800 (mobile emulation)"
           f" -> measured, no shot ({detail})")
     ctx.close()
@@ -577,16 +632,20 @@ def seed_storage(ctx, args):
         )
         return
 
-    if not args.watch:
-        return
+    seeds = {}
+    if args.watch:
+        symbols = [s.strip().upper() for s in args.watch.split(",") if s.strip()]
+        seeds[WATCHLIST_KEY] = json.dumps({"v": WATCHLIST_VERSION,
+                                           "symbols": symbols,
+                                           "sort": {"key": "symbol", "dir": "asc"}})
+    if args.portfolio:
+        seeds[PORTFOLIO_KEY] = PORTFOLIO_SEEDS[args.portfolio]
 
-    symbols = [s.strip().upper() for s in args.watch.split(",") if s.strip()]
-    blob = json.dumps({"v": WATCHLIST_VERSION, "symbols": symbols,
-                       "sort": {"key": "symbol", "dir": "asc"}})
-    ctx.add_init_script(
-        "try { window.localStorage.setItem(%s, %s); } catch (e) {}"
-        % (json.dumps(WATCHLIST_KEY), json.dumps(blob))
-    )
+    for key, blob in seeds.items():
+        ctx.add_init_script(
+            "try { window.localStorage.setItem(%s, %s); } catch (e) {}"
+            % (json.dumps(key), json.dumps(blob))
+        )
 
 
 @contextlib.contextmanager
@@ -645,6 +704,10 @@ def main():
                     help="make localStorage throw on access, the way a "
                          "private window or a browser with site data blocked "
                          "does, so the watchlist's degraded state can be shot.")
+    ap.add_argument("--portfolio", default=None, choices=sorted(PORTFOLIO_SEEDS),
+                    help="store a paper portfolio before the page loads: one "
+                         "that cannot be read, one saved by a newer page, or "
+                         "one holding positions. Pair with --tab trade.")
     args = ap.parse_args()
 
     from playwright.sync_api import sync_playwright
@@ -746,6 +809,16 @@ def main():
                 except Exception as error:
                     problems.append(f"{label}: the {args.tab} tab never "
                                     f"opened — {type(error).__name__}")
+
+            # A portfolio holding positions prices each one with its own
+            # request, so the summary is still filling when the network has
+            # gone quiet for everything else on the page.
+            if args.portfolio:
+                try:
+                    page.wait_for_selector(PORTFOLIO_SETTLED, timeout=10000)
+                except Exception as error:
+                    problems.append(f"{label}: the portfolio never settled — "
+                                    f"{type(error).__name__}")
 
             # Horizontal overflow is a guide §13 violation, so it fails the run
             # rather than being left for a human to spot in an image.

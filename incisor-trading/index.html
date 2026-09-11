@@ -56,8 +56,9 @@
     <link rel="stylesheet" href="/incisor-trading/css/reports.css">
     <link rel="stylesheet" href="/incisor-trading/css/sectors.css">
     <link rel="stylesheet" href="/incisor-trading/css/watchlist.css">
+    <link rel="stylesheet" href="/incisor-trading/css/portfolio.css">
     <!--
-      Load order matters and `defer` preserves it: the helpers and the two
+      Load order matters and `defer` preserves it: the helpers and the
       logic modules are in place before any view runs, and each view runs
       before the shell binds the tabs. Every one of them degrades to leaving
       the served markup alone if the module above it failed to load.
@@ -71,6 +72,8 @@
     <script src="/incisor-trading/js/market-data.js" defer></script>
     <script src="/incisor-trading/js/symbol-search.js" defer></script>
     <script src="/incisor-trading/js/watchlist-store.js" defer></script>
+    <script src="/incisor-trading/js/portfolio-ledger.js" defer></script>
+    <script src="/incisor-trading/js/portfolio-store.js" defer></script>
     <script src="/incisor-trading/js/quote-card.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
     <script src="/incisor-trading/js/view-sectors.js" defer></script>
@@ -79,6 +82,7 @@
     <script src="/incisor-trading/js/view-reports.js" defer></script>
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
+    <script src="/incisor-trading/js/view-portfolio.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
 
     <!--
@@ -1274,30 +1278,27 @@
 
                 <h2 class="inc-panel-heading">Your paper portfolio</h2>
 
-                <!--
-                  Nothing here yet, and nothing pretending to be. This panel
-                  shipped a four-figure stat row reading Cash $100,000.00 /
-                  Positions $0.00 / Total value $100,000.00 / Total return
-                  0.00%, which is a portfolio that does not exist: no balance
-                  has been created, no store has been read, and the tiles at
-                  the top of the dashboard state the rule it broke &mdash; a
-                  market page never prints a figure it did not work out.
-                  A reader could have read it as their balance, because that
-                  is exactly what it was shaped like.
+                <p class="inc-panel-note">Fake money, $100,000 of it to start,
+                    kept in this browser and nowhere else &mdash; there is no
+                    account and no copy on the server. A realized gain is what
+                    shares already sold made or lost; an unrealized gain is what
+                    the shares still held would make or lose if sold at their
+                    last price.</p>
 
-                  What replaces it is a sentence, and Phase 2 builds the real
-                  thing over a store rather than filling this in. When it
-                  does, its surfaces are built by their views rather than
-                  served here: this panel ships hidden behind a tab and holds
-                  no fact a reader sees before a script runs, which is the
-                  opposite of the dashboard, where every served empty state is
-                  true on its own. See docs/DECISIONS.md, DEC-072.
+                <!--
+                  Built by js/view-portfolio.js rather than served (DEC-072).
+                  This panel once shipped a stat row reading Cash $100,000.00 /
+                  Total value $100,000.00, a balance nothing had worked out,
+                  shaped exactly like the reader's own: a market page never
+                  prints a figure it did not compute, and until the stored
+                  portfolio has been read there is no true figure to print. So
+                  what is served is the one line that is true before any
+                  script runs, and the view hides it once it has drawn.
                 -->
-                <p class="inc-empty">Not built yet. When it is, you will start
-                    with $100,000 in fake money, place orders against delayed
-                    prices, and be able to reset the whole thing whenever you
-                    like. Everything will stay in this browser &mdash; there is
-                    no account and no copy on the server.</p>
+                <div class="inc-folio" data-portfolio data-state="pending">
+                    <p class="inc-empty" data-portfolio-fallback>Your portfolio
+                        opens here once the page&rsquo;s scripts have run.</p>
+                </div>
             </section>
 
             <!-- ── Learn ────────────────────────────────────────── -->

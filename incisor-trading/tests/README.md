@@ -27,6 +27,9 @@ the count went stale three suites ago:
 - **`test_sectors.py`** — the eleven-fund ranking and its diverging axis.
 - **`test_fundamentals_panel.py`** — the filings panel, for a company and for
   a fund, which is the state most symbols here are in.
+- **`test_portfolio.py`** — the paper portfolio: the ledger against a P/L
+  scenario worked out by hand in cents, the store against every corrupt blob
+  and a blob from a newer page, the migration path, and the summary view.
 - **`test_shoot_tool.py`** — not the page: `tools/shoot.py`'s stand-in for
   Apache. It has to identify its callers the way a real proxy does, or its
   findings are about itself (D7).
