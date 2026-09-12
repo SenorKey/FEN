@@ -3975,3 +3975,124 @@ outside `incisor-trading/`.
 queue. **`DECISIONS.md` is at 14,605 of its 15,000 bytes, so the next index
 line will not fit: consolidate it first (S6).** No open defects. Two
 surfaces are queued for audit and fall due at the third session after today.
+
+
+## 2026-09-12 — S6 and T16: the memory got shorter, the Trade tab got its answer
+**Outcome:** shipped — S6 and T16 complete. Stopped at two of three by
+choice: T17 adds a third kind of ledger entry and a fourth stored version,
+and the tail of a session is the wrong place to start changing the shape
+everything else replays from.
+**Changed:** new `js/portfolio-history.js`, `js/view-positions.js`,
+`js/view-performance.js`, `css/positions.css`, `css/performance.css`,
+`tests/history_model.jxa.js`, `tests/test_history.py`; edited `index.html`,
+`js/chart-geometry.js`, `js/view-portfolio.js`, `tests/test_docs_budget.py`,
+`BACKLOG.md`, `DECISIONS.md` + `-DETAIL.md`.
+**Verified:** 245 page tests and 224 service tests green, the new runner at
+44 checks. `shoot.py --tab trade` clean at five widths for `held`, a fresh
+portfolio, `corrupt`, `newer`, `--block-storage`, and with the service
+stopped; the dashboard re-shot to confirm nothing above the Trade tab moved.
+`git status` in the worktree shows changes only under `incisor-trading/`.
+
+**Step 1.** The only thing outside `incisor-trading/` was the same untracked
+`doe-v-bonnell/.claude/`, unchanged since 09-09. Read as DEC-084 reads it,
+in a worktree as DEC-081 requires. N14 below.
+
+**S6 — sixteen of eighty rows were not carrying anything the code wasn't.**
+The file was 395 bytes from a ceiling that had already stopped the previous
+session filing, and the obvious reading — eighty rows, so eighty decisions —
+was wrong. Eight rows were second copies of a comment, checked one at a time
+against the file they bind before being moved out of both memory files:
+`DEC-007` against `market-clock.js`, `-014` against `view-symbol.js`, `-018`
+against `chart-geometry.js`, `-029` against `sectors.py`, `-037` against
+`shoot.py`, `-050` against `fundamentals.py`, `-070` against `reporting.py`,
+`-071` against `make_fixtures.py`. Eight more had been absorbed by a later
+row, superseded, or spent when the task they warned about shipped; those keep
+their ID and their reasoning and the row becomes the line saying where the
+claim went, so every reference still resolves.
+
+A second copy is worse than no copy, and `chart-geometry.js` was already the
+halfway house: it explained the missing 1D range in full and then wrote *"See
+DECISIONS.md"*, pointing at a row that said less than the comment above the
+pointer. 13,289 bytes over 73 rows, and the ratchet to **14,500** — a quarter
+on top would be 16,600, which is upward and so not available (DEC-087).
+
+**T16 — the hand-computed scenario.** One ordinary week, Monday 14 to Friday
+18 September 2026, worked out in cents before `portfolio-history.js` existed
+and asserted as such by `history_model.jxa.js`. Buy 100 AAPL at Tuesday's
+close of 210, sell 40 at Thursday's 215:
+
+    14th  baseline, nothing bought      cash 10,000,000  value 10,000,000
+    15th  buy 100 @ 210 = 2,100,000
+          cash 7,900,000  AAPL 100 @ 210 = 2,100,000     value 10,000,000
+    16th  cash 7,900,000  AAPL 100 @ 220 = 2,200,000     value 10,100,000
+    17th  sell 40 @ 215 = 860,000; cost sold
+          round(2,100,000 x 40/100) = 840,000; realized +20,000
+          cash 8,760,000  AAPL  60 @ 215 = 1,290,000     value 10,050,000
+    18th  cash 8,760,000  AAPL  60 @ 230 = 1,380,000     value 10,140,000
+
+The benchmark is the whole balance in SPY from the 14th's close of 500, so
+10,000,000 x close/500: 10,000,000 / 10,200,000 / 10,100,000 / 10,400,000 /
+10,300,000. The portfolio gained $1,400.00 (1.4%), SPY $3,000.00 (3%), so the
+trading trailed by $1,600.00.
+
+**The check that matters more than any figure** is that the curve's last
+point equals what `js/portfolio-ledger.js` says the portfolio is worth at the
+same prices — two routes to one number, asserted both ways, since a curve
+that drifts from the summary above it is the page contradicting itself within
+one screen. In the browser, on the `held` seed: total $100,139.37, and the
+key reads +$139.37 (+0.14%) against SPY's −$1,637.75 (−1.64%), a gap of
+$1,777.12. Holdings reconcile to the trade log by hand — AAPL 60 at
+$16,426.79 against $15,528.00 cost is +$898.79, QQQ −$98.65, SPY −$545.07,
+summing to the +$255.07 unrealized the summary states, and realized −$115.70
+plus that is the $139.37 total return.
+
+**The curve refuses rather than drawing what it can.** A missing symbol, a
+single session, twelve symbols in the ledger against 22 calls a day
+(DEC-088) — each returns a reason the view states in words. A line missing
+one holding's contribution is not a rougher line, it is a wrong one, and
+nothing on screen would tell the reader so.
+
+**Two things the pictures found that the suites could not.** Six money
+columns do not fit 390px and five do not either, and `shoot.py` fails a
+scroller whose own content overflows at the width guide §15 checks (DEC-073).
+The third option — type small enough to fit — loses the reader on a page
+whose numbers are the content, so below 560px each row becomes a block and
+each cell a labelled line. That layout is right and it silently took the
+table's ARIA semantics with it: `display: block` stops a browser exposing a
+table as one (DEC-090). And the axis shipped its first draft as
+`formatBigMoney`'s "$102.0K" across a range of a few thousand dollars —
+three labels a reader cannot tell apart, on the one chart whose figures are a
+balance they can check against their own trades. `market-figures.js` says
+exactly that beside `formatMoney`, one function below the one I reached for.
+
+**One test of mine was the trap it was written after.** `test_history.py`
+asserts the module touches no network, and the first version failed on its
+own header saying the caller "knows what to fetch" — DEC-066, in a new file,
+within an hour of reading it. It greps the code with the comments stripped
+now.
+
+**Looked at and left.** The Trade tab's surfaces only redraw when a
+settlement lands, so for a few hundred milliseconds the summary has figures
+while the two surfaces below it are still empty — filed as `D16`, because the
+cheap fix would redraw the curve once per answering symbol and the curve is
+the one surface that fetches.
+
+### For Key
+
+**N14 · still open, unchanged.** Hard rule 11's wording, and whether an
+untracked file outside `incisor-trading/` should stop a session. Those two
+`doe-v-bonnell/.claude/` files are still there, still untouched.
+
+**N11 · still open, unchanged.** No `incisor-api` launch config: `.claude/`
+is outside `incisor-trading/`.
+
+**N7 · still open, unchanged.** Guide §16's four-file table, and §14 step 2,
+still describe the pre-split memory. §16 now also describes a ceiling this
+session ratcheted, which is fine — but the sentence about "roughly two
+screens" has been wrong since D9.
+
+**Next session:** `T17 · Corporate actions` is the top of the queue, and it
+is the first change to the ledger's entry model since T14 — a split is a
+third kind of entry and a fifth stored version. `DECISIONS.md` is at 13,874
+of 14,500, about four entries of room. No open defects. **Three surfaces are
+queued for audit**, T14 and T15 falling due at the next session.
