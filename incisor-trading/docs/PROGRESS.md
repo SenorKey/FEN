@@ -4245,3 +4245,48 @@ never exercised. D16's acceptance therefore requires a test that flips the mode
 with a populated cache — the case that only exists on the day someone switches,
 which is exactly the day nobody is watching.
 
+## 2026-09-13 — Attended with Key: live data, and the day's quota gone in two minutes
+**Outcome:** shipped — D17 filed; live mode is correct but rate-limited out
+**Changed:** `BACKLOG.md` (D17)
+**Verified:** both suites green.
+
+**The key works and the permission is real.** Alpha Vantage answered our calls;
+what came back was their throttle notice, not a rejection:
+
+> Thank you for using Alpha Vantage! Please consider spreading out your free API
+> requests more sparingly (1 request per second). … the free key rate limit (25
+> requests per day)
+
+**The service behaved correctly once the quota was gone.** It refused to call
+upstream (`quota_exhausted`), refused to serve anything it could not vouch for
+(`nothing cached for X and no refresh was permitted`), and degraded to the
+stated unavailable state. Nothing was mislabelled — D16's lesson holding under
+the first real pressure it met.
+
+**The defect is pacing, and the journal names it exactly:**
+
+```
+17:05:24,025  history: upstream refused for QQQ
+17:05:24,027  history: upstream refused for DIA
+17:05:24,028  history: upstream refused for IWM
+17:05:24,033  history: upstream refused for SPY
+```
+
+Four requests in eight milliseconds against a ceiling of one per second. The
+daily budget has a table, a counter, a reserve and a whole design around it; the
+per-second limit has nothing. A cold page needs about fifteen calls and fits
+inside 25 when spaced — burst, it draws throttles, and throttled replies cost
+the same as good ones.
+
+**Attended error worth recording.** Clearing the database was the right call for
+D16 and was recommended without flagging what a cold cache costs. The wipe, the
+page load that followed and the verification loop together spent the day's
+allowance. The lesson is not "do not clear the cache" but that with an allowance
+this small a wipe is an operation to stage — warm deliberately, paced, not by
+letting the next visitor's page load do it. That is the same shape as D17 seen
+from the other side.
+
+**Nothing to do but wait for the daily reset.** The page shows its unavailable
+state until then, honestly labelled. Filling it again costs ~15 of tomorrow's
+25, which is the arithmetic D17 exists to make survivable.
+

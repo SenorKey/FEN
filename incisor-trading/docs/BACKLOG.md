@@ -326,6 +326,22 @@ phase. When the call is unclear, file it as a defect.
   whose source does not match — a mislabelled fresh row is worse than a stale
   one honestly labelled.
 
+- [ ] **D17 · Upstream calls are not paced, so a cold cache spends the day's
+  quota on throttled replies** `[defect]` *(found 2026-09-13, first hour of live
+  data; journal evidence in `PROGRESS.md`)* — the daily budget is enforced with
+  care and the **per-second limit is not enforced at all**: four `/history`
+  calls went out in eight milliseconds against a documented ceiling of one per
+  second, drew Alpha Vantage's throttle notice, and a throttled reply still
+  costs a call. A cold page needs ~15 calls (4 tiles, 11 sector funds), which
+  fits inside 25 *if spaced* and does not if burst. This one spent the day in
+  under two minutes. Decide alongside it whether the sector grid should cost
+  eleven of twenty-two — half the day for one surface.
+  *Accept:* a single-flight pacer serialises upstream calls at no more than one
+  per second and nothing bypasses it; a throttle is recognised as a throttle
+  rather than a generic failure and does not trigger an immediate retry; a
+  cold-start test asserts filling every surface stays inside both the budget and
+  the rate.
+
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is
