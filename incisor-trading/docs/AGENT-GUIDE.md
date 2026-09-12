@@ -179,6 +179,13 @@ Free for Key to build and run, free for every visitor, with no path to a bill.
 - No ads, no affiliate links, no sponsored tickers, no referral codes to brokers.
 - No third-party trackers, no external script tags, no embedded widgets.
 
+**Free is now a licence condition, not only a rule here.** Alpha Vantage's
+written permission to display their data (DEC-001, 2026-09-13) is conditional on
+this site being *strictly free*. Ads, a paywall, affiliate links, a paid tier or
+anything of monetary value would not merely break this section — they would void
+the permission the live data rests on, and the honest response would be
+returning to fixtures. Treat every item above as load-bearing.
+
 If a feature can only be built by spending money, it is out of scope. Note it
 with the cost stated and build something else.
 

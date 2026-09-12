@@ -13,32 +13,42 @@ replaced it; nothing is renumbered and no ID is ever reused.
 
 ---
 
-## DEC-001 — No free tier permits public display
+## DEC-001 — Public display is permitted, in writing, on two conditions
 
-*Settled · 08-27, 09-01*
+Asked 2026-09-12, answered 2026-09-13. Alpha Vantage support, quoted because
+this is the licence basis and a paraphrase would not be:
 
-**Decision**
+> If your website is strictly free and you only use the APIs available from our
+> free tier, that should be permissible.
+>
+> If the situation changes in the future, please let us know and we would be
+> happy to discuss our commercial licensing plans accordingly.
 
-**No commercial free tier grants the right to display market data publicly.
-Alpha Vantage is the recommendation, conditional on written permission; stay
-in fixture mode until it exists. And there are no per-endpoint terms — one
-written answer settles the whole API at once.**
+**The two conditions are contractual now, not preferences.**
 
-**Why**
+1. **The site is strictly free.** Guide §4 already forbids ads, paywalls,
+   affiliate links, accounts, payment and anything of monetary value. That was a
+   design decision; it is now also what this permission rests on. Adding any of
+   them does not merely break §4 — it voids the licence, and the honest response
+   would be returning to fixtures or taking up the commercial offer.
+2. **Only free-tier APIs.** No premium endpoint, however tempting. `T10b`'s
+   `TOP_GAINERS_LOSERS` is free tier and therefore covered. The 25-a-day ceiling
+   and the 22-call budget are unchanged by any of this.
 
-Licensing has two layers, access and display, and the display layer is what
-exchanges charge for — so this is structural, not a gap in the search. **Stop
-re-searching for a free tier that allows public display.** Alpha Vantage is
-the only one whose bar is scoped to *commercial* activity rather than stated
-flatly, and this page is permanently non-commercial. Ambiguous is not
-permitted (guide §10), so acting on it is Key's. Eight providers, clause by
-clause, in `DATA-PROVIDER.md`. The 09-01 half answers a question T10b filed
-and closes the shape of it: Alpha Vantage's terms are written over the
-platform, and the document contains **zero** occurrences of "endpoint",
-"function", "dataset" or "Alpha Intelligence", so no call has terms of its
-own. **Do not open a licence question per endpoint** — for
-`TOP_GAINERS_LOSERS` or any other. There is one licence and it is already in
-the table.
+**On the hedge.** The answer says "should be permissible" rather than "is
+permitted" — softer than a signed licence, and what a support desk gives. It is
+a specific written answer to a specific written question naming the clause,
+which is the bar `DATA-PROVIDER.md` set, and it is enough to move off fixtures.
+It is not enough to lean on if the site ever stops being free.
+
+**What did not change.** Attribution is still not required by the terms and is
+still shown, because a reader deserves to know where a number came from. The
+delay label stays. Fixture mode stays the development default, so no session
+spends live quota by accident: live is a server-side config value, not a code
+path anyone has to remember to avoid.
+
+Supersedes the 2026-08-27 reading, which recorded the question as open and kept
+the build on fixtures for seventeen days rather than guess.
 
 ## DEC-002 — SEC EDGAR for fundamentals
 

@@ -22,18 +22,12 @@ A notes shelf, not a queue. Things the routine reached that are out of its bound
 routine is never blocked on these** — it records one and moves on, and never
 re-raises the same item.
 
-- **N1 — Data provider choice.** Comes out of T0. The routine researches and
-  recommends; picking one means creating an account and accepting terms, which is
-  Key's. Meanwhile everything is built against fixtures, so nothing waits.
-- **N1a — Alpha Vantage display permission (from T0, 2026-08-27).** No free tier
-  from any commercial provider clearly permits public display of market data on a
-  website; display is a separate paid licence layer everywhere. Alpha Vantage is
-  the only one whose bar is scoped to *commercial* activity rather than stated
-  flatly, so it is the recommendation — **conditional on a written yes**. One free
-  email to `premium@alphavantage.co` (free, ad-free, non-commercial educational
-  page; delayed data labeled; attribution as they require) settles it. Full
-  reasoning and the quoted clauses are in `docs/DATA-PROVIDER.md`. *Meanwhile:*
-  the routine stays in fixture mode and builds on, exactly as guide §10 directs.
+- **N1 / N1a — ~~Data provider and display permission~~ RESOLVED 2026-09-13.**
+  Alpha Vantage answered: permissible while the site is strictly free and only
+  free-tier APIs are used. Recorded verbatim in `DECISIONS-DETAIL.md` under
+  `DEC-001`, because the reply *is* the licence basis. Both conditions now bind
+  on guide §4. Nothing further needed from Key except the key itself — see
+  *Going live* in `docs/DEPLOY-REHEARSAL.md`.
 - **N1b — SEC EDGAR needs nothing from Key (from T0).** `data.sec.gov` is public
   domain, requires no API key, no account, and no acceptance of terms, so it is
   inside the routine's bounds and it will be used for fundamentals (T11) without
@@ -4177,4 +4171,40 @@ on the grounds that the figures were set against it. They were not: every figure
 uses `var(--inc-mono)`, so the body face has never rendered a number. With that
 gone there is no argument left against matching the site, so the page takes
 Bricolage.
+
+## 2026-09-13 — Attended with Key: Alpha Vantage said yes
+**Outcome:** shipped
+**Changed:** `DECISIONS.md` + `-DETAIL.md` (DEC-001 rewritten), `AGENT-GUIDE.md`
+(§4), `PROGRESS.md` (N1/N1a resolved), `DEPLOY-REHEARSAL.md` (*Going live*)
+**Verified:** both suites green.
+
+Seventeen days open, answered by one email. The reply is quoted in full under
+`DEC-001` rather than paraphrased, because it *is* the licence basis and a
+summary of a permission is not a permission.
+
+**It is a conditional yes, and the conditions are the interesting part.**
+Permissible "if your website is strictly free and you only use the APIs
+available from our free tier". Both were already true and both were already
+rules here — and that is exactly why this needed recording rather than
+celebrating. Guide §4's ban on ads, paywalls, affiliate links and paid tiers
+stops being a design preference and becomes the thing the live data rests on.
+§4 now says so. Adding any of them would void the permission, not just break a
+house rule.
+
+**The hedge is noted rather than smoothed over.** "Should be permissible" is
+softer than "is permitted", and it is what a support desk gives. It clears the
+bar `DATA-PROVIDER.md` set — a specific written answer to a specific written
+question naming the clause — and it is enough to leave fixtures. It would not be
+enough to lean on if the site ever stopped being free.
+
+**What does not change.** Fixture mode stays the development default, so no
+session spends live quota by accident; live is a server-side config value rather
+than a code path to remember to avoid. The 22-of-25 budget is untouched.
+Attribution is still not required and still shown.
+
+**T10b is no longer blocked on terms** — `TOP_GAINERS_LOSERS` is free tier and
+covered. It stays blocked on the other half, which the licence cannot fix: a
+movers list is a *selection*, and a selection cannot be honestly synthesised.
+With live data that objection dissolves, so T10b is worth re-reading once the
+key is in.
 

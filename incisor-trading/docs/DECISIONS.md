@@ -27,7 +27,7 @@ DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
 
 | ID | Decision — and why, in brief |
 |---|---|
-| DEC-001 | **No free tier permits public *display*** — structural, not a search gap. Alpha Vantage pending Key's written permission; fixtures until then. One licence, every endpoint. |
+| DEC-001 | **Display permitted in writing, conditionally.** Alpha Vantage, 2026-09-13: permissible while the site is strictly free and only free-tier APIs are used. Both now bind. |
 | DEC-002 | **Fundamentals come from SEC EDGAR** — public domain, 10/sec, no key, off the 22-call budget. 403s without a contact `User-Agent`. |
 | DEC-003 | **25 calls a day decides the product.** Budget 22, live calls only; the cache runs in fixture mode too. Tiles read `/history` alone, never `/quote`. |
 | DEC-004 | **Fixtures are synthetic and say so** — one market factor with per-symbol beta, and `"source": "fixture"` on every response. |

@@ -224,3 +224,43 @@ fifteen faults are still ahead, found all at once on a day that matters.
 
 Paste the results back and they get filed as `[defect]` items, which the routine
 takes before feature work.
+
+---
+
+## Going live (added 2026-09-13, after DEC-001)
+
+Display permission arrived in writing, so the service can leave fixture mode.
+All on the Fedora box. **Free tier only, and the site stays strictly free** —
+both are conditions of the permission, not preferences.
+
+1. Get a free key at `https://www.alphavantage.co/support/#api-key`.
+2. Put it in the config and switch the source:
+
+```bash
+sudo nano /etc/incisor-trading/config.env
+```
+
+Set `UPSTREAM_API_KEY` to the key and `INCISOR_DATA_SOURCE=live`. Nothing else.
+
+3. Restart and check:
+
+```bash
+sudo systemctl restart incisor-trading && sleep 2 && curl -s http://127.0.0.1:8789/health; echo
+```
+
+`"source"` should read `live`. Then fetch one symbol and confirm the prices are
+real rather than generated:
+
+```bash
+curl -s -H "Origin: https://frontendneeded.com" "http://127.0.0.1:8789/quote?symbol=SPY" | head -c 300; echo
+```
+
+4. Watch the budget for a day. 22 of the allowed 25 calls, counted in the
+   `upstream_calls` table, shared across every visitor by the server-side cache:
+
+```bash
+sudo -u incisor sqlite3 /var/lib/incisor-trading/incisor.db "SELECT COUNT(*) FROM upstream_calls WHERE called_at > date('now');"
+```
+
+**If anything looks wrong, `INCISOR_DATA_SOURCE=fixture` and restart** — the
+page returns to generated data, labelled as such, with nothing else changed.
