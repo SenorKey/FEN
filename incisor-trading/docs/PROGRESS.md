@@ -4096,3 +4096,44 @@ is the first change to the ledger's entry model since T14 — a split is a
 third kind of entry and a fifth stored version. `DECISIONS.md` is at 13,874
 of 14,500, about four entries of room. No open defects. **Three surfaces are
 queued for audit**, T14 and T15 falling due at the next session.
+
+## 2026-09-12 — Attended with Key: T26b, the deploy rehearsal, run end to end
+**Outcome:** shipped — the service is live on the Fedora box in fixture mode
+**Changed:** `BACKLOG.md` (T26b closed, D15 filed)
+**Verified:** all five routes answer 200 through Apache over HTTPS with real
+payloads; `/api/incisor/health` correctly 404s from outside; port 8789 is not
+reachable from the LAN; all four source directories 403; `noindex` intact and
+zero sitemap mentions; the page renders with live data and the market clock is
+correct.
+
+**The rehearsal earned its keep in two commands.** With the branch checked out
+and the vhost snippet not yet installed, `/incisor-trading/server/incisor.py`
+answered **200** — the whole service source readable. `docs/`, `tests/` and
+`tools/` were 403 because each carries its own `.htaccess`; `server/` carried
+none and relied entirely on the `<Directory>` block that is pasted in by hand as
+a separate step. That window opens by default, because pulling the branch is the
+easy half. Fixed as **D14** and verified 403 on the live server.
+
+**The fault everyone expected did not happen.** SELinux's
+`httpd_can_network_connect` was already `on` — the Ollama and preside-by-side
+proxies needed the same switch years earlier. Worth recording because the guide
+and the checklist both named it as the likely blocker, and prediction is not
+evidence.
+
+**What the hardened unit proved.** `"storage":"ok"` in the health response means
+the service wrote its SQLite database while running under `ProtectSystem=strict`
+with `ReadWritePaths` limited to one directory. That is the configuration most
+likely to fail silently on first contact with a real filesystem, and it did not.
+
+**One pre-existing finding, filed as D15 and not ours.** `assets/js/beacon.js`
+POSTs to `/api/event` on every FEN page and gets a 404: the Status Station was
+built but never deployed. Harmless by construction — the beacon swallows its own
+failures — but the site records no analytics at all. Outside the routine's
+bounds twice over: a server install plus a vhost change, and `assets/` is not
+`incisor-trading/`.
+
+**Still deliberately not done.** The page remains hidden — `noindex`, absent
+from the nav, absent from the sitemap — and the service runs in fixture mode, so
+no provider was contacted and no quota spent. Promotion is still T27 and still
+Key's.
+

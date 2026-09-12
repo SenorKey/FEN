@@ -114,27 +114,6 @@ that is Key's to obtain, not the routine's to work around.
 
 ## Phase 5 — Promotion (Key does these, not the routine)
 
-- [ ] **T26b · Deploy rehearsal on the Fedora box** — **unblocked 2026-09-07**;
-  Key is home. The ordered checklist is `docs/DEPLOY-REHEARSAL.md`, and it is
-  his to run — hard rule 5 keeps the routine off the server.** Not a promotion step and not the routine's to run: it is a trial
-  install of what already exists, done early because the cost of waiting
-  compounds. Nothing here has ever run where it will run. Nine surfaces, a Flask
-  service, an Apache snippet and a systemd unit have only ever been exercised on
-  a Mac against a Python stand-in, and **D5, D7 and D8 were all "correct
-  everywhere except where it actually runs"** — a route Apache never proxied, a
-  proxy stand-in that set no `X-Forwarded-For`, and a limiter reading the hop the
-  caller writes. A rehearsal now debugs three such faults; one in two months
-  debugs fifteen at once, all interacting.
-  Known unknowns to expect, none of them verifiable from here: SELinux almost
-  certainly blocks `mod_proxy` reaching `127.0.0.1:8789` until
-  `httpd_can_network_connect` is on; the venv path in the unit; ownership and
-  mode on `/var/lib/incisor-trading`; gunicorn not being installed; the firewall.
-  *Accept:* the service starts under systemd and survives a reboot; `/health`
-  answers on the box; every route in `apache-snippet.conf` answers through
-  Apache; the page renders at `/incisor-trading/` on the real host with
-  `noindex` intact and no nav or sitemap entry; **every fault found is filed**,
-  since that list is the actual product of this task.
-
 - [ ] **T27 · Promotion checklist** — the routine *writes* `docs/PROMOTION.md`:
   everything Key must do to take the page live (install the systemd unit and
   Apache snippet, create `/etc/incisor-trading/config.env`, set the real API key, remove
@@ -277,6 +256,18 @@ phase. When the call is unclear, file it as a defect.
   `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
   Until then `incisor.css` keeps DM Sans and its comments say why.
 
+- [ ] **D15 · The site-wide beacon 404s on every page** `[defect]`
+  *(found 2026-09-12 during the T26b rehearsal)* — **not an Incisor defect and
+  not Incisor's to fix**, recorded here because this is where it was seen.
+  `assets/js/beacon.js` loads on every FEN page and POSTs to `/api/event`, which
+  returns **404** on the live server: the Status Station service it reports to
+  was built but never deployed. Harmless by construction — the beacon swallows
+  its own failures and never surfaces them to a reader — but it means the site
+  has been recording no analytics at all, and every page logs a console error.
+  Out of the routine's bounds twice over: the fix is a service install plus a
+  vhost change, both on the server (hard rule 5), and `assets/` is outside
+  `incisor-trading/` (hard rule 1). **Key's, whenever he wants it.**
+
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is
@@ -340,3 +331,4 @@ session that must *act* on any of this goes.
 | T14 | 09-11 | **Portfolio model.** A replayed ledger in `localStorage`, an account summary on the Trade tab, and a notice for a blob that was unreadable or written by a newer page. → DEC-082, DEC-083 |
 | T15 | 09-11 | **Order ticket and open orders.** Fills at the first bar open or close after placing; buys hold back cash; open orders were the first migration, v1 to v2. → DEC-085, DEC-086 |
 | T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-089, DEC-090 |
+| T26b | 09-12 | **Deploy rehearsal: the code ran where it will run, and it found a hole in two commands.** Service installed, enabled, running in fixture mode; all five routes answer through Apache; `/health` correctly unreachable from outside. → D14, D15 |
