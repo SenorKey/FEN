@@ -1,0 +1,218 @@
+/* The Trade panel's holdings table and trade log: js/view-positions.js.
+ *
+ * Two tables built on .inc-watch-table's arrangement — monospace, tabular
+ * numerals, the row's own heading left and every figure right — because a
+ * reader who has learned to scan the watchlist should not have to learn a
+ * second table three surfaces later. What differs is only what the columns
+ * hold.
+ *
+ * Everything inside [data-positions] and [data-trade-log] is built by the
+ * view, so none of these classes appears in the served document.
+ */
+
+.inc-positions-block,
+.inc-log-block {
+    margin-top: 34px;
+}
+
+/* Both scrollers set `position` as well as `overflow-x`. An absolutely
+   positioned descendant — the off-screen long labels in the header row — is
+   clipped only by an ancestor that is a containing block for it, so without
+   this the box scrolls and the body scrolls with it (D6). See the note on
+   .inc-offscreen in incisor.css; test_page.py asserts the pairing. */
+.inc-positions-scroll,
+.inc-log-scroll {
+    position: relative;
+    margin-top: 14px;
+    overflow-x: auto;
+}
+
+.inc-positions,
+.inc-trade-log {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.84rem;
+}
+
+.inc-positions th,
+.inc-positions td,
+.inc-trade-log th,
+.inc-trade-log td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--inc-rule);
+    text-align: right;
+    white-space: nowrap;
+}
+
+.inc-positions thead th,
+.inc-trade-log thead th {
+    padding: 0 0 4px;
+    border-bottom-color: var(--inc-rule-strong);
+    font-weight: 500;
+    color: var(--muted);
+}
+
+/* The first column is the row's own heading and reads left to right; every
+   figure beside it is a number and reads right to left. */
+.inc-positions th:first-child,
+.inc-positions thead th:first-child,
+.inc-trade-log th:first-child,
+.inc-trade-log thead th:first-child {
+    text-align: left;
+}
+
+.inc-positions tbody th {
+    font-weight: 500;
+    color: var(--ink);
+}
+
+/* The arrow that carries direction without colour. Sized and spaced the way
+   the summary's is, so the two surfaces agree on what a gain looks like. */
+.inc-positions .inc-arrow {
+    margin-right: 5px;
+}
+
+.inc-positions .inc-up { color: var(--inc-up); }
+.inc-positions .inc-down { color: var(--inc-down); }
+.inc-positions .inc-flat { color: var(--inc-flat); }
+
+/* The percentage under its amount rather than beside it: the gain column is
+   the widest on the table and at 375px the pair on one line is what pushes it
+   past the box (DEC-073). Stacked, the column is as wide as its amount. */
+.inc-positions-percent {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--muted);
+}
+
+/* ── The trade log ─────────────────────────────────────────── */
+
+/* The row's date is a fact about when, not a figure to compare, so it is the
+   prose face while the money beside it stays monospace. */
+.inc-trade-log tbody th {
+    font-family: var(--inc-prose);
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.inc-trade-log td:nth-child(2) {
+    text-align: left;
+}
+
+.inc-log-kind {
+    color: var(--muted);
+    margin-right: 7px;
+}
+
+.inc-log-symbol {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+/* A control, so it looks like one: the page's other text buttons are the
+   chart's range presses, and this borrows their shape rather than inventing
+   a third kind of button on the same tab. */
+.inc-log-more {
+    margin-top: 12px;
+    padding: 7px 14px;
+    border: 1px solid var(--inc-rule);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--inc-prose);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: border-color 140ms ease, color 140ms ease;
+}
+
+.inc-log-more:hover {
+    border-color: var(--inc-rule-strong);
+    color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .inc-log-more {
+        transition: none;
+    }
+}
+
+/* ── One block per row, on a phone ─────────────────────────── */
+
+/* Six money columns do not fit 390px, and neither do five. The tool measures
+   a scroller against its own content (DEC-073), so the choice was between a
+   box that scrolls at the width guide §15 checks and a table that stops being
+   one — and the third option, type small enough to fit, loses the reader on a
+   page whose numbers are the content.
+
+   So below 560px each row becomes a block and each cell a labelled line. The
+   header row goes, and the label it carried comes back from the cell's own
+   data-label — the long spelling, since the block has room the column did not.
+   Nothing is hidden: every figure the desktop table shows is still here. */
+@media (max-width: 560px) {
+    .inc-positions-scroll,
+    .inc-log-scroll {
+        overflow-x: visible;
+    }
+
+    .inc-positions thead,
+    .inc-trade-log thead {
+        display: none;
+    }
+
+    .inc-positions,
+    .inc-positions tbody,
+    .inc-trade-log,
+    .inc-trade-log tbody {
+        display: block;
+    }
+
+    .inc-positions tr,
+    .inc-trade-log tr {
+        display: block;
+        padding: 12px 0 10px;
+        border-bottom: 1px solid var(--inc-rule);
+    }
+
+    .inc-positions th,
+    .inc-positions td,
+    .inc-trade-log th,
+    .inc-trade-log td {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 3px 0;
+        border-bottom: 0;
+        white-space: normal;
+    }
+
+    /* The row's own heading leads the block, so it reads as the thing the
+       lines below it are about rather than as the first of seven figures. */
+    .inc-positions tbody th,
+    .inc-trade-log tbody th {
+        margin-bottom: 4px;
+        font-size: 0.94rem;
+    }
+
+    .inc-positions td::before,
+    .inc-trade-log td::before {
+        content: attr(data-label);
+        flex: none;
+        font-family: var(--inc-prose);
+        font-size: 0.8rem;
+        color: var(--muted);
+    }
+
+    /* The percentage goes back beside its amount: stacking it was how the
+       gain column stayed narrow, and there is no column to keep narrow now. */
+    .inc-positions-percent {
+        display: inline;
+        margin-left: 7px;
+    }
+
+    .inc-trade-log td:nth-child(2) {
+        text-align: right;
+    }
+}

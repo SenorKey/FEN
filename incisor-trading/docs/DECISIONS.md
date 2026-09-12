@@ -84,6 +84,8 @@ DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
 | DEC-085 | **An order fills at the first bar open (9:30 ET) or close after it was placed** — the bar's market moment, not its publication. Mid-session limits get the close only. |
 | DEC-086 | **Open buys hold back cash — a limit at its limit, market at last close +5% — and six symbols may be in play.** Six is the call budget, like DEC-028: redo the sum to raise it. |
 | DEC-087 | **An index row repeating a comment is a second copy, and the copy is the one that drifts.** Eight said what the file they bind said better; the index is for what no one file owns. |
+| DEC-088 | **The equity curve prices at most twelve distinct symbols, and refuses past it.** Third cap of the same kind as DEC-028 and DEC-086: the call budget, not taste. Redo the sum to raise it. |
+| DEC-089 | **`plot()` takes an explicit `{low, high}`: two lines being compared may not each scale to themselves.** Right for a price chart, and it can draw the loser above the winner here. |
 
 ---
 
@@ -120,3 +122,4 @@ there will be a third.
 | DEC-065 | **A later rule at equal specificity defeats an earlier one and no DOM test sees it** — `display` over `[hidden]`, `:focus` over `:focus-visible`. Assert the pair. |
 | DEC-066 | **The greps in `test_page.py` are blunt substring checks and mislead three ways** — unread files, prose matching a token, per-file rules concatenated. |
 | DEC-076 | **A directory kept out of the web root by one mechanism is exposed the moment that mechanism is absent** — `tools`, then `server/` the same day. Both `.htaccess` and the vhost, always. |
+| DEC-090 | **A table laid out with `display: block` stops being a table to a screen reader** — rows and cells go with it. Write every role out; at desktop each matches the implicit one. |

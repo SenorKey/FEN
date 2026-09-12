@@ -346,7 +346,31 @@
             /* Whether the prices this page holds are the generated sample,
              * which never moves forward — so an order placed now never fills. */
             isSample: function () { return sampleSeen; },
-            sawSample: function () { sampleSeen = true; }
+            sawSample: function () { sampleSeen = true; },
+
+            /* What this module already fetched, for the surfaces below it.
+             *
+             * The holdings table and the equity curve need the same series
+             * the summary was priced from, and this module owns the requests
+             * the Trade tab makes. Handing them over is DEC-032 — a surface
+             * pays for a payload once — and re-asking would spend a second
+             * call of 22 to learn what the page already knows.
+             *
+             * Copied on the way out. A caller that sorted the bars it was
+             * handed would be sorting the array open orders settle against,
+             * and the two surfaces that read this both walk it in date order.
+             */
+            prices: function () {
+                var copy = {};
+                Object.keys(prices).forEach(function (symbol) {
+                    copy[symbol] = prices[symbol];
+                });
+                return copy;
+            },
+            barsFor: function (symbol) {
+                var bars = barsBySymbol[symbol];
+                return bars ? bars.slice() : null;
+            }
         };
     }
 

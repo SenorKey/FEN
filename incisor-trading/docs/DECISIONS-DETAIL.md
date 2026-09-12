@@ -970,6 +970,95 @@ stops this being the 12-byte deadlock of 09-03 in a new file.
 
 ---
 
+## DEC-088 — The curve's symbol cap is the call budget
+
+*Settled · 09-12 · T16*
+
+**Decision**
+
+**The equity curve prices at most twelve distinct symbols across the whole
+ledger. Past that it is not drawn, and says so.** `SYMBOL_LIMIT` in
+`js/portfolio-history.js`.
+
+**Why**
+
+The curve needs one daily series per symbol the ledger has *ever* touched, not
+merely those still held — a position bought and sold in March is part of what
+the line did in March. Of 22 upstream calls a day (DEC-003) the four tile
+proxies are already spent and SPY is one of them, so the benchmark is free;
+the Trade tab's own six symbols in play (DEC-086) are fetched whether this
+surface exists or not. That leaves about six more closed-out symbols before
+the tab is costing half the day's budget, and twelve is where that lands.
+
+It refuses rather than drawing what it can. A line missing one holding's
+contribution is not a rougher line, it is a wrong one, and nothing on screen
+would show the reader it is wrong.
+
+**The third time this shape has come up** — the watchlist's eight, open
+orders' six, and now twelve. Each is a cap on how many symbols a surface may
+have in play, each is the call budget rather than a design preference, and
+each can only be raised by redoing the arithmetic. If a fourth appears, that
+is the signal to make it one rule rather than a fourth row.
+
+---
+
+## DEC-089 — Two lines being compared share one scale
+
+*Settled · 09-12 · T16*
+
+**Decision**
+
+**`geometry.plot()` takes an optional `{low, high}` that overrides the
+vertical scale.** The performance view measures both series, then plots each
+against the pair's low and high.
+
+**Why**
+
+Scaling a series to its own low and high is right for a price chart and wrong
+the moment two lines are drawn to be compared: a portfolio that gained $140
+and a benchmark that gained $3,000, each stretched to fill the box, are two
+lines of identical shape, and the one that lost can sit above the one that
+won. The whole surface exists to show which is higher.
+
+Added to the shared module rather than copied into the new one. The curve
+needed exactly what `plot()` already does — points, a path, and `yForPrice`
+for the baseline — and a second implementation of the same arithmetic would
+have been two formulas that must agree for the gridlines to line up with the
+line, which is the reason `yForPrice` is exported in the first place.
+
+---
+
+## DEC-090 — A block-laid-out table is not a table
+
+*Recurring trap · 09-12 · T16*
+
+**The trap**
+
+`display: block` on a `<table>`, its rows or its cells makes the browser stop
+exposing it as a table: the grid semantics go, and the rows, cells and row
+headers go with them. Nothing fails, nothing looks different, and the surface
+is simply gone for anyone reading it with a screen reader.
+
+**How to avoid it**
+
+Write every role out — `table`, `rowgroup`, `row`, `columnheader`,
+`rowheader`, `cell` — on the elements themselves. At a width where the table
+is still a table each one matches the role the element already had, so it
+costs nothing there and is the whole of the semantics where the layout has
+changed.
+
+**Where it came from**
+
+T16's holdings table has six money columns and the trade log has five.
+Neither fits 390px, and `tools/shoot.py` fails a scroller whose own content
+overflows at the widths guide section 15 checks (DEC-073). The third option —
+type small enough to fit — loses the reader on a page whose numbers are the
+content. So below 560px each row becomes a block and each cell a labelled
+line, with the column's full name coming back from the cell's `data-label`.
+That layout is the right answer and it silently took the semantics with it.
+
+---
+
 ## DEC-052 — Five free-tier quote providers
 
 *Dead end · 08-27*

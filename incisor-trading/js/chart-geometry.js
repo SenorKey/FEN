@@ -107,8 +107,15 @@
      * A perfectly flat window has no range to scale against and is drawn down
      * the middle rather than dividing by zero, which SVG renders as nothing at
      * all and does so silently.
+     *
+     * `bounds` overrides the vertical scale with an explicit `{low, high}`.
+     * One series scaled to itself is the right answer for a price chart and
+     * the wrong one for two lines that are being compared: the Trade tab's
+     * equity curve draws a portfolio against a benchmark, and two lines on
+     * two scales can show the loser above the winner. So the caller measures
+     * both series, then plots each against the pair's own low and high.
      */
-    function plot(bars, width, height, padding) {
+    function plot(bars, width, height, padding, bounds) {
         if (!Array.isArray(bars) || bars.length === 0) return null;
         var pad = padding || 0;
         var usable = height - (pad * 2);
@@ -122,6 +129,11 @@
 
         var low = Math.min.apply(null, closes);
         var high = Math.max.apply(null, closes);
+        if (bounds && isFiniteNumber(bounds.low) && isFiniteNumber(bounds.high)
+                && bounds.high >= bounds.low) {
+            low = bounds.low;
+            high = bounds.high;
+        }
         var span = high - low;
 
         function yFor(value) {

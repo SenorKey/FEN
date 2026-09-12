@@ -57,11 +57,6 @@ that is Key's to obtain, not the routine's to work around.
 
 ## Phase 2 — Paper trading (live sim)
 
-- [ ] **T16 · Positions, history, performance** — holdings table, transaction log,
-  equity curve vs. a buy-and-hold SPY benchmark over the same period.
-  *Accept:* P/L math verified against a hand-computed scenario written into the
-  progress entry.
-
 - [ ] **T17 · Corporate actions** — apply stock splits to held positions. Dividends
   optional. *Accept:* a split fixture adjusts share count and cost basis correctly.
 
@@ -216,9 +211,10 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Nothing is due yet.** Queued, both shipped 09-11 and due at the third
-session after that one: **Portfolio summary** (T14), then **Order ticket and
-open orders** (T15).
+**Nothing is due yet.** Queued, oldest first: **Portfolio summary** (T14) and
+**Order ticket and open orders** (T15), both shipped 09-11 and due at the
+third session after that one; then **Holdings, trade log and equity curve**
+(T16), shipped 09-12.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -237,6 +233,22 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 `[enhancement]`** — see guide §19. A defect is taken before anything else at
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
+
+- [ ] **D16 · The Trade tab's surfaces redraw only when a settlement lands**
+  `[enhancement]` *(2026-09-12)* — `js/view-portfolio.js` notifies its
+  listeners once, when every symbol in play has answered and open orders have
+  settled. Mid-flight it calls its own `render()` and tells nobody, so the
+  holdings table and the equity curve sit at their empty state while the
+  summary above them is already filling in. Nothing is wrong on screen and
+  nothing is stale once the page settles — this is a few hundred milliseconds
+  where one surface has figures and the two below it do not, which reads as
+  the lower two being broken rather than as the upper one being early.
+  The fix is small and the risk is not: `notify(null)` on every answer would
+  redraw the curve once per symbol, and the curve is the one surface that
+  fetches. So it wants a change that separates "prices moved" from "orders
+  settled" rather than a second call to the same signal.
+  *Accept:* a surface that can draw from what has arrived does; the curve is
+  not recomputed once per answering symbol.
 
 - [ ] **D15 · `shoot.py` should compress the set it knows will be committed**
   `[enhancement]` *(2026-09-08)* — a look branch's shots are the only ones that
@@ -327,3 +339,4 @@ session that must *act* on any of this goes.
 | T13b | 09-08 | **Visual directions, round one.** Two opposed look branches — `broadsheet` (a document) and `workbench` (an instrument) — registered with shots. → DEC-079, DEC-080, DEC-081 |
 | T14 | 09-11 | **Portfolio model.** A replayed ledger in `localStorage`, an account summary on the Trade tab, and a notice for a blob that was unreadable or written by a newer page. → DEC-082, DEC-083 |
 | T15 | 09-11 | **Order ticket and open orders.** Fills at the first bar open or close after placing; buys hold back cash; open orders were the first migration, v1 to v2. → DEC-085, DEC-086 |
+| T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-089, DEC-090 |

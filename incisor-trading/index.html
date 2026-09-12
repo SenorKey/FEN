@@ -59,6 +59,8 @@
     <link rel="stylesheet" href="/incisor-trading/css/portfolio.css">
     <link rel="stylesheet" href="/incisor-trading/css/ticket.css">
     <link rel="stylesheet" href="/incisor-trading/css/orders.css">
+    <link rel="stylesheet" href="/incisor-trading/css/positions.css">
+    <link rel="stylesheet" href="/incisor-trading/css/performance.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the
       logic modules are in place before any view runs, and each view runs
@@ -77,6 +79,7 @@
     <script src="/incisor-trading/js/portfolio-ledger.js" defer></script>
     <script src="/incisor-trading/js/portfolio-orders.js" defer></script>
     <script src="/incisor-trading/js/portfolio-store.js" defer></script>
+    <script src="/incisor-trading/js/portfolio-history.js" defer></script>
     <script src="/incisor-trading/js/quote-card.js" defer></script>
     <script src="/incisor-trading/js/view-index-strip.js" defer></script>
     <script src="/incisor-trading/js/view-sectors.js" defer></script>
@@ -86,6 +89,8 @@
     <script src="/incisor-trading/js/view-watchlist.js" defer></script>
     <script src="/incisor-trading/js/view-symbol.js" defer></script>
     <script src="/incisor-trading/js/view-portfolio.js" defer></script>
+    <script src="/incisor-trading/js/view-positions.js" defer></script>
+    <script src="/incisor-trading/js/view-performance.js" defer></script>
     <script src="/incisor-trading/js/view-orders.js" defer></script>
     <script src="/incisor-trading/js/view-ticket.js" defer></script>
     <script src="/incisor-trading/incisor.js" defer></script>
@@ -1305,10 +1310,22 @@
                         opens here once the page&rsquo;s scripts have run.</p>
                 </div>
 
+                <!-- What is held, and every trade behind it. Both built by
+                     js/view-positions.js from state the page already has. -->
+                <div class="inc-positions-block" data-positions></div>
+
                 <!-- The order ticket, and the orders it opened. Built by
                      js/view-ticket.js and js/view-orders.js. -->
                 <div class="inc-ticket" data-ticket></div>
                 <div class="inc-open-orders" data-orders></div>
+
+                <div class="inc-log-block" data-trade-log></div>
+
+                <!-- The equity curve, last because it is the only surface on
+                     this tab that fetches: a closed-out position still needs
+                     its series to be part of the line. Built by
+                     js/view-performance.js. -->
+                <div class="inc-perf" data-performance data-state="pending"></div>
             </section>
 
             <!-- ── Learn ────────────────────────────────────────── -->
