@@ -75,7 +75,10 @@ DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs')
 # achieved value itself: a ceiling with no room blocks the next filing, and
 # discovering that mid-task is the failure it exists to prevent. D9 landed
 # 11,886; 15,000 leaves room to file before the next consolidation is due.
-CEILING = 15_000
+# S6 on 09-12 landed 13,289 by moving eight surface-scoped rows into the files
+# they bind (DEC-087). A quarter on top would be 16,600, which is upward and
+# so not available: 14,500 is the cut, and about seven entries of room.
+CEILING = 14_500
 
 # Long enough to state a claim and its reason, short enough that seventy of them
 # stay readable in one sitting. This is the cap D9 exists to install: the 57KB

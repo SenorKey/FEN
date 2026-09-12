@@ -28,10 +28,11 @@
      * calendar month is not a fixed number of them. 21, 126 and 252 are the
      * conventional session counts for a month, six months and a year.
      *
-     * There is no 1D. A day of a daily series is one bar, and a chart of one
-     * point is not a chart — a real intraday view needs a separate upstream
-     * call per symbol, which the 22-a-day budget cannot carry. See
-     * DECISIONS.md; the shortest honest range this data supports is a week.
+     * There is no 1D, though backlog T8's wording named one. A day of a daily
+     * series is one bar, and a chart of one point is not a chart — a real
+     * intraday view needs a separate upstream call per symbol, which the
+     * 22-a-day budget cannot carry. The shortest honest range this data
+     * supports is a week, so 5D is where the list starts. Do not add it.
      */
     var RANGES = [
         { key: '5D', sessions: 5, label: 'five days' },

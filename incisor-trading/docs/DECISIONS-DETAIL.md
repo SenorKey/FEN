@@ -115,6 +115,8 @@ quote.
 
 ## DEC-006 — No fundamentals table at T4
 
+*Spent. The table T4 deferred shipped as T11 — see DEC-002 and DEC-043. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
+
 *Settled · 08-27*
 
 **Decision**
@@ -127,22 +129,6 @@ Its shape is undefined until T11 and its upstream is EDGAR rather than the
 quote provider, so building it now would be schema with no writer and a
 migration to come. A deliberate deviation from the task's wording — do not
 "complete" T4 by adding it. Noted for Key.
-
-## DEC-007 — Market holidays are computed, never listed
-
-*Settled · 08-27*
-
-**Decision**
-
-Market holidays are **computed from their rules**, never a hardcoded table
-
-**Why**
-
-A table is correct until the year it isn't, and it goes stale silently — the
-page would simply claim the market was open on Thanksgiving. Every NYSE
-closure has a rule, which is why there is an Easter computation in a trading
-page. The two edges that look like bugs and are not are commented in
-`js/market-clock.js`.
 
 ## DEC-008 — Enamel and gold, system monospace, no webfont
 
@@ -199,6 +185,8 @@ because it is labelled *Over six months* and sits in its own card, so it
 cannot be read as contradicting the one-day change above it.
 
 ## DEC-011 — The CSS and JS module seams
+
+*Superseded by DEC-013, which splits a surface at drawing versus deciding. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
 
 *Settled · 08-28*
 
@@ -265,26 +253,6 @@ the provenance line, and the three DOM writes in `js/dom.js` — is defined once
 and read by every surface, which is what stops the next view restating it.
 **Supersedes the T6 note that every view lives in `incisor.js`.**
 
-## DEC-014 — The quote panel costs two calls
-
-*Settled · 08-28*
-
-**Decision**
-
-**The quote panel costs two upstream calls; the tiles still cost one.**
-`/history` for the year behind the 52-week range and the volume average,
-`/quote` for the day's own open, high, low and volume.
-
-**Why**
-
-A daily series does not carry the session in progress, so the day range
-genuinely is not in `/history` — which is the opposite of the T6 finding, and
-worth stating so the two are not confused. Against the 22-a-day budget: four
-for the strip, plus one or two per symbol looked up. Live mode also had to
-switch to `outputsize=full`, because `compact` is 100 sessions and cannot
-reach back a year; `fetcher.MAX_DAILY_BARS` cuts the answer to five years
-before it is stored.
-
 ## DEC-015 — Names come from a committed catalogue
 
 *Settled · 08-28*
@@ -318,25 +286,6 @@ and run the real shipped scripts in JavaScriptCore via `osascript` against a
 DOM stub. They do not replace a browser and do not pretend to —
 `tools/shoot.py` covers what they cannot. Read *Recurring traps* before
 changing one.
-
-## DEC-018 — Chart ranges: no 1D
-
-*Settled · 08-29*
-
-**Decision**
-
-**The chart's ranges are 5D / 1M / 6M / 1Y / 5Y. There is no 1D, and T8's own
-wording names one.**
-
-**Why**
-
-A day of a daily series is one bar, so 1D is a chart of one point. A real
-intraday view needs `TIME_SERIES_INTRADAY`, a third upstream call per symbol
-on top of the two a lookup already costs — unaffordable against 22 a day, and
-unaffordable for the four proxies at any price. A deliberate deviation from
-the task's wording: **do not "complete" T8 by adding 1D.** 5Y is kept and made
-honest instead of dropped — in fixture mode it draws the 260 sessions held and
-says so on the page, which is the precedent the 52-week range set at T7.
 
 ## DEC-019 — A live surface may not overwrite served facts
 
@@ -386,6 +335,8 @@ the accessibility tree when the tile has no figure to describe.
 
 ## DEC-021 — A fact in one channel only
 
+*Merged into DEC-060, which is the same lesson after it bit a second time. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
+
 *Settled · 08-29, 08-30*
 
 **Decision**
@@ -432,6 +383,8 @@ the same seam `css/market.css` already runs on: the vocabulary is defined
 once, and each surface says where it goes.
 
 ## DEC-023 — An error may not point off screen
+
+*Merged into DEC-078: an empty state may not misdescribe what emptied it. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
 
 *Settled · 08-30*
 
@@ -561,36 +514,6 @@ list held in the browser; the per-surface line rule is what caught it. **Do
 not move it back in, add names, or raise the cap without redoing the call
 arithmetic.**
 
-## DEC-029 — The sector grid reads at a week
-
-*Settled · 08-31*
-
-**Decision**
-
-**The sector grid is eleven funds read at a *week*, ranked over 1M / 3M / YTD
-/ 1Y, with every figure measured to the newest date all eleven share. There is
-no 1D column and its absence is the design.** In live mode one request
-refreshes at most two series; the cap does not bind in fixture mode.
-
-**Why**
-
-Eleven funds is eleven upstream calls, and at the endpoint's daily TTL that is
-half of a 22-call day — leaving three lookups a day for the whole internet on
-the surface a reader actually came to use. A week costs eleven a week. The
-window list follows from that and not from taste: a series that can be a week
-old cannot honestly carry a one-session figure, while a figure covering a
-month is still covering a month when its end moves by a few sessions. **Do not
-"complete" T10 by adding 1D**, and do not shorten the TTL without redoing that
-arithmetic. The shared end date is what makes the ranking a ranking — a weekly
-refresh spread across requests is exactly how eleven series fall out of step,
-and eleven changes measured to eleven dates is not a comparison. The
-per-request cap is latency and throttle, not quota: eleven sequential calls
-inside one response is 110 seconds of ten-second timeouts against a tier that
-also limits requests per minute. It is scoped to live mode for the reason
-`budget_remaining()` already is — a fixture read is a local file read, and
-rationing it made the grid fill over six page loads in the only mode that has
-ever run.
-
 ## DEC-030 — /sectors computes; /history relays
 
 *Settled · 08-31*
@@ -679,6 +602,8 @@ rather than padding so the row's height and the glyph's position do not move.
 
 ## DEC-035 — Hover alone is no affordance
 
+*Merged into DEC-060. Hover is the channel this one was missing. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
+
 *Settled · 08-31*
 
 **Decision**
@@ -725,30 +650,9 @@ with a scrolling table on every surface that ranks anything. **Do not remove
 look like dead declarations. Same family as the `[hidden]` trap: a rule that
 is correct about the visible content and silent about the rest.
 
-## DEC-037 — shoot.py measures a fourth width
-
-*Settled · 08-31*
-
-**Decision**
-
-**`shoot.py` measures a fourth width it does not photograph: 320px, full
-watchlist, overflow only — and skips it with a stated reason when `--api` is
-absent.**
-
-**Why**
-
-§13's rule is unconditional, so §15's 375 is a width to check at and not a
-floor; but a fourth image every session is permanent weight in a repo served
-off a home connection, and the check is one number rather than a picture. The
-skip is the part worth recording: with no service the rows fall back to a
-short "unavailable", the table fits, and the run would go green against the
-one state the rule is not about — the same "what does the stand-in paper
-over?" question D4 and D5 turned into a recurring trap. A pass that stands for
-nothing is worse than a stated skip. One run costs 32 requests against a
-60-a-minute per-IP limit, so the fourth load does not put the tool near its
-own service's ceiling.
-
 ## DEC-038 — The document ceiling counts elements, not lines
+
+*Merged into DEC-026, which carries all three measures of the length rule. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
 
 *Settled · 09-01 · superseded in its unit 09-04, its reasoning carried forward*
 
@@ -808,6 +712,8 @@ other length rules already use.
 **Do not re-add comments, copy, or line count to the measure.**
 
 ## DEC-039 — A derived rule needs its own guard
+
+*Merged into DEC-064: a derivation is a stand-in, and fails as silently. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
 
 *Settled · 09-01*
 
@@ -1009,35 +915,60 @@ per-IP gate entirely**. **Anything that lets `get_client_ip()` return empty
 disables the gate silently**, and a disabled gate is indistinguishable from a
 gate nobody has tripped.
 
-## DEC-050 — Volatility and correlation ride with beta
+## DEC-087 — The index is for what no single file owns
 
-*Settled · 09-02*
+*Settled · 09-12 · S6*
 
 **Decision**
 
-**Volatility and correlation are read off the pairing `beta()` already builds;
-the panel's fund state is what they were added for.** One `measures` object on
-the wire — three figures, one window, one benchmark — replacing the old `beta`
-object.
+**A decision only one surface can act on is stated in that surface's own file,
+not as a line in `DECISIONS.md`.** The index keeps what is cross-cutting —
+licensing, the call budget, colour and labelling rules, what every surface must
+say — and the narrower test is guide §16's: *would a session working on a
+**different** surface need to know?*
+
+Eight rows failed it on 09-12 and were moved out, having first been checked
+one by one against the file they bind:
+
+| Was | Says it in full |
+|---|---|
+| DEC-007 | `js/market-clock.js` — holidays computed, with the Thanksgiving example |
+| DEC-014 | `js/view-symbol.js` — why a lookup costs two calls and a tile one |
+| DEC-018 | `js/chart-geometry.js` — the range table, and why there is no 1D |
+| DEC-029 | `server/sectors.py` — why the windows start at a month |
+| DEC-037 | `tools/shoot.py` — `NARROW_WIDTH` and `GUIDE_WIDTH`, and what each caught |
+| DEC-050 | `server/fundamentals.py` — `volatility()`, on what beta cannot answer |
+| DEC-070 | `server/reporting.py` — a calendar of filings, not of announced dates |
+| DEC-071 | `server/fixtures/make_fixtures.py` — `QUARTER_ENDS`, `FILING_LAGS` |
 
 **Why**
 
-The 08-31 watchlist rule applied to a *computation* rather than a fetch: the
-server was pairing 252 daily returns against the benchmark's, reading one
-number off them and discarding both series. **Fifteen of the seventeen symbols
-this build serves are funds**, and a fund's whole panel was that one number
-under a sentence reading "What can be measured from its price is below" — the
-common case writing a cheque the surface did not cash. Correlation earns its
-place twice over: beta is a slope fitted through whatever is there, so 1.16 at
-a correlation of 0.61 and 1.16 at 0.9 are different claims, and the panel
-stated the slope while saying nothing about how much of the movement it
-explained. That caveat is exactly guide §11's shape and it is why the two ship
-together rather than volatility alone. One object rather than three siblings
-because one window produced all three, and the page states that window once —
-`Beta, volatility and correlation measured over 252 sessions against SPY`.
-**Any one of them may be null while the others are not** (a benchmark that
-never moved costs the beta and the correlation and leaves volatility
-untouched), so the reader keeps an object with a window and blanks per figure.
+The file was 395 bytes from a ceiling that had already stopped the previous
+session filing, and the obvious reading — 80 entries, so the project has made
+80 decisions — was wrong. Sixteen of them were not carrying anything the code
+did not carry. Eight were second copies of a comment, and eight more had been
+absorbed by a later row, superseded, or spent when the task they warned about
+shipped.
+
+A second copy is worse than no copy. Two statements of one decision drift, and
+the one that drifts is always the one further from the code — a comment is
+edited by whoever changes the thing it describes, and an index line is edited
+by nobody. `js/chart-geometry.js` had reached the halfway house already: it
+explained the missing 1D range in full and then wrote *"See DECISIONS.md"*,
+pointing at a row that said less than the comment above the pointer.
+
+This is D9's argument one level down. That split moved reasoning out of a file
+read in full every session because attention is the scarce thing; this moves
+the *claims* that only one reader ever needs. What is left is 73 rows, every
+one of which binds work that has not been chosen yet.
+
+**The ratchet.** Landed at 13,289 bytes. Guide §16 sets a new ceiling at what
+landed plus roughly a quarter, which would be 16,600 — above the 15,000 that
+was already there, and the ratchet only ever moves down. So it goes to
+**14,500**: a real cut, and still about seven entries of room, which is what
+stops this being the 12-byte deadlock of 09-03 in a new file.
+
+---
 
 ## DEC-052 — Five free-tier quote providers
 
@@ -1389,6 +1320,8 @@ source.
 
 ## DEC-067 — The shape of the index itself
 
+*Spent. The split landed; `tests/test_docs_budget.py` enforces it now. (S6, 09-12) — the index now carries that one line; the reasoning it had is below, unchanged.*
+
 *Settled · 09-02*
 
 **Decision**
@@ -1524,97 +1457,6 @@ the three identical provenance sentences, `js/view-fundamentals.js` for the
 fund panel leading with what is absent, `DEC-059` for the 319px sector gap,
 and `D3` for a tile that cannot open its symbol. A finding recorded only in an
 audit is a finding that gets re-found the next time someone reads that file.
-
-## DEC-070 — T12 ships a filing calendar, not an earnings calendar
-
-*Settled · 09-03*
-
-**Decision**
-
-**The reporting surface states when the company reported, projects the next
-report as a window from its own filing rhythm, and compares each quarter with
-the same quarter a year earlier.** It does not carry a scheduled earnings
-date, a consensus estimate, or a surprise against one — the three things
-`T12`'s own wording names first. A deliberate deviation from the task, like
-`DEC-006` and `DEC-018`; do not "complete" T12 by adding them.
-
-**Why**
-
-Each of the three is unavailable for a different reason, and none of them is a
-gap that more searching closes.
-
-- A **scheduled earnings date** is announced by the company and published in
-  no free feed we may display. EDGAR knows when a report was filed and never
-  when the next one will be.
-- A **consensus estimate** is an analyst product, sold. Guide §1 rules analyst
-  price targets out as a non-goal, and a consensus EPS is the same product one
-  column over.
-- A **surprise** is the second minus the first.
-
-What EDGAR does hold is every past report and the day it landed, and a filer's
-rhythm is regular: quarters about ninety days apart, a 10-Q five to seven weeks
-after each close. So the next report is a **window** with its arithmetic on
-screen and the word *projected* in the label rather than in the small print —
-an observation with its basis shown, which is the shape guide §11 asks every
-computed statement here to take. A date on a page is read as a date the company
-gave, so the label carries the qualifier and the note carries the derivation.
-
-The replacement for the surprise is better than the surprise. Setting a quarter
-against **the same quarter a year earlier** is a fact from the filings rather
-than a fact about analysts, and it is the comparison that means something:
-quarterly earnings are seasonal, so a retailer's December against its September
-teaches nothing but Christmas.
-
-**What this cost.** Nothing upstream. The calendar rides `GET /fundamentals`,
-the payload the filings panel already fetches (`DEC-032`), and the two views
-share one request through an in-flight memo in `js/market-data.js` rather than
-asking twice.
-
-**The dividend is what was declared, and the page says so.** A filing carries
-the amount a company declared for a period; the ex-dividend and payment dates
-are set afterwards and are not in it. That sentence is page copy in
-`index.html`, because a reader who took the dividend column for an ex-date
-would be wrong in a way that costs them.
-
-## DEC-071 — The fixture holds two fiscal years and varying filing lags
-
-*Settled · 09-03*
-
-**Decision**
-
-**`server/fixtures/company-facts/` carries eight quarters per filer, not four,
-and each is filed its own number of days after its close — 38 to 45, not a
-constant 42.**
-
-**Why**
-
-Both are the shapes `DEC-070`'s surface reads, and a fixture without either
-lets a broken version of it pass.
-
-*Two years.* The year-ago column needs a year behind the year on screen. With
-four quarters every comparison is blank, and nothing fails to say so — the
-table renders, the em dashes look like missing data, and the one thing the
-surface teaches is invisible. Eight is the shortest history where all four
-visible rows are complete. A real `companyfacts` payload reaches back a decade,
-so this is closer to the upstream shape as well as more useful.
-
-*Varying lags.* A filer that took exactly 42 days four times running would let
-the next report be projected **to the day**, which no real company's calendar
-supports and which would make the window look like a certainty. The spread is
-what the projection is built from, so a fixture with no spread tests nothing.
-
-**What made this safe to change.** Every figure the other surfaces read had to
-stay put. Each fiscal year is drawn from its own random stream, seeded by how
-far back the year is rather than by its position, so prepending one leaves the
-newest year byte-identical: 26 facts in the committed JSON before, the same 26
-with the same values after, plus 26 new ones. Only three `filed` dates moved,
-and none of them is a figure any surface shows.
-
-The older year is worth 90% of the newer one and its dividend 92%, because
-companies grow and raise their payout annually. A year-ago column comparing a
-figure with a redrawn copy of itself would show nothing but the generator's own
-wobble — teaching a reader that earnings are noise, which is the fundamentals
-version of the independent random walks `DEC-056` already records.
 
 ## DEC-072 — Phase 2 builds its surfaces, the document does not carry them
 

@@ -302,24 +302,24 @@ session that must *act* on any of this goes.
 | T2 | 08-27 | **Flask service skeleton.** Port 8789, origin checks, both rate gates; deploy files written, never installed. |
 | T3 | 08-27 | **Fixture layer.** `provider.py` parses, `source.py` is the only I/O seam. → DEC-004, DEC-005, DEC-058 |
 | T4 | 08-27 | **Snapshot cache and price store.** Four concurrent requests for one symbol make exactly one upstream call. → DEC-003, DEC-006 |
-| T5 | 08-27 | **Market clock.** Audited 08-29, minor edits. → DEC-007, DEC-019 |
+| T5 | 08-27 | **Market clock.** Audited 08-29, minor edits. → DEC-019, `js/market-clock.js` |
 | T6 | 08-28 | **Index summary strip.** Four ETF-proxy tiles. Audited 08-29, minor edits. → DEC-020 |
-| T7 | 08-28 | **Symbol search and quote detail.** Audited 08-30, minor edits. → DEC-015, DEC-016, DEC-023 |
-| T8 | 08-29 | **Price chart.** Hand-rolled SVG. Audited 08-30, minor edits. → DEC-018, DEC-024 |
+| T7 | 08-28 | **Symbol search and quote detail.** Audited 08-30, minor edits. → DEC-015, DEC-023, `js/view-symbol.js` |
+| T8 | 08-29 | **Price chart.** Hand-rolled SVG. Audited 08-30, minor edits. → DEC-024, `js/chart-geometry.js` |
 | T9 | 08-30 | **Watchlist.** Audited 08-31, minor edits. → DEC-028, DEC-032, DEC-033 |
-| T10 | 08-31 | **Sector performance grid.** `GET /sectors`. Audited 09-01, minor edits. → DEC-029, DEC-030, DEC-031 |
+| T10 | 08-31 | **Sector performance grid.** `GET /sectors`. Audited 09-01, minor edits. → DEC-030, `server/sectors.py` |
 | T10a | 09-01 | **A seam for the served document.** No seam exists. → DEC-026, DEC-038, DEC-039 |
-| T11 | 09-01 | **Fundamentals panel.** SEC EDGAR as a second upstream. Audited 09-02, minor edits. → DEC-002, DEC-041, DEC-042, DEC-043 |
+| T11 | 09-01 | **Fundamentals panel.** SEC EDGAR as a second upstream. Audited 09-02, minor edits. → DEC-002, DEC-041, DEC-043 |
 | D1 | 08-27 | **Browser pass for the skeleton** *(defect, fixed)* — and it built `tools/shoot.py` to do it. → DEC-055 |
 | D2 | 08-29 | **`index.html` hit the 600-line rule** *(defect, fixed)* → DEC-026 |
 | D4 | 08-30 | **`DB_PATH` in `config.env` was ignored** *(defect, fixed)* — worse than filed: the service failed to boot. → DEC-027, DEC-064 |
 | D5 | 08-31 | **`/symbols` was never reverse-proxied** *(defect, fixed)* — with a derived rule rather than a line. → DEC-064 |
-| D6 | 08-31 | **The page went 2px wide at 320px** *(defect, fixed)* — and the watchlist table was never the culprit. → DEC-036, DEC-037 |
+| D6 | 08-31 | **The page went 2px wide at 320px** *(defect, fixed)* — and the watchlist table was never the culprit. → DEC-036, `tools/shoot.py` |
 | D7 | 09-02 | **Two `shoot.py` runs tripped the rate limit** *(defect, fixed)* — the tool identified no callers. → DEC-047 |
 | D8 | 09-02 | **The per-IP gate could be sidestepped** *(defect, fixed)* — it reads the last non-empty hop now. → DEC-048 |
 | D9 | 09-02 | **The memory split into an index and a detail file** *(defect, fixed)* — 66 entries in, 66 out. **Guide §16 and §14 step 2 still describe the pre-split model; that rewrite is Key's, drafted as `N7` in `PROGRESS.md`.** → DEC-067 |
 | D10 | 09-02 | **This file carried its own history** *(defect, fixed)* — twenty-two closed entries became these rows. → DEC-068 |
-| T12 | 09-03 | **Reporting calendar.** A filing calendar, not an earnings calendar: no scheduled date, consensus or surprise exists. → DEC-070, DEC-071 |
+| T12 | 09-03 | **Reporting calendar.** A filing calendar, not an earnings calendar: no scheduled date, consensus or surprise exists. → `server/reporting.py`, `server/fixtures/make_fixtures.py` |
 | D11 | 09-03 | **The audit log grew without bound in a file read in full** *(defect, fixed)* — 13,219 bytes over seven rows became seven; the prose is in `docs/AUDITS.md`. → DEC-069 |
 | D12 | 09-04 | **Two length rules were one surface from failing** *(defect, fixed)* — the script split at a real seam; the document had no fat to cut, and its ceiling was charging for the prose it teaches with. Elements now, 433 of 650. → DEC-038, DEC-026 |
 | D14 | 09-07 | **`server/` was served, because only the vhost denied it** *(defect, fixed)* — the rehearsal's first fault, in two commands: the source was readable from the branch landing until the vhost snippet was pasted in by hand. → DEC-076 |

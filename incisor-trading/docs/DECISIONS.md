@@ -15,6 +15,12 @@ reasoning goes to the detail file, or beside the code it binds (guide §16).
 
 Rows are merged, never dropped; a superseded row says so in one line.
 
+**Moved out, and not gone.** A decision only one surface can act on is stated
+in that surface's own file, where the person who needs it is already looking
+and where it cannot drift from what it explains. It leaves no line here:
+DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
+-050, -070, -071 (S6, 09-12). Only a cross-cutting call earns shared memory.
+
 ---
 
 ## Settled
@@ -26,38 +32,33 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-003 | **25 calls a day decides the product.** Budget 22, live calls only; the cache runs in fixture mode too. Tiles read `/history` alone, never `/quote`. |
 | DEC-004 | **Fixtures are synthetic and say so** — one market factor with per-symbol beta, and `"source": "fixture"` on every response. |
 | DEC-005 | **`provider.py` alone sees provider JSON; `source.py` is the only I/O seam.** Alpha Vantage signals failure as HTTP 200, so a status check is not enough. |
-| DEC-006 | **No fundamentals table, despite T4 naming one** — its shape and upstream belong to T11. Do not "complete" T4 by adding it. |
-| DEC-007 | **Market holidays are computed from their rules, never a table.** A table goes stale silently and would claim the market was open on Thanksgiving. |
+| DEC-006 | **Spent.** The table T4 deferred shipped as T11 — see DEC-002 and DEC-043. |
 | DEC-008 | **Enamel and gold on near-black; system monospace for figures; no webfont.** Green and red are reserved for direction, and §4 rules out font CDNs. |
 | DEC-009 | **No `gtag` here, unlike every FEN page; `beacon.js` stays with generic `data-track` labels.** Deliberate — a ticker label would leave the browser. |
 | DEC-010 | **No line on this page is coloured by direction.** The colour goes on the labelled figure beside it, which names its own period. |
-| DEC-011 | **`incisor.css` is page furniture; `css/market.css` renders numbers; `js/` is pure logic plus one network seam.** The seam is data, not bytes. |
+| DEC-011 | **Superseded by DEC-013**, which splits a surface at drawing versus deciding. |
 | DEC-012 | **Only `docs/shots/look-*/` is committed; other sets stay local.** Shots are reproducible and never served, and 321 blobs sat behind a repo the server pulls. |
 | DEC-013 | **A market-data surface owns a view module and a stylesheet; one outgrowing a file splits at drawing versus deciding.** Supersedes DEC-011's placement. |
-| DEC-014 | **The quote panel costs two calls, `/history` and `/quote`; tiles still cost one.** A daily series has no session in progress, so the day range is not in it. |
 | DEC-015 | **Names come from committed `server/catalog.py`, never provider symbol search** — a call per keystroke against 22 a day is a disqualification. |
 | DEC-017 | **Front-end tests run the shipped scripts in JavaScriptCore against a DOM stub.** They do not replace a browser; `shoot.py` covers the rest. |
-| DEC-018 | **Chart ranges are 5D / 1M / 6M / 1Y / 5Y — no 1D, though T8's wording names one.** A day of a daily series is one bar. Do not add it. |
 | DEC-019 | **A live surface may not overwrite a fact the served markup alone stated** — the clock keeps "Opens Monday 9:30am ET" over a bare countdown. |
 | DEC-020 | **A figure carrying direction colour names its window in its own row** — tile `1d`, sparkline `30d`, chart *Over six months*. |
-| DEC-021 | **A fact stated in one channel only is one half the readers miss, both ways.** Bands speak their placement; the chart names its symbol on screen. See DEC-060. |
+| DEC-021 | **Merged into DEC-060**, which is the same lesson after it bit a second time. |
 | DEC-022 | **The period token is shared vocabulary; where it sits belongs to the surface.** `.inc-period` sets the look, the tile sets its alignment. |
-| DEC-023 | **An error may not point at something no longer on screen** — a failed lookup closes the list, so the panel names the symbols instead. |
+| DEC-023 | **Merged into DEC-078**: an empty state may not misdescribe what emptied it. |
 | DEC-024 | **A pointer surface listens for down, move, leave and cancel, and a *touch* leave keeps its reading.** A tap fires no `pointermove` at all. |
 | DEC-025 | **The site is one deliberate dark treatment; `prefers-color-scheme` is not a gap.** `/assets` has no light palette and is out of bounds. Do not refile. |
 | DEC-026 | **The 600-line rule is measured three ways: 600 lines per stylesheet and script, 650 elements per document, 150 lines per surface.** The surface list is derived, never listed. |
 | DEC-027 | **Configuration is read at the edge, below the config load, and nowhere else.** An AST test enforces it (D4). |
 | DEC-028 | **The watchlist holds eight symbols and stores tickers only.** The cap is the call budget, not taste — do not raise it without redoing the arithmetic. |
-| DEC-029 | **The sector grid is eleven funds read at a *week*, ranked to the newest shared date.** No 1D: a week-old series cannot carry a one-session figure. |
 | DEC-030 | **`/sectors` computes; `/history` relays. Both are right.** Many symbols and one question is cheap to answer and costly to ship the inputs for. |
 | DEC-032 | **A surface pays for a payload once; every question it already answers is free.** The watchlist sparkline came from bars already being discarded. |
 | DEC-033 | **A measure that was right can be made wrong by the surface that lands next to it** — the watchlist's 620px cap, once T10 landed above it. |
 | DEC-034 | **A control's target is what a finger can hit, not what the box reports.** A positioned overlay is outside the rect: hit-test the corners. |
-| DEC-035 | **A control whose only affordance is hover has no affordance** — every sortable column carries a glyph, not only the sorted one. |
+| DEC-035 | **Merged into DEC-060**. Hover is the channel this one was missing. |
 | DEC-036 | **Every sideways-scrolling box sets `position: relative`** — `overflow-x` does not clip a positioned child. Two of the three are preventive, not dead. |
-| DEC-037 | **`shoot.py` measures two widths it does not photograph: 375px, which fails on a clip, and 320px, which reports one.** Both look up a symbol. Widened by DEC-073. |
-| DEC-038 | **The document ceiling counts elements, not lines** — 650, at 433 today. Prose and comments are free; a line charges for surfaces, teaching and wrapping alike. |
-| DEC-039 | **A derived rule hides what it does not reach, so the derivation needs its own guard** — `[data-sectors]` matched none of its hooks, in silence. |
+| DEC-038 | **Merged into DEC-026**, which carries all three measures of the length rule. |
+| DEC-039 | **Merged into DEC-064**: a derivation is a stand-in, and fails as silently. |
 | DEC-040 | **A constraint that rules out a layout does not rule out the element** — the sector bar stacks below 700px rather than being `display: none`. |
 | DEC-041 | **The budget scores one upstream of two** — only what `source.UPSTREAM_OF` marks Alpha Vantage's, so a free EDGAR call cannot cost one of 22. |
 | DEC-043 | **Market cap, P/E and yield are computed in the browser; margins and beta on the server.** The line is whether a figure needs the price the reader sees. |
@@ -65,12 +66,9 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-046 | **EDGAR's contact address is config, not code, and not the routine's to choose.** Without it live filings refuse and say why; the service still boots. |
 | DEC-047 | **A proxy stand-in must identify its callers** — `shoot.py` sets `X-Forwarded-For` per context. Do not take any of D7's three candidates. |
 | DEC-048 | **The per-IP limiter trusts the *last* hop of `X-Forwarded-For`** — a fact about this deployment: one proxy, appending. Empty fields disable the gate. |
-| DEC-050 | **Volatility and correlation ride on the pairing `beta()` already builds** — one `measures` object. Beta alone states a slope and hides its fit. |
-| DEC-067 | **The index drops the date column and merges nothing.** Dates live in the detail file; merging is S6's job and D9 was a move — 66 entries in, 66 out, checked by the bijection test. |
+| DEC-067 | **Spent.** The split landed; `tests/test_docs_budget.py` enforces it now. |
 | DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
 | DEC-069 | **An audit is a one-line verdict row plus a dated entry, keyed on date and task — not a new ID namespace.** `O6` never completes, so this section grows forever. |
-| DEC-070 | **T12 ships a filing calendar, not an earnings calendar.** No scheduled date, consensus or surprise is available; the next report is a projected window. |
-| DEC-071 | **The fixture holds two fiscal years and varying filing lags.** One year blanks the year-ago column; a constant lag projects a report to the day. |
 | DEC-072 | **Phase 2 builds its surfaces in the view, not the served document.** A panel behind a tab states no fact before a script runs, unlike every dashboard empty state. |
 | DEC-073 | **A box that scrolls inside itself is not measured by a body that does not.** The calendar clipped a dividend to "0.2" at 375px for four sessions; nothing failed. |
 | DEC-074 | **Where a column label is wider than every figure under it, the label shortens — not the data, and never the accessible name.** Both spellings ship, aria-hidden. |
@@ -85,6 +83,7 @@ Rows are merged, never dropped; a superseded row says so in one line.
 | DEC-084 | **Step 1 is failed by a changed tracked file outside `incisor-trading/`, not by an untracked one.** A stray preview config would skip every day; the worktree already protects Key. |
 | DEC-085 | **An order fills at the first bar open (9:30 ET) or close after it was placed** — the bar's market moment, not its publication. Mid-session limits get the close only. |
 | DEC-086 | **Open buys hold back cash — a limit at its limit, market at last close +5% — and six symbols may be in play.** Six is the call budget, like DEC-028: redo the sum to raise it. |
+| DEC-087 | **An index row repeating a comment is a second copy, and the copy is the one that drifts.** Eight said what the file they bind said better; the index is for what no one file owns. |
 
 ---
 
