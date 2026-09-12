@@ -300,6 +300,32 @@ phase. When the call is unclear, file it as a defect.
   vhost change, both on the server (hard rule 5), and `assets/` is outside
   `incisor-trading/` (hard rule 1). **Key's, whenever he wants it.**
 
+- [ ] **D16 · A cached row does not record which source wrote it, so fixture
+  data is served labelled `live`** `[defect]` *(found 2026-09-13, minutes after
+  Key switched the live key on)* — the worst class of bug this project can have,
+  because the page's whole claim on a reader's trust is that it says where a
+  number came from.
+
+  `quotes` is keyed on `symbol` alone and `daily_bars` on symbol and date;
+  neither records the source. A row written in fixture mode is therefore
+  indistinguishable from a live one, so after the switch `load_quote` returned
+  generated prices, inside TTL, marked `"stale": false`, in a response whose
+  `"source"` field read `live` — because that field reports the *current mode*
+  rather than the mode that produced the bytes. Observed: SPY at 733.4011 with
+  `latest_trading_day` of 2026-08-26 and a `fetched_at` matching the T26b
+  rehearsal to the second, eighteen days after the fact.
+
+  Cleared on the box by deleting the database, which is pure cache. That is a
+  workaround, not the fix: the same thing happens on any future switch, and
+  nobody will be watching next time.
+  *Accept:* every cached row records the source that wrote it; a read in one
+  mode treats a row written in another as a **miss**, not a hit; the `source`
+  field of a response describes the bytes being returned rather than the config
+  value; a test flips the mode with a populated cache and asserts the stale row
+  is refused. Consider whether `stale` should ever be reported false for a row
+  whose source does not match — a mislabelled fresh row is worse than a stale
+  one honestly labelled.
+
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is

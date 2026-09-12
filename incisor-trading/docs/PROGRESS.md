@@ -4208,3 +4208,40 @@ movers list is a *selection*, and a selection cannot be honestly synthesised.
 With live data that objection dissolves, so T10b is worth re-reading once the
 key is in.
 
+## 2026-09-13 — Attended with Key: live mode served fixture data under a live label
+**Outcome:** shipped — defect filed as D16, cleared on the box by hand
+**Changed:** `BACKLOG.md` (D16)
+**Verified:** both suites green. The defect itself is *not* covered by either
+suite, which is the second finding.
+
+Key switched `INCISOR_DATA_SOURCE=live` and asked for a check. The service
+reported `"source": "live"` and returned **generated prices**: SPY at 733.4011
+with `latest_trading_day` of 2026-08-26 and a `fetched_at` matching the T26b
+rehearsal to the second — eighteen days stale, and byte-identical to the fixture
+values recorded earlier in this file.
+
+**Cause.** `quotes` is keyed on `symbol` alone and records no source. A row
+written in fixture mode is indistinguishable from a live one, so after the
+switch the cache answered from fixtures, inside TTL, marked `"stale": false`,
+inside a response whose `"source"` field reported the *current config* rather
+than the provenance of the bytes.
+
+**Why this one matters more than its size.** Everything else on this page has
+been built so a reader knows what they are looking at — the delay label, the
+proxy badges, the sample-data banner, the em dashes where a figure is not known.
+This defect defeats all of it at once: real-looking numbers, confidently
+labelled live, that are invented. It is the exact failure the provenance
+discipline exists to prevent, and it appeared at the precise moment the labels
+started to matter.
+
+**Cleared by deleting the database**, which is pure cache and refills on the
+next request. That is a workaround. D16 is the fix: record the source on every
+cached row, treat a row from another mode as a miss, and make `source` describe
+the bytes rather than the config.
+
+**The second finding is about the tests.** 224 service tests pass and none of
+them caught this, because every one runs in a single mode. The transition was
+never exercised. D16's acceptance therefore requires a test that flips the mode
+with a populated cache — the case that only exists on the day someone switches,
+which is exactly the day nobody is watching.
+
