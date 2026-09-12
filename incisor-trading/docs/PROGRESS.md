@@ -65,6 +65,16 @@ re-raises the same item.
   verbatim ("Educational only. Not investment advice. Delayed data. No real money
   is involved."). If Key wants different legal phrasing, that's his to set.
 
+- **2026-09-12 — Look direction:** **broadsheet**, chosen by Key. Workbench
+  retired *with a qualification*: the objection was the empty rail, not the rail
+  idea. A direction that fills it with something worth keeping in view is still
+  open. `T13c` merges broadsheet; `T13d` takes its long tail.
+- **2026-09-12 — D13, the font:** the page **adopts Bricolage Grotesque**, Key's
+  call delegated. The reason recorded for keeping DM Sans was that the figures
+  were set against it, and that is not true — every figure uses `var(--inc-mono)`,
+  so the body face never touched a number. Guide §13 wants the page to belong to
+  the site. Folded into `T13c`.
+
 ## Resolved
 
 - **2026-08-27 — Data budget:** free tiers only, delayed data, clearly labeled.
@@ -4136,4 +4146,35 @@ bounds twice over: a server install plus a vhost change, and `assets/` is not
 from the nav, absent from the sitemap — and the service runs in fixture mode, so
 no provider was contacted and no quota spent. Promotion is still T27 and still
 Key's.
+
+## 2026-09-12 — Attended with Key: the look direction is settled
+**Outcome:** shipped
+**Changed:** `DESIGN-BRANCHES.md` (chosen/retired), `BACKLOG.md` (T13c, T13d)
+**Verified:** both suites green.
+
+**Broadsheet.** Its strongest move is structural rather than decorative: search,
+quote and chart become one thought at the lead, where today the chart sits some
+700px below the price it belongs to. It also keeps Playfair and the site's
+voice, which §13 asks for.
+
+**Workbench is retired with a qualification, and the qualification is the point.**
+Key's objection was the 300px rail carrying a masthead and a clock beside 4,000px
+of scrolling — *"if the space were utilized I might feel different."* That is not
+a rejection of the rail, it is a rejection of an empty one, and a future
+direction that fills it with something a reader wants kept in view is still
+open. Recorded on the shelf so nobody waves the idea off by pointing at this
+decision.
+
+**Two findings survive the branch that loses.** The sticky tab strip is worth
+having and does not depend on the rail. And in workbench it **slices the
+provenance banner in half** — the one line saying the prices are not real —
+which is why `T13c` requires a test that no sticky element covers it at any
+scroll position. A reader who cannot see that line is being shown invented
+prices with nothing saying so.
+
+**D13 closes on a fact rather than a preference.** Keeping DM Sans was justified
+on the grounds that the figures were set against it. They were not: every figure
+uses `var(--inc-mono)`, so the body face has never rendered a number. With that
+gone there is no argument left against matching the site, so the page takes
+Bricolage.
 

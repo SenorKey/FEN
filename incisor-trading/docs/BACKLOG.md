@@ -57,6 +57,38 @@ that is Key's to obtain, not the routine's to work around.
 
 ## Phase 2 — Paper trading (live sim)
 
+- [ ] **T13c · Adopt broadsheet, and the one idea worth taking from workbench**
+  Key chose `incisor-look/broadsheet` on 2026-09-12. Merge it into
+  `incisor-dev`. Three things go with the merge, and the third is not optional.
+
+  1. **Bring the sticky tab strip across from workbench.** It is a good idea
+     independent of the rail that was rejected: the dashboard panel runs past
+     4,000px and the mode switch currently scrolls away. **In workbench it
+     covers the provenance banner** — the line reading "Sample data · generated
+     prices, not real quotes" — cutting it in half. *A test has to assert that
+     no sticky element overlaps the provenance banner at any scroll position*,
+     because a reader who cannot see that line is being shown invented prices
+     with nothing saying so.
+  2. **Switch prose to Bricolage Grotesque** and delete the DM Sans restatement
+     on `body.incisor`, closing `D13`. The reason recorded for keeping DM Sans —
+     that the figures were set against it — is not true: every figure uses
+     `var(--inc-mono)`, so the body face never touched a number. Guide §13 wants
+     the page to belong to the site, and the site is Bricolage now. Check the
+     prose against the mono figures once and record what it looks like.
+  3. **Keep Playfair on headings.** Broadsheet's amber ticker prefix on surface
+     headings (`AAPL Beyond the price`) is the site's voice doing real work.
+  *Accept:* the merge lands with both suites green; `shoot.py` clean at every
+  width; the sticky strip covers nothing at any scroll position, asserted; the
+  page renders in Bricolage with figures unchanged; `D13` closed in the index.
+
+- [ ] **T13d · Broadsheet's long tail** — the weakness its own registration
+  names, and the reason it is filed rather than fixed in the merge: below the
+  fold it is a single column of full-width tables, and without card fills the
+  fundamentals panel's four groups have little holding them apart. Broadsheet
+  trades density for reading, which is the right trade at the lead and the wrong
+  one at the tail. *Accept:* the four groups are separable at a glance without
+  reintroducing the boxes broadsheet removed; judged from `shoot.py` images.
+
 - [ ] **T17 · Corporate actions** — apply stock splits to held positions. Dividends
   optional. *Accept:* a split fixture adjusts share count and cost basis correctly.
 

@@ -42,6 +42,26 @@ is committed so this shelf can be browsed without checking out each branch in
 turn. A set filed anywhere else will not be committed and the shelf will show
 nothing.
 
+## Chosen
+
+**`incisor-look/broadsheet`, 2026-09-12, by Key.** Merging it is `T13c`.
+
+Workbench is **retired, with a qualification that matters**: Key's objection was
+the 300px rail holding a masthead and a clock beside 4,000px of scrolling —
+*"Workbench feels like wasted space. If the space were utilized I might feel
+different."* So the rail is not a rejected idea, it is an **unearned** one. A
+future direction that fills it with something a reader wants kept in view — the
+watchlist, an open position, the order ticket while a chart is being read — is
+worth building, and should not be waved off by pointing at this decision.
+
+Two findings from the comparison, carried into `T13c` rather than lost with the
+branch: the sticky tab strip is a good idea independent of the rail, and in
+workbench it **slices the provenance banner in half** — the one line telling a
+reader the prices are not real. Anything sticky has to be shown not to cover
+that.
+
+---
+
 ## Directions
 
 Two, and they are deliberately opposed. Both start from the same finished
