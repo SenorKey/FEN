@@ -5,16 +5,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/wfpc/wfpc.css">
+  <script src="/wfpc/wfpc.js" defer></script>
 
   <meta name="description"
-    content="Warframe Price Checker — look up current market prices for Warframe items and mods on frontendneeded.com.">
+    content="WFPC — a free, open-source Windows companion for Warframe that reads the relic reward screen and shows warframe.market prices before you pick.">
   <link rel="canonical" href="https://frontendneeded.com/wfpc/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://frontendneeded.com/wfpc/">
   <meta property="og:title" content="Warframe Price Checker">
-  <meta property="og:description" content="Look up current market prices for Warframe items and mods.">
+  <meta property="og:description"
+    content="Reads Warframe's relic reward screen and shows warframe.market prices before you pick.">
   <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -42,104 +48,122 @@
         <a href="/match-analysis-ad">Match Analysis</a>
         <a href="/preside-by-side-ad">Preside by Side</a>
         <a href="/wfpc" class="active">WF Price Checker</a>
-        <a href="/trtbench">Trtbench</a>
         <a href="/tarella-notes">Tarella Notes</a>
-        <a href="/fresh-pull">Fresh Pull</a>
       </div>
     </div>
     <a href="/hire-me">Hire Me</a>
   </nav>
 
-  <main id="main-content" class="gr-shell">
+  <!--
+    The page is the capture: the moment WFPC exists for, drawn once and
+    large. A gold selection is dragged over four reward slots, a read head
+    crosses them, each name resolves as it passes, and the best pick
+    lights up. None of it is a screenshot — of the app or of the game.
+  -->
+  <main id="main-content" class="stage">
+    <div class="frame" aria-hidden="true"></div>
 
-    <div class="gr-top">
-      <div class="accent-bar"></div>
-      <h1 class="page-title">Warframe<br>Price Checker</h1>
-      <p class="page-subtitle">Look up current market prices for Warframe items and mods.</p>
+    <!-- The app's own title bar, laid along the top edge. -->
+    <p class="bar">
+      <span class="bar-brand"><b>WFPC</b>warframe.market price check</span>
+      <span class="bar-status">Free · open source · runs locally on Windows</span>
+    </p>
 
-      <!-- Photo gallery -->
-      <div class="photo-gallery">
-        <div class="photo-frame">
-          <img class="photo-img active" src="/assets/images/gallery/wfpc-1.webp" alt="WFPC screenshot 1"
-            fetchpriority="high">
-          <img class="photo-img" src="/assets/images/gallery/wfpc-2.webp" alt="WFPC screenshot 2">
-          <img class="photo-img" src="/assets/images/gallery/wfpc-3.webp" alt="WFPC screenshot 3">
-          <img class="photo-img" src="/assets/images/gallery/wfpc-4.webp" alt="WFPC screenshot 6">
-        </div>
-        <div class="photo-nav">
-          <button class="photo-prev-btn" aria-label="Prev photo">‹</button>
-          <div class="photo-dot-row">
-            <div class="photo-dot active"></div>
-            <div class="photo-dot"></div>
-            <div class="photo-dot"></div>
-            <div class="photo-dot"></div>
-          </div>
-          <button class="photo-next-btn" aria-label="Next photo">›</button>
-        </div>
+    <header class="hero">
+      <div class="hero-copy">
+        <h1 class="headline">Four rewards.<span>One right pick.</span></h1>
+        <p class="lede">WFPC reads Warframe's relic reward screen, checks every item against warframe.market, and
+          shows you which one puts the most platinum in your pocket — before you have to choose.</p>
       </div>
 
-    </div>
-
-    <div class="gr-bottom">
-      <div class="gr-left">
-        <h2 class="sub">A quick price checker for relic mission rewards.</h2>
-        <p class="body-text">WFPC is a desktop companion that reads your relic reward screen and tells you what
-          everything is worth. No manual searching & no guesswork.
-        </p>
-        <br>
-        <p class="body-text">Define your capture region once, hit Capture when rewards appear, and WFPC does the rest.
-          It reads the item names using OCR, matches them against every known prime item on warframe.market, and lays
-          out the current best buy prices in card-style result panels. Individual part prices, full set prices, and
-          which option puts the most platinum in your pocket, all visible before you have to pick.
-        </p>
-
-        <h2 class="sub">How it works</h2>
-        <p class="body-text">Setup is a guided three-step flow: refresh market data, define your capture region, then
-          jump into in-game mode. The region selector lets you draw a rectangle directly over the screen area you want
-          to read, with multi-monitor support so you can pick exactly which display to capture from. Your region is
-          saved to disk and remembered across sessions.</p>
-        <br>
-        <p class="body-text">Once everything's set up, In Game mode hides the main window and drops a small floating
-          panel onto your gaming monitor with just two buttons: Capture and Back. When rewards appear, click Capture and
-          WFPC grabs a screenshot of your defined region, runs it through OCR, and pulls live pricing from
-          warframe.market. Results render as responsive card panels that reflow based on window size, with the best set
-          price and best parts total highlighted so the right pick stands out.
-        </p>
-
-
-        <h2 class="sub">Built with</h2>
-        <p class="body-text">Tesseract OCR and OpenCV for screen reading and image processing. The warframe.market API
-          for live pricing data. Tkinter for the GUI, with mss handling screen capture across monitors. Runs locally on
-          Windows.</p>
-        <br>
-        <p class="body-text">WFPC was made for the moments in Warframe where you need a price and you need it now,
-          without leaving the game to go find it.
-        </p>
-        <br>
-        <p class="section-label download-divider"><i>Windows builds are code-signed for free by the SignPath Foundation
-            (certificate by SignPath Foundation).</i></p>
-      </div>
-      <div class="gr-right">
-        <p class="section-label">Get the app</p>
-        <a href="https://github.com/SenorKey/WFPC/releases/latest" class="download-btn" target="_blank" rel="noopener">
-          <span class="download-btn-icon" aria-hidden="true">⬇</span>
-          <span class="download-btn-text">
-            <span class="download-btn-label">Download for Windows</span>
-            <span class="download-btn-sub">.exe installer</span>
+      <div class="get">
+        <a class="download" href="https://github.com/SenorKey/WFPC/releases/latest" target="_blank"
+          rel="noopener">
+          <span class="download-glyph" aria-hidden="true">▸</span>
+          <span class="download-text">
+            <span class="download-label">Download for Windows</span>
+            <span class="download-sub">.exe installer</span>
           </span>
         </a>
-
-        <p class="section-label download-divider">Project Links</p>
-        <ul class="nav-links">
-          <li><a href="https://github.com/SenorKey/WFPC" target="_blank" rel="noopener">WFPC on GitHub</a></li>
-          <li><a href="/wfpc-privacy-policy">WFPC Privacy Policy</a></li>
+        <ul class="get-links">
+          <li><a href="https://github.com/SenorKey/WFPC" target="_blank" rel="noopener">Source on GitHub ↗</a></li>
+          <li><a href="/wfpc-privacy-policy">Privacy policy</a></li>
         </ul>
+        <p class="signpath">Windows builds are code-signed for free by the SignPath Foundation (certificate by
+          SignPath Foundation).</p>
       </div>
-    </div>
+    </header>
 
+    <figure class="capture">
+      <!--
+        is-drawing drags the selection out on load; is-scanning runs the
+        read. wfpc.js replays only the read, and adds is-replay to shorten
+        its lead-in.
+      -->
+      <div class="marquee is-drawing is-scanning">
+        <span class="handles" aria-hidden="true"></span>
+        <span class="scan" aria-hidden="true"></span>
+        <button class="recapture" type="button" hidden aria-label="Replay the example capture">
+          <span class="recapture-glyph" aria-hidden="true">▸</span> Capture
+        </button>
+
+        <!--
+          --i is each slot's place in the row; the read head reaches it at
+          (i + 0.5) / 4 of the way across. Forma Blueprint is the joke
+          every player will catch: it can't be traded, so there's no price.
+        -->
+        <ol class="slots">
+          <li class="slot slot--none" style="--i: 0">
+            <span class="slot-index">01</span>
+            <span class="slot-name">Forma Blueprint</span>
+            <span class="slot-price">—<small>untradeable</small></span>
+          </li>
+          <li class="slot" style="--i: 1">
+            <span class="slot-index">02</span>
+            <span class="slot-name">Orthos Prime Blade</span>
+            <span class="slot-price">3p</span>
+          </li>
+          <li class="slot slot--best" style="--i: 2">
+            <span class="slot-index">03</span>
+            <span class="slot-tag">▲ Best pick</span>
+            <span class="slot-name">Gyre Prime Systems Blueprint</span>
+            <span class="slot-price">14p</span>
+          </li>
+          <li class="slot" style="--i: 3">
+            <span class="slot-index">04</span>
+            <span class="slot-name">Quassus Prime Blueprint</span>
+            <span class="slot-price">5p</span>
+          </li>
+        </ol>
+      </div>
+
+      <figcaption class="capture-meta">
+        <!-- wfpc.js swaps in this selection's real size and position. -->
+        <span class="readout">Region: <span data-region>878×43 at (1280, 610)</span></span>
+        <span class="caption">Example capture. The app pulls live prices from warframe.market.</span>
+      </figcaption>
+    </figure>
+
+    <!-- Setup, one step under each slot. -->
+    <ol class="foot">
+      <li>
+        <span class="foot-label"><b>01</b>Refresh</span>
+        <p>Pull current prices for every prime part from warframe.market.</p>
+      </li>
+      <li>
+        <span class="foot-label"><b>02</b>Region</span>
+        <p>Draw a box over the reward names once. Any monitor, remembered between sessions.</p>
+      </li>
+      <li>
+        <span class="foot-label"><b>03</b>Capture</span>
+        <p>In Game mode leaves a two-button panel on screen. Rewards appear, you hit Capture.</p>
+      </li>
+      <li>
+        <span class="foot-label"><b>+</b>Built with</span>
+        <p>Tesseract OCR and OpenCV, on your machine. Only the item names leave it, to look up prices.</p>
+      </li>
+    </ol>
   </main>
-  <script src="/assets/js/gallery.js"></script>
-
 </body>
 
 </html>

@@ -11,6 +11,10 @@ Config is loaded from the file at $CONFIG_FILE (set by the systemd unit
 to /etc/preside-by-side/config.env). Keys:
 
     DISCORD_WEBHOOK_URL          required — suggestion-queue channel
+    DOE_WEBHOOK_URL              optional — corrections channel for the
+                                 Doe v. Bonnell page. Falls back to
+                                 DISCORD_WEBHOOK_URL when unset, so the
+                                 route works before a channel exists.
     LOG_WEBHOOK_URL              optional — alerts channel (separate webhook
                                  so it can be rotated independently of the
                                  suggestions one). If unset, Discord-bound
@@ -71,6 +75,12 @@ WEBHOOK_URL = os.environ.get('DISCORD_WEBHOOK_URL')
 if not WEBHOOK_URL:
     sys.exit('DISCORD_WEBHOOK_URL is required (set in CONFIG_FILE or environment)')
 
+# Corrections on the Doe v. Bonnell page go to their own channel when one
+# exists. That page invites disagreement about a live, contested case, so
+# its traffic is worth keeping separable from the presidents queue — both
+# to read and to rotate.
+DOE_WEBHOOK_URL = os.environ.get('DOE_WEBHOOK_URL') or WEBHOOK_URL
+
 DB_PATH = os.environ.get('DB_PATH', '/var/lib/preside-by-side/suggestions.db')
 LISTEN_HOST = os.environ.get('LISTEN_HOST', '127.0.0.1')
 LISTEN_PORT = int(os.environ.get('LISTEN_PORT', '8787'))
@@ -81,6 +91,11 @@ ALLOWED_ORIGINS = {
 }
 
 MAX_LENGTHS = {'president': 80, 'event': 200, 'source': 500, 'why': 600}
+
+# The case-page form. `kind` is a closed set, so it is checked by membership
+# rather than by length.
+CASE_MAX_LENGTHS = {'detail': 1500, 'source': 500}
+CASE_KINDS = ('missed', 'misrepresented', 'unfairly portrayed')
 
 # Per-IP rolling-window rate limit. The browser-side cooldown is cosmetic
 # (curl ignores it), so this is the real ceiling against scripted spam.
@@ -741,6 +756,24 @@ with db() as conn:
     # excluded from the aggregate query that powers the public endpoint.
     conn.execute(
         """
+        CREATE TABLE IF NOT EXISTS case_suggestions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            received_at TEXT NOT NULL,
+            page        TEXT NOT NULL,
+            kind        TEXT NOT NULL,
+            detail      TEXT NOT NULL,
+            source      TEXT,
+            user_agent  TEXT,
+            ip          TEXT,
+            status      TEXT NOT NULL DEFAULT 'pending',
+            processed_at TEXT,
+            notes       TEXT
+        )
+        """
+    )
+
+    conn.execute(
+        """
         CREATE TABLE IF NOT EXISTS ratings (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
             received_at   TEXT    NOT NULL,
@@ -946,6 +979,92 @@ def suggest():
         # share an outage, the alerts handler will silently drop and
         # journalctl is still the source of truth.
         notify.warning('discord notify failed for #%d: %s', sid, exc)
+
+    return jsonify(ok=True)
+
+
+@app.route('/suggest/doe', methods=['POST'])
+def suggest_doe():
+    """Corrections intake for the Doe v. Bonnell page.
+
+    Same gates as /suggest — origin allowlist, per-IP and global rate
+    limits, honeypot — deliberately duplicated rather than factored out
+    of the older route, so deploying this cannot change the behaviour of
+    a path that is already working in production. Worth folding together
+    once this one has run for a while.
+    """
+    origin = request.headers.get('Origin', '')
+    if origin not in ALLOWED_ORIGINS:
+        probe_ip = get_client_ip()
+        log.info('rejected (doe): bad origin %r ip=%r', origin, probe_ip)
+        if note_origin_rejection(probe_ip):
+            notify.warning(
+                'probe alert: %d+ origin rejections from %s in last hour '
+                '(latest origin=%r)',
+                ORIGIN_REJECT_THRESHOLD, probe_ip, origin[:120],
+            )
+        abort(403)
+
+    ip = get_client_ip()
+    ok, reason = rate_limit_check(ip)
+    if not ok:
+        log.info('rate limited (doe, %s): ip=%r', reason, ip)
+        if reason == 'global':
+            notify.warning(
+                'global rate limit tripped on doe intake (ip=%r, cap=%d/%ds)',
+                ip, GLOBAL_RATE_LIMIT_MAX, GLOBAL_RATE_LIMIT_WINDOW_SEC,
+            )
+        return jsonify(ok=False, error='too many requests — try again later'), 429
+
+    data = request.get_json(silent=True) or {}
+
+    # Honeypot — silent 200 so bots can't tell they were caught.
+    if (data.get('website') or '').strip():
+        log.info('honeypot hit (doe) from %r', ip)
+        return jsonify(ok=True)
+
+    kind = clean_input(data.get('kind')).lower()
+    detail = clean_input(data.get('detail'))
+    source = clean_input(data.get('source'))
+
+    if kind not in CASE_KINDS:
+        log.info('rejected (doe): bad kind %r', kind[:40])
+        return jsonify(ok=False, error='pick one of: %s' % ', '.join(CASE_KINDS)), 400
+
+    if not detail:
+        log.info('rejected (doe): empty detail')
+        return jsonify(ok=False, error='tell me what to look at'), 400
+
+    for name, val in (('detail', detail), ('source', source)):
+        if len(val) > CASE_MAX_LENGTHS[name]:
+            log.info('rejected (doe): %s exceeds %d chars (len=%d)',
+                     name, CASE_MAX_LENGTHS[name], len(val))
+            return jsonify(ok=False, error=f'{name} exceeds {CASE_MAX_LENGTHS[name]} chars'), 400
+
+    if source:
+        u = urlparse(source)
+        if u.scheme not in ('http', 'https') or not u.netloc:
+            log.info('rejected (doe): invalid source URL %r', source[:100])
+            return jsonify(ok=False, error='source must be a valid http(s) URL'), 400
+
+    ua = request.headers.get('User-Agent', '')[:300]
+
+    with db() as conn:
+        cur = conn.execute(
+            'INSERT INTO case_suggestions (received_at, page, kind, detail, source, user_agent, ip)'
+            ' VALUES (?,?,?,?,?,?,?)',
+            (now_utc_iso(), 'doe-v-bonnell', kind, detail, source or None, ua, ip),
+        )
+        sid = cur.lastrowid
+
+    log.info('queued case correction #%d (kind=%r detail=%r)', sid, kind, detail[:60])
+
+    # The row is durable before this runs; a Discord outage must not reach
+    # the submitter as an error.
+    try:
+        post_case_to_discord(sid, kind, detail, source)
+    except Exception as exc:
+        notify.warning('discord notify failed for case #%d: %s', sid, exc)
 
     return jsonify(ok=True)
 
@@ -1195,6 +1314,31 @@ def post_to_discord(sid, president, event, source, why):
         ],
     }
     r = requests.post(WEBHOOK_URL, json=payload, timeout=5)
+    r.raise_for_status()
+
+
+def post_case_to_discord(sid, kind, detail, source):
+    """Corrections embed for the case page. Same truncate-then-escape order
+    as post_to_discord, for the same reason."""
+    fields = [
+        {'name': 'What', 'value': escape_discord_md(kind[:1024]), 'inline': True},
+        {'name': 'Detail', 'value': escape_discord_md(detail[:1024]), 'inline': False},
+    ]
+    if source:
+        fields.append({'name': 'Source', 'value': escape_discord_md(source[:1024]), 'inline': False})
+
+    payload = {
+        'username': 'Court Reporter',
+        'embeds': [
+            {
+                'title': f'Doe v. Bonnell — correction #{sid}',
+                'color': 0x6F4A2E,
+                'fields': fields,
+                'timestamp': now_utc_iso(),
+            }
+        ],
+    }
+    r = requests.post(DOE_WEBHOOK_URL, json=payload, timeout=5)
     r.raise_for_status()
 
 

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/preside-by-side-ad/preside-by-side-ad.css">
 
     <meta name="description"
-        content="Preside by Side — a side-by-side comparison of presidential misconduct, weighted visually by severity. A project on frontendneeded.com.">
+        content="Preside by Side — pick any two American presidents and stack their faults side by side, weighted visually by severity and anchored to primary sources. A project on frontendneeded.com.">
     <link rel="canonical" href="https://frontendneeded.com/preside-by-side-ad/">
 
     <meta property="og:type" content="website">
@@ -21,7 +21,9 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>Preside by Side</title>
+    <!-- Distinct from the app's own "Preside by Side" so the two pages
+         don't compete for the same title in search results. -->
+    <title>Preside by Side — A Presidential Comparison</title>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
@@ -43,62 +45,88 @@
                 <a href="/match-analysis-ad">Match Analysis</a>
                 <a href="/preside-by-side-ad" class="active">Preside by Side</a>
                 <a href="/wfpc">WF Price Checker</a>
-                <a href="/trtbench">Trtbench</a>
                 <a href="/tarella-notes">Tarella Notes</a>
-                <a href="/fresh-pull">Fresh Pull</a>
             </div>
         </div>
         <a href="/hire-me">Hire Me</a>
     </nav>
 
-    <main id="main-content" class="gr-shell">
+    <!--
+      The page is a flag. Thirteen stripes tall, canton two fifths wide
+      and seven stripes deep. The canton is the hero block; the seven
+      coloured stripes are severity tracks, and the pale ones carry the
+      running copy.
+    -->
+    <main id="main-content" class="stage">
 
-        <div class="gr-top">
-            <div class="accent-bar"></div>
-            <h1 class="page-title">Preside by Side</h1>
-            <p class="page-subtitle">A side-by-side comparison of presidential misconduct, weighted visually by
+        <header class="canton">
+            <p class="eyebrow">A Comparison</p>
+            <h1 class="wordmark">Preside <em>by</em> Side</h1>
+            <p class="tagline">Pick any two American presidents. Stack their faults side by side, weighted by
                 severity.</p>
+            <a class="launch" href="/preside-by-side">
+                Open Preside by Side
+                <span class="launch-chev" aria-hidden="true">›</span>
+            </a>
+            <p class="launch-note">No login — score any fault yourself, or read the sources first.</p>
+        </header>
 
-            <!-- Photo gallery — same component used on /wfpc and the home page,
-                 stripped to a single image for now. Aspect ratio is hard-coded
-                 inline (1200×751 = og-pbs.webp) so the frame can render without
-                 gallery.js, since there's nothing to advance through yet. -->
-            <div class="photo-gallery">
-                <div class="photo-frame" style="aspect-ratio: 1200 / 751;">
-                    <img class="photo-img active" src="/assets/images/og-pbs.webp"
-                        alt="Preside by Side — presidential comparison preview" fetchpriority="high">
-                </div>
+        <!-- The separator leads the bold half rather than trailing the
+             plain one, so a wrap never leaves a dangling "·". -->
+        <p class="key">Each stripe, one documented fault · scored 1&ndash;10 for severity
+            <b>· 18 presidents, 180 on the record</b>
+        </p>
+
+        <!--
+          Illustrative, not a preview: no president is named and no
+          stripe is tied to an event. The seven numbers are real severity
+          values from the dataset, chosen to make a shape.
+
+          --row places the stripe in the flag (odd rows are the coloured
+          ones), --severity sets its length on the shared scale, and --i
+          orders the sweep. The canton covers the start of rows 1–7, the
+          way a real flag's stripes run behind the union — every track
+          still begins at the same left edge, so the tips stay
+          comparable straight down the flag.
+
+          aria-hidden: the marks carry no information a reader needs —
+          the key above says in words what the chart says in shapes.
+        -->
+        <div class="tracks" aria-hidden="true">
+            <div class="track track--blue" style="--row: 1;  --severity: 8;  --i: 0">
+                <span class="track-fill"><span class="track-num">8</span></span>
+            </div>
+            <div class="track track--red" style="--row: 3;  --severity: 10; --i: 1">
+                <span class="track-fill"><span class="track-num">10</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 5;  --severity: 6;  --i: 2">
+                <span class="track-fill"><span class="track-num">6</span></span>
+            </div>
+            <div class="track track--red" style="--row: 7;  --severity: 9;  --i: 3">
+                <span class="track-fill"><span class="track-num">9</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 9;  --severity: 7;  --i: 4">
+                <span class="track-fill"><span class="track-num">7</span></span>
+            </div>
+            <div class="track track--red" style="--row: 11; --severity: 4;  --i: 5">
+                <span class="track-fill"><span class="track-num">4</span></span>
+            </div>
+            <div class="track track--blue" style="--row: 13; --severity: 5;  --i: 6">
+                <span class="track-fill"><span class="track-num">5</span></span>
             </div>
         </div>
 
-        <div class="gr-bottom">
-            <div class="gr-left">
-                <h2 class="sub">A presidential comparison, rendered as bars.</h2>
-                <p class="body-text">Pick any two American presidents and stack their faults side by side. Each one's
-                    misconduct is rendered as a bar — wider, brighter, and louder when the severity is higher.</p>
-                <p class="body-text">It is deliberately a partial view. Every president here also holds achievements
-                    this project sets aside on purpose, the better to see the low points laid out next to each other
-                    across parties and eras.</p>
+        <section class="note" style="--row: 10">
+            <h2 class="note-label">Weighted by severity</h2>
+            <p class="note-text">Scores start as AI-assisted estimates and re-weight from the running average of
+                reader votes. Rate a fault yourself and the chart redraws.</p>
+        </section>
 
-                <h2 class="sub">How it works</h2>
-                <p class="body-text">Every bar is a documented controversy, scandal, or policy failure — anchored to
-                    primary government documents, court rulings, inspector general reports, and established journalism.
-                    Initial 1–10 severity scores are AI-assisted estimates; readers submit their own, and the
-                    visualization re-weights from the running average.</p>
-            </div>
-            <div class="gr-right">
-                <div class="cta-copy">
-                    <p class="section-label">Launch</p>
-                    <h2 class="cta-headline">See the comparison.</h2>
-                    <p class="cta-body">Pick any two presidents and watch their faults stack up — weighted by
-                        severity, anchored to primary sources, rated by readers.</p>
-                </div>
-                <a href="/preside-by-side" class="cta-button">
-                    <span class="cta-button-label">Open Preside by Side</span>
-                    <span class="cta-button-chev" aria-hidden="true">›</span>
-                </a>
-            </div>
-        </div>
+        <section class="note" style="--row: 12">
+            <h2 class="note-label">A partial view, on purpose</h2>
+            <p class="note-text">Every fault cites primary documents, court rulings and inspector general reports.
+                Achievements are set aside here — the point is the low points, across parties and eras.</p>
+        </section>
 
     </main>
 </body>

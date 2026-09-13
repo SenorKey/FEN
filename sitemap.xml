@@ -21,7 +21,7 @@
 
   <url>
     <loc>https://frontendneeded.com/wfpc/</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <priority>0.7</priority>
   </url>
 
@@ -45,7 +45,7 @@
 
   <url>
     <loc>https://frontendneeded.com/preside-by-side-ad/</loc>
-    <lastmod>2026-05-27</lastmod>
+    <lastmod>2026-09-10</lastmod>
     <priority>0.7</priority>
   </url>
 
@@ -64,6 +64,12 @@
   <url>
     <loc>https://frontendneeded.com/trtbench/</loc>
     <lastmod>2026-05-27</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/doe-v-bonnell/</loc>
+    <lastmod>2026-09-08</lastmod>
     <priority>0.7</priority>
   </url>
 
