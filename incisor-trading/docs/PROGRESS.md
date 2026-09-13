@@ -4290,3 +4290,28 @@ from the other side.
 state until then, honestly labelled. Filling it again costs ~15 of tomorrow's
 25, which is the arithmetic D17 exists to make survivable.
 
+
+## 2026-09-12 — Skipped: the tree was busy
+**Outcome:** blocked, at step 1
+**Changed:** this entry only
+**Verified:** `git status` on `main` showed `?? doe-v-bonnell/.claude/`
+**Notes:** Untracked `serve.py` and `launch.json` — local preview tooling, not
+mine and not recoverable if destroyed, which is the case hard rule 11 guards
+most closely. Nothing stashed, cleaned, or checked out over.
+
+Two things the next session should not have to rediscover. First, `main` has no
+`incisor-trading/`, so a checkout of `main` leaves the folder looking gutted —
+only `__pycache__`, the venvs and `docs/shots` survive, since everything else is
+tracked on this branch. That is a branch switch, not data loss; all 162 files
+are here and match `origin/incisor-dev`. I checked before concluding anything,
+and it is worth checking again rather than panicking.
+
+Second, this entry reached the branch through a throwaway worktree, which is how
+09-10's skip note should have gone. That one was written into an uncommitted file
+on `doe-v-bonnell-page` and never arrived, so the skip went unrecorded until the
+following day. A worktree logs without touching the busy tree at all.
+
+Also worth flagging: the three entries above this one are headed 2026-09-13, but
+their commits are all dated 2026-09-12. The dates in those headings are a day
+ahead of the work they describe. This entry uses the real date, so the tail of
+this log now reads 09-13, 09-13, 09-13, 09-12.
