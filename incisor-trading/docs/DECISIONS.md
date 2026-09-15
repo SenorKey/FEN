@@ -17,9 +17,9 @@ Rows are merged, never dropped; a superseded row says so in one line.
 
 **Moved out, and not gone.** A decision only one surface can act on is stated
 in that surface's own file, where the person who needs it is already looking
-and where it cannot drift from what it explains. It leaves no line here:
-DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
--050, -070, -071 (S6, 09-12). Only a cross-cutting call earns shared memory.
+and where it cannot drift from what it explains. Only a cross-cutting call
+earns shared memory. An ID missing from the table below left that way, and
+**DEC-087's detail entry records where each one went.**
 
 ---
 
@@ -50,7 +50,7 @@ DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
 | DEC-025 | **The site is one deliberate dark treatment; `prefers-color-scheme` is not a gap.** `/assets` has no light palette and is out of bounds. Do not refile. |
 | DEC-026 | **The 600-line rule is measured three ways: 600 lines per stylesheet and script, 650 elements per document, 150 lines per surface.** The surface list is derived, never listed. |
 | DEC-027 | **Configuration is read at the edge, below the config load, and nowhere else.** An AST test enforces it (D4). |
-| DEC-028 | **The watchlist holds eight symbols and stores tickers only.** The cap is the call budget, not taste — do not raise it without redoing the arithmetic. |
+| DEC-028 | **Three caps are the call budget, not taste: watchlist 8, open orders 6, equity curve 12.** Each refuses past it; the watchlist stores tickers only. Redo the sum to raise any. |
 | DEC-030 | **`/sectors` computes; `/history` relays. Both are right.** Many symbols and one question is cheap to answer and costly to ship the inputs for. |
 | DEC-032 | **A surface pays for a payload once; every question it already answers is free.** The watchlist sparkline came from bars already being discarded. |
 | DEC-033 | **A measure that was right can be made wrong by the surface that lands next to it** — the watchlist's 620px cap, once T10 landed above it. |
@@ -82,10 +82,9 @@ DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
 | DEC-083 | **A stored blob from a newer page is never overwritten** — a rollback would destroy work. Older blobs migrate one `MIGRATIONS[v]` step at a time; bump and step land together. |
 | DEC-084 | **Step 1 is failed by a changed tracked file outside `incisor-trading/`, not by an untracked one.** A stray preview config would skip every day; the worktree already protects Key. |
 | DEC-085 | **An order fills at the first bar open (9:30 ET) or close after it was placed** — the bar's market moment, not its publication. Mid-session limits get the close only. |
-| DEC-086 | **Open buys hold back cash — a limit at its limit, market at last close +5% — and six symbols may be in play.** Six is the call budget, like DEC-028: redo the sum to raise it. |
+| DEC-086 | **An open buy holds back cash — a limit at its limit, a market order at last close +5%.** Its six-symbol cap is one of the three in DEC-028. |
 | DEC-087 | **An index row repeating a comment is a second copy, and the copy is the one that drifts.** Eight said what the file they bind said better; the index is for what no one file owns. |
-| DEC-088 | **The equity curve prices at most twelve distinct symbols, and refuses past it.** Third cap of the same kind as DEC-028 and DEC-086: the call budget, not taste. Redo the sum to raise it. |
-| DEC-089 | **`plot()` takes an explicit `{low, high}`: two lines being compared may not each scale to themselves.** Right for a price chart, and it can draw the loser above the winner here. |
+| DEC-088 | **Merged into DEC-028**, which now carries all three of the call-budget caps in one row. |
 | DEC-091 | **A cached row is keyed by the source that wrote it, and a response's `source` is the row's, not the config's.** Fixture prices answered live requests inside TTL, labelled `live`. |
 | DEC-092 | **Upstream is paced at the documented 5/min by declining, never sleeping: a call too soon is a refusal to refresh, not a wait.** One worker — a 12s sleep stalls the page. |
 

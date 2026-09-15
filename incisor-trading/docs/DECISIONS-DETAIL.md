@@ -951,6 +951,22 @@ one by one against the file they bind:
 | DEC-070 | `server/reporting.py` — a calendar of filings, not of announced dates |
 | DEC-071 | `server/fixtures/make_fixtures.py` — `QUARTER_ENDS`, `FILING_LAGS` |
 
+**The rows that had left before this pass, and one since.** Their destinations
+were recorded only in `PROGRESS.md` entries that the tail no longer reaches,
+which is the failure guide §16 names — so they are gathered here, where the
+index now points. Two could not be attributed from the journal and say so
+rather than being guessed at.
+
+| Was | Says it in full |
+|---|---|
+| DEC-016 | `js/view-symbol.js` — moved under D11's ceiling, already stated there |
+| DEC-031 | destination not recorded in the journal; left during D9's split |
+| DEC-042 | T11's fundamentals code — D9 named it as already stated there |
+| DEC-044 | `server/fixtures/make_fixtures.py` — moved with DEC-016 |
+| DEC-049 | `js/view-fundamentals.js` — the panel's four groups, `display: contents` |
+| DEC-051 | `tests/test_page.py` — the docstring of the test that enforces it |
+| DEC-089 | `js/chart-geometry.js` — `plot()`'s `bounds`, and why two lines share one scale (S6, 09-15) |
+
 **Why**
 
 The file was 395 bytes from a ceiling that had already stopped the previous
@@ -1009,32 +1025,6 @@ orders' six, and now twelve. Each is a cap on how many symbols a surface may
 have in play, each is the call budget rather than a design preference, and
 each can only be raised by redoing the arithmetic. If a fourth appears, that
 is the signal to make it one rule rather than a fourth row.
-
----
-
-## DEC-089 — Two lines being compared share one scale
-
-*Settled · 09-12 · T16*
-
-**Decision**
-
-**`geometry.plot()` takes an optional `{low, high}` that overrides the
-vertical scale.** The performance view measures both series, then plots each
-against the pair's low and high.
-
-**Why**
-
-Scaling a series to its own low and high is right for a price chart and wrong
-the moment two lines are drawn to be compared: a portfolio that gained $140
-and a benchmark that gained $3,000, each stretched to fill the box, are two
-lines of identical shape, and the one that lost can sit above the one that
-won. The whole surface exists to show which is higher.
-
-Added to the shared module rather than copied into the new one. The curve
-needed exactly what `plot()` already does — points, a path, and `yForPrice`
-for the baseline — and a second implementation of the same arithmetic would
-have been two formulas that must agree for the gridlines to line up with the
-line, which is the reason `yForPrice` is exported in the first place.
 
 ---
 
@@ -2054,6 +2044,15 @@ run stopped correctly: tracked files were modified then.
 
 The guide's wording is Key's to change (N14). Until it does, this is how it is
 read.
+
+**Contradicted once, on 09-12, and the entry held.** That session met the same
+two untracked files, read step 1 the old way and skipped the day. 09-15 met
+them again — still unchanged since 09-09 — and proceeded under this entry,
+which is what it is for: without it the routine skips every session until Key
+happens to delete a preview config, and three days had already gone that way
+(09-10 correctly, 09-12 not). If a session is about to stop at step 1, the
+question to answer first is whether anything **tracked** is modified. If the
+answer is no, this is not the rule's case.
 
 ---
 
