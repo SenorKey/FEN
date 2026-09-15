@@ -316,6 +316,14 @@ MAX_SYMBOL_INPUT = 16
 # 10). `source` is the important one: in fixture mode these numbers are
 # invented, and the page has to be able to say so rather than presenting
 # committed sample data as a market quote.
+#
+# **It comes from the data, never from DATA_SOURCE** (D16). The configured
+# mode says what this service would fetch if it fetched now; it does not say
+# what produced the bytes in this response, and on 09-13 the two differed for
+# every cached row on the box — generated prices, inside TTL, marked fresh,
+# under a `live` label. `fetcher.get` returns the answer in `meta['source']`
+# and that is the only thing these routes may report. Two routes below do
+# read the config, correctly, and each says why.
 DELAY_LABEL = 'end-of-day'
 
 
@@ -396,7 +404,7 @@ def read_route(route, endpoint):
 
     return jsonify(
         symbol=symbol,
-        source=DATA_SOURCE,
+        source=meta['source'],
         delay=DELAY_LABEL,
         stale=meta['stale'],
         fetched_at=meta['fetched_at'],
@@ -435,6 +443,10 @@ def symbols():
         listed = catalog.entries()
         exhaustive = False
 
+    # DATA_SOURCE, unlike every route that serves prices: this list is not
+    # cached bytes from an upstream. It is read here, now, from catalog.py and
+    # the fixture directory, and which of those answered is decided by the
+    # mode on the line above. The config value *is* this list's provenance.
     return jsonify(
         source=DATA_SOURCE,
         exhaustive=exhaustive,
@@ -485,7 +497,7 @@ def sector_grid():
     grid = sectors.grid(series_by_symbol)
 
     return jsonify(
-        source=DATA_SOURCE,
+        source=meta['source'],
         delay=DELAY_LABEL,
         stale=meta['stale'],
         fetched_at=meta['fetched_at'],
@@ -522,10 +534,16 @@ def fundamentals_panel():
     facts = None
     stale = False
     fetched_at = ''
+    # The configured mode until something is actually served, which is the
+    # honest default in the one direction it can be: where no filing bytes
+    # were returned there are none to mislabel, and the panel says so in fund
+    # language rather than showing figures.
+    served_source = DATA_SOURCE
     try:
         facts, meta = fetcher.get_fundamentals(symbol, DATA_SOURCE, EDGAR_CONTACT)
         stale = meta['stale']
         fetched_at = meta['fetched_at']
+        served_source = meta['source']
     except provider.ProviderError as exc:
         if exc.reason != 'not_found':
             return error_for('fundamentals', symbol, exc)
@@ -543,7 +561,7 @@ def fundamentals_panel():
 
     return jsonify(
         symbol=symbol,
-        source=DATA_SOURCE,
+        source=served_source,
         stale=stale,
         fetched_at=fetched_at,
         served_at=now_utc_iso(),

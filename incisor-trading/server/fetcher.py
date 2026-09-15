@@ -29,6 +29,13 @@ path is exercised by every session and every test run rather than only in a
 live mode that is currently switched off. The practical cost is that editing a
 fixture will not show up until its TTL expires or the scratch database is
 dropped.
+
+**The cache is keyed by source as well as by symbol** (D16). Every load below
+states the mode it will accept, and a row written by the other one is a miss:
+fixture prices are invented, so serving them to a live request is not a stale
+answer but a false one. The mode therefore also decides what a cold cache
+costs — flipping to live starts from nothing, which is ~15 calls of the day's
+22, and is an operation to stage rather than to discover.
 """
 
 import datetime
@@ -225,8 +232,23 @@ def _refresh(endpoint, symbol, data_source, api_key, edgar_contact):
         store.record_call(endpoint, symbol, status, data_source)
 
     fetched_at = store.now_utc_iso()
-    handler['save'](parsed, fetched_at)
+    handler['save'](parsed, data_source, fetched_at)
     return parsed, fetched_at
+
+
+def _meta(cached, stale, fetched_at, source):
+    """The envelope a caller reports: how old this is, and what produced it.
+
+    `source` is the source of the *bytes being returned*, not the mode the
+    service is configured in. The two agree because a row written by the other
+    mode is not loaded at all — the load filters on it (D16) — but they are
+    written down as different things, because before D16 the response reported
+    the configured mode and that is precisely how generated fixture prices
+    went out labelled `live`. A caller that wants to say where a number came
+    from reads this; nothing above should reach for the config value again.
+    """
+    return {'cached': cached, 'stale': stale, 'fetched_at': fetched_at,
+            'source': source}
 
 
 def get(endpoint, symbol, data_source, api_key='', max_age=None,
@@ -248,24 +270,23 @@ def get(endpoint, symbol, data_source, api_key='', max_age=None,
 
     load = _HANDLERS[endpoint]['load']
 
-    cached, fetched_at = load(symbol)
+    cached, fetched_at = load(symbol, data_source)
     if cached is not None and is_fresh(endpoint, fetched_at, max_age):
-        return cached, {'cached': True, 'stale': False, 'fetched_at': fetched_at}
+        return cached, _meta(True, False, fetched_at, data_source)
 
     with _lock_for(endpoint, symbol):
         # Re-read inside the lock: whoever held it may have just refreshed
         # this very symbol, and taking the cache on trust from before the wait
         # is how one stampede becomes four calls.
-        cached, fetched_at = load(symbol)
+        cached, fetched_at = load(symbol, data_source)
         if cached is not None and is_fresh(endpoint, fetched_at, max_age):
-            return cached, {'cached': True, 'stale': False, 'fetched_at': fetched_at}
+            return cached, _meta(True, False, fetched_at, data_source)
 
         # Fixture reads are local file reads. They cost no quota and must not
         # be able to exhaust a budget that exists to ration network calls.
         if not allow_refresh or (data_source == 'live' and budget_remaining() <= 0):
             if cached is not None:
-                return cached, {'cached': True, 'stale': True,
-                                'fetched_at': fetched_at}
+                return cached, _meta(True, True, fetched_at, data_source)
             raise Unavailable(
                 'nothing cached for %s and no refresh was permitted' % symbol)
 
@@ -278,9 +299,9 @@ def get(endpoint, symbol, data_source, api_key='', max_age=None,
             # not at all — an upstream hiccup should not blank the dashboard.
             if cached is None:
                 raise
-            return cached, {'cached': True, 'stale': True, 'fetched_at': fetched_at}
+            return cached, _meta(True, True, fetched_at, data_source)
 
-        return fresh, {'cached': False, 'stale': False, 'fetched_at': fresh_at}
+        return fresh, _meta(False, False, fresh_at, data_source)
 
 
 def get_quote(symbol, data_source, api_key=''):

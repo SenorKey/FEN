@@ -180,8 +180,8 @@ class TestReportsSurviveTheCache(unittest.TestCase):
                 'reports': reports}
 
     def test_a_saved_calendar_comes_back_newest_first(self):
-        store.save_fundamentals(self.facts(list(reversed(QUARTERS))))
-        loaded, _ = store.load_fundamentals('TEST')
+        store.save_fundamentals(self.facts(list(reversed(QUARTERS))), 'fixture')
+        loaded, _ = store.load_fundamentals('TEST', 'fixture')
         self.assertEqual([row['end'] for row in loaded['reports']],
                          [row['end'] for row in QUARTERS])
         self.assertEqual(loaded['reports'][0]['eps'], 2.00)
@@ -189,14 +189,14 @@ class TestReportsSurviveTheCache(unittest.TestCase):
     def test_a_withdrawn_quarter_does_not_stand_forever(self):
         """Replaced rather than upserted: an amendment can drop a period as
         well as restate one."""
-        store.save_fundamentals(self.facts(QUARTERS))
-        store.save_fundamentals(self.facts(QUARTERS[:2]))
-        loaded, _ = store.load_fundamentals('TEST')
+        store.save_fundamentals(self.facts(QUARTERS), 'fixture')
+        store.save_fundamentals(self.facts(QUARTERS[:2]), 'fixture')
+        loaded, _ = store.load_fundamentals('TEST', 'fixture')
         self.assertEqual(len(loaded['reports']), 2)
 
     def test_a_filer_with_no_reports_saves_cleanly(self):
-        store.save_fundamentals(self.facts([]))
-        loaded, _ = store.load_fundamentals('TEST')
+        store.save_fundamentals(self.facts([]), 'fixture')
+        loaded, _ = store.load_fundamentals('TEST', 'fixture')
         self.assertEqual(loaded['reports'], [])
 
 

@@ -296,5 +296,42 @@ class TestWhatTheGridCosts(SectorRouteTestCase):
         self.assertIsNotNone(payload['sectors']['as_of'])
 
 
+class TestTheGridSaysWhatProducedIt(unittest.TestCase):
+    """D16, at the one surface that combines eleven answers into one envelope.
+
+    Every view on the page asks `source === 'fixture'` to decide whether to
+    show the sample-data banner. A grid that answered with a word none of them
+    know would take that banner down, so a disagreement resolves to the most
+    cautious of the sources present rather than to a new one.
+    """
+
+    def series(self, source_name):
+        meta = {'cached': True, 'stale': False,
+                'fetched_at': '2026-08-27T00:00:00+00:00', 'source': source_name}
+        return ({'symbol': 'X', 'interval': 'daily',
+                 'last_refreshed': '2026-08-26', 'bars': []}, meta)
+
+    def test_one_source_is_reported_as_itself(self):
+        with mock.patch.object(fetcher, 'get',
+                               return_value=self.series('fixture')):
+            _, meta = collect.sector_series(0, 'fixture', '')
+        self.assertEqual(meta['source'], 'fixture')
+
+    def test_a_disagreement_reports_the_invented_half(self):
+        answers = [self.series('live'), self.series('fixture')]
+        answers += [self.series('live')] * len(sectors.SECTOR_SYMBOLS)
+
+        with mock.patch.object(fetcher, 'get', side_effect=answers):
+            _, meta = collect.sector_series(0, 'live', '')
+
+        self.assertEqual(meta['source'], 'fixture')
+
+    def test_nothing_served_falls_back_to_the_configured_mode(self):
+        with mock.patch.object(fetcher, 'get',
+                               side_effect=fetcher.Unavailable('nothing')):
+            _, meta = collect.sector_series(0, 'live', '')
+        self.assertEqual(meta['source'], 'live')
+
+
 if __name__ == '__main__':
     unittest.main()

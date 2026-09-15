@@ -55,9 +55,21 @@ def sector_series(refresh_allowance, data_source, api_key):
     """Every sector fund's cached series, refreshing at most a few of them.
 
     Returns (series_by_symbol, meta) where meta is the envelope fields the
-    grid reports: whether anything served was stale, and the oldest fetch
-    behind it. A fund that cannot be served at all is simply absent, which
-    sectors.rows() renders as an unavailable row rather than a missing one.
+    grid reports: whether anything served was stale, the oldest fetch behind
+    it, and what produced the bytes. A fund that cannot be served at all is
+    simply absent, which sectors.rows() renders as an unavailable row rather
+    than a missing one.
+
+    **The grid's `source` is the one every row it is showing agrees on, and
+    `fixture` wins any disagreement.** A load filters on the mode (D16), so a
+    grid cannot currently be assembled from two kinds of bytes at all; this
+    is what happens if that ever stops being true. It does not invent a third
+    value for the case, because every surface on the page asks
+    `source === 'fixture'` to decide whether to show the sample-data banner,
+    and a word none of them know would read as live and take the banner down
+    — which is D16 again, one level up. If any row here is invented, the
+    envelope says invented. Where nothing was served at all the configured
+    mode is reported, there being no bytes to mislabel.
 
     The allowance binds in live mode only, for the same reason the daily
     budget does: a fixture read is a local file read, and it has neither the
@@ -70,6 +82,7 @@ def sector_series(refresh_allowance, data_source, api_key):
     series_by_symbol = {}
     stale = False
     oldest_fetch = None
+    sources = set()
 
     for symbol in sectors.SECTOR_SYMBOLS:
         may_refresh = refresh_allowance > 0
@@ -94,12 +107,21 @@ def sector_series(refresh_allowance, data_source, api_key):
         if may_refresh and (not meta['cached'] or meta['stale']):
             refresh_allowance -= 1
         stale = stale or meta['stale']
+        sources.add(meta['source'])
         if meta['fetched_at'] and (oldest_fetch is None
                                    or meta['fetched_at'] < oldest_fetch):
             oldest_fetch = meta['fetched_at']
         series_by_symbol[symbol] = data
 
-    return series_by_symbol, {'stale': stale, 'fetched_at': oldest_fetch or ''}
+    if not sources:
+        served_source = data_source
+    elif len(sources) == 1:
+        served_source = sources.pop()
+    else:
+        served_source = 'fixture' if 'fixture' in sources else sorted(sources)[0]
+
+    return series_by_symbol, {'stale': stale, 'fetched_at': oldest_fetch or '',
+                              'source': served_source}
 
 
 def cached_series(symbol, data_source, api_key):

@@ -366,7 +366,7 @@ class TestFundamentalsRoute(unittest.TestCase):
         """
         store.save_fundamentals  # the filings path is cached; the series is not
         self.get('BRK.B')
-        cached, _ = store.load_history('BRK.B')
+        cached, _ = store.load_history('BRK.B', 'fixture')
         self.assertIsNone(cached)
         self.assertIsNone(
             self.get('BRK.B').get_json()['fundamentals']['measures'])

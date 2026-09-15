@@ -21,6 +21,29 @@ Four tables:
     upstream_calls  one row per call we made, ever
 
 `upstream_calls` predates the fetcher on purpose — see init().
+
+**Every cached row records the source that wrote it, and a read states the
+source it will accept.** A row written from fixtures is not a row that can
+answer a live request: the bytes differ in kind, not merely in age. Before
+D16 the cache was keyed on symbol alone, so the first live request after the
+key was switched on was answered out of the fixture cache, inside TTL, in a
+response whose `source` field said `live`. The column is the fix, and the
+`source` argument on every load is what makes forgetting it impossible —
+there is deliberately no default, because a default is exactly the stand-in
+that fails silently in the direction nobody checks (DEC-064).
+
+**The source is part of every cached table's key**, so the two never evict
+one another. Keyed on symbol alone, a live fetch would `INSERT OR REPLACE`
+over the fixture row and a fixture fetch back over the live one — which
+turns a diagnostic afternoon in fixture mode into a cold live cache, and a
+cold live cache is about fifteen of the day's twenty-two calls (D17). Two
+sources is the whole cardinality; it cannot grow past double.
+
+A database written before D16 has no such column and is dropped and rebuilt
+— it is pure cache, and the cost of refilling it is exactly the cost of the
+mislabelled rows it holds. `upstream_calls` is **not** dropped: it is the
+ledger the daily budget is counted from, and resetting it would let a day's
+quota be spent twice.
 """
 
 import datetime
@@ -44,6 +67,14 @@ QUOTE_COLUMNS = (
 )
 
 BAR_COLUMNS = ('open', 'high', 'low', 'close', 'volume')
+
+# The cached tables carrying a `source` column, and therefore the ones a read
+# filters. Listed for the migration in init(); the reads name their own table.
+# Every cached table, and therefore the ones a read filters and the migration
+# rebuilds. `upstream_calls` is not one of them: it is the quota ledger, and it
+# is never dropped.
+SOURCED_TABLES = ('quotes', 'daily_bars', 'daily_series', 'fundamentals',
+                  'filing_reports')
 
 # The columns of a cached filing, in the order edgar.py's internal shape
 # defines them. Every one is nullable, which the other two tables are not: a
@@ -96,6 +127,9 @@ def init():
         # WAL so reads never block behind the cache writer.
         connection.execute('PRAGMA journal_mode=WAL')
 
+        # Before the CREATEs, so a pre-D16 cache is rebuilt by them.
+        _drop_cache_written_before_d16(connection)
+
         # Exists before there is any fetcher to log into it, on purpose: the
         # free tier's 25-calls-a-day ceiling is the binding constraint on the
         # project, and if the counter did not predate the first fetcher then
@@ -121,7 +155,7 @@ def init():
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS quotes (
-                symbol              TEXT PRIMARY KEY,
+                symbol              TEXT NOT NULL,
                 price               REAL NOT NULL,
                 change              REAL NOT NULL,
                 change_percent      REAL NOT NULL,
@@ -131,7 +165,9 @@ def init():
                 previous_close      REAL NOT NULL,
                 volume              INTEGER NOT NULL,
                 latest_trading_day  TEXT NOT NULL,
-                fetched_at          TEXT NOT NULL
+                fetched_at          TEXT NOT NULL,
+                source              TEXT NOT NULL,
+                PRIMARY KEY (symbol, source)
             )
             """
         )
@@ -151,7 +187,8 @@ def init():
                 close       REAL NOT NULL,
                 volume      INTEGER NOT NULL,
                 fetched_at  TEXT NOT NULL,
-                PRIMARY KEY (symbol, date)
+                source      TEXT NOT NULL,
+                PRIMARY KEY (symbol, date, source)
             )
             """
         )
@@ -163,9 +200,11 @@ def init():
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS daily_series (
-                symbol          TEXT PRIMARY KEY,
+                symbol          TEXT NOT NULL,
                 last_refreshed  TEXT NOT NULL,
-                fetched_at      TEXT NOT NULL
+                fetched_at      TEXT NOT NULL,
+                source          TEXT NOT NULL,
+                PRIMARY KEY (symbol, source)
             )
             """
         )
@@ -178,7 +217,7 @@ def init():
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS fundamentals (
-                symbol              TEXT PRIMARY KEY,
+                symbol              TEXT NOT NULL,
                 entity_name         TEXT,
                 cik                 TEXT,
                 as_of               TEXT,
@@ -192,7 +231,9 @@ def init():
                 net_income          REAL,
                 eps                 REAL,
                 dividends_per_share REAL,
-                fetched_at          TEXT NOT NULL
+                fetched_at          TEXT NOT NULL,
+                source              TEXT NOT NULL,
+                PRIMARY KEY (symbol, source)
             )
             """
         )
@@ -212,10 +253,35 @@ def init():
                 form                TEXT,
                 eps                 REAL,
                 dividends_per_share REAL,
-                PRIMARY KEY (symbol, period_end)
+                source              TEXT NOT NULL,
+                PRIMARY KEY (symbol, period_end, source)
             )
             """
         )
+
+def _drop_cache_written_before_d16(connection):
+    """Drop the cache tables if they predate the source column.
+
+    Called *before* the CREATE statements, so they rebuild it with the right
+    key. The source is part of the primary key now, which `ALTER TABLE` in
+    SQLite cannot add — and there is nothing here worth migrating: every row
+    is a cached payload that can be fetched again, and the ones this is
+    protecting against are precisely the rows whose provenance is unknown.
+
+    `upstream_calls` is deliberately absent from SOURCED_TABLES and is never
+    dropped. It is the day's spending, not a cache of anything.
+    """
+    present = {row['name'] for row in connection.execute(
+        "SELECT name FROM sqlite_master WHERE type = 'table'")}
+    for table in SOURCED_TABLES:
+        if table not in present:
+            continue
+        # Table names come from our own constant; PRAGMA takes no parameter
+        # for an identifier.
+        columns = {row['name'] for row
+                   in connection.execute('PRAGMA table_info(%s)' % table)}
+        if 'source' not in columns:
+            connection.execute('DROP TABLE %s' % table)
 
 
 def is_reachable():
@@ -229,27 +295,33 @@ def is_reachable():
 
 # --- Quotes -----------------------------------------------------------------
 
-def save_quote(quote, fetched_at=None):
-    """Upsert one symbol's snapshot."""
+def save_quote(quote, source, fetched_at=None):
+    """Upsert one symbol's snapshot, tagged with the source that produced it."""
     values = [quote['symbol']]
     values.extend(quote[column] for column in QUOTE_COLUMNS)
     values.append(fetched_at or now_utc_iso())
+    values.append(source)
     # Column *names* come from the constant above, never from a caller; every
     # value below is still bound. This is the one statement in the file built
     # by formatting, and it is built out of our own identifiers.
-    placeholders = ', '.join('?' * (len(QUOTE_COLUMNS) + 2))
-    columns = ', '.join(('symbol',) + QUOTE_COLUMNS + ('fetched_at',))
+    placeholders = ', '.join('?' * (len(QUOTE_COLUMNS) + 3))
+    columns = ', '.join(('symbol',) + QUOTE_COLUMNS + ('fetched_at', 'source'))
     with connect() as connection:
         connection.execute(
             'INSERT OR REPLACE INTO quotes (%s) VALUES (%s)' % (columns, placeholders),
             values)
 
 
-def load_quote(symbol):
-    """The cached snapshot and when it was taken, or (None, None)."""
+def load_quote(symbol, source):
+    """The cached snapshot written by `source`, or (None, None).
+
+    A row written by the other mode is a miss, not a hit — the whole point of
+    D16. `source = ?` also excludes the NULL a pre-D16 row carries.
+    """
     with connect() as connection:
         row = connection.execute(
-            'SELECT * FROM quotes WHERE symbol = ?', (symbol,)).fetchone()
+            'SELECT * FROM quotes WHERE symbol = ? AND source = ?',
+            (symbol, source)).fetchone()
     if row is None:
         return None, None
     quote = {'symbol': row['symbol']}
@@ -260,45 +332,61 @@ def load_quote(symbol):
 
 # --- Daily bars -------------------------------------------------------------
 
-def save_history(history, fetched_at=None):
-    """Upsert a symbol's bars and record that the series was refreshed."""
+def save_history(history, source, fetched_at=None):
+    """Upsert a symbol's bars and record that the series was refreshed.
+
+    Both the bars and the series row carry the source. The series row alone
+    would not do: a symbol's fixture bars and its live bars cover different
+    dates, `daily_bars` is keyed on symbol and date, and a refresh only
+    replaces the dates it returned. Tagging the series and reading the bars
+    whole would hand back a live series row stapled to whatever fixture bars
+    fell outside it — one franken-series assembled from two markets.
+    """
     fetched_at = fetched_at or now_utc_iso()
     symbol = history['symbol']
     rows = [
         (symbol, bar['date']) + tuple(bar[column] for column in BAR_COLUMNS)
-        + (fetched_at,)
+        + (fetched_at, source)
         for bar in history['bars']
     ]
     with connect() as connection:
         connection.executemany(
             """
             INSERT OR REPLACE INTO daily_bars
-                (symbol, date, open, high, low, close, volume, fetched_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                (symbol, date, open, high, low, close, volume, fetched_at, source)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             rows)
         connection.execute(
             """
-            INSERT OR REPLACE INTO daily_series (symbol, last_refreshed, fetched_at)
-            VALUES (?, ?, ?)
+            INSERT OR REPLACE INTO daily_series
+                (symbol, last_refreshed, fetched_at, source)
+            VALUES (?, ?, ?, ?)
             """,
-            (symbol, history['last_refreshed'], fetched_at))
+            (symbol, history['last_refreshed'], fetched_at, source))
 
 
-def load_history(symbol):
-    """The cached series and when it was fetched, or (None, None)."""
+def load_history(symbol, source):
+    """The cached series written by `source`, or (None, None).
+
+    The series row and every bar are filtered, for the reason save_history
+    gives: a series is only the series it was fetched as.
+    """
     with connect() as connection:
         series = connection.execute(
-            'SELECT last_refreshed, fetched_at FROM daily_series WHERE symbol = ?',
-            (symbol,)).fetchone()
+            """
+            SELECT last_refreshed, fetched_at FROM daily_series
+            WHERE symbol = ? AND source = ?
+            """,
+            (symbol, source)).fetchone()
         if series is None:
             return None, None
         rows = connection.execute(
             """
             SELECT date, open, high, low, close, volume FROM daily_bars
-            WHERE symbol = ? ORDER BY date ASC
+            WHERE symbol = ? AND source = ? ORDER BY date ASC
             """,
-            (symbol,)).fetchall()
+            (symbol, source)).fetchall()
     if not rows:
         return None, None
     history = {
@@ -312,20 +400,30 @@ def load_history(symbol):
 
 # --- Fundamentals -----------------------------------------------------------
 
-def save_fundamentals(facts, fetched_at=None):
-    """Upsert one symbol's filing figures."""
+def save_fundamentals(facts, source, fetched_at=None):
+    """Upsert one symbol's filing figures, tagged with the source.
+
+    `filing_reports` carries the source too, and the delete below is scoped
+    by it. Without that, saving one mode's filings would wipe the other's
+    quarters while leaving the parent row it belongs to standing — a symbol
+    whose figures say one thing and whose calendar is empty.
+    """
     values = [facts['symbol']]
     values.extend(facts.get(column) for column in FUNDAMENTAL_COLUMNS)
     values.append(fetched_at or now_utc_iso())
+    values.append(source)
     # As with quotes: the column names are our own identifiers, every value is
     # bound. See the note on save_quote.
-    placeholders = ', '.join('?' * (len(FUNDAMENTAL_COLUMNS) + 2))
-    columns = ', '.join(('symbol',) + FUNDAMENTAL_COLUMNS + ('fetched_at',))
+    placeholders = ', '.join('?' * (len(FUNDAMENTAL_COLUMNS) + 3))
+    columns = ', '.join(
+        ('symbol',) + FUNDAMENTAL_COLUMNS + ('fetched_at', 'source'))
 
     symbol = facts['symbol']
-    report_columns = ', '.join(column for column, _ in REPORT_COLUMNS)
+    report_columns = ', '.join(
+        [column for column, _ in REPORT_COLUMNS] + ['source'])
     report_rows = [
         (symbol,) + tuple(report.get(key) for _, key in REPORT_COLUMNS)
+        + (source,)
         for report in facts.get('reports') or []
     ]
     with connect() as connection:
@@ -337,29 +435,31 @@ def save_fundamentals(facts, fetched_at=None):
         # amendment can withdraw a period as well as restate one, and a
         # quarter that has stopped being reported would otherwise stand here
         # forever. Eight rows a symbol is not a table worth optimising.
-        connection.execute('DELETE FROM filing_reports WHERE symbol = ?',
-                           (symbol,))
+        connection.execute(
+            'DELETE FROM filing_reports WHERE symbol = ? AND source = ?',
+            (symbol, source))
         connection.executemany(
             'INSERT INTO filing_reports (symbol, %s) VALUES (%s)'
-            % (report_columns, ', '.join('?' * (len(REPORT_COLUMNS) + 1))),
+            % (report_columns, ', '.join('?' * (len(REPORT_COLUMNS) + 2))),
             report_rows)
 
 
-def load_fundamentals(symbol):
-    """The cached filing figures and when they were fetched, or (None, None)."""
+def load_fundamentals(symbol, source):
+    """The cached filing figures written by `source`, or (None, None)."""
     with connect() as connection:
         row = connection.execute(
-            'SELECT * FROM fundamentals WHERE symbol = ?', (symbol,)).fetchone()
+            'SELECT * FROM fundamentals WHERE symbol = ? AND source = ?',
+            (symbol, source)).fetchone()
     if row is None:
         return None, None
     facts = {'symbol': row['symbol']}
     for column in FUNDAMENTAL_COLUMNS:
         facts[column] = row[column]
-    facts['reports'] = load_filing_reports(symbol)
+    facts['reports'] = load_filing_reports(symbol, source)
     return facts, row['fetched_at']
 
 
-def load_filing_reports(symbol):
+def load_filing_reports(symbol, source):
     """One symbol's reported quarters, newest first, as edgar.py spells them.
 
     Ordered here rather than by the caller, so a cached answer and a fresh
@@ -372,9 +472,10 @@ def load_filing_reports(symbol):
             """
             SELECT period_start, period_end, filed, form, eps,
                    dividends_per_share
-            FROM filing_reports WHERE symbol = ? ORDER BY period_end DESC
+            FROM filing_reports WHERE symbol = ? AND source = ?
+            ORDER BY period_end DESC
             """,
-            (symbol,)).fetchall()
+            (symbol, source)).fetchall()
     return [{key: row[column] for column, key in REPORT_COLUMNS}
             for row in rows]
 

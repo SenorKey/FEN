@@ -245,7 +245,13 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-- [ ] **D16 · The Trade tab's surfaces redraw only when a settlement lands**
+**Two IDs were issued twice and were renumbered on 09-15**, when closing one
+of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
+second `D16` and is now **D18**; the site-wide beacon defect was a second
+`D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
+old numbers. Nothing else moved.
+
+- [ ] **D18 · The Trade tab's surfaces redraw only when a settlement lands**
   `[enhancement]` *(2026-09-12)* — `js/view-portfolio.js` notifies its
   listeners once, when every symbol in play has answered and open orders have
   settled. Mid-flight it calls its own `render()` and tells nobody, so the
@@ -288,7 +294,7 @@ phase. When the call is unclear, file it as a defect.
   `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
   Until then `incisor.css` keeps DM Sans and its comments say why.
 
-- [ ] **D15 · The site-wide beacon 404s on every page** `[defect]`
+- [ ] **D19 · The site-wide beacon 404s on every page** `[defect]`
   *(found 2026-09-12 during the T26b rehearsal)* — **not an Incisor defect and
   not Incisor's to fix**, recorded here because this is where it was seen.
   `assets/js/beacon.js` loads on every FEN page and POSTs to `/api/event`, which
@@ -299,32 +305,6 @@ phase. When the call is unclear, file it as a defect.
   Out of the routine's bounds twice over: the fix is a service install plus a
   vhost change, both on the server (hard rule 5), and `assets/` is outside
   `incisor-trading/` (hard rule 1). **Key's, whenever he wants it.**
-
-- [ ] **D16 · A cached row does not record which source wrote it, so fixture
-  data is served labelled `live`** `[defect]` *(found 2026-09-13, minutes after
-  Key switched the live key on)* — the worst class of bug this project can have,
-  because the page's whole claim on a reader's trust is that it says where a
-  number came from.
-
-  `quotes` is keyed on `symbol` alone and `daily_bars` on symbol and date;
-  neither records the source. A row written in fixture mode is therefore
-  indistinguishable from a live one, so after the switch `load_quote` returned
-  generated prices, inside TTL, marked `"stale": false`, in a response whose
-  `"source"` field read `live` — because that field reports the *current mode*
-  rather than the mode that produced the bytes. Observed: SPY at 733.4011 with
-  `latest_trading_day` of 2026-08-26 and a `fetched_at` matching the T26b
-  rehearsal to the second, eighteen days after the fact.
-
-  Cleared on the box by deleting the database, which is pure cache. That is a
-  workaround, not the fix: the same thing happens on any future switch, and
-  nobody will be watching next time.
-  *Accept:* every cached row records the source that wrote it; a read in one
-  mode treats a row written in another as a **miss**, not a hit; the `source`
-  field of a response describes the bytes being returned rather than the config
-  value; a test flips the mode with a populated cache and asserts the stale row
-  is refused. Consider whether `stale` should ever be reported false for a row
-  whose source does not match — a mislabelled fresh row is worse than a stale
-  one honestly labelled.
 
 - [ ] **D17 · Upstream calls are not paced, so a cold cache spends the day's
   quota on throttled replies** `[defect]` *(found 2026-09-13, first hour of live
@@ -406,3 +386,4 @@ session that must *act* on any of this goes.
 | T15 | 09-11 | **Order ticket and open orders.** Fills at the first bar open or close after placing; buys hold back cash; open orders were the first migration, v1 to v2. → DEC-085, DEC-086 |
 | T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-089, DEC-090 |
 | T26b | 09-12 | **Deploy rehearsal: the code ran where it will run, and it found a hole in two commands.** Service installed, enabled, running in fixture mode; all five routes answer through Apache; `/health` correctly unreachable from outside. → D14, D15 |
+| D16 | 09-15 | **A cached row did not record what wrote it, so fixture prices were served under a `live` label** *(defect, fixed)* — source is part of the key now, and a response reports the row's provenance, not the config's. → DEC-091 |
