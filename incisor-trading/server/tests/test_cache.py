@@ -18,6 +18,7 @@ import json
 import os
 import tempfile
 import threading
+import time
 import unittest
 from unittest import mock
 
@@ -554,6 +555,179 @@ class TestTheCacheIsKeyedBySource(CacheTestCase):
                 body = json.loads(client.get('/quote?symbol=SPY').data)
 
         self.assertEqual(body['source'], 'fixture')
+
+
+class TestUpstreamIsPaced(CacheTestCase):
+    """D17 — the limit that had a number in the documentation and nothing else.
+
+    On 09-13, the first hour of live data, four /history calls left in eight
+    milliseconds:
+
+        17:05:24,025  history: upstream refused for QQQ
+        17:05:24,027  history: upstream refused for DIA
+        17:05:24,028  history: upstream refused for IWM
+        17:05:24,033  history: upstream refused for SPY
+
+    The daily budget had a table, a counter, a reserve and a whole design
+    around it. The per-minute limit had nothing at all, so the burst went out,
+    drew the throttle notice, and spent four calls on replies carrying no
+    data — a throttled reply costs exactly what a good one costs.
+    """
+
+    def setUp(self):
+        super().setUp()
+        fetcher.reset_locks()
+
+    def tearDown(self):
+        fetcher.reset_locks()
+        super().tearDown()
+
+    # --- the rate itself ---------------------------------------------------
+
+    def test_the_enforced_spacing_is_the_documented_rate(self):
+        """docs/DATA-PROVIDER.md: 25 requests a day, and five a minute."""
+        self.assertGreaterEqual(
+            fetcher.UPSTREAM_MIN_INTERVAL_SEC[source.ALPHA_VANTAGE], 60.0 / 5)
+
+    def test_a_pacer_opens_once_per_interval(self):
+        pacer = fetcher.Pacer(0.05)
+        self.assertTrue(pacer.reserve())
+        self.assertFalse(pacer.reserve(), 'the second call is too soon')
+        time.sleep(0.06)
+        self.assertTrue(pacer.reserve())
+
+    def test_a_pacer_admits_one_of_four_racing_threads(self):
+        """The shape of the defect: four callers arriving at once."""
+        pacer = fetcher.Pacer(60.0)
+        started = threading.Barrier(4)
+        admitted = []
+
+        def ask():
+            started.wait()
+            admitted.append(pacer.reserve())
+
+        threads = [threading.Thread(target=ask) for _ in range(4)]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join(timeout=5)
+
+        self.assertEqual(admitted.count(True), 1, admitted)
+
+    # --- nothing bypasses it -----------------------------------------------
+
+    def test_a_second_live_symbol_does_not_go_upstream_in_the_same_breath(self):
+        """Different symbols take different locks, so the per-symbol lock was
+        never going to stop this. Pacing is what does."""
+        stub = mock.Mock(return_value=a_quote_payload())
+        with mock.patch.object(source, 'fetch', stub):
+            fetcher.get_quote('SPY', 'live', 'KEY')
+            for symbol in ('QQQ', 'DIA', 'IWM'):
+                with self.assertRaises((fetcher.Unavailable,
+                                        source.SourceUnavailable)):
+                    fetcher.get_quote(symbol, 'live', 'KEY')
+
+        self.assertEqual(stub.call_count, 1)
+
+    def test_fixture_reads_are_never_paced(self):
+        """A local file read consumes nobody's rate. Pacing it would make the
+        one mode that has ever run fill over minutes for no reason."""
+        def for_the_symbol(endpoint, symbol, *args, **kwargs):
+            return a_quote_payload(symbol=symbol)
+
+        stub = mock.Mock(side_effect=for_the_symbol)
+        with mock.patch.object(source, 'fetch', stub):
+            for symbol in ('SPY', 'QQQ', 'DIA', 'IWM'):
+                fetcher.get_quote(symbol, 'fixture')
+        self.assertEqual(stub.call_count, 4)
+
+    def test_the_free_upstream_is_not_paced(self):
+        """EDGAR allows ten a second and this page makes at most two a
+        request. A gate there would be ceremony."""
+        self.assertIsNone(fetcher._pacer_for(source.COMPANY_FACTS))
+        self.assertIsNotNone(fetcher._pacer_for(source.QUOTE))
+
+    # --- a throttle is a throttle ------------------------------------------
+
+    def test_a_throttle_is_not_retried_and_shuts_the_slot(self):
+        """It costs a call and carries no data, so the answer to one is to
+        stop asking — not to ask again, which is what an unpaced service does
+        on the reader's next keystroke."""
+        throttled = mock.Mock(
+            side_effect=provider.ProviderError('rate_limited', 'Note: ...'))
+
+        with mock.patch.object(source, 'fetch', throttled):
+            with self.assertRaises((provider.ProviderError,
+                                    fetcher.Unavailable)):
+                fetcher.get_quote('SPY', 'live', 'KEY')
+
+        self.assertEqual(throttled.call_count, 1, 'it must not retry')
+
+        # And the next caller is refused locally rather than upstream.
+        with mock.patch.object(source, 'fetch', throttled):
+            with self.assertRaises((provider.ProviderError,
+                                    fetcher.Unavailable)):
+                fetcher.get_quote('QQQ', 'live', 'KEY')
+        self.assertEqual(throttled.call_count, 1, 'the slot should be shut')
+
+    def test_a_throttled_call_is_still_logged_against_the_day(self):
+        """It spent quota. A budget that only counts successes is optimistic
+        in exactly the situation where it must not be."""
+        throttled = mock.Mock(
+            side_effect=provider.ProviderError('rate_limited', 'Note: ...'))
+        with mock.patch.object(source, 'fetch', throttled):
+            with self.assertRaises(Exception):
+                fetcher.get_quote('SPY', 'live', 'KEY')
+
+        self.assertEqual(store.calls_today('live', fetcher.RATIONED_ENDPOINTS), 1)
+
+    # --- the cold start ----------------------------------------------------
+
+    def test_a_cold_start_stays_inside_both_the_budget_and_the_rate(self):
+        """The D17 acceptance criterion.
+
+        Every surface the dashboard fills on a cold cache — four index tiles
+        and eleven sector funds — asked for repeatedly, the way successive
+        page loads ask. The two things that must hold are that no call goes
+        out sooner than the documented spacing, and that the day's budget is
+        never exceeded. The interval is shortened here so the test does not
+        take three minutes; what is asserted is the relationship, not 12.
+        """
+        interval = 0.02
+        calls = []
+
+        def record(endpoint, symbol, *args, **kwargs):
+            calls.append(time.monotonic())
+            return a_quote_payload(symbol=symbol)
+
+        tiles = ('SPY', 'QQQ', 'DIA', 'IWM')
+        funds = ('XLB', 'XLC', 'XLE', 'XLF', 'XLI', 'XLK', 'XLP', 'XLRE',
+                 'XLU', 'XLV', 'XLY')
+
+        with mock.patch.dict(fetcher._pacers,
+                             {source.ALPHA_VANTAGE: fetcher.Pacer(interval)}):
+            with mock.patch.object(source, 'fetch', side_effect=record):
+                for _ in range(40):
+                    for symbol in tiles + funds:
+                        try:
+                            fetcher.get_quote(symbol, 'live', 'KEY')
+                        except (provider.ProviderError, source.SourceUnavailable,
+                                fetcher.Unavailable):
+                            pass
+                    time.sleep(interval / 2)
+
+        self.assertTrue(calls, 'nothing was fetched at all')
+
+        gaps = [later - earlier
+                for earlier, later in zip(calls, calls[1:])]
+        too_close = [gap for gap in gaps if gap < interval]
+        self.assertEqual(too_close, [],
+                         'calls went out closer together than the rate allows')
+
+        spent = store.calls_today('live', fetcher.RATIONED_ENDPOINTS)
+        self.assertLessEqual(spent, fetcher.DAILY_CALL_BUDGET)
+        self.assertEqual(fetcher.budget_remaining(),
+                         fetcher.DAILY_CALL_BUDGET - spent)
 
 
 if __name__ == '__main__':

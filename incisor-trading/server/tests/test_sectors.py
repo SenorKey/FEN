@@ -265,14 +265,26 @@ class TestWhatTheGridCosts(SectorRouteTestCase):
                                          collect.SECTOR_MAX_AGE_SEC),
                         'the grid should still be reading it')
 
-    def test_live_mode_refreshes_only_a_couple_of_funds_per_request(self):
-        """Eleven sequential upstream calls inside one response would blow
-        both the ten-second timeout and the provider's per-minute throttle."""
+    def test_live_mode_refreshes_at_most_one_fund_per_request(self):
+        """Eleven sequential upstream calls inside one response would blow both
+        the ten-second timeout and the provider's per-minute throttle.
+
+        Two mechanisms now bound this and the tighter one is the pacer (D17),
+        which permits one call every twelve seconds — so a request that
+        completes in milliseconds gets exactly one, where
+        `SECTOR_REFRESH_PER_REQUEST` alone would have allowed two. Both are
+        asserted: the cap is the ceiling, the pacer is what binds under it. If
+        this ever reads two again, the pacing is not running.
+        """
+        fetcher.reset_locks()
         with mock.patch.object(incisor, 'DATA_SOURCE', 'live'), \
                 mock.patch.object(source, 'fetch') as fetch:
             fetch.side_effect = source.SourceUnavailable('no network in a test')
             self.get()
-        self.assertEqual(fetch.call_count, collect.SECTOR_REFRESH_PER_REQUEST)
+
+        self.assertLessEqual(fetch.call_count,
+                             collect.SECTOR_REFRESH_PER_REQUEST)
+        self.assertEqual(fetch.call_count, 1)
 
     def test_fixture_mode_is_not_capped(self):
         """A fixture read is a local file read. Rationing it would make the

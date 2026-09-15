@@ -87,6 +87,7 @@ DEC-016, -031, -042, -044, -049, -051, and DEC-007, -014, -018, -029, -037,
 | DEC-088 | **The equity curve prices at most twelve distinct symbols, and refuses past it.** Third cap of the same kind as DEC-028 and DEC-086: the call budget, not taste. Redo the sum to raise it. |
 | DEC-089 | **`plot()` takes an explicit `{low, high}`: two lines being compared may not each scale to themselves.** Right for a price chart, and it can draw the loser above the winner here. |
 | DEC-091 | **A cached row is keyed by the source that wrote it, and a response's `source` is the row's, not the config's.** Fixture prices answered live requests inside TTL, labelled `live`. |
+| DEC-092 | **Upstream is paced at the documented 5/min by declining, never sleeping: a call too soon is a refusal to refresh, not a wait.** One worker — a 12s sleep stalls the page. |
 
 ---
 

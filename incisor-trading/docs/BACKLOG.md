@@ -306,22 +306,6 @@ old numbers. Nothing else moved.
   vhost change, both on the server (hard rule 5), and `assets/` is outside
   `incisor-trading/` (hard rule 1). **Key's, whenever he wants it.**
 
-- [ ] **D17 · Upstream calls are not paced, so a cold cache spends the day's
-  quota on throttled replies** `[defect]` *(found 2026-09-13, first hour of live
-  data; journal evidence in `PROGRESS.md`)* — the daily budget is enforced with
-  care and the **per-second limit is not enforced at all**: four `/history`
-  calls went out in eight milliseconds against a documented ceiling of one per
-  second, drew Alpha Vantage's throttle notice, and a throttled reply still
-  costs a call. A cold page needs ~15 calls (4 tiles, 11 sector funds), which
-  fits inside 25 *if spaced* and does not if burst. This one spent the day in
-  under two minutes. Decide alongside it whether the sector grid should cost
-  eleven of twenty-two — half the day for one surface.
-  *Accept:* a single-flight pacer serialises upstream calls at no more than one
-  per second and nothing bypasses it; a throttle is recognised as a throttle
-  rather than a generic failure and does not trigger an immediate retry; a
-  cold-start test asserts filling every surface stays inside both the budget and
-  the rate.
-
 - [ ] **D3 · A tile shows a symbol and cannot open it** `[enhancement]`
   *(found 2026-08-29, in the T6 audit; widened 2026-08-30)* — **now two
   surfaces:** T9's watchlist rows have exactly the same problem, and it is
@@ -387,3 +371,4 @@ session that must *act* on any of this goes.
 | T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-089, DEC-090 |
 | T26b | 09-12 | **Deploy rehearsal: the code ran where it will run, and it found a hole in two commands.** Service installed, enabled, running in fixture mode; all five routes answer through Apache; `/health` correctly unreachable from outside. → D14, D15 |
 | D16 | 09-15 | **A cached row did not record what wrote it, so fixture prices were served under a `live` label** *(defect, fixed)* — source is part of the key now, and a response reports the row's provenance, not the config's. → DEC-091 |
+| D17 | 09-15 | **Upstream calls were not paced, so a cold cache spent the day on throttled replies** *(defect, fixed)* — 12s apart, by declining rather than sleeping; the grid keeps its eleven funds. → DEC-092 |

@@ -2184,3 +2184,57 @@ is a cached payload whose provenance is exactly what is unknown.
 budget is counted from, and resetting it would let twenty-two calls be spent
 twice in a day. The rebuild costs one cold start, which is what deleting the
 database on the box already cost on 09-13.
+
+---
+
+## DEC-092 — Upstream is paced by declining, not by waiting
+
+*Settled · 09-15 · D17*
+
+**Decision**
+
+**Alpha Vantage calls are spaced at least twelve seconds apart — the
+documented five a minute — and a call that would come too soon is simply not
+permitted.** It lands in the path an exhausted budget already uses: serve
+what is cached and flag it stale, or raise `Unavailable` if nothing is held.
+**Nothing sleeps.** A throttled reply (`rate_limited`) or an exhausted-quota
+reply (`quota_exhausted`) shuts the slot for a further minute; nothing
+retries. EDGAR is not paced — ten a second against at most two per request.
+
+**Why spacing rather than a window.** Five-per-sixty-seconds would have
+*permitted* the burst that caused this: four calls is fewer than five, and it
+drew the throttle notice anyway. So the burst is what upstream objects to,
+and spacing is the thing that answers it. Twelve seconds also cannot exceed
+the window, so the strict reading costs nothing and proves more.
+
+**Why declining rather than sleeping.** The obvious pacer waits for its slot.
+That is wrong here: the service runs a single worker on purpose, so a
+twelve-second sleep inside a request is twelve seconds in which the whole
+page is unanswerable, and a cold cache needs about fifteen calls — three
+minutes of it. Declining costs nothing, reuses a degradation path that
+already exists and is already tested, and fills the dashboard over the next
+few page loads instead of hanging on one. A cold start is therefore about
+three minutes of *filling*, not three minutes of *blocking*.
+
+**The reservation is taken at the check**, so a call that then fails has
+still spent its slot. That is the truth of the thing — a throttled reply
+costs exactly what a good one costs — and the alternative walks straight back
+into the limit.
+
+**And the sector grid keeps its eleven funds.** The defect asked whether one
+surface should cost half a day. It does not: `collect.SECTOR_MAX_AGE_SEC`
+reads the series at a week rather than a day, so eleven funds amortise to
+about 1.6 calls a day, and the expensive day is the one where they lapse
+together. That day is now survivable rather than self-inflicted — the eleven
+cannot burst, they refill one call at a time across page loads, and eleven
+plus four tiles still leaves seven of twenty-two for lookups. Cutting the
+grid would damage a working surface to solve a problem pacing already
+solved. Revisit only if the lapse day is observed to starve lookups in
+practice; deliberate per-fund stagger is the lever, not fewer funds.
+
+**A knock-on worth knowing.** `collect.SECTOR_REFRESH_PER_REQUEST` is 2 and
+no longer binds in live mode: the pacer permits one call per twelve seconds,
+so a request that completes in milliseconds gets one. The cap is now a
+ceiling above what actually binds. It is kept rather than deleted because it
+bounds the loop's attempts independently of the rate, and `test_sectors.py`
+asserts both — if that test ever reads two again, pacing is not running.

@@ -8,9 +8,9 @@ two things that keep the project alive happen: the cache that stops a page
 refresh costing a call, and the budget that stops us spending a day's quota in
 a minute.
 
-The free tier is **25 requests per day** (docs/DATA-PROVIDER.md). That number,
-not the licence, is what shapes the dashboard, so the guard around it is
-deliberately conservative:
+The free tier is **25 requests per day, and 5 per minute**
+(docs/DATA-PROVIDER.md). The daily figure is what shapes the dashboard, so the
+guard around it is deliberately conservative:
 
 1. A fresh cache entry is served without asking anyone.
 2. A stale entry with budget left is refreshed.
@@ -19,6 +19,11 @@ deliberately conservative:
    and quota exhaustion is treated as a denial-of-service condition to be
    absorbed rather than passed on (guide section 5).
 4. Nothing cached and no budget is the only case that fails.
+
+The per-minute limit is enforced by the same mechanism from the other end: a
+call that would come too soon after the last one is simply not permitted, and
+lands in case 2 or 3 above rather than going out and being throttled (D17).
+Nothing sleeps; see Pacer.
 
 Per-symbol locking means concurrent requests for the same symbol produce one
 call, not one per thread. The service runs a single worker precisely so this
@@ -40,6 +45,7 @@ costs — flipping to live starts from nothing, which is ~15 calls of the day's
 
 import datetime
 import threading
+import time
 
 import edgar
 import provider
@@ -68,6 +74,33 @@ TTL_SECONDS = {
 # dashboard's own proxies unrefreshed tomorrow morning.
 DAILY_CALL_BUDGET = 22
 
+# The *other* documented limit, and the one nothing enforced until D17.
+# Alpha Vantage allows 25 requests a day **and 5 a minute**
+# (docs/DATA-PROVIDER.md). The daily figure shapes the product and has a
+# table, a counter and a reserve around it; the per-minute figure had nothing,
+# so on 09-13 four /history calls left in eight milliseconds, drew the
+# throttle notice, and spent four of the day's calls on replies carrying no
+# data — a throttled reply costs exactly what a good one costs.
+#
+# Enforced as a minimum spacing rather than a five-per-sixty-seconds window,
+# deliberately. A window would have permitted that burst — four is fewer than
+# five — and it drew a throttle anyway, so the burst is what upstream objects
+# to and spacing is what answers it. Twelve seconds is the documented rate
+# expressed the strict way, and it cannot exceed the window either.
+#
+# Only the rationed upstream is paced. EDGAR allows ten requests a second and
+# this page makes at most two per request, so it is three orders of magnitude
+# from its limit and a gate there would be ceremony (guide section 4's
+# proportionality, applied to rate rather than security).
+UPSTREAM_MIN_INTERVAL_SEC = {
+    source.ALPHA_VANTAGE: 60.0 / 5,
+}
+
+# How long a throttle notice buys upstream. It has just told us we are asking
+# too often, which is better information than our own clock, and the honest
+# reading is that our spacing was not enough rather than that it was unlucky.
+THROTTLE_BACKOFF_SEC = 60.0
+
 # How much daily history is kept and served. Upstream is asked for the `full`
 # series because nothing shorter covers a 52-week range, and that runs to
 # twenty-odd years — a payload worth receiving once and not worth storing per
@@ -77,6 +110,68 @@ MAX_DAILY_BARS = 5 * 252
 
 _locks = {}
 _locks_guard = threading.Lock()
+
+
+class Pacer:
+    """One upstream's earliest next call. In-process, like the locks.
+
+    **It declines rather than waits.** Sleeping until the slot opens would be
+    the obvious version and is the wrong one here: the service runs a single
+    worker on purpose (incisor-trading.service), so a twelve-second sleep
+    inside a request is twelve seconds during which the whole page is
+    unanswerable — and a cold cache needs about fifteen calls, which is three
+    minutes of that. Declining costs nothing and lands in a path that already
+    exists and is already tested: a refusal to refresh is served from cache
+    and flagged stale, exactly as an exhausted budget is (see get()). The
+    dashboard fills over the next few page loads instead of hanging on one.
+
+    `reserve()` takes the slot as it checks, so a call that then fails still
+    spent it. That is the truth of the thing — a throttled reply costs the
+    same as a good one — and the alternative retries straight into the limit.
+    """
+
+    def __init__(self, min_interval):
+        self.min_interval = min_interval
+        self._guard = threading.Lock()
+        self._next_allowed = 0.0
+
+    def reserve(self):
+        """Take the next slot if it is open. True if the caller may call."""
+        with self._guard:
+            now = time.monotonic()
+            if now < self._next_allowed:
+                return False
+            self._next_allowed = now + self.min_interval
+            return True
+
+    def back_off(self, seconds):
+        """Hold off at least this long — upstream said we are too fast."""
+        with self._guard:
+            self._next_allowed = max(self._next_allowed,
+                                     time.monotonic() + seconds)
+
+    def reset(self):
+        with self._guard:
+            self._next_allowed = 0.0
+
+
+_pacers = {upstream: Pacer(interval)
+           for upstream, interval in UPSTREAM_MIN_INTERVAL_SEC.items()}
+
+
+def _pacer_for(endpoint):
+    """The pacer guarding this endpoint's upstream, or None if it has none."""
+    return _pacers.get(source.UPSTREAM_OF.get(endpoint))
+
+
+def may_call_now(endpoint):
+    """Whether an upstream call for this endpoint may go out, taking the slot.
+
+    Side-effecting on purpose — see Pacer.reserve. Call it only where the call
+    is otherwise going to be made.
+    """
+    pacer = _pacer_for(endpoint)
+    return True if pacer is None else pacer.reserve()
 
 # endpoint -> how to read it from the cache, write it back, and parse it.
 # Named rather than positional so the call sites read as English.
@@ -223,6 +318,16 @@ def _refresh(endpoint, symbol, data_source, api_key, edgar_contact):
         status = 'ok'
     except provider.ProviderError as exc:
         status = exc.reason
+        # A throttle is upstream telling us our spacing is not enough, which
+        # is better information than our own clock. Both of its refusals are
+        # treated the same way here: hold the slot shut for a while rather
+        # than letting the next request walk straight back into the limit.
+        # Nothing retries — the caller serves what it has and flags it stale
+        # (see get) — so this only decides when the *next* attempt may go.
+        if exc.reason in ('rate_limited', 'quota_exhausted'):
+            pacer = _pacer_for(endpoint)
+            if pacer is not None:
+                pacer.back_off(THROTTLE_BACKOFF_SEC)
         raise
     finally:
         # Logged even on failure: a call that errored still spent quota, and a
@@ -283,8 +388,15 @@ def get(endpoint, symbol, data_source, api_key='', max_age=None,
             return cached, _meta(True, False, fetched_at, data_source)
 
         # Fixture reads are local file reads. They cost no quota and must not
-        # be able to exhaust a budget that exists to ration network calls.
-        if not allow_refresh or (data_source == 'live' and budget_remaining() <= 0):
+        # be able to exhaust a budget that exists to ration network calls, nor
+        # be paced against a per-minute limit they do not consume.
+        #
+        # Order matters: may_call_now() takes the slot as it answers, so it is
+        # asked last and only when everything else would have permitted the
+        # call. `or` short-circuits, which is what keeps that true.
+        if (not allow_refresh
+                or (data_source == 'live' and budget_remaining() <= 0)
+                or (data_source == 'live' and not may_call_now(endpoint))):
             if cached is not None:
                 return cached, _meta(True, True, fetched_at, data_source)
             raise Unavailable(
@@ -319,6 +431,8 @@ def get_fundamentals(symbol, data_source, edgar_contact=''):
 
 
 def reset_locks():
-    """Drop the per-symbol locks. For tests only."""
+    """Drop the per-symbol locks and open every pacer. For tests only."""
     with _locks_guard:
         _locks.clear()
+    for pacer in _pacers.values():
+        pacer.reset()
