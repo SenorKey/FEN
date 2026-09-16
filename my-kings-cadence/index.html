@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This page deliberately does not load /assets/css/styles.css. The shared
+         shell pins the body to 100vh with overflow hidden for the golden-ratio
+         layout; this is a scrolling reference page whose tables and week list
+         run well past one screen. The nav, skip link and design tokens are
+         ported into my-kings-cadence.css so the page still reads as part of
+         the site. Same precedent as /doe-v-bonnell/ and /preside-by-side/. -->
+    <link rel="stylesheet" href="/my-kings-cadence/my-kings-cadence.css">
+
+    <!-- Bodoni Moda takes the masthead and the week label — a Didone is the
+         only thing that carries a name with "King's" in it without irony.
+         Inter does everything else: this page is mostly numbers in columns,
+         and Inter's tabular figures keep those columns from twitching when
+         live scores refresh underneath them. One request for both. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,700;1,6..96,700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Logos and data both come from ESPN's public endpoints. Warming the
+         connections here saves a round trip on first paint. -->
+    <link rel="preconnect" href="https://site.api.espn.com">
+    <link rel="dns-prefetch" href="https://a.espncdn.com">
+
+    <meta name="description"
+        content="My King's Cadence — NFL schedules, scores and standings at a glance. This week's slate in your own time zone, any team's season, and the AFC and NFC standings.">
+    <link rel="canonical" href="https://frontendneeded.com/my-kings-cadence/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/my-kings-cadence/">
+    <meta property="og:title" content="My King's Cadence">
+    <meta property="og:description"
+        content="NFL schedules, scores and standings at a glance — this week's slate in your own time zone, any team's season, and the conference standings.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>My King's Cadence — NFL Schedules &amp; Standings</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/my-kings-cadence" class="active">My King&rsquo;s Cadence</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════
+         Hash rail
+
+         A sideline down each outer margin, drifting past at a
+         fraction of the scroll so the page reads as a slate laid
+         on a field rather than a page with a border. Pure CSS
+         pattern, no images; the script only translates it.
+
+         Inert and decorative: aria-hidden, unselectable, and
+         transparent to the pointer. It is hidden outright below
+         1180px, where there is no margin left to put it in.
+         ═══════════════════════════════════════════════ -->
+    <div class="hashrail" aria-hidden="true">
+        <div class="hr-col hr-left">
+            <div class="hr-strip"></div>
+        </div>
+        <div class="hr-col hr-right">
+            <div class="hr-strip"></div>
+        </div>
+    </div>
+
+    <main id="main-content" class="shell">
+
+        <!-- ═══════════════════════════════════════════════
+             MASTHEAD
+
+             The mark is five ticks over a baseline. Read as a
+             silhouette it is a crown; read left to right it is a
+             count — the same figure the week rail repeats below.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead">
+            <svg class="crown" viewBox="0 0 46 32" fill="currentColor" aria-hidden="true" focusable="false">
+                <rect x="3" y="11" width="4" height="16" rx="1" />
+                <rect x="12" y="18" width="4" height="9" rx="1" />
+                <rect x="21" y="5" width="4" height="22" rx="1" />
+                <rect x="30" y="18" width="4" height="9" rx="1" />
+                <rect x="39" y="11" width="4" height="16" rx="1" />
+                <rect x="2" y="28" width="42" height="3" rx="1.5" />
+            </svg>
+
+            <h1 class="wordmark">My <span class="kings">King&rsquo;s</span> Cadence</h1>
+            <p class="tagline">NFL schedules &middot; scores &middot; standings</p>
+
+            <!-- Season selector. It sits above the tabs because it governs
+                 all three of them: stepping back a year re-reads the week
+                 slate, the team seasons and the tables together. -->
+            <div class="seasonbar">
+                <button type="button" class="season-step" data-season="-1"
+                    aria-label="Previous season">&#8249;</button>
+                <span class="season-label" id="season-label">&nbsp;</span>
+                <button type="button" class="season-step" data-season="1"
+                    aria-label="Next season">&#8250;</button>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             TABS
+             ═══════════════════════════════════════════════ -->
+        <div class="tabs" role="tablist" aria-label="Views">
+            <button class="tab" role="tab" id="tab-week" aria-controls="stage" aria-selected="true"
+                data-view="week">Week</button>
+            <button class="tab" role="tab" id="tab-teams" aria-controls="stage" aria-selected="false"
+                data-view="teams">Teams</button>
+            <button class="tab" role="tab" id="tab-standings" aria-controls="stage" aria-selected="false"
+                data-view="standings">Standings</button>
+        </div>
+
+        <!-- Every view renders into this one panel. It is deliberately NOT a
+             live region: it holds sixteen games, and re-announcing all of it
+             on every week flip and every 30-second score refresh would talk
+             over the reader. The status line below carries the summary. -->
+        <p id="announce" class="sr-only" role="status" aria-live="polite"></p>
+
+        <div id="stage" role="tabpanel" aria-labelledby="tab-week" aria-busy="true">
+            <div class="count" role="status" aria-label="Loading">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <noscript>
+            <div class="state">
+                <p class="state-title">This one needs JavaScript</p>
+                <p>Every score and table on this page is fetched live when you open it, so there
+                    is nothing to show without scripts enabled.</p>
+            </div>
+        </noscript>
+
+        <!-- ═══════════════════════════════════════════════
+             COLOPHON
+             ═══════════════════════════════════════════════ -->
+        <footer class="colophon">
+            <p>Schedules, scores and standings from ESPN&rsquo;s public endpoints, read straight from the browser
+                &mdash; no key, no server, no account. Responses are cached in this tab for the length of your
+                visit and go nowhere else. Kickoffs are converted to your device&rsquo;s own time zone.</p>
+            <p>Named for the hardest count in football. &mdash; <a href="/">frontendneeded.com</a></p>
+        </footer>
+
+    </main>
+
+    <script src="/my-kings-cadence/my-kings-cadence.js"></script>
+</body>
+
+</html>

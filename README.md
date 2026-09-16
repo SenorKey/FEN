@@ -33,6 +33,11 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/doe-v-bonnell/` — Side-by-side reading of both sides of *Doe v. Bonnell II*, built from the
   full public docket. Standalone page: it does not load the shared stylesheet, since the
   golden-ratio shell pins the body to 100vh and this is a scrolling document
+- `/my-kings-cadence/` — NFL schedules, scores and standings: the current week's slate in the
+  reader's own time zone, any team's season, and the AFC/NFC tables. Any season back to 2002
+  (the first year of the current eight-division shape) can be browsed with the season
+  selector. Reads ESPN's public keyless endpoints straight from the browser, so there is
+  nothing to host and nothing to rotate. Standalone page, same reason as `/doe-v-bonnell/`
 
 **Hidden / unlisted** (excluded from sitemap and disallowed in robots.txt):
 
