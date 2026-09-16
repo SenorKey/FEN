@@ -1206,8 +1206,8 @@
    HASH RAIL — the parallax
 
    Both sidelines are translated at the same fraction of the
-   scroll, so the field drifts past slower than the slate on
-   top of it. One rate for both: a football field is one
+   scroll, so the field drifts past far slower than the slate
+   on top of it. One rate for both: a football field is one
    object, and running the two edges at different speeds
    would read as a bug rather than as depth.
 
@@ -1230,7 +1230,13 @@
     var strips = Array.prototype.slice.call(layer.querySelectorAll('.hr-strip'));
     if (!strips.length) { return; }
 
-    var RATE = 0.38;   /* share of the scroll the field travels */
+    /* Share of the scroll the field travels. Lower is deeper: at 1 the
+       sidelines would ride along with the page and there would be no
+       parallax at all, at 0 they would be nailed to the viewport. 0.16
+       means the field drifts at about a sixth of the reader's pace, so
+       the slate clearly moves over it rather than with it. This is the
+       one number to change if the effect wants more or less depth. */
+    var RATE = 0.16;
     var PERIOD = 80;   /* px between five-yard ticks — must match the CSS */
 
     var slow = window.matchMedia('(prefers-reduced-motion: reduce)');
