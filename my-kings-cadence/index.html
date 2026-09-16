@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Unlisted: not in the projects dropdown, not in the sitemap. Kept out
+         of robots.txt on purpose — a Disallow stops a crawler reading this
+         very tag, and a disallowed URL can still be indexed bare if anyone
+         links it. noindex is the thing that actually keeps it out of results,
+         and it only works if crawlers are allowed in to see it. Same
+         arrangement as /match-analysis/. -->
+    <meta name="robots" content="noindex,nofollow">
+
     <!-- This page deliberately does not load /assets/css/styles.css. The shared
          shell pins the body to 100vh with overflow hidden for the golden-ratio
          layout; this is a scrolling reference page whose tables and week list
@@ -65,7 +73,6 @@
             <div class="nav-dropdown-menu">
                 <a href="/match-analysis-ad">Match Analysis</a>
                 <a href="/preside-by-side-ad">Preside by Side</a>
-                <a href="/my-kings-cadence" class="active">My King&rsquo;s Cadence</a>
                 <a href="/wfpc">WF Price Checker</a>
                 <a href="/tarella-notes">Tarella Notes</a>
             </div>
