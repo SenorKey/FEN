@@ -222,9 +222,8 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Due now**, oldest first: **Order ticket and open orders** (T15), shipped
-09-11; then **Holdings, trade log and equity curve** (T16), shipped 09-12. T16's
-audit should check its gain column at exactly zero — the `▬` misread DEC-093
+**Due now:** **Holdings, trade log and equity curve** (T16), shipped 09-12. Its
+audit should check the gain column at exactly zero — the `▬` misread DEC-093
 fixed in the summary.
 
 | Date | Feature | Verdict | The finding, in one line |
@@ -238,6 +237,7 @@ fixed in the summary.
 | 09-02 | **Fundamentals panel** (T11) | Minor edits | Fifteen of seventeen symbols are funds, and the fund state answered with one number under a fuller promise. |
 | 09-07 | **Reporting calendar** (T12) | Minor edits | At 375px a 0.26 dividend read "0.2": the table was 18px over its box, and a body that never overflows hid it. |
 | 09-16 | **Portfolio summary** (T14) | Minor edits | A fresh portfolio read "−$0.00" three times: the flat bar sits where a minus goes. And "1 open order" sat above two. |
+| 09-16 | **Order ticket and open orders** (T15) | Minor edits | It said the rule before the button, then left the reader to find the refusal after it. Sample fills were promised. |
 
 ## Discovered
 
@@ -251,6 +251,11 @@ of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
 second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
+
+- [ ] **D20 · `shoot.py` cannot reach a filled-in order ticket** `[enhancement]`
+  *(2026-09-16, T15 audit)* — every state worth judging comes after typing, so
+  that audit used a scratchpad driver. *Accept:* a flag types an order, and
+  optionally places it, before the shot.
 
 - [ ] **D18 · The Trade tab's surfaces redraw only when a settlement lands**
   `[enhancement]` *(2026-09-12)* — `js/view-portfolio.js` notifies its

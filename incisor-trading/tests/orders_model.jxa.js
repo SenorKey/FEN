@@ -398,6 +398,8 @@ function run(argv) {
     check('the timing line names the next price, not the one on screen',
         /^Fills at the next price after you place it: the (open|close), /.test(
             t.text('inc-ticket-timing')));
+    equal('with no close on screen it points at none',
+        t.text('inc-ticket-timing').indexOf('shown above'), -1);
     equal('no open orders yet', t.text('inc-orders-empty'), 'No open orders.');
 
     t.type('symbol', 'spy ');
@@ -405,6 +407,9 @@ function run(argv) {
     same('and looked up once', t.asked.filter(function (s) { return s === 'SPY'; }), ['SPY']);
     equal('its last close is stated with where it came from', t.text('inc-ticket-quote'),
         'SPY last closed at $95.00 on 26 Aug 2026 · sample data, not a real quote.');
+    check('once a close is shown the timing line points at it, and says sample stays open',
+        /shown above\. Sample prices never move forward, so here it will stay open\.$/.test(
+            t.text('inc-ticket-timing')));
 
     t.type('shares', '10');
     equal('a market buy states its cost and what it holds back', t.text('inc-ticket-cost'),
@@ -414,9 +419,11 @@ function run(argv) {
 
     t.submit();
     equal('placing it opens one order', t.store().orders().length, 1);
-    check('and says what it did, in the reader’s words',
-        /^Order placed: buy 10 SPY at market\. It fills at the (open|close), /.test(
-            t.text('inc-ticket-message')));
+    check('and says what it did, in the reader’s words, without promising a sample fill',
+        /^Order placed: buy 10 SPY at market\. Sample prices never reach the (open|close), /
+            .test(t.text('inc-ticket-message'))
+            && /, so it stays open\.$/.test(t.text('inc-ticket-message')),
+        t.text('inc-ticket-message'));
     equal('the order is listed', t.list.querySelectorAll('.inc-order').length, 1);
     equal('as the reader placed it', t.text('inc-order-what'), 'Buy 10 SPY');
     var cancel = t.q('[data-order-cancel]');
@@ -450,6 +457,9 @@ function run(argv) {
         'Enter a whole number of shares, 1 or more.');
 
     t.type('shares', '2000');
+    check('an order past the cash is called refused before it is placed',
+        /Free to spend: \$100,000\.00 — not enough for this order, so it would be refused\.$/
+            .test(t.text('inc-ticket-cost')), t.text('inc-ticket-cost'));
     t.submit();
     equal('an order past the cash says what it holds back and what is free',
         t.text('inc-ticket-message'), 'Not enough cash. This order holds back $199,500.00 '
@@ -483,6 +493,41 @@ function run(argv) {
     equal('and the ticket says what filled, and at which price',
         back.text('inc-orders-outcome'), 'Filled: bought 20 SPY at $99.00 at the 26 Aug open.');
     equal('the fill is in the portfolio', back.store().state().positions.SPY.shares, 20);
+
+    back.press('[data-ticket-side="sell"]');
+    back.type('symbol', 'SPY');
+    back.type('shares', '5');
+    equal('a sell states what it would raise and what is free to sell',
+        back.text('inc-ticket-cost'), 'About $475.00 at the last close. Free to sell: 20 SPY.');
+    back.type('shares', '30');
+    equal('and a sell past the holding is called refused before it is placed',
+        back.text('inc-ticket-cost'), 'About $2,850.00 at the last close. Free to sell: 20 SPY'
+        + ' — not enough for this order, so it would be refused.');
+    back.press('[data-ticket-type="limit"]');
+    back.type('limit', '120');
+    equal('a limit sell is priced at its limit', back.text('inc-ticket-cost').indexOf(
+        'At least $3,600.00 at your limit. '), 0);
+
+    /* An order due at a close the sample series will never reach: the row may
+     * not say the price is on its way while the note under it says it is not. */
+    var stranded = memoryStorage();
+    storage.open(stranded).place(draft({ symbol: 'SPY', placedAt: '2026-09-11T14:05:00.000Z' }));
+    var waiting = mount(stranded, { SPY: SPY });
+    equal('a due sample order does not wait for a price that is not coming',
+        waiting.text('inc-order-when'),
+        'Due at the 11 Sep close, later than the last sample price');
+
+    var LIVE = { symbol: 'SPY', source: 'live', delay: 'end-of-day', stale: false, bars: BARS };
+    var live = mount(memoryStorage(), { SPY: LIVE });
+    live.type('symbol', 'SPY');
+    equal('live data adds no sample caveat', live.text('inc-ticket-timing').indexOf('Sample'), -1);
+    live.type('shares', '10');
+    live.submit();
+    check('and a live order is told when it fills',
+        /^Order placed: buy 10 SPY at market\. It fills at the (open|close), /.test(
+            live.text('inc-ticket-message')), live.text('inc-ticket-message'));
+    live.list.fire('click', { target: live.q('[data-order-cancel]') });
+    equal('the live order cancels too', live.store().orders().length, 0);
 
     var lonely = new El('div', { 'data-ticket': '' });
     try {

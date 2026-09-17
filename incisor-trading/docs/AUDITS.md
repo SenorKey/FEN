@@ -342,3 +342,52 @@ the ledger fills orders from, so valuing and settling share one payload
 needing every price dash until then, and with the service down they stay
 dashed and the line under the card says how many positions could not be
 priced.
+
+## 09-16 — Order ticket and open orders (T15)
+
+*Verdict: minor edits.*
+
+Judged from `shoot.py --api --tab trade` at every width, fresh and
+`--portfolio held`, plus held with no service. The ticket is a form, and every
+state worth judging comes after typing, so those were reached with a scratchpad
+driver built on `shoot.py`'s own server, proxy and storage seeds: a market and
+a limit review, a sell past the holding, a buy past the cash, a placed order, a
+symbol with no prices, and a cancel — each at 1440 and at 390 emulated. No
+`shoot.py` flag reaches them; that is filed as `D20`.
+
+**Useful.** Yes — it is the only way the game changes, and the part that
+teaches the rule this game exists for. The review names the price an order
+*will* take ("the open, 9:30am ET — not the last close shown above") before
+the button, and a market buy says what it holds back and why: the last close
+plus 5%, because the fill price is not yet known. The held shot's list shows
+the rule working: a limit buy "open until its limit is reached", a market sell
+due at a close, and a fill reported on load.
+
+**Easy.** It said the rule before the button and then did not say the result.
+**A buy of 500 SPY showed "$385,035.58 is held back … Free to spend:
+$100,000.00"** and left the comparison to the reader; the refusal came only
+after pressing. A sell of 50 against 25 held was the same. The module's own
+header promises the reader meets the rule "before the button is pressed rather
+than in a refusal afterwards", so both now end "— not enough for this order, so
+it would be refused." A sell also read "About $36,670.06 before it fills",
+which does not say what the figure is; it reads "at the last close" or "at your
+limit" now, like a buy. Three lines contradicted the sample note beside them:
+**"Order placed … It fills at the open"** directly under "here it will stay
+open"; a stranded market order "waiting for that price to be published" above
+a note saying no later price will arrive; and before any lookup, the timing
+line pointed at "the last close shown above" with no close shown, and gave no
+sample caveat though the portfolio had already priced sample data. All four
+fixed. Keyboard: real buttons with `aria-pressed`, labelled inputs, a visible
+focus ring. At 390 every field is full width and Cancel is 44px tall.
+
+**Beautiful.** It holds up beside the summary above it: the one filled button
+on the page, figures in the mono face, the three review lines as prose at a
+72ch measure. Looked at and left: at 390 "25 SPY" can break across a line;
+the "Filled:" reply sits under the *Open orders* heading, which is where the
+order was when the reader last saw it; and a symbol with no prices still shows
+the timing line, which is true and short.
+
+**Performing.** One `/history` per symbol traded, cached for the page load, so
+editing the quantity asks nothing; the catalogue is fetched on first focus of
+the symbol field and costs no quota. The list itself asks for nothing — it
+redraws from the store. Nothing here blocks the summary above it.

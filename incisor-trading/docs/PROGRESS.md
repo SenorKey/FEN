@@ -4533,3 +4533,42 @@ page-wide alert style, used on four other surfaces.
 
 **Next session:** the T15 audit (order ticket and open orders), then T16's.
 T13c waits behind both. `DECISIONS.md` is 14,097 of 14,500.
+
+## 2026-09-16 — T15 audit: the ticket says "refused" before the button, not after
+**Outcome:** shipped — Order ticket and open orders (T15) audited, minor edits
+**Changed:** `js/view-ticket.js`, `js/view-orders.js`,
+`tests/orders_model.jxa.js`, `AUDITS.md`, `BACKLOG.md`, `DECISIONS.md`,
+`DECISIONS-DETAIL.md`
+**Verified:** 245 page tests and 244 service tests green; the runner's 127
+checks pass, and the seven new ones fail against the old views. `shoot.py --api
+--tab trade` clean at every width, fresh and `--portfolio held`, before and
+after; held with no service before. Seven ticket states at 1440 and 390, before
+and after (local sets `audit-t15-*` and the scratchpad, not committed).
+**Notes:** one audit, which §14 makes the whole session.
+
+Step 1 passed: Key's checkout had no changed tracked file. All work in a
+scratchpad worktree, with `.devtools` reached by a symlink never staged, and a
+fixture-mode service on 8789 started for the session and stopped at its end.
+
+Step 4 order: the only open defect is still `D19`, the beacon 404, which is
+Key's. T15 was the oldest due surface.
+
+**The finding: the ticket told the rule, then kept the result back.** A buy
+past the cash listed "$385,035.58 is held back" and "Free to spend:
+$100,000.00" and let the reader work it out; the refusal only came after
+pressing. Same for a sell past the holding. Both review lines now end "not
+enough for this order, so it would be refused."
+
+**And on sample data it promised fills.** "Order placed … It fills at the
+open" sat right under "here it will stay open". A stranded order was "waiting
+for that price to be published" above a note saying no price will arrive. With
+no symbol looked up, the timing line pointed at "the last close shown above"
+with nothing shown. All fixed; the rule behind them is DEC-094, since T17 and
+T24 will also talk about an order's future.
+
+`shoot.py` cannot type into the ticket, so the interactive states came from a
+scratchpad driver on its server and seeds. Filed as `D20` rather than built
+into the audit.
+
+**Next session:** the T16 audit (holdings, trade log, equity curve), then T13c.
+`DECISIONS.md` is 14,271 of 14,500, room for about one entry — an S6 is close.

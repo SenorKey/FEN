@@ -2265,3 +2265,31 @@ and a percentage reads less like a signed balance. The positions table
 (`js/view-positions.js`) has the same pattern on a per-row dollar gain; its
 own audit (T16, queued) is where that gets judged from images. A session
 adding a new dollar figure should not reach for `▬` on zero.
+
+## DEC-094 — Sample data promises no fill
+
+*Settled · 09-16 · T15 audit*
+
+**Decision**
+
+**While the page is on sample prices, no sentence on a trading surface may say
+an order fills, is checked from a coming price, or is waiting for one to be
+published.** The fixture series ends on a fixed date and never advances, so an
+order placed after it can never fill. The open-orders list already said so in
+a note, and the T15 audit found three lines contradicting it within a screen:
+the ticket's confirmation ("It fills at the open"), a stranded market order's
+row ("waiting for that price to be published"), and a timing line that gave no
+caveat until a symbol had been looked up.
+
+**How it is told.** A payload's `source` is the authority (DEC-091): the ticket
+reads the symbol it looked up, and with none looked up falls back to
+`IncisorPortfolio.isSample()`, which is set by any fixture payload the Trade
+tab has priced. The rule itself — the next open or close — is still stated,
+because it is what the game teaches; only the promise that it will arrive is
+withheld.
+
+**Why shared memory rather than a comment.** It binds every surface that speaks
+about an order's future — the ticket, the list, and T17 and T24 when they
+land. A session building one on fixtures would otherwise write "fills at"
+again. Replay (T20) is different: it advances its own series, so its orders
+really do fill.

@@ -39,6 +39,11 @@
 
     var SYMBOL_PATTERN = /^[A-Z][A-Z.\-]{0,9}$/;
 
+    /* Said in the review, before the button, rather than only in the refusal
+     * after it: the reader should not have to compare two figures to learn
+     * that pressing will do nothing. */
+    var WOULD_BE_REFUSED = ' — not enough for this order, so it would be refused.';
+
     /* symbol -> promise of {close, date, source}. Kept for the page load so
      * editing the quantity never asks again. A failed lookup is dropped, so
      * trying the same symbol a second time really does try again. */
@@ -231,10 +236,12 @@
         var free = store.available();
         if (order.kind === 'sell') {
             var holding = free.shares[order.symbol] || 0;
-            var price = order.type === 'limit' && order.limit ? order.limit : shown.close;
-            return (order.type === 'limit' ? 'At least ' : 'About ')
-                + money(ledgerMath.amountFor(order.shares, price)) + ' before it fills. '
-                + 'Free to sell: ' + holding + ' ' + order.symbol + '.';
+            var byLimit = order.type === 'limit' && order.limit;
+            return (byLimit ? 'At least ' : 'About ')
+                + money(ledgerMath.amountFor(order.shares, byLimit ? order.limit : shown.close))
+                + (byLimit ? ' at your limit. ' : ' at the last close. ')
+                + 'Free to sell: ' + holding + ' ' + order.symbol
+                + (holding < order.shares ? WOULD_BE_REFUSED : '.');
         }
         if (order.type === 'limit' && !order.limit) return '';
         var held = orderMath.heldBackFor({ kind: 'buy', shares: order.shares, type: order.type,
@@ -245,18 +252,27 @@
                 + ' at the last close. ' + money(held) + ' is held back until it fills '
                 + '— the last close plus 5%, since a market order’s price is '
                 + 'not known until then.';
-        return lead + ' Free to spend: ' + money(Math.max(free.cash, 0)) + '.';
+        return lead + ' Free to spend: ' + money(Math.max(free.cash, 0))
+            + (held > free.cash ? WOULD_BE_REFUSED : '.');
+    }
+
+    /* Whether an order placed now could ever fill. The symbol looked up
+     * answers it; with none looked up, what the portfolio has already priced. */
+    function onSample() {
+        if (shown && shown.source) return shown.source === 'fixture';
+        return portfolio.isSample();
     }
 
     function timingText() {
         var next = nextPriceNow();
         if (!next) return '';
+        var closeShown = shown && !shown.pending && !shown.error;
         var text = type === 'market'
             ? 'Fills at the next price after you place it: ' + next
-                + ' — not the last close shown above.'
+                + (closeShown ? ' — not the last close shown above.' : '.')
             : 'Checked against every price from ' + next
                 + ', until it fills or you cancel it.';
-        if (shown && shown.source === 'fixture') {
+        if (onSample()) {
             text += ' Sample prices never move forward, so here it will stay open.';
         }
         return text;
@@ -350,11 +366,20 @@
         return 'That order could not be placed. Check the symbol, shares and price.';
     }
 
-    function placedText(order) {
+    /* The line above it already says sample prices never move, so a reply
+     * promising a fill would contradict the sentence it sits under. */
+    function placedText(order, source) {
         var next = nextPriceNow();
+        var when;
+        if (source === 'fixture') {
+            when = 'Sample prices never reach ' + next + ', so it stays open.';
+        } else if (order.type === 'market') {
+            when = 'It fills at ' + next + '.';
+        } else {
+            when = 'It is checked from ' + next + ', until it fills or you cancel it.';
+        }
         return 'Order placed: ' + words.inSentence(order) + ' ' + words.termsOf(order) + '. '
-            + (order.type === 'market' ? 'It fills at ' + next + '.'
-                : 'It is checked from ' + next + ', until it fills or you cancel it.');
+            + when;
     }
 
     function place() {
@@ -382,7 +407,7 @@
                 say(refusalText(result.error, order));
                 return;
             }
-            say(placedText(result.order));
+            say(placedText(result.order, quote.source));
             nodes.shares.value = '';
             portfolio.changed();
         }, function (error) {

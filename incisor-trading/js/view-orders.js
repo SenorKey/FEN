@@ -85,16 +85,20 @@
     }
 
     /* A market order past its moment is waiting on data, not on the market:
-     * delayed bars publish a close some while after it happens. A limit order
-     * past its first chance may simply not have been reached, and nothing
-     * here can tell which, so it says only what is true of both. */
+     * delayed bars publish a close some while after it happens. Sample data
+     * never publishes it, and the note under the list says so — the row may
+     * not promise the price is coming. A limit order past its first chance
+     * may simply not have been reached, and nothing here can tell which, so
+     * it says only what is true of both. */
     function whenText(order) {
         var chance = firstChance(order);
         if (chance && !chance.due) {
             return (order.type === 'market' ? 'Fills at ' : 'Checked from ') + chance.label;
         }
         if (chance && order.type === 'market') {
-            return 'Due at ' + chance.label + '; waiting for that price to be published';
+            return 'Due at ' + chance.label + (portfolio.isSample()
+                ? ', later than the last sample price'
+                : '; waiting for that price to be published');
         }
         return 'Open until its limit is reached or you cancel it';
     }
