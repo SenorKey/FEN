@@ -4460,3 +4460,41 @@ Retiring the 09-12 claim that `main` has no `incisor-trading/`: it tracks all
 behind, and those three are site work outside this folder — no incisor work
 is duplicated or lost. The run began 09-15 and crossed midnight; this heading
 matches the commit date.
+
+## 2026-09-16 — Attended with Key: three skipped days, and a rule read before its fix
+**Outcome:** shipped — the routine's live prompt, guide rule 11 and `ROUTINE.md`
+now agree with DEC-081 and DEC-084
+**Changed:** the scheduled task's prompt (outside the repo), `AGENT-GUIDE.md`
+(hard rule 11), `ROUTINE.md` (Step 1, Step 3)
+**Verified:** on Key's checkout as it stands, the old check lists
+`?? doe-v-bonnell/.claude/` and stops; the new one lists nothing and proceeds.
+Both suites green.
+
+Sessions on 09-10, 09-12 and 09-16 skipped on `doe-v-bonnell/.claude/` — an
+untracked `serve.py` and `launch.json` dated 09-09 that nobody had touched in a
+week. Three days of work lost to two files that could never have been harmed.
+
+**This was not a dirty tree. It was a contradiction between four documents, read
+in the wrong order.** The routine had already solved it: DEC-081 moved all git
+work into a worktree after 09-08, when two sessions in one checkout put a commit
+on the wrong branch and an amend rewrote the other session's commit; DEC-084
+followed by making only *tracked* changes stop a session, because a worktree
+that never touches Key's checkout cannot lose anything untracked in it. Both are
+right. But the routine cannot edit the guide or its own prompt, so hard rule 11
+and the prompt's Step 1 kept saying stop on *any* change. And the prompt runs
+Step 1 **before** Step 2 reads `DECISIONS.md` — so the check that the decisions
+had already corrected fired every time, ahead of the correction.
+
+The 09-15 session read the decision and worked around the prompt, which is how
+D16 and D17 got fixed. The 09-16 session followed the prompt literally. Both
+were defensible readings of documents that disagreed, and that disagreement was
+the defect. Correct rules sitting where they are read too late are not rules.
+
+**Same shape as O6 and Discovered**, a fourth time: a directive filed somewhere
+the protocol reaches only after the moment it applies to. That one is mine to
+watch — the routine records the fix, and the fix only lands when someone who can
+edit the upstream documents carries it across.
+
+Also carried across: the prompt's Step 3 still said "take the topmost unblocked
+task", which has been wrong since defects and audits were put ahead of it.
+

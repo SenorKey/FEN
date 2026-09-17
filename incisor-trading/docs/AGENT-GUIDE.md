@@ -93,11 +93,18 @@ Absolute. Violating one is worse than shipping nothing that day.
     free, installs only inside `incisor-trading/` and is gitignored. The
     `.devtools` venv holding Playwright is the example. Shipped bytes are
     governed by this rule; the workbench is not.
-11. **Never touch Key's uncommitted work.** If the working tree is dirty at the
-    start of a session with changes outside `incisor-trading/`, stop immediately.
-    Do not stash, commit, check out over, or clean anything. Write a one-line
-    `PROGRESS.md` entry saying the tree was busy and end the session. A skipped
-    day costs nothing; losing his work costs a lot.
+11. **Work in your own worktree, and never touch Key's checkout.** Do all git
+    work — reads, edits, tests, commits, pushes — in a `git worktree` for
+    `incisor-dev` under the scratchpad, never in `/Users/keypanzarella/FEN`.
+    HEAD is one pointer per checkout, so two writers in one directory is how a
+    commit lands on the wrong branch; a clean-tree check only proves nobody was
+    working *when the session started* (DEC-081). Never stash, commit, check
+    out, clean or delete anything in Key's checkout. At the start of a session,
+    stop only if Key's checkout has a **changed tracked file** outside
+    `incisor-trading/` — that is Key mid-edit. **Untracked files do not count**:
+    the worktree never touches that checkout, so nothing untracked can be lost,
+    and a stray preview config skipped three days before this rule was fixed
+    (DEC-084).
 12. **Two strikes and the task is blocked.** If a backlog task has already been
     attempted in two sessions without completing, do not attempt it a third time.
     Mark it `[!]` with the reason, record the failed approaches in

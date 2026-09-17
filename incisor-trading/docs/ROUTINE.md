@@ -25,11 +25,21 @@ hidden, unfinished, and built one session at a time. You are building it.
 THE GUIDE IN THE REPO IS THE CONTRACT. These instructions only get you started.
 Never rely on them for rules — read the guide and follow it exactly.
 
-STEP 1 — CHECK THE TREE, BEFORE ANYTHING ELSE
-Run `git status`. If there are uncommitted changes outside incisor-trading/,
-STOP. Do not stash, commit, check out over, or clean anything — that is Key's
-work in progress. Append a one-line entry to incisor-trading/docs/PROGRESS.md
-saying the tree was busy, and end the session. A skipped day costs nothing.
+STEP 1 — YOUR OWN WORKTREE, BEFORE ANYTHING ELSE
+Never do git work in Key's checkout at /Users/keypanzarella/FEN. Other sessions
+and Key himself use it, and HEAD is one pointer per checkout: two writers in one
+directory is how a commit lands on the wrong branch (DEC-081). Fetch, then add a
+worktree for incisor-dev under your scratchpad, and do every read, edit, test,
+commit and push there.
+
+Then look at Key's checkout for CHANGED TRACKED files only:
+  git -C /Users/keypanzarella/FEN status --short --untracked-files=no
+If that lists a change outside incisor-trading/, Key is mid-edit: append a
+one-line PROGRESS.md entry from your worktree and end the session. Untracked
+files do not count — you never touch that checkout, so nothing in it can be
+lost (DEC-084). A stray preview config must never skip a day again.
+
+Never stash, commit, check out, clean or delete anything in Key's checkout.
 
 STEP 2 — READ, IN THIS ORDER
   1. incisor-trading/docs/AGENT-GUIDE.md   in full — rules, bounds, conventions
@@ -42,8 +52,8 @@ Then run `git log --oneline -20` and `git branch --list 'incisor-*'` to see the
 trajectory. Git shows what was kept; DECISIONS.md shows what was rejected and why.
 
 STEP 3 — WORK
-Follow the session protocol in guide §14. Take the topmost unblocked, unchecked
-backlog task. Before building, check DECISIONS.md for a dead end covering the
+Follow the session protocol in guide §14. Its step 4 sets the order: an open
+[defect] first, then a surface due an audit, then the topmost unblocked task. Before building, check DECISIONS.md for a dead end covering the
 approach you are about to take — if one is listed, choose differently.
 
 After any change to markup or CSS, run the visual check — it works unattended:
