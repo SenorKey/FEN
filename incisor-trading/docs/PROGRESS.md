@@ -4447,3 +4447,16 @@ still describe the pre-split memory.
 **Next session:** `T14 · Portfolio summary` audit (§18), then T13c. No open
 in-bounds defects — `D19` is the beacon 404, which is yours twice over.
 `DECISIONS.md` has 575 bytes, about four entries.
+
+## 2026-09-16 — Skipped: the tree was busy
+**Outcome:** blocked, at step 1
+**Changed:** this entry only, committed from a throwaway worktree
+**Verified:** `git status` on `main` showed `?? doe-v-bonnell/.claude/` —
+the same `serve.py` and `launch.json` (dated 09-09) that blocked 09-10 and
+09-12. Nothing stashed, cleaned, or checked out over.
+
+Retiring the 09-12 claim that `main` has no `incisor-trading/`: it tracks all
+162 files now. `incisor-dev` is three commits ahead (D16, D17, S6) and three
+behind, and those three are site work outside this folder — no incisor work
+is duplicated or lost. The run began 09-15 and crossed midnight; this heading
+matches the commit date.
