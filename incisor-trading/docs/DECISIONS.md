@@ -87,6 +87,7 @@ earns shared memory. An ID missing from the table below left that way, and
 | DEC-088 | **Merged into DEC-028**, which now carries all three of the call-budget caps in one row. |
 | DEC-091 | **A cached row is keyed by the source that wrote it, and a response's `source` is the row's, not the config's.** Fixture prices answered live requests inside TTL, labelled `live`. |
 | DEC-092 | **Upstream is paced at the documented 5/min by declining, never sleeping: a call too soon is a refusal to refresh, not a wait.** One worker — a 12s sleep stalls the page. |
+| DEC-093 | **A money figure at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** Unsigned and muted says flat already. |
 
 ---
 

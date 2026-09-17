@@ -590,9 +590,9 @@ function run(argv) {
     equal('view: the served fallback is hidden once drawn',
         first.root.querySelector('[data-portfolio-fallback]').hidden, true);
     same('view: a fresh portfolio shows total, cash, holdings and two gains',
-        first.values(), ['$100,000.00', '$100,000.00', '$0.00', '▬$0.00', '▬$0.00']);
-    equal('view: the return is flat and says so in figures', first.change(),
-        '▬$0.00 (0.00%)');
+        first.values(), ['$100,000.00', '$100,000.00', '$0.00', '$0.00', '$0.00']);
+    equal('view: a zero return has no arrow to read as a minus sign', first.change(),
+        '$0.00 (0.00%)');
     equal('view: and names its window', first.node('inc-folio-change')
         .querySelector('.inc-period').textContent, 'since start');
     check('view: a flat return is coloured flat',
@@ -632,7 +632,7 @@ function run(argv) {
     });
     same('view: each held symbol is priced once', priced.asked.slice().sort(), ['QQQ', 'SPY']);
     same('view: held positions are marked to their last close', priced.values(),
-        ['$100,050.00', '$93,000.00', '$7,050.00', '▬$0.00', '▲+$50.00']);
+        ['$100,050.00', '$93,000.00', '$7,050.00', '$0.00', '▲+$50.00']);
     equal('view: the return is signed and pointed', priced.change(), '▲+$50.00 (+0.05%)');
     check('view: and coloured up', priced.node('inc-folio-change').classList.contains('inc-up'));
     check('view: every coloured figure carries an arrow', everyColourHasAnArrow(priced.root));
@@ -646,7 +646,7 @@ function run(argv) {
 
     var halfPriced = mount(seeded(holdingTwo), { SPY: payloadFor('SPY', [505, 510]) });
     same('view: one unpriced position dashes everything that needs it',
-        halfPriced.values(), ['—', '$93,000.00', '—', '▬$0.00', '—']);
+        halfPriced.values(), ['—', '$93,000.00', '—', '$0.00', '—']);
     equal('view: including the return', halfPriced.change(), '—');
     check('view: and says why, counting one', /One held position could not be priced/
         .test(halfPriced.text('inc-folio-activity')));

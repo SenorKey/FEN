@@ -298,3 +298,47 @@ measure doing its job, and the panel above does the same.
 **Performing.** The cheapest surface on the page. Zero additional upstream
 calls — it reads the `/fundamentals` payload the panel above already paid for
 (DEC-032) — and it renders in the same tick, blocking nothing.
+
+## 09-16 — Portfolio summary (T14)
+
+*Verdict: minor edits.*
+
+Judged from `shoot.py --tab trade` at every width in six states: a fresh
+portfolio, `--portfolio held`, `corrupt`, `newer`, `--block-storage`, and held
+with the service absent.
+
+**Useful.** Yes — it is the Trade tab's answer, and nothing else on the page
+says what the $100,000 became. The held shot adds up exactly: cash $49,908.04
+plus holdings $50,231.33 is the $100,139.37 headline, and −$115.70 realized
+plus +$255.07 unrealized is the +$139.37 return. The intro above it teaches
+realized against unrealized in two sentences, which is the lesson the split
+exists for. All three stored-state notices say what happened and what it
+costs, above the figures they explain.
+
+**Easy.** It failed in its commonest state. **A fresh portfolio read "−$0.00"
+three times**: zero took the flat bar `▬`, which sits exactly where a minus
+sign goes, muted grey like the figure — zoomed, "▬ $0.00" is a loss of
+nothing. Every first visit sees that state, and a learner's first reading of
+the game was that they had already lost money. Zero now carries no arrow;
+unsigned and muted, "$0.00" has no direction to lose in greyscale. See
+DEC-093. Second, **"$2,500.00 held for 1 open order" sat above two open
+orders** — only buys hold cash, so the count was right and read as a miscount.
+It now says "1 open buy". While there: an empty arrow slot kept its margin, so
+"$0.00" and a pending "—" sat 5–7px off their labels' edge; an empty arrow is
+`display: none` now. Mobile two-by-two holds at 390px, and no figure spills its
+cell at 375 or 320.
+
+**Beautiful.** It holds up beside the quote card it borrows its headline size
+from: one large figure, a ruled breakdown under it, tabular digits aligned.
+Looked at and left: the notices are red-tinted boxes beside a red realized
+loss. That is the page-wide alert treatment — watchlist, lookup, strip and
+chart use the same colour — so it is not this surface's to change, and an
+alert in red is not misread as a direction.
+
+**Performing.** An all-cash portfolio asks for nothing and renders at once.
+A held one costs one `/history` per symbol held or on order — the same series
+the ledger fills orders from, so valuing and settling share one payload
+(DEC-032). Cash and realized gain draw before any price lands; the figures
+needing every price dash until then, and with the service down they stay
+dashed and the line under the card says how many positions could not be
+priced.

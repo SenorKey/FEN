@@ -100,6 +100,12 @@
     margin-right: 0;
 }
 
+/* A zero or a figure still waiting has no arrow, and its empty slot kept a
+ * margin or a flex gap that set "$0.00" and "—" off their labels' edge. */
+.inc-folio .inc-arrow:empty {
+    display: none;
+}
+
 .inc-folio-aside {
     margin-top: 4px;
     font-size: 0.74rem;

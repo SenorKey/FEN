@@ -174,9 +174,13 @@
         return cents === null ? null : cents / 100;
     }
 
+    /* A zero gets no arrow. The flat bar sits where a minus sign goes, so a
+     * fresh portfolio read "-$0.00" three times over — and zero is this
+     * surface's ordinary state, not a rare flat day. Unsigned, muted and
+     * unarrowed, "$0.00" carries no direction to lose in greyscale. */
     function renderGain(parts, cents) {
         var value = dollars(cents);
-        parts.arrow.textContent = value === null ? '' : figures.arrowFor(value);
+        parts.arrow.textContent = value === null || value === 0 ? '' : figures.arrowFor(value);
         parts.amount.textContent = figures.formatSignedMoney(value);
         dom.setDirection(parts.node, figures.direction(value));
     }
@@ -192,7 +196,8 @@
     }
 
     /* What open buy orders are holding back, under the cash: without it a
-     * reader sees a balance the ticket then refuses to spend. */
+     * reader sees a balance the ticket then refuses to spend. It counts buys
+     * and says so — "1 open order" above a list of two reads as a miscount. */
     function heldBackText(orders) {
         var held = 0;
         var buys = 0;
@@ -205,7 +210,7 @@
         });
         if (buys === 0) return '';
         return figures.formatMoney(held / 100) + ' held for '
-            + (buys === 1 ? '1 open order' : buys + ' open orders');
+            + (buys === 1 ? '1 open buy' : buys + ' open buys');
     }
 
     /* What the reader is told about where this portfolio came from. Every

@@ -4498,3 +4498,38 @@ edit the upstream documents carries it across.
 Also carried across: the prompt's Step 3 still said "take the topmost unblocked
 task", which has been wrong since defects and audits were put ahead of it.
 
+
+## 2026-09-16 — T14 audit: a new portfolio no longer reads as a loss
+**Outcome:** shipped — Portfolio summary (T14) audited, minor edits
+**Changed:** `js/view-portfolio.js`, `css/portfolio.css`,
+`tests/portfolio_model.jxa.js`, `tests/orders_model.jxa.js`, `AUDITS.md`,
+`BACKLOG.md`, `DECISIONS.md`, `DECISIONS-DETAIL.md`
+**Verified:** 245 page tests and 244 service tests green; `shoot.py --api --tab
+trade` clean at every width, fresh and `--portfolio held`, plus held with no
+service, before and after the change (local sets `audit-t14-*`, gitignored)
+**Notes:** one audit, which §14 makes the whole session.
+
+Step 1 passed on the rule as fixed today: Key's checkout had no changed tracked
+file, and its untracked `doe-v-bonnell/.claude/` did not count (DEC-084). All
+work in a scratchpad worktree; the `.devtools` venv reached by a symlink that
+was never staged.
+
+Step 4 order: the only open defect, `D19`, is the beacon 404 — server and
+`assets/`, Key's twice over. Three surfaces were due; T14 is the oldest.
+
+**The finding that mattered: a fresh portfolio said "−$0.00" three times.** The
+flat marker `▬` sits where a minus sign sits, in the same grey, and zero is
+what every portfolio shows on a first visit. Zero now takes no arrow — it is
+already unsigned and muted, so nothing is lost in greyscale (DEC-093). Scoped
+to this surface; other surfaces keep `▬` on a rare 0.00% day, and T16's audit
+is told in the queue to check its positions column for the same thing.
+
+Also: "held for 1 open order" above two open orders now reads "1 open buy",
+since only buys hold cash; and an empty arrow slot no longer indents "$0.00"
+or a pending "—" off its label's edge.
+
+Looked at and left, reasons in `AUDITS.md`: the notices' red tint is the
+page-wide alert style, used on four other surfaces.
+
+**Next session:** the T15 audit (order ticket and open orders), then T16's.
+T13c waits behind both. `DECISIONS.md` is 14,097 of 14,500.

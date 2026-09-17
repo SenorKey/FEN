@@ -423,7 +423,7 @@ function run(argv) {
     equal('with a cancel button named for it', cancel.getAttribute('aria-label'),
         'Cancel: buy 10 SPY');
     equal('and a generic data-track', cancel.getAttribute('data-track'), 'order-cancel');
-    check('the portfolio shows the cash held back', /^\$997\.50 held for 1 open order$/.test(
+    check('the portfolio shows the cash held back', /^\$997\.50 held for 1 open buy$/.test(
         t.folio.querySelectorAll('.inc-folio-aside')[0].textContent));
     check('and the sample note says why it will not fill', !t.q('.inc-orders-sample').hidden);
 

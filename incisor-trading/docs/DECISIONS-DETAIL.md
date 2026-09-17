@@ -2237,3 +2237,31 @@ so a request that completes in milliseconds gets one. The cap is now a
 ceiling above what actually binds. It is kept rather than deleted because it
 bounds the loop's attempts independently of the rate, and `test_sectors.py`
 asserts both — if that test ever reads two again, pacing is not running.
+
+## DEC-093 — A zero dollar figure carries no flat bar
+
+*Settled · 09-16 · T14 audit*
+
+**Decision**
+
+**Where a money figure is exactly zero, no arrow glyph goes in front of it.**
+The page's flat marker is `▬`, a horizontal bar, and on a dollar amount it
+occupies the slot a sign occupies, in the same muted grey as the figure. In
+`shoot.py` images a fresh portfolio read "▬ $0.00" in three places, which at
+reading distance is "−$0.00": a learner's first sight of the game said they had
+already lost money.
+
+**Why this is not a loss of the colour-blind channel (guide §13).** The arrow
+exists so direction survives without colour. Zero has no direction: it is
+already unsigned (`formatSigned` gives no `+` or `−`) and already muted
+(`inc-flat`), and "$0.00" read in greyscale cannot be taken for a rise or a
+fall. The bar added nothing but the misreading.
+
+**Scope.** Applied in `js/view-portfolio.js` only, where zero is the ordinary
+state — every portfolio starts there, and realized gain stays there until the
+first sale. `figures.arrowFor(0)` still returns `▬`, and the index strip, the
+watchlist and the chart still show it on a 0.00% day, where exact zero is rare
+and a percentage reads less like a signed balance. The positions table
+(`js/view-positions.js`) has the same pattern on a per-row dollar gain; its
+own audit (T16, queued) is where that gets judged from images. A session
+adding a new dollar figure should not reach for `▬` on zero.

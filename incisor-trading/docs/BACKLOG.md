@@ -222,10 +222,10 @@ both ways, and caps a row at 200 characters.
 
 **Shipped and not yet audited**, oldest first — this is the queue:
 
-**Nothing is due yet.** Queued, oldest first: **Portfolio summary** (T14) and
-**Order ticket and open orders** (T15), both shipped 09-11 and due at the
-third session after that one; then **Holdings, trade log and equity curve**
-(T16), shipped 09-12.
+**Due now**, oldest first: **Order ticket and open orders** (T15), shipped
+09-11; then **Holdings, trade log and equity curve** (T16), shipped 09-12. T16's
+audit should check its gain column at exactly zero — the `▬` misread DEC-093
+fixed in the summary.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -237,6 +237,7 @@ third session after that one; then **Holdings, trade log and equity curve**
 | 09-01 | **Sector grid** (T10) | Minor edits | Below 560px the bar was `display: none` — the one width where a ranked list was a column of figures. |
 | 09-02 | **Fundamentals panel** (T11) | Minor edits | Fifteen of seventeen symbols are funds, and the fund state answered with one number under a fuller promise. |
 | 09-07 | **Reporting calendar** (T12) | Minor edits | At 375px a 0.26 dividend read "0.2": the table was 18px over its box, and a body that never overflows hid it. |
+| 09-16 | **Portfolio summary** (T14) | Minor edits | A fresh portfolio read "−$0.00" three times: the flat bar sits where a minus goes. And "1 open order" sat above two. |
 
 ## Discovered
 
