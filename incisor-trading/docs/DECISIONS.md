@@ -89,6 +89,7 @@ earns shared memory. An ID missing from the table below left that way, and
 | DEC-092 | **Upstream is paced at the documented 5/min by declining, never sleeping: a call too soon is a refusal to refresh, not a wait.** One worker — a 12s sleep stalls the page. |
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`; changes keep `▬`. |
 | DEC-094 | **On sample data no line may promise a fill, a price, or a wait for one.** Sample prices never move; the note saying so sat under three lines saying otherwise. |
+| DEC-095 | **`shoot.py` falls back to bundled Chromium when no system Chrome exists** — the Fedora routine clone has none; the Mac keeps its installed Chrome. |
 
 ---
 

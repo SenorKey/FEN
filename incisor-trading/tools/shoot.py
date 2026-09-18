@@ -4,9 +4,11 @@ Headless screenshot + console check for the Incisor Trading page.
 
 Exists because a scheduled session has no interactive browser, and guide §13
 makes aesthetics a per-task requirement — work that cannot be looked at cannot
-be judged. This drives the copy of Google Chrome already on the machine
-(channel="chrome"), so nothing is downloaded and nothing is installed system
-wide; the driver lives in the gitignored .devtools venv.
+be judged. This drives the copy of Google Chrome already on the machine (channel="chrome")
+where one exists, so nothing is downloaded and nothing is installed system
+wide; the driver lives in the gitignored .devtools venv. On a machine with no
+system Chrome (a headless server box), it falls back to Playwright's own
+bundled Chromium, downloaded once into that same venv.
 
 Why Playwright and not `chrome --headless --screenshot`: passing a narrow
 --window-size renders the page at that width as a *desktop* browser. Device
@@ -749,8 +751,13 @@ def main():
     with contextlib.ExitStack() as stack:
         base = args.url or stack.enter_context(serving(REPO, args.api))
         pw = stack.enter_context(sync_playwright())
-        # channel="chrome" uses the installed Google Chrome — no download.
-        browser = pw.chromium.launch(channel="chrome")
+        try:
+            # channel="chrome" uses the installed Google Chrome — no download.
+            browser = pw.chromium.launch(channel="chrome")
+        except Exception:
+            # No system Chrome on this machine — fall back to Playwright's
+            # own bundled Chromium (`playwright install chromium`).
+            browser = pw.chromium.launch()
 
         for index, (label, width, height, mobile) in enumerate(VIEWPORTS):
             ctx = browser.new_context(

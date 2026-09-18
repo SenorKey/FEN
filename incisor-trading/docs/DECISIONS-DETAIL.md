@@ -2303,3 +2303,37 @@ about an order's future — the ticket, the list, and T17 and T24 when they
 land. A session building one on fixtures would otherwise write "fills at"
 again. Replay (T20) is different: it advances its own series, so its orders
 really do fill.
+
+## DEC-095 — shoot.py's browser falls back when there is no system Chrome
+
+*Settled · 09-17 · Fedora routine clone*
+
+**Decision**
+
+**`tools/shoot.py` tries `channel="chrome"` first and falls back to
+Playwright's own bundled Chromium if that launch fails.** The comment and
+docstring both used to state as fact that the tool never downloads anything —
+true only on a machine that already has Google Chrome installed, which every
+Mac session has run on so far.
+
+**Why it came up.** Key set up a second copy of this routine on the Fedora box
+that also hosts frontendneeded.com, in a clone outside the web root (never
+inside `/var/www/frontendneeded.com` — see the recurring trap on running two
+checkouts of one branch, and hard rule 5, "never touch the server": a routine
+running in the web root would sit next to the live document tree and the
+running service, which is exactly what that rule exists to prevent). That box
+has no browser installed at all, system-wide or otherwise, and installing one
+outside the repo did not fit "local dev tooling ... installs only inside
+`incisor-trading/`" (guide §2 rule 10). Playwright installing its own Chromium
+into the gitignored `.devtools` venv does fit it exactly.
+
+**Why a `try`/`except` instead of an environment flag.** The two machines need
+no coordination and no shared config: whichever browser is actually present is
+whichever one launches. A flag would be one more thing to keep in sync between
+two clones of the same branch, for a distinction the code can already detect
+by trying.
+
+**What did not change.** The desktop/tablet/mobile viewports, the console-error
+and overflow checks, and every other flag are identical on both machines. Chrome
+for Testing and Playwright's bundled Chromium render the same engine, so a
+screenshot taken on one machine is not expected to differ from the other.
