@@ -391,3 +391,94 @@ the timing line, which is true and short.
 editing the quantity asks nothing; the catalogue is fetched on first focus of
 the symbol field and costs no quota. The list itself asks for nothing — it
 redraws from the store. Nothing here blocks the summary above it.
+
+---
+
+## 09-17 — Holdings, trade log and equity curve (T16)
+
+*Verdict: minor edits.*
+
+Judged from `shoot.py --api --tab trade` at every width, fresh and
+`--portfolio held`, plus held with no service — and from a fourth state this
+audit had to add, `--portfolio flat`: one position bought at the price it is
+now worth. The queue asked for the gain column at exactly zero to be checked,
+and reaching zero needed a seed, so the seed is committed rather than thrown
+away.
+
+**Useful.** All three earn their place, and they answer three different
+questions the summary above them cannot. The holdings table says *which*
+holding the summary's figure came from; the log is the ledger printed, which
+is the page keeping its own promise that every figure is replayed from it
+(DEC-082) rather than stored; and the curve is the only surface that answers
+the question the game exists for — not "am I up?" but "am I up by more than
+doing nothing?". A reader up $139.37 who is $1,777.12 ahead of buy-and-hold
+has learned something no other line on the page tells them.
+
+**Easy.** Two things it got wrong, both of them the surface leaving the reader
+to work out what it already knew.
+
+**A position worth exactly what it cost read "▬ $0.00".** The flat bar sits
+where a minus sits, in the same grey, so at reading distance the row said a
+small loss. This is DEC-093 exactly, one surface down and four sessions later,
+and it is not a rare state: an order fills at a bar's open or close (DEC-085),
+so *every* position reads zero from the moment it fills until the next bar —
+a learner's first trade, every time. The summary an inch above had already
+stopped saying it, so the page contradicted itself within one screen. Fixed,
+and the rule now lives in `figures.gainArrowFor` rather than in two views that
+disagreed.
+
+**The empty trade log pointed the wrong way.** "No trades yet. The order
+ticket below opens the first one" — the ticket is *above* it, between the
+holdings table and the log. On a phone that is a scroll away from the control
+it names, in the wrong direction. Now "above", with a test on the document
+order that makes the sentence true.
+
+Otherwise it is in good shape. Below 560px both tables become one block per
+row with the long column name restored beside each figure, which is the right
+trade for six money columns on a phone; every table role is written out so
+that layout does not cost a screen reader the table (DEC-090); the log's
+preview control says how many it is holding back, reports `aria-expanded`, and
+keeps focus on itself after redrawing. The curve carries an `aria-label`
+describing both lines and their figures. With no service the holdings table
+keeps shares and average cost and dashes only what needs a price, and the
+curve says which prices were missing rather than that something failed.
+
+Looked at and left: the legend's two figures are direction-coloured and name
+no window in their own row, which DEC-020 would normally catch — but the axis
+above them and the verdict sentence below both name it, and the sentence is
+what the surface is for. The trade log's Amount column is signed and
+deliberately *not* coloured, because a buy leaving the account is a cash flow
+and not a loss; that is right and worth not "fixing" later.
+
+**Beautiful.** It holds up. The holdings table is the densest thing on the
+page and reads cleanly at 1440 and 768 — tabular figures, consistent decimals,
+one alignment per column set in the stylesheet rather than per cell. The curve
+is the best-looking surface on the Trade tab: two lines on one shared scale
+(the loser cannot be drawn above the winner), the benchmark dashed and grey so
+the reader's own line is the amber one, a baseline at the starting balance,
+and three round-dollar gridlines rather than an abbreviation nobody can
+reconcile against real trades. Its dashed/solid distinction carries the two
+lines without colour.
+
+**Performing.** No upstream cost of its own: the two tables fetch nothing at
+all, and the curve asks only for symbols the ledger touched that the Trade tab
+is not already pricing — a closed-out position — so the `held` portfolio costs
+it zero calls. Nothing here blocks anything above it rendering.
+
+**But the client repeats itself.** Counted on one load of `--portfolio flat`,
+a portfolio holding one symbol: `/history?symbol=SPY` is requested **four
+times** — once by the index strip, then three more in the same tick as the
+portfolio, the curve and the benchmark each ask independently. No quota is
+spent, because the service caches (DEC-003) and every repeat is a hit, so this
+is four round trips on a home connection where one would do. It is also not
+T16's alone — the index strip is one of the four — and `js/market-data.js`
+already solves exactly this for `fundamentals()`, with a comment saying two
+surfaces start in the same tick. `history()` never got the same guard. Filed
+as **D22** rather than fixed here, because it belongs to the network seam
+every surface shares, not to the surface under audit.
+
+Also filed: **D21**, a runner for `js/view-performance.js`. It had none, and
+its header named `tests/performance_model.jxa.js` as though it did — a file
+that has never existed. `js/view-positions.js` had none either; this audit
+built `tests/positions_model.jxa.js` for it, which is what a rendered "▬
+$0.00" needed in order to be caught by anything but an eye.

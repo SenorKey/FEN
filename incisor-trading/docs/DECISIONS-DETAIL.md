@@ -2257,14 +2257,24 @@ already unsigned (`formatSigned` gives no `+` or `−`) and already muted
 (`inc-flat`), and "$0.00" read in greyscale cannot be taken for a rise or a
 fall. The bar added nothing but the misreading.
 
-**Scope.** Applied in `js/view-portfolio.js` only, where zero is the ordinary
-state — every portfolio starts there, and realized gain stays there until the
-first sale. `figures.arrowFor(0)` still returns `▬`, and the index strip, the
-watchlist and the chart still show it on a 0.00% day, where exact zero is rare
-and a percentage reads less like a signed balance. The positions table
-(`js/view-positions.js`) has the same pattern on a per-row dollar gain; its
-own audit (T16, queued) is where that gets judged from images. A session
-adding a new dollar figure should not reach for `▬` on zero.
+**Scope — widened 09-17, in the T16 audit.** It was applied in
+`js/view-portfolio.js` only, and the paragraph this replaces said the holdings
+table had the same pattern and that T16's audit would judge it from images. It
+did, and it read exactly as predicted: a position worth what it cost showed
+"▬ $0.00" one inch below the summary that had just stopped saying it.
+
+So the rule is no longer a surface's. It is **`figures.gainArrowFor`** in
+`js/market-figures.js` — zero and null take no marker, a rise and a fall keep
+their arrows — and both views call it rather than deciding for themselves.
+`tests/test_positions.py` asserts that neither has grown its own copy back,
+because this is the second time the same three lines were written out.
+
+What did *not* change: `figures.arrowFor(0)` still returns `▬`, and the index
+strip, the watchlist and the chart still show it on a 0.00% day. That is the
+line — a **gain** is a balance, where zero is the ordinary state (before the
+first trade, and for every position between its fill and the next bar); a
+**change** is a move, where exact zero is rare and worth marking. A session
+adding a new dollar gain calls `gainArrowFor` and adds no third copy.
 
 ## DEC-094 — Sample data promises no fill
 

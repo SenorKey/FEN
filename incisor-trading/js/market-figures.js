@@ -170,6 +170,23 @@
         return ARROWS[direction(value)];
     }
 
+    /* A *gain's* marker, which is not a change's.
+     *
+     * The flat bar sits where a minus sign sits, in the same grey, so "▬ $0.00"
+     * reads as a small loss. On a market figure that is a rare flat day and
+     * worth the glyph; on a paper-portfolio gain zero is the ordinary state —
+     * every reading before the first trade, and every position for as long as
+     * it is worth what it cost. Unsigned and muted already says flat, so zero
+     * takes nothing (DEC-093). Null is a figure that has no direction to show.
+     *
+     * Here rather than at each call site because it was argued once for the
+     * summary and then found again, unchanged, in the holdings row an inch
+     * below it. */
+    function gainArrowFor(value) {
+        if (value === null || value === undefined || value === 0) return '';
+        return arrowFor(value);
+    }
+
     /* ── Formatting ─────────────────────────────────────────────── */
 
     function formatPrice(value) {
@@ -503,6 +520,7 @@
         formatMultiple: formatMultiple,
         direction: direction,
         arrowFor: arrowFor,
+        gainArrowFor: gainArrowFor,
         formatPrice: formatPrice,
         formatSigned: formatSigned,
         formatPercent: formatPercent,

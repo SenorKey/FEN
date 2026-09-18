@@ -134,14 +134,19 @@
     }
 
     /* A signed figure with its arrow, so direction survives grayscale and
-     * colour blindness (guide section 13). */
+     * colour blindness (guide section 13) — except at exactly zero, which
+     * takes no marker at all. A position is worth what it cost for as long as
+     * its price has not moved since it filled, which is every position from
+     * the moment its order fills (DEC-085) until the next bar, and "▬ $0.00"
+     * reads as a loss. gainArrowFor holds the rule; the summary above this
+     * table reaches the same one. */
     function gainCell(cents, percent, label) {
         var node = role(element('td'), 'cell');
         node.setAttribute('data-label', label);
         var arrow = element('span', 'inc-arrow');
         arrow.setAttribute('aria-hidden', 'true');
         var dollars = cents === null ? null : cents / 100;
-        arrow.textContent = dollars === null ? '' : figures.arrowFor(dollars);
+        arrow.textContent = figures.gainArrowFor(dollars);
         node.appendChild(arrow);
         node.appendChild(element('span', null, figures.formatSignedMoney(dollars)));
         if (percent !== null && percent !== undefined) {
@@ -227,7 +232,7 @@
         nodes.logBox = built.box;
 
         nodes.logEmpty = element('p', 'inc-empty',
-            'No trades yet. The order ticket below opens the first one.');
+            'No trades yet. The order ticket above opens the first one.');
 
         nodes.more = element('button', 'inc-log-more');
         nodes.more.type = 'button';

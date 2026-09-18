@@ -174,13 +174,11 @@
         return cents === null ? null : cents / 100;
     }
 
-    /* A zero gets no arrow. The flat bar sits where a minus sign goes, so a
-     * fresh portfolio read "-$0.00" three times over — and zero is this
-     * surface's ordinary state, not a rare flat day. Unsigned, muted and
-     * unarrowed, "$0.00" carries no direction to lose in greyscale. */
+    /* A zero gets no marker — the rule and its reason are gainArrowFor's, in
+     * js/market-figures.js, because the holdings table needs the same one. */
     function renderGain(parts, cents) {
         var value = dollars(cents);
-        parts.arrow.textContent = value === null || value === 0 ? '' : figures.arrowFor(value);
+        parts.arrow.textContent = figures.gainArrowFor(value);
         parts.amount.textContent = figures.formatSignedMoney(value);
         dom.setDirection(parts.node, figures.direction(value));
     }

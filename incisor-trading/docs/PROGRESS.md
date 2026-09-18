@@ -4572,3 +4572,103 @@ into the audit.
 
 **Next session:** the T16 audit (holdings, trade log, equity curve), then T13c.
 `DECISIONS.md` is 14,271 of 14,500, room for about one entry — an S6 is close.
+
+
+## 2026-09-17 — T16 audit: a position worth what it cost read as a loss
+**Outcome:** shipped — Holdings, trade log and equity curve (T16) audited,
+minor edits. The audit queue is now empty.
+**Changed:** `js/market-figures.js`, `js/view-portfolio.js`,
+`js/view-positions.js`, `js/view-performance.js` (header only),
+`tools/shoot.py`, new `tests/positions_model.jxa.js` and
+`tests/test_positions.py`, `AUDITS.md`, `BACKLOG.md`, `DECISIONS.md`,
+`DECISIONS-DETAIL.md`
+**Verified:** 253 page tests (up from 245) and 244 service tests green. The
+eight new checks fail against the old views and pass against the new: the
+zero-gain marker and the empty-log wording were each reproduced as a failure
+before the fix. `shoot.py --api --tab trade` clean at every width for fresh,
+`--portfolio held`, `--portfolio flat` and held with no service, before and
+after — and the three `held` images are **pixel-identical** across the change,
+which is the evidence that the fix reaches only the zero case. Local sets
+`audit-t16-*`, gitignored.
+**Notes:** one audit, which §14 makes the whole session. No backlog task taken.
+
+Step 1 passed: Key's checkout had no changed tracked file (`doe-v-bonnell/.claude/`
+is untracked and does not count — DEC-084). All work in a scratchpad worktree,
+with `.devtools` and `server/.venv` reached by symlinks that were never staged,
+and a fixture-mode service on 8789 started for the session and stopped at its
+end.
+
+Step 4 order: the only open defect was still `D19`, the beacon 404, which is
+Key's twice over. T16 was the last surface due, and the queue told this audit
+what to look for.
+
+**It was right.** A holding worth exactly what it cost rendered "▬ $0.00" —
+the flat bar sitting where a minus sits, in the same grey. This is DEC-093
+exactly, one surface below the summary where it was settled on 09-16, and the
+detail entry for that decision had already predicted it and named this audit
+as where it would be judged. What the prediction understated is how ordinary
+the state is: an order fills at a bar's open or close (DEC-085), so every
+position reads zero from the moment it fills until the next bar. A learner's
+first trade, every time — and the summary one inch above had already stopped
+saying it, so the page contradicted itself within a screen.
+
+**The rule stopped being a surface's.** It is `figures.gainArrowFor` now, in
+`js/market-figures.js`, and both views call it instead of writing the same
+three lines out. `figures.arrowFor(0)` still returns `▬` for the strip, the
+watchlist and the chart: a *gain* is a balance, where zero is the ordinary
+state; a *change* is a move, where zero is rare and worth marking. DEC-093's
+index line and detail entry both say so now, and a test asserts neither view
+has grown its own copy back.
+
+Also: the empty trade log read "The order ticket below opens the first one",
+and the ticket is above it — a scroll in the wrong direction on a phone. Fixed,
+with a test on the document order, since that is what makes the sentence true.
+
+**Why it took four sessions to see a rendered figure.** `js/view-positions.js`
+had no runner, and neither does `js/view-performance.js` — which named
+`tests/performance_model.jxa.js` in its header as though it did. That file has
+never existed: a seam claimed and never used, which is DEC-064's shape. Built
+`tests/positions_model.jxa.js` for the two tables; filed `D21` for the curve's,
+with the reasoning in that module's header rather than the backlog entry,
+because BACKLOG.md had 62 bytes of room (below).
+
+Counted the calls rather than reasoning about them, and found `D22`: one load
+of a portfolio holding a single symbol asks for `/history?symbol=SPY` **four
+times** — the index strip, then the portfolio, the curve and the benchmark in
+one tick. No quota is spent, because the service caches it (DEC-003), which is
+exactly why nothing caught it: it is invisible to the call budget and to every
+test. `js/market-data.js` already shares the in-flight promise for
+`fundamentals()` and says why; `history()` never got the guard. Filed rather
+than fixed here — it belongs to the seam every surface shares, not to the
+surface under audit — and as a defect, since the guide says to file it that
+way when the call is unclear.
+
+Kept `--portfolio flat` in `shoot.py` rather than throwing the seed away: the
+zero-gain row cannot be photographed without it, and the next audit of this
+surface should start where this one ended rather than rediscovering the setup.
+
+### For Key
+
+**N15 · `BACKLOG.md` is 27,438 bytes of 27,500 — 62 bytes.** This session's
+two filings only fit after both were cut twice and D21's reasoning was moved
+into the module it binds. That is the guide's own first remedy (§16) and the
+right one here, but it does not repeat: **the next session that files anything
+consolidates first.** `DECISIONS.md` is 14,273 of 14,500, room for nothing —
+its one edit this session was a rewrite in place, not an addition. An `S6` is
+overdue on both files, and the ceilings are ratchets, so it has to be a
+session's own work rather than a step at the end of one.
+
+**N14 · still open, unchanged.**
+
+**N11 · still open, unchanged.** No `incisor-api` launch config: `.claude/` is
+outside `incisor-trading/`.
+
+**N7 · still open, unchanged.** Guide §16's four-file table and §14 step 2
+still describe the pre-split memory.
+
+**Next session:** two open in-bounds defects, and §19 takes the
+lowest-numbered first: `D21` (a runner for the curve), then `D22` (the
+repeated series). `S6` is what this session's two filings say is overdue, and
+whichever session files next has to do it first — a consolidation sets the new
+ceilings as its outcome, so it cannot be a step at the end of a task. Then
+`T13c`. No surface is due an audit.

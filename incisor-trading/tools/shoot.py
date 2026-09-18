@@ -355,6 +355,15 @@ PORTFOLIO_SEEDS = {
          "type": "market", "limit": None, "reference": 733.40,
          "placedAt": "2026-09-11T14:05:00.000Z"},
     ]}),
+    # A position bought at the price it is now worth, which is what every
+    # position looks like the moment its order fills: DEC-085 fills at a bar's
+    # open or close, so a mid-session fill leaves average cost equal to the
+    # last close until the next bar. Its gain is exactly zero, and zero is the
+    # reading DEC-093 found misdescribing itself in the summary above.
+    "flat": json.dumps({"v": 2, "startingCash": 10000000, "ledger": [
+        {"kind": "buy", "symbol": "SPY", "shares": 20, "price": 733.4011,
+         "at": "2026-08-26T18:05:00.000Z"},
+    ], "orders": []}),
 }
 
 # Settled either way: a position whose price failed is a state worth shooting.

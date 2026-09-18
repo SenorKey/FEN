@@ -220,11 +220,9 @@ and `O6` never completes, so the prose cannot live here — seven audits were 41
 of it. Open the detail only to act on a verdict. A test asserts the bijection
 both ways, and caps a row at 200 characters.
 
-**Shipped and not yet audited**, oldest first — this is the queue:
-
-**Due now:** **Holdings, trade log and equity curve** (T16), shipped 09-12. Its
-audit should check the gain column at exactly zero — the `▬` misread DEC-093
-fixed in the summary.
+**The queue is empty.** Every surface shipped so far has a row below. One falls
+due three sessions after the next surface ships, or as soon as a revamp touches
+an audited one (guide §18).
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -238,6 +236,7 @@ fixed in the summary.
 | 09-07 | **Reporting calendar** (T12) | Minor edits | At 375px a 0.26 dividend read "0.2": the table was 18px over its box, and a body that never overflows hid it. |
 | 09-16 | **Portfolio summary** (T14) | Minor edits | A fresh portfolio read "−$0.00" three times: the flat bar sits where a minus goes. And "1 open order" sat above two. |
 | 09-16 | **Order ticket and open orders** (T15) | Minor edits | It said the rule before the button, then left the reader to find the refusal after it. Sample fills were promised. |
+| 09-17 | **Holdings, trade log and equity curve** (T16) | Minor edits | A position worth what it cost read "▬ $0.00" — DEC-093, one surface down. The empty log pointed at a ticket above it. |
 
 ## Discovered
 
@@ -251,6 +250,27 @@ of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
 second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
+
+- [ ] **D22 · One page load asks for the same series four times** `[defect]`
+  *(2026-09-17, T16 audit — reasoning there)* — on `--portfolio flat`,
+  holding one symbol, `/history?symbol=SPY` goes out **four times**: the index
+  strip, then the portfolio, the curve and the benchmark in one tick. **No
+  quota is spent** — the service caches (DEC-003) — which is why it survived,
+  invisible to the call budget and to every test. Four round trips on a
+  residential uplink where one would do, growing with each surface on the tab.
+  `js/market-data.js` already shares the in-flight promise for
+  `fundamentals()`; `history()` never got the guard and now has four callers.
+  A defect because the seam is every surface's, not this one's.
+  *Accept:* one load asks for a series once; a rejected request is not held and
+  handed to the next caller; per-surface failure behaviour is unchanged.
+
+- [ ] **D21 · `js/view-performance.js` has no runner** `[defect]`
+  *(2026-09-17, T16 audit)* — the only view on the page with no
+  `*_model.jxa.js`; the reasons are in that file's header and in the audit.
+  Its arithmetic is covered by `test_history.py`; what the curve *says* is not.
+  *Accept:* a runner drives the real view against `dom_stub.jxa.js`, covering
+  each `REASONS` state, the verdict at ahead / behind / level, and that a
+  symbol whose request failed is not asked for again on every redraw.
 
 - [ ] **D20 · `shoot.py` cannot reach a filled-in order ticket** `[enhancement]`
   *(2026-09-16, T15 audit)* — every state worth judging comes after typing, so

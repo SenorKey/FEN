@@ -10,8 +10,17 @@
  * js/chart-geometry.js — the same plot() the price chart draws through, given
  * an explicit scale so both lines share one axis. Nothing here computes a
  * coordinate or a value: it decides what is on screen and what the card says
- * about it, which is what lets tests/performance_model.jxa.js drive it
- * against a DOM stub.
+ * about it, so it can be driven against a DOM stub the way every other view
+ * here is.
+ *
+ * Nothing drives it yet. Until the 09-17 audit this header named
+ * tests/performance_model.jxa.js as though something did, and that file has
+ * never existed — so the seam was claimed and never used, which is the shape
+ * DEC-064 warns about. tests/test_history.py covers js/portfolio-history.js,
+ * the arithmetic; what this file decides is untested. That is D21, and what
+ * it costs is on record: the holdings table beside this one had no runner
+ * either, and shipped a gain of exactly zero rendering as a small loss for
+ * four sessions, because nothing could read a drawn figure.
  *
  * It is the one surface on this tab that fetches. The holdings table and the
  * trade log read what js/view-portfolio.js already has, but a curve needs a
