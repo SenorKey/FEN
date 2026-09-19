@@ -264,14 +264,6 @@ old numbers. Nothing else moved.
   *Accept:* one load asks for a series once; a rejected request is not held and
   handed to the next caller; per-surface failure behaviour is unchanged.
 
-- [ ] **D21 · `js/view-performance.js` has no runner** `[defect]`
-  *(2026-09-17, T16 audit)* — the only view on the page with no
-  `*_model.jxa.js`; the reasons are in that file's header and in the audit.
-  Its arithmetic is covered by `test_history.py`; what the curve *says* is not.
-  *Accept:* a runner drives the real view against `dom_stub.jxa.js`, covering
-  each `REASONS` state, the verdict at ahead / behind / level, and that a
-  symbol whose request failed is not asked for again on every redraw.
-
 - [ ] **D20 · `shoot.py` cannot reach a filled-in order ticket** `[enhancement]`
   *(2026-09-16, T15 audit)* — every state worth judging comes after typing, so
   that audit used a scratchpad driver. *Accept:* a flag types an order, and
@@ -398,3 +390,4 @@ session that must *act* on any of this goes.
 | T26b | 09-12 | **Deploy rehearsal: the code ran where it will run, and it found a hole in two commands.** Service installed, enabled, running in fixture mode; all five routes answer through Apache; `/health` correctly unreachable from outside. → D14, D15 |
 | D16 | 09-15 | **A cached row did not record what wrote it, so fixture prices were served under a `live` label** *(defect, fixed)* — source is part of the key now, and a response reports the row's provenance, not the config's. → DEC-091 |
 | D17 | 09-15 | **Upstream calls were not paced, so a cold cache spent the day on throttled replies** *(defect, fixed)* — 12s apart, by declining rather than sleeping; the grid keeps its eleven funds. → DEC-092 |
+| D21 | 09-19 | **The equity curve's view got a runner** *(defect, fixed)* — whose first run found a first week named "Sep ’26 to Sep ’26" and SPY on its way called unloadable. → `js/view-performance.js` |

@@ -13,14 +13,11 @@
  * about it, so it can be driven against a DOM stub the way every other view
  * here is.
  *
- * Nothing drives it yet. Until the 09-17 audit this header named
- * tests/performance_model.jxa.js as though something did, and that file has
- * never existed — so the seam was claimed and never used, which is the shape
- * DEC-064 warns about. tests/test_history.py covers js/portfolio-history.js,
- * the arithmetic; what this file decides is untested. That is D21, and what
- * it costs is on record: the holdings table beside this one had no runner
- * either, and shipped a gain of exactly zero rendering as a small loss for
- * four sessions, because nothing could read a drawn figure.
+ * tests/performance_model.jxa.js drives it, and did not exist until D21 —
+ * this header named it for a week before anyone wrote it. The first run
+ * found two things no screenshot had: the verdict named a learner's first
+ * week "Sep ’26 to Sep ’26", and SPY on its way read as SPY that "could not
+ * be loaded". tests/test_history.py covers the arithmetic underneath.
  *
  * It is the one surface on this tab that fetches. The holdings table and the
  * trade log read what js/view-portfolio.js already has, but a curve needs a
@@ -80,6 +77,9 @@
         'unreplayable': 'Your trade history could not be replayed day by day.',
         'unavailable': 'This chart is unavailable.'
     };
+
+    /* The reasons that can mean only "not here yet". */
+    var WAITING_ON = { 'missing-prices': true, 'no-benchmark': true };
 
     var nodes = {};
     var fetching = false;
@@ -277,14 +277,22 @@
         dom.setDirection(entry.figure, figures.direction(change.gain));
     }
 
+    /* The window in full, day and year both. The axis's month-and-year
+     * spelling is for a label under a long line; in a sentence it turned a
+     * learner's first week into "Sep ’26 to Sep ’26", which names no window
+     * at all. The price chart's sentence spells its dates the same way. */
+    function spanOf(curve) {
+        return figures.formatBarDate(curve.from) + ' to '
+            + figures.formatBarDate(curve.to);
+    }
+
     /* The sentence the whole surface exists for. It states the gap and what
      * each side did, and it does not tell the reader what to make of it —
      * guide section 11 forbids this page advising anyone, and "you would have
      * done better buying the index" is advice about what to do next dressed
      * as a fact about the past. */
     function verdictText(curve) {
-        var span = figures.formatAxisDate(curve.from, true) + ' to '
-            + figures.formatAxisDate(curve.to, true);
+        var span = spanOf(curve);
         if (curve.difference === 0) {
             return 'Over ' + span + ' your trading and buying SPY once came out '
                 + 'level, to the cent.';
@@ -296,9 +304,7 @@
     }
 
     function describePlot(curve) {
-        return 'Two lines from ' + figures.formatAxisDate(curve.from, true)
-            + ' to ' + figures.formatAxisDate(curve.to, true)
-            + '. Your portfolio ' + signed(curve.value.gain)
+        return 'Two lines from ' + spanOf(curve) + '. Your portfolio ' + signed(curve.value.gain)
             + ', SPY bought and held ' + signed(curve.benchmark.gain)
             + '. Both started at ' + figures.formatMoney(curve.startingCash / 100)
             + '. The figures beside the key say the same thing.';
@@ -331,9 +337,11 @@
             seriesAvailable(), clock);
 
         if (curve.reason) {
-            // A symbol that has been asked for and not answered yet is not a
-            // missing price, it is a price on its way.
-            if (curve.reason === 'missing-prices' && fetching) {
+            // A series that has been asked for and not answered yet is not a
+            // missing price, it is a price on its way — and SPY is a series
+            // like any other. Saying it "could not be loaded" while it loads
+            // is DEC-078's lie told before the lookup rather than after it.
+            if (WAITING_ON[curve.reason] && fetching) {
                 nodes.message.textContent = '';
                 nodes.message.hidden = true;
                 nodes.figure.hidden = true;
@@ -372,6 +380,9 @@
      * answer, and the curve is drawn again as they land. */
     function fetchMissing() {
         var store = portfolio.store();
+        // No trades is a state the curve can state without a price, and a
+        // fresh portfolio is the one every visitor starts in.
+        if (store.ledger().length === 0) return;
         var wanted = historyMath.symbolsIn(store.ledger());
         wanted.push(historyMath.BENCHMARK);
 
@@ -408,13 +419,15 @@
             return;
         }
 
+        // Asked for before the first draw, so that draw knows what is on
+        // its way rather than reporting it absent.
         build();
         portfolio.onChange(function () {
-            render();
             fetchMissing();
+            render();
         });
-        render();
         fetchMissing();
+        render();
     }
 
     start();

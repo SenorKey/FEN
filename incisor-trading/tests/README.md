@@ -34,6 +34,11 @@ the count went stale three suites ago:
   and their ET session times, what an order holds back, the six-symbol cap,
   settling in the order prices happened, and the ticket and open orders
   driven through their controls.
+- **`test_positions.py`** — the holdings table and the trade log.
+- **`test_history.py`** — the equity curve's arithmetic, against a week
+  worked out by hand in cents.
+- **`test_performance.py`** — the equity curve's view: every reason it gives
+  for drawing no line, the verdict, and how often it asks for a series.
 - **`test_shoot_tool.py`** — not the page: `tools/shoot.py`'s stand-in for
   Apache. It has to identify its callers the way a real proxy does, or its
   findings are about itself (D7).

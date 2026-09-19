@@ -4672,3 +4672,51 @@ repeated series). `S6` is what this session's two filings say is overdue, and
 whichever session files next has to do it first — a consolidation sets the new
 ceilings as its outcome, so it cannot be a step at the end of a task. Then
 `T13c`. No surface is due an audit.
+
+## 2026-09-19 — D21: the curve got a runner, and its first run found two faults
+**Outcome:** shipped — D21 closed. One defect is a session's whole work
+(§14 step 4), so no task was taken.
+**Changed:** `js/view-performance.js`, new `tests/performance_model.jxa.js`
+and `tests/test_performance.py`, `tests/README.md`, `BACKLOG.md`
+**Verified:** 254 page tests (up from 253; the runner is 63 checks under one)
+and 244 service tests green. The runner against the old view fails 7 of 63 —
+every one a fix below. `shoot.py --api --tab trade` clean at every width for
+fresh, `--portfolio held` and `--portfolio flat`, and `held` with the service
+stopped: the block says SPY could not be loaded, after it failed, not before.
+Local sets `d21-*`, gitignored.
+**Notes:** Step 1 passed — Key's checkout had no changed tracked file.
+`incisor-dev` was still held by the 09-17 session's worktree; it was clean and
+level with `origin`, so it was removed with `git worktree remove` (which
+refuses a dirty tree) and a fresh one added. A fixture-mode service on 8789,
+with its DB in the scratchpad, was started for the shots and stopped at the end.
+
+Step 4: `D19` is Key's twice over, so `D21` was the lowest in-bounds defect.
+
+The runner covers all eight reasons the view can give — including an unknown
+one, which falls back to its catch-all sentence — the verdict ahead, behind
+and level, the key figures, the plot's accessible name, and how many times
+each series is asked for. Writing it found:
+
+- **The verdict named no window.** It spelled its dates with the axis
+  formatter's month-and-year form, so a learner's first week read "Over
+  Sep ’26 to Sep ’26". Every shot so far used a seed spanning months, where
+  "Jun ’26 to Aug ’26" looks plausible. Now `formatBarDate`, as the price
+  chart's own sentence already does: "Over 3 Jun 2026 to 26 Aug 2026".
+- **SPY on its way was called unloadable.** Only `missing-prices` was treated
+  as "not here yet"; a benchmark in flight is `no-benchmark`, and the first
+  draw ran before the first request was even sent. So every load of a
+  portfolio not holding SPY said "SPY's prices could not be loaded" until they
+  loaded — DEC-078's lie, told before the lookup instead of after. Both
+  reasons now read as loading while a request is out, and the requests go
+  before the first draw.
+- **A fresh portfolio fetched SPY for nothing.** "No trades" needs no price,
+  and it is the state every visitor starts in. It asks for nothing now.
+
+No `DECISIONS.md` line: all three bind this one surface, and their reasons
+sit in `js/view-performance.js` beside the code (guide §16).
+
+**Next session:** `D22` (one load asks for a series four times) is the
+lowest open in-bounds defect. `S6` remains overdue on both budgeted files —
+`BACKLOG.md` is 27,140 of 27,500 after this session freed 298 bytes, and
+`DECISIONS.md` is unchanged at the ceiling. Then `T13c`. No surface is due an
+audit: D21 added a runner and fixed wording, not a revamp.
