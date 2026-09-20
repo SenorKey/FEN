@@ -17,6 +17,10 @@
  * would double the upstream calls to learn something we had already been
  * told. The free tier allows 25 a day.
  *
+ * Asking twice for one thing costs one request: a call finding that URL
+ * already out joins it rather than repeating it, so surfaces never have to
+ * coordinate over what they fetch. See requestJson.
+ *
  * Responses are treated as untrusted (guide section 5). The shape is checked
  * before anything is handed back, so a malformed payload fails here rather
  * than turning into NaN four layers away. Failures reject with a short `kind`
@@ -424,7 +428,7 @@
     /* Any failure to reach the service is one outcome for the page — it has
      * nothing to show — so an abort, a DNS failure and a 503 all arrive here
      * as a rejection with a kind, and the view decides how to say it. */
-    function requestJson(url) {
+    function fetchJson(url) {
         var attempt = withTimeout(url);
         return attempt.promise.then(function (response) {
             if (attempt.done) attempt.done();
@@ -445,6 +449,50 @@
             if (error && error.kind) throw error;
             throw DataError(error && error.name === 'AbortError' ? 'timeout' : 'offline');
         });
+    }
+
+    /* The requests currently out, by URL. No prototype, so a URL can never
+     * arrive at an inherited property name and read as a request. */
+    var inFlight = Object.create(null);
+
+    /* One request per URL while it is out.
+     *
+     * Surfaces ask the same question in the same tick far more than they look
+     * like they do: on a Trade tab holding SPY, the index strip, the
+     * portfolio, the equity curve and its benchmark each want
+     * /history?symbol=SPY, so one page load asked for that series four times
+     * (D22). The service caches, so the repeats cost no upstream quota and
+     * nothing on screen was wrong — they cost four round trips on a home
+     * connection where one would do, and the count grew with every surface
+     * added to the tab.
+     *
+     * The seam is the right place for it rather than any one view, because
+     * no view can see what another is asking for. It is also why this keys on
+     * the URL rather than the route: the URL is what makes two asks the same
+     * ask, and every route gets the guard without having to remember it.
+     *
+     * The *request* is shared, never the answer. An entry is dropped the
+     * moment it settles, in either direction, which makes this single-flight
+     * and not a cache: a settled answer is the service's to cache and it
+     * already does, while one held here would go stale with nothing to expire
+     * it, and a rejected one would hand its failure to every later caller —
+     * the one bug this kind of memo reliably grows.
+     *
+     * Callers share the raw payload and each reads it separately, so every
+     * surface still gets its own checked object and none of them can be
+     * reached by what another does with one.
+     */
+    function requestJson(url) {
+        if (inFlight[url]) return inFlight[url];
+
+        var request = fetchJson(url);
+        inFlight[url] = request;
+
+        function settled() {
+            if (inFlight[url] === request) delete inFlight[url];
+        }
+        request.then(settled, settled);
+        return request;
     }
 
     /* Daily bars for one symbol, oldest first.
@@ -487,44 +535,19 @@
      * already fetched. So a lookup costs the same two calls it did before
      * this panel existed.
      *
-     * Two surfaces read the answer, so a request already in flight for the
-     * same symbol is joined rather than repeated — see inFlight below.
+     * Two surfaces read the answer — the filings panel and the reporting
+     * calendar, started in the same tick by js/view-symbol.js — so a lookup
+     * would make this request twice. requestJson joins it, as it does for
+     * every route.
      */
-    /* The request currently in flight, if there is one, and for which symbol.
-     *
-     * Two surfaces read this one response — the filings panel and the
-     * reporting calendar — and js/view-symbol.js starts them in the same
-     * tick, so without this a lookup makes the same request twice. Sharing
-     * the promise rather than caching the result: a settled answer is the
-     * service's business to cache and it already does, for a day, while a
-     * result held here would go stale with nothing to expire it.
-     *
-     * Cleared when it settles, in both directions. A rejected request that
-     * stayed here would hand its failure to every later lookup of that
-     * symbol, which is the one bug this kind of memo reliably grows. */
-    var inFlight = { symbol: null, promise: null };
-
     function fundamentals(symbol) {
         if (typeof symbol !== 'string' || !SYMBOL_PATTERN.test(symbol)) {
             return Promise.reject(DataError('invalid_symbol'));
         }
-        if (inFlight.symbol === symbol && inFlight.promise) {
-            return inFlight.promise;
-        }
-
         var url = BASE + '/fundamentals?symbol=' + encodeURIComponent(symbol);
-        var request = requestJson(url).then(function (payload) {
+        return requestJson(url).then(function (payload) {
             return readFundamentals(payload, symbol);
         });
-        inFlight = { symbol: symbol, promise: request };
-
-        function settled() {
-            if (inFlight.promise === request) {
-                inFlight = { symbol: null, promise: null };
-            }
-        }
-        request.then(settled, settled);
-        return request;
     }
 
     /* The names the page can search by. Local to the service — it reads a

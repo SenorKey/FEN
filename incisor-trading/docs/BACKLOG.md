@@ -251,19 +251,6 @@ second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
 
-- [ ] **D22 · One page load asks for the same series four times** `[defect]`
-  *(2026-09-17, T16 audit — reasoning there)* — on `--portfolio flat`,
-  holding one symbol, `/history?symbol=SPY` goes out **four times**: the index
-  strip, then the portfolio, the curve and the benchmark in one tick. **No
-  quota is spent** — the service caches (DEC-003) — which is why it survived,
-  invisible to the call budget and to every test. Four round trips on a
-  residential uplink where one would do, growing with each surface on the tab.
-  `js/market-data.js` already shares the in-flight promise for
-  `fundamentals()`; `history()` never got the guard and now has four callers.
-  A defect because the seam is every surface's, not this one's.
-  *Accept:* one load asks for a series once; a rejected request is not held and
-  handed to the next caller; per-surface failure behaviour is unchanged.
-
 - [ ] **D20 · `shoot.py` cannot reach a filled-in order ticket** `[enhancement]`
   *(2026-09-16, T15 audit)* — every state worth judging comes after typing, so
   that audit used a scratchpad driver. *Accept:* a flag types an order, and
@@ -391,3 +378,4 @@ session that must *act* on any of this goes.
 | D16 | 09-15 | **A cached row did not record what wrote it, so fixture prices were served under a `live` label** *(defect, fixed)* — source is part of the key now, and a response reports the row's provenance, not the config's. → DEC-091 |
 | D17 | 09-15 | **Upstream calls were not paced, so a cold cache spent the day on throttled replies** *(defect, fixed)* — 12s apart, by declining rather than sleeping; the grid keeps its eleven funds. → DEC-092 |
 | D21 | 09-19 | **The equity curve's view got a runner** *(defect, fixed)* — whose first run found a first week named "Sep ’26 to Sep ’26" and SPY on its way called unloadable. → `js/view-performance.js` |
+| D22 | 09-20 | **One page load asked for the same series four times** *(defect, fixed)* — the seam joins a request already out, keyed by URL, so every route gets it. 23 requests to 13, same pixels. → `js/market-data.js` |

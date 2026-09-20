@@ -4720,3 +4720,85 @@ lowest open in-bounds defect. `S6` remains overdue on both budgeted files —
 `BACKLOG.md` is 27,140 of 27,500 after this session freed 298 bytes, and
 `DECISIONS.md` is unchanged at the ceiling. Then `T13c`. No surface is due an
 audit: D21 added a runner and fixed wording, not a revamp.
+
+## 2026-09-20 — D22: four asks for one series became one, at the seam
+**Outcome:** shipped — D22 closed. One defect is a session's whole work
+(§14 step 4), so no task was taken.
+**Changed:** `js/market-data.js`, new `tests/market_data_model.jxa.js` and
+`tests/test_market_data.py`, `tests/reports_model.jxa.js`, `tests/README.md`,
+`BACKLOG.md`
+**Verified:** 261 page tests (up from 254) and 244 service tests green.
+`shoot.py --api --tab trade --portfolio held` clean at every width, and again
+with the service stopped. Local sets `d22-*`, gitignored.
+**Notes:** Step 1 passed — Key's checkout had only untracked
+`doe-v-bonnell/.claude/`, which DEC-084 says does not fail it.
+
+**The fix is one function, and it is the one every route already called.**
+`requestJson` now keeps the requests that are out in a map keyed by URL and
+hands a second caller the first one's promise, dropping the entry the moment
+it settles either way. The old body is `fetchJson`, untouched. `history()`
+needed no change at all, and `fundamentals()` got *shorter*: its bespoke
+single-slot memo was deleted, because the seam now does for every route what
+that memo did for one.
+
+**Keyed on the URL rather than the route**, which is the whole choice. The URL
+is what makes two asks the same ask, so a route added later gets the join
+without anyone remembering to ask for it — and D22 was filed as a defect in
+the seam precisely because no view can see what another view is fetching.
+`test_market_data.py` pins that shape: exactly two mentions of `fetchJson`
+(its definition and its one call), so a future route cannot quietly reach the
+network around the sharing half.
+
+**What it cost: an identity the old test asserted.** `fundamentals('AAPL')`
+twice used to return the *same promise object*; now it returns two promises
+over one request, because each caller runs the reader itself. That is better
+and not merely different — four surfaces reading one `/history` each get their
+own checked `bars` array, so none can be reached by what another does with
+one — but it is a real behaviour change, and `reports_model.jxa.js`'s
+`and both callers are handed the same promise` had to go. The claim it was
+making moved with the rest of the request-sharing block into the new runner,
+which asserts the property that actually matters: one reply answers all four,
+and their arrays are not the same array.
+
+**The evidence is a number the tool already prints.** On the Trade tab with a
+held portfolio, `shoot.py`'s busiest simulated visitor went from **23 requests
+to 13**. The three screenshots are **byte-identical** before and after at
+desktop, tablet and mobile — same pixels, ten fewer round trips, which is
+exactly the shape a pure efficiency fix should have. With the service stopped
+the degraded shots are byte-identical too, and the browser's own 502 lines
+fell from 36 to 21.
+
+**A trap the harness had and the page does not.** The new runner's fetch stub
+stays pending, which is the only state in which a second caller can join a
+first — and that made the module's map outlive the harness's own bookkeeping:
+a case that started a request and never settled it left an entry behind, and
+the next case joined the leftover and made no fetch at all. It cost two
+debugging passes and it is why `reset()` now ends everything still out. A
+browser never reaches that state because `withTimeout` aborts at 8s. The same
+shape broke `reports_model.jxa.js` the moment the memo stopped being a single
+slot that the next symbol evicted — which is worth knowing before writing the
+next pending-fetch harness.
+
+**Checked before trusting: nothing mutates a shared payload.** Four surfaces
+now read one object graph, so every caller of `history()` was read for
+in-place mutation before this shipped. All six only read `payload.bars` and
+`payload.source`; every sort of bars in the page is on a `.slice()` copy
+(`portfolio-orders.js`, `portfolio-history.js`). If that ever stops being
+true the coupling is silent, which is why the runner asserts the arrays are
+distinct rather than leaving it to the convention.
+
+**No `DECISIONS.md` line, and this time the budget forced the question rather
+than answering it.** The index is 14,437 of 14,500 — 63 bytes — so a new row
+would not fit, and guide §16 is explicit that a ceiling is never raised
+mid-task. The honest answer is that it does not need one: the decision binds
+`js/market-data.js` and nothing else, its reasoning is in that file's header
+where a caller is already looking, and DEC-087 says an index row repeating a
+comment is a second copy that drifts. Rule 1 of §16, not a workaround for it.
+
+**Next session:** no defect is open in bounds — `D19` is Key's twice over, and
+`D18`, `D20`, `D13` and `D3` are all `[enhancement]`, which the routine leaves
+for his triage. No surface is due an audit. So the top of the queue is
+**`S6`**, which is now genuinely pressing rather than merely overdue: at 63
+bytes the index cannot take the next decision, and the session after this one
+will hit that wall rather than reading about it. `BACKLOG.md` came down to
+26,468 of 27,500 by closing D22. Then `T13c`.

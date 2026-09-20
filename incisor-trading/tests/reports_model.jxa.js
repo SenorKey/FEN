@@ -228,88 +228,11 @@ function run(argv) {
     equal('a figure that is not a number becomes unknown, never a string',
         badFigure.value.reporting.quarters[0].eps, null);
 
-    /* One response, two surfaces. Both views are started in the same tick by
-     * js/view-symbol.js, so a second ask while the first is in flight has to
-     * join it — otherwise every lookup makes this request twice.
-     *
-     * This is the one claim in the file that a promise settling as it is
-     * built cannot show: the memo clears when the request settles, and a
-     * synchronous stand-in has settled before the second caller arrives. So
-     * the fetch here is left genuinely pending, which is what a network is. */
-    var held = null;
-
-    function Pending() {
-        this.handlers = [];
-    }
-    Pending.prototype.then = function (onOk, onFail) {
-        var next = new Pending();
-        this.handlers.push({ ok: onOk, fail: onFail, next: next });
-        return next;
-    };
-    /* Adopts a promise a handler returns, the way a real one does. Without
-     * it the client's `response.json().then(...)` inside a `.then(...)` would
-     * hand the next link a promise object where the parsed payload should be,
-     * and the reader would call that malformed — which is a bug in this
-     * harness that would read exactly like a bug in the page. */
-    Pending.prototype.settle = function (state, value) {
-        this.handlers.forEach(function (handler) {
-            var run = state === 'ok' ? handler.ok : handler.fail;
-            if (!run) {
-                handler.next.settle(state, value);
-                return;
-            }
-            var out;
-            try {
-                out = run(value);
-            } catch (error) {
-                handler.next.settle('fail', error);
-                return;
-            }
-            if (out && typeof out.then === 'function') {
-                out.then(function (settled) {
-                    handler.next.settle('ok', settled);
-                }, function (error) {
-                    handler.next.settle('fail', error);
-                });
-            } else {
-                handler.next.settle('ok', out);
-            }
-        });
-        this.handlers = [];
-    };
-
-    requested = [];
-    dataWindow.fetch = function (url) {
-        requested.push(url);
-        held = new Pending();
-        return held;
-    };
-
-    var first = data.fundamentals('AAPL');
-    var second = data.fundamentals('AAPL');
-    equal('a request already in flight is joined, not repeated',
-        requested.length, 1);
-    equal('and both callers are handed the same promise', first, second);
-
-    var other = data.fundamentals('MSFT');
-    equal('a different symbol is its own request', requested.length, 2);
-    check('and its own promise', other !== first);
-
-    /* Once it lands, the next lookup is a fresh request. Holding the settled
-     * answer would make the surface show a filing history that had stopped
-     * being refreshed, with nothing on the page to expire it — the service
-     * caches for a day and that is where the caching belongs. */
-    held.settle('ok', { ok: true, status: 200,
-        json: function () {
-            var body = payload();
-            body.symbol = 'MSFT';
-            return Settled.resolve(body);
-        } });
-    requested = [];
-    dataWindow.fetch = fetchStub;
-    ask({ body: payload() });
-    equal('a settled request is not held for the next lookup',
-        requested.length, 1);
+    /* The request sharing this file used to check moved to the seam that
+     * owns it, with D22: one lookup serving two surfaces turned out to be
+     * the same claim as one series serving four, and js/market-data.js
+     * now joins by URL for every route. tests/market_data_model.jxa.js
+     * checks it, with the pending-fetch harness that went with it. */
 
     /* ── The view ───────────────────────────────────────────────── */
 

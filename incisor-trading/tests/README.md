@@ -39,6 +39,11 @@ the count went stale three suites ago:
   worked out by hand in cents.
 - **`test_performance.py`** — the equity curve's view: every reason it gives
   for drawing no line, the verdict, and how often it asks for a series.
+- **`test_market_data.py`** — the network seam itself: a URL already out is
+  asked for once however many surfaces want it, and the join is dropped the
+  moment it settles either way, so it stays single-flight and never becomes a
+  cache. Its fetch stub stays pending, which is the only state in which a
+  second caller can join a first.
 - **`test_shoot_tool.py`** — not the page: `tools/shoot.py`'s stand-in for
   Apache. It has to identify its callers the way a real proxy does, or its
   findings are about itself (D7).
@@ -90,6 +95,7 @@ Every run prints what the busiest of them cost:
   requests busiest visitor 14 of 60 allowed -> 4 simulated readers
 ```
 
-That number is worth watching. It grows every time a surface lands, and the
-run fails if one page load ever outgrows the per-IP allowance a real reader
-gets — at which point the fix is in the page, not in the tool.
+That number is worth watching. It grows every time a surface lands — though
+a surface asking for something another already wants now costs nothing, since
+D22 — and the run fails if one page load ever outgrows the per-IP allowance a
+real reader gets, at which point the fix is in the page, not in the tool.
