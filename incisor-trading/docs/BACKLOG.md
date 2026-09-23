@@ -57,30 +57,6 @@ that is Key's to obtain, not the routine's to work around.
 
 ## Phase 2 — Paper trading (live sim)
 
-- [ ] **T13c · Adopt broadsheet, and the one idea worth taking from workbench**
-  Key chose `incisor-look/broadsheet` on 2026-09-12. Merge it into
-  `incisor-dev`. Three things go with the merge, and the third is not optional.
-
-  1. **Bring the sticky tab strip across from workbench.** It is a good idea
-     independent of the rail that was rejected: the dashboard panel runs past
-     4,000px and the mode switch currently scrolls away. **In workbench it
-     covers the provenance banner** — the line reading "Sample data · generated
-     prices, not real quotes" — cutting it in half. *A test has to assert that
-     no sticky element overlaps the provenance banner at any scroll position*,
-     because a reader who cannot see that line is being shown invented prices
-     with nothing saying so.
-  2. **Switch prose to Bricolage Grotesque** and delete the DM Sans restatement
-     on `body.incisor`, closing `D13`. The reason recorded for keeping DM Sans —
-     that the figures were set against it — is not true: every figure uses
-     `var(--inc-mono)`, so the body face never touched a number. Guide §13 wants
-     the page to belong to the site, and the site is Bricolage now. Check the
-     prose against the mono figures once and record what it looks like.
-  3. **Keep Playfair on headings.** Broadsheet's amber ticker prefix on surface
-     headings (`AAPL Beyond the price`) is the site's voice doing real work.
-  *Accept:* the merge lands with both suites green; `shoot.py` clean at every
-  width; the sticky strip covers nothing at any scroll position, asserted; the
-  page renders in Bricolage with figures unchanged; `D13` closed in the index.
-
 - [ ] **T13d · Broadsheet's long tail** — the weakness its own registration
   names, and the reason it is filed rather than fixed in the merge: below the
   fold it is a single column of full-width tables, and without card fills the
@@ -286,19 +262,6 @@ old numbers. Nothing else moved.
   says so in its summary line; every other run is untouched, since those sets
   are gitignored and reproducible in seconds.
 
-- [ ] **D13 · Decide whether this page takes the site's new face**
-  `[enhancement]` *(2026-09-03)* — Key moved the site to Bricolage Grotesque in
-  a change that was not meant to reach `/incisor-trading/`. The page still
-  renders DM Sans and Playfair Display exactly as before, because `body.incisor`
-  restates the face rather than inheriting it — verified by computed style, not
-  by reading the CSS. So nothing is broken and nothing needs undoing.
-  What is open is whether it *should* take Bricolage eventually. Guide §13 says
-  the page belongs to the site, which argues yes; every figure and line of prose
-  here was set against DM Sans, which argues for measuring before switching.
-  **Key's call, not the routine's** — it is a look decision, so it goes through
-  `DESIGN-BRANCHES.md` as an `incisor-look/*` direction if it is tried at all.
-  Until then `incisor.css` keeps DM Sans and its comments say why.
-
 - [ ] **D19 · The site-wide beacon 404s on every page** `[defect]`
   *(found 2026-09-12 during the T26b rehearsal)* — **not an Incisor defect and
   not Incisor's to fix**, recorded here because this is where it was seen.
@@ -379,3 +342,5 @@ session that must *act* on any of this goes.
 | D17 | 09-15 | **Upstream calls were not paced, so a cold cache spent the day on throttled replies** *(defect, fixed)* — 12s apart, by declining rather than sleeping; the grid keeps its eleven funds. → DEC-092 |
 | D21 | 09-19 | **The equity curve's view got a runner** *(defect, fixed)* — whose first run found a first week named "Sep ’26 to Sep ’26" and SPY on its way called unloadable. → `js/view-performance.js` |
 | D22 | 09-20 | **One page load asked for the same series four times** *(defect, fixed)* — the seam joins a request already out, keyed by URL, so every route gets it. 23 requests to 13, same pixels. → `js/market-data.js` |
+| T13c | 09-22 | **Broadsheet adopted.** Merged, renamed `css/broadsheet.css`, extended to the Trade tab; workbench's sticky strip, measured. → DEC-097, DEC-098, DEC-099 |
+| D13 | 09-22 | **The page took the site's face** *(closed by T13c)* — and the switch was eleven declarations, not one. → DEC-097 |

@@ -71,6 +71,9 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-092 | **Upstream is paced at the documented 5/min by declining, never sleeping: a call too soon is a refusal to refresh, not a wait.** One worker — a 12s sleep stalls the page. |
 | DEC-094 | **On sample data no line may promise a fill, a price, or a wait for one.** Sample prices never move; the note saying so sat under three lines saying otherwise. |
 | DEC-096 | **A consolidation sets the ceiling by guide §16's formula — what landed plus a quarter — and the "only ever down" gloss is given up.** It walled two sessions. |
+| DEC-097 | **The page takes the site's face, and each face has one token.** `body.incisor` restated DM Sans and eleven declarations named it: a switch that reads as one line was eleven. |
+| DEC-098 | **Anything sticky is measured against the provenance line, in a browser, every run.** A banner must be clear at the top of the page and wherever the page's own scrolling puts it. |
+| DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
 
 ---
 

@@ -2195,3 +2195,115 @@ read in full" is rows, not bytes — 74 rows is what a session pays, and the
 the test counts would be the second redefinition of this measure (lines →
 bytes → rows), and guide §6 gives the second one to Key. So it is noted for him
 as `N16` and the byte measure stands.
+
+## DEC-097 — The page takes the site's face, and a face has one home
+
+*Settled · 09-22 · T13c, closing D13*
+
+**Decision**
+
+**Prose is `var(--inc-prose)`, which holds whatever `/assets/css/styles.css`
+gives `body` — Bricolage Grotesque today. Headings are `var(--inc-display)`,
+figures `var(--inc-mono)`, and no stylesheet on this page names a face any
+other way.** `tests/test_page.py` asserts both: no literal face in a
+declaration, and the prose token equal to the site's `body` face, read out of
+`/assets` rather than compared against a string.
+
+**Why**
+
+D13 recorded that `body.incisor` restated DM Sans so the page "renders as it
+always has", and gave one reason for keeping it: the figures were set against
+that face. That was not true. Every figure here is `var(--inc-mono)` and the
+body face never touched a number — what it set was the prose, which is the
+part guide §13 wants belonging to the site.
+
+**What the switch actually cost, and why the test is the real change.** The
+restatement was one line, and changing it moved nothing: ten more declarations
+across five stylesheets named `'DM Sans', sans-serif` outright — badges, the
+segmented controls, the missing-state sentences, the error delta — and every
+one of them would have kept DM Sans after the token changed. The page would
+have come out in two faces, in the places nobody photographs. So the rule the
+test enforces is worth more than the switch: a face named in twelve places is
+a face that drifts eleven times, and this page had already drifted once
+without anybody seeing it for nine days.
+
+Playfair was tokenised in the same pass for the same reason, at three names
+rather than twelve. It stays on headings — broadsheet's amber ticker prefix
+over a serif heading (`AAPL Beyond the price`) is the site's voice doing real
+work, and the direction is built on it.
+
+## DEC-098 — A sticky element is measured against the provenance line
+
+*Settled · 09-22 · T13c*
+
+**Decision**
+
+**Every run of `tools/shoot.py` checks, in a real browser at every width, that
+no `position: sticky` element covers a `.inc-provenance` line — at the top of
+the document, and where the page's own scrolling leaves each banner.** Not
+behind a flag. A failure exits non-zero like horizontal overflow does.
+
+**Why this, and not "at no scroll position".** `T13c` asked for the literal
+property and it is unsatisfiable: a sticky element covers whatever passes
+behind it, so *every* element on the page is obstructed at some offset. What
+matters is that the line can be read — it is what tells a reader the figures
+beside it are invented, and in `incisor-look/workbench` the strip cut it in
+half. So two resting positions are measured per banner: the top of the
+document, which is where workbench failed, and the one `scrollIntoView`
+chooses, which is where an anchor jump, a skip link or a focus ring lands.
+Only the banner the page was asked to show is judged at the second: another
+one sitting behind the strip at that moment is not a fault, because nothing
+asked for it and it clears when something does.
+
+**The fix the check forced is one declaration, on the scroll container.**
+`scroll-padding-top` on `:root` tells the scroller what to keep clear, so it
+covers every banner, every heading and every focus target including the ones
+added next. A `scroll-margin` on each banner would have covered exactly the
+elements somebody remembered.
+
+**What it found on its first run, before the strip existed.** The site nav is
+`position: sticky` at 1000px and below — it has been since long before this
+page — and it was covering a provenance line by 40px wherever the page scrolled
+one into view at tablet and mobile. The strip T13c added was not the first
+sticky element here, it was the first one anybody measured. Both are fixed by
+the same declaration.
+
+## DEC-099 — broadsheet.css owns what is between surfaces
+
+*Settled · 09-22 · T13c*
+
+**Decision**
+
+**`css/broadsheet.css` loads after every per-surface stylesheet and decides
+arrangement *between* surfaces: the 1320px measure, hairline rules in place of
+card fills, the quote beside its own chart, the tile and account bands.** It
+overrides by cascade position, never by weight — no `!important` in it, so a
+surface's own stylesheet can still have the last word about itself.
+
+**Why it is a file rather than a merge into the others**
+
+DEC-013 gives each market-data surface its own view module and stylesheet, and
+that still holds: this file decides nothing a single surface could decide. It
+is the only layer that knows the quote belongs beside the chart, that eight
+surfaces ruled alike have no lead, that the tile band is one object and not
+four. Spreading those rules into the surfaces they touch would put a decision
+about two files inside one of them.
+
+Renamed from `look-broadsheet.css` when it was adopted. A file still called
+`look-` sitting among `reports.css` and `watchlist.css` reads as a leftover
+from a branch, and the property its old header advertised — that deleting one
+`<link>` returns the page to `incisor-dev` — stopped being true the moment the
+page was this.
+
+**What the adoption had to add.** The direction was built at T13b, three
+sessions before the Trade tab had any surfaces, so its original 274 lines say
+nothing about them. Merging it unchanged would have shipped a newspaper above
+the tab strip and a stack of cards below it. Those five blocks never had fills
+to remove — they needed the other half, the rule above each one, and the
+account summary's four figures became a ruled band the way the four proxy
+tiles already had. **The order ticket keeps its fill deliberately**: it is the
+one thing on this page that is operated rather than read, and a form whose
+edges dissolve is a form nobody is sure they are inside. That reason is stated
+in `broadsheet.css` beside the rule, where someone about to "finish the job"
+will be looking.
+

@@ -354,6 +354,59 @@ class TestDesignRules(unittest.TestCase):
                 any('inc-arrow' in classes(child) for child in inner),
                 'line %d uses %s with no arrow glyph' % (element['line'], marks))
 
+    def test_no_stylesheet_names_a_face_of_its_own(self):
+        """T13c. Three faces, three tokens, and no fourth opinion anywhere.
+
+        Not tidiness. `body.incisor` restated DM Sans while `--inc-prose` held
+        the same value, so this page kept its old face through the site-wide
+        switch to Bricolage Grotesque and nothing said so for nine days (D13).
+        Ten more declarations across five stylesheets named DM Sans literally,
+        and every one would have kept it after the token changed: a switch
+        that reads as one line was eleven.
+
+        Derived over every stylesheet this page serves rather than listed, so
+        the next surface's own stylesheet is covered by the rule rather than
+        being the thing that breaks it.
+        """
+        declaration = re.compile(r'font-family:\s*([^;]+);')
+        # The value is read out and then judged, rather than excluded inside
+        # the pattern: a `\s*` before a negative lookahead backtracks to zero
+        # and the lookahead then reads the space, so every line passes and the
+        # test asserts nothing. It did exactly that when it was written.
+        named = []
+        for name in CSS_FILES:
+            for number, line in enumerate(read(name).splitlines(), 1):
+                found = declaration.search(line)
+                if not found:
+                    continue
+                value = found.group(1).strip()
+                if value == 'inherit' or value.startswith('var(--inc-'):
+                    continue
+                named.append('%s:%d names %s' % (name, number, value))
+        self.assertEqual(
+            named, [],
+            'a face named outside its token: %s. Each of the three has one '
+            'home in incisor.css — var(--inc-prose), var(--inc-mono), '
+            'var(--inc-display) — because a face named twice drifts once.'
+            % '; '.join(named))
+
+    def test_the_prose_face_is_the_one_the_site_serves(self):
+        """D13, closed by T13c. The page belongs to the site (guide 13).
+
+        Asserted against /assets/css/styles.css rather than against the
+        string, because the point is not that it says Bricolage: it is that
+        it says whatever `body` says. The previous version of this page held
+        a face of its own and read as an oversight.
+        """
+        site = read(os.path.join('..', 'assets', 'css', 'styles.css'))
+        face = re.search(r'(?ms)^body \{.*?font-family:\s*([^;]+);', site)
+        self.assertIsNotNone(face, 'the site stylesheet sets no body face')
+        self.assertIn(
+            '--inc-prose: %s;' % face.group(1).strip(), read('incisor.css'),
+            'the prose token has drifted from the face /assets serves. It '
+            'exists to reach inside a mono block, not to hold a second '
+            'opinion about what this page is set in.')
+
     def test_numbers_are_set_in_tabular_figures(self):
         self.assertIn('tabular-nums', CSS)
 

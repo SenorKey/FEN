@@ -432,6 +432,65 @@ def clipped_boxes(page):
     )
 
 
+# T13c put a sticky tab strip over a panel that runs past 4,000px, and
+# anything sticky hides the top of the viewport. The hazard it introduces is
+# specific: the provenance line — "Sample data. No prices have loaded yet." —
+# is what tells a reader the figures beside it are invented, and in
+# incisor-look/workbench the strip cut that line in half. A reader who cannot
+# see it is being shown sample prices with nothing saying so, which is the one
+# thing on this page that must never be true.
+#
+# **What is asserted, and why not the literal "at no scroll position".** A
+# sticky strip covers whatever passes behind it, so every element on the page
+# is obstructed at *some* scroll offset and the literal reading is unsatisfiable
+# by anything sticky. The property that matters is that each banner can be
+# read: the page must come to rest with it clear, both where the page starts
+# and wherever the page's own scrolling puts it. So two positions are measured
+# per banner — the top of the document, which is where workbench failed, and
+# the one `scrollIntoView` chooses, which is where an anchor jump, a skip link
+# or a focus ring lands and is what `scroll-padding-top` exists to fix.
+STICKY_VS_PROVENANCE = r"""() => {
+    const sticky = [...document.querySelectorAll('*')].filter(
+        el => getComputedStyle(el).position === 'sticky');
+    const banners = [...document.querySelectorAll('.inc-provenance')].filter(
+        el => el.offsetParent !== null);
+    const hits = [];
+    const covers = (banner, where) => {
+        const b = banner.getBoundingClientRect();
+        if (b.height === 0) return;
+        for (const el of sticky) {
+            const s = el.getBoundingClientRect();
+            if (s.height === 0) continue;
+            const down = Math.min(s.bottom, b.bottom) - Math.max(s.top, b.top);
+            const across = Math.min(s.right, b.right) - Math.max(s.left, b.left);
+            if (down > 1 && across > 1) {
+                hits.push({where: where,
+                           sticky: String(el.className).split(' ')[0],
+                           covered: Math.round(down),
+                           text: (banner.textContent || '').trim()
+                               .replace(/\s+/g, ' ').slice(0, 40)});
+            }
+        }
+    };
+    window.scrollTo(0, 0);
+    banners.forEach(b => covers(b, 'at the top of the page'));
+    // One banner per position, and only the one the page was asked to show.
+    // Another banner happening to sit behind the strip at that moment is not
+    // a fault: nothing asked for it, and it clears as soon as it is asked for.
+    for (const banner of banners) {
+        banner.scrollIntoView();
+        covers(banner, 'where scrollIntoView leaves it');
+    }
+    window.scrollTo(0, 0);
+    return hits;
+}"""
+
+
+def obstructed_banners(page):
+    """Provenance lines a sticky element covers where the page comes to rest."""
+    return page.evaluate(STICKY_VS_PROVENANCE)
+
+
 # The label beacon.js computes for a control, in its own order of preference:
 # data-track, then aria-label, then id, then the text. Copied rather than
 # imported because /assets is outside this page's bounds — if it drifts, the
@@ -880,6 +939,11 @@ def main():
                 problems.append(
                     f"{label}: .{box['cls']} clips {box['clip']}px of its own "
                     f"content"
+                )
+            for hit in obstructed_banners(page):
+                problems.append(
+                    f"{label}: .{hit['sticky']} covers {hit['covered']}px of "
+                    f"\"{hit['text']}…\" {hit['where']}"
                 )
             check_beacon_labels(page, problems, label)
             for err in errors:

@@ -4901,3 +4901,96 @@ outside `incisor-trading/`.
 **N7 · still open, unchanged.** Guide §16's four-file table and §14 step 2
 still describe the pre-split memory. This session's DEC-096 adds a second
 thing that section now describes differently from the test that enforces it.
+
+## 2026-09-22 — T13c: the page is broadsheet, and it is set in the site's face
+**Outcome:** shipped — `T13c` closed, and `D13` with it. Second task of the
+session, after `S6`.
+**Changed:** merge commit for `incisor-look/broadsheet`; `index.html`,
+`css/look-broadsheet.css` → `css/broadsheet.css` (+141 lines), `incisor.css`,
+ten declarations across `css/market.css`, `css/orders.css`, `css/sectors.css`,
+`css/ticket.css`, `css/watchlist.css`, `css/lookup.css`, `tools/shoot.py`,
+`tests/test_page.py`, `docs/BACKLOG.md`, `docs/DESIGN-BRANCHES.md`
+**Verified:** 263 page tests (up from 261) and 244 service tests green.
+`shoot.py` clean at every width with no service, with the service on the
+dashboard at `--symbol AAPL`, and on the Trade tab at `--portfolio held`.
+Both new tests and the new tool check were run against a deliberately broken
+page first and each one bit. Local sets `t13c-*`, gitignored.
+**Notes:** the fixture-mode service ran on 8789 with its DB in the scratchpad
+and was stopped at the end. Neither venv exists in a fresh worktree; both were
+rebuilt.
+
+**The merge itself was four lines and one rename.** broadsheet was always one
+stylesheet plus one `<link>`, which is why it merged cleanly into a page that
+had grown five surfaces since it was branched — the only conflict was the
+`<link>` block, because T14–T16 had added five stylesheets beside it. The file
+is `css/broadsheet.css` now: one still called `look-` sitting among
+`reports.css` and `watchlist.css` reads as a leftover, and the property its
+header advertised — delete one link and you are back on `incisor-dev` —
+stopped being true the moment the page was this (DEC-099).
+
+**What the merge could not bring, and had to be built.** The direction was
+designed three sessions before the Trade tab had any surfaces on it, so its
+274 lines say nothing about the portfolio, the ticket, open orders, the trade
+log or the equity curve. Merging it as it stood would have shipped a newspaper
+above the tab strip and a stack of cards below it. Those five blocks turned
+out to need the opposite of what the dashboard needed: no fills to remove —
+they never had any — but no rule above them either, which is what makes eight
+sections read as one page. The account summary's four figures became a ruled
+band, the way the four proxy tiles already were. **The order ticket keeps its
+fill on purpose**, and the reason is in `broadsheet.css` beside the rule: it
+is the one thing here that is operated rather than read.
+
+**The sticky strip, and the test that was the actual work.** T13c asked for a
+test asserting that no sticky element overlaps the provenance banner *at any
+scroll position*, and that property is unsatisfiable — anything sticky covers
+whatever passes behind it, so every element on the page is obstructed at some
+offset. What it is reaching for is that the line can be *read*, so
+`tools/shoot.py` now measures two resting positions per banner at every
+viewport on every run: the top of the document, which is where workbench
+failed, and wherever `scrollIntoView` leaves it, which is where an anchor
+jump, a skip link or a focus ring lands. Only the banner the page was asked to
+show is judged at the second — another one behind the strip at that moment is
+not a fault (DEC-098).
+
+**Its first run failed, twice, and the second failure was not ours.** The
+first was my own harness: after scrolling banner A into view it judged every
+banner, so B sitting behind the strip at that moment was reported. The second
+came from the negative control — run with `scroll-padding-top` removed, to
+prove the check bites — and what it printed was `.site-nav covers 40px` at
+tablet and mobile, in fourteen places. **The site nav is `position: sticky`
+below 1000px and has been since long before this page.** It has been covering
+provenance lines on every anchor jump the whole time. The strip T13c added was
+not the first sticky element here; it was the first one anybody measured. One
+`scroll-padding-top` on `:root` fixes both, and it covers every heading and
+focus target too — a `scroll-margin` on each banner would have covered exactly
+the elements somebody remembered.
+
+**Bricolage was eleven declarations, not one.** D13 recorded that
+`body.incisor` restated DM Sans and gave one reason for keeping it: the
+figures were set against that face. That was not true — every figure is
+`var(--inc-mono)` and the body face never touched a number. But deleting the
+restatement moved nothing, because ten more declarations across five
+stylesheets named `'DM Sans', sans-serif` outright: the proxy badges, both
+segmented controls, four missing-state sentences, the watchlist's sort
+buttons, the error delta. All ten would have kept DM Sans after the token
+changed, and the page would have come out in two faces in the places nobody
+photographs. They are `var(--inc-prose)` now, Playfair is `var(--inc-display)`
+at three names rather than twelve, and `test_page.py` asserts that no
+stylesheet names a face at all — derived over every stylesheet this page
+serves, so the next surface is covered by the rule rather than being what
+breaks it (DEC-097).
+
+**A trap worth keeping: a `\s*` before a negative lookahead asserts nothing.**
+The first version of that test read
+`font-family:\s*(?!var\(--inc-|inherit)([^;]+);` and passed on a page that was
+entirely correct — and would have passed on one that was not, because `\s*`
+backtracks to zero width and the lookahead then reads the space rather than
+the value. It is the shape of DEC-064, in a regex: the check ran, reported
+nothing, and meant nothing. The value is read out and judged in Python now,
+and the comment beside it says why.
+
+**Item three of the task needed nothing.** Broadsheet's amber ticker prefix on
+surface headings — `AAPL` in mono and accent, then *Beyond the price* in
+Playfair — is already on the working line in `fundamentals.css` and
+`reports.css`, and the merge does not touch it. Verified in the desktop shot
+rather than assumed.

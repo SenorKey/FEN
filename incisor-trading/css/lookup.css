@@ -26,7 +26,7 @@
 }
 
 .inc-section-heading {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--inc-display);
     font-weight: 700;
     font-size: 1.1rem;
     letter-spacing: -0.005em;

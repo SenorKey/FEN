@@ -1,0 +1,440 @@
+/* ═══════════════════════════════════════════════
+   broadsheet.css — the page's arrangement.
+
+   Adopted by T13c from incisor-look/broadsheet, the
+   direction Key chose on 2026-09-12. The branch stays
+   as the record of the comparison it won; this is the
+   working line.
+
+   The concept: the page writes like a newspaper's
+   market section — a Playfair headline over every
+   surface, a paragraph explaining what the reader is
+   about to look at, a dateline's worth of market clock
+   — and used to render as a column of rounded cards
+   1120px wide, with a third of a desktop screen unused
+   on either side. This stops the page arguing with
+   itself and commits to the printed page: one wide
+   measure, hairline rules instead of card fills, and
+   figures set in ruled columns.
+
+   **Why it is a file of its own rather than folded into
+   the per-surface stylesheets.** It is the only layer
+   that knows about more than one surface — that the
+   quote belongs beside its chart, that eight surfaces
+   ruled alike have no lead, that the tile band is one
+   object and not four. DEC-013 gives each surface its
+   own stylesheet, and every one of those still owns
+   its surface: this decides arrangement *between*
+   them, which is nobody else's to decide.
+
+   It loads last and overrides by cascade position
+   rather than by weight. No !important anywhere, so a
+   surface's own stylesheet can still say the last word
+   about itself by being more specific, and what this
+   file changes stays legible in a diff.
+   ═══════════════════════════════════════════════ */
+
+/* ── The printed measure ─────────────────────────────
+   A newspaper page is wide and its columns are narrow;
+   the working line is the other way round. 1320 is
+   as wide as this page can go before the sector bars
+   become a track nobody can read the far end of. */
+
+body.incisor .inc-page,
+body.incisor .inc-footer {
+    max-width: 1320px;
+}
+
+@media (min-width: 900px) {
+
+    body.incisor .inc-page {
+        padding: 34px 40px 64px;
+    }
+
+    body.incisor .inc-footer {
+        padding: 22px 40px 40px;
+    }
+}
+
+/* ── Nameplate and dateline ──────────────────────────
+   The masthead and the clock are siblings, so the grid
+   sets them side by side and the clock reads as a
+   dateline: what day the market is on, level with the
+   name of the paper. Below 900px they stack, which is
+   the order they are written in. */
+
+@media (min-width: 900px) {
+
+    body.incisor .inc-page {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        column-gap: 40px;
+    }
+
+    body.incisor .inc-masthead {
+        grid-column: 1;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    body.incisor .inc-clock {
+        grid-column: 2;
+        margin-top: 0;
+        justify-content: flex-end;
+        text-align: right;
+    }
+
+    body.incisor .inc-tabs {
+        grid-column: 1 / -1;
+    }
+}
+
+/* The rule under the nameplate is the page's heaviest,
+   the way a masthead rule is the heaviest on a front
+   page. It sits on the tab strip because that is the
+   element spanning the full measure. */
+@media (min-width: 900px) {
+
+    body.incisor .inc-tabs {
+        margin-top: 22px;
+        padding-top: 20px;
+        border-top: 2px solid var(--inc-rule-strong);
+    }
+}
+
+body.incisor .inc-title {
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
+    letter-spacing: -0.02em;
+}
+
+body.incisor .inc-eyebrow {
+    letter-spacing: 0.28em;
+}
+
+/* ── No fills, only rules ────────────────────────────
+   Every surface on the working line is a bordered,
+   filled, rounded card. Print has no fills: it has
+   rules, gutters and white space, and a page of eight
+   cards reads as eight things of equal weight. */
+
+body.incisor .inc-tile,
+body.incisor .inc-quote,
+body.incisor .inc-chart,
+body.incisor .inc-fundamental,
+body.incisor .inc-reports,
+body.incisor .inc-watchlist,
+body.incisor .inc-sectors {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* A rule above each surface instead of a box around
+   it. The gold rule is reserved for the two surfaces
+   the reader came for — the quote and the chart — so
+   the page has a lead rather than eight equals. */
+body.incisor .inc-fundamental,
+body.incisor .inc-reports,
+body.incisor .inc-watchlist,
+body.incisor .inc-sectors {
+    border-top: 1px solid var(--inc-rule);
+    padding-top: 26px;
+    margin-top: 40px;
+}
+
+body.incisor .inc-quote,
+body.incisor .inc-chart {
+    border-top: 1px solid var(--inc-rule-strong);
+    padding-top: 20px;
+}
+
+body.incisor .inc-section-heading,
+body.incisor .inc-panel-heading {
+    font-size: 1.6rem;
+}
+
+/* ── The market summary band ─────────────────────────
+   Four tiles become four ruled columns of one band,
+   divided rather than boxed, with the price set large
+   enough to be the first thing read on the page. */
+
+/* The rules between cells are the grid's own gaps,
+   showing a background the tiles sit on top of, rather
+   than a border on each tile. One declaration draws
+   them in both directions, so the two-across phone
+   layout is ruled the same way the four-across one is
+   — a sibling border would have ruled only the columns
+   and left the two rows touching. */
+body.incisor .inc-tile-grid {
+    gap: 1px;
+    margin-top: 26px;
+    padding: 1px 0;
+    background: var(--inc-rule);
+}
+
+@media (min-width: 760px) {
+
+    body.incisor .inc-tile-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+body.incisor .inc-tile {
+    padding: 20px 22px;
+    background: var(--bg);
+}
+
+body.incisor .inc-tile-price {
+    font-size: 1.9rem;
+}
+
+/* ── The lead: quote beside its chart ────────────────
+   The one surface where the extra width buys something
+   real. A price and the shape it arrived at are one
+   thought, and on the working line they are 700px
+   apart on a phone-shaped column at desktop width.
+
+   Rows are placed explicitly rather than flowed,
+   because the left column is four elements tall and
+   the chart is one: an auto flow would put the chart
+   under the search box. Reading order is unchanged —
+   left column top to bottom, then the chart — so the
+   tab order the keyboard walks is the one on screen. */
+
+@media (min-width: 1080px) {
+
+    body.incisor .inc-lookup {
+        display: grid;
+        grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+        column-gap: 44px;
+        align-items: start;
+    }
+
+    body.incisor .inc-lookup > .inc-section-heading {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    body.incisor .inc-search {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    body.incisor .inc-quote {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    body.incisor .inc-watch {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    body.incisor .inc-chart {
+        grid-column: 2;
+        grid-row: 2 / span 3;
+        margin-top: 20px;
+    }
+
+    body.incisor .inc-fundamental {
+        grid-column: 1 / -1;
+        grid-row: 5;
+    }
+
+    /* Reports is a child of the lookup section, not a
+       sibling of it — the indentation in index.html
+       reads the other way and it is wrong. Placed
+       explicitly, because an auto-placed table lands
+       in the 420px column and loses 123px of five
+       quarters of filings inside its own scroller. */
+    body.incisor .inc-reports {
+        grid-column: 1 / -1;
+        grid-row: 6;
+    }
+
+    /* The quote's four figures are in a 420px column
+       now, not a 1120px one, so they set in two
+       columns rather than four. */
+    body.incisor .inc-quote .inc-figures {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Day range and 52-week range likewise: stacked
+       reads better than two 190px tracks. */
+    body.incisor .inc-ranges {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ── Editorial prose ─────────────────────────────────
+   Explanatory paragraphs get a printed measure and a
+   little more leading; they are the part of this page
+   that is actually read rather than scanned. */
+
+body.incisor .inc-panel-note,
+body.incisor .inc-proxy-note {
+    max-width: 70ch;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+/* ── The mode switch stays reachable ────────────────
+   Taken from incisor-look/workbench, which is retired:
+   the sticky strip was a good idea independent of the
+   rail Key rejected, and the dashboard panel it sits
+   over runs past 4,000px. Without this the only way
+   back to the Trade tab from the foot of the page is
+   to scroll the whole way up.
+
+   It needs a background of its own — a strip over
+   scrolling figures is unreadable without one — and it
+   is the strip a reader aims at rather than something
+   they scroll back for, so the background is the
+   page's and not a tint.
+
+   Two offsets, because the site nav is two different
+   things: static and 44px tall above 1000px, where it
+   scrolls away and the strip takes the top edge; and
+   sticky at top 0 and 40px tall at or below 1000px,
+   where the strip has to clear it. z-index sits well
+   under the nav's 200 — the nav wins, and it should. */
+
+body.incisor .inc-tablist {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+}
+
+@media (max-width: 1000px) {
+
+    body.incisor .inc-tablist {
+        top: 40px;
+    }
+}
+
+/* What the strip covers when the page jumps, and the
+   whole reason the strip needed a test (T13c). Anything
+   sticky hides the top of the viewport, so an anchor
+   jump, a `scrollIntoView` or a focus ring landing at
+   the top edge lands *behind* it. In workbench that cut
+   the provenance banner in half — the line saying the
+   prices are invented — and a reader who cannot see
+   that line is being shown sample data with nothing
+   saying so.
+
+   Fixed at the scroll container rather than per
+   element: scroll-padding is what the scroller is told
+   to keep clear, so one declaration covers every
+   provenance line, every heading and every focus
+   target on the page, including the ones added next.
+   A scroll-margin on each banner would have covered
+   exactly the elements someone remembered.
+
+   The values are the strip's own offsets plus its
+   height and a line of air. `tools/shoot.py` measures
+   the result in a real browser at every width and fails
+   the run if a banner is ever obstructed — always, not
+   behind a flag, because an invariant nobody has to
+   remember is the only kind that holds. */
+
+:root {
+    scroll-padding-top: 62px;
+}
+
+@media (max-width: 1000px) {
+
+    :root {
+        scroll-padding-top: 102px;
+    }
+}
+
+/* ── The Trade tab, in the same idiom ───────────────
+   This direction was built at T13b, three sessions
+   before the Trade tab had any surfaces on it, so its
+   original 274 lines say nothing about them. Adopting
+   it without this section would have shipped a page
+   that is a newspaper above the tab strip and a stack
+   of cards below it.
+
+   The dashboard's surfaces needed their fills removed;
+   these never had any — the blocks carry margins and
+   the figures inside them carry the boxes — so what
+   they need is the other half: the rule above each one
+   that makes eight sections read as one page. Same
+   rule, same rhythm, same gold reserved for the lead. */
+
+body.incisor .inc-ticket,
+body.incisor .inc-open-orders,
+body.incisor .inc-positions-block,
+body.incisor .inc-log-block,
+body.incisor .inc-perf {
+    border-top: 1px solid var(--inc-rule);
+    padding-top: 26px;
+    margin-top: 40px;
+}
+
+/* The account summary is the lead of this tab the way
+   the quote is the lead of the dashboard, so it takes
+   the gold rule and sits tight under the heading. */
+body.incisor .inc-folio {
+    border-top: 1px solid var(--inc-rule-strong);
+    padding-top: 20px;
+    margin-top: 26px;
+}
+
+/* Four figures divided rather than boxed, exactly as
+   the tile band above: the gaps show the background
+   through, so one declaration rules both the
+   four-across desktop row and the stacked phone one. */
+body.incisor .inc-folio-figures {
+    gap: 1px;
+    padding: 1px 0;
+    border: none;
+    border-radius: 0;
+    background: var(--inc-rule);
+}
+
+body.incisor .inc-folio-total,
+body.incisor .inc-folio-part {
+    background: var(--bg);
+}
+
+/* The dividers are the grid's gaps now, so the two
+   borders that drew them before would draw them twice —
+   and the headline row's would be the one rule on the
+   band that does not line up with the others, because a
+   border sits inside the cell and a gap between them. */
+body.incisor .inc-folio-part + .inc-folio-part {
+    border-left: none;
+}
+
+body.incisor .inc-folio-total {
+    border-bottom: none;
+}
+
+/* portfolio.css draws the phone layout's dividers with
+   :nth-child borders, and the gaps draw them now.
+   Cancelling the sibling border without these would
+   leave every second cell ruled twice down one edge and
+   the second row ruled twice along the top — a later
+   rule at equal specificity that no DOM test sees
+   (DEC-065), one media query down. */
+@media (max-width: 700px) {
+
+    body.incisor .inc-folio-part:nth-child(odd),
+    body.incisor .inc-folio-part:nth-child(n + 4) {
+        border-left: none;
+        border-top: none;
+    }
+}
+
+/* The ticket keeps its fill, and that is a decision
+   rather than an omission. Everything else on this page
+   is read; the ticket is the one thing operated, and a
+   form whose edges dissolve into the page is a form
+   nobody is sure they are inside. Print has boxed
+   forms too. */

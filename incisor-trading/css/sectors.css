@@ -245,7 +245,7 @@
 }
 
 .inc-sector-missing {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.78rem;
     color: var(--muted);
 }

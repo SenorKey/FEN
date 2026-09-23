@@ -75,7 +75,7 @@
     border-radius: 4px;
     background: transparent;
     color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.76rem;
     font-weight: 500;
     letter-spacing: 0.04em;

@@ -54,32 +54,36 @@
        takes the parent's computed value, which in a figure is the mono — so a
        sentence written to explain a number came out set as one.
 
-       This used to mirror /assets/css/styles.css and no longer does. The site
-       moved to Bricolage Grotesque in a change that was not meant to reach
-       this page; DM Sans is what every figure and every line of prose here was
-       set against, so it is restated rather than inherited. That is preserving
-       the status quo, not a decision to look different from the site — whether
-       this page eventually takes the shared face is Key's to settle, and until
-       he does, do not "resync" it. Keep it matching `body.incisor` above. */
-    --inc-prose: 'DM Sans', sans-serif;
+       The site's own face, and it has to be named rather than left to
+       inheritance for the reason above. It must keep matching /assets: this
+       token exists to reach *inside* a mono block, not to hold a second
+       opinion about what the page is set in. T13c switched it from DM Sans
+       when the page adopted broadsheet, closing D13. */
+    --inc-prose: 'Bricolage Grotesque', sans-serif;
+
+    /* The display face, for the nameplate and every surface heading. The one
+       place the site kept the serif when it moved to Bricolage, and the reason
+       this page reads as an editorial rather than a terminal (guide §13). Named
+       here for the same reason as --inc-prose: it was written out in three
+       stylesheets, and a face named three times drifts twice. */
+    --inc-display: 'Playfair Display', Georgia, serif;
 }
 
 /* ── Release the viewport lock ───────────────────────────────
    The shared body is height:100vh / overflow:hidden for the
    home page's two-pane shell. This page scrolls normally. */
 
+/* No font-family here on purpose. The page takes the site's Bricolage
+   Grotesque from /assets/css/styles.css `body`, which is what guide §13 asks
+   for: the page belongs to the site. It used to restate DM Sans, and the
+   reason recorded for that — that the figures were set against it — was not
+   true, since every figure on this page is set in var(--inc-mono) and the body
+   face never touched a number (T13c, closing D13). */
 body.incisor {
     height: auto;
     min-height: 100vh;
     overflow: visible;
     display: block;
-
-    /* The shared face became Bricolage Grotesque in a site-wide change that
-       was not intended to reach this page. DM Sans is restated here so the
-       page renders as it always has — its figures and prose were set against
-       that face. Not a divergence anyone chose; an open question for Key.
-       Matches --inc-prose above. */
-    font-family: 'DM Sans', sans-serif;
 }
 
 body.incisor .site-nav {
@@ -136,7 +140,7 @@ body.incisor .nav-dropdown-menu {
 }
 
 .inc-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--inc-display);
     font-weight: 700;
     font-size: clamp(2.1rem, 6vw, 3.4rem);
     line-height: 1.05;
@@ -329,7 +333,7 @@ body.incisor .nav-dropdown-menu {
 }
 
 .inc-panel-heading {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: var(--inc-display);
     font-weight: 700;
     font-size: 1.35rem;
     letter-spacing: -0.005em;

@@ -61,6 +61,16 @@
     <link rel="stylesheet" href="/incisor-trading/css/orders.css">
     <link rel="stylesheet" href="/incisor-trading/css/positions.css">
     <link rel="stylesheet" href="/incisor-trading/css/performance.css">
+
+    <!--
+      Last, and that is load-bearing. broadsheet.css is the page's arrangement:
+      the measure, what is ruled instead of boxed, and where the lead sits. It
+      overrides the per-surface stylesheets above by cascade position rather
+      than by weight, so every one of them still owns its own surface and none
+      needs an !important to keep it. Adopted by T13c from
+      incisor-look/broadsheet, which stays as the record of the comparison.
+    -->
+    <link rel="stylesheet" href="/incisor-trading/css/broadsheet.css">
     <!--
       Load order matters and `defer` preserves it: the helpers and the
       logic modules are in place before any view runs, and each view runs

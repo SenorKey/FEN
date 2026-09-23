@@ -60,7 +60,7 @@
     padding: 1px 5px;
     border: 1px solid var(--inc-rule-strong);
     border-radius: 3px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.6rem;
     font-weight: 500;
     letter-spacing: 0.08em;
@@ -231,7 +231,7 @@
 }
 
 .inc-tile[data-state="error"] .inc-delta {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.74rem;
     font-style: italic;
 }

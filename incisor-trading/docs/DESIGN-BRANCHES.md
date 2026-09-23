@@ -7,8 +7,13 @@ digging through `git branch`.
 **An unregistered branch does not exist.** If it isn't in the table below with
 screenshots, assume it was never finished.
 
-Nothing here is merged. Key picks a direction, says so, and only then does it
-become the main look.
+Nothing here is merged by the routine. Key picks a direction, says so, and
+only then does it become the main look.
+
+**One has.** `incisor-look/broadsheet` was chosen on 2026-09-12 and merged by
+`T13c` on 09-22; the page is set in it now. Its entry below and its shots stay
+as the record of the comparison it won — **and those shots are the state it
+was judged in, on 09-08, not the page today.** Run `tools/shoot.py` for that.
 
 ---
 
@@ -44,7 +49,7 @@ nothing.
 
 ## Chosen
 
-**`incisor-look/broadsheet`, 2026-09-12, by Key.** Merging it is `T13c`.
+**`incisor-look/broadsheet`, 2026-09-12, by Key.** Merged by `T13c` on 09-22.
 
 Workbench is **retired, with a qualification that matters**: Key's objection was
 the 300px rail holding a masthead and a clock beside 4,000px of scrolling —
@@ -59,6 +64,12 @@ branch: the sticky tab strip is a good idea independent of the rail, and in
 workbench it **slices the provenance banner in half** — the one line telling a
 reader the prices are not real. Anything sticky has to be shown not to cover
 that.
+
+Both landed on 09-22. The strip is on the working line at every width, and
+`tools/shoot.py` now measures every sticky element against every provenance
+line at every viewport, on every run (DEC-098). Its first run found that the
+**site nav** had been doing the same thing at 1000px and below since long
+before either look branch existed.
 
 ---
 

@@ -50,7 +50,7 @@
     border: 1px solid var(--inc-rule-strong);
     border-radius: 4px;
     background: transparent;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.76rem;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -214,7 +214,7 @@
 .inc-watch-trend-head {
     width: 34%;
     padding: 8px 12px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.64rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -259,7 +259,7 @@
     padding: 8px 12px;
     border: 0;
     background: transparent;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.64rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -345,7 +345,7 @@
 }
 
 .inc-watch-missing {
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--inc-prose);
     font-size: 0.74rem;
     font-style: italic;
     color: var(--inc-flat);
