@@ -367,8 +367,16 @@
         };
     }
 
-    /* "2h 14m", "14m 03s", "3d 5h" — the longest unit and the one below it.
+    /* "02h 14m", "14m 03s", "03d 05h" — the longest unit and the one below it.
      * More than two units is noise on a countdown nobody watches to the end.
+     *
+     * Every unit is padded, so every countdown is exactly seven characters.
+     * That is not tidiness: the dateline is right-aligned (broadsheet.css), so
+     * a string that grows a character pushes everything to its left sideways —
+     * the dot and the OPEN/CLOSED word included. Unpadded, the line stepped
+     * 7.2px twice a session, crossing 1h00m to 59m59s and 10m00s to 9m59s.
+     * Fixed width here is what holds it still, in any alignment; a reserved
+     * width in CSS only holds for the alignment it was measured in.
      */
     function formatCountdown(seconds) {
         if (!isFinite(seconds) || seconds < 0) return '—';
@@ -378,9 +386,9 @@
         var minutes = Math.floor((seconds % 3600) / 60);
         var rest = seconds % 60;
 
-        if (days > 0) return days + 'd ' + hours + 'h';
-        if (hours > 0) return hours + 'h ' + pad(minutes) + 'm';
-        return minutes + 'm ' + pad(rest) + 's';
+        if (days > 0) return pad(days) + 'd ' + pad(hours) + 'h';
+        if (hours > 0) return pad(hours) + 'h ' + pad(minutes) + 'm';
+        return pad(minutes) + 'm ' + pad(rest) + 's';
     }
 
     function pad(value) {

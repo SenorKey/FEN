@@ -198,12 +198,26 @@ function run(argv) {
      * Two units, largest first: any more is noise on a number nobody
      * watches to the end. */
 
-    equal('seconds show under an hour', clock.formatCountdown(125), '2m 05s');
-    equal('minutes are padded', clock.formatCountdown(3 * 3600 + 4 * 60), '3h 04m');
-    equal('hours show under a day', clock.formatCountdown(3600), '1h 00m');
-    equal('days show above a day', clock.formatCountdown(2 * 86400 + 5 * 3600), '2d 5h');
-    equal('zero is not an error', clock.formatCountdown(0), '0m 00s');
+    equal('seconds show under an hour', clock.formatCountdown(125), '02m 05s');
+    equal('minutes are padded', clock.formatCountdown(3 * 3600 + 4 * 60), '03h 04m');
+    equal('hours show under a day', clock.formatCountdown(3600), '01h 00m');
+    equal('days show above a day', clock.formatCountdown(2 * 86400 + 5 * 3600), '02d 05h');
+    equal('zero is not an error', clock.formatCountdown(0), '00m 00s');
     equal('a nonsense countdown renders as a dash', clock.formatCountdown(-1), '—');
+
+    /* The property the padding exists for, asserted as a property rather than
+     * as six more examples: the dateline is right-aligned, so a countdown that
+     * changes width moves the dot and the state word. Every boundary between
+     * the three branches is walked, because the width changed at two of them
+     * and an example-by-example test is what missed both. */
+
+    var widths = {};
+    [0, 1, 59, 60, 61, 599, 600, 601, 3599, 3600, 3601, 86399, 86400, 86401,
+     9 * 3600 + 30 * 60, 2 * 86400 + 5 * 3600].forEach(function (seconds) {
+        widths[clock.formatCountdown(seconds).length] = true;
+    });
+    equal('every countdown is the same width',
+        Object.keys(widths).join(','), '7');
 
     /* ── The countdown agrees with the target ────────────────────
      * seconds and `at` are computed separately, so they can disagree. */
@@ -267,7 +281,7 @@ function run(argv) {
     });
     equal('an open market reads as open', openView.state, 'Open');
     equal('an open market says when it closes, then how long',
-        openView.detail, 'Closes 4:00pm ET \u00b7 in 1h 30m');
+        openView.detail, 'Closes 4:00pm ET \u00b7 in 01h 30m');
     equal('the phase reaches the element for styling', openView.phase, 'open');
     check('an ordinary day gives no reason', openView.reason === ''
         && openView.reasonHidden === true);

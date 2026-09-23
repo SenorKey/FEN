@@ -209,13 +209,17 @@ body.incisor .nav-dropdown-menu {
     color: var(--ink);
 }
 
+/* Monospace, which is what makes the countdown's fixed width a fixed number of
+   pixels. It used to reserve 12ch against the ticking digits — a reservation
+   that never once bound, because the shortest string this element ever holds
+   is 22 characters, and one written for a left-aligned line where growth had
+   nothing to its left. broadsheet.css right-aligns the dateline, so growth
+   pushes leftward into the dot and the state word instead. formatCountdown
+   pads every unit now, so there is nothing left to reserve against. */
 .inc-clock-detail {
     font-family: var(--inc-mono);
     font-size: 0.74rem;
     color: var(--muted);
-    /* The countdown reticks every second and its width changes with the
-       digits. Reserving the width stops the text beside it twitching. */
-    min-width: 12ch;
 }
 
 /* Bracketed rather than separated by the page's usual middot, because this is
