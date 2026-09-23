@@ -4802,3 +4802,102 @@ for his triage. No surface is due an audit. So the top of the queue is
 bytes the index cannot take the next decision, and the session after this one
 will hit that wall rather than reading about it. `BACKLOG.md` came down to
 26,468 of 27,500 by closing D22. Then `T13c`.
+
+## 2026-09-22 — S6: the index came down 1,640 bytes, and the ratchet came off
+**Outcome:** shipped — `S6`. A consolidation is a session's own work, so it
+ran before any task (guide §16: a ceiling reached means the *next* session
+consolidates), and the tasks below it followed.
+**Changed:** `docs/DECISIONS.md`, `docs/DECISIONS-DETAIL.md`,
+`tests/test_docs_budget.py`, `tests/README.md`, `docs/BACKLOG.md`,
+`server/incisor.py`, `tools/shoot.py`, `js/view-price-chart.js`,
+`js/view-fundamentals.js`, `js/view-reports.js`, `js/portfolio-store.js`,
+`js/portfolio-history.js`
+**Verified:** 261 page tests and 244 service tests green, including all 16
+docs-budget checks — both bijections, both ceilings, all three row caps.
+`DECISIONS.md` **14,437 → 12,797 bytes, 80 rows → 74.** No `shoot.py` run:
+nothing here touches markup or CSS, and the twelve code edits are comments.
+**Notes:** Step 1 passed — Key's checkout had no changed tracked file. The
+09-21 session's worktree still held `incisor-dev`, clean and level with
+`origin`, so it was removed with `git worktree remove` and a fresh one added.
+Neither venv exists in a fresh worktree (both are gitignored, and rightly);
+`server/.venv` was rebuilt from `requirements.txt` to run the service suite.
+
+**Where the 1,640 bytes came from, in the order they mattered:**
+
+- **Seven rows moved beside the one surface they bind** (1,198 bytes), which is
+  DEC-087's test applied a second time: *would a session working on a different
+  surface need to know?* Five were already stated in full at the destination and
+  the index was carrying a second copy of a comment — DEC-046, DEC-048, DEC-075,
+  DEC-083, DEC-095. Two needed the missing half written at the destination
+  first: `tools/shoot.py` gained D7's three candidates and why none of them is
+  the fix (DEC-047), and `tests/README.md` gained the claim itself — the suite
+  runs the shipped script in JavaScriptCore against a DOM stub, and a green run
+  says nothing about the page (DEC-017). DEC-087's detail entry now carries a
+  second table naming all seven destinations.
+- **The nine pointer rows became redirects** (268 bytes). A row reading
+  "Merged into DEC-060, which is the same lesson after it bit a second time"
+  is a retelling of a row three lines down; `**Merged** → DEC-060, the same
+  lesson on its second bite` resolves the ID and stops.
+- **The preamble lost its history** (~360 bytes). The 10KB-to-57KB story is in
+  `tests/test_docs_budget.py`'s docstring in full and in DEC-067's detail; a
+  file read in full every session was paying for it twice more.
+
+**Three rows moved into *Recurring traps*, where the section's own rule already
+put them.** DEC-073 (a box that scrolls inside itself is not measured by a body
+that does not) bit the calendar for four sessions and the watchlist before it.
+DEC-078 absorbed DEC-023, which *is* the second bite. DEC-093 bit the T14 audit
+and then the T16 audit one surface down. All three were sitting in *Settled*,
+which is where a session looks for a rule and not for what keeps happening.
+
+**Citations to a moved ID were cleaned, and one had been dangling since 09-15.**
+Four comments cited DEC-075 or DEC-083 and three `## Done` rows cited DEC-047,
+DEC-048 or DEC-083 — all IDs the index no longer carries, so each sent a reader
+hunting. Where the rule is one clause long it is now stated inline; where it
+lives in a file it names the file. `js/portfolio-history.js` cited DEC-029,
+which left on 09-12: the same rot, one pass old, which is the argument for
+doing this as part of the move rather than after it.
+
+**The ceiling: 14,500 → 16,000, and DEC-096 records why a ratchet was the
+wrong shape.** Guide §16 says a consolidation sets the new ceiling at what it
+landed plus roughly a quarter. The routine's own gloss in the test said it
+"only ever moves down". Both cannot hold once the file is large — a quarter on
+top of anything near the ceiling is upward by construction, so the minimum of
+the two collapses to *set it at what landed*, which is the 12-byte deadlock
+§16 names by name. It then produced a second one: 09-12 landed 13,289, kept
+14,500 because 16,600 was "upward and so not available", and 1,211 bytes was
+three sessions of filing — after which 09-19 and 09-20 both failed to file a
+decision they had made, and D22's entry was argued out of existence at 63
+bytes of room. 12,797 plus a quarter is 15,996.
+
+What keeps the index readable was never the number. Both consolidations that
+freed real space did it the same way, row by row, with DEC-087's test: sixteen
+rows on 09-12, seven today. The ceiling is only how a session notices one is
+due, and it can afford headroom because the discipline is applied to every row
+rather than waiting at the end of them.
+
+### For Key
+
+**N16 · new. The honest measure of this index is rows, and changing what the
+test counts is yours, not the routine's.** 74 rows is what a session actually
+pays to read, and the 200-character cap already bounds any one row — so bytes
+measure the same thing twice while tracking neither. Guide §6 allows a measure
+to be redefined once and gives the second time to you, and this measure has
+already been redefined once (lines → bytes, which was right and is recorded in
+the test's docstring). **Recommendation:** `ROW_CEILING = 90` in place of
+`CEILING`, since a row cannot exceed 200 characters. **Done instead:** the byte
+measure stands, set by §16's formula at 16,000, and this note.
+
+**N15 · resolved 09-22 by this consolidation.** Both files have room again:
+`DECISIONS.md` is 12,797 of 16,000 and `BACKLOG.md` 26,520 of 27,500. The
+backlog's ceiling was not reset — nothing in this pass consolidated that file,
+so its number is not this consolidation's to set, and closing D21 and D22 is
+what relieved the 62-byte wall you were told about.
+
+**N14 · still open, unchanged.**
+
+**N11 · still open, unchanged.** No `incisor-api` launch config: `.claude/` is
+outside `incisor-trading/`.
+
+**N7 · still open, unchanged.** Guide §16's four-file table and §14 step 2
+still describe the pre-split memory. This session's DEC-096 adds a second
+thing that section now describes differently from the test that enforces it.

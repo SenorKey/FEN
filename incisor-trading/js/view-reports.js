@@ -310,7 +310,8 @@
     }
 
     /* The lookup failed upstream of this panel, so no dates were ever
-     * requested. Its own half only — the card above says why (DEC-075). */
+     * requested. Its own half only: two panels fed by one payload divide the
+     * teaching between them, and the card above has this one's half. */
     function lookupFailed(symbol) {
         showing = null;
         blank();

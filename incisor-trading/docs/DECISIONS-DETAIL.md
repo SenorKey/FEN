@@ -281,22 +281,6 @@ with committed JSON and says the list is complete, so search never offers a
 result that dead-ends. In live mode the catalogue is suggestions and a
 free-typed ticker is still tried.
 
-## DEC-017 — Front-end tests run in JavaScriptCore
-
-*Settled · 08-27*
-
-**Decision**
-
-Front-end tests live in `tests/`, stdlib `unittest`, run headlessly
-
-**Why**
-
-They assert structure, ARIA wiring, the noindex rule and telemetry hygiene,
-and run the real shipped scripts in JavaScriptCore via `osascript` against a
-DOM stub. They do not replace a browser and do not pretend to —
-`tools/shoot.py` covers what they cannot. Read *Recurring traps* before
-changing one.
-
 ## DEC-019 — A live surface may not overwrite served facts
 
 *Settled · 08-29*
@@ -843,88 +827,6 @@ figure measured from price alone — that asymmetry is why beta sits beside the
 filings on the wire rather than inside them. A company listed last month is
 the mirror image and gets filings with no beta.
 
-## DEC-046 — EDGAR's contact address is config
-
-*Settled · 09-01*
-
-**Decision**
-
-**EDGAR's contact address is config, not code, and not the routine's to
-choose.** `EDGAR_CONTACT` in `config.env`, empty by default; without it live
-filings refuse and say why, and the service still boots.
-
-**Why**
-
-EDGAR answers an automated client with no identifying User-Agent with a 403,
-and the address it wants is one a regulator would use to reach whoever runs
-this — Key's, in the same class as the API key, and out of bounds (§3). Not
-fatal even in live mode, unlike `UPSTREAM_API_KEY`: filings are one surface
-and prices are the page, so a service refusing to boot over the fundamentals
-panel would take the dashboard down with it. The CIK map is **fetched, never
-committed**, for a sharper reason — a stale CIK does not fail, it returns
-another company's filings under our ticker.
-
-## DEC-047 — A proxy stand-in must identify its callers
-
-*Settled · 09-02*
-
-**Decision**
-
-**A stand-in for a proxy has to identify its callers, or the thing it stands
-in for is not what is being tested.** `tools/shoot.py` sets `X-Forwarded-For`
-per browser context, because `mod_proxy_http` sets it per visitor; each
-context is its own reader with its own address.
-
-**Why**
-
-D7, and the three candidates its filing named were all about the arithmetic —
-raise the limit for the tool's service, pace the loads, add a bucket-reset
-diagnostic — while the defect was that four visitors were arriving as one.
-**Do not take any of the three.** Raising the limit stops the tool meeting the
-gate at all; pacing slows every run for a collision that should not happen;
-and a route that clears the rate limiter is a control that must never be
-enabled in production, which is the kind of switch D4 showed nobody notices is
-wrong. The sharper half is what the collapse was hiding: the service buckets
-by the forwarded address, so **every request this tool has ever sent took the
-branch production never takes** — the same 'what does the stand-in paper
-over?' question as D4 and D5, asked of a header rather than a config key, and
-it left the per-IP gate's real path unexercised long enough for D8 to sit in
-it unnoticed. The ceiling is now checked deliberately and against the right
-thing: one page load against the allowance one reader gets, printed every run
-because it grows with every surface — nine requests at T11, fourteen with a
-full watchlist, and nothing was watching it.
-
-## DEC-048 — The limiter trusts the last hop
-
-*Settled · 09-02*
-
-**Decision**
-
-**The per-IP limiter trusts the *last* hop of `X-Forwarded-For`, and that is a
-fact about the deployment rather than about the header.** Exactly one proxy
-sits in front of this service and it always appends, so the final entry is the
-only one a caller cannot write. Empty entries are dropped before the last is
-taken.
-
-**Why**
-
-D8. The usual advice is to read the *first* hop, which is right where nothing
-prepends and wrong here: `mod_proxy_http` appends the peer to whatever
-arrived, so the first hop is whatever the caller typed, and varying it per
-request put the 60-a-minute ceiling permanently out of reach. **Put a second
-proxy in that chain — Cloudflare, another Apache — and the last hop becomes
-wrong in the other direction**, naming the intermediary instead of the reader;
-it would then have to count hops from the right by however many are trusted.
-That is the reversal a future session could not make safely without knowing,
-which is why the topology is recorded here and not only in the docstring. The
-empty half is the sharper trap and it is one character wide: a caller controls
-the separators as well as the fields, so `1.2.3.4,` arrives appended as
-`1.2.3.4, , <peer>` and the last *field* is the empty string — which
-`rate_limit_check` reads as an unidentifiable caller and **exempts from the
-per-IP gate entirely**. **Anything that lets `get_client_ip()` return empty
-disables the gate silently**, and a disabled gate is indistinguishable from a
-gate nobody has tripped.
-
 ## DEC-087 — The index is for what no single file owns
 
 *Settled · 09-12 · S6*
@@ -966,6 +868,19 @@ rather than being guessed at.
 | DEC-049 | `js/view-fundamentals.js` — the panel's four groups, `display: contents` |
 | DEC-051 | `tests/test_page.py` — the docstring of the test that enforces it |
 | DEC-089 | `js/chart-geometry.js` — `plot()`'s `bounds`, and why two lines share one scale (S6, 09-15) |
+
+**Seven more on 09-22**, checked the same way — each one's reasoning was
+already stated in full at the destination, except where noted.
+
+| Was | Says it in full |
+|---|---|
+| DEC-017 | `tests/README.md` — the JavaScriptCore model, and that a green suite is not a browser |
+| DEC-046 | `server/incisor.py` at `EDGAR_CONTACT`, and `source.edgar_headers` on the refusal |
+| DEC-047 | `tools/shoot.py` at `CLIENT_HEADER` and in `proxy()`; D7's three candidates added there |
+| DEC-048 | `server/incisor.py` — `client_key()`, on why the last hop and not the first |
+| DEC-075 | `js/view-reports.js` — the fund branch, on what the panel above it already said |
+| DEC-083 | `js/portfolio-store.js` — the header's status list, on why a newer blob survives |
+| DEC-095 | `tools/shoot.py` — the docstring, on the fallback and why a `try` and not a flag |
 
 **Why**
 
@@ -1672,41 +1587,6 @@ and fails if a visible spelling stops being one.
 320px, with 0px to spare. A sixth does not fit however the labels are tuned,
 and that is a fact about the surface rather than a number to keep cutting.
 
-## DEC-075 — Two panels fed by one payload divide the teaching between them
-
-*Settled · 09-07 · found in the T12 audit*
-
-**Decision**
-
-**When two surfaces render from one response, the second states only the half
-that is its own.** The filings panel explains what a fund is; the reporting
-calendar explains why there are no dates.
-
-**Why**
-
-`GET /fundamentals` feeds both, and both reach a fund state from the same
-`filings: null`. Written independently, they arrived at nearly the same
-paragraph: each opened "No company files for SPY" and each explained that a
-fund holds shares in companies that file or report their own. On desktop they
-are 330px apart and on a phone about 600px — closer in reading time, which is
-why the audit found it in the mobile image and nearly missed it on the wide one.
-
-Fifteen of the seventeen symbols in `server/catalog.py` are funds (DEC-045),
-so this pair is not an edge case: it is what most lookups on this page
-produce. The reader was being taught the same thing twice, in a row, in
-slightly different words — which reads less like emphasis than like one of
-the two panels having failed to notice the other.
-
-The general rule is the one worth carrying: a shared payload makes the
-*duplication* easy to write, because each surface is authored against the
-payload rather than against the page. Whichever panel renders second states
-its own half and trusts the first. Asserted as an absence — the calendar's
-fund message must not contain either phrase the panel above owns — because a
-test that only checks the new wording passes again the moment the old wording
-returns beside it.
-
----
-
 ## DEC-076 — Two mechanisms deny a directory, never one
 
 *Recurring trap · 09-08 · bit twice on 09-07*
@@ -1990,33 +1870,6 @@ for any cost below 2^51 cents.
 
 *Nothing written on open.* A fresh portfolio is the starting balance and no
 trades, so a first visit leaves no site data behind.
-
----
-
-## DEC-083 — A blob from a newer page is left untouched
-
-*Settled · 09-11 · T14*
-
-**Decision**
-
-**A stored blob whose version is higher than the page's is not corrupt and is
-never overwritten.** The page runs on a fresh portfolio in memory, reports
-itself not persistent, and says so on screen. Reset does not overwrite it
-either. An *older* blob is migrated by `MIGRATIONS[v]` steps, one version at a
-time, and written back once; a gap or a failing step is recovered as corrupt.
-
-**Why**
-
-Rollback is how a bad deploy gets fixed: Key reverts `main`. The reverted page
-then meets portfolios the newer one wrote. Treating those as corrupt — the
-watchlist's rule — would destroy work the next deploy can read. This applies
-to any future versioned store, not only this one.
-
-The migration runner shipped with an empty table and is tested two ways: with
-steps written in the runner, and by evaluating the shipped store with `VERSION
-= 2` and one real step substituted in, so the load-and-write-back path is
-proven before the first real migration. **The first schema change adds
-`MIGRATIONS[1]` and bumps `VERSION` in the same commit.**
 
 ---
 
@@ -2304,36 +2157,41 @@ land. A session building one on fixtures would otherwise write "fills at"
 again. Replay (T20) is different: it advances its own series, so its orders
 really do fill.
 
-## DEC-095 — shoot.py's browser falls back when there is no system Chrome
+## DEC-096 — A consolidation sets the ceiling, and the ratchet is what gives
 
-*Settled · 09-17 · Fedora routine clone*
+*Settled · 09-22 · S6*
 
 **Decision**
 
-**`tools/shoot.py` tries `channel="chrome"` first and falls back to
-Playwright's own bundled Chromium if that launch fails.** The comment and
-docstring both used to state as fact that the tool never downloads anything —
-true only on a machine that already has Google Chrome installed, which every
-Mac session has run on so far.
+**The new ceiling is what a consolidation landed plus roughly a quarter, as
+guide §16 states it — even when that is above the old number.** The routine's
+own gloss in `tests/test_docs_budget.py`, that the ceiling "only ever moves
+down", is given up.
 
-**Why it came up.** Key set up a second copy of this routine on the Fedora box
-that also hosts frontendneeded.com, in a clone outside the web root (never
-inside `/var/www/frontendneeded.com` — see the recurring trap on running two
-checkouts of one branch, and hard rule 5, "never touch the server": a routine
-running in the web root would sit next to the live document tree and the
-running service, which is exactly what that rule exists to prevent). That box
-has no browser installed at all, system-wide or otherwise, and installing one
-outside the repo did not fit "local dev tooling ... installs only inside
-`incisor-trading/`" (guide §2 rule 10). Playwright installing its own Chromium
-into the gitignored `.devtools` venv does fit it exactly.
+**Why**
 
-**Why a `try`/`except` instead of an environment flag.** The two machines need
-no coordination and no shared config: whichever browser is actually present is
-whichever one launches. A flag would be one more thing to keep in sync between
-two clones of the same branch, for a distinction the code can already detect
-by trying.
+The two rules cannot both hold once the file is large: a quarter on top of
+anything near the ceiling is upward by construction, so taking the minimum of
+the two collapses to "set it at what landed" — which guide §16 names as the
+thing that produced the 12-byte deadlock on 09-03. It then produced a second
+one. S6 on 09-12 landed 13,289 and kept 14,500 because a quarter would have
+been 16,600 and upward "was not available"; the 1,211 bytes that left was about
+three sessions of filing, and on 09-19 and 09-20 two sessions in a row could
+not file a decision they had made. D22's entry had to be argued out of
+existence at 63 bytes of room. A budget that stops the next necessary filing is
+not a budget, whichever rule produced the number.
 
-**What did not change.** The desktop/tablet/mobile viewports, the console-error
-and overflow checks, and every other flag are identical on both machines. Chrome
-for Testing and Playwright's bundled Chromium render the same engine, so a
-screenshot taken on one machine is not expected to differ from the other.
+**What actually protects the index, and it is not the byte count.** Both
+consolidations that freed real space did it the same way — DEC-087's test,
+moving a single-surface row into the file it binds: sixteen rows on 09-12,
+seven more today. That is the mechanism; the ceiling is only how the routine
+notices it is due. So the number can afford a quarter of headroom, because the
+thing keeping the file readable is a discipline applied to every row rather
+than a wall at the end of them.
+
+**What was not done, deliberately.** The honest measure of "short enough to
+read in full" is rows, not bytes — 74 rows is what a session pays, and the
+200-character cap already bounds what any one row can weigh. Redefining what
+the test counts would be the second redefinition of this measure (lines →
+bytes → rows), and guide §6 gives the second one to Key. So it is noted for him
+as `N16` and the byte measure stands.

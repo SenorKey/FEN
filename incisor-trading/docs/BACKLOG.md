@@ -361,8 +361,8 @@ session that must *act* on any of this goes.
 | D4 | 08-30 | **`DB_PATH` in `config.env` was ignored** *(defect, fixed)* — worse than filed: the service failed to boot. → DEC-027, DEC-064 |
 | D5 | 08-31 | **`/symbols` was never reverse-proxied** *(defect, fixed)* — with a derived rule rather than a line. → DEC-064 |
 | D6 | 08-31 | **The page went 2px wide at 320px** *(defect, fixed)* — and the watchlist table was never the culprit. → DEC-036, `tools/shoot.py` |
-| D7 | 09-02 | **Two `shoot.py` runs tripped the rate limit** *(defect, fixed)* — the tool identified no callers. → DEC-047 |
-| D8 | 09-02 | **The per-IP gate could be sidestepped** *(defect, fixed)* — it reads the last non-empty hop now. → DEC-048 |
+| D7 | 09-02 | **Two `shoot.py` runs tripped the rate limit** *(defect, fixed)* — the tool identified no callers. → `tools/shoot.py` |
+| D8 | 09-02 | **The per-IP gate could be sidestepped** *(defect, fixed)* — it reads the last non-empty hop now. → `server/incisor.py` |
 | D9 | 09-02 | **The memory split into an index and a detail file** *(defect, fixed)* — 66 entries in, 66 out. **Guide §16 and §14 step 2 still describe the pre-split model; that rewrite is Key's, drafted as `N7` in `PROGRESS.md`.** → DEC-067 |
 | D10 | 09-02 | **This file carried its own history** *(defect, fixed)* — twenty-two closed entries became these rows. → DEC-068 |
 | T12 | 09-03 | **Reporting calendar.** A filing calendar, not an earnings calendar: no scheduled date, consensus or surprise exists. → `server/reporting.py`, `server/fixtures/make_fixtures.py` |
@@ -371,9 +371,9 @@ session that must *act* on any of this goes.
 | D14 | 09-07 | **`server/` was served, because only the vhost denied it** *(defect, fixed)* — the rehearsal's first fault, in two commands: the source was readable from the branch landing until the vhost snippet was pasted in by hand. → DEC-076 |
 | T13 | 09-08 | **Dashboard polish, accessibility and security pass.** CSP in meta and vhost; a dead tab stop and an invisible focus ring fixed; three panels stopped denying a failed lookup. → DEC-076, DEC-077, DEC-078 |
 | T13b | 09-08 | **Visual directions, round one.** Two opposed look branches — `broadsheet` (a document) and `workbench` (an instrument) — registered with shots. → DEC-079, DEC-080, DEC-081 |
-| T14 | 09-11 | **Portfolio model.** A replayed ledger in `localStorage`, an account summary on the Trade tab, and a notice for a blob that was unreadable or written by a newer page. → DEC-082, DEC-083 |
+| T14 | 09-11 | **Portfolio model.** A replayed ledger in `localStorage`, an account summary on the Trade tab, and a notice for a blob that was unreadable or written by a newer page. → DEC-082, `js/portfolio-store.js` |
 | T15 | 09-11 | **Order ticket and open orders.** Fills at the first bar open or close after placing; buys hold back cash; open orders were the first migration, v1 to v2. → DEC-085, DEC-086 |
-| T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-089, DEC-090 |
+| T16 | 09-12 | **Positions, history, performance.** A holdings table, the trade log, and an equity curve against buy-and-hold SPY. → DEC-088, DEC-090, `js/chart-geometry.js` |
 | T26b | 09-12 | **Deploy rehearsal: the code ran where it will run, and it found a hole in two commands.** Service installed, enabled, running in fixture mode; all five routes answer through Apache; `/health` correctly unreachable from outside. → D14, D15 |
 | D16 | 09-15 | **A cached row did not record what wrote it, so fixture prices were served under a `live` label** *(defect, fixed)* — source is part of the key now, and a response reports the row's provenance, not the config's. → DEC-091 |
 | D17 | 09-15 | **Upstream calls were not paced, so a cold cache spent the day on throttled replies** *(defect, fixed)* — 12s apart, by declining rather than sleeping; the grid keeps its eleven funds. → DEC-092 |

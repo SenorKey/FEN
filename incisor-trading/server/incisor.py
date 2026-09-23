@@ -91,6 +91,10 @@ if DATA_SOURCE == 'live' and not UPSTREAM_API_KEY:
 # in live mode: filings are one surface, prices are the page, and a service
 # that refuses to boot over the fundamentals panel would take the dashboard
 # down with it. The panel says it is unavailable instead.
+#
+# It is config and never code, because it is not the routine's to choose: the
+# value identifies a person to a government service, so Key sets it in
+# config.env or live filings decline and say why.
 EDGAR_CONTACT = os.environ.get('EDGAR_CONTACT', '').strip()
 
 # Read here, not in store.py, and below load_env_file() like every other key.

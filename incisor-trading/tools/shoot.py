@@ -231,6 +231,14 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
         # it forwards, and the service buckets its per-IP limit by it. This
         # proxy is the only place that path was never taken, so the limit was
         # being spent by four visitors at once out of one bucket.
+        #
+        # D7 filed three candidates and none of them is the fix. Raising the
+        # limit for this tool's service stops the run meeting the gate at all;
+        # pacing the loads slows every run for a collision that should not
+        # happen; a route that clears the limiter is a control that must never
+        # be enabled in production. The defect was four visitors arriving as
+        # one, and the sharper half was that every request this tool had ever
+        # sent took the branch production never takes.
         client = self.headers.get(CLIENT_HEADER, "")
         self.calls[client or "unattributed"] += 1
 

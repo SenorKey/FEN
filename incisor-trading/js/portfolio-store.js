@@ -33,7 +33,7 @@
  * older page meets portfolios the newer one wrote; discarding them as
  * corrupt would destroy work the next deploy could read. So a newer blob is
  * left exactly where it is and the page runs on a fresh portfolio held in
- * memory, saying that nothing done here will be kept (DEC-083).
+ * memory, saying that nothing done here will be kept.
  *
  * Exposes window.IncisorPortfolioStore.
  */

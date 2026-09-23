@@ -32,11 +32,10 @@ concatenated files, recorded under Recurring traps. Bytes are what a reader
 pays, so bytes are what is measured. A ceiling is a **consolidation trigger,
 not a freeze**: reaching it means the next session consolidates (S6), and the
 new ceiling is set as the outcome of that consolidation at what landed plus
-roughly a quarter. It is never raised mid-task to get past a failure. The old
-rule said it only ever
-moves **down**. When a new entry will not fit, that is the signal to consolidate
-(S6) or to move a surface-scoped decision beside the surface it binds — not to
-raise the number. At roughly 165 bytes an entry the ceiling holds about seventy,
+roughly a quarter, even where that is above the old number (DEC-096). It is
+never raised mid-task to get past a failure. When a new entry will not fit,
+that is the signal to consolidate (S6) or to move a surface-scoped decision
+beside the surface it binds — not to raise the number. At roughly 165 bytes an entry the ceiling holds about seventy,
 and the index reached that: D11's own entry put the file 136 bytes over, and it
 was paid for by moving two lines out rather than by raising anything. Both were
 already stated in full beside the code they bind — `DEC-016` in
@@ -70,15 +69,25 @@ import unittest
 
 DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs')
 
-# Ratchet. Lower it whenever a consolidation lands; never raise it.
-# Set at what a consolidation achieved *plus working headroom*, never at the
-# achieved value itself: a ceiling with no room blocks the next filing, and
-# discovering that mid-task is the failure it exists to prevent. D9 landed
-# 11,886; 15,000 leaves room to file before the next consolidation is due.
-# S6 on 09-12 landed 13,289 by moving eight surface-scoped rows into the files
-# they bind (DEC-087). A quarter on top would be 16,600, which is upward and
-# so not available: 14,500 is the cut, and about seven entries of room.
-CEILING = 14_500
+# Set by a consolidation, at what it landed plus roughly a quarter — guide
+# section 16's formula, and never raised mid-task to get past a failure.
+#
+# It is no longer a ratchet, and DEC-096 is why. "Only ever down" and "plus a
+# quarter" cannot both hold once the file is large, because a quarter on top of
+# anything near the ceiling is upward by construction; taking the minimum
+# collapses to setting it at the achieved value, which is the 12-byte deadlock
+# of 09-03 that guide section 16 names. It then happened again: S6 on 09-12
+# landed 13,289 and kept 14,500 because 16,600 was "upward and so not
+# available", and that 1,211 bytes was three sessions of filing. On 09-19 and
+# 09-20 two sessions in a row could not file a decision they had made.
+#
+# What keeps the index readable is not this number. It is DEC-087's test,
+# applied row by row: a decision only one surface can act on is stated in that
+# surface's file, and sixteen rows left on 09-12 with seven more on 09-22.
+# The ceiling is only how a session notices a consolidation is due.
+#
+# S6 on 09-22 landed 12,797 across 74 rows. A quarter on top is 15,996.
+CEILING = 16_000
 
 # Long enough to state a claim and its reason, short enough that seventy of them
 # stay readable in one sitting. This is the cap D9 exists to install: the 57KB

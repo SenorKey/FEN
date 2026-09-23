@@ -327,8 +327,8 @@
      * Distinct from reset(), which says nothing was asked for — after a failed
      * lookup that is untrue, and it sends the reader back to a search box to
      * repeat what they just did. Only this panel's own half is stated: the
-     * card above carries the reason, and saying it twice within a screen is
-     * what DEC-075 is about. */
+     * card above carries the reason: two panels fed by one payload divide
+     * the teaching between them, because a phone shows both at once. */
     function lookupFailed(name) {
         symbol = name || '';
         blank('unavailable', 'No chart for ' + (name || 'this symbol')

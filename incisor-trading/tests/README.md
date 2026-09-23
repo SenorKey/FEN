@@ -4,8 +4,20 @@
 cd incisor-trading/tests && python3 -m unittest discover
 ```
 
-Stdlib only, no dependencies, no network. Named rather than counted, because
-the count went stale three suites ago:
+Stdlib only, no dependencies, no network.
+
+**A front-end suite runs the shipped script itself** — the real `incisor.js`
+or `js/*.js`, unmodified — in JavaScriptCore via `osascript`, against a DOM
+stub built from the real `index.html`. Nothing is reimplemented for the test,
+so a suite passing means that file behaves, not that a copy of it does. It
+skips on any platform without `osascript`.
+
+**It is not a browser, and a green run says nothing about the page.** No
+layout, no paint, no real event loop, no CSS. `tools/shoot.py` is what covers
+that half, and it is the one that fails on a console error or horizontal
+overflow.
+
+Named rather than counted, because the count went stale three suites ago:
 
 - **`test_page.py`** — the page's structure: ARIA tab wiring, the hidden-page
   rules, telemetry hygiene, CSP readiness, and the house rules from guide

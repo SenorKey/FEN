@@ -161,8 +161,8 @@
 
         // The last day every series reaches. A portfolio valued at today's
         // close for one holding and last Tuesday's for another is not a
-        // portfolio value, which is DEC-029's newest shared date one surface
-        // over.
+        // portfolio value. Same call as the sector grid's newest shared
+        // date, one surface over — see `server/sectors.py`.
         var last = benchmarkCloses[benchmarkCloses.length - 1].date;
         symbols.forEach(function (symbol) {
             var series = closes[symbol];
