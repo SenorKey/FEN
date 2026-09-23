@@ -196,9 +196,18 @@ and `O6` never completes, so the prose cannot live here — seven audits were 41
 of it. Open the detail only to act on a verdict. A test asserts the bijection
 both ways, and caps a row at 200 characters.
 
-**The queue is empty.** Every surface shipped so far has a row below. One falls
-due three sessions after the next surface ships, or as soon as a revamp touches
-an audited one (guide §18).
+**The queue is full, and T13c filled it.** Every row below was written against
+a page of rounded cards set in DM Sans; broadsheet changed the measure, the
+fills, the rules and the face of all eleven. Guide §18 is unambiguous — a
+revamp touching a surface makes it due again, whatever its last verdict — so
+the eleven are due, oldest first, starting with the **market clock (08-29)**,
+which broadsheet moves from under the nameplate to level with it as a dateline.
+
+An audit is a session's whole work (§14 step 4), so it is the next session's,
+and it comes before `T13d`. **Eleven sessions of audits ahead of Phase 2 is
+probably not what §18 means to buy, and it is not the routine's to redefine —
+see `N17` in `PROGRESS.md`.** Meanwhile the rule stands and the queue is worked
+in order.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|

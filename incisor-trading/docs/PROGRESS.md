@@ -4994,3 +4994,47 @@ surface headings — `AAPL` in mono and accent, then *Beyond the price* in
 Playfair — is already on the working line in `fundamentals.css` and
 `reports.css`, and the merge does not touch it. Verified in the desktop shot
 rather than assumed.
+
+**Session close — two tasks, and the third slot went back to the queue.**
+The cap was three. Returning to §14 step 4 after `T13c`, the next item is not
+a task: `T13c` is a revamp and it touched all eleven audited surfaces, so
+every row in the audit log is due again (§18), and an audit comes before the
+topmost task and is a session's whole work. Starting one as a third item would
+have broken the rule that makes an audit worth doing. So the slot was spent
+recording the queue accurately instead, which is what stops eleven verdicts
+quietly going stale.
+
+`DECISIONS.md` is 13,379 of 16,000 after three new rows — room for about
+fourteen more, which is the first time in five sessions that filing a decision
+has not been a consideration. `BACKLOG.md` came down to 24,836 of 27,500 by
+closing `T13c` and `D13`.
+
+### For Key
+
+**N17 · new. A page-wide revamp makes the whole audit log due at once, and
+eleven sessions of audits before Phase 2 resumes is probably not what §18 is
+buying.** The rule is right at the scale it was written for — one surface
+revamped, one audit — and `T13c` is the first change to touch every surface at
+once. Taken literally it puts `T13d`, `T17`, `T18` and all of Phase 3 behind
+eleven audit sessions. **Recommendation:** a revamp that changes arrangement
+and type but no wording, no state and no control makes a surface due a
+*shorter* re-check — question 3 (beautiful) and question 2 at 375px, since
+those are what moved — rather than all four from scratch; a surface whose
+behaviour changed still gets the full four. That is a change to §18, which is
+yours. **Done instead:** the eleven are recorded as due in the audit log, the
+next session takes the oldest, and nothing was redefined.
+
+**N16 · still open, new this session.** Whether the index's budget should
+count rows rather than bytes.
+
+**N14 · still open, unchanged.**
+
+**N11 · still open, unchanged.** No `incisor-api` launch config: `.claude/` is
+outside `incisor-trading/`.
+
+**N7 · still open, unchanged.** Guide §16's four-file table and §14 step 2.
+
+**Next session:** the **market clock (T5)** audit — oldest of the eleven
+surfaces `T13c` made due, and the one broadsheet moved most, from under the
+nameplate to level with it. One audit, its four answers in `AUDITS.md`, its
+row in the log. No defect is open in bounds. `T13d` waits behind the audits.
