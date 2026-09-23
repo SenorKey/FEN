@@ -5038,3 +5038,89 @@ outside `incisor-trading/`.
 surfaces `T13c` made due, and the one broadsheet moved most, from under the
 nameplate to level with it. One audit, its four answers in `AUDITS.md`, its
 row in the log. No defect is open in bounds. `T13d` waits behind the audits.
+
+---
+
+## 2026-09-22 — T5 audit: the dateline was stepping 7.2px, twice a session
+
+The first of the eleven audits `T13c` made due, and the one the revamp changed
+most: the market clock stopped being a line under the nameplate and became a
+dateline, right-aligned against the masthead. **Verdict: minor edits.** The
+four answers are in `AUDITS.md` under `09-22 — Market clock (T5)`; the row is
+in the audit log.
+
+### What the pictures showed that the source would not have
+
+The clock reads every word it renders off `new Date()`, so `shoot.py` can only
+ever photograph whichever session the wall clock is in — tonight, "CLOSED ·
+Opens tomorrow 9:30am ET". Eight of its nine states had never been
+photographed. So this audit did what the `T15` one did for the order ticket:
+a scratchpad driver that freezes `Date` in an init script before the page's
+scripts run, and shoots all eight at 1440px and 375px.
+
+That is the only reason the finding was found. **Right alignment inverted what
+the countdown's width does.** Left-aligned, a countdown growing a character
+pushed empty space to its right; right-aligned, it pushes everything to its
+left — and the leftmost things on that line are the status dot and the
+OPEN/CLOSED word. Measured at 1440px, the dot stepped 7.2px crossing 1h00m to
+59m59s, and again at 10m00s to 9m59s. Twice a session, on the one line on the
+page whose whole job is to be its fixed point.
+
+`.inc-clock-detail` had a `min-width: 12ch` whose comment said it existed to
+stop exactly that. It had never once bound: 12ch is 85.5px, and the shortest
+string that element ever holds is 156.8px. It was protection in every review
+since T5 and an effect in none of them.
+
+Fixed in the format rather than the box — `formatCountdown` pads every unit,
+so a countdown is always seven characters and the line cannot move under any
+alignment it is given later. Verified by walking both boundaries in a browser:
+the dot holds at the same pixel on both sides of each. The suite asserted six
+example strings and missed both boundaries, so it asserts the property now.
+→ `DEC-100`, and `DEC-033`'s second bite.
+
+### Measured as faults, left alone
+
+Numbers said two more things were broken and the images said otherwise, which
+is what guide §18 means by judging from the shots.
+
+At 900–1024px on a holiday the dateline's column claims 478px and the nameplate
+wraps to two lines. As a number that is the breakpoint breaking the masthead;
+as a picture, "Incisor / Trading" stacked reads as a deliberate two-line
+masthead, and better than the single line. Recorded in `AUDITS.md` so the next
+session does not fix it.
+
+On mobile the clock sits below the masthead rule, on the opposite side of it
+from where it sits on desktop. Left: a dateline in a band under the rule is
+what a narrow front page does.
+
+### Filed
+
+**`D23`** — `shoot.py` photographs one market session and cannot reach the
+other eight. Sibling of `D20`, same answer, probably one flag rather than two.
+Without it, the next audit of this surface judges one state again.
+
+Suites green throughout: 263 front-end, 244 server, `shoot.py` clean at three
+widths with no console error and no horizontal overflow.
+
+`DECISIONS.md` is 13,628 of 16,000; `BACKLOG.md` 26,052 of 27,500, which is
+1,448 of room left and the thing most likely to trigger the next `S6`.
+
+### For Key
+
+**N17 · still open, and one session of evidence in.** The recommendation last
+session was that a revamp changing arrangement and type but no wording, state
+or control should make a surface due a *shorter* re-check rather than all four
+questions from scratch. This audit is a data point against my own suggestion:
+the finding it turned up was in question 3, which the short version keeps — but
+it was only findable by rebuilding the state coverage, which is the expensive
+part and not what the short version would have licensed. **Revised
+recommendation:** the saving in a re-audit is not in asking fewer questions, it
+is in the ones whose answers cannot have changed — question 4 (performing) was
+three lines and unchanged, because the revamp touched no fetch. Ten more of
+these to go; still yours to redefine, and the rule stands meanwhile.
+
+**N16, N14, N11, N7 · all still open, unchanged.**
+
+**Next session:** the **index summary strip (T6)** audit — second of the ten
+remaining, and the surface broadsheet turned from four rounded cards into a
+ruled band. One audit, four answers, one row.

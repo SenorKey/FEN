@@ -2307,3 +2307,43 @@ edges dissolve is a form nobody is sure they are inside. That reason is stated
 in `broadsheet.css` beside the rule, where someone about to "finish the job"
 will be looking.
 
+
+---
+
+## DEC-100 — ticking text is held still by its format, not by a reserved width
+
+*Settled · 09-22 · T5 audit*
+
+`.inc-clock-detail` carried `min-width: 12ch` with a comment saying the
+countdown reticks every second and its width changes with the digits, so
+reserving the width stops the text beside it twitching. Both halves of that
+were wrong by the time the T5 audit measured them.
+
+**It never bound.** 12ch is 85.5px. The shortest string that element ever
+holds is `Opens Monday 9:30am ET` at 156.8px, and the longest is 206.7px. The
+floor sat 71px below the shortest case it was meant to catch, so it had never
+once had an effect — a reservation that looked like protection in every review
+since T5 and was doing nothing in any of them.
+
+**And it was aimed at the wrong side.** It was written when the clock was a
+left-aligned line under the nameplate, where a string growing a character
+pushes into empty space to its right. Broadsheet made the clock a dateline,
+right-aligned against the masthead — so growth now pushes *leftward*, into the
+status dot and the OPEN/CLOSED word, which are the two things on the line a
+reader looks at first. Measured at 1440px, the dot stepped 7.2px when the
+countdown crossed 1h00m to 59m59s, and again at 10m00s to 9m59s.
+
+**The fix is in the format, not the box.** `formatCountdown` pads every unit,
+so every countdown it returns is exactly seven characters, in a monospace
+element: the string cannot change width, and therefore cannot move anything,
+under any alignment anyone gives the line later. The `min-width` is gone
+rather than corrected, because a corrected number would have to be re-measured
+the next time the dateline moves — which is the failure this entry is about.
+
+The general claim, and the reason this is in the index rather than beside the
+clock: **a reserved width is a measurement of one layout, and it goes stale
+silently when the layout changes.** A fixed-width format is a property of the
+string and survives the move. Anything on this page that rewrites itself in
+place — a countdown, a live price, a settling total — should be held by its
+format. This is DEC-033's second bite: a measure that was right, made wrong by
+what landed next to it.

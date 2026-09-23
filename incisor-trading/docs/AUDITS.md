@@ -482,3 +482,63 @@ its header named `tests/performance_model.jxa.js` as though it did — a file
 that has never existed. `js/view-positions.js` had none either; this audit
 built `tests/positions_model.jxa.js` for it, which is what a rendered "▬
 $0.00" needed in order to be caught by anything but an eye.
+
+---
+
+## 09-22 — Market clock (T5)
+
+*Verdict: minor edits.* The first of the eleven `T13c` made due again, and the
+surface broadsheet moved furthest: from a line under the nameplate to a
+dateline level with it, right-aligned against the masthead.
+
+**Useful.** Still the only surface that works with no service at all, and the
+revamp sharpened what it is for. Every price on this page is an end-of-day
+bar, and the clock is the one thing that says what "now" is against them — a
+reader who does not know the market is shut has no way to read a stale figure
+correctly. As a dateline it also does the job a dateline does on a front page:
+it says what day the paper is for. It would be missed.
+
+**Easy.** Measured at 375px across all eight sessions, not eyeballed at the one
+the wall clock happened to be in: five everyday states sit on one row, and the
+three with a reason — a holiday, a half day, Juneteenth's 37-character name —
+take a stable two, with the reason wrapping whole. That is exactly what its own
+element was built for and it still holds under the new measure. Colour is never
+alone: the dot is colour, the word beside it says the same thing, and an
+off-screen "US market" names the subject the word leaves out. The open dot's
+pulse stops under `prefers-reduced-motion`. No control, so nothing to tab to.
+
+**Beautiful.** Yes — and it is better as a dateline than it was as a line under
+the nameplate. But right alignment inverted what the countdown's width does.
+Left-aligned, a countdown growing a character pushed empty space; right-aligned
+it pushes everything to its left, and the leftmost things are the status dot and
+the OPEN/CLOSED word. At 1440px the line stepped **7.2px** crossing 1h00m to
+59m59s and again at 10m00s to 9m59s — twice a session, on the one line meant to
+be the page's fixed point. The `min-width: 12ch` on `.inc-clock-detail` was
+supposed to prevent exactly this and never bound once: the shortest string that
+element ever holds is 22 characters. Fixed by padding every unit in
+`formatCountdown`, so a countdown is always seven characters and the line cannot
+move in any alignment — the property, not the pixel, since a reserved width only
+holds for the alignment it was measured in (DEC-033's shape again).
+
+**Performing.** Unchanged and unbeatable: zero upstream calls, no network, and
+it renders from the served markup before any script runs. It ticks once a
+second but writes the DOM only when the string changed, so the common second is
+a string comparison. Nothing on the page waits for it.
+
+**Looked at and left.** Two things measured as faults and were not.
+
+At 900–1024px on a holiday, the dateline's column takes 478px and the nameplate
+wraps to two lines — the numbers said defect, the picture said otherwise:
+"Incisor / Trading" stacked reads as a deliberate masthead, and better than the
+single line. Recorded here so the next session does not "fix" it.
+
+On mobile the clock sits *below* the masthead rule rather than above it, so it
+is on the opposite side of that rule from where it sits on desktop. Left as is:
+a dateline in a band under the masthead rule is what a narrow front page does.
+
+**The tool cannot see this surface.** `shoot.py` photographs whichever session
+the wall clock is in, and the clock derives everything from `new Date()` — so
+eight of its nine states have never been photographed and cannot be. This audit
+drove them with a scratchpad driver freezing `Date` before the page's scripts
+run, the way the `T15` audit used one to reach a filled-in order ticket. Filed
+as **D23**; without it the next audit of this surface judges one state again.

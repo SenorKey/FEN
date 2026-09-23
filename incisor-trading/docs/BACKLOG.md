@@ -200,14 +200,17 @@ both ways, and caps a row at 200 characters.
 a page of rounded cards set in DM Sans; broadsheet changed the measure, the
 fills, the rules and the face of all eleven. Guide §18 is unambiguous — a
 revamp touching a surface makes it due again, whatever its last verdict — so
-the eleven are due, oldest first, starting with the **market clock (08-29)**,
-which broadsheet moves from under the nameplate to level with it as a dateline.
+the eleven are due, oldest first.
 
-An audit is a session's whole work (§14 step 4), so it is the next session's,
-and it comes before `T13d`. **Eleven sessions of audits ahead of Phase 2 is
-probably not what §18 means to buy, and it is not the routine's to redefine —
-see `N17` in `PROGRESS.md`.** Meanwhile the rule stands and the queue is worked
-in order.
+**One down on 09-22, ten to go.** The market clock was re-audited under
+broadsheet; the next is the **index summary strip (T6, 08-29)**, then the
+symbol lookup and quote detail (T7), and so on down the rows in date order.
+
+An audit is a session's whole work (§14 step 4), so the queue is ten sessions
+deep and it all comes before `T13d`. **Ten sessions of audits ahead of Phase 2
+is probably not what §18 means to buy, and it is not the routine's to redefine
+— see `N17` in `PROGRESS.md`.** Meanwhile the rule stands and the queue is
+worked in order.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -222,6 +225,7 @@ in order.
 | 09-16 | **Portfolio summary** (T14) | Minor edits | A fresh portfolio read "−$0.00" three times: the flat bar sits where a minus goes. And "1 open order" sat above two. |
 | 09-16 | **Order ticket and open orders** (T15) | Minor edits | It said the rule before the button, then left the reader to find the refusal after it. Sample fills were promised. |
 | 09-17 | **Holdings, trade log and equity curve** (T16) | Minor edits | A position worth what it cost read "▬ $0.00" — DEC-093, one surface down. The empty log pointed at a ticket above it. |
+| 09-22 | **Market clock** (T5) | Minor edits | Broadsheet right-aligned it, so a growing countdown pushes the dot and the state word 7.2px, twice a session. The 12ch reserve never bound. |
 
 ## Discovered
 
@@ -235,6 +239,19 @@ of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
 second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
+
+- [ ] **D23 · `shoot.py` photographs one market session, and cannot reach the
+  other eight** `[enhancement]` *(2026-09-22, T5 audit)* — the clock derives
+  every word it renders from `new Date()`, so a run shoots whichever session
+  the wall clock is in and no other. Eight of nine states — open, pre-market,
+  after hours, the small hours, a weekend, a holiday, a half day, and the
+  longest reason string — had never been photographed before this audit, which
+  is how a 7.2px step survived one. Freezing `Date` in an init script before
+  the page's scripts run drives all of them; the audit did it from a scratchpad
+  driver, which is the same gap `D20` names for the order ticket and the same
+  answer. Sibling of `D20`, and probably one flag rather than two.
+  *Accept:* a flag fixes the page's clock to a given instant, so any session is
+  shootable; without it every run behaves exactly as it does today.
 
 - [ ] **D20 · `shoot.py` cannot reach a filled-in order ticket** `[enhancement]`
   *(2026-09-16, T15 audit)* — every state worth judging comes after typing, so

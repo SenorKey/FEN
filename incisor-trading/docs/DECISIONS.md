@@ -42,7 +42,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-028 | **Three caps are the call budget, not taste: watchlist 8, open orders 6, equity curve 12.** Each refuses past it; the watchlist stores tickers only. Redo the sum to raise any. |
 | DEC-030 | **`/sectors` computes; `/history` relays. Both are right.** Many symbols and one question is cheap to answer and costly to ship the inputs for. |
 | DEC-032 | **A surface pays for a payload once; every question it already answers is free.** The watchlist sparkline came from bars already being discarded. |
-| DEC-033 | **A measure that was right can be made wrong by the surface that lands next to it** — the watchlist's 620px cap, once T10 landed above it. |
+| DEC-033 | **A measure that was right is made wrong by what lands next to it** — the watchlist's 620px cap, once T10 landed above it; then a 12ch reserve, once broadsheet realigned it. → DEC-100 |
 | DEC-034 | **A control's target is what a finger can hit, not what the box reports.** A positioned overlay is outside the rect: hit-test the corners. |
 | DEC-035 | **Merged** → DEC-060; hover is the channel it missed. |
 | DEC-036 | **Every sideways-scrolling box sets `position: relative`** — `overflow-x` does not clip a positioned child. Two of the three are preventive, not dead. |
@@ -74,6 +74,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-097 | **The page takes the site's face, and each face has one token.** `body.incisor` restated DM Sans and eleven declarations named it: a switch that reads as one line was eleven. |
 | DEC-098 | **Anything sticky is measured against the provenance line, in a browser, every run.** A banner must be clear at the top of the page and wherever the page's own scrolling puts it. |
 | DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
+| DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
 
 ---
 
