@@ -5124,3 +5124,115 @@ these to go; still yours to redefine, and the rule stands meanwhile.
 **Next session:** the **index summary strip (T6)** audit — second of the ten
 remaining, and the surface broadsheet turned from four rounded cards into a
 ruled band. One audit, four answers, one row.
+
+---
+
+## 2026-09-23 — T6 audit: four different months, drawn as one picture
+
+Second of the eleven audits `T13c` made due. **Verdict: minor edits.** The four
+answers are in `AUDITS.md` under `09-23 — Index summary strip (T6)`; the row is
+in the audit log.
+
+No defect was open in bounds at step 4 — `D19` is the site-wide beacon, which is
+Key's twice over — so the queue gave the oldest unaudited surface.
+
+### What the pictures showed that the source would not have
+
+The strip's standfirst promises two things: where the four proxies finished the
+last session, **and the shape of the month behind each one**. The session half
+is a signed figure, a percentage, an arrow and a `1d` token. The month half was
+a line and a `30d` token beside it — a window named over a figure that did not
+exist.
+
+That is defensible until you notice what the four tiles are *for*. Every
+sparkline is scaled to its own symbol's thirty-day high and low, so the drawn
+shape says which way the month went and never how far. Measured off the fixture
+payloads, the four months were **−4.44%, −7.66%, −5.25% and −7.82%** — and all
+four lines ended between 88% and 95% of the way down their own box. QQQ's month
+was nearly twice SPY's and the pictures were indistinguishable. Four tiles in a
+row are an invitation to compare them, and the grid was answering that
+invitation with a wrong answer rather than no answer.
+
+The size of the move did exist — in the sentence `sparkline.js` writes into the
+SVG's accessible name. So the spoken page was carrying a fact the seen page
+was not. That is `DEC-060` arriving from the side nobody watches: the trap is a
+fact in one channel, and this time `aria-label` was the channel that had it.
+
+**Fixed** by printing the percentage beside the line, coloured by its own
+direction, with its own arrow, right-aligned above the `30d` token that already
+named its window. No fetch: `draw()` computes that number to write the sentence
+it was already writing (`DEC-032`), and the view now uses the shape it returns.
+
+### The fix had a cost at 375px, and the second fix is the better one
+
+Dropping the figure into the row took the sparkline from ~100px to **42px** at
+375px — 1.4px a session, which is a texture, not a shape. Trading a weak channel
+for a strong number and a weaker picture is not the trade the audit was making.
+
+The row wraps now, and on the sparkline's own minimum rather than a viewport
+breakpoint: 110px, which is ≈3.7px a session. A viewport rule would have had to
+name the band twice — the tile is ~178px both at 390px wide *and* at 768px,
+because the grid goes four-across again at 760 — and it would still have been
+measuring the window rather than the tile. The line now runs 127–173px at every
+width checked, and at 375px it is **wider than it was before this audit**
+(127px against ~100px), because the figure took its own row instead of a slice
+of the line's.
+
+The figure's placeholder reserves the width of the figure that replaces it, so
+landing cannot flip the row from one line to two. Verified pending-to-ready at
+375, 390, 900, 960, 1000, 1040, 1100 and 1200px: identical tile height at every
+one. Then the mute half of it — a lone `▬ —` sitting in an error tile whose
+`30d` token is already faded out — was dropped by giving the figure the same
+`:not([data-state="ready"])` rule its label has, which also deleted the
+dimmed-colour rule I had written a step earlier.
+
+### Tests
+
+The suite asserted the month by example and would have asserted it agreeing
+with the day, since every fixture tile falls on both windows. It asserts the
+property instead: a tile whose day is up and whose month is down — closes
+`[700, 600, 610]`, `+1.67%` on the day and `−12.86%` on the month — has to
+colour the two figures opposite ways and put each in its own element. That is
+the case the uncoloured line was introduced for, and the one a view reading one
+window's numbers into the other's element would fail. Plus the failed tile
+stating no month, and the four served-markup rules.
+
+267 front-end (up from 263), 244 server, `shoot.py` clean at three widths with
+no console error and no horizontal overflow, in both `--api` and
+service-stopped runs.
+
+### Filed
+
+**`D24`** — the watchlist has the identical defect, one surface over and
+sharper: the same line from the same payload under a `Trend` / `30d` header,
+across up to eight rows the reader *chose*, each on its own scale. Its header
+comment says the column is not sortable because "a ranking by shape is not a
+thing a reader can ask for" — which is the tell. Filed as a defect rather than
+left to the watchlist's own re-audit, which is still five rows down the queue.
+
+→ `DEC-101`, on why the figure rather than a shared scale.
+
+`DECISIONS.md` is 13,833 of 16,000. **`BACKLOG.md` is 27,383 of 27,500** — 117
+bytes, which is not enough to file anything. The next session that needs to add
+a `D` item or an audit row has to run `S6` on it first; guide §16's formula sets
+the new ceiling at what lands plus a quarter.
+
+### For Key
+
+**N17 · still open, two sessions of evidence in.** Last session's revised
+recommendation was that a re-audit's saving is in the questions whose answers
+cannot have changed, not in asking fewer of them. This one supports that and
+sharpens it: question 4 (performing) was again three lines and unchanged,
+because the revamp touched no fetch — but questions 1 and 3 turned up a defect
+that predates broadsheet entirely. The strip has drawn uncomparable lines since
+`T6` shipped on 08-28, and three earlier audits of neighbouring surfaces did not
+catch it. **So the re-audit queue is not only re-checking what the revamp
+moved — it is catching what the original audits missed.** That is an argument
+for keeping the queue, at some cost to Phase 2. Nine to go; still yours.
+
+**N16, N14, N11, N7 · all still open, unchanged.**
+
+**Next session:** **`D24`** — an open defect, so it comes before the audit
+queue (§19). The watchlist's trend column, the same fix as this session's on a
+surface built for the comparison it cannot support. Then the **symbol lookup
+and quote detail (T7)** audit, third of the nine remaining.

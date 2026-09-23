@@ -202,9 +202,10 @@ fills, the rules and the face of all eleven. Guide §18 is unambiguous — a
 revamp touching a surface makes it due again, whatever its last verdict — so
 the eleven are due, oldest first.
 
-**One down on 09-22, ten to go.** The market clock was re-audited under
-broadsheet; the next is the **index summary strip (T6, 08-29)**, then the
-symbol lookup and quote detail (T7), and so on down the rows in date order.
+**Two down, nine to go.** The clock (09-22) and the index summary strip
+(09-23) have been re-audited under broadsheet; the next is the **symbol lookup
+and quote detail (T7, 08-30)**, then the price chart (T8), and so on down the
+rows in date order. `D24` is an open defect and comes before all of them.
 
 An audit is a session's whole work (§14 step 4), so the queue is ten sessions
 deep and it all comes before `T13d`. **Ten sessions of audits ahead of Phase 2
@@ -226,6 +227,7 @@ worked in order.
 | 09-16 | **Order ticket and open orders** (T15) | Minor edits | It said the rule before the button, then left the reader to find the refusal after it. Sample fills were promised. |
 | 09-17 | **Holdings, trade log and equity curve** (T16) | Minor edits | A position worth what it cost read "▬ $0.00" — DEC-093, one surface down. The empty log pointed at a ticket above it. |
 | 09-22 | **Market clock** (T5) | Minor edits | Broadsheet right-aligned it, so a growing countdown pushes the dot and the state word 7.2px, twice a session. The 12ch reserve never bound. |
+| 09-23 | **Index summary strip** (T6) | Minor edits | Months of −4.4% and −7.7% drew the same picture: every line is scaled to its own range. The size existed only in the aria-label. |
 
 ## Discovered
 
@@ -239,6 +241,22 @@ of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
 second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
+
+- [ ] **D24 · The watchlist's trend column states no figure** `[defect]`
+  *(2026-09-23, T6 audit)* — the defect that audit fixed on the index strip,
+  one surface over and sharper. Rows draw `js/sparkline.js`'s line from the
+  same payload under a `Trend` / `30d` header, each scaled to its own symbol's
+  thirty-day range — so eight rows the reader *chose* sit on eight scales and
+  cannot be compared with each other, which is what a watchlist is for. Each
+  move's size exists only in the sparkline's accessible name. The header's own
+  comment says the column is not sortable because "a ranking by shape is not a
+  thing a reader can ask for": with a figure it would be. Filed as a defect
+  rather than left to the watchlist's re-audit (08-31, still queued) because it
+  misleads today.
+  *Accept:* every row states its thirty-day change as a figure with an arrow
+  and a sign; no extra call, since `draw()` already returns it; the row still
+  fits at 375px inside `.inc-watch-scroll`; the window stays named once in the
+  header, not once per row.
 
 - [ ] **D23 · `shoot.py` photographs one market session, and cannot reach the
   other eight** `[enhancement]` *(2026-09-22, T5 audit)* — the clock derives

@@ -542,3 +542,80 @@ eight of its nine states have never been photographed and cannot be. This audit
 drove them with a scratchpad driver freezing `Date` before the page's scripts
 run, the way the `T15` audit used one to reach a filled-in order ticket. Filed
 as **D23**; without it the next audit of this surface judges one state again.
+
+---
+
+## 09-23 — Index summary strip (T6)
+
+*Verdict: minor edits.* Second of the eleven `T13c` made due again. Broadsheet
+turned four rounded cards into a ruled band; the tiles kept their contents and
+changed their setting.
+
+**Useful.** Yes, and it is the page's lead for a reason: four readings that say
+what the market did, above the fold, before any interaction. But it was
+answering half of its own standfirst. "Where the four most-quoted US indexes
+finished the last session, **and the shape of the month behind each one**" —
+the session half is three figures and an arrow; the month half was a picture
+and nothing else.
+
+Each sparkline is scaled to its own symbol's thirty-day high and low. That is
+right for reading one shape and wrong for the thing four tiles in a row invite.
+On the fixture data the four months were **−4.44%, −7.66%, −5.25% and −7.82%** —
+QQQ's nearly double SPY's — and because each line is normalised to its own
+range, all four end between 88% and 95% of the way down their own box. The grid
+drew four near-identical pictures of four materially different months, which is
+worse than saying nothing: it is an answer, and it is wrong.
+
+The size of the move did exist, in exactly one channel — the sentence the
+sparkline hands a screen reader, `"SPY thirty-day trend: down 4.44 percent over
+the period"`. So the spoken page was more precise than the seen one, which is
+`DEC-060`'s trap arriving from the far side: the channel that usually goes
+missing was the only one that had it.
+
+**Fixed** by printing the figure beside the line, coloured by its own direction
+with its own arrow, right-aligned above the `30d` token that already named the
+window. It cost no fetch — `draw()` computes that percentage to write the
+sentence it was already writing (`DEC-032`).
+
+**Easy.** At 375px the tiles are 171px wide, and the figure did not fit beside
+a line worth looking at: it took the sparkline from ~100px to 42px, 1.4px a
+session, which is a texture rather than a shape. So the row wraps on the
+sparkline's own minimum (110px, ≈3.7px a session) rather than on a viewport
+breakpoint — the same tile is too narrow through the middle of the range and
+wide enough at both ends, because the grid goes four-across again at 760px. The
+line now measures 127–173px everywhere and is **wider at 375px than before this
+audit**. The figure's placeholder reserves the width of the figure that
+replaces it, so landing cannot flip the row from one line to two: measured
+pending-to-ready at 375, 390, 900, 960, 1000, 1040, 1100 and 1200px, tile
+height identical at every one. Colour is never alone — arrow and explicit sign.
+Aria-hidden, because the sparkline's own name already says it in words: one
+statement per channel, not one channel.
+
+**Beautiful.** Better than before, and in a way that was not the point of the
+change: right-aligning the percentages in a fixed 7ch box sets the four months
+in a column, and the `1d` and `30d` tokens now sit in one rule down the right
+edge of every tile. The wrapped mobile arrangement — full-width line, figure
+beneath it — reads more like a broadsheet chart than the squeezed row did.
+
+**Performing.** Unchanged, which is the whole point: four `/history` calls, one
+per tile, cached server-side, four of the 22-call budget (`DEC-003`). The
+figure is arithmetic on bars already in hand and is written in the same pass
+that draws the line. Nothing new blocks, nothing new fetches.
+
+**Looked at and left.** The dotted opening-level line stays. With a figure
+beside it, it is no longer carrying a fact alone — it now shows *where* in the
+month the level was crossed, which the percentage cannot.
+
+A shared percentage scale across the four tiles was the obvious alternative and
+is the wrong trade: it would make the lines comparable by flattening the
+smallest of them to 45% of its amplitude at 34px tall, buying with the shape
+exactly what the figure now gives for free. Recorded as `DEC-101` so it is not
+rebuilt.
+
+**The same defect is one surface over.** The watchlist draws this sparkline
+from the same payload under a `Trend / 30d` header and states no figure either,
+across up to eight rows the reader *chose* — where the comparison is the point
+of the surface, not a side effect of the layout. Its own header comment says
+the column is not sortable because "a ranking by shape is not a thing a reader
+can ask for", which is the tell: with a figure it would be. Filed as **D24**
+rather than fixed here — one surface per audit.

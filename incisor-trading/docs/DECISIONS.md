@@ -75,6 +75,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-098 | **Anything sticky is measured against the provenance line, in a browser, every run.** A banner must be clear at the top of the page and wherever the page's own scrolling puts it. |
 | DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
 | DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
+| DEC-101 | **A line scaled to its own range is not comparable with its neighbour, so a sparkline states its figure too.** Months of −4.4% and −7.7% drew one picture; a shared scale costs the shape. |
 
 ---
 

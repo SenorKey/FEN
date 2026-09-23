@@ -151,10 +151,18 @@
    the line says which way the month went by ending above or below its own
    opening level. */
 
+/* Wraps rather than squeezing, and the sparkline's own minimum is what
+   decides when. The tile is 309px across at desktop and 171px at 375, and
+   the grid goes four-across again at 760 — so the same tile is wide enough
+   to set the line and its figure on one row at both ends and too narrow for
+   it through the middle. A viewport query would have to name that band
+   twice and would still be measuring the window rather than the tile. */
 .inc-spark-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    row-gap: 6px;
     margin-top: 12px;
 }
 
@@ -162,7 +170,11 @@
     flex: 1 1 auto;
     /* Reserved before anything is drawn, so filling it shifts nothing. */
     height: 34px;
-    min-width: 0;
+    /* Thirty closes in less than this is under 3.7px a session, which is the
+       width where the line stops being a shape and becomes a texture — the
+       figure beside it drops to its own row instead. Derived from the data,
+       not from a breakpoint: a longer window would move it. */
+    min-width: 110px;
     overflow: visible;
 }
 
@@ -185,6 +197,53 @@
     vector-effect: non-scaling-stroke;
 }
 
+/* The size of the month, beside the line that draws its shape.
+
+   The line alone could not carry it. Every sparkline is scaled to its own
+   symbol's thirty-day high and low, which is right for reading one shape and
+   wrong for the thing four tiles in a row invite: a month down 4.4% and one
+   down 7.7% both end about nine tenths of the way down their own box, so the
+   grid drew four near-identical pictures of four different months. The number
+   is the comparable channel; the line keeps the path, which the number cannot
+   show.
+
+   Aria-hidden, because the sparkline's own accessible name already says this
+   in words — "down 7.66 percent over the period". The rule is one statement
+   per channel, not one channel (DEC-060): the spoken half was there first and
+   this is the seen half catching up.
+
+   Sized in the same mono as every other figure, a step below the day's change:
+   the headline on this tile is the price and the session beside it, and a
+   second percentage set at the same weight would argue with it.
+
+   It wraps to its own row when the line would be squeezed below the minimum
+   set above, which is why it holds its right edge rather than sitting against
+   the end of the line: on either arrangement it lands under the "1d" token,
+   and the two windows read as a pair. */
+.inc-spark-move {
+    flex: none;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    /* Holds the right edge against the "30d" beside it, on the row it shares
+       with the line and on the row it takes alone. */
+    margin: 0 0 0 auto;
+    font-family: var(--inc-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+    transition: opacity 0.25s ease;
+}
+
+/* Wide enough for the worst month an index ETF has had, right-aligned inside
+   it. Two things follow: the em dash standing in before the fill is exactly
+   as wide as the figure that replaces it, so landing cannot flip the row from
+   one line to two — and the four tiles' percentages line up in a column
+   instead of ranging against four different line endings. */
+.inc-spark-move .inc-delta-pct {
+    min-width: 7ch;
+    text-align: right;
+}
+
 /* Faded rather than removed when there is no line to label, so an empty or
    failed tile is not left captioning nothing — and so the row it sits in
    keeps its width either way. */
@@ -198,6 +257,7 @@
 }
 
 .inc-tile:not([data-state="ready"]) .inc-spark-label,
+.inc-tile:not([data-state="ready"]) .inc-spark-move,
 .inc-tile:not([data-state="ready"]) .inc-period {
     opacity: 0;
 }

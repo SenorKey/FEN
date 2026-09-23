@@ -386,8 +386,17 @@ function run(argv) {
         change.appendChild(new El('span', { 'class': 'inc-delta-pct',
             'data-tile-pct': '' }));
         tile.appendChild(change);
-        tile.appendChild(new El('svg', { 'class': 'inc-spark',
+        var sparkRow = new El('div', { 'class': 'inc-spark-row' });
+        sparkRow.appendChild(new El('svg', { 'class': 'inc-spark',
             'data-tile-spark': '', 'aria-label': 'not loaded' }));
+        var trend = new El('p', { 'class': 'inc-spark-move inc-flat',
+            'data-tile-trend': '' });
+        trend.appendChild(new El('span', { 'class': 'inc-arrow',
+            'data-tile-trend-arrow': '' }));
+        trend.appendChild(new El('span', { 'class': 'inc-delta-pct',
+            'data-tile-trend-pct': '' }));
+        sparkRow.appendChild(trend);
+        tile.appendChild(sparkRow);
         return tile;
     }
 
@@ -491,6 +500,55 @@ function run(argv) {
     check('the sparkline says which way it went in words, for a screen reader',
         spark.getAttribute('aria-label').indexOf('up') !== -1,
         spark.getAttribute('aria-label'));
+
+    /* The month as a figure.
+     *
+     * Every sparkline is scaled to its own symbol's high and low, so the
+     * picture says which way the month went and never how far. Four tiles
+     * whose months were -4.4% and -7.7% drew two lines ending the same
+     * distance below their own openings — and the only place the size of
+     * the move existed was the sentence a screen reader is read. */
+    equal('the month is written into the tile as a figure',
+        view.tiles[0].querySelector('[data-tile-trend-pct]').textContent,
+        '+4.77%');
+    equal('and takes an arrow, so colour is never the only signal',
+        view.tiles[0].querySelector('[data-tile-trend-arrow]').textContent, '▲');
+    check('the month is coloured by its own direction',
+        view.tiles[0].querySelector('[data-tile-trend]')
+            .classes().indexOf('inc-up') !== -1);
+    check('a falling month is coloured as one',
+        down.querySelector('[data-tile-trend]')
+            .classes().indexOf('inc-down') !== -1,
+        down.querySelector('[data-tile-trend]').attrs['class']);
+
+    /* The property the two figures exist to keep separate, rather than two
+     * more examples of them agreeing. A day and a month are different
+     * questions and a tile must be able to answer them opposite ways: this
+     * is the case the uncoloured line was introduced for, and now that the
+     * month carries a colour of its own it is the case that would expose a
+     * view reading one window's numbers into the other's element. */
+    var crossed = render(['IWM'], { IWM: loaded('IWM', [700, 600, 610]) });
+    var tile = crossed.tiles[0];
+    check('a tile up on the day is coloured up on the day',
+        tile.querySelector('[data-tile-change]').classes().indexOf('inc-up') !== -1,
+        tile.querySelector('[data-tile-change]').attrs['class']);
+    check('and down on the month in the same breath',
+        tile.querySelector('[data-tile-trend]').classes().indexOf('inc-down') !== -1,
+        tile.querySelector('[data-tile-trend]').attrs['class']);
+    equal('each figure states its own window, not the other\'s',
+        tile.querySelector('[data-tile-pct]').textContent, '+1.67%');
+    check('the month figure is the month, not the day repeated',
+        tile.querySelector('[data-tile-trend-pct]').textContent.indexOf('12.86') !== -1,
+        tile.querySelector('[data-tile-trend-pct]').textContent);
+
+    /* A tile that could not be priced says so in the month's row too. The
+     * figure is the one thing on the tile that a stale value would make
+     * look current, since a percentage carries no date of its own. */
+    var unpriced = render(['DIA'], { DIA: 'error' });
+    equal('a failed tile states no month',
+        unpriced.tiles[0].querySelector('[data-tile-trend-pct]').textContent, '—');
+    equal('and takes the flat marker rather than a direction',
+        unpriced.tiles[0].querySelector('[data-tile-trend-arrow]').textContent, '▬');
 
     check('the provenance line says the prices are generated',
         view.provenance.querySelector('[data-provenance-message]')

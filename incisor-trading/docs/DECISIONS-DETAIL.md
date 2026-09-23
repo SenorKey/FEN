@@ -2347,3 +2347,49 @@ string and survives the move. Anything on this page that rewrites itself in
 place — a countdown, a live price, a settling total — should be held by its
 format. This is DEC-033's second bite: a measure that was right, made wrong by
 what landed next to it.
+
+---
+
+## DEC-101 — a line scaled to its own range states its figure too
+
+Found in the `T6` audit, 2026-09-23, from the `shoot.py` images.
+
+`js/market-figures.js`'s `sparkline()` scales every line to the high and low
+of the series it is given. That is the right choice for reading one shape:
+it spends the whole 34px box on the movement that actually happened, and a
+month that traded in a 2% band is as legible as one that traded in a 20% band.
+
+It is the wrong choice the moment two of them are set side by side, and the
+index strip sets four. On the fixture data the four months were −4.44%,
+−7.66%, −5.25% and −7.82%; because each line is normalised to its own range,
+all four ended between 88% and 95% of the way down their own box. QQQ's month
+was nearly double SPY's and the pictures were indistinguishable. A reader
+comparing four tiles — which is the only reason to put four tiles in a row —
+was being given an answer, and the answer was wrong.
+
+**Where the fact was.** Not nowhere: `sparkline.js` writes it into the SVG's
+accessible name, `"SPY thirty-day trend: down 4.44 percent over the period"`.
+So the page told a screen reader the size of the move and told everyone else
+a shape. That is `DEC-060` from the unusual side — the trap is a fact living
+in one channel, and here the channel that normally goes missing was the only
+one that had it.
+
+**The fix is the figure, not the scale.** The obvious alternative is a shared
+percentage scale across the four tiles, which makes the lines genuinely
+comparable. It was rejected on the numbers: sizing every box to the widest of
+the four spans (8.93% of opening) would draw SPY's 4.89% span at 55% of its
+current amplitude, in a box 34px tall. That buys comparability by spending the
+one thing the picture is better at than the number — the path — to get the one
+thing the number is better at than the picture. Printing the percentage costs
+no amplitude, no fetch and no upstream call: `draw()` already returns the
+shape, and it computed that percentage to write the sentence above.
+
+So: **a sparkline whose scale is local states its own figure beside it.** The
+line keeps the path; the figure carries the size. Neither is decoration for
+the other, and a surface that draws the line without the figure is asserting a
+comparison it cannot support.
+
+This binds `js/sparkline.js`'s consumers rather than one surface, which is why
+it is in the index. The index strip complies as of 09-23. The watchlist draws
+the same line under a `Trend` / `30d` header across up to eight rows the
+reader chose, and does not — filed as `D24`.

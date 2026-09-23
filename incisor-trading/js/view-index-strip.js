@@ -41,13 +41,35 @@
             figures.direction(quote.change));
 
         var svg = tile.querySelector('[data-tile-spark]');
-        if (svg && spark) {
-            spark.draw(svg, figures.closingPrices(payload.bars, spark.DAYS),
-                tile.getAttribute('data-tile'));
-        }
+        var shape = svg && spark
+            ? spark.draw(svg, figures.closingPrices(payload.bars, spark.DAYS),
+                tile.getAttribute('data-tile'))
+            : null;
+        fillTrend(tile, shape, figures);
 
         tile.setAttribute('data-state', 'ready');
         return true;
+    }
+
+    /* The month as a figure, from the shape that was just drawn.
+     *
+     * Each line is scaled to its own tile's high and low, so four tiles whose
+     * months were -4.4%, -7.7%, -5.3% and -7.8% all draw a line ending about
+     * nine tenths of the way down their own box. Four tiles set side by side
+     * are an invitation to compare them, and the picture answered that a
+     * month is a month. The figure is what carries the size of the move, and
+     * the line keeps what a number cannot show — the path it took there.
+     *
+     * Free: draw() computed this to write the sentence a screen reader gets
+     * (DEC-032). Which is where the number already was, and the only place —
+     * DEC-060's trap, a channel further on.
+     */
+    function fillTrend(tile, shape, figures) {
+        var percent = shape ? shape.changePercent : null;
+        dom.fill(tile, '[data-tile-trend-arrow]', figures.arrowFor(percent));
+        dom.fill(tile, '[data-tile-trend-pct]', figures.formatPercent(percent));
+        dom.setDirection(tile.querySelector('[data-tile-trend]'),
+            figures.direction(percent));
     }
 
     /* One tile could not be filled while others could. It says so in its own
@@ -62,6 +84,7 @@
 
         var svg = tile.querySelector('[data-tile-spark]');
         if (svg && spark) spark.unavailable(svg, tile.getAttribute('data-tile'));
+        fillTrend(tile, null, figures);
         tile.setAttribute('data-state', 'error');
     }
 
