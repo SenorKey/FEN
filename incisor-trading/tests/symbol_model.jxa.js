@@ -467,7 +467,12 @@ function run(argv) {
             return {
                 show: function () { drove.push(name + '.show'); },
                 unavailable: function () { drove.push(name + '.unavailable'); },
-                lookupFailed: function () { drove.push(name + '.lookupFailed'); },
+                // The refusal flag is recorded in the call, because a panel
+                // told a lookup failed and not told *how* it failed is the
+                // whole of D26: it can only word one of the two outcomes.
+                lookupFailed: function (symbol, refused) {
+                    drove.push(name + '.lookupFailed(' + !!refused + ')');
+                },
                 reset: function () { drove.push(name + '.reset'); }
             };
         }
@@ -790,6 +795,16 @@ function run(argv) {
     check('but does say what to try instead, since another ticker might work',
         absent.hint.textContent.indexOf('Try another') === 0,
         absent.hint.textContent);
+    /* D26, the other direction. The service answered and said no, and the
+     * three panels below have to be able to say so: worded as an unanswered
+     * request, each one contradicts the message just asserted above, which is
+     * at that moment naming the symbols this build does serve. */
+    check('the three panels below are told the symbol was refused, not that '
+        + 'the service never answered',
+        absent.drove().indexOf('chart.lookupFailed(true)') !== -1
+            && absent.drove().indexOf('filings.lookupFailed(true)') !== -1
+            && absent.drove().indexOf('reports.lookupFailed(true)') !== -1,
+        absent.drove().join(', '));
 
     var typed = mount({ quotes: {}, exhaustive: false });
     typed.type('what is apple worth');
@@ -833,12 +848,19 @@ function run(argv) {
      * state for a page nobody has searched — so all three told a reader whose
      * lookup had just failed to look a symbol up. */
     check('the chart is told the lookup failed, not reset',
-        down.drove().indexOf('chart.lookupFailed') !== -1
+        down.drove().indexOf('chart.lookupFailed(false)') !== -1
             && down.drove().indexOf('chart.reset') === -1,
         down.drove().join(', '));
     check('and so are the filings and the calendar',
-        down.drove().indexOf('filings.lookupFailed') !== -1
-            && down.drove().indexOf('reports.lookupFailed') !== -1,
+        down.drove().indexOf('filings.lookupFailed(false)') !== -1
+            && down.drove().indexOf('reports.lookupFailed(false)') !== -1,
+        down.drove().join(', '));
+    /* D26. An unreachable service is the case the one original sentence
+     * described correctly, so all three are told the lookup did not come
+     * back — which here means: not refused. */
+    check('and all three are told the service never answered, not that it '
+        + 'refused the symbol',
+        down.drove().join(', ').indexOf('lookupFailed(true)') === -1,
         down.drove().join(', '));
 
     /* Typed rubbish is the other branch and it stays reset(): what was typed

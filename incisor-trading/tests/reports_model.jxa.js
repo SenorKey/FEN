@@ -299,6 +299,10 @@ function run(argv) {
             api: windowStub.IncisorReports,
             calls: function () { return calls; },
             state: function () { return panel.getAttribute('data-state'); },
+            provenanceState: function () {
+                return panel.querySelector('[data-reports-provenance]')
+                    .getAttribute('data-provenance-state');
+            },
             figure: function (name) {
                 var node = panel.querySelector(
                     '[data-reports-figure="' + name + '"]');
@@ -402,6 +406,28 @@ function run(argv) {
         view.state(), 'unavailable');
     contains('and says the prices above are unaffected',
         view.text('[data-reports-message]'), 'prices above are unaffected');
+
+    check('an unreachable calendar service is the one state that may say so',
+        view.text('[data-reports-provenance-message]')
+            .indexOf('could not be reached') > -1,
+        view.text('[data-reports-provenance-message]'));
+
+    /* D26, second channel — the twin of the fundamentals panel's. No request
+     * was made either way, so there is no service failure to report. */
+    view.api.lookupFailed('NVDA', true);
+    var refusedNote = view.text('[data-reports-provenance-message]');
+    view.api.lookupFailed('NVDA', false);
+    var unreachableNote = view.text('[data-reports-provenance-message]');
+    check('a refused lookup does not make the provenance line claim the '
+        + 'service was unreachable',
+        refusedNote.indexOf('could not be reached') === -1, refusedNote);
+    check('and neither does a lookup that never came back',
+        unreachableNote.indexOf('could not be reached') === -1,
+        unreachableNote);
+    check('the line says instead that nothing was requested',
+        refusedNote.indexOf('requested') > -1, refusedNote);
+    equal('and is not dressed as an error',
+        view.provenanceState(), 'pending');
 
     view.api.reset();
     equal('a cleared lookup goes back to empty', view.state(), 'empty');

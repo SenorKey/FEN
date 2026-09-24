@@ -309,17 +309,36 @@
         });
     }
 
+    /* What the provenance line says when this panel never made a request.
+     * The twin of js/view-fundamentals.js's, and filed under the same defect:
+     * renderProvenance(null) reports that *our* call failed, which after a
+     * lookup that never reached us is a failure this panel invented (D26). */
+    function provenanceUnasked() {
+        var line = panel.querySelector('[data-reports-provenance]');
+        if (!line) return;
+        line.setAttribute('data-provenance-state', 'pending');
+        dom.fill(line, '[data-reports-provenance-message]',
+            'No filing dates were requested — the lookup did not get that '
+            + 'far.');
+    }
+
     /* The lookup failed upstream of this panel, so no dates were ever
      * requested. Its own half only: two panels fed by one payload divide the
-     * teaching between them, and the card above has this one's half. */
-    function lookupFailed(symbol) {
+     * teaching between them, and the card above has this one's half.
+     *
+     * See js/view-price-chart.js's lookupFailed for why `refused` is passed
+     * in rather than worked out here: three panels answer one failed lookup
+     * at once, and a reader sees all three. */
+    function lookupFailed(symbol, refused) {
         showing = null;
         blank();
         setState('unavailable');
         nameSymbol(null);
-        say('No filing dates for ' + symbol + '. The lookup above did not '
-            + 'come back.');
-        renderProvenance(null);
+        say('No filing dates for ' + symbol + '. '
+            + (refused
+                ? 'The lookup above came back empty.'
+                : 'The lookup above did not come back.'));
+        provenanceUnasked();
     }
 
     function reset() {

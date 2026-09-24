@@ -331,17 +331,40 @@
         });
     }
 
+    /* What the provenance line says when this panel never made a request.
+     *
+     * Distinct from renderProvenance(null), which reports that *our* call
+     * failed — a red notice reading "the service could not be reached". After
+     * a lookup that never got here, that is a failure this panel invented:
+     * on a refused symbol it claimed the service was unreachable while the
+     * card above was listing the symbols that service answers for (D26).
+     * There is no provenance for figures that were never asked for, so the
+     * line states that and makes no claim about anyone's health. */
+    function provenanceUnasked() {
+        var line = panel.querySelector('[data-fundamental-provenance]');
+        if (!line) return;
+        line.setAttribute('data-provenance-state', 'pending');
+        dom.fill(line, '[data-fundamental-provenance-message]',
+            'No filings were requested — the lookup did not get that far.');
+    }
+
     /* The lookup failed upstream of this panel, so no filings were ever
      * requested. Its own half only: two panels fed by one payload divide the
-     * teaching between them, and the card above has this one's half. */
-    function lookupFailed(symbol) {
+     * teaching between them, and the card above has this one's half.
+     *
+     * See js/view-price-chart.js's lookupFailed for why `refused` is passed
+     * in rather than worked out here: three panels answer one failed lookup
+     * at once, and a reader sees all three. */
+    function lookupFailed(symbol, refused) {
         showing = null;
         blankFigures();
         setState('unavailable');
         nameSymbol(null);
-        say('No filings for ' + symbol + '. The lookup above did not come '
-            + 'back.');
-        renderProvenance(null, null, null);
+        say('No filings for ' + symbol + '. '
+            + (refused
+                ? 'The lookup above came back empty.'
+                : 'The lookup above did not come back.'));
+        provenanceUnasked();
     }
 
     function reset() {

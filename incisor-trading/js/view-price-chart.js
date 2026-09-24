@@ -328,11 +328,20 @@
      * lookup that is untrue, and it sends the reader back to a search box to
      * repeat what they just did. Only this panel's own half is stated: the
      * card above carries the reason: two panels fed by one payload divide
-     * the teaching between them, because a phone shows both at once. */
-    function lookupFailed(name) {
+     * the teaching between them, because a phone shows both at once.
+     *
+     * `refused` separates the two ways a lookup ends with nothing, because one
+     * sentence for both was a lie in the commoner case (D26): a refusal is the
+     * service answering that it has no such symbol, and saying it "did not
+     * come back" contradicts the card an inch above, which is at that moment
+     * listing the symbols this build does serve. Which of the two happened is
+     * js/view-symbol.js's to know; the wording is this panel's. */
+    function lookupFailed(name, refused) {
         symbol = name || '';
-        blank('unavailable', 'No chart for ' + (name || 'this symbol')
-            + '. The lookup above did not come back.');
+        blank('unavailable', 'No chart for ' + (name || 'this symbol') + '. '
+            + (refused
+                ? 'The lookup above came back empty.'
+                : 'The lookup above did not come back.'));
     }
 
     function reset() {

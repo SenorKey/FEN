@@ -364,6 +364,10 @@ function run(argv) {
             api: windowStub.IncisorFundamentals,
             calls: function () { return calls; },
             state: function () { return panel.getAttribute('data-state'); },
+            provenanceState: function () {
+                return panel.querySelector('[data-fundamental-provenance]')
+                    .getAttribute('data-provenance-state');
+            },
             figure: function (group, name) {
                 var node = panel.querySelector(
                     '[data-' + group + '-figure="' + name + '"]');
@@ -526,6 +530,36 @@ function run(argv) {
         view.text('[data-fundamental-message]'));
     equal('no figure is left standing from the last symbol',
         view.figure('earned', 'revenue'), DASH);
+
+    /* The panel's own service failing is the one case that may name a
+     * service, and it is worth pinning: the assertions below are about this
+     * sentence NOT appearing where no request was made. */
+    check('an unreachable filings service is the one state that may say so',
+        view.text('[data-fundamental-provenance-message]')
+            .indexOf('could not be reached') > -1,
+        view.text('[data-fundamental-provenance-message]'));
+
+    /* D26, second channel. A lookup that never reached this panel means no
+     * request was made, so the provenance line has no failure to report —
+     * and it used to report the one above, in red, on a refused symbol whose
+     * card was at that moment listing the symbols the service does answer. */
+    view.api.lookupFailed('NVDA', true);
+    var refusedNote = view.text('[data-fundamental-provenance-message]');
+    view.api.lookupFailed('NVDA', false);
+    var unreachableNote = view.text('[data-fundamental-provenance-message]');
+    check('a refused lookup does not make the provenance line claim the '
+        + 'service was unreachable',
+        refusedNote.indexOf('could not be reached') === -1, refusedNote);
+    check('and neither does a lookup that never came back, since this panel '
+        + 'made no request either way',
+        unreachableNote.indexOf('could not be reached') === -1,
+        unreachableNote);
+    check('the line says instead that nothing was requested', 
+        refusedNote.indexOf('requested') > -1, refusedNote);
+    /* Not red. The state drives the colour, and a notice styled as a fault
+     * is a claim of its own (DEC-060). */
+    equal('and is not dressed as an error',
+        view.provenanceState(), 'pending');
 
     /* Back to nothing. */
     view.api.reset();

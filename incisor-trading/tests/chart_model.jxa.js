@@ -564,6 +564,40 @@ function run(argv) {
     equal('and stops naming the window it can no longer draw',
         view.text('[data-chart-period-label]'), 'Price history');
 
+    /* D26: the two ways a lookup ends with nothing are two sentences, not
+     * one. A refusal is the service answering, and the card an inch above is
+     * at that moment listing the symbols this build does serve — so telling
+     * the reader it "did not come back" contradicts what they can see. */
+    view.api.lookupFailed('PLTR', true);
+    var refused = view.text('[data-chart-message]');
+    var refusedLabel = view.plot.getAttribute('aria-label');
+    view.api.lookupFailed('PLTR', false);
+    var unreachable = view.text('[data-chart-message]');
+
+    check('a refused lookup and an unreachable service do not read the same',
+        refused !== unreachable, refused);
+    check('a refusal does not claim the lookup never answered',
+        refused.indexOf('did not come back') === -1, refused);
+    check('an unreachable service still says the lookup never answered',
+        unreachable.indexOf('did not come back') > -1, unreachable);
+    check('both name the symbol',
+        refused.indexOf('PLTR') > -1 && unreachable.indexOf('PLTR') > -1,
+        refused + ' / ' + unreachable);
+    /* Each panel states its own half; the reason is the card's to give. Two
+     * panels explaining one failure is the teaching said twice, on a phone
+     * that shows both at once. */
+    check('and neither takes over the card’s half by naming a cause',
+        refused.indexOf('sample data') === -1
+            && refused.indexOf('provider') === -1
+            && unreachable.indexOf('sample data') === -1
+            && unreachable.indexOf('provider') === -1,
+        refused + ' / ' + unreachable);
+    /* DEC-060: a fact in one channel only keeps being found in a new one. */
+    equal('a screen reader is given the refusal too, not the other sentence',
+        refusedLabel, refused);
+    equal('and a refused lookup still blanks the chart',
+        view.canvas.children.length, 0);
+
     view.api.show('SPY', year, true);
     equal('a symbol that stands in for an index says so here too, as it does '
         + 'on the tile and the panel', view.badge.hidden, false);

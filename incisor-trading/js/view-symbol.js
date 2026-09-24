@@ -346,9 +346,16 @@
             // yet, and it told a reader whose lookup had just failed to look
             // one up. Three panels said "Look up a symbol above" about the
             // symbol they had been asked for and could not get.
-            if (chart) chart.lookupFailed(symbol);
-            if (filings) filings.lookupFailed(symbol);
-            if (reports) reports.lookupFailed(symbol);
+            //
+            // Read once here and handed down, rather than each panel testing
+            // the kind itself: none of the three has a request of its own, so
+            // this is the only place that knows whether the service refused
+            // the symbol or never answered, and three copies of that test are
+            // three chances for one failure to be described three ways.
+            var refused = !!(error && error.kind === 'not_found');
+            if (chart) chart.lookupFailed(symbol, refused);
+            if (filings) filings.lookupFailed(symbol, refused);
+            if (reports) reports.lookupFailed(symbol, refused);
             if (watchlist) watchlist.offer(null);
         });
     }
