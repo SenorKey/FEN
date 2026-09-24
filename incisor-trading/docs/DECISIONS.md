@@ -75,7 +75,8 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-098 | **Anything sticky is measured against the provenance line, in a browser, every run.** A banner must be clear at the top of the page and wherever the page's own scrolling puts it. |
 | DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
 | DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
-| DEC-101 | **A line scaled to its own range is not comparable with its neighbour, so a sparkline states its figure too.** Months of −4.4% and −7.7% drew one picture; a shared scale costs the shape. |
+| DEC-101 | **Promoted** → DEC-103, in *Recurring traps*; it bit the watchlist the next day. |
+| DEC-102 | **Out of width, the comparable figure stays and the incomparable one gives up its width** — off-screen, never `display: none`. The watchlist drops the session's dollars at 460px. |
 
 ---
 
@@ -116,3 +117,4 @@ there will be a third.
 | DEC-078 | **An empty state may not misdescribe what emptied it.** Three panels said "Look up a symbol above" about the symbol they had just been denied. Absorbed DEC-023. |
 | DEC-090 | **A table laid out with `display: block` stops being a table to a screen reader** — rows and cells go with it. Write every role out; at desktop each matches the implicit one. |
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`. Bit T14, then T16. |
+| DEC-103 | **A locally scaled line cannot be read against the one beside it, so every sparkline states its figure too.** Four tiles, then eight chosen rows; the size was in the `aria-label` both. |

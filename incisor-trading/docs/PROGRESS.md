@@ -5236,3 +5236,113 @@ for keeping the queue, at some cost to Phase 2. Nine to go; still yours.
 queue (§19). The watchlist's trend column, the same fix as this session's on a
 surface built for the comparison it cannot support. Then the **symbol lookup
 and quote detail (T7)** audit, third of the nine remaining.
+
+---
+
+## 2026-09-24 — D24: eight months, eight scales, one picture
+
+An open defect, so it came before the audit queue (§19). **Fixed.** The
+watchlist's trend column states its thirty-day move as a figure now, and at
+375px the figure that gave up its width for it was the session's change in
+dollars — not the month, and not the column.
+
+### The defect, measured
+
+`js/sparkline.js` scales every line to its own series. Under a `Trend` / `30d`
+header that gave up to eight rows — symbols the reader deliberately chose —
+eight different scales, so the pictures could not be read against each other,
+which is the one thing a watchlist is for. On the fixture payloads the eight
+months were **−2.95%, −3.58%, −4.41%, −4.44%, −5.25%, −7.39%, −7.66% and
+−7.82%**: XLRE and IWM are 2.6× apart and drew the same drifting line.
+
+The size of the move was already in the row, in the sentence `draw()` writes
+into the SVG's accessible name. So the spoken page carried a fact the seen
+page did not — `DEC-060` from its unusual side, twice in two days.
+
+**Free, as filed:** `draw()` returns the shape it computed that sentence from,
+so the figure costs no fetch and no upstream call. The view uses the return
+value it was already discarding.
+
+### The 375px cost was the real work
+
+Dropping the figure into the row took the table's content to 375px against
+343px of box at a 375px viewport — `shoot.py` caught it as a 32px clip inside
+`.inc-watch-scroll`, which is `DEC-073`'s check doing its job on me. Three
+answers were measured, not guessed:
+
+- **Drop the column below 460px**, as the stylesheet already did. That is what
+  made this defect invisible on a phone in the first place, and `DEC-040` is
+  explicit that a constraint ruling out a drawing does not rule out the fact.
+- **Tighten the gutters to 4px.** Bought 30px and left five columns of
+  right-aligned digits nearly touching. Still 2px short.
+- **Give up the session's change in dollars.** Chosen. It is the one figure in
+  the row that cannot be compared with the row above it — $5 on a $700 ETF and
+  $5 on a $50 stock are the same number and nothing alike — which is the
+  argument this defect is built on. Off-screen rather than `display: none`
+  (`DEC-065`), so a screen reader on a phone hears what one on a desktop
+  hears. → `DEC-102`
+
+The last 8px came from the remove glyph's horizontal padding, which is
+decoration and not its target: the hit area is the whole cell through
+`.inc-watch-remove::before`, and the coarse-pointer rule gives the row 44px.
+
+**The line's own breakpoint moved too, and was measured rather than guessed.**
+`css/market.css` derives 110px as the width below which thirty closes are a
+texture, not a shape. In this table the line ran **107px at a 600px viewport
+and 141px at 700px** — so the band just above the old 460px breakpoint was
+drawing exactly the smudge that rule exists to refuse. The line now leaves at
+620px and the figure stays to 460px. Measured clip at every checked width:
+**0 at 375, 390, 460, 520, 600, 700, 768 and 1440.**
+
+### Verified
+
+`shoot.py` green at three widths with `--api` and a full eight-symbol list,
+and green again with the service stopped — where the column keeps its width,
+the figure stays silent rather than captioning nothing with "▬ —", and the
+change column says "unavailable" in words.
+
+Looked at the images, which is where the point of the fix is: eight lines that
+still look alike, now carrying −2.95% through −7.82% beside them.
+
+Tests: 267 front-end (unchanged in count; 144 checks in the watchlist runner,
+up from 133), 244 server. The new ones assert the **property** rather than
+another example of the two windows agreeing — a row up on the day and down on
+the month (`[700, 600, 610]`, `+1.67%` and `−12.86%`) has to colour the two
+figures opposite ways and put each in its own element. Mutation-checked:
+swapping `changePercent` for `change` in the view fails exactly two of them.
+
+### Filed
+
+**`D25`** — the column states a figure and still does not sort. The header's
+old reason ("a ranking by shape is not a thing a reader can ask for") died
+with this fix, but the obstacle did not: the figure is read off the drawing at
+render time and `sorted()` runs before that. Sorting it means moving the
+thirty-day change into `record()`, beside `closes` — a change to the row
+model, so it is filed rather than folded into a defect fix. The mechanism is
+in `trendFigure`'s header where the next session will already be looking,
+and the backlog entry points at it rather than copying it (`DEC-087`).
+
+**`DEC-101` promoted to `DEC-103`**, a recurring trap, one day after it was
+written. It bit the surface its own closing line had already named as
+non-compliant — so the lesson is not that the rule was missing, it is that a
+rule written against one surface does not travel to the next on its own.
+
+`BACKLOG.md` hit its 27,500 ceiling mid-entry, exactly as last session
+predicted. **Not raised** (§16): `D25`'s reasoning went beside the code it
+binds and the index row points at it, which took the file to **27,028**. No
+consolidation was needed after all — the long-form `D24` entry leaving paid
+for the short `D25` entry arriving.
+
+### For Key
+
+**N17 · still open, three sessions in.** This one is evidence for the queue
+from the other direction: `D24` was found by the T6 audit and fixed as a
+defect the next day, before the watchlist's own re-audit (08-31) came up five
+rows later. The audit queue found it; the defect rule got it fixed six
+sessions earlier than the queue would have. Nine audits still ahead of `T13d`.
+
+**N16, N14, N11, N7 · all still open, unchanged.**
+
+**Next session:** the **symbol lookup and quote detail (T7)** audit, third of
+the nine remaining — no defect is open in bounds (`D19` is the site-wide
+beacon, Key's twice over; `D25` is an enhancement).

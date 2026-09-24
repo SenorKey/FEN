@@ -524,6 +524,50 @@ function run(argv) {
             .indexOf('SPY thirty-day trend: down') === 0,
         trend.getAttribute('aria-label'));
 
+    /* The month as a figure (D24).
+     *
+     * Each line is scaled to its own symbol's high and low, so eight rows the
+     * reader chose sat on eight scales and could not be read against each
+     * other — which is what a list of symbols is for. The size of the move
+     * existed only in the sentence above, the channel a sighted reader does
+     * not get.
+     */
+    var move = view.rows()[1].querySelector('.inc-spark-move');
+    check('a priced row states the month as a figure, not only as a line',
+        !!move);
+    equal('signed and to the same two places as every figure on the page',
+        move.querySelector('.inc-delta-pct').textContent, '−0.79%');
+    equal('with an arrow, so colour is never the only signal',
+        move.querySelector('.inc-arrow').textContent, '▼');
+    check('coloured by its own direction',
+        move.classes().indexOf('inc-down') !== -1, move.attrs['class']);
+    equal('and silent, because the sparkline beside it already says it aloud',
+        move.getAttribute('aria-hidden'), 'true');
+
+    /* The property the two figures exist to keep apart, rather than another
+     * example of them agreeing. Every fixture row above falls on both
+     * windows, so a view reading the day's numbers into the month's element
+     * would pass every assertion so far. A day and a month are different
+     * questions and a row has to be able to answer them opposite ways. */
+    var crossed = mount(memoryStorage(blob(['IWM'])), {
+        IWM: payloadFor('IWM', [700, 600, 610])
+    });
+    var crossedRow = crossed.rows()[0];
+    check('a row up on the day is coloured up on the day',
+        crossedRow.querySelector('.inc-watch-delta')
+            .classes().indexOf('inc-up') !== -1,
+        crossedRow.querySelector('.inc-watch-delta').attrs['class']);
+    check('and down on the month in the same row',
+        crossedRow.querySelector('.inc-spark-move')
+            .classes().indexOf('inc-down') !== -1,
+        crossedRow.querySelector('.inc-spark-move').attrs['class']);
+    equal('each figure states its own window, not the other\'s',
+        crossedRow.querySelector('.inc-watch-delta')
+            .querySelector('.inc-delta-pct').textContent, '+1.67%');
+    equal('the month figure is the month, not the day repeated',
+        crossedRow.querySelector('.inc-spark-move')
+            .querySelector('.inc-delta-pct').textContent, '−12.86%');
+
     /* Telemetry hygiene, on a control the served page never contains — the
      * page test cannot see a button that is built at runtime, and this one
      * carries a ticker in its accessible name. */
@@ -608,6 +652,12 @@ function run(argv) {
     equal('with nothing drawn in it', failedTrend.children.length, 0);
     equal('and says the trend is unavailable rather than naming a shape',
         failedTrend.getAttribute('aria-label'), 'AAPL trend unavailable');
+    equal('and states no month, since a percentage carries no date of its own',
+        partial.rows()[0].querySelector('.inc-spark-move')
+            .querySelector('.inc-delta-pct').textContent, '—');
+    equal('taking the flat marker rather than a direction',
+        partial.rows()[0].querySelector('.inc-spark-move')
+            .querySelector('.inc-arrow').textContent, '▬');
 
     /* A single bar is not a trend, and drawing one would divide by a zero
      * span. The column says so rather than rendering an empty SVG that looks

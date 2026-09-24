@@ -239,15 +239,46 @@
     padding-bottom: 4px;
 }
 
+/* The line and the figure that states its size, on one row. The figure holds
+   the cell's right edge, where every other number in the table is, so eight
+   months read down a column instead of ranging against eight line endings. */
+.inc-watch-trend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .inc-watch-spark {
     display: block;
-    width: 100%;
+    flex: 1 1 auto;
+    /* Lets the line give way to the figure rather than forcing the cell wider
+       than its column: a flex item's default minimum is its content, and an
+       SVG's content is its viewBox. */
+    min-width: 0;
     /* Reserved before anything is drawn, so a row filling shifts nothing —
        and so a row that could not be priced keeps the shape of one that
        could. Shorter than the tile's 34px because a table row is denser
        than a card. */
     height: 26px;
     overflow: visible;
+}
+
+/* The shared figure from css/market.css, set to this surface's density. It
+   arrives with its own mono, tabular figures and 7ch reserve; what a table
+   row changes is the size, a step down from the session's change beside it
+   for the same reason the tile sets one — two percentages at equal weight in
+   one row argue about which is the headline. */
+.inc-watch-trend .inc-spark-move {
+    font-size: 0.68rem;
+}
+
+/* No figure to state, so nothing states one. A row still loading and a row
+   whose call failed both reach this, and "▬ —" set against a live column of
+   months reads as a month that came out flat rather than as one that never
+   arrived — the change column beside it already says "unavailable" in words.
+   Hidden rather than removed, so the column keeps its width while it fills. */
+.inc-watch-row:not([data-state="ready"]) .inc-spark-move {
+    visibility: hidden;
 }
 
 /* ── Sorting ──
@@ -420,11 +451,53 @@
     color: var(--ink);
 }
 
-/* Narrow enough that the columns would fight for room. The remove control
-   loses its padding first, because it is a glyph and the figures are the
-   content — and the trend column goes entirely, because 60px of sparkline
-   is a smudge rather than a shape, and a smudge presented as a trend is
-   worse than no trend. The figures it stood beside are still there. */
+/* ── Giving up the line before the figure ──
+
+   The sparkline goes first, and the figure beside it stays. A constraint that
+   rules out a drawing does not rule out the fact it was drawing — DEC-040,
+   one surface over, where a sector bar was hidden below 700px instead of
+   stacked. Before D24 the whole column went at 460px, which was defensible
+   while the column was only a picture and became a hole in the table the
+   moment it carried the size of the move.
+
+   620px is where the line stops being worth its width, measured rather than
+   guessed. css/market.css derives 110px as the point below which thirty
+   closes are under 3.7px a session — a texture, not a shape — and in this
+   table the line runs 107px at a 600px viewport and 141px at 700px. So the
+   band just above the old breakpoint was drawing exactly the smudge that
+   rule exists to refuse, while the figure that carries the same fact in 7ch
+   sat beside it. A viewport query rather than the tile's flex-wrap (DEC-033):
+   wrapping inside a table row buys the line its width by making all eight
+   rows two lines tall, which is a worse trade in a list built to be scanned
+   down. */
+@media (max-width: 620px) {
+    .inc-watch-spark {
+        display: none;
+    }
+
+    /* No longer holding room for a line, so the column stops claiming the
+       table's leftover width and gives it back to the symbol and the price. */
+    .inc-watch-trend-head {
+        width: auto;
+    }
+}
+
+/* Narrow enough that the columns fight for room, and the month's figure is
+   what made them. Measured: with it in the row the content is 375px against
+   343px of box at a 375px viewport, so 32px had to come from somewhere.
+
+   It comes from the session's change in dollars, which is the one figure in
+   the row that cannot be compared with the figure above it — a $5 move on a
+   $700 ETF and a $5 move on a $50 stock are the same number and nothing
+   alike. That is the same argument D24 is built on, so answering it by
+   keeping the dollars and dropping the month would have been answering it
+   backwards. What is left is two percentages, each naming its own window in
+   the header above it, and the price they are percentages of.
+
+   Off-screen rather than `display: none` (DEC-065): the figure keeps its
+   place in the row's accessible name, so a screen reader on a phone hears
+   exactly what one on a desktop hears. Only the seen page gives it up, and
+   only where the alternative was giving up the month instead. */
 @media (max-width: 460px) {
     .inc-watch-table th,
     .inc-watch-table td {
@@ -435,8 +508,22 @@
         padding: 8px 7px;
     }
 
-    .inc-watch-trend-head,
-    .inc-watch-trend {
-        display: none;
+    .inc-watch-delta .inc-delta {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip-path: inset(50%);
+    }
+
+    /* The glyph's padding, which is not its target: the hit area is the whole
+       cell through .inc-watch-remove::before, and the coarse-pointer rule
+       below gives the row 44px of height. So this is 8px of table bought
+       back from decoration rather than from anything a finger aims at. */
+    .inc-watch-remove {
+        padding: 2px 4px;
     }
 }

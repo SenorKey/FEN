@@ -2352,6 +2352,10 @@ what landed next to it.
 
 ## DEC-101 — a line scaled to its own range states its figure too
 
+*Promoted into DEC-103, which is the same lesson after it bit a second time —
+the watchlist, the day after the tiles (D24, 09-24). The index now carries
+that one line; the reasoning it had is below, unchanged.*
+
 Found in the `T6` audit, 2026-09-23, from the `shoot.py` images.
 
 `js/market-figures.js`'s `sparkline()` scales every line to the high and low
@@ -2393,3 +2397,73 @@ This binds `js/sparkline.js`'s consumers rather than one surface, which is why
 it is in the index. The index strip complies as of 09-23. The watchlist draws
 the same line under a `Trend` / `30d` header across up to eight rows the
 reader chose, and does not — filed as `D24`.
+
+---
+
+## DEC-102 — the comparable figure keeps its place; the one that cannot gives up its width
+
+Found fixing `D24`, 2026-09-24, by measuring rather than by looking.
+
+Putting the month's figure in a watchlist row made the row 375px wide against
+343px of box at a 375px viewport, and `tools/shoot.py` fails a run on a
+scroller clipping its own content (`DEC-073`). Something had to give 32px.
+
+**What was tried and rejected.** Dropping the column again below 460px, which
+is what the stylesheet already did and what made `D24` invisible on a phone —
+the device a list of eight chosen symbols is most likely to be read on.
+Tightening the gutters from 7px to 4px, which bought 30px and left the
+figures nearly touching, five columns of right-aligned digits with nothing
+between them. Both answers treated the month as the thing to sacrifice.
+
+**What gave instead.** The session's change *in dollars*. A row states the
+last price, the session's move and the month's move, and of the three the
+dollar figure is the one that cannot be read against the row above it: a
+$5 move on a $700 ETF and a $5 move on a $50 stock are the same number and
+nothing alike. That is the argument `D24` itself is built on, so keeping the
+dollars and dropping the month would have been answering it backwards. What
+is left at 460px is two percentages, each naming its own window in the header
+above it, and the price they are percentages of.
+
+**Off-screen, not `display: none`** (`DEC-065`). The figure keeps its place in
+the row's accessible name, so a screen reader on a phone hears exactly what
+one on a desktop hears. Only the seen page gives it up, and only where the
+alternative was giving up the month.
+
+So: **where a row runs out of width, the figure that can be compared with the
+one above it keeps its place, and the figure that cannot gives up its width
+first — visually, never from the accessibility tree.** This binds any surface
+with a dollars-and-percent pair in a narrow row, which is the positions table,
+the trade log and the reporting calendar as well as this one.
+
+---
+
+## DEC-103 — a line scaled to its own range states its figure too (trap)
+
+Promoted from `DEC-101` on 2026-09-24, one day after it was written, because
+it bit a second time — and the second surface was the one the first entry had
+already named as non-compliant.
+
+`DEC-101` recorded this as a rule binding `js/sparkline.js`'s consumers and
+closed by saying the watchlist did not comply, filed as `D24`. So the trap is
+not that the lesson was missing; it is that **a rule written against one
+surface does not travel to the next one on its own**, even when the entry
+naming the gap is a day old and the code is the same function call.
+
+The shape both times: `sparkline()` scales each line to its own series, the
+view draws it under a window label, and the size of the move exists only in
+the sentence `draw()` writes into the SVG's accessible name. The index strip
+drew four months of −4.44%, −7.66%, −5.25% and −7.82% as four near-identical
+pictures. The watchlist drew eight — of −2.95% through −7.82%, on rows the
+reader had *chosen*, which is a stronger invitation to compare than four tiles
+the page picked.
+
+**The rule.** A sparkline whose scale is local states its own figure beside
+it, coloured by its own direction, with an arrow and a sign. The line keeps
+the path; the figure carries the size. A surface drawing the line without the
+figure is asserting a comparison it cannot support. It costs nothing: `draw()`
+returns the shape it computed that sentence from (`DEC-032`).
+
+**And the channel to check.** Both bites were `DEC-060` arriving from its
+unusual side — the fact was in the accessibility tree and missing from the
+screen, rather than the other way round. When a picture stands in for a
+number, ask what the `aria-label` says, and whether the seen page says it too.

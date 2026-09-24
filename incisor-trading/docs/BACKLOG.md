@@ -242,21 +242,13 @@ second `D16` and is now **D18**; the site-wide beacon defect was a second
 `D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
 old numbers. Nothing else moved.
 
-- [ ] **D24 · The watchlist's trend column states no figure** `[defect]`
-  *(2026-09-23, T6 audit)* — the defect that audit fixed on the index strip,
-  one surface over and sharper. Rows draw `js/sparkline.js`'s line from the
-  same payload under a `Trend` / `30d` header, each scaled to its own symbol's
-  thirty-day range — so eight rows the reader *chose* sit on eight scales and
-  cannot be compared with each other, which is what a watchlist is for. Each
-  move's size exists only in the sparkline's accessible name. The header's own
-  comment says the column is not sortable because "a ranking by shape is not a
-  thing a reader can ask for": with a figure it would be. Filed as a defect
-  rather than left to the watchlist's re-audit (08-31, still queued) because it
-  misleads today.
-  *Accept:* every row states its thirty-day change as a figure with an arrow
-  and a sign; no extra call, since `draw()` already returns it; the row still
-  fits at 375px inside `.inc-watch-scroll`; the window stays named once in the
-  header, not once per row.
+- [ ] **D25 · The trend column states a figure and still cannot be sorted**
+  `[enhancement]` *(2026-09-24, from D24)* — D24 killed the reason the header
+  gave for it, not the obstacle: the month is read off the drawing at render
+  time, and the sort runs before that. `trendFigure`'s header in
+  `js/view-watchlist.js` carries the mechanism and the fix.
+  *Accept:* `Trend` sorts both ways like the other three; figure and line
+  still agree; no extra call.
 
 - [ ] **D23 · `shoot.py` photographs one market session, and cannot reach the
   other eight** `[enhancement]` *(2026-09-22, T5 audit)* — the clock derives
@@ -388,3 +380,4 @@ session that must *act* on any of this goes.
 | D22 | 09-20 | **One page load asked for the same series four times** *(defect, fixed)* — the seam joins a request already out, keyed by URL, so every route gets it. 23 requests to 13, same pixels. → `js/market-data.js` |
 | T13c | 09-22 | **Broadsheet adopted.** Merged, renamed `css/broadsheet.css`, extended to the Trade tab; workbench's sticky strip, measured. → DEC-097, DEC-098, DEC-099 |
 | D13 | 09-22 | **The page took the site's face** *(closed by T13c)* — and the switch was eleven declarations, not one. → DEC-097 |
+| D24 | 09-24 | **Eight watched months drawn on eight scales** *(defect, fixed)* — the figure beside each line, and at 375px the dollar change gave up its width to it rather than the month giving up the column. → DEC-101, DEC-102, D25 |

@@ -133,23 +133,76 @@
      * symbols was being told less about them than the strip tells them about
      * four they did not choose.
      *
-     * Uncoloured, like every line on this page, and the window it covers is
-     * named once in the column header rather than once per row — the same
-     * rule the change column follows.
+     * The line is uncoloured, like every line on this page, and the window it
+     * covers is named once in the column header rather than once per row —
+     * the same rule the change column follows. The figure beside it takes the
+     * colour, because it names a single window and cannot contradict itself.
      */
     function trendCell(row) {
         var wrapper = cell('td', 'inc-watch-trend');
         if (!spark) return wrapper;
 
+        var box = cell('div', 'inc-watch-trend-row');
         var svg = spark.element('inc-watch-spark', row.symbol);
-        wrapper.appendChild(svg);
+        box.appendChild(svg);
 
+        var shape = null;
         if (row.state === 'ready' && row.closes) {
-            spark.draw(svg, row.closes, row.symbol);
+            shape = spark.draw(svg, row.closes, row.symbol);
         } else if (row.state === 'error') {
             spark.unavailable(svg, row.symbol);
         }
+
+        box.appendChild(trendFigure(shape));
+        wrapper.appendChild(box);
         return wrapper;
+    }
+
+    /* The size of the month, beside the line that draws its shape.
+     *
+     * The line alone could not carry it, and on this surface that is sharper
+     * than on the tiles it was fixed on first. Every sparkline is scaled to
+     * its own symbol's thirty-day high and low, so up to eight rows the
+     * reader deliberately chose sat on eight different scales — and a
+     * watchlist exists to be read down. A month down 4% and a month down 12%
+     * drew the same picture, one above the other, under a header naming a
+     * window for a figure that was not there.
+     *
+     * Free, and that is the whole argument for where it comes from: draw()
+     * computes this percentage to write the sentence it puts in the SVG's
+     * accessible name (DEC-032), so the number already existed in this row —
+     * in the one channel a sighted reader does not get. DEC-060, arriving
+     * from the side nobody watches, twice in two sessions.
+     *
+     * Aria-hidden for that same reason: the spoken half has been there since
+     * T9 and this is the seen half catching up. Announcing it again would
+     * make every row state its month twice.
+     *
+     * Why the column still does not sort (D25). The header used to say a
+     * ranking by shape is not a thing a reader can ask for, which stopped
+     * being true here — but the figure arrives too late to rank by. It is
+     * read off the shape draw() returns while this cell is being built, and
+     * storage.sorted() has already ordered the row models by then. Sorting it
+     * means computing the thirty-day change in record(), beside `closes`,
+     * where every other sortable figure in a row already lives, and letting
+     * this function state what the model holds rather than what the drawing
+     * returned. That is a change to the row model, so it is D25 and not this.
+     */
+    function trendFigure(shape) {
+        var percent = shape ? shape.changePercent : null;
+        var move = cell('p', 'inc-spark-move');
+        move.setAttribute('aria-hidden', 'true');
+
+        var arrow = cell('span', 'inc-arrow');
+        arrow.textContent = figures.arrowFor(percent);
+        move.appendChild(arrow);
+
+        var percentage = cell('span', 'inc-delta-pct');
+        percentage.textContent = figures.formatPercent(percent);
+        move.appendChild(percentage);
+
+        dom.setDirection(move, figures.direction(percent));
+        return move;
     }
 
     /* The remove control.
