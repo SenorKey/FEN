@@ -5346,3 +5346,92 @@ sessions earlier than the queue would have. Nine audits still ahead of `T13d`.
 **Next session:** the **symbol lookup and quote detail (T7)** audit, third of
 the nine remaining — no defect is open in bounds (`D19` is the site-wide
 beacon, Key's twice over; `D25` is an enhancement).
+
+---
+
+## 2026-09-24 — T7 audit: the first re-audit that changed nothing
+
+Second piece of work this session, after `D24`. Third of the eleven `T13c`
+made due. **Verdict: keep** — the four answers are in `AUDITS.md` under
+`09-24 — Symbol lookup and quote detail (T7)`; the row is in the audit log.
+
+### Three things that looked like defects and were not
+
+That is the whole finding, and it is worth as much as a fix would have been.
+Each was chased to a measurement or a document, not to a comment claiming it
+was fine.
+
+**The dropdown cannot offer what it cannot deliver.** `catalog.py` holds 65
+symbols; fixture mode can answer for 17. That gap is the classic shape of a
+search box that dead-ends, so I checked it: `/symbols` intersects the
+catalogue with the committed JSON in fixture mode and returns
+`exhaustive: true`. `NVDA` — catalogued, no fixture — is offered by neither
+the list nor the hint, and the hint says *"Nothing matches "NVDA". This build
+serves sample data for a handful of symbols, so the list is short."* Probed
+at `app`, `tes`, `zzzz` and `NVDA`; the hint is a visible `role="status"`
+line in every case, not an offscreen one.
+
+**The second upstream call earns its place.** `DEC-003` says tiles read
+`/history` alone and never `/quote`, and the same argument would halve the
+cost of the page's central interaction. It does not apply: `/quote` carries
+the current session's own open, high, low and volume, which a daily series
+does not hold while that session is running — and Alpha Vantage's free tier is
+**15-minute delayed as well as EOD**, so that session is real in live mode.
+Checked against `DATA-PROVIDER.md`, not against the comment asserting it.
+A lookup is three requests and two budgeted calls; `/fundamentals` is EDGAR
+and off the 22 (`DEC-041`).
+
+**The range bands are not `DEC-103`** — and this is the one I would have got
+wrong. Marker placement lives only in an `.inc-offscreen` sentence, which is
+the trap's exact shape, one day after I promoted it. The difference is that a
+sparkline's scale is nowhere on screen while these bands print their low and
+their high at each end: the scale is published, so the marker is readable and
+the offscreen sentence is a stand-in for a mark rather than a fact in hiding.
+Written down as `DEC-104` precisely because the next session will arrive
+carrying `DEC-103` and see a match. → `DEC-104`
+
+### Filed
+
+**`D26`** — after a refused lookup the chart says *"No chart for PLTR. The
+lookup above did not come back"*, while the card an inch above is listing the
+symbols this build does serve. It came back; it said no.
+`js/view-price-chart.js` has a blank for a failed request and a blank for a
+failed lookup, and the second is worded as the first — `DEC-078` on a third
+surface, `DEC-057`'s lie in mirror image. It belongs to `T8`, whose audit is
+next, so the next session takes the defect and then the audit of the same
+surface.
+
+**Looked at and left, not filed:** the open dropdown sits over the hint line,
+so *"1 match. Press Enter to open it."* is occluded in the one case it applies
+to. The list is its own affordance and the sentence stays the input's
+`aria-describedby`. Also the desktop column imbalance — at 1440px the card
+runs ~225px past the bottom of the chart beside it. That is broadsheet's
+two-column arrangement rather than this surface, it does not arise at tablet
+and below, and `T13d` already owns the long tail.
+
+### S6, unplanned but forced
+
+`BACKLOG.md` hit its ceiling a second time in one session, filing the audit
+row and `D26`. **Not raised.** Consolidated instead: the audit-log preamble's
+three paragraphs became two and lost a stale count ("ten sessions deep" was
+written when it was ten), and the 09-15 renumbering note went from five lines
+to two now that the renumbering is nine days old and recorded. **27,393 of
+27,500**, ceiling untouched, both times.
+
+### For Key
+
+**N17 · a third session of evidence, and it now cuts both ways.** Last
+session's entry argued the queue earns its keep because re-audits catch what
+the original audits missed. This one is the counter-example: T7 was audited on
+08-30, broadsheet changed its setting and not its substance, and the re-audit
+confirmed four answers without changing a line. The useful output was three
+*disproved* suspicions and one defect on a neighbouring surface — real value,
+and not what a re-audit is nominally for. **So the honest reading after three
+is that a re-audit's worth varies by how much the revamp actually touched, and
+there is no way to know which kind you have until you have done it.** Eight to
+go. Still yours.
+
+**N16, N14, N11, N7 · all still open, unchanged.**
+
+**Next session:** **`D26`** — an open defect, so it comes first (§19) — and
+then the **price chart (T8)** audit, the same surface, fourth of the eight.

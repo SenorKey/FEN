@@ -196,22 +196,17 @@ and `O6` never completes, so the prose cannot live here — seven audits were 41
 of it. Open the detail only to act on a verdict. A test asserts the bijection
 both ways, and caps a row at 200 characters.
 
-**The queue is full, and T13c filled it.** Every row below was written against
-a page of rounded cards set in DM Sans; broadsheet changed the measure, the
-fills, the rules and the face of all eleven. Guide §18 is unambiguous — a
-revamp touching a surface makes it due again, whatever its last verdict — so
-the eleven are due, oldest first.
+**T13c made all eleven due again**, oldest first: every row below was written
+against rounded cards in DM Sans, and broadsheet changed the measure, the
+fills, the rules and the face of all of them (§18 — a revamp touching a
+surface makes it due, whatever its last verdict).
 
-**Two down, nine to go.** The clock (09-22) and the index summary strip
-(09-23) have been re-audited under broadsheet; the next is the **symbol lookup
-and quote detail (T7, 08-30)**, then the price chart (T8), and so on down the
-rows in date order. `D24` is an open defect and comes before all of them.
-
-An audit is a session's whole work (§14 step 4), so the queue is ten sessions
-deep and it all comes before `T13d`. **Ten sessions of audits ahead of Phase 2
-is probably not what §18 means to buy, and it is not the routine's to redefine
-— see `N17` in `PROGRESS.md`.** Meanwhile the rule stands and the queue is
-worked in order.
+**Three down, eight to go** — clock 09-22, index strip 09-23, symbol lookup
+09-24. Next is the **price chart (T8)**, behind `D26`, an open defect on that
+same surface. An audit is a session's whole work, so the remainder sits ahead
+of `T13d`; **that is probably not what §18 means to buy and is not the
+routine's to redefine — `N17`.** The rule stands and the queue is worked in
+order.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -228,6 +223,7 @@ worked in order.
 | 09-17 | **Holdings, trade log and equity curve** (T16) | Minor edits | A position worth what it cost read "▬ $0.00" — DEC-093, one surface down. The empty log pointed at a ticket above it. |
 | 09-22 | **Market clock** (T5) | Minor edits | Broadsheet right-aligned it, so a growing countdown pushes the dot and the state word 7.2px, twice a session. The 12ch reserve never bound. |
 | 09-23 | **Index summary strip** (T6) | Minor edits | Months of −4.4% and −7.7% drew the same picture: every line is scaled to its own range. The size existed only in the aria-label. |
+| 09-24 | **Symbol lookup and quote detail** (T7) | **Keep** | 65 catalogue symbols, 17 answerable, and the dropdown offers only what resolves. Both calls earn their place. D26 filed on the chart. |
 
 ## Discovered
 
@@ -236,11 +232,18 @@ Tasks found mid-work that don't fit above. **Label each one `[defect]` or
 step 4 of the session protocol; an enhancement waits for Key to triage it into a
 phase. When the call is unclear, file it as a defect.
 
-**Two IDs were issued twice and were renumbered on 09-15**, when closing one
-of a pair made the ambiguity live: the Trade-tab redraw enhancement was a
-second `D16` and is now **D18**; the site-wide beacon defect was a second
-`D15` and is now **D19**. Entries in `PROGRESS.md` before that date use the
-old numbers. Nothing else moved.
+**Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
+became **D19**. `PROGRESS.md` before that date uses the old numbers.
+
+- [ ] **D26 · The chart calls a refused lookup a lookup that never answered**
+  `[defect]` *(2026-09-24, T7 audit)* — after a not-found the chart blanks with
+  "The lookup above did not come back", while the card an inch above is naming
+  the symbols this build does serve. It did come back; it said no.
+  `js/view-price-chart.js` has a blank for a failed request and a blank for a
+  failed lookup, and the second is worded as the first — `DEC-078` on a third
+  surface, and `DEC-057`'s lie in mirror image.
+  *Accept:* a refused lookup and an unreachable service read differently, and
+  neither claims the other's cause; the chart still states only its own half.
 
 - [ ] **D25 · The trend column states a figure and still cannot be sorted**
   `[enhancement]` *(2026-09-24, from D24)* — D24 killed the reason the header

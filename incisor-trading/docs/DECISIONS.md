@@ -77,6 +77,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
 | DEC-101 | **Promoted** → DEC-103, in *Recurring traps*; it bit the watchlist the next day. |
 | DEC-102 | **Out of width, the comparable figure stays and the incomparable one gives up its width** — off-screen, never `display: none`. The watchlist drops the session's dollars at 460px. |
+| DEC-104 | **A drawing that prints its own scale is not DEC-103** — the range bands label both ends, so the marker is readable. Do not add a percent beside them. |
 
 ---
 

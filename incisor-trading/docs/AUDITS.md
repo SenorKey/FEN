@@ -619,3 +619,87 @@ of the surface, not a side effect of the layout. Its own header comment says
 the column is not sortable because "a ranking by shape is not a thing a reader
 can ask for", which is the tell: with a figure it would be. Filed as **D24**
 rather than fixed here — one surface per audit.
+
+---
+
+## 09-24 — Symbol lookup and quote detail (T7)
+
+*Verdict: keep.* Third of the eleven `T13c` made due again, and the first
+re-audit to change nothing. Broadsheet reset the card's measure and its rules
+and left its contents alone; everything this audit went looking for turned out
+to be already reasoned about, in a comment, next to the code.
+
+**Useful.** Yes, and more so than when it was first audited. It is still the
+only route to any symbol that is not one of the four proxies, and three
+surfaces that did not exist on 08-30 now hang off it: the fundamentals panel
+opens on a quote, the Watch toggle is offered on a quote, and the chart draws
+the series the lookup already fetched. Removing it would take most of the page
+with it.
+
+**Easy.** The combobox model is unchanged and still right. What this audit
+checked instead was the thing that would be invisible from the source — what a
+reader is told when the answer is no, which on a 17-symbol fixture build is
+most of the time.
+
+The catalogue holds **65 symbols**; fixture mode can answer for **17**. The
+gap is exactly where a search box invites a reader to ask for something it
+cannot deliver, and `/symbols` closes it: in fixture mode it intersects
+`catalog.py` with the committed JSON and returns `exhaustive: true`, so the
+dropdown only ever offers what will resolve. Typing `tes` offers nothing and
+the hint says why in words a reader can act on — *"Nothing matches “tes”. This
+build serves sample data for a handful of symbols, so the list is short."*
+`NVDA` is in the catalogue and not in the fixtures, and gets the same honest
+answer rather than a suggestion that dead-ends. A free-typed `PLTR` reaches
+the panel and is refused by name, with the seventeen listed.
+
+**Looked at and left:** while the list is open it sits over the hint line, so
+*"1 match. Press Enter to open it."* is occluded in the one case where it
+applies. Left because the list is its own affordance — a visible row under a
+text field is not a thing readers need told — and the sentence is still the
+input's `aria-describedby`, so the channel that cannot see the list keeps it.
+
+**Beautiful.** It holds up. Figures are tabular and the two range bands line
+up on one rule; the card, the chart and the panel below share a measure now
+that they did not before `T13c`. One blemish, and it is the arrangement rather
+than the surface: at 1440px the card runs ~225px past the bottom of the chart
+beside it, so the right column empties while the left is still going. At
+tablet and below the columns stack and it does not arise.
+
+**Performing.** A lookup costs **three browser requests and two of the 22
+daily calls** — `/history`, `/quote`, and `/fundamentals`, which is EDGAR and
+off the budget (`DEC-041`). The second call was the thing worth re-checking,
+because `DEC-003` says tiles read `/history` alone and never `/quote`, and the
+same argument would retire `/quote` here and halve the cost of the page's
+central interaction.
+
+It does not. `/history` carries the year the 52-week range is measured over
+and the average volume today is compared against; `/quote` carries the current
+session's own open, high, low and volume, which a daily series does not hold
+while that session is still running. Alpha Vantage's free tier is **15-minute
+delayed as well as EOD**, so the in-progress session is real in live mode and
+the second call buys something. Verified against `DATA-PROVIDER.md` rather
+than against the comment that claims it.
+
+A symbol already on the strip re-requests `/history` — `D22`'s seam joins
+requests in flight, and the strip's finished long before — but the service
+answers it from its own cache, so it costs a round trip and no upstream call.
+That is the arithmetic the watchlist's eight-symbol cap is written against,
+and it holds.
+
+**The range bands are not `DEC-103`, and the next session should not fix
+them.** They look like the trap: a drawing scaled to its own window, with the
+placement stated only in an `.inc-offscreen` sentence — *"Last price 273.78
+sits 68% of the way up this range."* The difference is that a sparkline's
+scale is nowhere on screen, so its shape cannot be interpreted at all, while
+these bands print their low and their high at each end. The scale is stated,
+the marker sits inside it, and a reader can read the position off the drawing.
+Adding "68%" beside it would buy precision the bar is not drawn to and clutter
+a card that is already dense. → `DEC-104`
+
+**One defect found, and it belongs to the chart.** After a refused lookup the
+panel below says *"No chart for PLTR. The lookup above did not come back."*
+The lookup did come back — with a definite answer, which the card two inches
+above is at that moment spelling out symbol by symbol. `view-price-chart.js`
+has two blanks, one for a request that failed and one for a lookup that
+failed, and the second is worded as the first. Filed as `D26` against `T8`,
+whose audit is the next one in this queue.

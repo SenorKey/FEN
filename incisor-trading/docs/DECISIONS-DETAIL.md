@@ -2467,3 +2467,41 @@ returns the shape it computed that sentence from (`DEC-032`).
 unusual side — the fact was in the accessibility tree and missing from the
 screen, rather than the other way round. When a picture stands in for a
 number, ask what the `aria-label` says, and whether the seen page says it too.
+
+---
+
+## DEC-104 — a drawing that prints its own scale is not DEC-103
+
+Found in the `T7` audit, 2026-09-24, while looking for `DEC-103` on a third
+surface — and the point of writing it down is that it very nearly was.
+
+The quote card's day range and 52-week range are bands with a marker at the
+last price, and the marker's placement is stated **only** in an
+`.inc-offscreen` sentence: *"Last price 273.78 sits 68% of the way up this
+range."* That is the shape of the trap exactly — a drawing scaled to its own
+window, the number in the accessibility tree and nowhere else — and a session
+arriving with `DEC-103` fresh would add a percentage beside each band and
+call it the same fix.
+
+**It is not the same, and the difference is the one thing that matters.** A
+sparkline's scale is nowhere on screen: nothing says what its high and low
+were, so the shape cannot be interpreted at all, and four of them side by side
+invite a comparison that is wrong. These bands **print their low and their
+high, one at each end of the track**. The scale is stated, the marker sits
+inside it, and a reader can read the position off the drawing — which is what
+the band is for and what a low and a high alone do not say.
+
+So the `.inc-offscreen` sentence is not a fact hiding in one channel. It is
+the stand-in for a mark a screen reader cannot see, which is what an
+accessible name is supposed to be — and the `08-30` audit added it for exactly
+that reason.
+
+**The rule this distinguishes.** `DEC-103` binds a drawing whose scale is
+private to itself. A drawing that labels its own extremes has published its
+scale, and adding the derived percentage buys precision the bar is not drawn
+to — it is positioned to two decimal places and read to about five — while
+spending density on a card that already carries eleven figures.
+
+So: **before applying `DEC-103`, ask whether the drawing states its own
+scale.** If it does, it is not the trap, and the number beside it is clutter
+rather than the missing half.
