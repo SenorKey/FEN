@@ -106,7 +106,7 @@ there will be a third.
 
 | ID | Trap — and how to avoid it |
 |---|---|
-| DEC-060 | **A fact in one channel only keeps being found in a *new* channel** — decoration, `aria-label`, `aria-pressed`. Hover is a channel some readers lack. |
+| DEC-060 | **A fact in one channel only keeps being found in a *new* channel** — decoration, `aria-label`, `aria-pressed`, hover. Mirror: a second line outlives the first's fix (D26). |
 | DEC-061 | **A count across the whole page stops being a rule once a second surface does the same thing.** Assert per element, never as a total. |
 | DEC-062 | **A screenshot taken straight after an interaction catches a transition in flight.** `shoot.py` passes `animations="disabled"`. |
 | DEC-063 | **A full-page screenshot composites the fixed site nav mid-image**, moving with the page height. Check the previous shot before filing an overlap. |
@@ -115,7 +115,7 @@ there will be a third.
 | DEC-066 | **The greps in `test_page.py` are blunt substring checks and mislead three ways** — unread files, prose matching a token, per-file rules concatenated. |
 | DEC-073 | **A box that scrolls inside itself is not measured by a body that does not.** The calendar clipped a dividend to "0.2" at 375px for four sessions; nothing failed. |
 | DEC-076 | **A directory kept out of the web root by one mechanism is exposed the moment that mechanism is absent** — `tools`, then `server/` the same day. Both `.htaccess` and the vhost, always. |
-| DEC-078 | **An empty state may not misdescribe what emptied it.** Three panels said "Look up a symbol above" about the symbol they had just been denied. Absorbed DEC-023. |
+| DEC-078 | **An empty state may not misdescribe what emptied it, nor why.** Same three panels twice: told to look up what they were denied, then a refusal "did not come back". Absorbed DEC-023. |
 | DEC-090 | **A table laid out with `display: block` stops being a table to a screen reader** — rows and cells go with it. Write every role out; at desktop each matches the implicit one. |
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`. Bit T14, then T16. |
 | DEC-103 | **A locally scaled line cannot be read against the one beside it, so every sparkline states its figure too.** Four tiles, then eight chosen rows; the size was in the `aria-label` both. |

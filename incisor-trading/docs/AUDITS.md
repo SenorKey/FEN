@@ -703,3 +703,70 @@ above is at that moment spelling out symbol by symbol. `view-price-chart.js`
 has two blanks, one for a request that failed and one for a lookup that
 failed, and the second is worded as the first. Filed as `D26` against `T8`,
 whose audit is the next one in this queue.
+
+---
+
+## 09-24 — Price chart (T8)
+
+*Verdict: minor edits.*
+
+Fourth of the eleven `T13c` made due, and the second piece of work in a session
+that opened with `D26` — a defect filed against this surface by the previous
+audit. The defect was fixed first and separately; what follows judges what was
+left.
+
+**Useful.** The strongest surface on the page, and the only one that answers a
+question the card beside it cannot: what the thing has been *doing*. It still
+costs nothing — it draws the `/history` payload the quote panel already holds
+— and it is honest about what it does not have. Pressing 5Y on a fixture
+symbol gives `OVER THE 260 SESSIONS HELD` in the head and a note underneath
+saying *"5Y is the whole series held for SPY — 260 sessions — rather than five
+years."* A chart that says it could not honour the button it just drew is
+teaching something most real ones hide.
+
+**Easy.** All three input channels are present and none is the only one: the
+range buttons carry `:focus-visible` rings, the plot takes focus and arrows
+step the cursor, and a tap reads the day under it — the `DEC-024` fix from the
+first audit, still covered by a runner assertion that a move alone never
+fired. The hint names all three in the sentence under the plot. Range buttons
+measure 67x27 CSS px at 390px, clear of the 24x24 WCAG 2.2 floor. Nothing is
+carried by colour alone: direction is an arrow and a sign as well as green or
+red, and the pressed range has a filled background, not just an accent.
+
+**Beautiful.** This is where the edit came from, and it is a proportion
+problem rather than a decoration one. `--inc-chart-height` was a constant —
+240px above 700px wide, 190px below — while the plot's *width* is whatever the
+column gives it. So the same six months draw at **720x240 (3:1) at 1440px**
+and **300x185 (1.6:1) at 390px**: the widescreen flattens the line, and the
+page's most prominent drawing reads as a calmer market than the identical data
+does on a phone. It also left the right column short — the chart ended ~235px
+above the card beside it. The token now steps to **320px at 1100px and up**,
+giving 2.25:1 and closing that gap to ~142px. Tablet and mobile are below the
+breakpoint and are byte-for-byte unchanged. A step rather than an
+`aspect-ratio`: the plot is a flex child beside a fixed-width scale gutter
+inside a row that takes this height, and sizing it from its own width would
+move where the gutter's labels land.
+
+**Performing.** Measured again rather than inherited. Three runs — 6M resting,
+5D pressed, 5Y pressed — each reported `requests busiest visitor 13 of 60`,
+identical. **A range change still costs zero upstream calls**, which is the
+whole reason five ranges are affordable at 22 calls a day. The fallback table
+is still built only when opened.
+
+**Looked at and left.** The dashed horizontal rule across the plot is the
+level the window opened at, and it is the reason `DEC-010` can forbid
+colouring the line — it says whether the range ended above or below its start
+without the drawing taking a side. Nothing on screen names it, which has the
+shape of `DEC-060`, and it is not: the figure directly above it states the
+same movement in words and colour (`OVER SIX MONTHS` / `+78.41 +11.97%`), so
+the mark is the picture of a fact the head already gives. This is `DEC-104`'s
+argument, one surface over. The reason is already in `js/chart-canvas.js`
+beside the line that draws it, which is where guide §16 says a
+single-surface decision belongs, so it earns no index row and no backlog
+entry — adding a legend is the change to *not* make.
+
+Also left: the price axis still carries three labels on 1Y and 5Y against six
+on 6M, restated in `js/chart-canvas.js` and unchanged since 08-30; and the
+no-history box is now 320px of dashed empty at desktop, which is the reserved
+space working as §13 asks rather than a hole — the alternative is the layout
+shift the first audit removed.

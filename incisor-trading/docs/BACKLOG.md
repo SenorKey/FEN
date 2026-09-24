@@ -201,12 +201,11 @@ against rounded cards in DM Sans, and broadsheet changed the measure, the
 fills, the rules and the face of all of them (§18 — a revamp touching a
 surface makes it due, whatever its last verdict).
 
-**Three down, eight to go** — clock 09-22, index strip 09-23, symbol lookup
-09-24. Next is the **price chart (T8)**, behind `D26`, an open defect on that
-same surface. An audit is a session's whole work, so the remainder sits ahead
-of `T13d`; **that is probably not what §18 means to buy and is not the
-routine's to redefine — `N17`.** The rule stands and the queue is worked in
-order.
+**Four down, seven to go** — clock 09-22, index strip 09-23, symbol lookup and
+price chart both 09-24. Next is the **watchlist (T9)**. An audit is a session's
+whole work, so the remainder sits ahead of `T13d`; **that is probably not what
+§18 means to buy and is not the routine's to redefine — `N17`.** The rule
+stands and the queue is worked in order.
 
 | Date | Feature | Verdict | The finding, in one line |
 |---|---|---|---|
@@ -224,6 +223,7 @@ order.
 | 09-22 | **Market clock** (T5) | Minor edits | Broadsheet right-aligned it, so a growing countdown pushes the dot and the state word 7.2px, twice a session. The 12ch reserve never bound. |
 | 09-23 | **Index summary strip** (T6) | Minor edits | Months of −4.4% and −7.7% drew the same picture: every line is scaled to its own range. The size existed only in the aria-label. |
 | 09-24 | **Symbol lookup and quote detail** (T7) | **Keep** | 65 catalogue symbols, 17 answerable, and the dropdown offers only what resolves. Both calls earn their place. D26 filed on the chart. |
+| 09-24 | **Price chart** (T8) | Minor edits | One height at every width: 720x240 at desktop against 300x185 on a phone, so the widescreen flattened the line. 320px from 1100px up. |
 
 ## Discovered
 
@@ -234,16 +234,6 @@ phase. When the call is unclear, file it as a defect.
 
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
-
-- [ ] **D26 · The chart calls a refused lookup a lookup that never answered**
-  `[defect]` *(2026-09-24, T7 audit)* — after a not-found the chart blanks with
-  "The lookup above did not come back", while the card an inch above is naming
-  the symbols this build does serve. It did come back; it said no.
-  `js/view-price-chart.js` has a blank for a failed request and a blank for a
-  failed lookup, and the second is worded as the first — `DEC-078` on a third
-  surface, and `DEC-057`'s lie in mirror image.
-  *Accept:* a refused lookup and an unreachable service read differently, and
-  neither claims the other's cause; the chart still states only its own half.
 
 - [ ] **D25 · The trend column states a figure and still cannot be sorted**
   `[enhancement]` *(2026-09-24, from D24)* — D24 killed the reason the header
@@ -384,3 +374,4 @@ session that must *act* on any of this goes.
 | T13c | 09-22 | **Broadsheet adopted.** Merged, renamed `css/broadsheet.css`, extended to the Trade tab; workbench's sticky strip, measured. → DEC-097, DEC-098, DEC-099 |
 | D13 | 09-22 | **The page took the site's face** *(closed by T13c)* — and the switch was eleven declarations, not one. → DEC-097 |
 | D24 | 09-24 | **Eight watched months drawn on eight scales** *(defect, fixed)* — the figure beside each line, and at 375px the dollar change gave up its width to it rather than the month giving up the column. → DEC-101, DEC-102, D25 |
+| D26 | 09-24 | **A refused lookup read as a service that never answered** *(defect, fixed)* — one sentence in three panels, and the shot found the same lie in a red provenance notice under two of them. → DEC-078, DEC-060 |

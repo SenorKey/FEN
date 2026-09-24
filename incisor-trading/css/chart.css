@@ -494,6 +494,23 @@
     color: var(--muted);
 }
 
+/* The plot's height is a constant and its width is not, so the wider the
+   viewport the flatter the same six months draw: 720x240 at 1440px is 3:1,
+   against 1.6:1 on a phone, and a widescreen chart reads as a calmer market
+   than the one beside it on a smaller screen. The drawing should keep roughly
+   the proportion it has where it is narrowest, so the token grows once the
+   plot is wide enough for 240px to distort it (T8 audit, 09-24).
+
+   A step rather than an aspect-ratio: the plot is a flex child beside a
+   fixed-width scale gutter, inside a row that takes this height — sizing it
+   from its own width instead would move where the gutter's labels land. */
+@media (min-width: 1100px) {
+
+    .inc-chart {
+        --inc-chart-height: 320px;
+    }
+}
+
 @media (max-width: 700px) {
 
     .inc-chart {
