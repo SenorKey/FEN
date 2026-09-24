@@ -5435,3 +5435,134 @@ go. Still yours.
 
 **Next session:** **`D26`** — an open defect, so it comes first (§19) — and
 then the **price chart (T8)** audit, the same surface, fourth of the eight.
+
+---
+
+## 2026-09-24 (second session) — D26, then the price chart audit
+
+The day's first session ran 01:27–05:26 and closed with `D24` and the `T7`
+audit; this one picked up its handoff exactly: the open defect first (§19),
+then the audit of the surface that defect was filed against.
+
+### D26 — a refusal is not silence
+
+Three panels — the chart, the fundamentals panel and the reporting calendar —
+said *"The lookup above did not come back"* after any failed lookup. That is
+true of an unreachable service and **false of a refusal**, which is the
+commoner case on this build: `catalog.py` holds 65 symbols and fixture mode
+answers for 17, so a refused symbol is routine. Worse, it is contradicted on
+screen — the card an inch above is at that moment listing the symbols this
+build *does* serve.
+
+`js/view-symbol.js` already knew which had happened and threw it away.
+`market-data.js` separates our own `symbol_not_found` from every other
+failure (`DEC-057`), and the three `lookupFailed()` calls dropped the kind.
+It is now read **once** at that seam and handed down, rather than each panel
+testing the kind itself: three copies of one taxonomy is three chances for a
+single failure to be described three ways (`DEC-087`). The wording is a
+minimal pair — *came back empty* against *did not come back*.
+
+**Filed against the chart alone, fixed on all three.** One sentence in three
+files is one defect, and `DEC-103` was promoted a day earlier for precisely
+this: a rule written against one surface does not travel to the next on its
+own. Fixing only the surface the defect named would have re-earned that
+promotion within a week.
+
+### The half that only the picture showed
+
+With the three sentences corrected, `shoot.py --symbol NVDA` showed the **same
+lie one element lower**: under the now-correct line, both lower panels still
+carried a red notice reading *"Filing data unavailable. The service could not
+be reached."* `renderProvenance(null)` means *our own request failed*, and
+`lookupFailed` was calling it although **no request is made in either case**.
+
+So the notice was not missing a distinction — it was asserting a cause it
+never had. Both panels got a `provenanceUnasked()` that says nothing was
+requested and is not dressed as an error. This is `DEC-060` in mirror image:
+not a fact left in one channel, but a *second* channel outliving the first's
+correction. Both rows now carry it.
+
+Found in the image, not in the source — which is the entire argument of §18's
+"from the `shoot.py` images, never from the source", arriving on a defect
+rather than an audit.
+
+**Verified against the defect, not just the fix:** the two suites were
+reverted to the single sentence and re-run, and they failed (2 failures) on
+exactly the assertions written for it. A test that passes both ways is not a
+test (`DEC-064`).
+
+### T8 — price chart, minor edits
+
+Fourth of the eleven `T13c` made due. Four answers in `AUDITS.md`.
+
+The edit is a proportion: `--inc-chart-height` was one constant while the
+plot's width is whatever the column gives it, so the same six months drew at
+**720x240 (3:1)** at 1440px and **300x185 (1.6:1)** at 390px. The widescreen
+flattened the line — the page's most prominent drawing read as a calmer market
+than the identical data does on a phone — and left the chart column ending
+~235px above the card beside it. It steps to 320px from 1100px up: 2.25:1, gap
+~142px. Tablet and mobile are below the breakpoint and unchanged.
+
+Measured rather than inherited: three runs — 6M resting, 5D and 5Y pressed —
+each reported the same `13 of 60` requests. **A range change still costs zero
+upstream calls**, which is what makes five ranges affordable at 22 a day.
+
+**Looked at and left:** the dashed baseline is the level the window opened at
+and is what lets `DEC-010` forbid colouring the line. Nothing names it, which
+has `DEC-060`'s shape and is not it — the head states the same movement in
+words and colour directly above, so the mark is the picture of a fact already
+given. `DEC-104`'s argument, one surface over. Its reason already sits beside
+the line that draws it, so it earned no index row and no backlog entry:
+**adding a legend is the change not to make.**
+
+### Filed
+
+**`D27` · the visual check is unreachable from a fresh worktree** `[defect]`.
+`.devtools/` is gitignored and rule 11 mandates a new worktree every session,
+so `./.devtools/bin/python tools/shoot.py` — the command `ROUTINE.md`,
+`tests/README.md` and `shoot.py`'s own header all give — **does not exist on
+day one of any session**. This one borrowed the venv in Key's checkout, which
+is a read and touches no git state there. A session that does not think of
+that skips §15's primary check, and that check is where the shipped defects
+have actually been found. Filed as a defect rather than an enhancement on §19's
+tie-break: the tooling is latently broken in the environment the rules mandate.
+
+### Memory
+
+**No new `DEC` ID.** `D26` is `DEC-078` and `DEC-060` biting a third time, and
+a near-duplicate row is what the byte cap exists to prevent — both rows were
+widened to carry it instead. That is guide §16's "merged rather than dropped"
+used on the way in.
+
+`BACKLOG.md` hit its ceiling again filing `D27`, 162 over. **Not raised** —
+`T10b`'s blocked note was restating findings that live in `DATA-PROVIDER.md`
+and `DEC-054` and which it already names, so it was compressed to the pointer
+it should always have been. **27,453 of 27,500.** Third session running that
+the file has needed a trim to accept an entry; that is now a pattern rather
+than an incident (`N18`).
+
+### For Key
+
+**`N18` · new.** `BACKLOG.md` has needed a consolidation to accept a new entry
+in three consecutive sessions (09-24 twice, 09-23 once). Each trim has been
+honest — real duplication, every time — but the supply of genuine duplication
+is finite, and the next session may face a choice between filing a finding and
+raising a number it is told never to raise mid-task. The ceiling is not the
+problem; the file holding eleven phases, a permanent audit log, an open
+`Discovered` list and a `Done` history in one budget probably is. **Not the
+routine's to restructure** — guide §16 and the ceiling are yours.
+
+**`N17` · fourth session of evidence, and the first that cuts clean.** The
+previous three argued about whether re-audits earn their place. This one is
+the strongest case *for* the queue: the `T8` audit found a real proportion
+defect that no test could see and no defect report would have raised, because
+nothing was broken — the chart simply drew the wrong shape at the one width
+most readers use. That is precisely what §18's question three is for. Seven
+to go.
+
+**`N16`, `N14`, `N11`, `N7` · all still open, unchanged.**
+
+**Next session:** no in-bounds defect should be open — `D27` is one, and it is
+the routine's own tooling, so it comes first (§19) before the **watchlist
+(T9)** audit, fifth of the seven remaining. `D19` remains Key's twice over;
+`D25` and `D3` are enhancements awaiting triage.

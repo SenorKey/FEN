@@ -43,12 +43,9 @@ that is Key's to obtain, not the routine's to work around.
   can say something about, or the list says why it cannot; the whole surface
   costs one upstream call a day.
   **`[!]` Blocked 2026-09-01 — the first surface here that cannot be developed
-  on fixtures at all.** Both questions were settled and they point the same way,
-  and both answers are written down where a session that must act on them
-  goes: the terms in `DATA-PROVIDER.md` under *Per-endpoint terms* (there are
-  none — this inherits the API-wide ambiguity), and the fixture in `DEC-054`
-  (a fixture can synthesise a series, never a selection; all three shapes were
-  tried). Nothing further to research.
+  on fixtures at all.** Both questions are settled and point the same way, each
+  answered where a session acting on it will look: the terms in
+  `DATA-PROVIDER.md`, the fixture in `DEC-054`. Nothing further to research.
   *Unblock when:* Key's written display permission exists, at which point this
   is built and verified in live mode directly, one call a day, and its symbols
   are openable because live mode already tries a free-typed ticker.
@@ -234,6 +231,15 @@ phase. When the call is unclear, file it as a defect.
 
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
+
+- [ ] **D27 · The visual check is unreachable from a fresh worktree**
+  `[defect]` *(2026-09-24, T8 audit)* — `.devtools/` is gitignored and rule 11
+  mandates a new worktree each session, so `./.devtools/bin/python
+  tools/shoot.py` — the command every doc gives — is absent on day one. This
+  session borrowed the venv in Key's checkout; one that does not think of that
+  skips §15's primary check, which is where the shipped defects were found.
+  *Accept:* one command reaches the tool from a fresh worktree, with no
+  per-session browser download.
 
 - [ ] **D25 · The trend column states a figure and still cannot be sorted**
   `[enhancement]` *(2026-09-24, from D24)* — D24 killed the reason the header
