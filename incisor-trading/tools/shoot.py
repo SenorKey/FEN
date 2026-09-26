@@ -8,7 +8,11 @@ be judged. This drives the copy of Google Chrome already on the machine (channel
 where one exists, so nothing is downloaded and nothing is installed system
 wide; the driver lives in the gitignored .devtools venv. On a machine with no
 system Chrome (a headless server box), it falls back to Playwright's own
-bundled Chromium, downloaded once into that same venv.
+bundled Chromium, which caches machine-wide rather than in the venv.
+
+Run it with any Python 3. Nothing above main() needs Playwright, so the tool
+builds .devtools itself on the first run in a worktree and re-execs under it;
+`ensure_driver` carries why that is the command to give (D27).
 
 Why Playwright and not `chrome --headless --screenshot`: passing a narrow
 --window-size renders the page at that width as a *desktop* browser. Device
@@ -17,13 +21,13 @@ difference is large enough to invent overflow bugs that do not exist. See
 DECISIONS.md, "narrow headless screenshots are not mobile".
 
 Usage:
-    ./.devtools/bin/python tools/shoot.py [--out docs/shots/<name>]
-                                          [--api http://127.0.0.1:8789]
-                                          [--symbol SPY [--range 5Y]]
-                                          [--search app] [--tab trade]
-                                          [--explain] [--sector-window 1M]
-                                          [--watch SPY,QQQ] [--block-storage]
-                                          [--portfolio corrupt|newer|held]
+    python3 tools/shoot.py [--out docs/shots/<name>]
+                           [--api http://127.0.0.1:8789]
+                           [--symbol SPY [--range 5Y]]
+                           [--search app] [--tab trade]
+                           [--explain] [--sector-window 1M]
+                           [--watch SPY,QQQ] [--block-storage]
+                           [--portfolio corrupt|newer|held]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
@@ -85,9 +89,11 @@ import contextlib
 import json
 import functools
 import http.server
+import importlib.util
 import os
 import pathlib
 import socketserver
+import subprocess
 import sys
 import threading
 import urllib.error
@@ -95,6 +101,10 @@ import urllib.request
 
 REPO = pathlib.Path(__file__).resolve().parent.parent.parent
 PAGE = "/incisor-trading/"
+
+# The venv this tool drives the browser from. Gitignored, so it is absent from
+# every fresh worktree and `ensure_driver` is what puts it there.
+DEVTOOLS = pathlib.Path(__file__).resolve().parent.parent / ".devtools"
 
 # (label, width, height, emulate_as_mobile)
 VIEWPORTS = [
@@ -758,6 +768,67 @@ def serving(root, api_base=None):
         httpd.shutdown()
 
 
+def ensure_driver():
+    """Return with Playwright importable, building DEVTOOLS the first time.
+
+    Rule 11 gives every session a fresh worktree and `.devtools/` is
+    gitignored, so the interpreter the docs name is missing on the first run
+    of every session — which is how §15's primary check gets skipped on the
+    day it is most needed (D27). Running under the system Python therefore
+    has to work, and the cheapest way to make it work is to build the venv
+    and re-exec under it.
+
+    Nothing is downloaded that a second worktree downloads again: pip's cache
+    and Playwright's browser cache are both machine-wide.
+    """
+    if importlib.util.find_spec("playwright") is not None:
+        return
+
+    interpreter = DEVTOOLS / "bin" / "python"
+    if not interpreter.exists():
+        print(f"Building the screenshot driver in "
+              f"incisor-trading/{DEVTOOLS.name}/ — once per worktree.",
+              flush=True)
+        try:
+            subprocess.run([sys.executable, "-m", "venv", str(DEVTOOLS)],
+                           check=True)
+        except (subprocess.CalledProcessError, OSError) as exc:
+            sys.exit(f"Could not create the screenshot driver's environment "
+                     f"in {DEVTOOLS}: {exc}")
+
+    # Three ways this fails and three things to do about them, so they are not
+    # one message. A venv that cannot be executed at all has outlived the
+    # interpreter that built it — the case a worktree kept across a Python
+    # upgrade hits — and pointing that reader at the network sends them after
+    # the one thing that is not wrong (DEC-078).
+    try:
+        subprocess.run([str(interpreter), "-m", "pip", "install", "--quiet",
+                        "--disable-pip-version-check", "playwright"],
+                       check=True)
+    except OSError as exc:
+        sys.exit(f"The screenshot driver in {DEVTOOLS} cannot be run: {exc}\n"
+                 f"It was built by an interpreter this machine no longer has. "
+                 f"Delete that directory and run this again.")
+    except subprocess.CalledProcessError as exc:
+        sys.exit(f"Could not install Playwright into {DEVTOOLS}: {exc}\n"
+                 f"It comes from PyPI, so the first build on a machine needs "
+                 f"the network.")
+
+    # Already inside the venv and Playwright simply was not installed: the
+    # install above landed in this interpreter, so re-execing would only cost
+    # a process. Asked of sys.prefix rather than sys.executable, because a
+    # venv's `python` is a symlink to the interpreter it was built from and
+    # resolves to exactly the path the system Python reports — so comparing
+    # the two executables says "already inside" every time, and the re-exec
+    # that puts site-packages on the path never happens.
+    if pathlib.Path(sys.prefix) == DEVTOOLS:
+        importlib.invalidate_caches()
+        return
+
+    script = str(pathlib.Path(__file__).resolve())
+    os.execv(str(interpreter), [str(interpreter), script, *sys.argv[1:]])
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default="docs/shots/current")
@@ -809,6 +880,9 @@ def main():
                          "one holding positions. Pair with --tab trade.")
     args = ap.parse_args()
 
+    # After parsing, so --help costs nothing and a typo is reported before a
+    # venv is built for a run that was never going to happen.
+    ensure_driver()
     from playwright.sync_api import sync_playwright
 
     out = (REPO / "incisor-trading" / args.out).resolve()

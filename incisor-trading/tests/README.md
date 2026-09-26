@@ -90,8 +90,13 @@ Unattended, `tools/shoot.py` is the visual check, and `--symbol` / `--search`
 reach the states that only exist after an interaction:
 
 ```
-./.devtools/bin/python tools/shoot.py --out docs/shots/x --api http://127.0.0.1:8789 --symbol SPY
+python3 tools/shoot.py --out docs/shots/x --api http://127.0.0.1:8789 --symbol SPY
 ```
+
+Any Python 3 runs it. The driver lives in a gitignored `.devtools/` venv that
+the tool builds on its first run in a worktree, so there is nothing to install
+first and nothing to remember — which is D27: the venv interpreter the docs
+used to name does not exist on the first day of any session.
 
 `--range 5Y` presses a chart range after the symbol loads, which is the only
 way to shoot a range other than the default.

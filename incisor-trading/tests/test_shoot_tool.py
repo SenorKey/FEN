@@ -5,6 +5,9 @@ It is about the one thing the tool has to get right to be evidence at all: with
 --api it plays the reverse proxy, and a proxy that misrepresents who is calling
 produces findings about itself rather than about the page.
 
+It also guards D27, below: that the tool builds its own driver rather than
+needing one to be there already.
+
 That is D7. Every browser context reached the service over loopback with no
 X-Forwarded-For, so four simulated readers shared one per-IP bucket and a
 second run inside the minute was refused — 429s that read, in the tool's own
@@ -18,8 +21,13 @@ Apache does, and that they are actually different callers.
     python3 -m unittest discover incisor-trading/tests
 """
 
+import ast
+import contextlib
+import io
 import os
+import pathlib
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, os.path.join(
@@ -170,6 +178,189 @@ class TestTheCeilingIsRead(unittest.TestCase):
         os.environ['RATE_LIMIT_MAX'] = '17'
         self.addCleanup(os.environ.pop, 'RATE_LIMIT_MAX', None)
         self.assertEqual(shoot.per_ip_ceiling(), 17)
+
+
+
+class TestTheToolBuildsItsOwnDriver(unittest.TestCase):
+    """D27: the interpreter every doc names is absent on day one of every
+    session, because rule 11 mandates a fresh worktree and `.devtools/` is
+    gitignored. `ensure_driver` is what makes `python3 tools/shoot.py` work
+    there, and these are the properties it has to keep.
+
+    None of them builds a venv. The build is one `subprocess.run` away from
+    a network install, so what is asserted is the decision to build, not the
+    building — the accept criterion itself was verified by running the tool
+    in a fresh worktree, which a test cannot do twice.
+    """
+
+    def setUp(self):
+        self.calls = []
+        self.execs = []
+        self.addCleanup(setattr, shoot, 'subprocess', shoot.subprocess)
+        self.addCleanup(setattr, shoot.os, 'execv', shoot.os.execv)
+
+    def drive(self, *, importable, prefix, devtools, interpreter_exists=True,
+              run_raises=None):
+        """Run `ensure_driver` with the world stubbed out, and report what it did."""
+        calls, execs = [], []
+
+        class Stub:
+            CalledProcessError = shoot.subprocess.CalledProcessError
+
+            @staticmethod
+            def run(argv, check=False):
+                calls.append(argv)
+                # Only the install is failed, so the venv build above it is
+                # still exercised on the way past.
+                if run_raises is not None and 'pip' in argv:
+                    raise run_raises
+
+        real_find_spec = shoot.importlib.util.find_spec
+        real_execv = shoot.os.execv
+        real_prefix = shoot.sys.prefix
+        real_devtools = shoot.DEVTOOLS
+        real_subprocess = shoot.subprocess
+
+        shoot.importlib.util.find_spec = (
+            lambda name: object() if name == 'playwright' and importable else None)
+        shoot.os.execv = lambda path, argv: execs.append((path, argv))
+        shoot.sys.prefix = str(prefix)
+        shoot.DEVTOOLS = devtools
+        shoot.subprocess = Stub
+        interpreter = devtools / 'bin' / 'python'
+        # A caller that made its own interpreter keeps it — one of these
+        # tests needs it to be a symlink, not an empty file.
+        if interpreter_exists and not interpreter.exists():
+            interpreter.parent.mkdir(parents=True, exist_ok=True)
+            interpreter.write_text('')
+        try:
+            # The tool announces a build it is about to do for real. Letting
+            # that reach the suite's output would say a venv is being built
+            # by the one test that exists to prove none is.
+            with contextlib.redirect_stdout(io.StringIO()):
+                shoot.ensure_driver()
+        finally:
+            shoot.importlib.util.find_spec = real_find_spec
+            shoot.os.execv = real_execv
+            shoot.sys.prefix = real_prefix
+            shoot.DEVTOOLS = real_devtools
+            shoot.subprocess = real_subprocess
+        return calls, execs
+
+    def test_an_importable_playwright_builds_nothing_and_re_execs_nothing(self):
+        """The common case: a second run in the same worktree, or a machine
+        with Playwright installed globally. It must cost neither."""
+        with tempfile.TemporaryDirectory() as tmp:
+            calls, execs = self.drive(
+                importable=True, prefix='/usr', devtools=pathlib.Path(tmp))
+        self.assertEqual(calls, [])
+        self.assertEqual(execs, [])
+
+    def test_a_fresh_worktree_builds_the_venv_and_installs_playwright(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            devtools = pathlib.Path(tmp) / '.devtools'
+            calls, execs = self.drive(
+                importable=False, prefix='/usr', devtools=devtools,
+                interpreter_exists=False)
+        self.assertEqual(calls[0][1:], ['-m', 'venv', str(devtools)])
+        self.assertIn('playwright', calls[1])
+        self.assertIn('install', calls[1])
+
+    def test_the_re_exec_keeps_the_arguments_it_was_given(self):
+        """A run that dropped --out would overwrite the previous set and say
+        nothing, which is the failure mode that looks like success."""
+        argv = shoot.sys.argv
+        shoot.sys.argv = ['tools/shoot.py', '--out', 'docs/shots/x', '--symbol', 'SPY']
+        self.addCleanup(setattr, shoot.sys, 'argv', argv)
+        with tempfile.TemporaryDirectory() as tmp:
+            devtools = pathlib.Path(tmp) / '.devtools'
+            _, execs = self.drive(
+                importable=False, prefix='/usr', devtools=devtools)
+        (path, forwarded), = execs
+        self.assertEqual(path, str(devtools / 'bin' / 'python'))
+        self.assertEqual(forwarded[2:], ['--out', 'docs/shots/x', '--symbol', 'SPY'])
+
+    def test_a_python_already_inside_the_venv_does_not_re_exec(self):
+        """Otherwise the documented `./.devtools/bin/python` spelling would
+        exec itself once per run for nothing."""
+        with tempfile.TemporaryDirectory() as tmp:
+            devtools = pathlib.Path(tmp) / '.devtools'
+            _, execs = self.drive(
+                importable=False, prefix=devtools, devtools=devtools)
+        self.assertEqual(execs, [])
+
+    def test_an_unrunnable_venv_is_not_reported_as_a_network_problem(self):
+        """Observed, not imagined: this worktree's venv outlived the Python
+        that built it mid-session, and the message sent the reader to the
+        network. DEC-078 — a state may not misdescribe what caused it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            devtools = pathlib.Path(tmp) / '.devtools'
+            with self.assertRaises(SystemExit) as raised:
+                self.drive(importable=False, prefix='/usr', devtools=devtools,
+                           run_raises=OSError(8, 'Exec format error'))
+        message = str(raised.exception)
+        self.assertIn('cannot be run', message)
+        self.assertNotIn('network', message)
+        self.assertNotIn('PyPI', message)
+
+    def test_the_inside_test_is_the_prefix_and_not_the_executable(self):
+        """The trap `ensure_driver`'s comment names, asserted rather than
+        described. A venv's `python` is a symlink to the interpreter it was
+        built from, so under the system Python the two executables resolve to
+        the same file — an executable comparison reads that as "already
+        inside", returns, and the import that needed site-packages fails."""
+        with tempfile.TemporaryDirectory() as tmp:
+            devtools = pathlib.Path(tmp) / '.devtools'
+            (devtools / 'bin').mkdir(parents=True)
+            interpreter = devtools / 'bin' / 'python'
+            interpreter.symlink_to(shoot.sys.executable)
+            self.assertEqual(
+                interpreter.resolve(),
+                pathlib.Path(shoot.sys.executable).resolve(),
+                'the premise: the two executables are the same file')
+            _, execs = self.drive(
+                importable=False, prefix='/usr', devtools=devtools)
+        self.assertEqual(len(execs), 1, 'must still re-exec into the venv')
+
+
+class TestImportingTheToolCostsNothing(unittest.TestCase):
+    """Every test in this file imports `shoot`, so the driver must not be
+    built at import — and `--help` and a mistyped flag must not build one
+    either. Asserted on the syntax tree rather than by running the tool,
+    because running it is what the assertion is trying to avoid."""
+
+    def tree(self):
+        source = pathlib.Path(shoot.__file__).read_text()
+        return ast.parse(source, filename=shoot.__file__)
+
+    def called_names(self, node):
+        return [n.func.id for n in ast.walk(node)
+                if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)]
+
+    def test_nothing_at_module_level_calls_ensure_driver(self):
+        for statement in self.tree().body:
+            # A def is not a call. Walking into one would find `main`'s body,
+            # which is exactly where the call is supposed to be.
+            if isinstance(statement, (ast.FunctionDef, ast.ClassDef)):
+                continue
+            self.assertNotIn('ensure_driver', self.called_names(statement),
+                             'importing the tool would build a venv')
+
+    def test_ensure_driver_runs_after_the_arguments_are_parsed(self):
+        main, = [node for node in self.tree().body
+                 if isinstance(node, ast.FunctionDef) and node.name == 'main']
+        order = []
+        for statement in main.body:
+            for name in self.called_names(statement):
+                if name == 'ensure_driver':
+                    order.append('ensure_driver')
+            for node in ast.walk(statement):
+                if (isinstance(node, ast.Call)
+                        and isinstance(node.func, ast.Attribute)
+                        and node.func.attr == 'parse_args'):
+                    order.append('parse_args')
+        self.assertEqual(order, ['parse_args', 'ensure_driver'],
+                         '--help and a typo must not build a venv')
 
 
 if __name__ == '__main__':
