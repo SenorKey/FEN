@@ -2505,3 +2505,54 @@ spending density on a card that already carries eleven figures.
 So: **before applying `DEC-103`, ask whether the drawing states its own
 scale.** If it does, it is not the trap, and the number beside it is clutter
 rather than the missing half.
+
+---
+
+## DEC-105 — a mandated check runs from what the repo ships
+
+Filed with `D27`, 2026-09-26.
+
+`tools/shoot.py` is guide §15's primary visual check and the place the last
+four shipped defects were actually found. Every document that names it —
+§15, `ROUTINE.md`, `tests/README.md` and the tool's own header — gave the
+command as `./.devtools/bin/python tools/shoot.py`.
+
+**That interpreter does not exist on the first day of any session.** Hard
+rule 11 mandates a fresh `git worktree`, `.devtools/` is gitignored, and the
+two facts meet in the one command the routine is told to run after every
+change to markup or CSS. It fails before Python starts, with
+`no such file or directory` and no hint of what to do; the obvious fallback,
+`python3 tools/shoot.py`, then failed a second time on `ModuleNotFoundError`.
+**Both spellings were dead**, which is what made the failure terminal rather
+than a speed bump — the 09-24 session got past it only by borrowing the venv
+in Key's checkout, and recorded that a session which did not think of that
+would simply skip the check.
+
+**The fix is that the tool builds its own driver.** Nothing above `main()`
+imports Playwright, so `ensure_driver()` runs after argument parsing, creates
+the venv if it is missing, installs Playwright and re-execs under it with the
+same arguments. Any Python 3 runs it. A second worktree downloads nothing a
+first one downloaded: pip's cache and Playwright's browser cache are both
+machine-wide.
+
+**What generalises, and why it is here rather than beside the code.** A check
+the rules make mandatory may not depend on something the rules also guarantee
+is absent — it has to run from what the repo ships. The visible consequence is
+that the docs now say `python3`, and a future session tidying a command back
+to "the proper venv interpreter" would restore the defect exactly. That is the
+guide's own test for an index row: a deliberate divergence that would
+otherwise read as an oversight and get fixed.
+
+**Verified twice, on two interpreters.** First from this session's fresh
+worktree. Then again mid-session, by accident and more convincingly: the
+Homebrew Python that had built the venv stopped executing, so the driver was
+deleted and rebuilt from `/usr/bin/python3` — a different interpreter, a
+different Python version — and one command produced three screenshots and a
+green exit in 13 seconds.
+
+**One thing that failure also showed.** A venv that outlives the interpreter
+that built it raises `OSError` on exec, and the single `except` clause told
+the reader that Playwright comes from PyPI and the first build needs the
+network — a cause it never had. The three failures are separated now and each
+says what happened. That is `DEC-078` on the workbench rather than the page,
+so it earned a comment beside the code and no index row of its own.

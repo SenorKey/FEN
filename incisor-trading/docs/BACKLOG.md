@@ -232,14 +232,11 @@ phase. When the call is unclear, file it as a defect.
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
 
-- [ ] **D27 · The visual check is unreachable from a fresh worktree**
-  `[defect]` *(2026-09-24, T8 audit)* — `.devtools/` is gitignored and rule 11
-  mandates a new worktree each session, so `./.devtools/bin/python
-  tools/shoot.py` — the command every doc gives — is absent on day one. This
-  session borrowed the venv in Key's checkout; one that does not think of that
-  skips §15's primary check, which is where the shipped defects were found.
-  *Accept:* one command reaches the tool from a fresh worktree, with no
-  per-session browser download.
+- [ ] **D28 · The server suite does not build its own venv** `[enhancement]`
+  *(2026-09-26, from D27)* — `server/tests` needs Flask in `server/.venv`, so
+  it errors in a fresh worktree. **Not D27:** its README gives the build
+  command too, so nothing is skipped silently.
+  *Accept:* `python3 -m unittest discover tests` works from `server/`.
 
 - [ ] **D25 · The trend column states a figure and still cannot be sorted**
   `[enhancement]` *(2026-09-24, from D24)* — D24 killed the reason the header
@@ -381,3 +378,4 @@ session that must *act* on any of this goes.
 | D13 | 09-22 | **The page took the site's face** *(closed by T13c)* — and the switch was eleven declarations, not one. → DEC-097 |
 | D24 | 09-24 | **Eight watched months drawn on eight scales** *(defect, fixed)* — the figure beside each line, and at 375px the dollar change gave up its width to it rather than the month giving up the column. → DEC-101, DEC-102, D25 |
 | D26 | 09-24 | **A refused lookup read as a service that never answered** *(defect, fixed)* — one sentence in three panels, and the shot found the same lie in a red provenance notice under two of them. → DEC-078, DEC-060 |
+| D27 | 09-26 | **The visual check was unreachable from a fresh worktree** *(defect, fixed)* — the tool builds its own driver now, so any `python3` runs it. Verified by a rebuild on a second interpreter mid-session. → DEC-105, `tools/shoot.py` |

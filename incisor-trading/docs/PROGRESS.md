@@ -5566,3 +5566,122 @@ to go.
 the routine's own tooling, so it comes first (§19) before the **watchlist
 (T9)** audit, fifth of the seven remaining. `D19` remains Key's twice over;
 `D25` and `D3` are enhancements awaiting triage.
+
+---
+
+## 2026-09-26 — D27, and the day the interpreter vanished
+
+An open defect, so it came first and it was the session's whole work (§14
+step 4). No audit and no task; the watchlist re-audit stays fifth of seven.
+
+### The session started by finding its own work already half done
+
+Step 1 turned up a **stale worktree from the 09-24 session** still registered
+to `incisor-dev`, and in it an uncommitted `tools/shoot.py` holding a genuine
+`D27` implementation. That session filed `D27`, wrote its progress entry, then
+evidently began the fix and ended before committing — so the work existed on
+one laptop, in a scratchpad, attached to a branch no new worktree could check
+out. It was saved as a patch, the stale worktree removed, and the patch
+applied here. Nothing in Key's checkout was touched; it was clean all session.
+
+**Rescued, then re-verified rather than trusted.** The defect was reproduced
+first — both documented spellings dead, `no such file or directory` and then
+`ModuleNotFoundError` — and every claim below was checked here.
+
+### D27 — the tool builds its own driver
+
+`ensure_driver()` creates the venv if it is missing, installs Playwright and
+re-execs under it with the same arguments, so **any Python 3 runs the check**.
+It sits after `parse_args`, so `--help` and a typo cost nothing, and nothing
+above `main()` imports Playwright, so importing the module still builds
+nothing — which the suite depends on.
+
+Finished beyond the rescued patch:
+
+- **`tests/README.md`** now gives `python3 tools/shoot.py`. It is the one
+  document naming the old command that is the routine's to edit.
+- **Seven tests** in `tests/test_shoot_tool.py`, whose file had only ever
+  guarded `D7`. Each was checked against the defect it describes: dropping
+  the `ensure_driver()` call failed one, and swapping the `sys.prefix` guard
+  for a `sys.executable` one failed two. A test that passes both ways is not
+  a test (`DEC-064`).
+- **The module header lost the argument it was repeating.** `ensure_driver`'s
+  docstring already carried it, and the copy is the one that drifts
+  (`DEC-087`).
+
+### The accident that verified it better than the plan did
+
+Mid-session the **Homebrew Python stopped executing** — `python3 -V` returning
+nothing, exit 0, no output, while `/usr/bin/python3` worked. It cost an hour
+of confusion first: two edits applied through `python3` heredocs silently did
+nothing, and the "fix" to a failing test never reached the file, so the same
+failure came back looking like a bad fix rather than no fix.
+
+It also produced the better test. `.devtools` had been built by that
+interpreter, so the venv was now unrunnable — and after the fix below, the
+driver was deleted and **rebuilt from `/usr/bin/python3`, a different
+interpreter on a different Python version**. One command, fresh worktree,
+fresh venv: three screenshots and a green exit in 13 seconds, no browser
+download. That is `D27`'s acceptance criterion met twice, on two interpreters,
+one of them not chosen.
+
+**And it exposed a message asserting a cause it never had.** A venv that
+outlives its interpreter raises `OSError` on exec, and the single `except`
+clause answered with *"Playwright comes from PyPI, so the first build on a
+machine needs the network"* — pointing the reader at the one thing that was
+not wrong. The three failures are separated now and each says what happened
+and what to do. `DEC-078` on the workbench rather than the page, so it earned
+a comment beside the code and no index row: the routine fixed this exact
+shape on the page two sessions ago (`D26`), which is why it was recognised.
+
+### Filed
+
+**`D28` · the server suite does not build its own venv** `[enhancement]`.
+Found by running it: eight `No module named 'flask'` errors in a fresh
+worktree, the same unreachability one directory over. Filed as an enhancement
+and **not** as `D27`'s twin, because the distinguishing property does not
+hold — `server/tests/README.md` gives the build command beside the run
+command, so a session reading it is inconvenienced rather than silently
+skipping a check. Both venvs are correctly gitignored; that was checked
+rather than assumed.
+
+### Memory
+
+**`DEC-105`** — a mandated check runs from what the repo ships, so the docs
+name `python3` and never a venv. It earns an index row on the guide's own
+test: the visible result is a command that looks wrong, and a future session
+tidying it back to "the proper venv interpreter" would restore the defect
+exactly.
+
+### For Key
+
+**`N19` · new, and the half of `D27` that is not the routine's.** Two
+documents still give the command that cannot work on day one, and neither is
+in bounds: **guide §15** (read-only for the routine) and **the scheduled
+task's own instructions** (outside the repo, hard rule 1). `docs/ROUTINE.md`
+mirrors those instructions and was deliberately left alone — editing the
+mirror to differ from the live prompt would make it a worse record, and its
+own header says the sync runs the other way. The tool now works whatever
+command is typed second, so nothing is blocked; but the first command a
+session types still fails, and the fix is two string edits in files only you
+can change.
+
+**`N18` · fourth consecutive session, and the margin is now 8 bytes.**
+`BACKLOG.md` again needed a trim to accept an entry — this time the trim was
+to the new entry itself, which is honest but is not consolidation, because
+there was no duplication left to merge. Closing `D27` freed 700 bytes and
+filing `D28` spent them. The file is at **27,492 of 27,500**. The next
+session that finds anything will face the choice the last one predicted.
+
+**`N20` · new, and not Incisor's.** The Homebrew Python at
+`/opt/homebrew/bin/python3` executes nothing on this machine — no output, no
+error, exit 0, for any argument including `-V`. `/usr/bin/python3` (3.9.6) is
+fine and ran everything here. Worth knowing before it eats an hour of another
+session, or yours.
+
+**`N17`, `N16`, `N14`, `N11`, `N7` · all still open, unchanged.**
+
+**Next session:** no in-bounds defect is open. The **watchlist (T9)** audit is
+due, fifth of the seven `T13c` made due, and is a session's whole work.
+`D28`, `D25` and `D3` are enhancements awaiting triage; `D19` remains yours
+twice over.
