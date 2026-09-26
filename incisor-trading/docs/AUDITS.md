@@ -1,6 +1,6 @@
 # Incisor Trading — Audits, in full
 
-The four answers behind every row in `BACKLOG.md`'s audit log. **This file is
+The four answers behind every row in `AUDIT-LOG.md`. **This file is
 not read front to back** — it is opened at the surface an audit row names, and
 only that entry is read. It may grow without bound, and it will: `O6` never
 completes, and guide §18 makes a surface due again after any revamp.

@@ -79,6 +79,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-102 | **Out of width, the comparable figure stays and the incomparable one gives up its width** — off-screen, never `display: none`. The watchlist drops the session's dollars at 460px. |
 | DEC-104 | **A drawing that prints its own scale is not DEC-103** — the range bands label both ends, so the marker is readable. Do not add a percent beside them. |
 | DEC-105 | **A mandated check runs from what the repo ships: the docs name `python3`, never a venv.** Rule 11 gives a fresh worktree and `.devtools/` is gitignored, so both spellings died (D27). |
+| DEC-106 | **A record that never finishes cannot share a byte ceiling with a queue that does** — the audit log is its own file; four sessions had met the backlog's budget by cutting findings. |
 
 ---
 

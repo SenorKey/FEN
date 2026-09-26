@@ -498,8 +498,9 @@ requirement on every task, not a phase at the end.
 1. Check the working tree. If it is dirty outside `incisor-trading/`, stop —
    hard rule 11.
 2. Read, in this order: `AGENT-GUIDE.md`, **`DECISIONS.md` in full**, `BACKLOG.md`,
-   and the last few `PROGRESS.md` entries. Then `git log --oneline -20` and
-   `git branch --list 'incisor-*'` for the trajectory.
+   `AUDIT-LOG.md`, and the last few `PROGRESS.md` entries. Then
+   `git log --oneline -20` and `git branch --list 'incisor-*'` for the
+   trajectory.
 3. `git checkout incisor-dev` (create it from `main` if absent).
 4. Work down this order and take the first thing that applies:
    **(a)** an open **defect** in `## Discovered` (§19) — broken or latently
@@ -551,15 +552,26 @@ why. A clear "blocked, here's the reason" is a successful session.
 
 ## 16. Memory — how not to repeat yourself
 
-Four files, four jobs. Confusing them is how a routine ends up rebuilding
-something it already rejected.
+Seven files, seven jobs. Confusing them is how a routine ends up rebuilding
+something it already rejected. Four of them are read in full every session, and
+that is the constraint the budgets in `tests/test_docs_budget.py` exist to hold:
+a file read every session costs every future session what it costs this one.
 
 | File | Holds | Read |
 |---|---|---|
 | `AGENT-GUIDE.md` | Stable rules. Changes rarely, and only by Key. | In full, every session |
-| `DECISIONS.md` | Settled calls and dead ends. The long-term memory. | **In full, every session** |
-| `BACKLOG.md` | What is left to do, in order. | In full, every session |
+| `DECISIONS.md` | Settled calls and dead ends, one capped row each. The long-term memory. | **In full, every session** |
+| `DECISIONS-DETAIL.md` | The reasoning behind a `DEC` row, under a stable ID. | Opened at an ID, never front to back |
+| `BACKLOG.md` | What is left to do, in order, plus `## Done`. | In full, every session |
+| `AUDIT-LOG.md` | One capped row per audit — which surface is due. | In full, every session |
+| `AUDITS.md` | The four answers behind an audit row, under a dated heading. | Opened at a surface, never front to back |
 | `PROGRESS.md` | Dated journal of what happened. Grows forever. | Last few entries only |
+
+`DECISIONS.md`/`DECISIONS-DETAIL.md` split at `D9`, and `AUDIT-LOG.md`/`AUDITS.md`
+at `D11` and `DEC-106`. Both splits pair a budgeted, always-read index with an
+unbudgeted detail file, and both are held together by a bijection a test asserts
+in each direction: storage is free, attention is not, and a dangling reference is
+how an index rots with nothing failing to show it.
 
 `PROGRESS.md` is a journal, not memory. It is read from the tail, so anything
 recorded there and nowhere else becomes invisible within a few weeks. **If a
@@ -709,7 +721,7 @@ and **from the `tools/shoot.py` images — never from the source.**
 
 ### The four verdicts
 
-Exactly one, recorded in the audit log at the bottom of `BACKLOG.md`.
+Exactly one, recorded as a row in `docs/AUDIT-LOG.md` (`DEC-106`).
 
 - **Keep.** Say why, note the date. An audit that changes nothing is not wasted.
 - **Minor edits.** Right feature, imperfectly done — fix in place with the

@@ -16,6 +16,11 @@ The memory is two files with two different jobs, split at D9:
                         one-line record in `## Done` — in this file, not a
                         second one, because nobody follows a pointer to closed
                         work (DEC-068).
+  `AUDIT-LOG.md`        the log itself — one capped row per audit, read in
+                        full every session because it is how a session knows
+                        which surface is due. Budgeted, and its own file since
+                        09-26 (DEC-106): a record that never finishes cannot
+                        share a ceiling with a queue that does.
   `AUDITS.md`           the four answers behind each audit-log row, under a
                         dated heading. Split out by D11 for the same reason
                         D9 split the memory, and unbudgeted for the same one:
@@ -96,13 +101,22 @@ CEILING = 16_000
 # belongs in the detail file, or beside the code it binds (guide section 16).
 MAX_INDEX_LINE = 200
 
-# Ratchet, like CEILING. D11 landed the audit-log collapse at 21,405, so this
-# is 595 bytes of headroom rather than the 462 D10 left — deliberately tight
-# both times. A session that cannot fit a new entry has found the next thing to
-# fix rather than a number to raise.
-# D11 landed 21,405 and D12's entry took it to 21,988 — 12 bytes of room, which
-# is a deadlock rather than a budget. Same rule as CEILING: achieved plus room.
-BACKLOG_CEILING = 27_500
+# Guide section 16's formula, set by the 09-26 split that moved the audit log to
+# `AUDIT-LOG.md` (DEC-106): landed 24,052, plus roughly a quarter.
+#
+# Every earlier number here was set tight on purpose — "a session that cannot fit
+# a new entry has found the next thing to fix rather than a number to raise" —
+# and that held while there was something to fix. It stopped holding on 09-24,
+# when four consecutive sessions each trimmed a real duplication to afford the
+# entry they had just written, and the fourth reported there was none left
+# (N18). A budget that can only be met by deleting the session's own findings is
+# not measuring readability any more.
+#
+# What the split changed is *what* is measured. This file is now a queue only:
+# eleven phases, the standing tasks, the open `Discovered` list, and `## Done`
+# (which stays here — DEC-068, and closed tasks are bounded by MAX_DONE_ROW).
+# The one section that grew forever by design left.
+BACKLOG_CEILING = 30_000
 
 # A record, not a retelling. Long enough for the task, its verdict and the
 # `DEC` IDs it settled; short enough that twenty-two of them are a page. The
@@ -116,6 +130,19 @@ MAX_DONE_ROW = 300
 # `AUDITS.md`. Seven rows weighed 13,219 bytes before D11 — 41% of a file read
 # in full every session, growing forever because `O6` never completes.
 MAX_AUDIT_ROW = 200
+
+# The audit log's own ceiling, now that it has its own file (DEC-106). Landed at
+# 4,326 over fifteen rows.
+#
+# Set at landed plus roughly 50% rather than the usual quarter, and the reason is
+# specific rather than generous: seven audits are already queued behind `T13c`,
+# which is ~1,610 bytes this file is committed to accepting. A quarter would be
+# 5,400 and would wall the queue it exists to track — the 12-byte deadlock of
+# 09-03 with a different file's name on it. Past that, growth is one capped row
+# per audit session, and the consolidation is the one named in AUDIT-LOG.md's
+# header: a surface re-audited under a later design collapses its two rows into
+# the later verdict.
+AUDIT_LOG_CEILING = 6_500
 
 INDEX_ROW = re.compile(r'^\|\s*(DEC-\d{3})\s*\|')
 DONE_ROW = re.compile(r'^\|\s*[TDOS]\d+[a-z]?\s*\|')
@@ -149,7 +176,7 @@ def _detail_ids():
 def _audit_rows():
     """Every audit-log row, as the (date, task) pair that keys it."""
     return [AUDIT_ROW.match(line).groups()
-            for line in _read('BACKLOG.md').splitlines()
+            for line in _read('AUDIT-LOG.md').splitlines()
             if AUDIT_ROW.match(line)]
 
 
@@ -228,8 +255,10 @@ class TestTheBacklogStaysAQueue(unittest.TestCase):
         size = len(_read('BACKLOG.md').encode('utf-8'))
         self.assertLessEqual(
             size, BACKLOG_CEILING,
-            'BACKLOG.md is %d bytes against a ceiling of %d. Take D11, which '
-            'moves the audit log out the way D10 moved the completed tasks. '
+            'BACKLOG.md is %d bytes against a ceiling of %d. Collapse a '
+            'finished task to a ## Done row, or move a task-scoped note into '
+            'the file it binds. The audit log already left (DEC-106) and '
+            '## Done stays (DEC-068), so the room is in the queue itself. '
             'Do not raise the ceiling.' % (size, BACKLOG_CEILING))
 
     def test_no_completed_task_is_still_a_bullet(self):
@@ -266,15 +295,26 @@ class TestTheBacklogStaysAQueue(unittest.TestCase):
 
 
 class TestTheAuditLogStaysALog(unittest.TestCase):
-    """D11. The section D10 was forbidden to touch, which was 41% of the
-    backlog by the time D10 finished — and the only one of the three that
+    """D11, then DEC-106. The section D10 was forbidden to touch, which was 41%
+    of the backlog by the time D10 finished — and the only one of the three that
     grows forever by design, since `O6` never completes and a revamp makes a
-    surface due again. The four answers moved to `AUDITS.md`; the row stayed."""
+    surface due again. D11 moved the four answers to `AUDITS.md` and kept the
+    row; the 09-26 split moved the rows to `AUDIT-LOG.md` too, because a record
+    that never finishes cannot share a ceiling with a queue that does."""
+
+    def test_the_audit_log_fits_its_budget(self):
+        size = len(_read('AUDIT-LOG.md').encode('utf-8'))
+        self.assertLessEqual(
+            size, AUDIT_LOG_CEILING,
+            'AUDIT-LOG.md is %d bytes against a ceiling of %d. Collapse a '
+            'surface re-audited under a later design into one row, as this '
+            'file\'s header describes. Do not raise the ceiling.'
+            % (size, AUDIT_LOG_CEILING))
 
     def test_no_audit_row_grows_into_an_essay(self):
         over = [('%s %s' % pair, len(line))
                 for line, pair in ((line, AUDIT_ROW.match(line).groups())
-                                   for line in _read('BACKLOG.md').splitlines()
+                                   for line in _read('AUDIT-LOG.md').splitlines()
                                    if AUDIT_ROW.match(line))
                 if len(line) > MAX_AUDIT_ROW]
         self.assertEqual(
@@ -302,7 +342,7 @@ class TestTheAuditLogStaysALog(unittest.TestCase):
             % ', '.join('%s %s' % pair for pair in orphans))
 
     def test_no_audit_is_recorded_twice(self):
-        for name, keys in (('BACKLOG.md', _audit_rows()),
+        for name, keys in (('AUDIT-LOG.md', _audit_rows()),
                            ('AUDITS.md', _audit_headings())):
             duplicates = sorted({k for k in keys if keys.count(k) > 1})
             self.assertEqual(

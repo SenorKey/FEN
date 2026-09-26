@@ -2556,3 +2556,56 @@ the reader that Playwright comes from PyPI and the first build needs the
 network — a cause it never had. The three failures are separated now and each
 says what happened. That is `DEC-078` on the workbench rather than the page,
 so it earned a comment beside the code and no index row of its own.
+
+## DEC-106 — a record that never finishes cannot share a ceiling with a queue that does
+
+Filed 2026-09-26, resolving `N18`. Key's call, made in his session, not the
+routine's.
+
+`BACKLOG.md` held four kinds of thing under one byte ceiling: eleven phases of
+ordered tasks, the standing tasks, the open `## Discovered` list, and two
+permanent records — `## Done` and the audit log. Three of those shrink as work
+lands. The audit log does not: `DEC-069` names why, `O6` never completes and §18
+makes a surface due again after any revamp, so it gains a row every audit session
+forever.
+
+**The symptom was four consecutive sessions paying rent on it.** 09-23, 09-24
+twice and 09-26 each hit the ceiling mid-entry and each made room honestly —
+`DEC-087`'s test applied to a `D` item, `T10b`'s note compressed to the pointer it
+should have been, `D26` merged into two existing rows rather than given a third.
+That was real duplication every time. Then 09-26 reported there was none left and
+trimmed the entry it had just written, leaving the file at 27,492 of 27,500.
+**A budget that can only be met by deleting the session's own findings has stopped
+measuring what it was built to measure.** The routine raised it as `N18` and
+correctly refused either to restructure the file or to raise the number, both
+being guide §16's and therefore Key's.
+
+**The log moved; `## Done` did not.** `DEC-068` settled that closed work collapses
+in place because nobody follows a pointer to a finished task, and that still holds
+— a `## Done` row is bounded by `MAX_DONE_ROW`, and a finished task is never
+revisited. The audit log is the opposite case on both counts: it is read every
+session *because* it is what says which surface is due, and it is never finished.
+So it is now `docs/AUDIT-LOG.md`, a fourth always-read file, with its own budget
+and its own named consolidation — a surface re-audited under a later design
+collapses its two rows into the later verdict.
+
+**What the numbers mean.** `BACKLOG.md` landed at 24,052 and its ceiling is
+30,000: guide §16's formula, landed plus roughly a quarter, and the first time
+this file's number has gone up. `AUDIT-LOG.md` landed at 4,326 and its ceiling is
+6,500 — landed plus half rather than a quarter, because seven audits are already
+queued behind `T13c` and a quarter (5,400) would wall the queue the file exists to
+track. That is the 12-byte deadlock of 09-03 with a different file's name on it,
+and `DEC-096` gave up the ratchet precisely to avoid it.
+
+**Why this is not `D11` repeated.** `D11` split the audit *prose* to `AUDITS.md`
+and deliberately kept the rows in `BACKLOG.md`, on the argument that the row is
+what a session skims. That argument was right and is unchanged — the rows are
+still read in full every session. What it missed is that a skimmed record and a
+worked queue have opposite lifetimes, and sharing a ceiling only became a problem
+once the record was long enough to matter. Fifteen rows is that point.
+
+**The bijection moved with it.** `tests/test_docs_budget.py` asserts every log row
+resolves to an `AUDITS.md` heading and every heading is logged, keyed on date and
+task ID; both directions now read `AUDIT-LOG.md`. Three mutations were checked:
+dropping a row fails one direction, pointing the reader back at `BACKLOG.md` fails
+both, and 2,500 bytes of padding fails the new ceiling.
