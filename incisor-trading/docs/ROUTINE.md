@@ -13,6 +13,11 @@ The instructions are deliberately short. They bootstrap and point at
 `AGENT-GUIDE.md`; they never restate its rules, because duplicated rules drift
 and the guide is the contract.
 
+**The block below is the live prompt byte for byte.** It drifted once — four
+blocks were missing from the live task between 09-15 and 09-23, including the
+`git push` close-out — and the drift was invisible because nothing compared
+them. Diff this block against the task's own instructions when either changes.
+
 ---
 
 ## Instructions
@@ -47,20 +52,25 @@ STEP 2 — READ, IN THIS ORDER
                                            already failed. This is what stops you
                                            repeating work you have already done.
   3. incisor-trading/docs/BACKLOG.md       in full — what to work on
-  4. incisor-trading/docs/PROGRESS.md      last few entries only
+  4. incisor-trading/docs/AUDIT-LOG.md     in full — which surface is due an
+                                           audit. Short, and read every session
+  5. incisor-trading/docs/PROGRESS.md      last few entries only
 Then run `git log --oneline -20` and `git branch --list 'incisor-*'` to see the
 trajectory. Git shows what was kept; DECISIONS.md shows what was rejected and why.
 
 STEP 3 — WORK
 Follow the session protocol in guide §14. Its step 4 sets the order: an open
-[defect] first, then a surface due an audit, then the topmost unblocked task. Before building, check DECISIONS.md for a dead end covering the
-approach you are about to take — if one is listed, choose differently.
+[defect] first, then a surface due an audit, then the topmost unblocked task.
+Before building, check DECISIONS.md for a dead end covering the approach you are
+about to take — if one is listed, choose differently.
 
 After any change to markup or CSS, run the visual check — it works unattended:
-  ./.devtools/bin/python tools/shoot.py --out docs/shots/<name>
-It screenshots desktop, tablet and true mobile-emulated widths and exits
-non-zero on a console error or horizontal overflow. Look at the images. A green
-exit means nothing is broken, not that the page looks good.
+  python3 tools/shoot.py --out docs/shots/<name>
+Any Python 3 runs it; it builds its own .devtools venv on the first run in a
+worktree. It screenshots desktop, tablet and true mobile-emulated widths and
+exits non-zero on a console error or horizontal overflow. Look at the images,
+and check they were actually written: a green exit means nothing is broken, not
+that the page looks good, and an interpreter that cannot run exits green too.
 
 FINISHED IS NOT SETTLED. Periodically go back over what already works and judge
 it honestly — is it useful, easy, beautiful, fast? If a better approach exists,

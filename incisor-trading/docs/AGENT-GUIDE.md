@@ -531,8 +531,12 @@ why. A clear "blocked, here's the reason" is a successful session.
 
 ## 15. Verification
 
-- **`./.devtools/bin/python tools/shoot.py --out docs/shots/<name>`** is the
-  primary visual check and works unattended. It serves the repo itself, drives
+- **`python3 tools/shoot.py --out docs/shots/<name>`** is the primary visual
+  check and works unattended. Any Python 3 runs it: nothing above `main()` needs
+  Playwright, so the tool builds the gitignored `.devtools` venv itself on the
+  first run in a worktree and re-execs under it (`D27`, `DEC-105`). Do not
+  "correct" this to a venv interpreter — that spelling does not exist on day one
+  of a session, which is every session. It serves the repo itself, drives
   the installed Chrome through Playwright at desktop, tablet and true
   mobile-emulated widths, writes screenshots, and **exits non-zero on a console
   error or any horizontal overflow**. Run it after any change that touches

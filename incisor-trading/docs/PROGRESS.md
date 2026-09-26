@@ -5685,3 +5685,96 @@ session, or yours.
 due, fifth of the seven `T13c` made due, and is a session's whole work.
 `D28`, `D25` and `D3` are enhancements awaiting triage; `D19` remains yours
 twice over.
+
+---
+
+## 2026-09-26 (Key's session) — the audit log gets its own file, and two stale commands die
+
+**Not a routine session.** Key asked for this in his own session after four
+consecutive routine sessions reported the same wall; the routine had raised it as
+`N18` and correctly refused to act, because guide §16 and the ceilings are his.
+Recorded here because the next session reads this file and will find three of its
+own open notes closed.
+
+### `N18` — resolved. The audit log is `docs/AUDIT-LOG.md`
+
+`BACKLOG.md` was holding a queue and a permanent record under one byte ceiling.
+The queue shrinks as work lands; the audit log gains a row every audit session
+and never finishes (`DEC-069`). Four sessions in a row had met the ceiling by
+trimming something real, and the fourth reported there was nothing honest left to
+trim and cut the entry it had just written — 27,492 of 27,500.
+
+- **`BACKLOG.md` 27,492 → 24,052**, ceiling 27,500 → **30,000** (§16's formula,
+  landed plus a quarter — the first time this number has gone up).
+- **`AUDIT-LOG.md` 4,326**, ceiling **6,500** — landed plus a half, not a quarter,
+  because seven audits are already queued and a quarter would wall the queue the
+  file exists to track. `DEC-096` gave up the ratchet to avoid exactly that.
+- **`## Done` stayed put.** `DEC-068` settled that closed work collapses in place,
+  and it still holds: a `## Done` row is bounded and a finished task is never
+  revisited. The log is the opposite on both counts.
+- The header I first wrote for the new file was 2,500 bytes of justification in a
+  file read in full every session, which is the disease `D9` was filed for. It was
+  cut to the operational rules; the reasoning is in `DEC-106`.
+
+→ **`DEC-106`**, with why this is not `D11` repeated: `D11`'s argument that the
+row is what a session skims was right and is unchanged. What it missed is that a
+skimmed record and a worked queue have opposite lifetimes.
+
+### `N19` — resolved. Both documents that gave the dead command are fixed
+
+Guide §15 and the scheduled task's own instructions both still said
+`./.devtools/bin/python tools/shoot.py`, which `DEC-105` establishes cannot work
+on day one of any session. Both now say `python3 tools/shoot.py`, and §15 says
+explicitly not to "correct" it back to a venv interpreter.
+
+The prompt gained one line the routine could not have asked for: **check the
+images were actually written, because an interpreter that cannot run exits green
+too.** That is `N20`'s failure mode — on 09-26 the Homebrew `python3` was a
+zero-byte file, executing nothing and exiting 0. Key reinstalled it (3.14.7
+verified running) before this session's work.
+
+### `N7` — resolved as a side effect
+
+Guide §16's file table described four files and there were six; the split made it
+seven, so it was rewritten rather than patched. It now names all seven with what
+each holds and how it is read, and says which four are read in full every session
+— which is the fact the budgets exist to defend. The drop-in wording drafted in
+the 09-02 entry was not used; the table needed the split's shape.
+
+### `ROUTINE.md` is now the live prompt byte for byte
+
+It had drifted: four blocks were missing from the live task between 09-15 and
+09-23, including the `git push` close-out, and nothing compared them. The block is
+now identical to the task's instructions, verified by comparison rather than by
+eye, and the file says to diff them whenever either changes.
+
+### Verified
+
+- **276 front-end tests** (`python3 -m unittest discover`), OK. 17 of them are the
+  docs-budget suite.
+- **Three mutations checked** on the moved bijection, per `DEC-064`: dropping a log
+  row fails one direction, pointing the reader back at `BACKLOG.md` fails both, and
+  2,500 bytes of padding fails the new ceiling.
+- **No `shoot.py` run and no server suite.** Nothing here touches markup, CSS or
+  the service — the change is five documents and one test file. Running the server
+  suite would have meant building `server/.venv` to prove an unrelated suite still
+  passes (`D28`).
+
+### For Key
+
+**`N18`, `N19`, `N7` · closed above.** `N20` closed by the reinstall.
+
+**Still open and unchanged: `N17`, `N16`, `N14`, `N11`.** `N17` is on its fifth
+session of evidence and Key's read of it is now to **keep the queue and let it
+run** — three of the four re-audits found something the original audits missed,
+which is more than it was being credited for. Seven to go; §18 stands as written.
+
+**Power and sleep are settled and off the table.** Key's call: laptop health
+outranks the routine completing every run. A run lost to sleep is a lost run, not
+a defect, and nothing is to be proposed about `pmset`, `caffeinate`, keep-awake or
+scheduling around sleep windows. The 09-25 run that hung for 24 hours and failed
+on `Request timed out` is a separate matter and left no entry, which is the one
+hole in this journal.
+
+**Next session:** unchanged by this — the **watchlist (T9)** audit, fifth of the
+seven, unless a defect is open. `AUDIT-LOG.md` is the file that now says so.
