@@ -53,6 +53,30 @@ function run(argv) {
         return JSON.stringify({ failed: failed, total: results.length, results: results });
     }
 
+    /* Every class named by a rule whose body sets `display: none`.
+     *
+     * Deliberately crude about selectors: it takes every class token in the
+     * prelude, so `.a .b` contributes both even though only `.b` is hidden.
+     * Over-collecting widens what the caller checks, while missing one is how
+     * the check quietly stops working — and the caller scopes its own search,
+     * so a class that never appears inside a row costs nothing. Comments come
+     * out first because one of them discusses `display: none` in prose.
+     */
+    function hiddenClasses(css) {
+        var found = [];
+        css.replace(/\/\*[\s\S]*?\*\//g, '')
+            .replace(/([^{}]+)\{([^{}]*)\}/g, function (all, prelude, body) {
+                if (!/display\s*:\s*none/.test(body)) return all;
+                (prelude.match(/\.[A-Za-z0-9_-]+/g) || []).forEach(function (token) {
+                    if (found.indexOf(token.slice(1)) === -1) {
+                        found.push(token.slice(1));
+                    }
+                });
+                return all;
+            });
+        return found;
+    }
+
     /* ── A promise that settles as it is built ──────────────────── */
 
     function Settled(state, value) {
@@ -519,10 +543,53 @@ function run(argv) {
     check('the line is never coloured by direction, unlike the figure beside it',
         trend.children[1].attrs['class'].indexOf('inc-down') === -1
             && trend.children[1].attrs['class'].indexOf('inc-up') === -1);
-    check('and says which way it went in words, for a reader who cannot see it',
-        trend.getAttribute('aria-label')
+
+    /* Where the words live, which is the T9 re-audit's finding.
+     *
+     * They were on the SVG, and css/watchlist.css takes that element out with
+     * display:none below 620px — which removes its accessible name from the
+     * tree along with its layout. The figure beside it is aria-hidden, so on
+     * a phone the column stated its month to nobody. Asserting the sentence
+     * is *off* the line as well as *on* the cell, because putting it back on
+     * the line is the shape the regression would take and leaving it on both
+     * would make every row say its month twice. */
+    var trendCell = view.rows()[1].querySelector('.inc-watch-trend');
+    check('the line itself is decoration, not the carrier of the sentence',
+        trend.getAttribute('aria-hidden') === 'true'
+            && !trend.getAttribute('aria-label')
+            && !trend.getAttribute('role'),
+        trend.attrs['aria-label'] + ' / ' + trend.attrs['role']);
+    check('the cell says which way it went in words, at every width',
+        trendCell.querySelector('.inc-offscreen').textContent
             .indexOf('SPY thirty-day trend: down') === 0,
-        trend.getAttribute('aria-label'));
+        trendCell.querySelector('.inc-offscreen').textContent);
+
+    /* The general shape of that finding, derived rather than listed.
+     *
+     * `display: none` takes an element's accessible name out of the tree
+     * along with its box, so no class this stylesheet hides may be a class a
+     * row speaks through. The hidden classes are read out of the stylesheet
+     * rather than written here, so the next rule that hides something is
+     * covered on the day it lands — nothing derived was watching, which is
+     * why the sparkline's sentence went unheard on every phone for four
+     * sessions. Scoped to rows because that is where the rule bites; the
+     * empty state and the scroller are hidden by state, not by width, and
+     * carry no name for a row to lose.
+     */
+    var hidden = hiddenClasses(read(pageDir + '/css/watchlist.css'));
+    check('the stylesheet hides something, or this check proves nothing',
+        hidden.indexOf('inc-watch-spark') !== -1, hidden.join(' '));
+    hidden.forEach(function (name) {
+        view.rows().forEach(function (row) {
+            row.querySelectorAll('.' + name).forEach(function (node) {
+                check('nothing a width can hide is a row\'s only voice: .' + name,
+                    node.getAttribute('aria-hidden') === 'true'
+                        || (!node.getAttribute('aria-label')
+                            && !node.getAttribute('role')),
+                    name + ' speaks: ' + node.attrs['aria-label']);
+            });
+        });
+    });
 
     /* The month as a figure (D24).
      *
@@ -541,7 +608,7 @@ function run(argv) {
         move.querySelector('.inc-arrow').textContent, '▼');
     check('coloured by its own direction',
         move.classes().indexOf('inc-down') !== -1, move.attrs['class']);
-    equal('and silent, because the sparkline beside it already says it aloud',
+    equal('and silent, because the cell around it already says it aloud',
         move.getAttribute('aria-hidden'), 'true');
 
     /* The property the two figures exist to keep apart, rather than another
@@ -650,8 +717,10 @@ function run(argv) {
     var failedTrend = partial.rows()[0].querySelector('.inc-watch-spark');
     check('a failed row still reserves the trend column', !!failedTrend);
     equal('with nothing drawn in it', failedTrend.children.length, 0);
-    equal('and says the trend is unavailable rather than naming a shape',
-        failedTrend.getAttribute('aria-label'), 'AAPL trend unavailable');
+    equal('and the cell says the trend is unavailable rather than naming a shape',
+        partial.rows()[0].querySelector('.inc-watch-trend')
+            .querySelector('.inc-offscreen').textContent,
+        'AAPL trend unavailable');
     equal('and states no month, since a percentage carries no date of its own',
         partial.rows()[0].querySelector('.inc-spark-move')
             .querySelector('.inc-delta-pct').textContent, '—');
@@ -667,9 +736,10 @@ function run(argv) {
     });
     equal('a series too short to have a shape draws no line',
         oneBar.rows()[0].querySelector('.inc-watch-spark').children.length, 0);
-    equal('and says that, rather than claiming a flat one',
-        oneBar.rows()[0].querySelector('.inc-watch-spark')
-            .getAttribute('aria-label'), 'SPY has no trend to draw');
+    equal('and the cell says that, rather than claiming a flat one',
+        oneBar.rows()[0].querySelector('.inc-watch-trend')
+            .querySelector('.inc-offscreen').textContent,
+        'SPY has no trend to draw');
 
     /* The Watch toggle. */
     var toggleBox = memoryStorage();

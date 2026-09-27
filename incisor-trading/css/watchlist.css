@@ -471,6 +471,11 @@
    rows two lines tall, which is a worse trade in a list built to be scanned
    down. */
 @media (max-width: 620px) {
+    /* display:none is safe here only because the month's sentence lives on
+       the cell rather than on this element — see trendSentence() in
+       js/view-watchlist.js. It did not, until the T9 re-audit found this
+       rule taking the one spoken copy of the trend off every phone. Do not
+       move the accessible name back onto the line. */
     .inc-watch-spark {
         display: none;
     }

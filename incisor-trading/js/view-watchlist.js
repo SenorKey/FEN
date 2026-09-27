@@ -155,7 +155,38 @@
 
         box.appendChild(trendFigure(shape));
         wrapper.appendChild(box);
+        wrapper.appendChild(trendSentence(svg));
         return wrapper;
+    }
+
+    /* The month in words, carried by the cell rather than by the drawing.
+     *
+     * sparkline.js names the SVG, which is the right home on the tiles and
+     * the wrong one here. Below 620px this column's line is `display: none`,
+     * and a hidden element takes its accessible name out of the tree along
+     * with its layout — the trap .inc-offscreen exists to avoid, sprung one
+     * stylesheet away from the comment describing it. The seen figure beside
+     * it is aria-hidden (see trendFigure) precisely because the SVG was
+     * carrying the words, so below 620px nothing carried them: measured in
+     * Chrome's accessibility tree at 390px, eight rows under a header reading
+     * TREND 30d stated no month at all, while the sighted reader on the same
+     * phone kept the percentage. DEC-060, arriving through the one channel a
+     * media query can switch off, and DEC-065 on `display` beating a name no
+     * DOM test reads.
+     *
+     * So the sentence moves up one level, out of reach of any width, and the
+     * line becomes the decoration it already was. sparkline.js still writes
+     * the words — every state it can leave the element in has set the label
+     * by now, including "not loaded" — and this only changes which node says
+     * them, so the two cannot drift apart.
+     */
+    function trendSentence(svg) {
+        var said = cell('span', 'inc-offscreen');
+        said.textContent = svg.getAttribute('aria-label') || '';
+        svg.setAttribute('aria-hidden', 'true');
+        svg.removeAttribute('role');
+        svg.removeAttribute('aria-label');
+        return said;
     }
 
     /* The size of the month, beside the line that draws its shape.
@@ -176,7 +207,9 @@
      *
      * Aria-hidden for that same reason: the spoken half has been there since
      * T9 and this is the seen half catching up. Announcing it again would
-     * make every row state its month twice.
+     * make every row state its month twice. The spoken half is now
+     * trendSentence()'s, not the SVG's — which is what makes this safe at
+     * every width rather than only above 620px.
      *
      * Why the column still does not sort (D25). The header used to say a
      * ranking by shape is not a thing a reader can ask for, which stopped
