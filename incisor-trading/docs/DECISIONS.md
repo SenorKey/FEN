@@ -121,3 +121,4 @@ there will be a third.
 | DEC-090 | **A table laid out with `display: block` stops being a table to a screen reader** — rows and cells go with it. Write every role out; at desktop each matches the implicit one. |
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`. Bit T14, then T16. |
 | DEC-103 | **A locally scaled line cannot be read against the one beside it, so every sparkline states its figure too.** Four tiles, then eight chosen rows; the size was in the `aria-label` both. |
+| DEC-107 | **A name on an element a media query hides is a name that width deletes** — `display: none` takes it out of the tree with the box. Name the cell, not the child that vanishes (T9). |

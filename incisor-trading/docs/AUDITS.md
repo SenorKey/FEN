@@ -770,3 +770,70 @@ on 6M, restated in `js/chart-canvas.js` and unchanged since 08-30; and the
 no-history box is now 320px of dashed empty at desktop, which is the reserved
 space working as §13 asks rather than a hole — the alternative is the layout
 shift the first audit removed.
+
+## 09-26 — Watchlist (T9)
+
+Fifth of the eleven `T13c` made due, and the first re-audit whose finding was
+invisible in the images it was conducted from. The three screenshots are good;
+the fault was in what the same page said to a reader who cannot see them.
+
+**Useful.** The only surface on the dashboard that is the reader's own. The
+index strip is four proxies they did not pick, the sector grid eleven funds
+they did not pick, and the quote panel holds one symbol until they type
+another — this is the only place the page remembers what *they* care about,
+and the only one that survives a reload. It also costs the least per answer of
+anything here: a watched symbol is one `/history` call, and the change, the
+price and the month all come out of that one payload (`DEC-032`). Nothing to
+retire.
+
+**Easy.** This is where the audit found its edit, and it found it by leaving
+the pictures alone for one measurement. Three of the four columns state a fact
+in words as well as in pixels; the fourth did not, on a phone. Below 620px
+`css/watchlist.css` sets `display: none` on `.inc-watch-spark`, and the
+sentence naming the thirty-day move lived on that element — so it left the
+accessibility tree with the box. The figure beside it is `aria-hidden`
+precisely because the line was speaking for it, so nothing was left carrying
+the month. **Chrome's own accessibility tree, at 390px: eight rows under a
+header reading TREND 30d, and zero sentences naming a trend; at 1440px,
+eight.** The sighted reader on that same phone keeps the percentage, which is
+what made it invisible to the screenshots.
+
+Fixed by moving the sentence to the cell, where no width reaches it, and
+letting the line be the decoration it already was. 56 named nodes in the table
+at both widths now, and all three shots byte-identical before and after — the
+seen page was never the broken half.
+
+The rest of the surface is in good order. Sort controls are real buttons
+filling their header cells, `aria-sort` tracks the order, the remove control's
+accessible name carries the ticker while its `data-track` deliberately does
+not (guide §5), a coarse pointer gets 44px rows, and every direction is an
+arrow and a sign as well as a colour. At 320px the table scrolls inside its
+own box rather than the body.
+
+**Beautiful.** It holds up beside the lead. Under broadsheet the rows are
+ruled rather than boxed, the figures are tabular mono on a right edge so eight
+prices read down a column, and the lines are uncoloured with only the figure
+beside them taking direction — so a row can be down on the day and up on the
+month without the drawing arguing with itself. The desktop table carries a lot
+of air (218px of column for a four-character ticker), which is the page's
+measure rather than this surface's slack.
+
+**Performing.** Zero calls of its own beyond the one per watched symbol that
+the cap exists to bound — eight, one of the three sums in `DEC-028`. Five
+`shoot.py` runs each reported `requests busiest visitor 13 of 60`. The
+sparkline's 26px is reserved before anything is drawn, so a row filling shifts
+nothing, and a row that could not be priced keeps the shape of one that could.
+
+**Looked at and left.** `D3` — a row names a symbol and cannot open it — is
+still true and is still the sharpest thing about this surface, and it is
+labelled `[enhancement]`, so it waits for Key's triage rather than being
+half-done inside an audit. `D25` — the trend column states a figure and still
+cannot be sorted — is unchanged by this edit: the sentence moved, the figure
+is still read off the drawing after `sorted()` has run, and the fix is still a
+change to the row model. Neither was refiled.
+
+The dotted line in each sparkline is the level the month opened at, and
+nothing on screen names it. That is `DEC-104`, one surface over from where it
+was settled: the figure beside the line states the same movement in words,
+sign and colour, so the mark is the picture of a fact the row already gives.
+A legend is the change to not make.

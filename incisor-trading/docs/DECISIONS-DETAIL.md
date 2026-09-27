@@ -2609,3 +2609,52 @@ resolves to an `AUDITS.md` heading and every heading is logged, keyed on date an
 task ID; both directions now read `AUDIT-LOG.md`. Three mutations were checked:
 dropping a row fails one direction, pointing the reader back at `BACKLOG.md` fails
 both, and 2,500 bytes of padding fails the new ceiling.
+
+## DEC-107 — a name on an element a media query hides is a name that width deletes
+
+Filed 2026-09-26, from the `T9` re-audit. Promoted straight into *Recurring
+traps* rather than *Settled*, because it is `DEC-060` arriving through a
+mechanism `DEC-060` does not list, and the list is the part of that row that
+gets read.
+
+`css/watchlist.css` sets `display: none` on `.inc-watch-spark` below 620px, for
+a good reason measured two ways: at a 600px viewport the line runs 107px, and
+`css/market.css` derives 110px as the width below which thirty closes are a
+texture rather than a shape. Nothing about that is wrong.
+
+What was wrong is what the line was carrying. `js/sparkline.js` names the SVG —
+`SPY thirty-day trend: down 4.44 percent over the period` — and that is the
+right home on the index tiles, which hide nothing at any width. In a table row
+it made the sentence a child of the one element a media query removes, and
+`display: none` takes a subtree out of the accessibility tree along with its
+layout. The figure beside it is `aria-hidden` *because* the line was speaking
+for it, so below 620px the column headed TREND 30d had no voice at all.
+
+**Measured, not reasoned:** Chrome's own accessibility tree over the watchlist
+table gave eight trend sentences at 1440px and zero at 390px, while the seen
+page kept the percentage at both. That asymmetry is why four sessions of
+screenshots could not find it — the images were right.
+
+The fix is a placement rule, and it generalises past this surface: **the name
+belongs to the cell, which nothing hides, and the child that can vanish is
+decoration.** `js/view-watchlist.js`'s `trendSentence()` reads the sentence
+`sparkline.js` wrote and moves it up one level, so the words still have exactly
+one author and cannot drift from the drawing.
+
+Two things make this worth an index row rather than a comment. First, the
+stylesheet already stated the rule correctly thirty lines below, where the
+460px dollar drop is off-screen rather than `display: none` so that "a screen
+reader on a phone hears exactly what one on a desktop hears" — the reasoning
+was present and the trap was sprung anyway, one block up. `.inc-offscreen`'s
+own comment in `incisor.css` says the same thing again. A lesson that two
+comments already teach and that still bit is not a comment problem.
+
+Second, nothing derived was watching. `watchlist_model.jxa.js` now reads the
+hidden classes out of the stylesheet and refuses to let any of them be a row's
+only voice, which is `DEC-064`'s shape — assert against something derived, so
+the next rule that hides something is covered the day it lands rather than the
+day someone remembers.
+
+Left alone deliberately: the tiles keep their name on the SVG. They hide it at
+no width, and moving it would make two surfaces differ from `sparkline.js`'s
+contract to fix a problem only one of them has.

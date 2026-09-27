@@ -5778,3 +5778,84 @@ hole in this journal.
 
 **Next session:** unchanged by this — the **watchlist (T9)** audit, fifth of the
 seven, unless a defect is open. `AUDIT-LOG.md` is the file that now says so.
+
+---
+
+## 2026-09-26 (routine) — the watchlist audit, and a column that spoke to nobody on a phone
+
+**T9 re-audit, fifth of the seven `T13c` made due.** An audit is a session's
+whole work (§18), so no backlog task was taken. No in-bounds defect was open:
+`D19` is a defect and is out of bounds twice over, which its entry already
+says.
+
+### The finding
+
+Below 620px `css/watchlist.css` sets `display: none` on `.inc-watch-spark`,
+and `js/sparkline.js` had put the sentence naming the thirty-day move on that
+element. A hidden element takes its accessible name out of the tree along with
+its box, and the figure beside it is `aria-hidden` *because* the line was
+speaking for it — so on every phone the column headed TREND 30d stated its
+month to nobody, while the sighted reader on the same phone kept the
+percentage.
+
+**Measured in Chrome's accessibility tree over the watchlist table: eight
+trend sentences at 1440px, zero at 390px.** That asymmetry is why it survived
+four sessions of screenshots — the images were right, and an audit conducted
+only from them could not have found it. The check that did find it was asking
+what the *other* channel gets, which the four questions ask for under "Easy"
+and which I had been answering from markup.
+
+The sentence now lives on the cell, which no width hides, and the line is the
+decoration it already was. `sparkline.js` still writes the words, so the two
+cannot drift. After: **56 named nodes in the table at 390px and at 1440px, the
+same number**, eight trend sentences at both — and desktop went 16 to 8,
+because each row had been matching twice through the image and its text.
+
+**All three screenshots are pixel-identical before and after**, verified with
+a per-pixel diff, which is the right outcome: the seen page was never the
+broken half.
+
+### Held by tests, not by memory
+
+- `watchlist_model.jxa.js` asserts the sentence is **on the cell and off the
+  line** — both halves, because putting it back on the line is the shape the
+  regression takes, and leaving it on both makes every row say its month
+  twice. Two existing checks that read the label off the SVG in the
+  unavailable and one-bar states moved with it.
+- A **derived** check reads every class the stylesheet sets `display: none` on
+  and refuses to let any of them be a row's only voice (`DEC-064`). Nothing
+  derived was watching, which is how this lasted four sessions.
+- **Three mutations checked.** The original bug fails four assertions by name.
+  Putting the sentence on both nodes fails. Restoring passes.
+
+### Verified
+
+- **276 front-end tests**, OK. **244 server tests**, OK — `server/.venv` was
+  built to run them (`D28`, still open: the suite does not build its own).
+- `python3 tools/shoot.py --api --watch ...` green at desktop, tablet and true
+  mobile emulation, with 375px and 320px measured. Images written and looked
+  at; the crops are in the audit entry's evidence.
+- `git status` clean outside `incisor-trading/`.
+
+### Recorded
+
+`AUDITS.md` 09-26 — Watchlist (T9), verdict **minor edits**; the row is in
+`AUDIT-LOG.md`, and the queue there now reads five down, six to go, next the
+**sector grid (T10)**. `DEC-107` for the placement rule, promoted straight
+into *Recurring traps* because it is `DEC-060` through a mechanism that row
+does not list.
+
+`D3` and `D25` were looked at and left, both still true, both
+`[enhancement]` and so Key's to triage — neither refiled, per §19.
+
+### For Key
+
+**Nothing new.** `N17`, `N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+`N17` in particular: this session is a fifth piece of evidence for keeping the
+queue. The re-audit found something four sessions of screenshots could not,
+and it was not a broadsheet regression — it predates the revamp. Four of five
+re-audits have now found something the original missed.
+
+**Next session:** the **sector grid (T10)** audit, sixth of the seven, unless
+a defect is open.
