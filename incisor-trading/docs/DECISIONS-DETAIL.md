@@ -2658,3 +2658,71 @@ day someone remembers.
 Left alone deliberately: the tiles keep their name on the SVG. They hide it at
 no width, and moving it would make two surfaces differ from `sparkline.js`'s
 contract to fix a problem only one of them has.
+
+---
+
+## DEC-108 — a control copied from another must move with it
+
+Found in the 09-27 sector-grid audit. `css/sectors.css` opens by saying the
+window buttons are deliberately `.inc-chart-range`: "same size, same pressed
+treatment, same monospace. Two sets of period controls on one page that looked
+different would read as two different kinds of control."
+
+That was a design decision and a good one. It was written as a comment, and a
+comment is a claim, not a mechanism. `chart.css` later grew a rule below 700px
+letting its five buttons share the row evenly; `sectors.css` never got it. The
+result at 390px: **68.4x28 for the chart's control and 39.2x26 for the copy**,
+just over half the area, in a 358px row with 190px going spare — while one
+stylesheet stated the two were the same. Both still cleared WCAG 2.2's 24px
+minimum, so nothing was failing except the file's own claim, which is why four
+sessions of screenshots and a previous audit had walked past it.
+
+The shape generalises past this pair. A copy is made once and then maintained
+never: the original acquires a state, a breakpoint or a disabled treatment, and
+the copy keeps whatever it was born with. The divergence shows up first at
+whichever width or state nobody photographs — here, the only width where a
+target's size actually matters.
+
+So the fix is not the missing rule, which is three declarations. It is
+`test_sectors.py`'s comparison, which reads both stylesheets, groups every
+declaration by what follows the class name and by the enclosing media query,
+and requires the two sets to be equal. That is `DEC-064`'s rule applied to a
+claim rather than a value: asserting the specific rule that was missing would
+have watched this fix and nothing else, and the next divergence will be a
+different property. Either stylesheet moving alone now names the other.
+
+The breakpoint is spelled `700px` to match `chart.css`, not the `699px` the
+stacking rule ten lines above uses. That 1px difference is deliberate and
+commented: the stacking rule is this surface's own layout and means "below
+700", while the button rule belongs to the chart's set and has to change on the
+same pixel it does.
+
+**Not `DEC-033`.** That is a measure made wrong by what lands next to it. This
+is a copy made wrong by its original moving — the copy never changed at all.
+
+---
+
+## DEC-109 — a surface stylesheet says nothing about reduced motion
+
+`incisor.css` ends with a block under `@media (prefers-reduced-motion: reduce)`
+setting `animation-duration`, `animation-iteration-count`, `transition-duration`
+and `scroll-behavior` on `body.incisor *`, `::before` and `::after`, all with
+`!important`. Every moving part on the page is inside that selector, and nothing
+a surface stylesheet declares without `!important` can outrank it.
+
+`css/sectors.css` also carried its own reduced-motion block naming two classes.
+It could not change an outcome: the page-wide rule had already stopped both, and
+the two agreed anyway. It was a rule that looked like it was doing something.
+
+Removed in the 09-27 audit. What a local copy can do is drift — into naming a
+class that has been renamed, or into looking like the coverage when it is not —
+and the test guarding it had the same flaw in miniature: `test_motion_is_optional`
+asserted the string `prefers-reduced-motion` appeared in the file, so it passed
+on the strength of the dead block. It now asserts the page-wide rule exists and
+reaches this surface, and that nothing here forces motion back past it with
+`!important`, which is the only move a surface stylesheet has.
+
+Ten of the thirteen surface stylesheets already said nothing about motion, so
+this makes the exception the rule rather than the reverse. `css/positions.css`
+carries the same redundant block and is filed as `D29` rather than fixed inside
+an audit of a different surface.

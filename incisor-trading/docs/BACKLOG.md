@@ -200,6 +200,15 @@ phase. When the call is unclear, file it as a defect.
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
 
+- [ ] **D29 · `css/positions.css` restates the page-wide reduced-motion rule**
+  `[enhancement]` *(2026-09-27, from the T10 audit)* — `incisor.css` stops
+  every transition and animation under `body.incisor *` with `!important`, so
+  the local block naming `.inc-log-more` cannot change an outcome and can only
+  drift. `css/sectors.css` carried the identical block and lost it (`DEC-109`);
+  this is the last copy. Not fixed inside an audit of a different surface.
+  *Accept:* the block is gone and `test_positions.py` asserts the page-wide
+  rule covers this file's moving parts, the way `test_sectors.py` now does.
+
 - [ ] **D28 · The server suite does not build its own venv** `[enhancement]`
   *(2026-09-26, from D27)* — `server/tests` needs Flask in `server/.venv`, so
   it errors in a fresh worktree. **Not D27:** its README gives the build

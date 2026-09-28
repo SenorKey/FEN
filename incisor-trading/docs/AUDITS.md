@@ -837,3 +837,74 @@ nothing on screen names it. That is `DEC-104`, one surface over from where it
 was settled: the figure beside the line states the same movement in words,
 sign and colour, so the mark is the picture of a fact the row already gives.
 A legend is the change to not make.
+
+---
+
+## 09-27 — Sector grid (T10)
+
+*Verdict: minor edits.*
+
+Sixth of the eleven `T13c` made due, and the last of the dashboard's original
+six. The surface came through the revamp better than any audited so far: the
+09-01 finding — a bar deleted by a media query below 560px — has stayed fixed,
+the stacked bar gets 358px at 390px, and nothing here needed defending.
+
+**Useful.** Unchanged and still the strongest answer on the dashboard, for the
+reason the first audit gave: it is the only surface that says what happened
+*underneath* the index. Pressing 1M after YTD is the lesson in one gesture —
+the same eleven funds re-rank, Materials leads both windows at +22.01% and
++3.85%, and ten of the eleven that are up over the year are down over the
+month. Nothing to retire.
+
+**Easy.** This is where the edit was, and it was in the control rather than the
+data. `css/sectors.css` opens by saying the window buttons are deliberately
+the chart's range buttons — "same size, same pressed treatment" — so that two
+sets of period controls do not read as two kinds of control. Measured, that
+held at 1440px and 768px and failed on a phone: **at 390px the chart's range
+button is 68.4x28 and the sector's window button was 39.2x26**, the copy at
+just over half the area of its original, in a 358px row with 190px going
+spare. `chart.css` had grown a rule below 700px letting its five share the row
+evenly; this file never got it, so the sameness the comment asserts was true
+only at the widths where a target's size does not matter. Both clear WCAG
+2.2's 24px minimum — this is the stylesheet's own claim failing, not the
+standard's. Now 86.5x28 at 390px and 69x28 at 320px, desktop and tablet
+untouched.
+
+The rest is in good order, and the check that found this one was the same one
+the watchlist audit used: leave the pictures and ask what the other channels
+get. **Chrome's accessibility tree over the section is identical at 1440px and
+390px** — eleven list items, each carrying its sector, its fund, its figure and
+"over year to date", with the bar `aria-hidden` and the ordered list carrying
+the rank. Direction survives greyscale three ways: an arrow, an explicit sign,
+and a bar rounded on the end it grew towards. The error state disables all four
+windows rather than leaving four tab stops that do nothing, and says which of
+the two things went wrong.
+
+**Beautiful.** Still the densest thing on the page and still the best idea on
+it. Broadsheet suits it more than cards did: eleven ruled rows and one
+uninterrupted track read as a chart, where the old fills read as eleven boxes
+that happened to be stacked. The diverging axis earns its complexity in 1M,
+where one riser sits right of the zero line and ten fallers run left from it —
+the mirror of YTD from the same payload, no reload. The zero line survives as
+a 1px tick above and below each bar; it is faint, and it is doing its job,
+because the bars all beginning at one x is what states it.
+
+**Performing.** 2,617 bytes, requested at 53ms and answered in 38.6ms, so the
+grid is complete before `DOMContentLoaded` at 94ms. **Four window presses made
+zero market-data calls** — one `/sectors` answers all four windows — and a
+redraw of eleven rows measured 0.3–1.4ms. The list reserves exactly the height
+it fills, 429px at desktop and 616px on a phone, so nothing below it moves as
+it arrives.
+
+**Looked at and left.** The 319px between the longest sector name and the start
+of the track is unchanged at 1440px — the same 319px the 09-01 audit recorded,
+which is itself the finding: broadsheet widened the measure and the gap did
+not move. `DEC-059` built the alternative and shot it, and its revisit
+condition — a name growing — has not been met. Not refiled.
+
+The zero line at 1Y sits at `left: 0%`, flush with the start of the track,
+because every sector rose and the axis is seeded at zero. It is on the track,
+as `axisFor` promises, and it is indistinguishable from the track's edge. Left
+alone deliberately: in an all-positive window every bar starts at that same
+edge, so there is nothing for the line to disambiguate, and drawing it more
+loudly would be drawing attention to the one window where it says least.

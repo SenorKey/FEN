@@ -80,6 +80,8 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-104 | **A drawing that prints its own scale is not DEC-103** — the range bands label both ends, so the marker is readable. Do not add a percent beside them. |
 | DEC-105 | **A mandated check runs from what the repo ships: the docs name `python3`, never a venv.** Rule 11 gives a fresh worktree and `.devtools/` is gitignored, so both spellings died (D27). |
 | DEC-106 | **A record that never finishes cannot share a byte ceiling with a queue that does** — the audit log is its own file; four sessions had met the backlog's budget by cutting findings. |
+| DEC-108 | **A control copied from another must move with it; a comment saying they match is not that.** The chart's ranges grew a phone rule, the copy did not, and the file said they matched. |
+| DEC-109 | **A surface stylesheet says nothing about reduced motion — `incisor.css` stops all of it under `body.incisor *` with `!important`.** A local copy changes nothing and can only drift. |
 
 ---
 

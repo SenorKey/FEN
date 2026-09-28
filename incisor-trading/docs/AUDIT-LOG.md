@@ -22,8 +22,10 @@ was written against rounded cards in DM Sans, and broadsheet changed the measure
 the fills, the rules and the face of all of them (§18 — a revamp touching a
 surface makes it due, whatever its last verdict).
 
-**Five down, six to go** — clock 09-22, index strip 09-23, symbol lookup and
-price chart both 09-24, watchlist 09-26. Next is the **sector grid (T10)**. An audit is a session's
+**Six down, five to go** — clock 09-22, index strip 09-23, symbol lookup and
+price chart both 09-24, watchlist 09-26, sector grid 09-27. That closes the
+dashboard's original six; the five left are the ones `T13c` reached second.
+Next is the **fundamentals panel (T11)**. An audit is a session's
 whole work, so the remainder sits ahead of `T13d`; **that is probably not what
 §18 means to buy and is not the routine's to redefine — `N17`.** The rule stands
 and the queue is worked in order.
@@ -48,3 +50,4 @@ and the queue is worked in order.
 | 09-24 | **Symbol lookup and quote detail** (T7) | **Keep** | 65 catalogue symbols, 17 answerable, and the dropdown offers only what resolves. Both calls earn their place. D26 filed on the chart. |
 | 09-24 | **Price chart** (T8) | Minor edits | One height at every width: 720x240 at desktop against 300x185 on a phone, so the widescreen flattened the line. 320px from 1100px up. |
 | 09-26 | **Watchlist** (T9) | Minor edits | Below 620px the line is `display: none`, and it carried the month's only sentence: 8 in the tree at desktop, 0 on a phone. |
+| 09-27 | **Sector grid** (T10) | Minor edits | The window buttons are a copy of the chart's ranges, and the original grew a narrow rule the copy never got: 68.4x28 against 39.2x26 at 390px. |

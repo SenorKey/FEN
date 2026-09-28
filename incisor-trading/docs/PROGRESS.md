@@ -5859,3 +5859,101 @@ re-audits have now found something the original missed.
 
 **Next session:** the **sector grid (T10)** audit, sixth of the seven, unless
 a defect is open.
+
+---
+
+## 2026-09-27 (routine) — the sector grid's audit, and a control that stopped copying its original
+
+**T10 re-audit, sixth of the eleven `T13c` made due, and the last of the
+dashboard's original six.** An audit is a session's whole work (§18), so no
+backlog task was taken. No in-bounds defect was open: `D19` is the only one and
+it is out of bounds twice over, as its entry says.
+
+### The finding
+
+`css/sectors.css` opens by saying the window buttons are deliberately the
+chart's range buttons — "same size, same pressed treatment, same monospace",
+because two sets of period controls on one page that looked different would
+read as two kinds of control. That is a good decision written as a comment, and
+a comment is a claim rather than a mechanism.
+
+`chart.css` had grown a rule below 700px letting its five buttons share the row
+evenly. This file never got it. **Measured at 390px: the chart's range button
+68.4x28, the sector's window button 39.2x26** — just over half the area of the
+control it is a copy of, in a 358px row with 190px going spare, and the smaller
+target the one on the touch device. At 1440px and 768px they were identical,
+which is why it survived a previous audit and four sessions of screenshots: the
+claim held at every width where a target's size does not matter.
+
+Both cleared WCAG 2.2's 24px minimum throughout, so nothing was failing except
+the stylesheet's own statement about itself. Now **86.5x28 at 390px and 69x28
+at 320px**, desktop and tablet byte-identical.
+
+The second edit came out of the check rather than the audit: `sectors.css` also
+carried a `prefers-reduced-motion` block that could not change an outcome, since
+`incisor.css` stops every transition on the page with `!important`. Removed —
+and `test_motion_is_optional`, which asserted that the file contained the words
+`prefers-reduced-motion`, had been passing on the strength of the dead block.
+
+### Held by tests, not by memory
+
+- A **derived** comparison reads both stylesheets, groups every declaration by
+  what follows the class name and by the enclosing media query, and requires
+  the two sets to be equal (`DEC-064`). Asserting the specific missing rule
+  would have watched today's fix and nothing else; the next divergence will be
+  a different property, and either stylesheet moving alone now names the other.
+- `test_motion_is_optional` now asserts the page-wide rule exists and reaches
+  this surface, and that nothing here forces motion back past it with
+  `!important` — the only move a surface stylesheet has.
+- **Five mutations checked.** Removing the narrow rule fails; changing one
+  declaration's value fails; putting the redundant motion block back fails;
+  forcing a transition past the page-wide stop fails; deleting the page-wide
+  stop fails. Restored, all 277 pass.
+
+### What the audit did not change
+
+The **319px** between the longest sector name and the start of the track at
+1440px is unchanged — the same 319px the 09-01 audit recorded, which is itself
+the finding: broadsheet widened the measure and the gap did not move. `DEC-059`
+built that alternative, shot it and rejected it, and its revisit condition has
+not been met. Not refiled.
+
+At 1Y every sector is up, so the zero line sits at `left: 0%`, flush with the
+start of the track and indistinguishable from its edge. On the axis, as
+`axisFor` promises, and left alone: in an all-positive window there is nothing
+for the line to disambiguate.
+
+`D29` filed — `css/positions.css` carries the same redundant motion block and
+is the last copy. Not fixed here, because it is a different surface.
+
+### Verified
+
+- **277 front-end tests** (`python3 -m unittest discover`), OK.
+- `python3 tools/shoot.py --api ...` green at desktop, tablet and true mobile
+  emulation, with 375px and 320px measured; images written and looked at.
+- The four questions answered from the images and from measurement, not from
+  source: **Chrome's accessibility tree over the section is identical at 1440px
+  and 390px**, eleven items each carrying sector, fund, figure and "over year
+  to date"; **four window presses made zero market-data calls**; the payload is
+  2,617 bytes, answered in 38.6ms, complete before `DOMContentLoaded` at 94ms;
+  a redraw of eleven rows is 0.3–1.4ms; the list reserves exactly the height it
+  fills at both widths, so nothing below it moves.
+- `git status` clean outside `incisor-trading/`.
+
+### Recorded
+
+`AUDITS.md` 09-27 — Sector grid (T10), verdict **minor edits**; the row is in
+`AUDIT-LOG.md`, and the queue there now reads six down, five to go, next the
+**fundamentals panel (T11)**. `DEC-108` for the copied-control rule and
+`DEC-109` for where reduced motion lives, both with detail entries.
+
+### For Key
+
+**Nothing new.** `N17`, `N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+`N17`: five of the six re-audits have now found something the original audit
+missed, and this one was again not a broadsheet regression — the divergence
+predates the revamp. Sixth piece of evidence for keeping the queue.
+
+**Next session:** the **fundamentals panel (T11)** audit, seventh of the
+eleven, unless a defect is open.
