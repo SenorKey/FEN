@@ -264,6 +264,25 @@ class TestTheServedMarkup(unittest.TestCase):
                           'explained state: %s %s'
                           % (context, selector.strip()))
 
+    def test_the_heading_separates_the_ticker_from_the_title_in_text(self):
+        """The 10px between the ticker and the title is a margin, and a
+        margin is not in the accessible name. With the span closed tight
+        against the next one the h4 computed as "AAPLBeyond the price" —
+        the one channel that cannot see the gap being the one a reader who
+        cannot see the gap uses (DEC-060). The chart's head, which this one
+        is built like, separates its spans with whitespace and reads
+        correctly; this one only looked like it did."""
+        markup = re.sub(r'<!--.*?-->', ' ', panel_markup(), flags=re.S)
+        heading = markup[:markup.index('</h4>')]
+        slot = re.search(r'data-fundamental-symbol[^>]*>\s*</span>(.*?)<span',
+                         heading, flags=re.S)
+        self.assertIsNotNone(slot, 'the heading no longer has the shape this '
+                                   'test reads: %r' % heading)
+        self.assertTrue(
+            slot.group(1).strip() == '' and slot.group(1) != '',
+            'nothing separates the ticker from the title but CSS, so the '
+            'accessible name runs them together')
+
     def test_every_group_is_labelled_by_its_own_heading(self):
         """Four unlabelled definition lists is four lists a screen reader
         reaches with no idea which is which — and the group headings are

@@ -834,11 +834,20 @@
                           not have.
                         -->
                         <div class="inc-fundamental-head">
+                            <!--
+                              The space before the title is load-bearing: the
+                              10px between the ticker and it is a margin, and
+                              a margin is not in the accessible name. Closing
+                              the tag tight against the next span made that
+                              name "AAPLBeyond the price" — the chart's head,
+                              which this one is built like, separates its
+                              spans with whitespace and reads correctly.
+                            -->
                             <h4 class="inc-section-heading"
                                 id="inc-fundamental-heading"><span
                                 class="inc-fundamental-for"
-                                data-fundamental-symbol hidden></span
-                                ><span>Beyond the price</span></h4>
+                                data-fundamental-symbol hidden></span>
+                                <span>Beyond the price</span></h4>
                             <button type="button" class="inc-fundamental-explain"
                                 aria-expanded="false"
                                 aria-controls="inc-fundamental-figures"
