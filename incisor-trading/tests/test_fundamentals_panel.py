@@ -212,6 +212,58 @@ class TestTheServedMarkup(unittest.TestCase):
                           'explained state: %s %s'
                           % (context, selector.strip()))
 
+    def test_the_group_grid_reserves_exactly_the_columns_it_fills(self):
+        """The T11 audit's finding, and the half the test above did not watch.
+
+        Naming grid-auto-flow said where the figures go and never how many
+        columns they go into, so css/lookup.css's four tracks stayed standing
+        above 560px and a trio of three filled three of them: 315px of 1240
+        dead to the right of every group at 1440, 185px of 720 at 768. The
+        phone was the one width that did what the stylesheet said, because
+        there the template is narrow enough that the third column is
+        implicit and grid-auto-columns sizes it.
+
+        Derived from the markup, not from the number three. A group that
+        grows a fourth figure has to move the grid with it, and the failure
+        names the mismatch rather than a constant nobody can trace (DEC-064).
+        """
+        sizes = {group for group, _ in figure_names()}
+        per_group = {group: sum(1 for g, _ in figure_names() if g == group)
+                     for group in sizes}
+        self.assertEqual(len(set(per_group.values())), 1,
+                         'the groups no longer hold the same number of '
+                         'figures, so one track count cannot serve them '
+                         'all: %s' % per_group)
+        figures = next(iter(per_group.values()))
+
+        base = '.inc-fundamental-group .inc-figures'
+        rule = next(body for selector, body in css_rules(STYLES)
+                    if selector.strip() == base)
+        declared = re.search(r'grid-template-columns:\s*repeat\((\d+),', rule)
+        self.assertIsNotNone(
+            declared,
+            'the group grid does not set its own track count, so it '
+            'inherits lookup.css\'s — which is the bug this test exists '
+            'for, not a style preference')
+        self.assertEqual(
+            int(declared.group(1)), figures,
+            'the group grid reserves %s columns for %s figures'
+            % (declared.group(1), figures))
+
+        # And no later rule may put a different count back outside the
+        # explained state, which sets its own on purpose at two widths.
+        for context, selector, body in css_rules_in_context(STYLES):
+            if 'grid-template-columns' not in body:
+                continue
+            if base not in selector:
+                continue
+            if not context and selector.strip() == base:
+                continue    # the base rule itself, asserted above
+            self.assertIn('[data-explained]', selector,
+                          'a rule re-columns the group grid outside the '
+                          'explained state: %s %s'
+                          % (context, selector.strip()))
+
     def test_every_group_is_labelled_by_its_own_heading(self):
         """Four unlabelled definition lists is four lists a screen reader
         reaches with no idea which is which — and the group headings are

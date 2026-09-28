@@ -168,8 +168,17 @@
    this grid and share its rows; the div was only ever there to pair them,
    and column flow is what keeps that pairing while letting the labels
    share one row. Row flow interleaves them instead, which is a worse
-   layout than the one being fixed. */
+   layout than the one being fixed.
+
+   The track count is set here and not left to the flow. Naming only
+   grid-auto-flow overrode where the figures go and not how many columns
+   they go into, so lookup.css's four stayed standing above 560px and the
+   trio filled three of them: 315px of 1240 dead to the right of every
+   group at 1440, 185px of 720 at 768, and the phone — where the template
+   is narrow enough that the third column is implicit — the one width that
+   did what this comment says (T11 audit, DEC-110). */
 .inc-fundamental-group .inc-figures {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: auto auto;
     grid-auto-flow: column;
     grid-auto-columns: minmax(0, 1fr);
