@@ -82,6 +82,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-106 | **A record that never finishes cannot share a byte ceiling with a queue that does** — the audit log is its own file; four sessions had met the backlog's budget by cutting findings. |
 | DEC-108 | **A control copied from another must move with it; a comment saying they match is not that.** The chart's ranges grew a phone rule, the copy did not, and the file said they matched. |
 | DEC-109 | **A surface stylesheet says nothing about reduced motion — `incisor.css` stops all of it under `body.incisor *` with `!important`.** A local copy changes nothing and can only drift. |
+| DEC-110 | **Overriding a grid's flow does not override its track count.** `grid-auto-flow: column` left `lookup.css`'s four columns under a trio of three: 315px of 1240 dead at 1440. |
 
 ---
 
@@ -110,7 +111,7 @@ there will be a third.
 
 | ID | Trap — and how to avoid it |
 |---|---|
-| DEC-060 | **A fact in one channel only keeps being found in a *new* channel** — decoration, `aria-label`, `aria-pressed`, hover. Mirror: a second line outlives the first's fix (D26). |
+| DEC-060 | **A fact in one channel only keeps being found in a *new* channel** — decoration, `aria-label`, `aria-pressed`, hover, a margin gap. Mirror: a second line outlives its fix (D26). |
 | DEC-061 | **A count across the whole page stops being a rule once a second surface does the same thing.** Assert per element, never as a total. |
 | DEC-062 | **A screenshot taken straight after an interaction catches a transition in flight.** `shoot.py` passes `animations="disabled"`. |
 | DEC-063 | **A full-page screenshot composites the fixed site nav mid-image**, moving with the page height. Check the previous shot before filing an overlap. |

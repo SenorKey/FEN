@@ -200,6 +200,21 @@ phase. When the call is unclear, file it as a defect.
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
 
+- [ ] **D30 · The reporting calendar's head runs the ticker into its title**
+  `[defect]` *(2026-09-27, from the T11 audit)* — `#inc-reports-heading` is
+  built the same way the fundamentals head was: a hidden `<span>` for the
+  symbol, a 10px `margin-right` for the gap, and the tag closed tight against
+  the title so the markup adds no second one. A margin is not in the
+  accessible name, so Chrome computes the h4 as **"AAPLWhen it reports"**.
+  The chart's head, which both are modelled on, separates its spans with
+  whitespace and reads "AAPL Over six months". Filed rather than fixed
+  because T12 is a different surface (§19), and a defect because it misleads
+  one class of reader about what the heading says. `DEC-060`, and the same
+  one-line fix that landed on the fundamentals head today.
+  *Accept:* the head reads "AAPL When it reports"; a test asserts the ticker
+  and the title are separated by something other than CSS, the way
+  `test_fundamentals_panel.py` now does.
+
 - [ ] **D29 · `css/positions.css` restates the page-wide reduced-motion rule**
   `[enhancement]` *(2026-09-27, from the T10 audit)* — `incisor.css` stops
   every transition and animation under `body.incisor *` with `!important`, so

@@ -2726,3 +2726,51 @@ Ten of the thirteen surface stylesheets already said nothing about motion, so
 this makes the exception the rule rather than the reverse. `css/positions.css`
 carries the same redundant block and is filed as `D29` rather than fixed inside
 an audit of a different surface.
+
+## DEC-110 — overriding a grid's flow does not override its track count
+
+*Filed 2026-09-27, from the T11 audit.*
+
+`css/lookup.css` gives `.inc-figures` two columns and four above 560px, which
+is right for a quote card whose figure count varies. `css/fundamentals.css`
+wanted three for a group of exactly three, wrote a paragraph saying so —
+"Three across, at every width down to the phone" — and implemented it with
+`grid-auto-flow: column` plus `grid-auto-columns: minmax(0, 1fr)`.
+
+Those two declarations say where items go and how an *implicit* track is
+sized. Neither says how many explicit tracks there are. So above 560px
+`lookup.css`'s `grid-template-columns: repeat(4, 1fr)` was still the template,
+column flow filled three of the four, and the fourth stood empty: **315px of
+1240 at 1440, 185px of 720 at 768**, in all four groups, in the company state
+and the fund state alike.
+
+**Why it survived four sessions of screenshots and an audit.** Below 560px
+the template is two columns, so the third column the trio needs is implicit —
+and an implicit track is exactly what `grid-auto-columns` sizes. The phone
+therefore rendered three equal columns filling the row, which is what the
+comment promised, and the phone is the width a reviewer checks hardest.
+The layout was correct precisely where correctness is scrutinised and wrong
+where there was room to waste. This is `DEC-064` in a new place: the mobile
+rendering stood in for the desktop one and failed silently in the direction
+nobody checked.
+
+**The test that missed it.** `test_the_three_margins_are_one_group_and_share_a_row`
+asserted `grid-auto-flow: column` and `grid-template-rows: auto auto`, and
+its own docstring said "a three-column grid" — a claim the assertions never
+made. It guarded the flow, which was never wrong, and not the count.
+
+**What is asserted now.** The base rule must declare
+`grid-template-columns: repeat(N, …)` where **N is derived from the number of
+figures the markup puts in a group**, not from the literal 3, so a group that
+grows a fourth figure fails with the mismatch named rather than silently
+re-wrapping. A missing declaration fails too, because inheriting the count is
+the bug itself. Four mutations were checked: dropping the declaration,
+setting it to four, re-columning under a media query outside the explained
+state, and closing the heading span tight again — each caught by the test
+written for it.
+
+**The general claim.** A stylesheet layering on another's grid overrides
+`grid-template-columns` explicitly or inherits it. Flow, auto-columns and
+auto-rows do not stand in for it, and a comment asserting a column count is
+not a mechanism producing one — `DEC-108`, one day later, on a different
+property.

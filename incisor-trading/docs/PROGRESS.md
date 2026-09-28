@@ -5957,3 +5957,118 @@ predates the revamp. Sixth piece of evidence for keeping the queue.
 
 **Next session:** the **fundamentals panel (T11)** audit, seventh of the
 eleven, unless a defect is open.
+
+---
+
+## 2026-09-27 (routine, second session) — the fundamentals panel's audit, and a grid that reserved a column it never filled
+
+**T11 re-audit, seventh of the eleven `T13c` made due.** An audit is a
+session's whole work (§18), so no backlog task was taken. No in-bounds defect
+was open at step 4: `D19` is the only one labelled `[defect]` and it is out of
+bounds twice over, as its entry says; everything else in `## Discovered` is an
+`[enhancement]` awaiting Key's triage.
+
+A second session ran today because the first had finished, pushed and gone —
+its worktree was clean, matched `origin/incisor-dev` and had been idle an
+hour, so it was removed and a fresh one taken for this branch (rule 11).
+
+### The finding
+
+`css/fundamentals.css` opens by saying the figures go **"three across, at
+every width down to the phone"**, and implements it with `grid-auto-flow:
+column` and `grid-auto-columns: minmax(0, 1fr)`. Those say where items go and
+how an *implicit* track is sized. Neither says how many explicit tracks exist
+— so `css/lookup.css`'s `grid-template-columns: repeat(4, 1fr)` was still the
+template above 560px, column flow filled three of the four, and the fourth
+stood empty.
+
+**Measured in all four groups, in both the company and the fund state: 315px
+of 1240 dead to the right at 1440, 185px of 720 at 768.** The rules above and
+below each group are still drawn the full width, so the emptiness is ruled
+rather than merely present. The fund state reads worst, and it is the common
+one — fifteen of seventeen symbols: a single heading and three figures
+stopping at 925px of a 1240px band.
+
+**Why four sessions of screenshots and the 09-02 audit missed it.** Below
+560px the template is two columns, so the third column the trio needs is
+*implicit*, and an implicit track is exactly what `grid-auto-columns` sizes.
+The phone rendered three equal columns filling the row — what the comment
+promised — and the phone is the width a reviewer checks hardest. The layout
+was right precisely where it is scrutinised and wrong where there was room to
+waste. `DEC-064` in a new place.
+
+The second edit came from the accessibility tree rather than the images. The
+head computed as **"AAPLBeyond the price"**: the 10px between ticker and
+title is a `margin-right`, and the span was closed tight against the next one
+to stop the markup adding a second gap — so the separation lived only in the
+channel a reader using the name does not have. The chart's head, which this
+one is modelled on and whose comment says so, separates its spans with
+whitespace and reads "AAPL Over six months". `DEC-060`, through a channel
+that row did not list; it lists it now.
+
+### Held by tests, not by memory
+
+- The track count is **derived from the markup** — the number of figures a
+  group holds — not from the literal three, so a group that grows a fourth
+  figure fails with the mismatch named rather than silently re-wrapping. A
+  *missing* declaration fails too, because inheriting the count is the bug.
+- The old `test_the_three_margins_are_one_group_and_share_a_row` asserted the
+  flow and the row count and called the grid three-column **in its docstring
+  only**. It guarded the half that was never wrong.
+- **Four mutations checked**: dropping the declaration, setting it to four,
+  re-columning under a media query outside the explained state, and closing
+  the heading span tight again. Each failed, each caught by the test written
+  for it. Restored, all 279 pass.
+
+### What the audit did not change
+
+With the explanations open the margins go two-across at 768 and 390, breaking
+the trio the closed layout exists to keep together. Deliberate and left: in
+that state each figure is a paragraph, three across is unreadable at those
+widths, and the ordering the trio teaches is stated in the prose the reader
+just opened.
+
+`D30` filed — `#inc-reports-heading` has the identical shape and the
+identical name, "AAPLWhen it reports". T12 is a different surface, so it is
+filed rather than fixed inside this audit, the way `D29` was yesterday.
+
+### Verified
+
+- **279 front-end tests** (`python3 -m unittest discover tests`), OK — 277
+  before, plus the two written today.
+- `python3 tools/shoot.py --api ...` green at desktop, tablet and true mobile
+  emulation for the company state, the fund state and the explanations open;
+  images written and looked at, cropped to the panel at each width.
+- The four questions answered from those images and from measurement:
+  Chrome's tree over the panel is a `region`, four `heading`s and a
+  `term`/`definition` pair per figure, with the explain button carrying
+  `aria-expanded` and relabelling to "Hide what these mean"; its target is
+  143.5x26 at 390px, over WCAG 2.2's minimum; **opening the explanations made
+  zero requests** — 9 API calls before the press and 9 after; one
+  `GET /fundamentals` per lookup and **zero against the 22-a-day budget**,
+  since filings come from EDGAR (`DEC-041`).
+- Phone widths are **unchanged by the fix** — 106px columns at 390 and 82.7px
+  at 320, the same numbers as before it — and the panel's height and the
+  document's are identical either side, so nothing below moved.
+- `git status` clean outside `incisor-trading/`; Key's checkout untouched.
+
+### Recorded
+
+`AUDITS.md` 09-27 — Fundamentals panel (T11), verdict **minor edits**; the row
+is in `AUDIT-LOG.md`, and the queue there now reads seven down, four to go,
+next the **reporting calendar (T12)**. `DEC-110` for the grid rule, with a
+detail entry; `DEC-060` extended to name the margin-gap channel.
+
+### For Key
+
+**Nothing new.** `N17`, `N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+`N17`: six of the seven re-audits have now found something the original audit
+missed, and this one again was not a broadsheet regression — the four-track
+template predates the revamp by three weeks. Seventh piece of evidence for
+keeping the queue.
+
+**Next session: `D30`,** which is an open in-bounds defect and so is taken
+at step 4 before any audit (§19). It is a one-line fix with a test, and the
+**reporting calendar (T12)** audit — eighth of the eleven — is the surface
+it belongs to, so the session after that one arrives with it already true.

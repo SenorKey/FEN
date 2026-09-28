@@ -908,3 +908,58 @@ as `axisFor` promises, and it is indistinguishable from the track's edge. Left
 alone deliberately: in an all-positive window every bar starts at that same
 edge, so there is nothing for the line to disambiguate, and drawing it more
 loudly would be drawing attention to the one window where it says least.
+
+## 09-27 — Fundamentals panel (T11)
+
+*Verdict: minor edits.*
+
+**Useful.** Unchanged and still the most explicitly educational surface here:
+four labelled groups, a definition under every figure, and the explanations
+still the best writing on the page. The 09-02 audit's fund fix has held — SPY
+answers with beta, volatility and correlation under a sentence saying why
+there is nothing else, and that is the state fifteen of seventeen symbols are
+in. Nothing here is present because dashboards usually have one.
+
+**Easy.** Yes, and by more channels than most of the page: Chrome's tree over
+the panel is a `region`, four `heading`s and a `term`/`definition` pair per
+figure — a real `<dl>`, not a grid pretending — and the explain control is a
+`button` carrying `aria-expanded` whose name changes to "Hide what these
+mean". Its target is 143.5x26 at 390px, over WCAG 2.2's 24px minimum and
+wide. **One thing the tree got wrong:** the head computed as
+**"AAPLBeyond the price"**. The 10px between the ticker and the title is a
+`margin-right`, and the span was closed tight against the next one to stop
+the markup adding a second gap — so the separation existed only in the
+channel a reader using the name does not have. The chart's head, which this
+one is modelled on and whose comment says so, separates its spans with
+whitespace and reads "AAPL Over six months". Fixed; `css/reports.css` has the
+identical shape and the identical name, filed as `D30` rather than fixed
+inside another surface's audit.
+
+**Beautiful.** The grouping still is, and the finding is what sits beside it.
+`css/fundamentals.css` opens with "Three across, at every width down to the
+phone" and names `grid-auto-flow: column` to do it — which set where the
+figures go and not how many columns they go into, so `css/lookup.css`'s
+`grid-template-columns` stood: **four tracks, three filled**. Measured in all
+four groups and in both states: **315px of 1240 dead to the right at 1440,
+185px of 720 at 768**, while the rules above and below each group are still
+drawn the full width, so the emptiness is ruled rather than merely present.
+The fund state is where it reads worst — one heading and three figures
+stopping at 925px of a 1240px band. The phone was the one width doing what
+the comment said, because there the template is narrow enough that the third
+column is implicit and `grid-auto-columns` sizes it: 106px at 390 and 82.7px
+at 320, both unchanged by the fix. Now three real thirds at every width, and
+the last column's right edge lands on the rules and the provenance box.
+
+**Performing.** Unchanged and cheap. One `GET /fundamentals` per lookup and
+nothing else; **zero calls against the 22-a-day budget**, since filings come
+from EDGAR (`DEC-041`). Opening the explanations makes **no request at all** —
+measured, 9 API calls before the press and 9 after — because the prose ships
+in the served document and the button only reveals it. The panel's height and
+the document's are byte-identical either side of today's change, so nothing
+below it moved.
+
+**Looked at and left.** With the explanations open the margins go two-across
+at 768 and 390, which breaks the trio the closed layout exists to keep
+together. Deliberate, and left: each figure is a paragraph in that state, a
+three-across row of paragraphs is unreadable at those widths, and the
+ordering the trio teaches is stated in the prose the reader just opened.
