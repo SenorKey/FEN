@@ -330,9 +330,11 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .inc-sector-window,
-    .inc-sector-bar-fill {
-        transition: none;
-    }
-}
+/* No reduced-motion block here. incisor.css ends with one that stops every
+   transition and animation under `body.incisor *` with `!important`, so the
+   two this file used to name — the window button and the bar fill — were
+   already stopped by a rule that wins over anything this file could say.
+   A second copy of a rule is the copy that drifts (DEC-087); this one could
+   only ever have drifted into naming a class that no longer exists, which is
+   a rule that looks like it is doing something and is not. Ten of the
+   thirteen surface stylesheets already say nothing about motion. */

@@ -171,7 +171,36 @@ class TestTheSurfaceMeetsTheHouseRules(unittest.TestCase):
         self.assertIn('min-height', STYLES)
 
     def test_motion_is_optional(self):
-        self.assertIn('prefers-reduced-motion', STYLES)
+        """Guide section 13, honoured where it is actually honoured.
+
+        This used to assert that css/sectors.css contained the words
+        `prefers-reduced-motion`, and it passed while the block it was
+        checking did nothing: incisor.css already stops every transition on
+        the page with `!important`, so the surface's own copy could not
+        change an outcome. Asserting the page-wide rule covers this file's
+        moving parts is the claim that is worth holding, and it keeps
+        holding when a surface stops carrying a copy.
+        """
+        import re
+        page_wide = read('incisor.css')
+        self.assertIn('prefers-reduced-motion', page_wide)
+        self.assertRegex(page_wide, r'body\.incisor \*')
+        self.assertIn('transition-duration: 0.01ms !important', page_wide)
+
+        moving = [(selector.strip(), body)
+                  for selector, body in re.findall(
+                      r'([^{}]+)\{([^{}]*)\}',
+                      re.sub(r'/\*.*?\*/', ' ', STYLES, flags=re.S))
+                  if re.search(r'\b(transition|animation)\s*:', body)]
+        self.assertTrue(moving, 'nothing here moves; the rule this derives '
+                                'from moved instead')
+
+        # The one way this surface could put its motion back: out-shout the
+        # page-wide rule. Nothing else it declares can reach past !important.
+        for selector, body in moving:
+            self.assertNotRegex(
+                body, r'\b(transition|animation)[\w-]*\s*:[^;]*!important',
+                '%s forces its own motion past the page-wide stop' % selector)
 
     def test_the_figures_are_tabular(self):
         self.assertIn('tabular-nums', STYLES)
