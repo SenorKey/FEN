@@ -46,6 +46,46 @@ def sector_markup():
     return html.unescape(HTML[start:HTML.index('</section>', start)])
 
 
+def _button_rules(styles, class_name):
+    """Every declaration one button class is given, keyed by where.
+
+    The key is what follows the class name in the selector — '' for the base
+    rule, ':disabled', '[aria-pressed="true"]' — paired with the media query
+    the rule sits in. That is what makes the two sets comparable: a hover
+    rule in one stylesheet lines up with the hover rule in the other, and a
+    rule that exists in only one of them has no partner and says so.
+
+    Deliberately a small parser rather than a grep. The surface it guards is
+    a sameness between two files, and a substring check cannot tell a
+    declaration from the comment explaining it (the greps trap in
+    DECISIONS.md).
+    """
+    import re
+
+    styles = re.sub(r'/\*.*?\*/', ' ', styles, flags=re.S)
+    rules = {}
+
+    def collect(css, media):
+        for selector, body in re.findall(r'([^{}]+)\{([^{}]*)\}', css):
+            for one in selector.split(','):
+                one = one.strip()
+                # Word boundary by hand: `.inc-chart-ranges` is the container,
+                # not the button, and startswith would take it.
+                if not re.match(r'\.%s(?![\w-])' % re.escape(class_name), one):
+                    continue
+                key = (one[len(class_name) + 1:], media)
+                rules.setdefault(key, set()).update(
+                    part.strip() for part in body.split(';') if part.strip())
+
+    # Media blocks first, then what is left is the top level. Nesting is one
+    # deep in both files and neither stylesheet is a general CSS parser's job.
+    for condition, block in re.findall(r'@media([^{]+)\{((?:[^{}]*\{[^{}]*\})*)',
+                                       styles):
+        collect(block, condition.strip())
+    collect(re.sub(r'@media[^{]+\{(?:[^{}]*\{[^{}]*\})*\}', ' ', styles), '')
+    return rules
+
+
 @unittest.skipUnless(shutil.which('osascript'), 'needs macOS JavaScriptCore')
 class TestSectorGridBehaviour(unittest.TestCase):
 
@@ -204,6 +244,33 @@ class TestTheSurfaceMeetsTheHouseRules(unittest.TestCase):
 
     def test_the_figures_are_tabular(self):
         self.assertIn('tabular-nums', STYLES)
+
+    def test_the_window_buttons_are_still_the_chart_range_buttons(self):
+        """The top of css/sectors.css claims the window buttons *are* the
+        chart's range buttons — same size, same pressed treatment — because
+        two sets of period controls that looked different would read as two
+        different kinds of control. That claim was true at desktop and tablet
+        and false on a phone: chart.css had given its set a narrow rule and
+        this one never got it, so at 390px they measured 68x28 and 39x26 and
+        the smaller target was the one under a finger.
+
+        Compared declaration by declaration rather than by grepping for the
+        rule that was missing, per DEC-064: a check that asserts today's fix
+        watches today's fix, and the next divergence will be a different
+        property. Keyed on what follows the class name and on the enclosing
+        media query, so a hover rule is compared against a hover rule.
+        """
+        chart = _button_rules(read('css/chart.css'), 'inc-chart-range')
+        sector = _button_rules(STYLES, 'inc-sector-window')
+        self.assertTrue(chart, 'the pattern this derives from moved')
+        self.assertEqual(
+            sorted(chart), sorted(sector),
+            'one set of period controls is styled in a context the other is '
+            'not; they are meant to be the same control')
+        for key in chart:
+            self.assertEqual(
+                chart[key], sector[key],
+                'the two period controls disagree at %r' % (key,))
 
     def test_every_class_the_view_builds_is_styled(self):
         """The rows are built in JavaScript, so PAGE.elements never sees them

@@ -330,6 +330,33 @@
     }
 }
 
+/* ── Narrow, the chart's half ───────────────────────────────
+   700px, not the 699px above, and the difference is the point: this
+   block belongs to the chart's range buttons rather than to this
+   surface's layout. The window buttons are a copy of `.inc-chart-range`
+   (see the comment at the top of this file), the chart gives its copy
+   a narrow rule, and a copy that stops changing when the original does
+   is a sameness that only holds at the widths nobody checks — here,
+   desktop and tablet. On a 390px phone the two sets measured 68x28 and
+   39x26 while one stylesheet said they were the same control, and the
+   smaller target was the one on the touch device.
+
+   So the breakpoint is spelled the way chart.css spells it, and
+   tests/test_sectors.py compares the two rules declaration by
+   declaration rather than trusting either comment. */
+
+@media (max-width: 700px) {
+
+    /* Four buttons on one row, sharing the width evenly — the chart's
+       rule for five, at the width where the row has 190px going spare
+       beside a 39px control. */
+    .inc-sector-window {
+        flex: 1 1 0;
+        padding: 6px 4px;
+        text-align: center;
+    }
+}
+
 /* No reduced-motion block here. incisor.css ends with one that stops every
    transition and animation under `body.incisor *` with `!important`, so the
    two this file used to name — the window button and the bar fill — were
