@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════
+   depp-v-heard.css
+   frontendneeded.com/case-chronicle/depp-v-heard/
+
+   Everything in the Chronicle that is specific to this one case. Loaded
+   after chronicle.css, which carries the structure and names no case.
+
+   Two jobs: restate the side inks, and hang the two portraits in the
+   masthead.
+   ═══════════════════════════════════════════════ */
+
+/* ── The two sides, in their own colours ──
+   Sampled off the portraits rather than picked to match them, so the ink
+   and the figure in the same corner are the same colour and not two
+   attempts at one: the sash off the coat on the left, the suit off Mera
+   on the right.
+
+   The jobs do not move. Left is still the side that filed, right is still
+   the side that answered, and the court is still sepia. Only the hues
+   change.
+
+   Both land where the defaults landed against the stock — 6.2:1 for the
+   left against the old red's 5.3, 8.3:1 for the right against the old
+   blue's 8.5 — so the page keeps the light/dark relationship it was
+   built around, with the left ink the lighter of the two. That was luck,
+   not design; a future case that samples worse should correct toward
+   these ratios rather than keep a faithful colour. */
+
+body[data-case="depp-v-heard"] {
+  /* Depp — the sash, over the coat */
+  --p: #84403e;
+  --p-dim: #6f3634;
+  --p-wash: rgba(132, 64, 62, 0.085);
+  --p-edge: rgba(132, 64, 62, 0.4);
+  --p-pool: rgba(132, 64, 62, 0.46);
+
+  /* Heard — the suit */
+  --d: #1a4a3e;
+  --d-dim: #2f5d51;
+  --d-wash: rgba(26, 74, 62, 0.085);
+  --d-edge: rgba(26, 74, 62, 0.4);
+  --d-pool: rgba(26, 74, 62, 0.42);
+
+  /* Mera's chevrons. Decoration only: 3:1 against the stock is under the
+     floor for text, and it is never used for any. */
+  --gold: #968635;
+}
+
+/* ── The portraits ──
+   Flat vector figures, backgrounds keyed out, so what sits in the corner
+   is the figure and not a plate. That matters more than it sounds: the
+   grounds these came on were a blue-grey sky and a dark bokeh, and either
+   one laid over warm stock at any opacity reads as a stain rather than as
+   printing. Cut out, they ink into the paper the way everything else on
+   this page does.
+
+   Anchored to the masthead's top corners, each on the side whose colour
+   was sampled off it, so the page says who is on which side before it
+   says anything else. The masthead already clips.
+
+   Inert: aria-hidden in the markup, no pointer, no selection. */
+
+.fig {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: auto;
+  opacity: 0.115;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  z-index: 0;
+
+  /* One fade, at the feet, so the figures stand out of the bottom rule
+     rather than being cut off by it. No inner-edge fade any more — with
+     the grounds gone there is no rectangle to disguise, and a fade there
+     would eat an arm. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
+}
+
+.fig-p { left: -2%; }
+.fig-d { right: -2%; }
+
+/* The masthead's colour pools sit above the figures and multiply into
+   them, which is the same bargain every other tint on this page makes:
+   ink over ink, not glass over ink. */
+body[data-case="depp-v-heard"] .masthead::before { z-index: 1; }
+body[data-case="depp-v-heard"] .masthead .wrap { z-index: 2; }
+
+/* The title has to win. Below this the figures are behind the words
+   rather than beside them, and a figure under a headline is a smudge. */
+@media (max-width: 1100px) {
+  .fig { display: none; }
+}

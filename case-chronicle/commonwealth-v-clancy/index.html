@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Not indexed while it is a skeleton: a page of empty sections in the
+         results is worse than no page. Lift this, and add the URL to
+         sitemap.xml, on the commit that fills it in. -->
+    <meta name="robots" content="noindex,nofollow">
+
+    <meta name="description" content="Commonwealth v. Clancy: a chronological reading of the Massachusetts prosecution that ended in a mistrial in September 2026, built from the public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/">
+    <meta property="og:title" content="Commonwealth v. Clancy &mdash; Case Chronicle">
+    <meta property="og:description" content="A prosecution in which almost no fact was disputed and everything turned on criminal responsibility. It ended in a hung jury. A chronological reading of the public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Commonwealth v. Clancy &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="commonwealth-v-clancy">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+<nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
+                <p class="eyebrow">Plymouth County Superior Court, Massachusetts &middot; No. 2383CR00199</p>
+                <h1 class="masthead-title">Commonwealth <em>v.</em> Clancy</h1>
+                <p class="masthead-lede">A first&#8209;degree murder prosecution in which the defence disputed almost none of what happened, and contested only whether the defendant was criminally responsible for it. After seven days the jury could not agree, and on 4 September 2026 the judge declared a <strong>mistrial</strong>. Nothing was decided.</p>
+
+                <dl class="docket-meta">
+                    <div>
+                        <dt>Indicted</dt>
+                        <dd>15 Sept 2023</dd>
+                    </div>
+                    <div>
+                        <dt>Before</dt>
+                        <dd>Sullivan, J.</dd>
+                    </div>
+                    <div>
+                        <dt>Tried</dt>
+                        <dd>20 Jul &ndash; 4 Sept 2026</dd>
+                    </div>
+                    <div>
+                        <dt>Status</dt>
+                        <dd><span class="pip pip-open"></span>Mistrial</dd>
+                    </div>
+                </dl>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <p class="kicker">01 &middot; Chronology</p>
+                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
+                <p class="section-lede">Every substantive step, from the events the case is about through to the last
+                    filing in the public record. The rail sets the page&rsquo;s rule: one side on the left, the other
+                    on the right, the court down the middle.</p>
+
+                <!-- The key names this case's two sides. The colours are fixed
+                     by the stylesheet and mean the same thing on every page:
+                     the moving side, the answering side, the court. -->
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk tk-p">Commonwealth</span>
+                    <span class="tk tk-c">Court</span>
+                    <span class="tk tk-d">Defence</span>
+                    <span class="tk tk-n">Neither &middot; off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a></span>
+                </div>
+
+                <div class="pending">
+                    <p class="pending-l">Not written yet</p>
+                    <p class="pending-t">Not built yet. It will run from 24 January 2023,
+                        through the arraignment from a hospital bed on 7 February 2023, the
+                        grand jury indictment of 15 September 2023, the Superior Court
+                        arraignment that October, the competency and expert litigation, the
+                        dismissal of the strangulation counts as duplicative in July 2026, the
+                        trial from 20 July, the deadlock notes, and the mistrial of 4 September
+                        2026.</p>
+                    <p class="pending-t">The record does not end there. The case was continued
+                        to 29 September 2026 for status, trial assignment, and the
+                        defence&rsquo;s Rule 25 motion asking the judge to enter the finding the
+                        jury could not reach. Whether the Commonwealth will retry the case was
+                        undecided when this page was written.</p>
+                </div>
+
+                <a class="skip-next" href="#tree">
+                    <span class="skip-next-l">Skip to</span>
+                    <span class="skip-next-t">02</span>
+                    <span class="skip-next-a" aria-hidden="true">&darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             The decision tree
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
+            <div class="wrap">
+                <p class="kicker">02 &middot; The whole thing at once</p>
+                <h2 class="section-title" id="tree-h">How it actually resolves</h2>
+                <p class="section-lede">Every dispute in the case feeding the gates that decide it, drawn once so the
+                    shape is visible without reading the chronology twice.</p>
+
+                <div class="pending">
+                    <p class="pending-l">Not drawn yet</p>
+                    <p class="pending-t">Not drawn yet, and this is the case that most needs it.
+                        Criminal responsibility under the Massachusetts standard has two
+                        branches, the burden sits somewhere most readers will not expect it, and
+                        the verdict slip offered an outcome that is neither conviction nor
+                        acquittal. Nearly every public argument about this case is an argument
+                        about one of those three things.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Side by side
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
+            <div class="wrap">
+                <p class="kicker">03 &middot; Side by side</p>
+                <h2 class="section-title" id="sbs-h">The questions, two answers each</h2>
+                <p class="section-lede">Positions as each side has actually argued them in its filings, not as the
+                    other side characterises them.</p>
+
+                <div class="pending">
+                    <p class="pending-l">Not written yet</p>
+                    <p class="pending-t">Unusually for this series, the two sides agree on
+                        almost all of the facts. What they contest is what those facts establish
+                        about the defendant&rsquo;s mind at the time. The questions here will be
+                        drawn accordingly &mdash; the Commonwealth on the left, the defence on
+                        the right.</p>
+                </div>
+
+                <a class="skip-next" href="#notes">
+                    <span class="skip-next-l">Skip to</span>
+                    <span class="skip-next-t">04</span>
+                    <span class="skip-next-a" aria-hidden="true">&darr;</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Notes
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">04 &middot; Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Will be built from the Plymouth County Superior Court record and the trial transcript. The trial was televised, so much of the testimony exists in video as well as in text; citations here will always be to the filing or the transcript.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is sealed</h3>
+                        <p>Sealed throughout: the defendant&rsquo;s medical and psychiatric records beyond what was put in evidence, and material concerning the surviving family. Parts of the expert litigation were heard in camera.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names</h3>
+                        <p>Three children died, aged five, three and eight months. They are named in the public record; they will be named here once, in the entry for the day it happened, and will not be used as illustration anywhere else on the page. The clinical detail in the medical testimony will be cited and summarised, not reproduced.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict &mdash; here least of all. A mistrial decides nothing. It leaves the charges live, the defendant presumed innocent of them, and every contested question exactly where it stood before the trial began. This page will not supply the answer the jury declined to give.</p>
+                    </div>
+                </div>
+
+<!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send">Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">This page is a skeleton. The masthead and these notes are researched;
+                    nothing between them is. Record reviewed through <span class="mono">28 September 2026</span>.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Commonwealth v. Clancy, No. 2383CR00199 (Mass. Super. Ct., Plymouth Cty.)</p>
+            </div>
+        </footer>
+
+<!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-answer">Answer</dt><dd>The defendant&rsquo;s formal response to the complaint, admitting
+                        or denying each allegation.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                    <div><dt id="t-errata">Errata</dt><dd>A formal correction a witness files to their own sworn testimony
+                        after reading it back.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-protective-order">Protective order</dt><dd>An order limiting what either side may do with the
+                        material it receives in discovery.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, which is why some entries here do not link.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Argues the case cannot proceed even if everything
+                        alleged is true &mdash; usually because the court lacks power to hear it.</dd></div>
+                    <div><dt id="t-summary-judgment">Summary judgment</dt><dd>Argues the facts are not genuinely in dispute, so the
+                        judge can decide without a trial. If facts <em>are</em> disputed, it fails.</dd></div>
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-sanctions">Sanctions</dt><dd>A penalty for misconduct in the litigation itself. They can
+                        run from a fine to losing the case outright.</dd></div>
+                    <div><dt id="t-adverse-inference">Adverse inference</dt><dd>A sanction where the jury is told it may assume the
+                        destroyed evidence would have hurt the side that destroyed it.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all.
+                        A federal court needs a federal claim, which is why one date decides so much
+                        here.</dd></div>
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose that
+                        point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone said outside court to prove it was true.
+                        Generally not allowed, with many exceptions.</dd></div>
+                    <div><dt id="t-authentication">Authentication</dt><dd>Showing a document or screenshot is genuinely what its
+                        proponent says it is. The bar is low, but it is not nothing.</dd></div>
+                    <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
+                        admissible and still carry very little weight.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>
