@@ -1090,9 +1090,19 @@
                 -->
                 <section class="inc-reports" data-reports data-state="empty"
                     aria-labelledby="inc-reports-heading">
+                    <!--
+                      The space before the title is load-bearing: the 10px
+                      between the ticker and it is a margin, and a margin is
+                      not in the accessible name. Closing the tag tight
+                      against the next span made that name "AAPLWhen it
+                      reports" — the chart's head, which this one is built
+                      like, separates its spans with whitespace and reads
+                      correctly. The filings panel above lost the same bug
+                      one session earlier (D30).
+                    -->
                     <h4 class="inc-section-heading" id="inc-reports-heading"><span
-                        class="inc-reports-for" data-reports-symbol hidden></span
-                        ><span>When it reports</span></h4>
+                        class="inc-reports-for" data-reports-symbol hidden></span>
+                        <span>When it reports</span></h4>
 
                     <p class="inc-reports-message" role="status"
                         data-reports-message>Look up a symbol above to see when

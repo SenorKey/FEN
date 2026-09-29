@@ -435,6 +435,49 @@ class TestDesignRules(unittest.TestCase):
             self.assertIn('inc-offscreen',
                           captions[0]['attrs'].get('class', '').split())
 
+    def test_a_ticker_slot_is_separated_from_its_title_by_text(self):
+        """Derived over every ticker slot, because three surfaces build the
+        same head and two of them shipped the same bug.
+
+        A head here is the ticker, then what the surface is, with a 10px
+        `margin-right` between them — and a margin is not in the accessible
+        name. Both the filings panel and the reporting calendar closed the
+        slot's tag tight against the next span, to stop the markup adding a
+        second gap, so Chrome computed them as "AAPLBeyond the price" and
+        "AAPLWhen it reports". The separation lived in the one channel a
+        reader who cannot see the gap does not have (DEC-060).
+
+        Per slot rather than per surface, and here rather than in either
+        surface's file. The chart's head was always right, the filings panel
+        was fixed one session before the calendar, and a fourth head is
+        exactly what a per-surface copy would not cover — the trap recorded
+        against a control that must move with the one it was copied from
+        (DEC-108). One home, the way the off-screen caption rule above is
+        stated per table.
+        """
+        source = re.sub(r'<!--.*?-->', ' ', HTML, flags=re.S)
+        opener = r'<span\b[^>]*\bdata-[a-z-]*symbol\b[^>]*>'
+        # `</span\s*>` and not `</span>`: closing the tag on the next line is
+        # the very bug this rule is here for, and a shape that cannot match it
+        # fails on the count below instead, which says the wrong thing.
+        slots = list(re.finditer(opener + r'[^<]*</span\s*>(\s?)', source))
+        self.assertEqual(
+            len(slots), len(re.findall(opener, source)),
+            'a ticker slot is not the shape this rule reads — it holds an '
+            'element, or its closing tag is not where this can find it. Teach '
+            'it the new shape rather than dropping the slot')
+        self.assertGreaterEqual(
+            len(slots), 3,
+            'fewer ticker slots than the page is known to carry, so this rule '
+            'is matching the wrong thing and guarding nothing')
+
+        for slot in slots:
+            self.assertNotEqual(
+                slot.group(1), '',
+                'nothing but CSS separates this ticker from what follows it, '
+                'so the accessible name runs the two together: %s'
+                % re.sub(r'\s+', ' ', slot.group(0)))
+
     def test_reduced_motion_is_honoured(self):
         self.assertIn('prefers-reduced-motion', CSS)
 
