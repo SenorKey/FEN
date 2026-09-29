@@ -7,9 +7,15 @@ or diagnose it without having to reverse-engineer the moving parts.
 The webhook URL itself is never in this file or anywhere in the repo — it
 lives only in `/etc/preside-by-side/config.env` on the server.
 
-There are now **two** webhooks the service uses:
+There are now **three** webhooks the service uses:
 
 - `DISCORD_WEBHOOK_URL` — the suggestions queue channel ("Paul Revere" embeds).
+- `CASE_WEBHOOK_URL` — *optional* corrections channel for the Case Chronicle
+  pages ("Court Reporter" embeds). One channel for all cases; the embed title
+  names the case the correction came from, taken from `CHRONICLE_CASES` in
+  `suggest.py` rather than from the request. Falls back to the older
+  `DOE_WEBHOOK_URL`, then to `DISCORD_WEBHOOK_URL`, so an existing config
+  keeps working across this deploy with nothing changed.
 - `LOG_WEBHOOK_URL` — *optional* alerts channel: service start/stop, global
   rate-limit trips, suggestion-webhook failures, origin-probe alerts (one IP
   exceeding `ORIGIN_REJECT_THRESHOLD` bad-Origin requests in

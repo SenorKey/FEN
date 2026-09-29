@@ -2,7 +2,8 @@
 """
 Preside by Side — suggestion intake service.
 
-POST /suggest (JSON) -> append to SQLite queue, post Discord embed.
+POST /suggest      (JSON) -> append to SQLite queue, post Discord embed.
+POST /suggest/case (JSON) -> corrections intake for the Case Chronicle.
 
 Run under systemd; see preside-by-side-suggest.service. Apache reverse-
 proxies /api/suggest on the public site to this service on localhost.
@@ -11,10 +12,14 @@ Config is loaded from the file at $CONFIG_FILE (set by the systemd unit
 to /etc/preside-by-side/config.env). Keys:
 
     DISCORD_WEBHOOK_URL          required — suggestion-queue channel
-    DOE_WEBHOOK_URL              optional — corrections channel for the
-                                 Doe v. Bonnell page. Falls back to
-                                 DISCORD_WEBHOOK_URL when unset, so the
-                                 route works before a channel exists.
+    CASE_WEBHOOK_URL             optional — corrections channel for the
+                                 Case Chronicle pages. Falls back to
+                                 DOE_WEBHOOK_URL, then to
+                                 DISCORD_WEBHOOK_URL, so the route works
+                                 before a channel exists and the deployed
+                                 config keeps working unchanged.
+    DOE_WEBHOOK_URL              deprecated alias for CASE_WEBHOOK_URL,
+                                 from when the Chronicle was one page.
     LOG_WEBHOOK_URL              optional — alerts channel (separate webhook
                                  so it can be rotated independently of the
                                  suggestions one). If unset, Discord-bound
@@ -75,11 +80,19 @@ WEBHOOK_URL = os.environ.get('DISCORD_WEBHOOK_URL')
 if not WEBHOOK_URL:
     sys.exit('DISCORD_WEBHOOK_URL is required (set in CONFIG_FILE or environment)')
 
-# Corrections on the Doe v. Bonnell page go to their own channel when one
-# exists. That page invites disagreement about a live, contested case, so
-# its traffic is worth keeping separable from the presidents queue — both
+# Corrections on the Case Chronicle pages go to their own channel when one
+# exists. Those pages invite disagreement about live, contested cases, so
+# their traffic is worth keeping separable from the presidents queue — both
 # to read and to rotate.
-DOE_WEBHOOK_URL = os.environ.get('DOE_WEBHOOK_URL') or WEBHOOK_URL
+#
+# One channel for every case rather than one per case: the embed title names
+# the case, which is enough to read by, and a webhook per case would mean a
+# new secret and a config deploy before a new page could accept anything.
+# DOE_WEBHOOK_URL is still honoured so the config already on the box keeps
+# working across this deploy.
+CASE_WEBHOOK_URL = (os.environ.get('CASE_WEBHOOK_URL')
+                    or os.environ.get('DOE_WEBHOOK_URL')
+                    or WEBHOOK_URL)
 
 DB_PATH = os.environ.get('DB_PATH', '/var/lib/preside-by-side/suggestions.db')
 LISTEN_HOST = os.environ.get('LISTEN_HOST', '127.0.0.1')
@@ -96,6 +109,28 @@ MAX_LENGTHS = {'president': 80, 'event': 200, 'source': 500, 'why': 600}
 # rather than by length.
 CASE_MAX_LENGTHS = {'detail': 1500, 'source': 500}
 CASE_KINDS = ('missed', 'misrepresented', 'unfairly portrayed')
+
+# Every page in the Case Chronicle, slug -> the name a correction arrives
+# under. The page sends its slug and nothing else; the title comes from
+# here, because the endpoint is public and the site's source is public with
+# it, so a title the client chose is a title anyone can choose. An unknown
+# slug is a 400 rather than a default: a correction filed against a case
+# this service has never heard of is more likely a probe than a reader, and
+# either way it should not land in the channel unlabelled.
+#
+# Adding a case: a row here, and the slug in data-case on the page.
+CHRONICLE_CASES = {
+    'doe-v-bonnell': 'Doe v. Bonnell',
+    'depp-v-heard': 'Depp v. Heard',
+    'commonwealth-v-clancy': 'Commonwealth v. Clancy',
+}
+
+# What /suggest/doe means. The Chronicle's first page shipped on that route
+# and may still be in a cache or a bookmark somewhere, so it keeps working
+# and keeps meaning the one case it could ever have meant. Nothing else gets
+# that default: see the note at the top of suggest_case.
+LEGACY_DOE_PATH = '/suggest/doe'
+LEGACY_DOE_SLUG = 'doe-v-bonnell'
 
 # Per-IP rolling-window rate limit. The browser-side cooldown is cosmetic
 # (curl ignores it), so this is the real ceiling against scripted spam.
@@ -438,10 +473,40 @@ _label_cache = {}
 
 
 def clean_input(s):
-    """Trim whitespace and strip ASCII control chars from user-supplied text."""
-    if not s:
+    """Trim whitespace and strip ASCII control chars from user-supplied text.
+
+    A value that is not a string is treated as absent rather than coerced.
+    A JSON body holds whatever the sender chose to put in it, and
+    {"detail": [1]} is not a detail — str() would file it as the literal
+    text "[1]". Returning '' hands it to the same empty-field check an
+    omitted field gets, so the wrong type earns the route's ordinary 400
+    instead of a TypeError, a 500, and a traceback in the alerts channel.
+    """
+    if not isinstance(s, str) or not s:
         return ''
     return _CTRL_RE.sub(' ', s).strip()
+
+
+def honeypot_filled(data):
+    """Whether the hidden decoy field was filled in."""
+    website = data.get('website')
+    if isinstance(website, str):
+        return bool(clean_input(website))
+    return website is not None
+
+
+def json_body():
+    """The request's JSON object, or an empty one.
+
+    silent=True already turns malformed JSON into None. What it does not
+    catch is a body that parses fine but is not an object — [1,2], "x", 7
+    — which comes back as that value and has no .get, so the first field
+    read is an AttributeError and a 500. Anything that is not an object
+    is read as no fields supplied, which every route already knows how to
+    refuse.
+    """
+    data = request.get_json(silent=True)
+    return data if isinstance(data, dict) else {}
 
 
 def escape_discord_md(s):
@@ -930,10 +995,13 @@ def suggest():
             )
         return jsonify(ok=False, error='too many requests — try again later'), 429
 
-    data = request.get_json(silent=True) or {}
+    data = json_body()
 
-    # Honeypot — silent 200 so bots can't tell they were caught.
-    if (data.get('website') or '').strip():
+    # Honeypot — silent 200 so bots can't tell they were caught. A string is
+    # trimmed first, so an autofilled space is not a reader's submission
+    # thrown away; anything that is not a string did not come from this form
+    # at all, so it counts as filled.
+    if honeypot_filled(data):
         log.info('honeypot hit from %r', ip)
         return jsonify(ok=True)
 
@@ -983,9 +1051,16 @@ def suggest():
     return jsonify(ok=True)
 
 
+@app.route('/suggest/case', methods=['POST'])
 @app.route('/suggest/doe', methods=['POST'])
-def suggest_doe():
-    """Corrections intake for the Doe v. Bonnell page.
+def suggest_case():
+    """Corrections intake for the Case Chronicle pages.
+
+    Which case a correction is about arrives as a slug in the body and is
+    resolved against CHRONICLE_CASES; see the note there for why the page
+    is not trusted to send its own title. /suggest/doe is the route the
+    first case page shipped on, and is kept as an alias that means that
+    case, so a cached copy of the old page still files correctly.
 
     Same gates as /suggest — origin allowlist, per-IP and global rate
     limits, honeypot — deliberately duplicated rather than factored out
@@ -996,7 +1071,7 @@ def suggest_doe():
     origin = request.headers.get('Origin', '')
     if origin not in ALLOWED_ORIGINS:
         probe_ip = get_client_ip()
-        log.info('rejected (doe): bad origin %r ip=%r', origin, probe_ip)
+        log.info('rejected (case): bad origin %r ip=%r', origin, probe_ip)
         if note_origin_rejection(probe_ip):
             notify.warning(
                 'probe alert: %d+ origin rejections from %s in last hour '
@@ -1008,43 +1083,60 @@ def suggest_doe():
     ip = get_client_ip()
     ok, reason = rate_limit_check(ip)
     if not ok:
-        log.info('rate limited (doe, %s): ip=%r', reason, ip)
+        log.info('rate limited (case, %s): ip=%r', reason, ip)
         if reason == 'global':
             notify.warning(
-                'global rate limit tripped on doe intake (ip=%r, cap=%d/%ds)',
+                'global rate limit tripped on case intake (ip=%r, cap=%d/%ds)',
                 ip, GLOBAL_RATE_LIMIT_MAX, GLOBAL_RATE_LIMIT_WINDOW_SEC,
             )
         return jsonify(ok=False, error='too many requests — try again later'), 429
 
-    data = request.get_json(silent=True) or {}
+    data = json_body()
 
-    # Honeypot — silent 200 so bots can't tell they were caught.
-    if (data.get('website') or '').strip():
-        log.info('honeypot hit (doe) from %r', ip)
+    # Honeypot — same bargain as /suggest; see the note there.
+    if honeypot_filled(data):
+        log.info('honeypot hit (case) from %r', ip)
         return jsonify(ok=True)
+
+    # Only a request that supplies no slug at all falls back, and only on the
+    # alias, which predates slugs and can mean one case. A slug that is
+    # present but unusable — the wrong type, or a name not in the book — is
+    # refused, because filing it against whichever case happens to be first
+    # would be worse than not filing it.
+    if 'case' in data:
+        slug = clean_input(data.get('case')).lower()
+    elif request.path == LEGACY_DOE_PATH:
+        slug = LEGACY_DOE_SLUG
+    else:
+        slug = ''
+
+    case_name = CHRONICLE_CASES.get(slug)
+    if case_name is None:
+        log.info('rejected (case): unknown case %r', slug[:60])
+        return jsonify(ok=False, error='unknown case'), 400
 
     kind = clean_input(data.get('kind')).lower()
     detail = clean_input(data.get('detail'))
     source = clean_input(data.get('source'))
 
     if kind not in CASE_KINDS:
-        log.info('rejected (doe): bad kind %r', kind[:40])
+        log.info('rejected (case %s): bad kind %r', slug, kind[:40])
         return jsonify(ok=False, error='pick one of: %s' % ', '.join(CASE_KINDS)), 400
 
     if not detail:
-        log.info('rejected (doe): empty detail')
+        log.info('rejected (case %s): empty detail', slug)
         return jsonify(ok=False, error='tell me what to look at'), 400
 
     for name, val in (('detail', detail), ('source', source)):
         if len(val) > CASE_MAX_LENGTHS[name]:
-            log.info('rejected (doe): %s exceeds %d chars (len=%d)',
-                     name, CASE_MAX_LENGTHS[name], len(val))
+            log.info('rejected (case %s): %s exceeds %d chars (len=%d)',
+                     slug, name, CASE_MAX_LENGTHS[name], len(val))
             return jsonify(ok=False, error=f'{name} exceeds {CASE_MAX_LENGTHS[name]} chars'), 400
 
     if source:
         u = urlparse(source)
         if u.scheme not in ('http', 'https') or not u.netloc:
-            log.info('rejected (doe): invalid source URL %r', source[:100])
+            log.info('rejected (case %s): invalid source URL %r', slug, source[:100])
             return jsonify(ok=False, error='source must be a valid http(s) URL'), 400
 
     ua = request.headers.get('User-Agent', '')[:300]
@@ -1053,16 +1145,17 @@ def suggest_doe():
         cur = conn.execute(
             'INSERT INTO case_suggestions (received_at, page, kind, detail, source, user_agent, ip)'
             ' VALUES (?,?,?,?,?,?,?)',
-            (now_utc_iso(), 'doe-v-bonnell', kind, detail, source or None, ua, ip),
+            (now_utc_iso(), slug, kind, detail, source or None, ua, ip),
         )
         sid = cur.lastrowid
 
-    log.info('queued case correction #%d (kind=%r detail=%r)', sid, kind, detail[:60])
+    log.info('queued case correction #%d (case=%s kind=%r detail=%r)',
+             sid, slug, kind, detail[:60])
 
     # The row is durable before this runs; a Discord outage must not reach
     # the submitter as an error.
     try:
-        post_case_to_discord(sid, kind, detail, source)
+        post_case_to_discord(sid, case_name, kind, detail, source)
     except Exception as exc:
         notify.warning('discord notify failed for case #%d: %s', sid, exc)
 
@@ -1129,7 +1222,7 @@ def rate():
             )
         return jsonify(ok=False, error='too many requests — try again later'), 429
 
-    data = request.get_json(silent=True) or {}
+    data = json_body()
     president = clean_input(data.get('president'))
     bar_id = clean_input(data.get('bar_id'))
     rating = data.get('rating')
@@ -1317,9 +1410,12 @@ def post_to_discord(sid, president, event, source, why):
     r.raise_for_status()
 
 
-def post_case_to_discord(sid, kind, detail, source):
-    """Corrections embed for the case page. Same truncate-then-escape order
-    as post_to_discord, for the same reason."""
+def post_case_to_discord(sid, case_name, kind, detail, source):
+    """Corrections embed for a Case Chronicle page. Same truncate-then-escape
+    order as post_to_discord, for the same reason.
+
+    case_name comes from CHRONICLE_CASES, never from the request, so the
+    title is not a place the caller can write."""
     fields = [
         {'name': 'What', 'value': escape_discord_md(kind[:1024]), 'inline': True},
         {'name': 'Detail', 'value': escape_discord_md(detail[:1024]), 'inline': False},
@@ -1331,14 +1427,14 @@ def post_case_to_discord(sid, kind, detail, source):
         'username': 'Court Reporter',
         'embeds': [
             {
-                'title': f'Doe v. Bonnell — correction #{sid}',
+                'title': f'{case_name} — correction #{sid}',
                 'color': 0x6F4A2E,
                 'fields': fields,
                 'timestamp': now_utc_iso(),
             }
         ],
     }
-    r = requests.post(DOE_WEBHOOK_URL, json=payload, timeout=5)
+    r = requests.post(CASE_WEBHOOK_URL, json=payload, timeout=5)
     r.raise_for_status()
 
 
