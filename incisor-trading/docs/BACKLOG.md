@@ -200,21 +200,6 @@ phase. When the call is unclear, file it as a defect.
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
 
-- [ ] **D30 · The reporting calendar's head runs the ticker into its title**
-  `[defect]` *(2026-09-27, from the T11 audit)* — `#inc-reports-heading` is
-  built the same way the fundamentals head was: a hidden `<span>` for the
-  symbol, a 10px `margin-right` for the gap, and the tag closed tight against
-  the title so the markup adds no second one. A margin is not in the
-  accessible name, so Chrome computes the h4 as **"AAPLWhen it reports"**.
-  The chart's head, which both are modelled on, separates its spans with
-  whitespace and reads "AAPL Over six months". Filed rather than fixed
-  because T12 is a different surface (§19), and a defect because it misleads
-  one class of reader about what the heading says. `DEC-060`, and the same
-  one-line fix that landed on the fundamentals head today.
-  *Accept:* the head reads "AAPL When it reports"; a test asserts the ticker
-  and the title are separated by something other than CSS, the way
-  `test_fundamentals_panel.py` now does.
-
 - [ ] **D29 · `css/positions.css` restates the page-wide reduced-motion rule**
   `[enhancement]` *(2026-09-27, from the T10 audit)* — `incisor.css` stops
   every transition and animation under `body.incisor *` with `!important`, so
@@ -371,3 +356,4 @@ session that must *act* on any of this goes.
 | D24 | 09-24 | **Eight watched months drawn on eight scales** *(defect, fixed)* — the figure beside each line, and at 375px the dollar change gave up its width to it rather than the month giving up the column. → DEC-101, DEC-102, D25 |
 | D26 | 09-24 | **A refused lookup read as a service that never answered** *(defect, fixed)* — one sentence in three panels, and the shot found the same lie in a red provenance notice under two of them. → DEC-078, DEC-060 |
 | D27 | 09-26 | **The visual check was unreachable from a fresh worktree** *(defect, fixed)* — the tool builds its own driver now, so any `python3` runs it. Verified by a rebuild on a second interpreter mid-session. → DEC-105, `tools/shoot.py` |
+| D30 | 09-28 | **The calendar's head read "AAPLWhen it reports"** *(defect, fixed)* — the second of three heads to ship it, so the rule is stated once over every ticker slot rather than copied a third time. → DEC-111, `tests/test_page.py` |

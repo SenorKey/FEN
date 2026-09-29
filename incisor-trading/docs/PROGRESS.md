@@ -6072,3 +6072,110 @@ keeping the queue.
 at step 4 before any audit (§19). It is a one-line fix with a test, and the
 **reporting calendar (T12)** audit — eighth of the eleven — is the surface
 it belongs to, so the session after that one arrives with it already true.
+
+---
+
+## 2026-09-28 (routine) — the calendar's head, and a rule that stops being copied
+
+**`D30`, an open in-bounds defect, so it was taken at step 4 before the
+reporting calendar's audit (§19).** A defect is a session's whole work, so no
+backlog task was taken. `D19` is the only other `[defect]` in `## Discovered`
+and is out of bounds twice over, as its entry says; the rest are
+`[enhancement]`s awaiting Key's triage.
+
+Yesterday's worktree was clean, matched `origin/incisor-dev` and belonged to a
+finished session, so it was removed and a fresh one taken (rule 11). Key's
+checkout had no changed tracked file (`DEC-084`).
+
+### The fix
+
+`#inc-reports-heading` was built exactly like the filings head fixed the
+evening before — a hidden `<span>` for the symbol, a 10px `margin-right`, and
+the tag closed tight against the title so the markup adds no second gap. A
+margin is not in the accessible name, so Chrome computed the h4 as
+**"AAPLWhen it reports"**.
+
+Confirmed fixed **from Chrome's own tree over CDP**, not inferred from the
+markup, since the computed name is the whole subject:
+
+| Head | Name | Gap |
+|---|---|---|
+| price chart | *(a `<p>`, so no name)* — text "AAPL proxy Over six months" | — |
+| filings panel | `AAPL Beyond the price` | 15.8px |
+| reporting calendar | `AAPL When it reports` | 14.9px |
+
+### The rule is stated once, not copied a third time
+
+`D30`'s acceptance criteria asked for a test "the way
+`test_fundamentals_panel.py` now does", which read literally is a second copy
+of yesterday's test in a second surface file. **That was not taken**, and the
+criteria are met by a stronger rule rather than a narrower one.
+
+Three surfaces build this head. The chart's was always right; the filings
+panel shipped the bug and was fixed on 09-27; the calendar shipped it too. A
+per-surface test cannot cover a surface that does not exist yet, and **the
+fourth head is the one that ships this next** — `DEC-108`, on a control
+copied from another. So it is now
+`test_page.py::test_a_ticker_slot_is_separated_from_its_title_by_text`,
+derived over every `data-*-symbol` slot in the document — four today,
+including the quote panel's, which is the same shape and never was a head —
+and the per-surface copy in `test_fundamentals_panel.py` is **removed**, with
+a comment pointing here. `DEC-109`'s shape for reduced motion, and the
+precedent sitting beside it is `test_every_table_has_one_off_screen_caption`,
+which became per-table after a page-wide *count* broke the moment a second
+surface obeyed it (`DEC-061`).
+
+Two guards, because a derived rule can pass by matching nothing: full-shape
+matches must equal slot openers, and at least three slots must be found
+(`DEC-064`).
+
+### The mutation check proved nothing the first time
+
+Worth recording because the failure mode is the one this project keeps
+meeting. Six mutations were run as `python3 -m unittest tests.test_page.…`,
+by dotted name — which cannot import `page_model`. All six "failed", the
+matrix looked complete, and **every failure was an `ImportError`**: the check
+was worthless in exactly the direction it existed to test.
+
+Re-run through `discover -k`, three then failed on the **wrong assertion**.
+The tight form `</span\n  >` never matches a literal `</span>`, so those
+slots dropped out of the matched set and the *count* guard fired, with a
+message about an element that was not there — a true failure telling the next
+session something false. The shape reads `</span\s*>` now, and M1–M3 fail on
+the separation assertion naming the exact slot.
+
+Final matrix, all six failing for their own reason: each of the three heads
+closed tight again, a slot holding an element, the attribute renamed, and the
+quote slot. Restored, all 279 pass.
+
+### Verified
+
+- **279 front-end tests** (`python3 -m unittest discover tests`), OK — 279
+  before too: one added in `test_page.py`, one removed from
+  `test_fundamentals_panel.py`.
+- `python3 tools/shoot.py --api http://127.0.0.1:8789 --symbol AAPL` green at
+  desktop, tablet and true mobile emulation; images written and **looked at**,
+  cropped to both panels at all three widths. The two heads read consistently
+  and nothing below them moved.
+- The service was run in fixture mode from a **scratchpad venv**, not
+  `server/.venv`: that path is not in `.gitignore`, and guide rule 10 makes
+  being gitignored part of what makes local tooling allowed. Nothing was
+  added to the repo to run it. (`D28` is unaffected — it asks for the suite to
+  build its own, which is still not done.)
+- The reports surface's own span is 122 lines of 150; the document is 473
+  elements of 650.
+- `git status` clean outside `incisor-trading/`; Key's checkout untouched.
+
+### Recorded
+
+`DEC-111`, with a detail entry, for stating a shared rule once over every
+instance and for how the mutation matrix misled twice. `D30` closed to a
+`## Done` row.
+
+### For Key
+
+**Nothing new.** `N17`, `N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+**Next session: the reporting calendar (T12) audit** — eighth of the eleven
+`T13c` made due, and it now arrives with its head already correct. No
+in-bounds defect is open.

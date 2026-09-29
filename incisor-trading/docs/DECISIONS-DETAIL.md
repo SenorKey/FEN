@@ -2774,3 +2774,51 @@ written for it.
 auto-rows do not stand in for it, and a comment asserting a column count is
 not a mechanism producing one — `DEC-108`, one day later, on a different
 property.
+
+---
+
+## DEC-111 — a shared rule is asserted once, over every instance
+
+**2026-09-28, from `D30`.**
+
+**What happened.** Three surfaces build the same head: a ticker, then what
+the surface is, with a `margin-right` between them. The price chart's was
+always right. The filings panel's computed as "AAPLBeyond the price" and was
+fixed on 09-27 with a per-surface test in `test_fundamentals_panel.py`. The
+reporting calendar had the identical markup and the identical name,
+"AAPLWhen it reports", and was filed as `D30` the same evening.
+
+**The choice.** `D30`'s acceptance criteria asked for a test "the way
+`test_fundamentals_panel.py` now does" — which read literally means a second
+copy of yesterday's test in `test_reports_panel.py`. That was not taken. The
+rule is now
+`test_page.py::test_a_ticker_slot_is_separated_from_its_title_by_text`,
+derived over **every** `data-*-symbol` slot the document carries — four
+today, including the quote panel's, which is the same shape and was never a
+head. The per-surface copy in `test_fundamentals_panel.py` was removed and a
+comment left pointing here.
+
+**Why.** A per-surface test cannot cover a surface that does not exist yet,
+and the fourth head is the one that will ship this bug next. It is the trap
+`DEC-108` names — a control copied from another must move with it — and the
+shape `DEC-109` settled for reduced motion: one home, no local copy to drift.
+The precedent in the same file is
+`test_every_table_has_one_off_screen_caption`, which became a per-table rule
+after a page-wide *count* broke the moment a second surface obeyed it
+(`DEC-061`).
+
+**Two guards, because a derived rule can silently match nothing.** The
+number of full-shape matches must equal the number of slot openers, so a slot
+holding an element or closing its tag somewhere unexpected fails loudly
+instead of dropping out of the set; and at least three slots must be found,
+so renaming the attribute fails rather than passing vacuously (`DEC-064`).
+
+**A mutation matrix that first proved nothing.** The six mutations were run
+by dotted name — `python3 -m unittest tests.test_page.…` — which cannot
+import `page_model`, so all six "failed" with an `ImportError` and the check
+was worthless in exactly the direction it existed to test. Re-run through
+`discover -k`, three of them then failed on the *wrong* assertion: the tight
+form `</span\n  >` never matched a literal `</span>`, so the count guard
+fired with a message about an element that was not there. The shape reads
+`</span\s*>` now. **Run a mutation check the way the suite runs, and read
+the message and not the exit code.**
