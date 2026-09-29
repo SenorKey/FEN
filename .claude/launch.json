@@ -8,6 +8,13 @@
       "port": 8765
     },
     {
+      "name": "case-chronicle",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/keypanzarella/FEN/case-chronicle/.claude/serve.py"],
+      "port": 8732,
+      "autoPort": false
+    },
+    {
       "name": "status-station",
       "runtimeExecutable": "status-station/server/.venv/bin/python",
       "runtimeArgs": ["status-station/server/station.py"],

@@ -30,9 +30,16 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/preside-by-side/` — Side-by-side presidential misconduct comparison app
 - `/fresh-pull/` — One-click browsing data cleaner for Chrome
 - `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
-- `/doe-v-bonnell/` — Side-by-side reading of both sides of *Doe v. Bonnell II*, built from the
-  full public docket. Standalone page: it does not load the shared stylesheet, since the
-  golden-ratio shell pins the body to 100vh and this is a scrolling document
+- `/case-chronicle/` — Court cases read end to end in the order they happened, built from the
+  public docket. A hub listing the cases, plus one page per case beneath it. Every case page
+  loads `case-chronicle/chronicle.css` and `chronicle.js`, which name no case between them, so
+  adding a case is one HTML file. Standalone: they do not load the shared stylesheet, since the
+  golden-ratio shell pins the body to 100vh and these are scrolling documents
+  - `/case-chronicle/doe-v-bonnell/` — *Doe v. Bonnell II*, from the full public docket. The
+    only case with content so far. It is also the only one with a **Common ground** section;
+    the template for a new case is Chronology, the decision tree, Side by side, and Notes
+  - `/doe-v-bonnell/` — where that page used to live. A stub that canonicalises and refreshes
+    to the new URL, because the old one is indexed. Replaceable with a one-line Apache 301
 
 **Hidden / unlisted** (excluded from sitemap and disallowed in robots.txt):
 
@@ -41,8 +48,13 @@ Live at [frontendneeded.com](https://frontendneeded.com)
   week's slate in the reader's own time zone, any team's season, and the AFC/NFC tables. Any
   season back to 2002 — the first year of the current eight-division shape — can be browsed.
   Reads ESPN's public keyless endpoints straight from the browser, so there is nothing to host
-  and nothing to rotate. Standalone page, same reason as `/doe-v-bonnell/`. Deliberately *not*
+  and nothing to rotate. Standalone page, same reason as `/case-chronicle/`. Deliberately *not*
   in robots.txt: a Disallow would stop crawlers reading its `noindex`
+- `/case-chronicle/depp-v-heard/` and `/case-chronicle/commonwealth-v-clancy/` — section
+  skeletons (`noindex,nofollow`, and out of the sitemap). The masthead docket facts and the
+  Notes are researched and cited; the three sections between them are not. Listed on the
+  Chronicle hub as in-progress. Lift the `robots` meta and add the URL to `sitemap.xml` on the
+  commit that fills one in
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
 - `/claude-usage/` — Live Claude Code session-window dial (`noindex,nofollow`); reads a

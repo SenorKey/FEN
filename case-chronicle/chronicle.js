@@ -1,4 +1,9 @@
-/* doe-v-bonnell.js
+/* chronicle.js
+   Shared by the Case Chronicle hub and every case page under it.
+   Nothing here names a case: each block bails out quietly when the
+   markup it enhances is absent, so a page that has no ledger, no
+   exhibit wash or no corrections form simply does without.
+
    One control: open or collapse every depth in the ledger at once.
 
    Pure enhancement. The drawers are <details>, so they already work
@@ -325,6 +330,14 @@
    below is only there to stop a double-click becoming two rows, and curl
    ignores it entirely.
 
+   Which case the correction is about comes from data-case on <body>, so the
+   form itself carries no case-specific markup and a new case page needs no
+   new script. The slug is only a claim until the service checks it: the
+   route rejects anything not on its own allowlist, which is what decides
+   the title the correction arrives under. Sending it here rather than
+   asking the reader keeps a third control off a form that already has
+   three.
+
    The form ships without an action, so with no JavaScript it simply does
    not submit rather than navigating somewhere useless. */
 
@@ -334,7 +347,10 @@
   var form = document.getElementById('fix-form');
   if (!form) return;
 
-  var ENDPOINT = '/api/suggest/doe';
+  var CASE = document.body.getAttribute('data-case') || '';
+  if (!CASE) return;          /* no case, nothing to file a correction against */
+
+  var ENDPOINT = '/api/suggest/case';
   var COOLDOWN_MS = 4000;
 
   var status = document.getElementById('fix-status');
@@ -381,6 +397,7 @@
     }
 
     var body = {
+      'case': CASE,
       kind: (data.get('kind') || '').toString(),
       detail: (data.get('detail') || '').toString().trim(),
       source: (data.get('source') || '').toString().trim(),

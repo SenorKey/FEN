@@ -68,8 +68,14 @@
   </url>
 
   <url>
-    <loc>https://frontendneeded.com/doe-v-bonnell/</loc>
-    <lastmod>2026-09-08</lastmod>
+    <loc>https://frontendneeded.com/case-chronicle/</loc>
+    <lastmod>2026-09-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/</loc>
+    <lastmod>2026-09-28</lastmod>
     <priority>0.7</priority>
   </url>
 

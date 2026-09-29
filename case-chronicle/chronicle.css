@@ -1,6 +1,11 @@
 /* ═══════════════════════════════════════════════
-   doe-v-bonnell.css
-   frontendneeded.com/doe-v-bonnell/
+   chronicle.css
+   frontendneeded.com/case-chronicle/
+
+   The whole Case Chronicle wears this one stylesheet: the hub and
+   every case page under it. Nothing in here names a case. A case is
+   an HTML file and nothing else, which is the point — the next one
+   should cost research, not CSS.
 
    Standalone. The shared /assets/css/styles.css pins the body to
    100vh with overflow:hidden for the golden-ratio shell; this is a
@@ -13,8 +18,11 @@
    colours overlap behind the masthead they overprint into a third
    colour neither side chose, which is a fair description of the case.
 
-   Colour carries the argument: red is the plaintiff, blue is the
-   defendant, sepia is the court. Nothing else may use those three.
+   Colour carries the argument: one ink is the moving side, one is the
+   answering side, sepia is the court. Nothing else may use those three.
+   The two side inks default to red and blue here and a case may restate
+   them in its own stylesheet — Depp v. Heard does — but never their jobs:
+   left is always the side that filed.
    ═══════════════════════════════════════════════ */
 
 /* ── Fonts ── */
@@ -105,6 +113,13 @@
   --d-dim: #35507e;
   --d-wash: rgba(31, 64, 118, 0.085);
   --d-edge: rgba(31, 64, 118, 0.4);
+
+  /* The pools the two sides cast behind the masthead. Tokens rather than
+     literals in the gradient, because a case that restates its side colours
+     has to be able to restate these with them — otherwise the masthead keeps
+     the last case's inks and nothing else does. */
+  --p-pool: rgba(176, 48, 42, 0.3);
+  --d-pool: rgba(31, 64, 118, 0.28);
 
   --wrap: 1180px;
   --gut: 56px;
@@ -288,12 +303,34 @@ body::after {
   inset: 0;
   mix-blend-mode: multiply;
   background:
-    radial-gradient(ellipse 62% 72% at 14% 6%, rgba(176, 48, 42, 0.3), transparent 64%),
-    radial-gradient(ellipse 62% 72% at 86% 10%, rgba(31, 64, 118, 0.28), transparent 64%);
+    radial-gradient(ellipse 62% 72% at 14% 6%, var(--p-pool), transparent 64%),
+    radial-gradient(ellipse 62% 72% at 86% 10%, var(--d-pool), transparent 64%);
   pointer-events: none;
 }
 
 .masthead .wrap { position: relative; }
+
+/* The way back up to the Chronicle. Set in the eyebrow's own mono at the
+   same size, a step lighter, so it reads as a label on the masthead rather
+   than a second line of it. */
+.crumb {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.crumb a {
+  color: var(--faint);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.crumb a:hover,
+.crumb a:focus-visible { color: var(--ink); border-bottom-color: var(--rule); }
 
 .eyebrow {
   font-family: var(--mono);
@@ -380,6 +417,180 @@ body::after {
 .pip-open {
   background: var(--court);
   box-shadow: 0 0 0 3px rgba(111, 74, 46, 0.2);
+}
+
+/* A case the court has finished with. Hollow rather than filled: the
+   same mark, spent. */
+.pip-closed {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--faint);
+}
+
+/* Nothing written here yet. No ring — it is not a state of the case, it
+   is a state of this page. */
+.pip-soon {
+  background: var(--rule);
+  box-shadow: none;
+}
+
+/* ── A section that has not been written yet ──
+   Every case page ships its whole skeleton from the first commit, so the
+   shape of the argument is reviewable before a word of research lands.
+   A pending section states what will fill it. That is more useful than
+   an empty band and more honest than a spinner, and it costs the reader
+   one line to find out where they stand. */
+.pending {
+  margin-top: 44px;
+  padding: 44px 48px;
+  border: 1px dashed var(--rule);
+  background: rgba(23, 20, 15, 0.014);
+}
+
+.pending-l {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 14px;
+}
+
+.pending-t {
+  max-width: 62ch;
+  color: var(--muted);
+}
+
+.pending-t + .pending-t { margin-top: 12px; }
+
+@media (max-width: 720px) {
+  .pending { padding: 32px 26px; }
+}
+
+/* ═══════════════════════════════════════════════
+   The hub — every case in the Chronicle
+
+   Ruled rows, not cards: this is the index of a bound volume, and an
+   index is a list of rules and page numbers. A case nobody has written
+   yet still gets its row, unlinked and set back, because an empty
+   shelf mark is more honest than a shelf that pretends to be full.
+   ═══════════════════════════════════════════════ */
+
+.case-list {
+  list-style: none;
+  margin: 8px 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.case-row { border-bottom: 1px solid var(--rule); }
+
+/* One grid for both states, so a case that gets written later lands on
+   exactly the metrics it already had. */
+.case-a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 6px 48px;
+  padding: 38px 0 36px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.case-court {
+  grid-column: 1;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.case-n {
+  grid-column: 1;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.9rem, 4.2vw, 2.9rem);
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+  margin: 4px 0 0;
+}
+
+.case-n em { font-style: italic; font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1; }
+
+.case-l {
+  grid-column: 1;
+  max-width: 60ch;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* The status column rides the top line of the row rather than centring
+   against a block whose height depends on how long the lede is. */
+.case-s {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: start;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  line-height: 1.7;
+  color: var(--faint);
+}
+
+.case-s dt {
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--faint);
+  opacity: 0.8;
+}
+
+.case-s dd { margin: 0 0 12px; color: var(--ink-2); }
+.case-s dd:last-child { margin-bottom: 0; }
+
+/* The read-through cue. Under the name rather than beside it: the eye is
+   already there, and a row this wide would leave an arrow stranded. */
+.case-go {
+  grid-column: 1;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--court);
+  margin-top: 18px;
+}
+
+.case-go span {
+  display: inline-block;
+  transition: transform 0.18s;
+}
+
+a.case-a:hover .case-n,
+a.case-a:focus-visible .case-n { color: var(--court); }
+a.case-a:hover .case-go span,
+a.case-a:focus-visible .case-go span { transform: translateX(5px); }
+
+a.case-a:focus-visible {
+  outline: 2px solid var(--court);
+  outline-offset: 4px;
+}
+
+/* Not written yet. Set back rather than hidden — the Chronicle says what
+   it intends to cover, and a reader who arrives for one of these learns
+   the truth in one line instead of getting a 404. */
+.case-a.is-soon { opacity: 0.52; }
+.case-a.is-soon .case-n { font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0; }
+
+.case-soon-t {
+  grid-column: 1;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  margin-top: 18px;
+}
+
+@media (max-width: 860px) {
+  .case-a { grid-template-columns: minmax(0, 1fr); }
+  .case-s { grid-column: 1; grid-row: auto; margin-top: 18px; }
+  .case-s dd { margin-bottom: 8px; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1733,6 +1944,55 @@ body::after {
 .ex-b2 { width: 53%; }
 .ex-b3 { width: 71%; }
 .ex-b4 { width: 88%; }
+
+/* ── the deposition excerpts ──
+   The other wash on this site recreates screenshots, which are pictures and
+   read as pictures. A transcript is not a picture: its signature is the
+   Q/A ladder and a page:line cite, and those are the two things reproduced
+   here.
+
+   Deliberately no line-number gutter. A transcript numbers 1-25 down every
+   page, and faking that column would mean either breaking the text at the
+   original line breaks — which a recreation cannot promise — or printing
+   numbers that do not mean anything. The exact range lives in the cite
+   instead, where it can be checked.
+
+   Text stays left-aligned in both columns. The right column sets its cards
+   ragged-left, which is fine for a chat bubble and wrong for a ladder: the
+   Q and the A have to line up with each other or the form is gone. */
+
+.ex-depo .ex-qa {
+  margin: 2px 0 0;
+  text-align: left;
+}
+
+.ex-depo .ex-qa dt {
+  float: left;
+  width: 16px;
+  clear: left;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.ex-depo .ex-qa dd {
+  margin: 0 0 6px 16px;
+  color: var(--ink-2);
+}
+
+.ex-depo .ex-qa dd:last-child { margin-bottom: 0; }
+
+.ex-col-p .ex-depo .ex-qa dt { color: var(--p); }
+.ex-col-d .ex-depo .ex-qa dt { color: var(--d); }
+
+/* Where the witness is being read their own earlier words back, or an
+   exhibit is quoted into the record. Indented the way the transcript
+   indents it. */
+.ex-depo .ex-qa dd.ex-read {
+  margin-left: 30px;
+  padding-left: 8px;
+  border-left: 1px solid var(--rule-soft);
+  font-style: italic;
+}
 
 /* ── the text-message exhibits ── */
 

@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "fen",
+      "name": "case-chronicle",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["/Users/keypanzarella/FEN/doe-v-bonnell/.claude/serve.py"],
+      "runtimeArgs": ["/Users/keypanzarella/FEN/case-chronicle/.claude/serve.py"],
       "port": 8732
     }
   ]

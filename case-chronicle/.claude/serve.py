@@ -8,13 +8,16 @@ Two jobs beyond serving files:
 
 2. /api/* is forwarded to the suggestion service on 127.0.0.1:8788, the way
    Apache forwards it in production, so the corrections form can be tested
-   here. Start the service first:
+   here. Start the service first, from the repo root:
 
        CONFIG_FILE=/dev/null \
-       DISCORD_WEBHOOK_URL=<test> DOE_WEBHOOK_URL=<test> \
+       DISCORD_WEBHOOK_URL=<test> CASE_WEBHOOK_URL=<test> \
        DB_PATH=/tmp/suggest-test.db LISTEN_PORT=8788 \
        ALLOWED_ORIGIN=http://localhost:8732 \
-       python3 ../preside-by-side/server/suggest.py
+       python3 preside-by-side/server/suggest.py
+
+   Apache proxies /api/suggest by prefix, so /api/suggest/case reaches
+   /suggest/case with no config change. This stub strips /api the same way.
 
    With the service down the form reports "Could not send", which is the
    same thing a reader would see during an outage - a fair thing to see.

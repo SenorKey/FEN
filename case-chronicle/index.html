@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css: the
+         shared shell pins the body to 100vh and everything here scrolls. -->
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Case Chronicle: court cases read end to end in the order they happened, built from the public docket. What each side filed, when, and what the court did with it.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/">
+    <meta property="og:title" content="Case Chronicle">
+    <meta property="og:description"
+        content="Court cases read end to end in the order they happened, built from the public docket.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- No data-case: this page indexes the cases, it is not one of them, and
+     the corrections form belongs on the page being corrected. -->
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/wfpc">WF Price Checker</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+            </div>
+        </div>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead" id="top">
+            <div class="wrap">
+                <p class="eyebrow">frontendneeded.com &middot; from the public record</p>
+                <h1 class="masthead-title">Case <em>Chronicle</em></h1>
+                <p class="masthead-lede">Court cases read end to end, in the order things actually happened. Every
+                    entry is built from the public docket: what each side filed, on what date, and what the court did
+                    with it. No verdicts of my own &mdash; the point is to make a record that is already public
+                    <strong>readable</strong>.</p>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The cases
+             ═══════════════════════════════════════════════ -->
+        <section class="band" id="cases" aria-labelledby="cases-h">
+            <div class="wrap">
+                <p class="kicker">The cases</p>
+                <h2 class="section-title" id="cases-h">What is on the shelf</h2>
+                <p class="section-lede">Each case gets the same treatment: a chronology, a map of how the thing
+                    resolves, and a note on where the record ends and what it leaves out.</p>
+
+                <ul class="case-list">
+
+                    <li class="case-row">
+                        <a class="case-a" href="/case-chronicle/doe-v-bonnell/">
+                            <p class="case-court">S.D. Fla. &middot; No. 1:25-cv-20757-JB</p>
+                            <h3 class="case-n">Doe <em>v.</em> Bonnell</h3>
+                            <p class="case-l">A civil suit over an intimate video shared without permission. Both
+                                sides agree it was shared. Almost everything else, including whether a federal court
+                                may hear the case at all, turns on one date.</p>
+                            <dl class="case-s">
+                                <dt>Filed</dt>
+                                <dd>18 Feb 2025</dd>
+                                <dt>Status</dt>
+                                <dd><span class="pip pip-open"></span>Undecided</dd>
+                            </dl>
+                            <p class="case-go">Read the chronicle <span aria-hidden="true">&rarr;</span></p>
+                        </a>
+                    </li>
+
+                    <li class="case-row">
+                        <div class="case-a is-soon">
+                            <p class="case-court">Va. Cir. Ct., Fairfax Cty. &middot; No. CL-2019-0002911</p>
+                            <h3 class="case-n">Depp <em>v.</em> Heard</h3>
+                            <p class="case-l">Two defamation cases tried as one. The jury found for him on all
+                                three statements he sued over and for her on one of the three she did. Both sides
+                                appealed; neither appeal was ever heard.</p>
+                            <dl class="case-s">
+                                <dt>Filed</dt>
+                                <dd>1 Mar 2019</dd>
+                                <dt>Status</dt>
+                                <dd><span class="pip pip-closed"></span>Settled</dd>
+                            </dl>
+                            <p class="case-soon-t">Chronology in progress</p>
+                        </div>
+                    </li>
+
+                    <li class="case-row">
+                        <div class="case-a is-soon">
+                            <p class="case-court">Mass. Super. Ct., Plymouth Cty. &middot; No. 2383CR00199</p>
+                            <h3 class="case-n">Commonwealth <em>v.</em> Clancy</h3>
+                            <p class="case-l">A prosecution in which the defence disputed almost none of the facts
+                                and contested only criminal responsibility. After seven days the jury could not
+                                agree. A mistrial decides nothing, and nothing was decided.</p>
+                            <dl class="case-s">
+                                <dt>Indicted</dt>
+                                <dd>15 Sept 2023</dd>
+                                <dt>Status</dt>
+                                <dd><span class="pip pip-open"></span>Mistrial</dd>
+                            </dl>
+                            <p class="case-soon-t">Chronology in progress</p>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             What this is
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="about" aria-labelledby="about-h">
+            <div class="wrap">
+                <p class="kicker">About</p>
+                <h2 class="section-title" id="about-h">How these are built, and what they are not</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Public filings only: dockets, exhibits and signed orders, as archived from PACER or the
+                            court&rsquo;s own system. Every characterisation on a case page traces to one of them,
+                            and the citation is on the card that makes it.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Order</h3>
+                        <p>Chronological, not thematic. A docket is a stack sorted by filing date, which is the one
+                            order in which none of it makes sense. These pages re-sort it into the order the events
+                            happened.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Both sides</h3>
+                        <p>Positions appear as each side actually argued them in its own filings, not as the other
+                            side characterised them. Where a side&rsquo;s argument has a weak point, the weak point
+                            is marked.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Allegations are allegations. Where a
+                            court has not resolved something, these pages say so and stop.</p>
+                    </div>
+                </div>
+
+                <p class="notes-updated">Corrections go on the case page they concern &mdash; there is a form at the
+                    foot of each one.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Case Chronicle</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>
