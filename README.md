@@ -36,8 +36,11 @@ Live at [frontendneeded.com](https://frontendneeded.com)
   adding a case is one HTML file. Standalone: they do not load the shared stylesheet, since the
   golden-ratio shell pins the body to 100vh and these are scrolling documents
   - `/case-chronicle/doe-v-bonnell/` — *Doe v. Bonnell II*, from the full public docket. The
-    only case with content so far. It is also the only one with a **Common ground** section;
-    the template for a new case is Chronology, the decision tree, Side by side, and Notes
+    only one with a **Common ground** section; the template for a new case is Chronology, the
+    decision tree, Side by side, and Notes
+  - `/case-chronicle/depp-v-heard/` — *Depp v. Heard*, from the Fairfax record, the court's own
+    published letter opinions, and both parties' deposition transcripts. Carries its own
+    stylesheet: the two side inks are sampled off the portraits in its masthead
   - `/doe-v-bonnell/` — where that page used to live. A stub that canonicalises and refreshes
     to the new URL, because the old one is indexed. Replaceable with a one-line Apache 301
 
@@ -50,11 +53,10 @@ Live at [frontendneeded.com](https://frontendneeded.com)
   Reads ESPN's public keyless endpoints straight from the browser, so there is nothing to host
   and nothing to rotate. Standalone page, same reason as `/case-chronicle/`. Deliberately *not*
   in robots.txt: a Disallow would stop crawlers reading its `noindex`
-- `/case-chronicle/depp-v-heard/` and `/case-chronicle/commonwealth-v-clancy/` — section
-  skeletons (`noindex,nofollow`, and out of the sitemap). The masthead docket facts and the
-  Notes are researched and cited; the three sections between them are not. Listed on the
-  Chronicle hub as in-progress. Lift the `robots` meta and add the URL to `sitemap.xml` on the
-  commit that fills one in
+- `/case-chronicle/commonwealth-v-clancy/` — section skeleton (`noindex,nofollow`, and out of
+  the sitemap). The masthead docket facts and the Notes are researched and cited; the three
+  sections between them are not. Listed on the Chronicle hub as in-progress. Lift the `robots`
+  meta and add the URL to `sitemap.xml` on the commit that fills it in
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
 - `/claude-usage/` — Live Claude Code session-window dial (`noindex,nofollow`); reads a

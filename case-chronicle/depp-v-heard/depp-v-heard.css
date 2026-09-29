@@ -41,6 +41,19 @@ body[data-case="depp-v-heard"] {
   --d-edge: rgba(26, 74, 62, 0.4);
   --d-pool: rgba(26, 74, 62, 0.42);
 
+  /* The decision tree, in the same two inks. Without these it would be the
+     one diagram on the page still wearing the defaults, which would be the
+     most conspicuous possible place to miss. */
+  --p-node: rgba(132, 64, 62, 0.09);
+  --p-node-out: rgba(132, 64, 62, 0.17);
+  --p-ink: rgba(132, 64, 62, 0.9);
+
+  --d-node: rgba(26, 74, 62, 0.09);
+  --d-node-out: rgba(26, 74, 62, 0.17);
+  --d-ink: rgba(26, 74, 62, 0.9);
+  --d-line: rgba(26, 74, 62, 0.5);
+  --d-arrow: rgba(26, 74, 62, 0.72);
+
   /* Mera's chevrons. Decoration only: 3:1 against the stock is under the
      floor for text, and it is never used for any. */
   --gold: #968635;
