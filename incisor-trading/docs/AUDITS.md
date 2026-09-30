@@ -963,3 +963,82 @@ at 768 and 390, which breaks the trio the closed layout exists to keep
 together. Deliberate, and left: each figure is a paragraph in that state, a
 three-across row of paragraphs is unreadable at those widths, and the
 ordering the trio teaches is stated in the prose the reader just opened.
+
+## 09-29 — Reporting calendar (T12)
+
+*Verdict: minor edits.*
+
+Second audit of this surface; the first was 09-07, and `T13c` made it due
+again. Answered from `tools/shoot.py` images at 1440, 768 and 390 — `AAPL`
+for a company that pays a dividend, `BRK.B` for one that does not and has a
+down quarter, `SPY` for the fund state — and from Chrome's own accessibility
+tree over the table, since what a screen reader is given is the finding and
+the markup does not say.
+
+**Useful.** Unchanged and still decisive for a company. Nothing else on the
+page says when a filing landed or when the next one is likely, and the panel
+teaches while it answers: `3 Nov 2026 — 8 Nov 2026` is a *window*, the tag
+beside it says `projected`, and the sentence under it shows the arithmetic —
+"its quarters run about 91 days apart, and its last 4 reports were filed 38 to
+43 days after a quarter closed. Companies set their own date and can move it."
+That is the best-composed thing on the surface and the reason it exists. The
+09-07 fix has held: `SPY` now answers in two lines and does not re-teach what
+the panel 600px above it already taught.
+
+**Easy.** No controls at all, so there is nothing to tab to and nothing to
+mis-hit — asserted rather than assumed, since a sort header would be an easy
+thing to add without noticing that its label is a date. The table is a real
+table in Chrome's tree at every width: five `columnheader`s, four `row`s,
+`cell`s under them, and the full wording spoken whatever spelling is drawn
+(`DIVIDEND DECLARED` while the phone shows `DIV`). Direction never rides on
+colour: `BRK.B`'s one down quarter draws `▼ −9.28%` in red, with the arrow
+and a real minus, and its three up quarters draw `▲ +19.67%`.
+
+**The finding is one width rule.** Below 700px `.inc-reports-from` — the
+`from 1.95` that the percentage beside it is measured against — was
+`display: none`. That deletes the element from the accessibility tree along
+with its box, and Chrome's tree confirms it: the change cell reads
+`+2.56% | from 1.95` at 1440px and 768px, and `+2.56%` alone at 390px. The
+baseline is in no other cell of that row — this table holds four quarters and
+the quarter each row is measured against is the fifth back — so a phone did
+not lose a repetition, it lost the only copy. Measured on both company
+symbols. `DEC-102` settled this shape on the watchlist on 09-24 and its own
+entry names the reporting calendar as bound by it; the calendar had been
+doing the opposite since it shipped on 09-03. Promoted to `DEC-112`.
+
+Fixed with the `.inc-offscreen` clip inside the same media query, which is
+safe here because `.inc-reports-scroll` is positioned (`DEC-036`). **All three
+`shoot.py` images are byte-identical either side of the change** — the drawing
+gives up the figure exactly as before and only the tree moved.
+
+**Beautiful.** It holds up beside the fundamentals panel above it, which is
+the comparison that matters since the two share a lookup: same tabular
+figures, same decimals, same rules rather than boxes. Tablet is where the
+table reads best — five columns close enough to scan as one row — and the
+phone is a genuinely good narrow table, `27 Jun 26 · 8 Aug 26 · 2.00 ·
+▲ +2.56% · 0.26` in 358px with nothing clipped and nothing stacked. At 1440px
+the five columns are spread across the full 1240px measure, which puts up to
+250px between a quarter and its dividend; left as it is, because the panel
+directly above spreads its trios across the same measure and a table that
+stopped short of the rules under it would read as the one thing on the page
+that did not fit.
+
+**Performing.** Still the cheapest surface here. Measured: a lookup makes
+three requests — `history`, `quote`, `fundamentals` — and the calendar adds
+**none of them**, reading the `/fundamentals` payload the panel above already
+paid for (`DEC-032`). Zero against the 22-a-day budget either way, since
+filings come from EDGAR (`DEC-041`). It reaches `data-state="ready"` 115ms
+after the search and blocks nothing.
+
+**The width floor holds.** `.inc-reports-scroll` was measured directly at 320,
+360, 375, 390, 460, 700, 701 and 768px — the box a body that never overflows
+cannot speak for (`DEC-073`, the trap that hid a clipped `0.26` for four
+sessions). Zero overflow at every one, and no cell clipping its own content.
+
+**Looked at and left.** `BRK.B` draws an em dash in all four dividend cells,
+which conflates "declared none" with "not known". Left: the dash is in the
+tree rather than an empty cell, a dash for nil is the ordinary convention in a
+financial table, and the paragraph under the table already says what the
+column means — *"a filing carries the dividend a company declared for a
+quarter"*. Changing it would mean writing a word into a numeric column to
+distinguish two cases the reader has not been given a reason to separate.

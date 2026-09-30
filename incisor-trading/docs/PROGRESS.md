@@ -6179,3 +6179,134 @@ instance and for how the mutation matrix misled twice. `D30` closed to a
 **Next session: the reporting calendar (T12) audit** — eighth of the eleven
 `T13c` made due, and it now arrives with its head already correct. No
 in-bounds defect is open.
+
+---
+
+## 2026-09-29 (routine) — the reporting calendar's re-audit, and a rule with the surface's name in it
+
+**No in-bounds defect was open**, so step 4 took the surface due an audit: the
+**reporting calendar (T12)**, eighth of the eleven `T13c` made due. An audit is
+a session's whole work, so no backlog task was taken. `D19` is still the only
+`[defect]` in `## Discovered` and is out of bounds twice over; the rest are
+`[enhancement]`s awaiting Key's triage.
+
+Yesterday's worktree was clean, matched `origin/incisor-dev` and belonged to a
+finished session, so it was removed and a fresh one taken (rule 11). Key's
+checkout had no changed tracked file (`DEC-084`).
+
+### How it was judged
+
+From `shoot.py` images at 1440, 768 and 390 — three symbols, because one
+picture of this surface is not the surface: **AAPL** (a company paying a
+dividend), **BRK.B** (one paying none, and the only fixture with a down
+quarter), **SPY** (the fund state, which is what fifteen of seventeen
+catalogue symbols produce). Crops of those images at all three widths were
+looked at, not just the exit code.
+
+Then from **Chrome's own accessibility tree** over the table, per width, which
+is where the finding is. The markup cannot show it: a `display: none` child is
+gone from the tree with its box and nothing in the HTML says so. The last
+session's lesson — that a check run the wrong way proves nothing — applies
+directly, so the tree was walked by role from the table's own `caption`.
+
+### The finding
+
+Below 700px `.inc-reports-from` was `display: none`. Chrome's tree, row one:
+
+| Width | The change cell |
+|---|---|
+| 1440px | `+2.56%` \| `from 1.95` |
+| 768px | `+2.56%` \| `from 1.95` |
+| 390px | `+2.56%` |
+
+The baseline is in **no other cell of that row**: the table holds four
+quarters and the quarter each row is measured against is the fifth one back.
+So a phone did not lose a repetition, it lost the only copy of the figure the
+percentage is a percentage of. Reproduced on `BRK.B` as well as `AAPL`.
+
+Fixed with the `.inc-offscreen` clip inside the same media query — safe there
+because `.inc-reports-scroll` is positioned (`DEC-036`), so the 1px child is
+clipped with the rest rather than escaping the scroller, which is `D6` again.
+**All three `shoot.py` images are byte-identical either side of the fix.** The
+drawing gives the figure up exactly as it did; only the tree moved.
+
+### The rule was not missing — it had this surface's name in it
+
+`DEC-102`, filed on 09-24 fixing `D24`, ends: *"This binds any surface with a
+dollars-and-percent pair in a narrow row, which is the positions table, the
+trade log and the reporting calendar as well as this one."* The calendar had
+been doing the opposite since `T12` shipped on 09-03 and was still doing it
+five days after that sentence was written. Second bite, so `DEC-102` is
+**promoted to `DEC-112`** in *Recurring traps*, the same move `DEC-101` made
+into `DEC-103` — and, as there, the second surface was one the first entry had
+already named.
+
+The detail entry carries what made it invisible: `css/reports.css` withdraws
+**three** things at 700px, and the other two are correct — a short date and a
+short column label each have a visible partner shown in the same block. Two
+right rules beside one wrong one read as a handled pattern. *A stylesheet that
+withdraws three things at one width is not withdrawing them for one reason.*
+
+### Why the test is per-surface and not derived
+
+Weighed against `DEC-111`, which was yesterday's finding and points the other
+way. The page has **six** `display: none` rules inside max-width queries and
+four are correct by four different mechanisms: a partner spelling shown in the
+same block (`reports.css`, twice), an `aria-hidden` pair with an
+`.inc-offscreen` label, a name moved onto the parent cell (`DEC-107`), and
+decoration with nothing to carry (the chart's alternate axis labels). A
+derivation over those is an allow-list with four entries, which is `DEC-108`'s
+"a comment saying they match" with a test's name on it. So it is stated once,
+in `test_reports_panel.py`, and the reasoning is in `DEC-112` rather than lost.
+
+Mutation matrix, run through `discover -k` and not by dotted name, each failing
+on its own assertion and naming the real defect:
+
+| | Mutation | Failed on |
+|---|---|---|
+| M1 | `display: none` back in the narrow rule | "a deleted element is deleted from the tree too" |
+| M2 | `clip-path: inset(50%)` removed | the clip's property loop |
+| M3 | `position: relative` off `.inc-reports-scroll` | the containing-block pairing |
+| M4 | the whole rule deleted | `ValueError` — it cannot pass by matching nothing |
+
+### Verified
+
+- **280 front-end tests** (`python3 -m unittest discover tests`), OK — 279
+  before, one added.
+- `python3 tools/shoot.py --api http://127.0.0.1:8789 --symbol AAPL` green at
+  desktop, tablet and true mobile emulation, and the same for `SPY` and
+  `BRK.B`. Images written and **looked at**, cropped to the panel at all three
+  widths.
+- `.inc-reports-scroll` measured directly at **320, 360, 375, 390, 460, 700,
+  701 and 768px**: zero overflow at every one, no cell clipping its own
+  content. That box is invisible to a body that never overflows (`DEC-073`),
+  and it is what hid a clipped `0.26` for four sessions.
+- Request cost measured: a lookup makes three calls — `history`, `quote`,
+  `fundamentals` — and this surface adds **none of them** (`DEC-032`). Ready
+  115ms after the search.
+- The service ran in fixture mode from a **scratchpad venv**, not
+  `server/.venv`, which is not gitignored; nothing was added to the repo to
+  run it. (`D28` is untouched and still asks for the suite to build its own.)
+- `css/reports.css` is 379 lines of 600; the surface's own span is unchanged.
+- `git status` clean outside `incisor-trading/`; Key's checkout untouched.
+
+### Recorded
+
+`DEC-112` with a detail entry, and `DEC-102` rewritten to redirect to it.
+Audit-log row for 09-29 with the four answers in `AUDITS.md`. Nothing new
+filed in `## Discovered` — the one thing looked at and left, `BRK.B`'s column
+of em dashes for a company that declares no dividend, implies no future work
+and the reason is in the audit entry.
+
+### For Key
+
+**Nothing new.** `N17`, `N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+`N17`: seven of the eight re-audits have now found something the original
+audit missed. This one is the sharpest evidence yet, because it is not a
+broadsheet regression either — the rule it broke was written eighteen days
+after the surface shipped and three days before the revamp, and it named this
+surface. Eighth piece of evidence for keeping the queue.
+
+**Next session: the portfolio summary (T14) audit** — ninth of the eleven, and
+the first of the three Trade-tab surfaces. No in-bounds defect is open.

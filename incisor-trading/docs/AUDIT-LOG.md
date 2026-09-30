@@ -22,11 +22,12 @@ was written against rounded cards in DM Sans, and broadsheet changed the measure
 the fills, the rules and the face of all of them (§18 — a revamp touching a
 surface makes it due, whatever its last verdict).
 
-**Seven down, four to go** — clock 09-22, index strip 09-23, symbol lookup and
+**Eight down, three to go** — clock 09-22, index strip 09-23, symbol lookup and
 price chart both 09-24, watchlist 09-26, sector grid and fundamentals panel
-both 09-27. That closes the dashboard's original six and the first of the
-five `T13c` reached second. Next is the **reporting calendar (T12)**. An
-audit is a session's whole work, so the remainder sits ahead of `T13d`; **that is probably not what
+both 09-27, reporting calendar 09-29. That closes the dashboard's original six
+and the two `T13c` reached second. Next is the **portfolio summary (T14)**, then
+the order ticket (T15) and the holdings tables (T16). An audit is a session's
+whole work, so the remainder sits ahead of `T13d`; **that is probably not what
 §18 means to buy and is not the routine's to redefine — `N17`.** The rule stands
 and the queue is worked in order.
 
@@ -52,3 +53,4 @@ and the queue is worked in order.
 | 09-26 | **Watchlist** (T9) | Minor edits | Below 620px the line is `display: none`, and it carried the month's only sentence: 8 in the tree at desktop, 0 on a phone. |
 | 09-27 | **Sector grid** (T10) | Minor edits | The window buttons are a copy of the chart's ranges, and the original grew a narrow rule the copy never got: 68.4x28 against 39.2x26 at 390px. |
 | 09-27 | **Fundamentals panel** (T11) | Minor edits | The stylesheet says "three across, at every width" and set the flow, not the track count: four columns, three filled, 315px dead of 1240. |
+| 09-29 | **Reporting calendar** (T12) | Minor edits | Below 700px "from 1.95" was `display: none`, so the tree read `+2.56%` alone: the baseline is in no other cell. |

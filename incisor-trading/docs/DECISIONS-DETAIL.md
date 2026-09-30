@@ -2402,6 +2402,11 @@ reader chose, and does not — filed as `D24`.
 
 ## DEC-102 — the comparable figure keeps its place; the one that cannot gives up its width
 
+*Promoted into `DEC-112`, which is the same lesson after it bit a second time —
+the reporting calendar, four days after this entry named it as bound (T12 audit,
+09-29). The index now carries that one line; the reasoning it had is below,
+unchanged.*
+
 Found fixing `D24`, 2026-09-24, by measuring rather than by looking.
 
 Putting the month's figure in a watchlist row made the row 375px wide against
@@ -2822,3 +2827,51 @@ form `</span\n  >` never matched a literal `</span>`, so the count guard
 fired with a message about an element that was not there. The shape reads
 `</span\s*>` now. **Run a mutation check the way the suite runs, and read
 the message and not the exit code.**
+## DEC-112 — a rule naming the surfaces it binds does not travel to them (trap)
+
+Promoted from `DEC-102` on 2026-09-29, in the reporting calendar's re-audit,
+because it bit a second time — and, as with `DEC-103`, the second surface was
+one the first entry had already named.
+
+`DEC-102`'s closing paragraph reads: *"This binds any surface with a
+dollars-and-percent pair in a narrow row, which is the positions table, the
+trade log and **the reporting calendar** as well as this one."* It was written
+on 09-24. The calendar had been withdrawing `from 1.95` with `display: none`
+since `T12` shipped on 09-03, and was still doing it on 09-29. So the lesson
+was not missing, and it was not even general: it was written down with this
+surface's name in it, and nothing went and looked.
+
+**The shape both times.** A row runs out of width. The figure that can least
+be compared with the row above it gives up its place — which is the right
+call, and is the whole of `DEC-102`. Then the giving-up is spelled
+`display: none`, which takes the element out of the accessibility tree along
+with its box, so the figure is not withdrawn from the drawing but deleted from
+the page. The watchlist's session dollars at 460px; the calendar's earnings
+baseline at 700px. Chrome's tree read `+2.56% from 1.95` at 1440px against
+`+2.56%` alone at 390px, and the baseline is in no other cell of that row —
+the table holds four quarters, and the one each row is measured against is the
+fifth back.
+
+**What to do instead.** The `.inc-offscreen` clip, property by property,
+inside the media query. It changes no pixel: all three `shoot.py` images were
+byte-identical either side of the fix, and only the tree moved.
+
+**Why a written rule did not carry.** `DEC-102` binds by *situation* — "a
+narrow row that must drop a figure" — and a situation is not something a
+session goes looking for; it is something a session is in without noticing.
+The two spellings beside this very rule in `css/reports.css` are correct,
+because a short date and a short column label have a visible partner in the
+same block, and their correctness is what made the third rule look like a
+fourth instance of a pattern that was already handled. **A stylesheet that
+withdraws three things at one width is not withdrawing them for one reason.**
+Check each against what carries the fact afterwards, separately.
+
+The test is per-surface rather than derived over all of them, and that was
+weighed against `DEC-111`: the page has six `display: none` rules inside
+max-width queries and four are correct by four different mechanisms — a
+partner spelling shown in the same block, an `aria-hidden` pair with an
+`.inc-offscreen` label, a name moved onto the parent cell (`DEC-107`), and
+decoration with nothing to carry. A derivation over those is an allow-list
+with four entries, which is `DEC-108`'s "a comment saying they match" with a
+test's name on it. Stated once per surface, and stated here.
+

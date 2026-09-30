@@ -76,7 +76,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
 | DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
 | DEC-101 | **Promoted** → DEC-103, in *Recurring traps*; it bit the watchlist the next day. |
-| DEC-102 | **Out of width, the comparable figure stays and the incomparable one gives up its width** — off-screen, never `display: none`. The watchlist drops the session's dollars at 460px. |
+| DEC-102 | **Promoted** → DEC-112, in *Recurring traps*; the surface its own entry named as bound shipped the opposite four days later. |
 | DEC-104 | **A drawing that prints its own scale is not DEC-103** — the range bands label both ends, so the marker is readable. Do not add a percent beside them. |
 | DEC-105 | **A mandated check runs from what the repo ships: the docs name `python3`, never a venv.** Rule 11 gives a fresh worktree and `.devtools/` is gitignored, so both spellings died (D27). |
 | DEC-106 | **A record that never finishes cannot share a byte ceiling with a queue that does** — the audit log is its own file; four sessions had met the backlog's budget by cutting findings. |
@@ -126,3 +126,4 @@ there will be a third.
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`. Bit T14, then T16. |
 | DEC-103 | **A locally scaled line cannot be read against the one beside it, so every sparkline states its figure too.** Four tiles, then eight chosen rows; the size was in the `aria-label` both. |
 | DEC-107 | **A name on an element a media query hides is a name that width deletes** — `display: none` takes it out of the tree with the box. Name the cell, not the child that vanishes (T9). |
+| DEC-112 | **A rule that names the surfaces it binds still does not travel to them.** DEC-102 named this calendar; four days later it withdrew `from 1.95` by deleting it. |
