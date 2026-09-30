@@ -218,7 +218,7 @@
 
    It ships with the hidden attribute and is only revealed here, so a
    reader with no JavaScript never sees a dead control - the same
-   bargain as the two buttons above. The anchor itself would work
+   bargain as the section pills above. The anchor itself would work
    without any of this; what needs the script is knowing when to offer
    it. */
 
@@ -231,7 +231,8 @@
 
   btn.hidden = false;
 
-  /* Skip ahead steps aside by exactly the width of this button, and CSS
+  /* Section navigation steps aside by exactly the width of this button,
+     and CSS
      has no way to ask for that, so it is published here as a custom
      property. Measured rather than hardcoded: the label is one line of
      mono, and its width moves with the reader's base font size, with
@@ -255,8 +256,8 @@
     window.addEventListener('resize', publishWidth);
   }
 
-  /* The class on the root is what lets Skip ahead step aside for this
-     button, and only while it is actually out: without it the skip pill
+  /* The class on the root is what lets the section pill step aside for
+     this button, and only while it is actually out: without it the pill
      would sit beside an empty slot for the first screen of the page. */
   new IntersectionObserver(function (entries) {
     var out = !entries[0].isIntersecting;

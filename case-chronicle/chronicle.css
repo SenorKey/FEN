@@ -2018,16 +2018,17 @@ a.case-a:focus-visible {
 }
 
 /* ═══════════════════════════════════════════════
-   Skip ahead
+   Section navigation
 
    The chronology runs to about ten screens, and the ledger to fourteen
-   with every drawer open. A reader who does not want either should not
-   have to scroll the whole of it to get out, so those two sections
-   carry an exit. The other three are barely over a screen and do not.
+   with every drawer open. A reader who wants out of either should not
+   have to scroll the whole of it, so every section carries a way on and
+   a way back. The first has no previous and the last no next: Back to
+   top already covers the one, and nothing follows the other.
 
-   It is an ordinary anchor. No script, no handler: the smooth scroll
-   and the reduced-motion opt-out are the ones already set on <html>,
-   and with JavaScript off it still works, because it was never doing
+   Ordinary anchors. No script, no handler: the smooth scroll and the
+   reduced-motion opt-out are the ones already set on <html>, and with
+   JavaScript off they still work, because they were never doing
    anything JavaScript was needed for.
 
    Sticky to the bottom of the viewport rather than fixed to it, which
@@ -2035,21 +2036,24 @@ a.case-a:focus-visible {
    and then settles at the end of it, so it is there for exactly as
    long as it is useful and never follows the reader into the next
    section to nag them.
+
+   One box split down the middle rather than two pills side by side.
+   The bottom rail already carries Terms and Back to top, and at the
+   narrow size there was only ever room for three: a divider costs a
+   pixel, a fourth box costs a row.
    ═══════════════════════════════════════════════ */
 
-.skip-next {
+.sect-nav {
   position: sticky;
   bottom: 26px;
   z-index: 5;
 
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: stretch;
   width: max-content;
   max-width: 100%;
   margin: 72px 0 0 auto;
 
-  padding: 11px 15px;
   border: 1px solid var(--rule);
   /* Deeper than either ground it floats over, so it reads on the band
      sections and the plain ones alike, and stays legible over the text
@@ -2057,31 +2061,57 @@ a.case-a:focus-visible {
   background: var(--bg-deep);
   box-shadow: 0 5px 18px rgba(23, 20, 15, 0.14);
 
+  transition: transform 0.25s;
+}
+
+.has-to-top .sect-nav {
+  transform: translateX(calc(-1 * (var(--totop-w) + var(--ctl-gap))));
+}
+
+.sect-nav-b {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+
+  padding: 11px 15px;
+  /* The pill is sized by its content and the two halves share a row, so
+     neither is allowed to wrap and push the other taller. */
+  white-space: nowrap;
+
   font-family: var(--mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-decoration: none;
   color: var(--ink-2);
-  transition: color 0.2s, border-color 0.2s, transform 0.25s;
+  transition: background-color 0.2s, color 0.2s;
 }
+
+/* Between the two halves only, so a pill carrying one button - the
+   first section and the last - has no stray rule down an outside edge. */
+.sect-nav-b + .sect-nav-b { border-left: 1px solid var(--rule); }
 
 /* Set against the pill's own ground rather than inherited from the
    page's secondary steps, which are pitched for the stock behind them. */
-.skip-next-l { color: var(--muted); }
+.sect-nav-l { color: var(--muted); }
+.sect-nav-t { color: var(--ink); }
 
-.has-to-top .skip-next {
-  transform: translateX(calc(-1 * (var(--totop-w) + var(--ctl-gap))));
-}
-.skip-next-t { color: var(--ink); }
+/* The border belongs to the container now, so tinting it on hover would
+   light up both halves for a pointer that is only over one. The lift is
+   on the half itself instead. */
+.sect-nav-b:hover,
+.sect-nav-b:focus-visible { background: var(--bg-band); }
 
-.skip-next:hover,
-.skip-next:focus-visible { border-color: var(--court); }
+.sect-nav-b:hover .sect-nav-l,
+.sect-nav-b:focus-visible .sect-nav-l { color: var(--ink); }
 
-.skip-next:hover .skip-next-l,
-.skip-next:focus-visible .skip-next-l { color: var(--ink); }
+/* Inset, because the container's border would otherwise clip a ring
+   drawn on the shared edge between the halves. */
+.sect-nav-b:focus-visible { outline-offset: -3px; }
 
-.skip-next-a { transition: transform 0.2s; }
-.skip-next:hover .skip-next-a { transform: translateY(2px); }
+/* Each arrow leans the way its own button goes. */
+.sect-nav-a { transition: transform 0.2s; }
+.sect-nav-prev:hover .sect-nav-a { transform: translateX(-2px); }
+.sect-nav-next:hover .sect-nav-a { transform: translateX(2px); }
 
 /* The nav is sticky and 44px tall, so a section arrived at by anchor
    would otherwise land with its top edge tucked underneath it. The
@@ -2159,7 +2189,8 @@ a.case-a:focus-visible {
 .to-top-a { transition: transform 0.2s; }
 
 @media print {
-  .to-top { display: none; }
+  .to-top,
+  .sect-nav { display: none; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -2517,20 +2548,27 @@ a.case-a:focus-visible {
   .gloss-p { width: calc(100vw - 2 * var(--gut)); max-height: 58vh; padding: 20px 20px 22px; }
   .gloss-l > div { grid-template-columns: 1fr; gap: 2px; }
 
-  .skip-next {
-    margin-top: 48px;
+  .sect-nav { margin-top: 48px; }
+
+  .sect-nav-b {
     padding: 10px 13px;
     gap: 8px;
     font-size: 0.66rem;
   }
 
-  /* Skip ahead runs most of the width at this size, so Back to top drops
-     to its arrow rather than sitting on top of it. The anchor carries an
-     aria-label, so losing the visible words costs nothing to a screen
-     reader. */
-  /* No bottom offset of its own: the pair shares one baseline, and Skip
-     ahead sets it. The vertical padding and the type size are Skip
-     ahead's too, so the two boxes come out exactly the same height
+  /* The words go and the numbers stay, so the pair reads as arrow-number
+     on each side and the whole box lands near the width the single skip
+     pill used to take. Same bargain as Back to top below: both anchors
+     carry aria-labels, so a screen reader loses nothing. */
+  .sect-nav-l { display: none; }
+
+  /* Section navigation runs most of the width at this size, so Back to
+     top drops to its arrow rather than sitting on top of it. The anchor
+     carries an aria-label, so losing the visible words costs nothing to
+     a screen reader. */
+  /* No bottom offset of its own: the pair shares one baseline, and the
+     section pill sets it. The vertical padding and the type size are
+     that pill's too, so the boxes come out exactly the same height
      rather than a pixel apart. */
   .to-top {
     padding: 10px 12px;
