@@ -192,6 +192,40 @@ class TestTheSurfaceMeetsTheHouseRules(unittest.TestCase):
         self.assertIn('.inc-reports-head-full', narrow)
         self.assertIn('.inc-reports-head-short', narrow)
 
+    def test_the_phone_gives_up_the_baseline_on_screen_and_not_in_the_name(self):
+        """Below 700px "from 1.95" leaves the drawing so five columns fit, and
+        it must leave off-screen rather than by `display: none`.
+
+        The figure is the check on the percentage beside it and it is in no
+        other cell of the row — this table holds four quarters, and the
+        quarter each row is measured against is the fifth one back. So a rule
+        that deletes the element deletes the fact, and Chrome's tree read
+        "+2.56% from 1.95" at 1440px against "+2.56%" at 390px for as long as
+        this surface has shipped. DEC-102 settled the shape on the watchlist,
+        which gives up its session dollars the same way at 460px.
+
+        The two spellings beside it are the other pattern and are allowed to
+        delete: a short date and a short column label each have a partner
+        shown in the same block carrying the same fact, which this one has
+        not."""
+        narrow = STYLES[STYLES.index('@media (max-width: 700px)'):]
+        rule = narrow[narrow.index('.inc-reports-from {'):]
+        rule = rule[:rule.index('}')]
+
+        self.assertNotIn('display: none', rule,
+                         'a deleted element is deleted from the tree too')
+        for prop in ('position: absolute', 'width: 1px', 'height: 1px',
+                     'overflow: hidden', 'clip-path: inset(50%)'):
+            self.assertIn(prop, rule, 'the .inc-offscreen clip, property by '
+                                      'property')
+
+        # The clip only holds because the box around it is a containing block
+        # (DEC-036) — without that the 1px child escapes the scroller and
+        # pushes the body sideways, which is D6 again.
+        scroller = STYLES[STYLES.index('.inc-reports-scroll {'):]
+        self.assertIn('position: relative',
+                      scroller[:scroller.index('}')])
+
     def test_nothing_here_reaches_the_beacon_with_a_ticker(self):
         """There is no control on this surface at all, which is the simplest
         way to satisfy guide section 5 — asserted rather than assumed, since

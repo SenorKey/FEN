@@ -291,9 +291,25 @@
     /* The one column that can lose width without losing meaning: "from 1.95"
        is the check on the percentage beside it, and on a phone the
        percentage and its arrow are what the row is for. It comes back at the
-       first width where the table is not already scrolling. */
+       first width where the table is not already scrolling.
+
+       Off-screen rather than `display: none` (DEC-102): the baseline keeps
+       its place in the cell's accessible name, so a screen reader on a phone
+       hears exactly what one on a desktop hears. It shipped deleted, and the
+       figure it deletes is in no other cell — this table holds four
+       quarters, and the quarter a row is measured against is the fifth back.
+       Only the seen page gives it up. The same clip as .inc-offscreen, and
+       safe inside .inc-reports-scroll because that box is positioned
+       (DEC-036), so an absolute child is clipped with the rest. */
     .inc-reports-from {
-        display: none;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        clip-path: inset(50%);
     }
 
     /* Every column stays, at the shorter spelling and a tighter measure.
