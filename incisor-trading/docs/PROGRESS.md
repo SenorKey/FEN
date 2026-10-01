@@ -6310,3 +6310,177 @@ surface. Eighth piece of evidence for keeping the queue.
 
 **Next session: the portfolio summary (T14) audit** — ninth of the eleven, and
 the first of the three Trade-tab surfaces. No in-bounds defect is open.
+
+## 2026-10-01 (routine) — the portfolio summary's audit, and the width a round number hid
+
+**No in-bounds defect was open**, so step 4 took the surface due an audit: the
+**portfolio summary (T14)**, ninth of the eleven `T13c` made due and the first
+of the three Trade-tab surfaces. An audit is a session's whole work, so no
+backlog task was taken. `D19` is still the only `[defect]` in `## Discovered`
+and is out of bounds twice over; the rest are `[enhancement]`s awaiting Key's
+triage.
+
+Two housekeeping notes from step 1. Yesterday's worktree was clean, matched
+`origin/incisor-dev` and belonged to a finished session, so it was removed and
+a fresh one taken (rule 11). And a **fixture-mode service from the 09-29
+session was still listening on 8789**, three days on, answering `503` because
+the DB it was started with went away with that worktree — so the first
+`shoot.py` run of the day failed on console errors that were nothing to do
+with the page. Killed, restarted, and worth knowing: the routine leaves its
+dev service running, and the next session's identical service fails to bind
+while the stale one answers. Filed nothing, because the symptom is loud and
+the fix is `kill`; said here so the next session recognises it in one step
+rather than three.
+
+### How it was judged
+
+From `shoot.py` images in seven states — fresh, `held`, `flat`, `corrupt`,
+`newer`, `--block-storage`, and `held` with the service stopped — and then
+from the panel measured at **thirteen widths**, because the finding is a width
+and three photographed ones cannot find one. A scratchpad driver reusing
+`shoot.py`'s own serving and seeding shot the `[data-portfolio]` element at
+each width and measured every figure's painted edge against its cell.
+
+Two corrections to my own instrument before it said anything true, both worth
+recording because both would have produced a confident wrong answer:
+
+- All nine widths first ran as **one simulated visitor**, so the last of them
+  came back `unpriced` — the per-IP gate, not the page. One address per width.
+- `scrollWidth` on a block element reports **its own box, not its text**, so a
+  "room" column computed from it was measuring padding. A `Range` over the
+  element's contents measures the glyphs.
+
+### The finding
+
+Every figure in this card is `white-space: nowrap`, deliberately — a balance
+broken over two lines reads as two numbers. The tracks holding them came from
+round numbers: four across to 700px, two below. Nothing derived either from
+the figures.
+
+A gain is arrow, sign and money, so six figures of it is twelve characters and
+132px in the monospace face. The four-across track at 701px offers 119px. The
+two-across track at 320px offers 112px. A track narrower than its figure does
+not wrap it — it prints it over the rule beside it, and at 320px it **pushed
+the body sideways**, the one rule guide §13 states unconditionally.
+
+Measured on a portfolio that had doubled:
+
+| Width | Tracks | Room |
+|---|---|---|
+| 768px | four | 3px |
+| 701px | four | **−13px** |
+| 390px | two | 15px |
+| 320px | two | **−20px** |
+
+The threshold is exact and is the reason this is a defect rather than an edge:
+`+$9,999.99` fits a 320px cell with **0px** to spare and `+$10,000.00`
+overruns it by 9px. **Ten percent on the game's $100,000** — the ordinary good
+outcome of the thing the page teaches — is where the surface broke. Verified
+with two seeds straddling the boundary rather than argued from the arithmetic.
+
+The headline's change row is the same fault in a flex row: arrow, amount and
+period are three nowrap items on one line, so `since start` was printed
+*outside the card*, on the page background.
+
+### What shipped
+
+- The track count steps down where the longest figure clears it with room
+  left, not at a round width: **four above 831px** (19px of room), **two down
+  to 390px** (15px), **one below that** (124px). 768px — iPad portrait — moves
+  from four tracks with 3px to two with 196px. Three pixels is not a fit; it
+  is the next thing that lands beside it taking the cell, which is `DEC-033`
+  on its third bite. The 2×2 the 09-16 audit praised survives at 390px, which
+  is why the single-column switch sits at 389 and not at the 415 a uniform
+  margin rule would have given.
+- `flex-wrap: wrap` on the change row, so the period takes a second line
+  rather than the page.
+- Desktop is untouched: no new rule matches above 831px.
+
+### The check was asking the right question of the wrong portfolio
+
+`shoot.py` has measured each figure against its own box at 375 and 320px since
+the surface shipped, and passed throughout, because it seeded
+`--portfolio held` — gains of `−$115.70` and `+$255.07`, eight characters
+where the surface has to fit twelve. That is `DEC-064` exactly: a stand-in
+failing silently in the direction nobody checks.
+
+The narrow pass is seeded from `NARROW_PORTFOLIO` now — a position bought
+below half its fixture close and held, whose unrealized gain is six figures —
+joining `NARROW_WATCHLIST` and `NARROW_SYMBOL`, which were already chosen on
+exactly this principle and whose comments say so. `tests/test_portfolio.py`
+derives that gain from the **committed fixture the page is priced from**
+rather than restating it, so a refreshed capture moves both together.
+
+### Seeding it honestly turned the check red the same minute — on another surface
+
+The holdings table (`T16`). Below 560px it stops scrolling inside its own box
+and stacks, and the stacked layout makes every cell a flex row — so the
+`white-space: normal` written right there cannot take effect, and the label,
+the arrow, the amount and the percentage sit on one line however long they
+get. 329px in a 320px viewport with the honest seed; 344px with a doubled
+account.
+
+**Fixed the same session and filed as `D31`**, which is a deliberate stretch
+of "an audit is one surface's work" and the reasoning should be visible: the
+alternative was committing a change that leaves the project's only mandated
+visual check failing, and a red check whose cause is a *different* surface is
+an invitation for the next session to revert the seed and re-hide the blind
+spot. The fix is the same one rule as the one above it — a nowrap row that
+cannot wrap — which is what earned `DEC-113` the index rather than a comment.
+
+### Verified
+
+- **285 front-end tests** (`python3 -m unittest discover tests`), OK — 280
+  before, five added.
+- A **five-mutation matrix**, each failing on its own assertion and naming the
+  real defect: the change row's wrap removed; the single-column block deleted
+  (`ValueError` — it cannot pass by matching nothing); the two queries swapped
+  so the wider one wins; the column rule not withdrawn; and the narrow pass
+  re-seeded with `held`.
+- `shoot.py` green on the dashboard and the Trade tab, and green in all seven
+  portfolio states — `held`, `flat`, `corrupt`, `newer`, `wide`,
+  `--block-storage` and fresh.
+- The panel measured at **thirteen widths** after the fix, including both new
+  boundaries from either side (830/831, 389/390/391): nothing reaches past its
+  cell anywhere, and the smallest room left is 15px at 390px.
+- **With the service stopped**: cash and realized gain still shown, the three
+  figures needing a price dashed, and the line under the card saying how many
+  positions could not be priced. No blank page, no spinner.
+- `css/portfolio.css` is 215 lines of 600, `css/positions.css` 224.
+- `git status` clean outside `incisor-trading/`; Key's checkout never touched.
+
+### Recorded
+
+`DEC-113` with a detail entry. Audit-log row for 10-01 with the four answers
+in `AUDITS.md`, and the queue advanced to nine of eleven. `D31` in `## Done`.
+
+### For Key
+
+**`DECISIONS.md` is at 15,998 of its 16,000 ceiling — two bytes.** Guide §16
+makes that the *next* session's consolidation trigger (`S6`), not this one's,
+since an audit is a session's whole work and the guide forbids raising a
+ceiling mid-task to get past it. Flagging it because the next session cannot
+file so much as a one-character row until it consolidates, and the formula for
+the new ceiling is in §16: what lands, plus roughly a quarter.
+
+**You started editing `case-chronicle/doe-v-bonnell/index.html` partway
+through this session.** Nothing was at risk and nothing of yours was touched —
+the step-1 check is a start-of-session gate and your checkout was clean then,
+and this session's work happened entirely in its own worktree (`DEC-081`).
+Noted only so the next session does not read it as a stop condition that was
+missed.
+
+`N17`: eight of the nine re-audits have now found something the original audit
+missed. This one is worth a second look for a different reason than the
+others — it is not a broadsheet regression at all. The tracks were sized by
+round numbers from the day the surface shipped, the original audit checked
+375px and 320px and found no figure spilling, and it was right, because the
+sample it checked held three-figure gains. The queue did not find a stale
+verdict here; it found a check that had been passing for the wrong reason
+since T14. Ninth piece of evidence for keeping it.
+
+`N16`, `N14`, `N11` unchanged; `D19` still yours.
+
+**Next session: the order ticket (T15) audit** — tenth of the eleven — unless
+the `DECISIONS.md` ceiling takes the session first, which by §16 it should.
+No in-bounds defect is open.

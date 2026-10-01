@@ -1042,3 +1042,68 @@ financial table, and the paragraph under the table already says what the
 column means — *"a filing carries the dividend a company declared for a
 quarter"*. Changing it would mean writing a word into a numeric column to
 distinguish two cases the reader has not been given a reason to separate.
+
+## 10-01 — Portfolio summary (T14)
+
+*Verdict: minor edits.*
+
+Ninth of the eleven `T13c` made due, and the first of the three Trade-tab
+surfaces. Judged from `shoot.py` images in seven states — fresh, `held`,
+`flat`, `corrupt`, `newer`, `--block-storage`, and `held` with the service
+stopped — and then from the panel measured at thirteen widths, because the
+finding is a width and three photographed ones cannot find it.
+
+**Useful.** Yes, and more so than at 09-16. It is the Trade tab's answer:
+nothing else on the page says what the $100,000 became, and the four parts
+under the headline are the only place the realized/unrealized split is shown
+rather than described. The intro above it teaches that split in two sentences
+and the asides under the figures — *on shares sold*, *on shares held* — carry
+it onto the figures themselves. With the service stopped it still answers:
+cash and realized gain need no price and are shown, the three that need one
+dash, and the line underneath says how many positions could not be priced.
+That is the state most dashboards get wrong and this one designed.
+
+**Easy.** This is where it failed, and the same way twice. Every figure here
+is `white-space: nowrap`, and the tracks they sit in were sized by round
+numbers — four across to 700px, two below. A gain is arrow, sign and money, so
+six figures is twelve characters and 132px, against a 119px track at 701px and
+a 112px track at 320px. A track narrower than its figure prints it over the
+rule beside it, and at 320px it pushed the body sideways — the one rule §13
+states unconditionally. The boundary is exact: `+$9,999.99` fits a 320px cell
+with **0px** spare, `+$10,000.00` overruns by 9px. Ten percent on $100,000,
+which is the ordinary good outcome of the thing the page is for.
+
+The headline's change row is the same fault in flex: arrow, amount and period
+are three nowrap items on one line, so `since start` was printed outside the
+card on the page background.
+
+Both fixed — tracks step down where the longest figure clears them with room
+left (four above 831px, two to 390px, one below), the change row may use a
+second line. 768px moves from four tracks with 3px of room to two with 196px.
+Everything else about the surface held up: no figure in any state reached its
+cell's edge afterwards, at any of the thirteen widths.
+
+**Beautiful.** Still yes, and the fix improved it. The single column below
+390px gives each part the card's full measure and reads as a list of four
+facts rather than a cramped two-by-two; the two-by-two it replaces survives
+where it has room, at 390px and up. The headline keeps the quote card's size
+and the breakdown stays a ruled row rather than four boxes, which is what
+broadsheet asked of it. Looked at and left: the stored-state notices are
+red-tinted beside a red realized loss, which is the page-wide alert treatment
+and not this surface's to change — unchanged from 09-16.
+
+**Performing.** Unchanged and cheap. An all-cash portfolio asks for nothing
+and renders at once; a held one costs one `/history` per symbol held or on
+order, the same series the ledger fills orders from (`DEC-032`). Cash and
+realized gain draw before any price lands. The fix is three media-query
+blocks and one `flex-wrap` — no new rule matches above 831px, so the desktop
+layout is byte-identical.
+
+**What the audit found about the checks, not the surface.** `shoot.py` has
+measured each figure against its own box at 375 and 320px since the surface
+shipped, and passed throughout, because it seeded `--portfolio held` — eight
+characters where the surface must fit twelve. The right question of the wrong
+portfolio, which is `DEC-064`. The narrow pass is seeded from the widest state
+now, and `tests/test_portfolio.py` derives that gain from the committed
+fixture rather than restating it. Seeding it honestly turned the check red
+immediately, on the holdings table rather than this surface: `D31`.

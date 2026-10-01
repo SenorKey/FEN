@@ -22,14 +22,16 @@ was written against rounded cards in DM Sans, and broadsheet changed the measure
 the fills, the rules and the face of all of them (§18 — a revamp touching a
 surface makes it due, whatever its last verdict).
 
-**Eight down, three to go** — clock 09-22, index strip 09-23, symbol lookup and
+**Nine down, two to go** — clock 09-22, index strip 09-23, symbol lookup and
 price chart both 09-24, watchlist 09-26, sector grid and fundamentals panel
-both 09-27, reporting calendar 09-29. That closes the dashboard's original six
-and the two `T13c` reached second. Next is the **portfolio summary (T14)**, then
-the order ticket (T15) and the holdings tables (T16). An audit is a session's
-whole work, so the remainder sits ahead of `T13d`; **that is probably not what
-§18 means to buy and is not the routine's to redefine — `N17`.** The rule stands
-and the queue is worked in order.
+both 09-27, reporting calendar 09-29, portfolio summary 10-01. That closes the
+dashboard's original six, the two `T13c` reached second, and the first of the
+three Trade-tab surfaces. Next is the **order ticket (T15)**, then the holdings
+tables (T16) — and that one now has `D31`'s fix under it, so it is due on the
+revamp rule and on a change since. An audit is a session's whole work, so the
+remainder sits ahead of `T13d`; **that is probably not what §18 means to buy and
+is not the routine's to redefine — `N17`.** The rule stands and the queue is
+worked in order.
 
 ## The log
 
@@ -54,3 +56,4 @@ and the queue is worked in order.
 | 09-27 | **Sector grid** (T10) | Minor edits | The window buttons are a copy of the chart's ranges, and the original grew a narrow rule the copy never got: 68.4x28 against 39.2x26 at 390px. |
 | 09-27 | **Fundamentals panel** (T11) | Minor edits | The stylesheet says "three across, at every width" and set the flow, not the track count: four columns, three filled, 315px dead of 1240. |
 | 09-29 | **Reporting calendar** (T12) | Minor edits | Below 700px "from 1.95" was `display: none`, so the tree read `+2.56%` alone: the baseline is in no other cell. |
+| 10-01 | **Portfolio summary** (T14) | Minor edits | Figures are nowrap and their tracks came from round widths: a $10,000 gain overran a 320px cell, and every check was seeded with three figures. |

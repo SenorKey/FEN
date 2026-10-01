@@ -2875,3 +2875,74 @@ decoration with nothing to carry. A derivation over those is an allow-list
 with four entries, which is `DEC-108`'s "a comment saying they match" with a
 test's name on it. Stated once per surface, and stated here.
 
+
+---
+
+## DEC-113 — a nowrap figure's track is sized by the longest figure it can hold
+
+Found in the **portfolio summary audit, 2026-10-01**, and it was two faults
+wearing one coat: a layout sized from a round number, and a check seeded with
+the narrowest case the surface has.
+
+**The layout.** Every figure in the account summary is `white-space: nowrap`,
+deliberately — "a balance broken over two lines reads as two numbers". The
+four parts sat in `repeat(4, minmax(0, 1fr))` down to 700px and
+`repeat(2, ...)` below it, and those two numbers were never derived from
+anything. A gain is arrow, sign and money, so six figures of it is twelve
+characters — 132px in the monospace face at this size — while the four-across
+track at 701px offers 119px and the two-across track at 320px offers 112px.
+A track narrower than the figure in it does not wrap the figure. It prints it
+over the rule beside it, and at 320px it pushed the body sideways, which
+guide §13 rules out unconditionally.
+
+Measured, on a portfolio that had doubled:
+
+| Width | Tracks | Room for the figure |
+|---|---|---|
+| 768px | four | 3px |
+| 701px | four | **−13px** |
+| 390px | two | 15px |
+| 320px | two | **−20px** |
+
+The threshold is exact and worth keeping: `+$9,999.99` fits a 320px track with
+**0px** to spare and `+$10,000.00` overruns it by 9px. A ten percent gain on
+the game's $100,000 — which is the ordinary good outcome of the thing the page
+teaches — is where the surface broke.
+
+**What the fix is.** The track count steps down where the longest figure stops
+clearing its track with room left, not at a round width: four across above
+831px (19px of room), two across down to 390px (15px), one across below that
+(124px). 768px — iPad portrait — moves from four tracks with 3px to two with
+196px. Three pixels is not a fit; it is the next thing that lands beside it
+taking the cell, which is `DEC-033` on its third bite.
+
+The headline's change row is the same fault in a flex row: arrow, amount and
+period are three items, each nowrap, so the row is as wide as its longest
+possible reading and "since start" was printed *outside the card* on the page
+background. `flex-wrap: wrap` lets the period drop to its own line, which is
+still its own row in `DEC-020`'s sense.
+
+**The check.** `shoot.py` has measured each figure against its own box at 375
+and 320px since the surface shipped, and it passed throughout, because it
+seeded `--portfolio held` — gains of `−$115.70` and `+$255.07`, eight
+characters where the surface has to fit twelve. The tool was asking the right
+question of the wrong portfolio. This is `DEC-064` again — a stand-in failing
+silently in the direction nobody checks — and the fix is the one that entry
+prescribes: the narrow pass is seeded from `NARROW_PORTFOLIO`, a position
+bought below half its fixture close and held, whose unrealized gain is six
+figures. `tests/test_portfolio.py` derives that gain from the committed
+fixture the page is priced from rather than restating it, so a refreshed
+capture moves both together.
+
+Seeding it honestly immediately turned the check red at 320px — on the
+**holdings table**, not this surface, where the stacked layout makes every
+cell a flex row whose `white-space: normal` cannot take effect. That is
+`D31`, fixed the same session rather than filed and left, because the
+alternative was committing a change that leaves the project's only mandated
+visual check failing, and a red check invites the next session to revert the
+seed and re-hide the blind spot.
+
+**The ceiling that was chosen.** Six figures: a gain of ten times the starting
+balance. A seventh needs 152px and no two-column phone layout has it, so the
+answer there would be abbreviating a balance — a different change, and one
+worth making only if the game ever makes seven figures ordinary.

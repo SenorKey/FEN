@@ -84,6 +84,7 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-109 | **A surface stylesheet says nothing about reduced motion — `incisor.css` stops all of it under `body.incisor *` with `!important`.** A local copy changes nothing and can only drift. |
 | DEC-110 | **Overriding a grid's flow does not override its track count.** `grid-auto-flow: column` left `lookup.css`'s four columns under a trio of three: 315px of 1240 dead at 1440. |
 | DEC-111 | **A rule several surfaces share is asserted once, over every instance in the markup.** Two of three ticker heads shipped the same bug; a third copy would not cover the fourth. |
+| DEC-113 | **A nowrap figure's track is sized by the longest figure the surface can show.** Six-figure gains overran two surfaces for weeks; every check was seeded with three. |
 
 ---
 
