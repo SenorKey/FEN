@@ -175,14 +175,20 @@
         border-bottom: 1px solid var(--inc-rule);
     }
 
+    /* `white-space: normal` says this cell may use a second line, and on a
+       flex row it cannot: every child is its own item, so the label, the
+       arrow, the amount and the percentage sit on one line however long they
+       get. A six-figure gain then pushed the body sideways rather than
+       wrapping, which is the rule §13 states unconditionally (D31). */
     .inc-positions th,
     .inc-positions td,
     .inc-trade-log th,
     .inc-trade-log td {
         display: flex;
+        flex-wrap: wrap;
         align-items: baseline;
         justify-content: space-between;
-        gap: 16px;
+        gap: 2px 16px;
         padding: 3px 0;
         border-bottom: 0;
         white-space: normal;
