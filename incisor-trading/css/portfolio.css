@@ -79,8 +79,13 @@
     letter-spacing: -0.015em;
 }
 
+/* The period wraps to its own line rather than riding off the card. Every
+ * child here is nowrap, so without this the row is as wide as its longest
+ * possible reading and "since start" is printed outside the card on a phone —
+ * the figure's window leaving the box the figure is in (DEC-020). */
 .inc-folio-change {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: 7px;
     font-family: var(--inc-mono);
@@ -142,9 +147,26 @@
     opacity: 0.55;
 }
 
-/* Four parts in a row stop fitting a phone: two by two, with the rules
- * redrawn so every cell is still boxed exactly once. */
-@media (max-width: 700px) {
+/* Four parts in a row stop fitting well before a phone, and the width where
+ * they stop is set by the widest figure the surface can show rather than by a
+ * round number. A gain is arrow, sign and money — "▲+$999,999.99" — which is
+ * 132px of glyphs at this size in the monospace face, so a part needs 132px
+ * inside its own padding. Four of those want 752px of viewport and two want
+ * 376px; below that the parts stack. The figures are nowrap, so a track
+ * narrower than its figure is not a wrap but a number printed over the rule
+ * beside it (DEC-113).
+ *
+ * Four tracks bare-fit a 752px viewport and two bare-fit 376px, and neither
+ * is the width chosen: a cell with three pixels to spare is a cell the next
+ * thing to land beside it takes (DEC-033). Each switch happens where the
+ * figure clears its track with room left — 19px at 831px for the fourth
+ * track, 15px at 390px for the second, which keeps the two-by-two on the
+ * phone widths this page is photographed at.
+ *
+ * The ceiling is six figures: a gain of ten times the starting balance. A
+ * seventh needs 152px and no two-column phone layout has it, and the answer
+ * there would be abbreviating a balance, which is a different change. */
+@media (max-width: 830px) {
     .inc-folio-figures {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -170,6 +192,24 @@
     }
 
     .inc-folio-part:nth-child(n + 4) {
+        border-top: 1px solid var(--inc-rule);
+    }
+}
+
+/* Two across runs out below 390px, so the narrowest screens take one column
+ * and every part gets the card's full measure. Both blocks match here and
+ * this one is later, which is what decides it — the pair is asserted together
+ * rather than each rule alone (DEC-065). */
+@media (max-width: 389px) {
+    .inc-folio-figures {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .inc-folio-part:nth-child(odd) {
+        border-left: 0;
+    }
+
+    .inc-folio-part + .inc-folio-part {
         border-top: 1px solid var(--inc-rule);
     }
 }

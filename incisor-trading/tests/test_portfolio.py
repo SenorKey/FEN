@@ -33,7 +33,23 @@ RUNNER = os.path.join(HERE, 'portfolio_model.jxa.js')
 HTML = read('index.html')
 PAGE = Page(HTML)
 LEDGER = read('js/portfolio-ledger.js')
+STYLES = read('css/portfolio.css')
 STORE = read('js/portfolio-store.js')
+
+
+def newest_fixture_close(symbol):
+    """The last close the fixture layer serves for a symbol.
+
+    The newest date for a symbol wins, which is the rule the fixtures README
+    states and `source.py` implements, so a refreshed capture is picked up
+    here the same way the page picks it up."""
+    directory = os.path.join(PAGE_DIR, 'server', 'fixtures',
+                             'time-series-daily')
+    captures = sorted(name for name in os.listdir(directory)
+                      if name.startswith(symbol + '-'))
+    with open(os.path.join(directory, captures[-1]), encoding='utf-8') as handle:
+        series = json.load(handle)['Time Series (Daily)']
+    return float(series[max(series)]['4. close'])
 
 
 def trade_panel():
@@ -113,6 +129,67 @@ class TestPortfolioStorageStaysSafe(unittest.TestCase):
         self.assertIn(r"/^[A-Z][A-Z.\-]{0,9}$/", LEDGER)
 
 
+class TestTheFiguresFitTheTracksTheyAreGiven(unittest.TestCase):
+    """Every figure in this card is `white-space: nowrap`, so a track narrower
+    than the figure in it is not a wrapped number — it is a number printed
+    over the rule beside it, and at the narrowest width it pushed the body
+    sideways. The track count therefore steps down twice, at the widths where
+    the longest figure the surface can show stops clearing its track.
+
+    What made it invisible for as long as the surface shipped: the sample the
+    checks ran against held three-figure gains, and the surface has to fit six
+    (DEC-113)."""
+
+    def narrow_block(self, start):
+        """One media query's body, so a rule cannot be matched in another."""
+        block = STYLES[STYLES.index(start):]
+        return block[:block.index('\n}\n')]
+
+    def test_the_track_count_steps_down_twice(self):
+        four = STYLES[:STYLES.index('@media')]
+        self.assertIn('grid-template-columns: repeat(4, minmax(0, 1fr));', four)
+
+        two = self.narrow_block('@media (max-width: 830px)')
+        self.assertIn('grid-template-columns: repeat(2, minmax(0, 1fr));', two)
+
+        one = self.narrow_block('@media (max-width: 389px)')
+        self.assertIn('grid-template-columns: minmax(0, 1fr);', one)
+
+    def test_the_single_column_rule_is_the_later_of_the_two_that_match(self):
+        """Below 389px both queries match and both set the same properties at
+        the same specificity, so the only thing deciding the outcome is source
+        order. Asserted as a pair, because either rule alone reads as correct
+        and the one that loses is the one nothing shows (DEC-065)."""
+        self.assertLess(STYLES.index('@media (max-width: 830px)'),
+                        STYLES.index('@media (max-width: 389px)'))
+
+    def test_the_single_column_block_undoes_both_rules_the_two_drew(self):
+        """Two across draws a left rule on the right-hand cell and a top rule
+        on the lower pair. One across has neither column nor pair, so both
+        have to be withdrawn or the card keeps the lines of a grid it is no
+        longer in."""
+        two = self.narrow_block('@media (max-width: 830px)')
+        self.assertIn('.inc-folio-part:nth-child(odd)', two)
+        self.assertIn('.inc-folio-part:nth-child(n + 4)', two)
+
+        one = self.narrow_block('@media (max-width: 389px)')
+        self.assertIn('border-left: 0;',
+                      one[one.index('.inc-folio-part:nth-child(odd)'):],
+                      'the column rule goes with the column')
+        self.assertIn('.inc-folio-part + .inc-folio-part', one)
+
+    def test_the_change_row_may_use_a_second_line(self):
+        """The headline's change is arrow, amount and period, each its own
+        flex item and every one of them nowrap. Without a wrap the row is as
+        wide as its longest possible reading, and "since start" was printed
+        outside the card on a phone — the figure's window leaving the box the
+        figure is in (DEC-020)."""
+        rule = STYLES[STYLES.index('.inc-folio-change {'):]
+        rule = rule[:rule.index('}')]
+        self.assertIn('flex-wrap: wrap;', rule)
+        self.assertIn('display: flex;', rule)
+
+
 class TestTheShotSeedsMatchTheStore(unittest.TestCase):
     """tools/shoot.py --portfolio writes blobs the store must read as meant.
     A seed at the wrong key or version is read as corrupt, and the shot of a
@@ -136,6 +213,40 @@ class TestTheShotSeedsMatchTheStore(unittest.TestCase):
     def test_the_newer_seed_is_newer(self):
         version = int(re.search(r'var VERSION = (\d+);', STORE).group(1))
         self.assertGreater(json.loads(self.shoot.PORTFOLIO_SEEDS['newer'])['v'], version)
+
+    def test_the_narrow_pass_seeds_the_widest_figures_it_can_be_asked_to_fit(self):
+        """The 320px pass measures each figure against its own box, and what
+        it proves is only as wide as the figures it seeded. It ran against
+        `held` — three-figure gains — for as long as it existed, and a
+        five-figure gain pushed the body sideways at that width the whole
+        time (DEC-113).
+
+        The gain is derived from the committed fixture the page itself is
+        priced from rather than written down here, so a refreshed fixture
+        moves both together. Six figures is the stated ceiling: with the
+        arrow and the sign it is the twelve characters the tracks are sized
+        for."""
+        name = self.shoot.NARROW_PORTFOLIO
+        self.assertIn(name, self.shoot.PORTFOLIO_SEEDS)
+        seed = json.loads(self.shoot.PORTFOLIO_SEEDS[name])
+
+        # One buy and no sells, so the gain is arithmetic on a single row and
+        # this test needs no second copy of the ledger's rules (DEC-082).
+        self.assertEqual(
+            len(seed['ledger']), 1,
+            'the narrow pass must name a seed this test can price without a '
+            'second copy of the ledger: one buy, no sells. %r has %d rows'
+            % (name, len(seed['ledger'])))
+        row = seed['ledger'][0]
+        self.assertEqual(row['kind'], 'buy')
+        self.assertEqual(seed.get('orders'), [])
+
+        close = newest_fixture_close(row['symbol'])
+        gain = row['shares'] * (close - row['price'])
+        self.assertGreaterEqual(
+            round(gain), 100000,
+            'the narrow pass has to be seeded with a six-figure gain, and '
+            '%r yields $%.2f' % (name, gain))
 
 
 if __name__ == '__main__':

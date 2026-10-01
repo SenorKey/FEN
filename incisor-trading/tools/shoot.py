@@ -27,7 +27,7 @@ Usage:
                            [--search app] [--tab trade]
                            [--explain] [--sector-window 1M]
                            [--watch SPY,QQQ] [--block-storage]
-                           [--portfolio corrupt|newer|held]
+                           [--portfolio corrupt|newer|held|flat|wide]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
@@ -384,6 +384,16 @@ PORTFOLIO_SEEDS = {
         {"kind": "buy", "symbol": "SPY", "shares": 20, "price": 733.4011,
          "at": "2026-08-26T18:05:00.000Z"},
     ], "orders": []}),
+    # The widest the summary ever gets, which is what the narrow pass needs:
+    # a gain is arrow, sign and money, and six figures of it is twelve
+    # characters where "held" shows eight. One position bought below half
+    # today's fixture close and held, so the state obeys the game's own rules
+    # — a six-figure gain on a $100,000 account means roughly doubling it.
+    # Reads cash $5,100.00, holdings $199,859.25, unrealized +$104,959.25.
+    "wide": json.dumps({"v": 2, "startingCash": 10000000, "ledger": [
+        {"kind": "buy", "symbol": "AAPL", "shares": 730, "price": 130.00,
+         "at": "2021-03-04T15:02:11.000Z"},
+    ], "orders": []}),
 }
 
 # Settled either way: a position whose price failed is a state worth shooting.
@@ -414,6 +424,14 @@ NARROW_WATCHLIST = "BRK.B,XLRE,AAPL,SPY,QQQ,DIA,IWM,XLK"
 # calendar's table and the filings panel's figures. Every fund on this page
 # answers both with a sentence, which measures nothing.
 NARROW_SYMBOL = "AAPL"
+
+# The portfolio the narrow pass seeds, for the same reason as the two above:
+# the summary's figures are nowrap, so the width that matters is the width of
+# the longest one it can show, not of the one a sample happens to hold. This
+# pass ran against "held" for as long as it existed — three-figure gains, four
+# characters short of what the surface has to fit — and a five-figure gain
+# pushed the body sideways at 320px the whole time (DEC-113).
+NARROW_PORTFOLIO = "wide"
 
 
 # Guide §13 sends a wide table sideways inside its own box so the body never
@@ -606,7 +624,7 @@ def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
         len(VIEWPORTS) + (0 if fail_on_clip else 1))})
     seed_storage(ctx, argparse.Namespace(block_storage=False,
                                          watch=NARROW_WATCHLIST,
-                                         portfolio="held"))
+                                         portfolio=NARROW_PORTFOLIO))
     page = ctx.new_page()
     page.goto(base + PAGE, wait_until="networkidle")
     try:
@@ -653,7 +671,8 @@ def check_narrow(browser, base, args, problems, width=NARROW_WIDTH,
     # over two lines reads as two numbers — which means a figure too wide for
     # its cell spills into the next one rather than pushing the body, and the
     # body check alone would pass it. So each figure is measured against its
-    # own box, with positions held so every figure carries its longest text.
+    # own box, seeded with the portfolio whose figures are the longest the
+    # surface can show rather than whichever sample was nearest to hand.
     spilled = []
     try:
         page.click('#tab-trade')
