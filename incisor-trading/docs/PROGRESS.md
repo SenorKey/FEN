@@ -6484,3 +6484,46 @@ since T14. Ninth piece of evidence for keeping it.
 **Next session: the order ticket (T15) audit** — tenth of the eleven — unless
 the `DECISIONS.md` ceiling takes the session first, which by §16 it should.
 No in-bounds defect is open.
+
+## 2026-10-01 — Skipped: the tree was busy
+**Outcome:** blocked, at step 1
+**Changed:** this entry only, committed from this session's own worktree
+**Verified:** `git -C /Users/keypanzarella/FEN status --short --untracked-files=no`
+listed `M case-chronicle/doe-v-bonnell/index.html` — a changed **tracked** file
+outside `incisor-trading/`, two lines, last written 08:58 today. Nothing
+stashed, committed, checked out, cleaned or deleted in Key's checkout.
+
+First skip under the fixed rule 11 that is actually the case the rule is for.
+The three skips it was written after (09-10, 09-12, 09-16) were all untracked
+preview tooling, which DEC-084 now exempts; this one is Key's own edit to a file
+git is tracking, so the gate fired as designed rather than repeating that
+failure. Previous session's note that Key began this edit partway through 10-01
+is consistent with it — but rule 11 is a *start-of-session* check, and at this
+session's start the tree was dirty, so the note does not exempt the gate.
+
+One operational choice worth not rediscovering: `incisor-dev` was still checked
+out in the 10-01 morning session's worktree, under a scratchpad path belonging
+to a session that ended ~13h earlier. One branch cannot be checked out in two
+worktrees, and `--force` would have recreated exactly the two-writers hazard
+DEC-081 exists to prevent. That worktree was clean and level with
+`origin/incisor-dev` — nothing to lose — so it was pruned and this session took
+its own. **Worth a standing step-1 note:** an abandoned worktree will block the
+next session the same way, and `git worktree list` plus a clean/in-sync check is
+the whole diagnosis. Not filed in `DECISIONS.md` because of the ceiling below.
+
+### For Key
+
+**`DECISIONS.md` is still at 15,998 of its 16,000 ceiling.** The previous
+session flagged it as *this* session's `S6` consolidation trigger, and it would
+have been, but step 1 outranks step 3 — the gate ends the session before any
+work is chosen. It carries to the next session unchanged, and still blocks any
+filing until it is consolidated; the formula for the new ceiling is guide §16,
+what lands plus roughly a quarter. That is also why the worktree note above is
+here and not a `DECISIONS.md` row.
+
+**Nothing is lost by this skip and nothing of yours was touched.** When you are
+done with `case-chronicle/doe-v-bonnell/index.html` — commit it or set it
+aside — the next run proceeds on its own.
+
+**Next session:** `S6` consolidation of `DECISIONS.md` first, by §16, then the
+order ticket (T15) audit — tenth of the eleven. No in-bounds defect is open.
