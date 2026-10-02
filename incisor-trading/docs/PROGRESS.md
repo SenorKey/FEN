@@ -6527,3 +6527,50 @@ aside — the next run proceeds on its own.
 
 **Next session:** `S6` consolidation of `DECISIONS.md` first, by §16, then the
 order ticket (T15) audit — tenth of the eleven. No in-bounds defect is open.
+
+## 2026-10-02 — Skipped: the tree was busy, and busier than yesterday
+**Outcome:** blocked, at step 1
+**Changed:** this entry only, committed from this session's own worktree
+**Verified:** `git -C /Users/keypanzarella/FEN status --short --untracked-files=no`
+listed four changed **tracked** files outside `incisor-trading/`:
+`case-chronicle/doe-v-bonnell/index.html` (the 10-01 blocker, unchanged since
+08:58 yesterday), plus `case-chronicle/index.html`, `preside-by-side/server/suggest.py`
+and `sitemap.xml` — all three written at 08:27 **this morning**. Nothing
+stashed, committed, checked out, cleaned or deleted in Key's checkout.
+
+Second consecutive skip, and unlike a borderline call this one is not close.
+Three files were saved ninety minutes before this run, the diffs are coherent
+with each other (an untracked `case-chronicle/people-v-mangione/` directory,
+`sitemap.xml` gaining entries, the chronicle index being rewired), and that
+reads as one live piece of work, not a forgotten dirty file. The gate fired for
+exactly the reason DEC-084 kept it: a tracked file Key is editing now. No
+argument for proceeding was available and none was looked for.
+
+**Yesterday's standing step-1 note came true on its first opportunity.**
+`incisor-dev` was again checked out in a dead session's scratchpad worktree
+(path from a session ~13h gone), which again blocks `git worktree add` for the
+one branch this routine uses. Diagnosis is `git worktree list`, then a
+`status --short` and an `origin/incisor-dev..incisor-dev` check on the found
+path; both were empty, so it was pruned and this session took its own. That is
+twice in two runs, so it is not a coincidence of one bad shutdown — it is the
+normal end state of a session that is cut off before it can clean up, and every
+future run should expect to prune before it can even log a skip. Still not a
+`DECISIONS.md` row, for the same ceiling reason as yesterday.
+
+### For Key
+
+**`DECISIONS.md` is at 15,998 of its 16,000 ceiling for the second day.** It has
+now been named as the next session's first task twice and deferred twice, both
+times by step 1 rather than by choice — the gate ends the session before step 3
+picks anything, so a consolidation that only step 3 can reach cannot happen on a
+skipped day. It will keep carrying for as many days as the tree stays busy, and
+until it lands nothing can be filed. Guide §16 sets the new ceiling at what
+lands plus roughly a quarter.
+
+**Nothing is lost by this skip and nothing of yours was touched.** The Mangione
+case page and its sitemap and index edits are all yours and all untouched. When
+that work is committed or set aside, the next run proceeds on its own with no
+intervention.
+
+**Next session:** `S6` consolidation of `DECISIONS.md` first, by §16, then the
+order ticket (T15) audit — tenth of the eleven. No in-bounds defect is open.
