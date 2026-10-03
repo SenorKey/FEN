@@ -40,9 +40,20 @@
    technical and institutional documents, which is the register here.
    JetBrains Mono carries the docket citations, dates and labels. */
 
+/* WOFF2, and cut down to the scripts a party name can actually be set
+   in: Latin-1, Latin Extended-A and B, and Latin Extended Additional
+   for Vietnamese, plus the punctuation ranges. 765 KB of TrueType
+   became 377 KB, which is the largest single thing on any page here.
+   All four axes survive the cut — opsz, wght, SOFT and WONK — so the
+   font-variation-settings below still have everything they ask for.
+
+   A caption naming a party in Greek, Cyrillic or Han would fall back to
+   Georgia for those glyphs. Re-cut the files rather than widen a stack
+   if that day comes; the command is in the commit that added them. */
+
 @font-face {
   font-family: 'Fraunces';
-  src: url('/assets/fonts/Fraunces-VariableFont_SOFT%2CWONK%2Copsz%2Cwght.ttf') format('truetype-variations');
+  src: url('/assets/fonts/Fraunces-var.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -50,7 +61,7 @@
 
 @font-face {
   font-family: 'Fraunces';
-  src: url('/assets/fonts/Fraunces-Italic-VariableFont_SOFT%2CWONK%2Copsz%2Cwght.ttf') format('truetype-variations');
+  src: url('/assets/fonts/Fraunces-Italic-var.woff2') format('woff2');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -1043,8 +1054,6 @@ a.case-a:focus-visible {
 }
 
 .band-ledger { padding-bottom: 116px; }
-.band-hinge { background: var(--bg-band); }
-.band-open { background: var(--bg-band); }
 .band-notes { background: var(--bg-deep); }
 
 /* Set as a <p> under a section title everywhere but the hub, where it is
@@ -1078,46 +1087,6 @@ a.case-a:focus-visible {
   max-width: 44em;
   font-weight: 300;
   line-height: 1.66;
-}
-
-/* ═══════════════════════════════════════════════
-   Common ground
-   ═══════════════════════════════════════════════ */
-
-.agreed {
-  list-style: none;
-  margin-top: 60px;
-  border-top: 1px solid var(--rule);
-}
-
-.agreed-item {
-  display: grid;
-  grid-template-columns: 68px 1fr 1.3fr;
-  gap: 34px;
-  align-items: start;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--rule-soft);
-}
-
-.agreed-num {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--court);
-  letter-spacing: 0.1em;
-  padding-top: 5px;
-}
-
-.agreed-item h3 {
-  font-size: 1.12rem;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: -0.012em;
-}
-
-.agreed-item p {
-  color: var(--muted);
-  font-size: 0.95rem;
-  font-weight: 300;
 }
 
 /* ═══════════════════════════════════════════════

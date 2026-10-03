@@ -8,6 +8,13 @@
     <!-- Standalone, for the reason given at the top of chronicle.css. Both
          shared files are shared by every case in the Chronicle; nothing in
          either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
     <link rel="stylesheet" href="/case-chronicle/chronicle.css">
 
     <!-- This case's own inks and the two masthead portraits. After the shared
@@ -222,9 +229,17 @@
         <header class="masthead" id="top">
             <!-- Decorative, and stated as such: empty alt and aria-hidden, so
                  a screen reader is not told there are two pictures of nobody
-                 in particular. Each sits on its own side of the case. -->
-            <img class="fig fig-p" src="/case-chronicle/depp-v-heard/depp.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async">
-            <img class="fig fig-d" src="/case-chronicle/depp-v-heard/heard.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async">
+                 in particular. Each sits on its own side of the case.
+
+                 Lazy, although both are above the fold. The stylesheet hides
+                 them below 1100px, and an image that is never rendered is
+                 never fetched when it is lazy — so a phone stops paying 108 KB
+                 for two pictures it was never going to be shown. On a wide
+                 screen the only cost is that they load at a lower priority
+                 than the title they sit behind, which is the right order
+                 for something drawn at a tenth of full strength. -->
+            <img class="fig fig-p" src="/case-chronicle/depp-v-heard/depp.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async" loading="lazy">
+            <img class="fig fig-d" src="/case-chronicle/depp-v-heard/heard.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async" loading="lazy">
 
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
