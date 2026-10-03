@@ -6574,3 +6574,76 @@ intervention.
 
 **Next session:** `S6` consolidation of `DECISIONS.md` first, by §16, then the
 order ticket (T15) audit — tenth of the eleven. No in-bounds defect is open.
+
+## 2026-10-02 (late) — Skipped: one tracked file, and it is a build artifact
+**Outcome:** blocked, at step 1
+**Changed:** this entry only, committed from this session's own worktree
+**Verified:** `git -C /Users/keypanzarella/FEN status --short --untracked-files=no`
+listed exactly one changed tracked file outside `incisor-trading/`:
+`preside-by-side/server/__pycache__/suggest.cpython-314.pyc`. Nothing stashed,
+committed, checked out, cleaned or deleted in Key's checkout.
+
+Third consecutive skip, by the same gate — but the blocker is no longer the one
+the gate was built to catch, and the difference is worth recording precisely.
+
+**This morning's work is committed.** All four of the 10-02 blockers landed:
+`adc65c0` carries the Mangione case page, the sitemap and the chronicle index,
+and `suggest.py` went with them. Nothing of Key's is in flight. What remains
+dirty is a single compiled bytecode file, and four facts place it:
+
+- it is the **only** tracked `.pyc` in the entire repository — committed once by
+  accident, years of sessions ago, and never noticed;
+- the root `.gitignore` has no `__pycache__/` or `*.pyc` rule at all;
+- `suggest.py`, the source it is compiled from, is clean and committed;
+- its mtime is **11:18**, three hours *after* the 08:27 source edit and after
+  that edit was committed — so it was rewritten by CPython importing the module,
+  i.e. by running the PBS preview stub, not by anybody editing anything.
+
+So this is DEC-084's failure mode wearing tracked clothing. The untracked
+carve-out exists because a stray preview config would skip every day; this file
+skips every day too, for the same reason — it is regenerated as a side effect of
+previewing another project — and the only thing keeping it inside the gate is
+that one old commit put it in the index.
+
+**The rule fired as written and was followed, not reinterpreted.** A hard rule is
+absolute, and §3 is explicit that when following the guide requires changing it,
+that is a note for Key and not an edit to make. Carving a "generated files don't
+count" exception into step 1 on this session's own authority is precisely the
+move the gate exists to defeat — the session that wants to work is the worst
+possible judge of whether it may. The exception may well be right; it is Key's to
+make, and the note below gives him the one line that makes it.
+
+**The worktree prune is now three for three.** `incisor-dev` was again checked
+out in a dead session's scratchpad (the 08:31 run, clean and level with
+`origin/incisor-dev`), so it was pruned and this session took its own. Yesterday
+called this the normal end state of a session cut off before it can clean up;
+a third consecutive occurrence settles it. Diagnosis remains `git worktree list`,
+then `status --short` and `origin/incisor-dev..incisor-dev` on the found path.
+
+### For Key
+
+**The blocker is one line of yours and then it never blocks again.** The fix is
+outside `incisor-trading/`, so it is not the routine's to make:
+
+```
+git rm --cached preside-by-side/server/__pycache__/suggest.cpython-314.pyc
+printf '__pycache__/\n*.pyc\n' >> .gitignore
+```
+
+Until that lands, **every run of the PBS preview stub arms the gate again**:
+importing `suggest` rewrites the file, `status` reports it, and the routine skips
+that day having touched nothing. That is three of the last three days, and the
+two before this one were legitimate — this one was not, and the next one will not
+be either. The file is also a compiled artifact of a tracked source file, so
+nothing is lost by untracking it; it is rebuilt on the next import.
+
+**`DECISIONS.md` ceiling: carried a third day, unchanged at 15,998 of 16,000.**
+Not re-arguing it — the two notes above it stand. One new fact only: it has now
+been deferred three times by step 1 rather than by choice, and since the
+consolidation is step-3 work that a skipped day cannot reach, **the `.pyc` fix is
+also what unblocks `S6`.** The two notes are one note.
+
+**Next session:** `S6` consolidation of `DECISIONS.md` first, by §16 — what lands
+plus roughly a quarter — then the order ticket (T15) audit, tenth of the eleven.
+No in-bounds defect is open; `D29` and `D28` are both `[enhancement]`, and `D19`
+is filed as not an Incisor defect.
