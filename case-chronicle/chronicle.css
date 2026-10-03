@@ -134,6 +134,26 @@
   --d-line: rgba(31, 64, 118, 0.5);
   --d-arrow: rgba(31, 64, 118, 0.72);
 
+  /* ── The bindings ──
+     A fourth family, and the only one here with no argument to carry.
+     The two side inks and the court's sepia are spoken for, so the
+     volumes on the hub are bound in cloth instead: the stock itself,
+     driven down towards the ink. They tell one case from another on a
+     shelf and they mean nothing else, which is why they are numbered
+     rather than named — the sixth case takes --bind-5 and costs no CSS.
+
+     Plain boards for a volume nobody has written yet. */
+  --bind-1: #574531;
+  --bind-2: #332b21;
+  --bind-3: #6d5a42;
+  --bind-4: #4a3c2c;
+  --bind-5: #5f4a33;
+  --bind-plain: #b9ab91;
+
+  /* Lettering pressed into cloth, in the stock's own colour. */
+  --stamp: rgba(239, 233, 220, 0.82);
+  --stamp-dim: rgba(239, 233, 220, 0.5);
+
   --wrap: 1180px;
   --gut: 56px;
 
@@ -480,13 +500,420 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════
-   The hub — every case in the Chronicle
+   The hub — a shelf, and then the catalogue
 
-   Ruled rows, not cards: this is the index of a bound volume, and an
-   index is a list of rules and page numbers. A case nobody has written
-   yet still gets its row, unlinked and set back, because an empty
+   The volumes are the quick way in: one binding per case, the name
+   stamped up the spine, and a plate above the rail that fills with
+   whichever volume the reader is pointing at. The ruled rows below
+   carry the same five cases at length, because a shelf is a thing you
+   browse and a catalogue is a thing you read — and a reader with no
+   pointer to hover with is owed the second one in full. Nothing on the
+   rail is the only copy of anything.
+
+   Every plate is a child of its own volume rather than a sibling of
+   the others, so lighting one is .bk:hover .bk-plate and no rule in
+   here ever counts the cases. The price is that the reserve above the
+   rail is a fixed height instead of the tallest plate's: one grid cell
+   would size itself, but only if the plates were siblings, and that is
+   a worse trade than a magic number. The number is in one place and
+   the stylesheet never has to learn there is a sixth case.
+
+   A case nobody has written yet still gets its volume, bound in plain
+   boards and lettered in ink rather than stamped, because an empty
    shelf mark is more honest than a shelf that pretends to be full.
+   The board runs on past the last of them for the same reason.
    ═══════════════════════════════════════════════ */
+
+.shelf {
+  position: relative;
+  margin-top: 12px;
+}
+
+/* The reserve. Every plate is positioned into this one box, so the rail
+   cannot shift under the reader as entries of different lengths swap
+   through it. Deep enough for the longest of them at the width where
+   the rail still fits on one row. */
+/* The reserve. Entries are set from the shelf upwards, not from the
+   heading down: whatever its length, an entry's last line sits the same
+   distance above the rail, and the slack it does not use is taken out
+   of the air under the heading where nobody is looking. The height here
+   is only the room that slack is allowed. */
+.shelf-plate {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 172px;
+  padding-bottom: 28px;
+}
+
+.plate-rest { max-width: 44em; }
+
+.plate-rest,
+.bk-plate {
+  transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Five of these lie on top of each other here and four are transparent
+   at any moment, so none of them may take the pointer — without this
+   the last one in the markup would answer for the whole box. */
+.bk-plate {
+  position: absolute;
+  bottom: calc(100% + 28px);
+  left: 0;
+  right: 0;
+  max-width: 46em;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.bk-plate-court {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* The binding quoted into the plate: the one mark that says which
+   volume on the rail is doing the talking. */
+.bk-plate-court::before,
+.case-row .case-court::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 11px;
+  vertical-align: -1px;
+  background: var(--bind);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.35),
+              inset 1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+.bk-plate-t {
+  display: block;
+  margin-top: 11px;
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  line-height: 1.66;
+  color: var(--ink-2);
+}
+
+.bk-plate-s {
+  display: block;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+.bk:hover .bk-plate,
+.bk:focus-visible .bk-plate {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.06s;
+}
+
+/* The section's own lede is the rail's resting voice. It steps aside
+   for a volume and comes back when the pointer leaves. */
+.shelf:has(.bk:hover) .plate-rest,
+.shelf:has(.bk:focus-visible) .plate-rest {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+/* ── the rail ── */
+
+/* Positioned, and the plates hang from it: each one is pinned to the
+   rail's own top edge, which is the line they all have to meet. */
+.shelf-rail {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 7px;
+  padding-left: 14px;
+}
+
+/* The board. Drawn under the volumes rather than behind them: the
+   shadow they drop onto it is the part that says they are standing on
+   something instead of pasted to the page. */
+.shelf-rail::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -15px;
+  height: 15px;
+  background: linear-gradient(180deg, #c9bda4 0, #ab9c80 42%, #8e7f66 100%);
+  box-shadow: 0 14px 26px rgba(23, 20, 15, 0.24),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Width and height are a case's own business and arrive from its markup.
+   --bk-scale is the rail's, so a narrow screen can shrink the whole set
+   without the stylesheet knowing any volume's measurements. */
+.bk {
+  flex: 0 0 auto;
+  width: calc(var(--bk-w) * var(--bk-scale, 1));
+  height: calc(var(--bk-h) * var(--bk-scale, 1));
+  text-decoration: none;
+  color: inherit;
+}
+
+.sp {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 17px 0 14px;
+  background-color: var(--bind);
+  /* The round of the spine. A flat rectangle reads as a card; the same
+     rectangle with the light falling away at both edges reads as a
+     cylinder of bound paper, and this one gradient does more work than
+     everything else in this block put together. */
+  background-image: linear-gradient(90deg,
+      rgba(0, 0, 0, 0.34) 0,
+      rgba(0, 0, 0, 0.06) 9%,
+      rgba(255, 255, 255, 0.085) 33%,
+      rgba(255, 255, 255, 0.05) 58%,
+      rgba(0, 0, 0, 0.09) 84%,
+      rgba(0, 0, 0, 0.36) 100%);
+  box-shadow: 0 10px 20px rgba(23, 20, 15, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The raised bands, where the cords run under the cloth. Head and tail
+   only: a band every inch would be a fifteenth-century binding and this
+   is meant to read as a law reporter. */
+.sp::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0 1px,
+      rgba(255, 255, 255, 0.13) 1px 5px,
+      rgba(0, 0, 0, 0.26) 5px 6px, transparent 6px) top / 100% 100% no-repeat,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0 1px,
+      rgba(255, 255, 255, 0.13) 1px 5px,
+      rgba(0, 0, 0, 0.26) 5px 6px, transparent 6px) bottom / 100% 100% no-repeat;
+}
+
+/* The tooth of the cloth — the same idea as the stock's grain, overlaid
+   rather than multiplied because it has to lighten as well as darken. */
+.sp::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+.sp-head,
+.sp-vol { position: relative; z-index: 2; }
+
+.sp-name {
+  position: relative;
+  z-index: 2;
+  writing-mode: sideways-lr;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 0;
+  /* Stamped at the size the volume is actually printed at, so a rail
+     shrunk to fit a phone keeps its proportions. */
+  font-size: calc(1.1rem * var(--bk-scale, 1));
+  letter-spacing: 0.01em;
+  /* A name too long for one line takes two, which is what a binder
+     does with it. In sideways-lr the inline axis is the height of the
+     spine and lines stack across its width, so shrinking lets it wrap
+     and min-height: 0 is what allows a flex item to be shrunk below
+     its own content in the first place. Read with the head tilted
+     left, the leftmost line is the upper one — the right way round.
+     Lines are balanced rather than filled: two even lines read better
+     on a spine than a full one above a single word. */
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
+  flex: 0 1 auto;
+  min-height: 0;
+  /* The binder's rule, and the thing that actually decides it: no stamp
+     runs more than this much of the spine it is on. Without a ceiling a
+     long name only wraps once it has run out of spine, which is far too
+     late — it reads as a thin stripe of lettering beside names half its
+     length. With one, anything long enough to look wrong takes two
+     lines and the rail stamps evenly. A proportion rather than a
+     measurement, so it holds on any volume and names no case. */
+  max-block-size: 100%;
+  max-inline-size: 56%;
+  color: var(--stamp);
+  /* Blind-stamped rather than foiled: pressed into the cloth, so the
+     light catches below the stroke and the shadow sits above it. Gold
+     would be a fifth colour and a louder claim than this page makes. */
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45),
+               0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.sp-name em {
+  font-style: italic;
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 1;
+}
+
+/* Safari only learned sideways-lr in 18.4. The fallback is the same
+   letters turned the same way round, by the long road. */
+@supports not (writing-mode: sideways-lr) {
+  .sp-name {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+}
+
+.sp-vol {
+  font-family: var(--mono);
+  font-size: calc(0.64rem * var(--bk-scale, 1));
+  letter-spacing: 0.14em;
+  color: var(--stamp-dim);
+}
+
+/* The pips are drawn for ink on stock. On cloth they have to invert. */
+.sp .pip-open {
+  background: rgba(239, 233, 220, 0.8);
+  box-shadow: 0 0 0 3px rgba(239, 233, 220, 0.2);
+}
+
+.sp .pip-closed {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--stamp-dim);
+}
+
+/* Off the shelf far enough to see it move, not far enough to leave the
+   board. */
+.bk:hover .sp,
+.bk:focus-visible .sp { transform: translateY(-15px); }
+
+.bk:focus-visible { outline: none; }
+
+.bk:focus-visible .sp {
+  outline: 2px solid var(--court);
+  outline-offset: 4px;
+}
+
+/* Not written yet. Plain boards, and lettered in ink rather than
+   stamped into them, because there is nothing bound inside to stamp. */
+.bk-unbound .sp {
+  box-shadow: 0 6px 14px rgba(23, 20, 15, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.18),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.14);
+}
+
+.bk-unbound .sp-name {
+  color: rgba(23, 20, 15, 0.46);
+  text-shadow: none;
+}
+
+.bk-unbound .sp-vol { color: rgba(23, 20, 15, 0.32); }
+
+.bk-unbound .sp .pip-closed {
+  box-shadow: inset 0 0 0 1.5px rgba(23, 20, 15, 0.38);
+}
+
+/* ── the plate, once there is a shelf wide enough to stand it on ──
+
+   Above a certain width the volumes stop short of the right-hand end of
+   the board and the entry goes into the gap instead, standing on the
+   same shelf they do. 56% is the near edge: the volumes are fixed
+   widths against a wrap that is not, so their share of the rail peaks
+   at about half when the wrap has narrowed but --bk-scale has not yet
+   stepped down, and the plate starts clear of that worst case rather
+   than of the comfortable one.
+
+   Below it the gap is not worth having and the entry goes back above
+   the rail, which is also where a phone wants it — there is no pointer
+   there to raise one with anyway. */
+
+@media (min-width: 1024px) {
+
+  /* Here the reserve is out of flow and the rail follows the kicker
+     directly, so the air it needs has to be put back. */
+  .shelf { margin-top: 44px; }
+
+  .shelf-plate {
+    position: absolute;
+    left: 56%;
+    right: 0;
+    bottom: 0;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .bk-plate {
+    left: 56%;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    max-width: none;
+  }
+}
+
+/* ── the rail, narrowed ── */
+
+@media (max-width: 1080px) {
+  .shelf-rail { --bk-scale: 0.88; }
+}
+
+@media (max-width: 860px) {
+  .shelf-plate { min-height: 200px; }
+  .shelf-rail { --bk-scale: 0.78; }
+}
+
+@media (max-width: 620px) {
+  .shelf-plate { min-height: 232px; }
+  .shelf-rail { --bk-scale: 0.62; gap: 5px; padding-left: 8px; }
+}
+
+/* Nothing here can raise an entry, so the room held for one is dead
+   space — and with no section title above it to fill, it reads as a
+   hole rather than as air. The lede drops to where it falls, just under
+   the kicker, and the entries go out of the document entirely so a
+   tap's momentary hover cannot paint one over the heading on its way
+   to the case page. Everything they would have said is in the rows
+   below, in full. Last of the rail's rules, so it wins over the widths.
+
+   This is a question about the pointer, not the screen: a touch laptop
+   answers hover and keeps its reserve at any width. */
+@media (hover: none) {
+  .shelf-plate { min-height: 0; }
+  .bk-plate { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-rest,
+  .bk-plate,
+  .sp { transition: none; }
+  .bk-plate { transform: none; }
+  .bk:hover .sp,
+  .bk:focus-visible .sp { transform: none; }
+}
+
+/* On paper there is no pointer, so the rail is five pictures of things
+   the reader is about to read anyway. The resting lede stays. */
+@media print {
+  .shelf-rail { display: none; }
+  .shelf-plate { min-height: 0; padding-bottom: 0; }
+  .bk-plate { display: none; }
+}
+
+/* ── the catalogue ── */
 
 .case-list {
   list-style: none;
@@ -615,12 +1042,16 @@ a.case-a:focus-visible {
   border-bottom: 1px solid var(--rule);
 }
 
-.band-hinge { background: var(--bg-band); }
 .band-ledger { padding-bottom: 116px; }
+.band-hinge { background: var(--bg-band); }
 .band-open { background: var(--bg-band); }
 .band-notes { background: var(--bg-deep); }
 
+/* Set as a <p> under a section title everywhere but the hub, where it is
+   the section's only heading and carries the h2 itself. Stated here so
+   the two render identically rather than one arriving bold. */
 .kicker {
+  font-weight: 400;
   font-family: var(--mono);
   font-size: 0.68rem;
   letter-spacing: 0.16em;
@@ -640,7 +1071,8 @@ a.case-a:focus-visible {
   max-width: 18em;
 }
 
-.section-lede {
+.section-lede,
+.plate-rest {
   font-size: clamp(1rem, 1.5vw, 1.1rem);
   color: var(--muted);
   max-width: 44em;
