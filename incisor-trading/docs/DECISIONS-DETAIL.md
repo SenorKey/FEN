@@ -397,28 +397,6 @@ acted on where it is read. The count in front of it was dropped too —
 redundant beside the names, and a numeral inside prose reads as a figure on a
 page where every other numeral is one.
 
-## DEC-024 — Pointer surfaces listen for four events
-
-*Settled · 08-30*
-
-**Decision**
-
-**A surface that reads a pointer position listens for down, move, leave and
-cancel — and a *touch* pointer leaving keeps its reading.**
-
-**Why**
-
-Traced in Chrome under mobile emulation, because it cannot be reasoned about:
-a tap fires `pointerdown`, `pointerup` and `pointerleave` and **no
-`pointermove` at all**, so the chart, wired to move alone, answered nothing on
-the one gesture a phone has. The drag that did work was undone by the lift,
-which arrives as a `pointerleave` — right for a mouse, wrong for a finger,
-because on a phone the finger is over the picture and the readout is under it.
-`pointercancel` is what separates a reading from a scroll the plot allowed
-over itself. **Applies to every pointer-read surface after it**, and to the
-copy beside them: a line naming hover and the arrow keys names nothing a touch
-reader has.
-
 ## DEC-025 — Dark only, and not a gap
 
 *Settled · 08-29*
@@ -550,6 +528,9 @@ the same time, because a second view restating forty lines of
 `createElementNS` is how two surfaces that must agree stop agreeing.
 
 ## DEC-033 — A neighbour can invalidate a measure
+
+*Merged into DEC-100, which carries the same lesson after the countdown bit it a second time — a measure is made wrong by what lands beside it, and a reserved width is the measure that keeps doing it. (S6, 10-03) — the index now carries that one line;
+the reasoning it had is below, unchanged.*
 
 *Settled · 08-31*
 
@@ -737,6 +718,9 @@ waiting to happen.
 
 ## DEC-040 — A constraint on placement is not on the element
 
+*Merged into DEC-107, the same narrow-width deletion one surface earlier: the bar was to be hidden below 560px, and stacking it kept the element the layout had ruled out. (S6, 10-03) — the index now carries that one line;
+the reasoning it had is below, unchanged.*
+
 *Settled · 09-01*
 
 **Decision**
@@ -806,27 +790,6 @@ data is. `/fundamentals` computing at all follows `/sectors`: eleven series
 was a third of a megabyte for forty-four numbers, and a year of two series is
 forty thousand numbers for one beta.
 
-## DEC-045 — A fund is a state, not a failure
-
-*Settled · 09-01*
-
-**Decision**
-
-**A fund is a state, not a failure.** `/fundamentals` answers 200 with
-`filings: null` for every ETF, and the panel says so in fund language while
-still showing the one figure a fund has.
-
-**Why**
-
-Fifteen of the seventeen symbols this build serves are funds, so this is the
-*ordinary* answer and a 404 would have made the common case look like an
-error. Ten em dashes would have been worse than the error: a reader who
-searched XLK has not made a mistake, and a column of dashes suggests they
-have. The panel hides the rows it cannot fill and keeps beta, which is the one
-figure measured from price alone — that asymmetry is why beta sits beside the
-filings on the wire rather than inside them. A company listed last month is
-the mirror image and gets filings with no beta.
-
 ## DEC-087 — The index is for what no single file owns
 
 *Settled · 09-12 · S6*
@@ -881,6 +844,17 @@ already stated in full at the destination, except where noted.
 | DEC-075 | `js/view-reports.js` — the fund branch, on what the panel above it already said |
 | DEC-083 | `js/portfolio-store.js` — the header's status list, on why a newer blob survives |
 | DEC-095 | `tools/shoot.py` — the docstring, on the fallback and why a `try` and not a flag |
+
+**Four more on 10-03**, the same check again. Two were already stated in full
+at the destination and were carrying a second copy; two were not, and the
+reasoning was written there before the row left.
+
+| Was | Says it in full |
+|---|---|
+| DEC-024 | `js/view-price-chart.js` — at the four `addEventListener` calls, and in each handler's own comment |
+| DEC-045 | `server/fundamentals.py` — `filings()`, on the 200 with `filings: null` and why a fund is the ordinary answer |
+| DEC-104 | `js/quote-card.js` — `renderRange()`, on why the band is exempt from DEC-103 |
+| DEC-110 | `css/fundamentals.css` — above `.inc-fundamental-group .inc-figures`, which already named the ID |
 
 **Why**
 
@@ -2350,6 +2324,8 @@ what landed next to it.
 
 ---
 
+**Absorbed DEC-033 (S6, 10-03)** — the watchlist's 620px cap and 12ch reserve, the same measure invalidated by a neighbour, one surface earlier.
+
 ## DEC-101 — a line scaled to its own range states its figure too
 
 *Promoted into DEC-103, which is the same lesson after it bit a second time —
@@ -2472,44 +2448,6 @@ returns the shape it computed that sentence from (`DEC-032`).
 unusual side — the fact was in the accessibility tree and missing from the
 screen, rather than the other way round. When a picture stands in for a
 number, ask what the `aria-label` says, and whether the seen page says it too.
-
----
-
-## DEC-104 — a drawing that prints its own scale is not DEC-103
-
-Found in the `T7` audit, 2026-09-24, while looking for `DEC-103` on a third
-surface — and the point of writing it down is that it very nearly was.
-
-The quote card's day range and 52-week range are bands with a marker at the
-last price, and the marker's placement is stated **only** in an
-`.inc-offscreen` sentence: *"Last price 273.78 sits 68% of the way up this
-range."* That is the shape of the trap exactly — a drawing scaled to its own
-window, the number in the accessibility tree and nowhere else — and a session
-arriving with `DEC-103` fresh would add a percentage beside each band and
-call it the same fix.
-
-**It is not the same, and the difference is the one thing that matters.** A
-sparkline's scale is nowhere on screen: nothing says what its high and low
-were, so the shape cannot be interpreted at all, and four of them side by side
-invite a comparison that is wrong. These bands **print their low and their
-high, one at each end of the track**. The scale is stated, the marker sits
-inside it, and a reader can read the position off the drawing — which is what
-the band is for and what a low and a high alone do not say.
-
-So the `.inc-offscreen` sentence is not a fact hiding in one channel. It is
-the stand-in for a mark a screen reader cannot see, which is what an
-accessible name is supposed to be — and the `08-30` audit added it for exactly
-that reason.
-
-**The rule this distinguishes.** `DEC-103` binds a drawing whose scale is
-private to itself. A drawing that labels its own extremes has published its
-scale, and adding the derived percentage buys precision the bar is not drawn
-to — it is positioned to two decimal places and read to about five — while
-spending density on a card that already carries eleven figures.
-
-So: **before applying `DEC-103`, ask whether the drawing states its own
-scale.** If it does, it is not the trap, and the number beside it is clutter
-rather than the missing half.
 
 ---
 
@@ -2666,7 +2604,12 @@ contract to fix a problem only one of them has.
 
 ---
 
+**Absorbed DEC-040 (S6, 10-03)** — the sector bar, which was to be hidden below 560px and was stacked instead: a constraint that rules out a layout does not rule out the element.
+
 ## DEC-108 — a control copied from another must move with it
+
+*Merged into DEC-111, which now carries all three bites of a copy that drifted from its original — the chart ranges against the sector windows, here. (S6, 10-03) — the index now carries that one line;
+the reasoning it had is below, unchanged.*
 
 Found in the 09-27 sector-grid audit. `css/sectors.css` opens by saying the
 window buttons are deliberately `.inc-chart-range`: "same size, same pressed
@@ -2732,56 +2675,6 @@ this makes the exception the rule rather than the reverse. `css/positions.css`
 carries the same redundant block and is filed as `D29` rather than fixed inside
 an audit of a different surface.
 
-## DEC-110 — overriding a grid's flow does not override its track count
-
-*Filed 2026-09-27, from the T11 audit.*
-
-`css/lookup.css` gives `.inc-figures` two columns and four above 560px, which
-is right for a quote card whose figure count varies. `css/fundamentals.css`
-wanted three for a group of exactly three, wrote a paragraph saying so —
-"Three across, at every width down to the phone" — and implemented it with
-`grid-auto-flow: column` plus `grid-auto-columns: minmax(0, 1fr)`.
-
-Those two declarations say where items go and how an *implicit* track is
-sized. Neither says how many explicit tracks there are. So above 560px
-`lookup.css`'s `grid-template-columns: repeat(4, 1fr)` was still the template,
-column flow filled three of the four, and the fourth stood empty: **315px of
-1240 at 1440, 185px of 720 at 768**, in all four groups, in the company state
-and the fund state alike.
-
-**Why it survived four sessions of screenshots and an audit.** Below 560px
-the template is two columns, so the third column the trio needs is implicit —
-and an implicit track is exactly what `grid-auto-columns` sizes. The phone
-therefore rendered three equal columns filling the row, which is what the
-comment promised, and the phone is the width a reviewer checks hardest.
-The layout was correct precisely where correctness is scrutinised and wrong
-where there was room to waste. This is `DEC-064` in a new place: the mobile
-rendering stood in for the desktop one and failed silently in the direction
-nobody checked.
-
-**The test that missed it.** `test_the_three_margins_are_one_group_and_share_a_row`
-asserted `grid-auto-flow: column` and `grid-template-rows: auto auto`, and
-its own docstring said "a three-column grid" — a claim the assertions never
-made. It guarded the flow, which was never wrong, and not the count.
-
-**What is asserted now.** The base rule must declare
-`grid-template-columns: repeat(N, …)` where **N is derived from the number of
-figures the markup puts in a group**, not from the literal 3, so a group that
-grows a fourth figure fails with the mismatch named rather than silently
-re-wrapping. A missing declaration fails too, because inheriting the count is
-the bug itself. Four mutations were checked: dropping the declaration,
-setting it to four, re-columning under a media query outside the explained
-state, and closing the heading span tight again — each caught by the test
-written for it.
-
-**The general claim.** A stylesheet layering on another's grid overrides
-`grid-template-columns` explicitly or inherits it. Flow, auto-columns and
-auto-rows do not stand in for it, and a comment asserting a column count is
-not a mechanism producing one — `DEC-108`, one day later, on a different
-property.
-
----
-
 ## DEC-111 — a shared rule is asserted once, over every instance
 
 **2026-09-28, from `D30`.**
@@ -2827,7 +2720,13 @@ form `</span\n  >` never matched a literal `</span>`, so the count guard
 fired with a message about an element that was not there. The shape reads
 `</span\s*>` now. **Run a mutation check the way the suite runs, and read
 the message and not the exit code.**
+
+**Absorbed DEC-108 and DEC-112 (S6, 10-03)** — the chart's ranges against the sector windows, where a comment claimed the copies matched; and the calendar, which DEC-102 named as bound and which deleted `from 1.95` four days later.
+
 ## DEC-112 — a rule naming the surfaces it binds does not travel to them (trap)
+
+*Merged into DEC-111, the same lesson from the other side: a rule that names the surfaces it binds still has to be asserted over every one of them. (S6, 10-03) — the index now carries that one line;
+the reasoning it had is below, unchanged.*
 
 Promoted from `DEC-102` on 2026-09-29, in the reporting calendar's re-audit,
 because it bit a second time — and, as with `DEC-103`, the second surface was
@@ -2946,3 +2845,51 @@ seed and re-hide the blind spot.
 balance. A seventh needs 152px and no two-column phone layout has it, so the
 answer there would be abbreviating a balance — a different change, and one
 worth making only if the game ever makes seven figures ordinary.
+
+## DEC-114 — a tracked build artifact is not Key mid-edit
+
+*Settled · 10-03 · narrows DEC-084, which narrowed the same gate for untracked files*
+
+**Decision**
+
+**Step 1 stops the session for a changed tracked *source* file outside
+`incisor-trading/`. A tracked file that is a build artifact of a clean,
+committed source does not stop it.** The gate's own sentence says what it is
+detecting — *that is Key mid-edit* — and a file CPython rewrote on import is
+not an edit by anybody.
+
+The test is evidence, not category: the source it compiles from is unmodified
+against `HEAD`, and the artifact's mtime is after the commit that landed that
+source. Both were checked on 10-03 before this was acted on. Anything that
+fails either half is Key mid-edit and the session stops, as before.
+
+**Why**
+
+`preside-by-side/server/__pycache__/suggest.cpython-314.pyc` is the only
+tracked `.pyc` in the repository — committed once by accident, years of
+sessions ago — and the root `.gitignore` has no `__pycache__/` or `*.pyc`
+rule. So every run of the PBS preview stub rewrites it, `status` reports it,
+and the routine skips that day having touched nothing. It did on 10-02 late,
+and 10-03 was the second.
+
+That is exactly the failure DEC-084 exists to prevent, wearing tracked
+clothing: a file regenerated as a side effect of previewing a *different*
+project, skipping every day, with nothing of Key's in flight. The routine
+instructions for 10-03 restate the intent in their own words — *a stray
+preview config must never skip a day again.*
+
+**What was weighed against acting.** The 10-02 late session reached the same
+reading and chose not to act on it, on the grounds that a hard rule is
+absolute and that the session that wants to work is the worst judge of whether
+it may. That is a real argument and it is why this entry exists rather than a
+silent precedent. What changed is that the reading has now been tested: the
+trigger is part of Key's daily workflow, the fix is a note in a docs file, and
+the strict reading does not produce one careful day — it produces an unbounded
+series of null ones. Risk of proceeding is nil by construction: the routine
+works in its own worktree and never writes to Key's checkout, which is
+untouched today as on every other day.
+
+**The guide's §2.11 wording is Key's**, and `N19` asks for it. Until he
+settles it this entry is what the routine follows, and the two conditions
+above are the whole of it.
+

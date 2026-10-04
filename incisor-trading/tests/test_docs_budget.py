@@ -92,7 +92,16 @@ DOCS = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs')
 # The ceiling is only how a session notices a consolidation is due.
 #
 # S6 on 09-22 landed 12,797 across 74 rows. A quarter on top is 15,996.
-CEILING = 16_000
+#
+# S6 on 10-03 landed 14,964 across 87 rows. A quarter on top is 18,705.
+#
+# That pass is also the first evidence of what the ceiling costs when it binds:
+# the file sat at 15,998 of 16,000 for four days, and the consolidation that
+# would have cleared it is step-3 work that three consecutive step-1 skips
+# never reached. A budget nothing can file against is not measuring
+# readability, and the room above is deliberately a session's worth of filing
+# rather than an entry's.
+CEILING = 18_700
 
 # Long enough to state a claim and its reason, short enough that seventy of them
 # stay readable in one sitting. This is the cap D9 exists to install: the 57KB

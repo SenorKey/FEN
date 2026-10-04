@@ -197,6 +197,12 @@ def filings(facts):
     A fund reaches here with nothing: it files no income statement, so every
     figure is absent and the panel says the symbol is a fund rather than
     showing eight em dashes and leaving the reader to work out why.
+
+    **A fund is a state, not a failure.** None here becomes a 200 carrying
+    `filings: null`, never a 404 or an error body: fifteen of the seventeen
+    answerable symbols are funds, so this is the ordinary answer and not the
+    edge case. A status that reads as breakage would make the common path
+    look broken (was DEC-045; S6, 10-03).
     """
     if not facts:
         return None

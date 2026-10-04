@@ -454,6 +454,12 @@
         var buttons = chart.querySelector('[data-chart-ranges]');
         if (buttons) buttons.addEventListener('click', onRangeClick);
 
+        /* All four, and the set is the contract: move alone answers a mouse
+         * and nothing else. A tap fires no pointermove at all, a lift is not
+         * a departure for the reader whose finger was covering the readout,
+         * and a gesture that turned into a scroll has to withdraw what it
+         * took. Each handler below says which of those it is (was DEC-024;
+         * S6, 10-03). */
         plot.addEventListener('pointerdown', onPointerDown);
         plot.addEventListener('pointermove', onPointerMove);
         plot.addEventListener('pointerleave', onPointerLeave);

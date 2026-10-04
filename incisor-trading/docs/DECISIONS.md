@@ -35,23 +35,21 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-021 | **Merged** → DEC-060, the same lesson on its second bite. |
 | DEC-022 | **The period token is shared vocabulary; where it sits belongs to the surface.** `.inc-period` sets the look, the tile sets its alignment. |
 | DEC-023 | **Merged** → DEC-078, on what an empty state may say. |
-| DEC-024 | **A pointer surface listens for down, move, leave and cancel, and a *touch* leave keeps its reading.** A tap fires no `pointermove` at all. |
 | DEC-025 | **The site is one deliberate dark treatment; `prefers-color-scheme` is not a gap.** `/assets` has no light palette and is out of bounds. Do not refile. |
 | DEC-026 | **The 600-line rule is measured three ways: 600 lines per stylesheet and script, 650 elements per document, 150 lines per surface.** The surface list is derived, never listed. |
 | DEC-027 | **Configuration is read at the edge, below the config load, and nowhere else.** An AST test enforces it (D4). |
 | DEC-028 | **Three caps are the call budget, not taste: watchlist 8, open orders 6, equity curve 12.** Each refuses past it; the watchlist stores tickers only. Redo the sum to raise any. |
 | DEC-030 | **`/sectors` computes; `/history` relays. Both are right.** Many symbols and one question is cheap to answer and costly to ship the inputs for. |
 | DEC-032 | **A surface pays for a payload once; every question it already answers is free.** The watchlist sparkline came from bars already being discarded. |
-| DEC-033 | **A measure that was right is made wrong by what lands next to it** — the watchlist's 620px cap, once T10 landed above it; then a 12ch reserve, once broadsheet realigned it. → DEC-100 |
+| DEC-033 | **Merged** → DEC-100, which carries the measure that a neighbour made wrong. |
 | DEC-034 | **A control's target is what a finger can hit, not what the box reports.** A positioned overlay is outside the rect: hit-test the corners. |
 | DEC-035 | **Merged** → DEC-060; hover is the channel it missed. |
 | DEC-036 | **Every sideways-scrolling box sets `position: relative`** — `overflow-x` does not clip a positioned child. Two of the three are preventive, not dead. |
 | DEC-038 | **Merged** → DEC-026, which carries all three length measures. |
 | DEC-039 | **Merged** → DEC-064; a derivation is a stand-in. |
-| DEC-040 | **A constraint that rules out a layout does not rule out the element** — the sector bar stacks below 700px rather than being `display: none`. |
+| DEC-040 | **Merged** → DEC-107; the same narrow-width deletion, one surface earlier. |
 | DEC-041 | **The budget scores one upstream of two** — only what `source.UPSTREAM_OF` marks Alpha Vantage's, so a free EDGAR call cannot cost one of 22. |
 | DEC-043 | **Market cap, P/E and yield are computed in the browser; margins and beta on the server.** The line is whether a figure needs the price the reader sees. |
-| DEC-045 | **A fund is a state, not a failure** — 200 with `filings: null`, in fund language. Fifteen of seventeen symbols are funds: the ordinary answer. |
 | DEC-067 | **Spent** — the split landed; `tests/test_docs_budget.py` enforces it. |
 | DEC-068 | **Closed work collapses in place; only live memory earns a detail file.** Nobody follows a pointer to a finished task, so `## Done` is one line each, in `BACKLOG.md` itself. |
 | DEC-069 | **An audit is a one-line verdict row plus a dated entry, keyed on date and task — not a new ID namespace.** `O6` never completes, so this section grows forever. |
@@ -74,17 +72,12 @@ surface it binds, and **DEC-087's detail entry records where each went.**
 | DEC-097 | **The page takes the site's face, and each face has one token.** `body.incisor` restated DM Sans and eleven declarations named it: a switch that reads as one line was eleven. |
 | DEC-098 | **Anything sticky is measured against the provenance line, in a browser, every run.** A banner must be clear at the top of the page and wherever the page's own scrolling puts it. |
 | DEC-099 | **`broadsheet.css` loads last and owns what is *between* surfaces** — the measure, what is ruled rather than boxed, where the lead sits. DEC-013 still gives each surface its own file. |
-| DEC-100 | **Ticking text is held still by a fixed-width format, not a reserved width** — a reservation holds only for the alignment it was measured in. Right-aligned, the countdown moved the dot. |
 | DEC-101 | **Promoted** → DEC-103, in *Recurring traps*; it bit the watchlist the next day. |
 | DEC-102 | **Promoted** → DEC-112, in *Recurring traps*; the surface its own entry named as bound shipped the opposite four days later. |
-| DEC-104 | **A drawing that prints its own scale is not DEC-103** — the range bands label both ends, so the marker is readable. Do not add a percent beside them. |
 | DEC-105 | **A mandated check runs from what the repo ships: the docs name `python3`, never a venv.** Rule 11 gives a fresh worktree and `.devtools/` is gitignored, so both spellings died (D27). |
 | DEC-106 | **A record that never finishes cannot share a byte ceiling with a queue that does** — the audit log is its own file; four sessions had met the backlog's budget by cutting findings. |
-| DEC-108 | **A control copied from another must move with it; a comment saying they match is not that.** The chart's ranges grew a phone rule, the copy did not, and the file said they matched. |
+| DEC-108 | **Merged** → DEC-111, which carries all three bites of a copy that drifted. |
 | DEC-109 | **A surface stylesheet says nothing about reduced motion — `incisor.css` stops all of it under `body.incisor *` with `!important`.** A local copy changes nothing and can only drift. |
-| DEC-110 | **Overriding a grid's flow does not override its track count.** `grid-auto-flow: column` left `lookup.css`'s four columns under a trio of three: 315px of 1240 dead at 1440. |
-| DEC-111 | **A rule several surfaces share is asserted once, over every instance in the markup.** Two of three ticker heads shipped the same bug; a third copy would not cover the fourth. |
-| DEC-113 | **A nowrap figure's track is sized by the longest figure the surface can show.** Six-figure gains overran two surfaces for weeks; every check was seeded with three. |
 
 ---
 
@@ -126,5 +119,9 @@ there will be a third.
 | DEC-090 | **A table laid out with `display: block` stops being a table to a screen reader** — rows and cells go with it. Write every role out; at desktop each matches the implicit one. |
 | DEC-093 | **A *gain* at exactly zero takes no flat bar `▬`: it sits where a minus goes, so "▬ $0.00" reads as a loss.** One home, `gainArrowFor`. Bit T14, then T16. |
 | DEC-103 | **A locally scaled line cannot be read against the one beside it, so every sparkline states its figure too.** Four tiles, then eight chosen rows; the size was in the `aria-label` both. |
-| DEC-107 | **A name on an element a media query hides is a name that width deletes** — `display: none` takes it out of the tree with the box. Name the cell, not the child that vanishes (T9). |
-| DEC-112 | **A rule that names the surfaces it binds still does not travel to them.** DEC-102 named this calendar; four days later it withdrew `from 1.95` by deleting it. |
+| DEC-107 | **A narrow width that hides an element deletes what it carried, its name included.** Stack it rather than `display: none`; name the cell, not the child that goes. Sectors, then T9. |
+| DEC-112 | **Merged** → DEC-111, the same lesson: naming a surface is not reaching it. |
+| DEC-100 | **A reserved width holds only for the alignment it was measured in, so ticking text needs a fixed-width format** — and a measure that was right is made wrong by what lands beside it. |
+| DEC-111 | **A rule or control several surfaces share is asserted once, over every instance.** Naming the surfaces it binds does not reach them; a comment saying two match is not a test. |
+| DEC-113 | **A nowrap figure's track is sized by the longest figure the surface can show.** Six-figure gains overran two surfaces for weeks; every check was seeded with three. |
+| DEC-114 | **Step 1 is failed by a changed tracked *source*, not by a tracked build artifact.** A committed `.pyc`, rewritten by importing another project, cost a fourth day with its source clean. |

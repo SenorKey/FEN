@@ -69,6 +69,15 @@
      * drawing stays in the stylesheet. A range that cannot be computed — a
      * symbol that has not moved all day, most often — hides the marker rather
      * than parking it at one end, which would read as a fact.
+     *
+     * **No percent goes beside this band, and that is not the sparkline rule
+     * being forgotten.** DEC-103 makes every locally scaled line state its
+     * figure, because a line normalised to its own range cannot be read
+     * against the one next to it. This drawing prints its own scale: the low
+     * and the high are labelled at both ends, so the marker is already
+     * readable against named numbers. Adding a percent would restate what
+     * the two labels and positionSentence() between them already say (was
+     * DEC-104; S6, 10-03).
      */
     function renderRange(range, low, high, value, title) {
         if (!range) return;
