@@ -1107,3 +1107,72 @@ portfolio, which is `DEC-064`. The narrow pass is seeded from the widest state
 now, and `tests/test_portfolio.py` derives that gain from the committed
 fixture rather than restating it. Seeding it honestly turned the check red
 immediately, on the holdings table rather than this surface: `D31`.
+
+---
+
+## 10-03 — Order ticket and open orders (T15)
+
+*Verdict: minor edits.*
+
+Judged from `shoot.py --api --tab trade` at every width, fresh and
+`--portfolio held`, plus `--portfolio flat` and a run with no service. Every
+state worth judging still comes after typing and no `shoot.py` flag reaches
+one, so those were driven from a scratchpad driver built on the tool's own
+server, proxy, storage seeds and client addressing, photographing the ticket
+and the orders list as *elements* — which is the only way a 390px state is
+legible at all. That gap is still `D20`, and a second audit has now paid for
+it.
+
+Due on the revamp rule: broadsheet changed the measure, the fills and the face
+under it since 09-16, and this is the first look at the ticket as it now ships.
+
+**Useful.** Yes, and more than the first audit credited. It is the only way the
+game changes, and it is the only surface that teaches the rule the game exists
+for — an order does not fill at the price on screen. The review says the price
+it *will* take ("the open, Monday 9:30am ET — not the last close shown above"),
+what a market buy holds back and why ("the last close plus 5%, since a market
+order's price is not known until then"), and what is free after it. Nothing
+else on the page says any of that, and nothing would say it if this vanished.
+
+**Easy.** One finding, and it is the first audit's finding one level up. That
+audit made the *prose* state the refusal before the button — "Free to spend:
+$47,408.04 — not enough for this order, so it would be refused." The button
+was never looked at, and it is still filled, still gold, still the only filled
+button on the page and still reading "Place buy order". So the page knew the
+answer and put it in one channel only: the last clause of a paragraph. At 390px
+that paragraph runs six lines, another four-line paragraph sits under it, and
+the button is below both — the refusal is off the top of attention by the time
+the reader reaches the control it describes. `DEC-060`, in the channel it had
+not been found in yet. A symbol with no prices was worse: nothing could be
+placed at all, and under "No prices for ZZZZ" the timing line still planned the
+fill of an order that cannot exist.
+
+Both fixed. The button now carries `aria-disabled` whenever the review has
+already refused the order, styled by giving up its fill rather than dimming it
+— dimming is a difference in one colour, and this page's one filled button is
+recognised by *being* filled. It stays focusable and still takes the press, so
+the refusal `onSubmit` already writes is still reachable and a keyboard reader
+meets the control rather than a gap where the explanation should be. The timing
+line is dropped for a symbol with no prices. Five assertions in
+`orders_model.jxa.js` hold both halves — the marked states and an unmarked one,
+since a rule that blocked everything would satisfy the refusals alone
+(`DEC-065`).
+
+Keyboard and pointer otherwise as the first audit left them: real buttons with
+`aria-pressed`, labelled inputs, a visible focus ring, every field full width
+at 390 with a 44px minimum on the submit.
+
+**Beautiful.** It holds up, and the box is right. Broadsheet rules surfaces
+apart rather than boxing them, and the ticket is the one surface that keeps a
+panel fill and a border — correctly, because it is the one surface that is a
+*form*: the box is what says where the thing you operate begins and ends, and
+the five fields inside it are a group in a way a ruled section is not. Figures
+in the mono face, the review as prose at a 72ch measure, and the fields
+collapsing two-up at 900px then one-up at 480px. Looked at and left: "25 SPY"
+can still break across a line at 390.
+
+**Performing.** Unchanged and cheap. One `/history` per symbol traded, kept for
+the page load, so editing the quantity or switching side asks nothing; the
+catalogue is fetched on first use of the symbol field and costs no quota. The
+list redraws from the store and asks for nothing. The fix added no request and
+no node — one attribute, written where the review was already being rendered.

@@ -125,3 +125,4 @@ there will be a third.
 | DEC-111 | **A rule or control several surfaces share is asserted once, over every instance.** Naming the surfaces it binds does not reach them; a comment saying two match is not a test. |
 | DEC-113 | **A nowrap figure's track is sized by the longest figure the surface can show.** Six-figure gains overran two surfaces for weeks; every check was seeded with three. |
 | DEC-114 | **Step 1 is failed by a changed tracked *source*, not by a tracked build artifact.** A committed `.pyc`, rewritten by importing another project, cost a fourth day with its source clean. |
+| DEC-115 | **A control the page has already refused says so on itself — `aria-disabled`, not `disabled`.** It keeps its place in the tab order and still answers the press with the reason. |

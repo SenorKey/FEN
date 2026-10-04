@@ -229,31 +229,47 @@
                 ? ' · sample data, not a real quote.' : ' · delayed data.');
     }
 
-    function costText(order) {
+    /* The cost line, and whether writing it has just said no.
+     *
+     * Both, from one call, because only the arithmetic here can answer the
+     * second question and the button above needs it (renderReview). Asking a
+     * separate predicate would mean working out the held-back figure twice
+     * and leaving two places to keep in step.
+     */
+    function costReview(order) {
         var ready = shown && !shown.pending && !shown.error && shown.symbol === order.symbol;
-        if (!ready || !order.shares) return '';
+        if (!ready || !order.shares) return { text: '', refused: false };
         var store = portfolio.store();
         var free = store.available();
         if (order.kind === 'sell') {
             var holding = free.shares[order.symbol] || 0;
+            var short = holding < order.shares;
             var byLimit = order.type === 'limit' && order.limit;
-            return (byLimit ? 'At least ' : 'About ')
-                + money(ledgerMath.amountFor(order.shares, byLimit ? order.limit : shown.close))
-                + (byLimit ? ' at your limit. ' : ' at the last close. ')
-                + 'Free to sell: ' + holding + ' ' + order.symbol
-                + (holding < order.shares ? WOULD_BE_REFUSED : '.');
+            return {
+                text: (byLimit ? 'At least ' : 'About ')
+                    + money(ledgerMath.amountFor(order.shares,
+                        byLimit ? order.limit : shown.close))
+                    + (byLimit ? ' at your limit. ' : ' at the last close. ')
+                    + 'Free to sell: ' + holding + ' ' + order.symbol
+                    + (short ? WOULD_BE_REFUSED : '.'),
+                refused: short
+            };
         }
-        if (order.type === 'limit' && !order.limit) return '';
+        if (order.type === 'limit' && !order.limit) return { text: '', refused: false };
         var held = orderMath.heldBackFor({ kind: 'buy', shares: order.shares, type: order.type,
             limit: order.limit, reference: shown.close });
+        var over = held > free.cash;
         var lead = order.type === 'limit'
             ? 'At most ' + money(held) + ' at your limit, held back until it fills.'
             : 'About ' + money(ledgerMath.amountFor(order.shares, shown.close))
                 + ' at the last close. ' + money(held) + ' is held back until it fills '
                 + '— the last close plus 5%, since a market order’s price is '
                 + 'not known until then.';
-        return lead + ' Free to spend: ' + money(Math.max(free.cash, 0))
-            + (held > free.cash ? WOULD_BE_REFUSED : '.');
+        return {
+            text: lead + ' Free to spend: ' + money(Math.max(free.cash, 0))
+                + (over ? WOULD_BE_REFUSED : '.'),
+            refused: over
+        };
     }
 
     /* Whether an order placed now could ever fill. The symbol looked up
@@ -264,6 +280,11 @@
     }
 
     function timingText() {
+        // A symbol the page cannot price takes no order, so there is no
+        // "after you place it" to describe. The quote line above has already
+        // said why, and this sentence under it read as a plan for an order
+        // that cannot exist (T15 audit, 10-03).
+        if (shown && shown.error) return '';
         var next = nextPriceNow();
         if (!next) return '';
         var closeShown = shown && !shown.pending && !shown.error;
@@ -280,10 +301,30 @@
 
     function renderReview() {
         var order = draft();
+        var cost = costReview(order);
         nodes.quote.textContent = quoteText();
-        nodes.cost.textContent = costText(order);
-        nodes.cost.hidden = nodes.cost.textContent === '';
+        nodes.cost.textContent = cost.text;
+        nodes.cost.hidden = cost.text === '';
         nodes.timing.textContent = timingText();
+        markSubmit(cost.refused || Boolean(shown && shown.error));
+    }
+
+    /* Say on the button what the review has just said in prose.
+     *
+     * The refusal was stated in one channel only: the last clause of a
+     * paragraph that runs six lines at 390px, under a button still filled,
+     * still gold and still reading "Place buy order" (DEC-060, and the T15
+     * audit of 10-03 that found it).
+     *
+     * `aria-disabled` and not `disabled`, because the two differ exactly
+     * where it matters here. A disabled button leaves the tab order, so a
+     * reader moving by keyboard finds a gap where the explanation should be,
+     * and pressing it does nothing at all. This one keeps its place, still
+     * takes the press, and still answers with the reason onSubmit already
+     * writes — the mark is a warning, not a lock.
+     */
+    function markSubmit(refused) {
+        nodes.submit.setAttribute('aria-disabled', refused ? 'true' : 'false');
     }
 
     function say(text) {

@@ -161,6 +161,29 @@
     cursor: progress;
 }
 
+/* The order the review has already refused.
+ *
+ * This is the one filled button on the page, and the fill is what says "this
+ * is the action". So the blocked state gives the fill up rather than dimming
+ * it: dimming is a difference in one colour, and a reader who cannot see the
+ * difference between gold and dimmer gold gets no signal at all (guide §13).
+ * An outlined button against a filled one is a difference in shape, and it
+ * survives greyscale.
+ *
+ * Set from `aria-disabled`, not `:disabled`, so it is the same attribute a
+ * screen reader is reading — one state, one source, nothing to drift
+ * (js/view-ticket.js explains why the button stays pressable). */
+.inc-ticket-submit[aria-disabled="true"] {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--inc-rule-strong);
+    color: var(--muted);
+    cursor: not-allowed;
+}
+
+.inc-ticket-submit[aria-disabled="true"]:hover {
+    opacity: 1;
+}
+
 .inc-ticket-submit:focus-visible {
     outline: 2px solid var(--ink);
     outline-offset: 3px;

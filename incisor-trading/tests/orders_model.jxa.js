@@ -412,6 +412,8 @@ function run(argv) {
             t.text('inc-ticket-timing')));
 
     t.type('shares', '10');
+    equal('an order it can place leaves the button unmarked',
+        t.q('.inc-ticket-submit').getAttribute('aria-disabled'), 'false');
     equal('a market buy states its cost and what it holds back', t.text('inc-ticket-cost'),
         'About $950.00 at the last close. $997.50 is held back until it fills — the last '
         + 'close plus 5%, since a market order’s price is not known until then. '
@@ -460,6 +462,8 @@ function run(argv) {
     check('an order past the cash is called refused before it is placed',
         /Free to spend: \$100,000\.00 — not enough for this order, so it would be refused\.$/
             .test(t.text('inc-ticket-cost')), t.text('inc-ticket-cost'));
+    equal('and the button carries the refusal too, not the prose alone',
+        t.q('.inc-ticket-submit').getAttribute('aria-disabled'), 'true');
     t.submit();
     equal('an order past the cash says what it holds back and what is free',
         t.text('inc-ticket-message'), 'Not enough cash. This order holds back $199,500.00 '
@@ -482,6 +486,10 @@ function run(argv) {
     t.type('symbol', 'xyz');
     equal('a symbol with no prices says so', t.text('inc-ticket-quote'),
         'No prices for XYZ. Only symbols this page has data for can be traded.');
+    equal('and its button is marked, since no order can be placed at all',
+        t.q('.inc-ticket-submit').getAttribute('aria-disabled'), 'true');
+    equal('and nothing promises a fill for an order that cannot exist',
+        t.text('inc-ticket-timing'), '');
 
     /* A portfolio stored with an order placed the evening before the last
      * bar: the page load settles it, and the ticket says what happened. */
@@ -503,6 +511,8 @@ function run(argv) {
     equal('and a sell past the holding is called refused before it is placed',
         back.text('inc-ticket-cost'), 'About $2,850.00 at the last close. Free to sell: 20 SPY'
         + ' — not enough for this order, so it would be refused.');
+    equal('a sell past the holding marks its button as well',
+        back.q('.inc-ticket-submit').getAttribute('aria-disabled'), 'true');
     back.press('[data-ticket-type="limit"]');
     back.type('limit', '120');
     equal('a limit sell is priced at its limit', back.text('inc-ticket-cost').indexOf(

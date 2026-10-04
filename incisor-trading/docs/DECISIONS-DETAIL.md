@@ -2893,3 +2893,43 @@ untouched today as on every other day.
 settles it this entry is what the routine follows, and the two conditions
 above are the whole of it.
 
+## DEC-115 — a refused control says so on itself
+
+*Settled · 10-03 · T15 audit*
+
+**Decision**
+
+**When the page already knows a control would be refused, the control says so,
+and it says it with `aria-disabled` rather than `disabled`.** The two differ
+exactly where it matters: a `disabled` button leaves the tab order, so a reader
+moving by keyboard finds a gap where the explanation should be, and pressing it
+produces nothing at all. `aria-disabled` keeps the control focusable and
+pressable, so the refusal the submit path already writes stays reachable. The
+mark is a warning, not a lock.
+
+**And the mark is not only a colour.** The order ticket's submit is the one
+filled button on the page, and the fill is what makes it read as the action to
+take — so the refused state gives the fill up and becomes an outline. Dimming
+it would have been a difference between gold and dimmer gold, which is no
+difference to a reader who cannot see it. Guide §13's rule about colour is
+usually quoted about green and red; it is not only about green and red.
+
+**Why**
+
+The T15 audit of 10-03. The ticket's review already ended "— not enough for
+this order, so it would be refused", a fix the 09-16 audit made to that
+sentence. The button under it was never looked at: filled, gold, reading
+"Place buy order", identical to the state where the order goes through. At
+390px the refusal is the last clause of a six-line paragraph, a four-line
+paragraph sits between it and the button, and a reader arriving at the control
+has no signal on the control at all.
+
+That is `DEC-060` in a channel it had not been found in — prose, with the
+control silent — and the module's own header had promised the opposite: that
+the reader meets the rule "before the button is pressed rather than in a
+refusal afterwards". The sentence kept that promise. The button did not.
+
+Stated here rather than beside the ticket because it binds any control that
+can be refused, and Phases 2 and 3 add several: reset, cancel, the replay
+transport. The ticket's own file carries the mechanism; this carries the rule.
+
