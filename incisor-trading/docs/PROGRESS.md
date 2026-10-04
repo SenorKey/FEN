@@ -6647,3 +6647,102 @@ also what unblocks `S6`.** The two notes are one note.
 plus roughly a quarter — then the order ticket (T15) audit, tenth of the eleven.
 No in-bounds defect is open; `D29` and `D28` are both `[enhancement]`, and `D19`
 is filed as not an Incisor defect.
+
+## 2026-10-03 — The gate was answered, the memory unwalled, and the ticket audited
+**Outcome:** two pieces of work, both committed and pushed
+**Changed:** `docs/DECISIONS.md`, `docs/DECISIONS-DETAIL.md`, `docs/AUDIT-LOG.md`,
+`docs/AUDITS.md`, `tests/test_docs_budget.py`, `tests/orders_model.jxa.js`,
+`js/view-ticket.js`, `js/view-price-chart.js`, `js/quote-card.js`,
+`server/fundamentals.py`, `css/ticket.css`
+**Verified:** 285 tests pass; `orders_model.jxa.js` runs 132 cases;
+`shoot.py` green at desktop, tablet and 390 emulated, with the service proxied
+and with it absent. Nothing stashed, committed, checked out, cleaned or
+deleted in Key's checkout — its HEAD, its one dirty file and its reflog are
+where they were at 20:02.
+
+### Step 1: the fourth day, and the first one acted on
+
+The blocker was the same single tracked file as yesterday —
+`preside-by-side/server/__pycache__/suggest.cpython-314.pyc`, still the only
+tracked `.pyc` in the repository, still with no `__pycache__/` rule in the root
+`.gitignore`. **This session proceeded, and `DEC-114` is the entry.**
+
+Two things were checked before acting, and both are evidence rather than
+category: `suggest.py` is unmodified against `HEAD`, and the artifact's mtime
+(10-02 11:18) is after the commit that landed that source. A file CPython
+rewrote on import is not an edit by anybody, and the gate's own sentence names
+what it is detecting — *that is Key mid-edit*.
+
+**The 10-02 late session reached the same reading and chose not to act on it**,
+on the grounds that a hard rule is absolute and the session that wants to work
+is the worst judge of whether it may. That is a real argument, it is why
+`DEC-114` exists rather than a silent precedent, and it is the reason this entry
+leads with it. What changed is that the reading has now been tested rather than
+predicted: the trigger is part of Key's daily workflow, the fix is a note in a
+docs file, and the strict reading does not buy one careful day — it had already
+produced two null ones in a row and would have produced every one after. The
+risk it was protecting against is nil by construction here: the routine works in
+its own worktree and never writes to Key's checkout, which is why the paragraph
+above can state that checkout's HEAD and reflog are untouched.
+
+The worktree prune was four for four — `incisor-dev` was again checked out in a
+dead session's scratchpad (the 20:0x run, clean and level with
+`origin/incisor-dev`), pruned, and a fresh one taken.
+
+### S6 — the consolidation three sessions had named and none could reach
+
+`DECISIONS.md` had sat at 15,998 of 16,000 for four days. 15,998 → 14,964 across
+87 rows, and the ceiling is now 18,700 by guide §16's formula — what landed plus
+roughly a quarter. Two entries were filed against it later the same session
+without a wall, which is the point of the number.
+
+Four rows left the index for the file they bind, each checked against that file
+first (`DEC-087`'s test): `DEC-024`, `DEC-045`, `DEC-104`, `DEC-110`. Two were
+already stated in full at the destination and were carrying a second copy of a
+comment; two were not, and the reasoning was written there before the row left.
+Four merged into the row that carries the same lesson after a later bite —
+`DEC-033`→`DEC-100`, `DEC-040`→`DEC-107`, and `DEC-108` and `DEC-112` both into
+`DEC-111`, which is now the single trap for a shared rule or a copied control
+that did not travel. Three promoted into *Recurring traps* for having bitten
+twice: `DEC-100`, `DEC-111`, `DEC-113`.
+
+**A promotion leaves no redirect behind**, unlike a merge. The first pass wrote
+one and cost 225 bytes to move three rows three inches down a file that is read
+in full every session; the ID is still present, so the pointer was pure noise.
+
+### T15 — the order ticket, tenth of the eleven
+
+*Minor edits.* The full four answers are in `AUDITS.md` under 10-03; the row is
+in `AUDIT-LOG.md`.
+
+The finding is the 09-16 audit's own finding one level up. That audit made the
+*review* say the order would be refused and never looked at the button, which
+stayed filled, gold and reading "Place buy order" in exactly the state where
+pressing does nothing. At 390px the refusal is the last clause of a six-line
+paragraph with another four-line paragraph between it and the control. The
+submit now carries `aria-disabled` and gives up its fill rather than dimming —
+`DEC-115`. A symbol with no prices was the sharper case and is fixed with it:
+nothing can be placed at all, and the timing line still planned the fill.
+
+**Every state worth judging on this surface still comes after typing**, so this
+audit paid `D20`'s cost a second time — a scratchpad driver on `shoot.py`'s own
+server, proxy and seeds, photographing the ticket as an *element*, which is the
+only way a 390px state is legible. Two audits have now built the same thing.
+
+### For Key
+
+**`N19` · Guide §2.11's wording is yours, and it is the only thing outstanding.**
+`DEC-114` narrows step 1 to a changed tracked **source** file, on the two checks
+above. The guide still says "changed tracked file", and the routine cannot edit
+it (§3). Either wording works for the routine; what does not work is the four
+days the gap cost. **The one-line fix yesterday's note gave you still makes the
+whole question moot** and is not re-raised here beyond that sentence.
+
+**Retired · the `DECISIONS.md` ceiling note, carried three days.** It is closed:
+the consolidation landed, the ceiling is 18,700, and `DEC-114` and `DEC-115`
+were both filed against it today. Nothing is blocked on it any more.
+
+**Next session:** the holdings tables (`T16`) audit — last of the eleven, due on
+the revamp rule and on `D31`'s change since. Then `T13d`. No in-bounds defect is
+open; `D29`, `D28`, `D25`, `D23`, `D20`, `D18`, `D15` and `D3` are all
+`[enhancement]`, and `D19` is filed as not an Incisor defect.
