@@ -22,16 +22,19 @@ was written against rounded cards in DM Sans, and broadsheet changed the measure
 the fills, the rules and the face of all of them (§18 — a revamp touching a
 surface makes it due, whatever its last verdict).
 
-**Ten down, one to go** — clock 09-22, index strip 09-23, symbol lookup and
+**All eleven are down** — clock 09-22, index strip 09-23, symbol lookup and
 price chart both 09-24, watchlist 09-26, sector grid and fundamentals panel
 both 09-27, reporting calendar 09-29, portfolio summary 10-01, order ticket
-10-03. That closes the dashboard's original six, the two `T13c` reached second,
-and two of the three Trade-tab surfaces. Last is the **holdings tables (T16)**
-— and that one now has `D31`'s fix under it, so it is due on the revamp rule
-and on a change since. An audit is a session's whole work, so the remainder
-sits ahead of `T13d`; **that is probably not what §18 means to buy and is not
-the routine's to redefine — `N17`.** The rule stands and the queue is worked in
-order.
+10-03, holdings tables 10-04. That closes the dashboard's original six, the two
+`T13c` reached second, and all three Trade-tab surfaces. Every verdict was
+*minor edits*; none was a *keep* but the symbol lookup's.
+
+**The queue is empty, so nothing is due and step 4 falls through to the
+backlog** — `T13d` next. It fills again the ordinary way: a surface three or
+more sessions old with no row, which now means a surface shipped from here on,
+or any of these eleven the next revamp touches. `N17` is retired with the
+queue that raised it: eleven consecutive audits did sit ahead of `T13d`, and
+the answer turned out to be that they ran out.
 
 ## The log
 
@@ -58,3 +61,4 @@ order.
 | 09-29 | **Reporting calendar** (T12) | Minor edits | Below 700px "from 1.95" was `display: none`, so the tree read `+2.56%` alone: the baseline is in no other cell. |
 | 10-01 | **Portfolio summary** (T14) | Minor edits | Figures are nowrap and their tracks came from round widths: a $10,000 gain overran a 320px cell, and every check was seeded with three figures. |
 | 10-03 | **Order ticket and open orders** (T15) | Minor edits | The review said the order would be refused; the button under it stayed filled gold, four lines below the clause saying so. |
+| 10-04 | **Holdings, trade log and equity curve** (T16) | Minor edits | The trade cell was left-aligned, its header was not: "Trade" sat 240px from its data. No seed reached the log's control. |

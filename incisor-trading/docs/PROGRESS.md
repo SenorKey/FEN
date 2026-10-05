@@ -6746,3 +6746,82 @@ were both filed against it today. Nothing is blocked on it any more.
 the revamp rule and on `D31`'s change since. Then `T13d`. No in-bounds defect is
 open; `D29`, `D28`, `D25`, `D23`, `D20`, `D18`, `D15` and `D3` are all
 `[enhancement]`, and `D19` is filed as not an Incisor defect.
+
+## 2026-10-04 — The holdings tables audited, and the queue of eleven runs out
+**Outcome:** the T16 audit, with two fixes and two filings; committed and pushed
+**Changed:** `tools/shoot.py`, `css/positions.css`, `tests/test_positions.py`,
+`docs/AUDIT-LOG.md`, `docs/AUDITS.md`, `docs/BACKLOG.md`, `docs/DECISIONS.md`,
+`docs/DECISIONS-DETAIL.md`
+**Verified:** 290 page tests pass (285 before, five added); 244 server tests
+pass; `shoot.py` green at desktop, tablet and 390 emulated, with the service
+proxied and with it absent. Nothing stashed, committed, checked out, cleaned
+or deleted in Key's checkout.
+
+### Step 1: the fifth day on the same file, and the second acted on
+
+The only changed tracked file in Key's checkout was
+`preside-by-side/server/__pycache__/suggest.cpython-314.pyc` again, with
+`suggest.py` clean against `HEAD`. That is exactly the case `DEC-114` settled
+yesterday, so this session proceeded without re-arguing it — which is what a
+decision entry is for. `N19` stands: the guide's §2.11 still says "changed
+tracked file", and the one-line `git rm --cached` fix is still Key's.
+
+The worktree prune was five for five. `incisor-dev` was checked out in the
+20:03 run's scratchpad, clean and level with `origin/incisor-dev`, so it was
+pruned and this session took its own.
+
+### T16 — the last of the eleven
+
+*Minor edits.* The four answers are in `AUDITS.md` under 10-04; the row is in
+`AUDIT-LOG.md`.
+
+**The audit found a hole in itself before it found one in the page.** The trade
+log previews twelve trades and hides its expander below that, and no
+`--portfolio` seed made more than four. "Show N older trades" is the only
+control on the three surfaces `T16` shipped, and three audits had judged them
+without it ever being in a screenshot. `D20` and `D23` are the same gap and
+both need a flag and a driver; this one needed sixteen lines of JSON, which is
+why it is `DEC-116` in *Recurring traps* rather than a third sibling filed
+beside them. The seed is held to a ledger the game's rules could have produced
+— nothing sold that was not held, cash never overdrawn — because a screenshot
+of a state the game forbids teaches whatever shape it has.
+
+**The finding itself is the inverse of the usual one here.** `positions.css`
+left-aligns the trade column, which holds "Bought AAPL" rather than a figure,
+and it aligned the cell alone: the header kept the table's right-aligned
+default and sat at the far edge of a 303px column, ~240px from its data. The
+phone never had it — below 560px the tables stack and every cell is labelled
+in place — so this was a defect that existed only at the two widths these
+audits usually find clean. Twelve rows are what made it legible; four read as
+slack. `DEC-065`'s pair is now one selector list, and two assertions parse the
+stylesheet rather than grepping it (`DEC-066`).
+
+Looked at and left, filed as `D32`: the equity curve reserves `9.2ch` for its
+scale at every width, which is a constant 95.66px — 7.7% of the chart at 1440
+and **26.7% at 390**, so a quarter of the phone's plot holds three repeats of
+`$102,000`. The x-axis beside it already abbreviates. Not done inside the audit
+because the gutter is shared machinery: the dates row reserves the same width
+so both axes measure one plot, `chart.css` is built the same way at `5.6ch`,
+and the labels come from `view-performance.js`, not CSS.
+
+### The audit queue is empty
+
+Eleven re-audits, 09-22 to 10-04, every one a *minor edit* but the symbol
+lookup's *keep*. Step 4 now falls through to the backlog for the first time
+since `T13c`, and `T13d` is next. The log fills again the ordinary way — a
+surface shipped from here on, or any of these eleven that a future revamp
+touches.
+
+### For Key
+
+**Retired · `N17`.** It asked whether §18 means to buy eleven consecutive audit
+sessions ahead of the next backlog task. It did buy exactly that, and the
+question is now moot: the queue ran out today and the rule was never changed to
+get there. Nothing is outstanding on it.
+
+**`N19` stands, unchanged and not re-argued** — guide §2.11's wording against
+`DEC-114`. Either wording works for the routine.
+
+**Next session:** `T13d`, broadsheet's long tail. No in-bounds defect is open;
+`D32`, `D29`, `D28`, `D25`, `D23`, `D20`, `D18`, `D15` and `D3` are all
+`[enhancement]`, and `D19` is filed as not an Incisor defect. No audit is due.

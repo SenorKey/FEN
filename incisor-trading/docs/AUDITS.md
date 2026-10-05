@@ -1176,3 +1176,93 @@ the page load, so editing the quantity or switching side asks nothing; the
 catalogue is fetched on first use of the symbol field and costs no quota. The
 list redraws from the store and asks for nothing. The fix added no request and
 no node — one attribute, written where the review was already being rendered.
+
+## 10-04 — Holdings, trade log and equity curve (T16)
+
+*Verdict: minor edits.*
+
+Judged from `shoot.py --api --tab trade` at every width against a fresh
+portfolio and `--portfolio held`, `flat`, `wide` and `busy`, plus a run with
+the service absent. The eleventh and last of the re-audits `T13c` made due,
+and `D31` has changed the holdings table since.
+
+**One of those seeds did not exist at the start of the audit, and that is the
+first finding.** The trade log previews twelve trades and keeps its expander
+hidden below that; every seed in `shoot.py` made four trades or fewer. So
+"Show 4 older trades" — the only control on these three surfaces, the only
+thing here a reader can press — had been judged by three audits of this
+surface without once appearing in a screenshot. It is `D20`'s gap in its
+cheapest possible form: not a flag and a driver, one more value in a list that
+already existed. `--portfolio busy` makes sixteen, and `test_positions.py`
+holds it to a ledger the game's own rules could have produced — nothing sold
+that was not held, cash never overdrawn, in date order — because a seeded log
+a reader cannot tell from a played one teaches whatever shape it happens to
+have. The control itself is well built: a real `<button>` borrowing the
+chart's text-press shape, `aria-expanded`, focus moved to it after the list
+grows, and a generic `trade-log-expand` for the beacon.
+
+**Useful.** All three, and for three different reasons. The holdings table is
+the only place the page states what a position *is* — shares, what they cost,
+what they are worth now, and the difference — and the summary above it is a
+total that cannot be read back into its parts. The trade log is the record the
+whole portfolio is replayed from, and it says so in its own words rather than
+leaving the reader to assume a stored balance. The equity curve is the only
+surface that answers the question the game is actually for: whether any of
+this beat doing nothing. Its sentence does the teaching — *"Over 3 Jun 2026 to
+26 Aug 2026 your trading is $1,777.12 ahead of buying SPY once and holding
+it"* — and the benchmark's own note is honest about the one way the comparison
+cheats (it buys a fraction of a share, which the player cannot).
+
+**Easy.** One finding, at desktop and tablet, and it is the inverse of the one
+these audits usually turn up. The trade column holds a phrase — "Bought AAPL"
+— so `positions.css` gave the cell `text-align: left` against a table whose
+default is right. It gave it to the cell alone. The header stayed
+right-aligned, so "Trade" sat at the far edge of a 303px column while twelve
+rows of data started about 240px to its left, under nothing, with an empty
+channel between the dates and the trades wide enough to read as a column of
+its own. Four rows hid it as slack; twelve rows is what made it visible, which
+is the second thing the new seed bought. `DEC-065` is the trap — a pair of
+rules where only one was written — and the fix writes the pair into one
+selector list so the halves cannot separate again, with two assertions in
+`test_positions.py` over the parsed stylesheet, one of which fails if any rule
+aligns a single half. The phone never had the defect: below 560px the tables
+stack and every cell is labelled in place, so the mismatch existed only where
+a `<thead>` is drawn.
+
+Otherwise: the stacked layout spells the labels out in full where the desktop
+header abbreviates — "Average cost", "Last price", "Market value", "Unrealized
+gain" against "Avg cost", "Price", "Value", "Gain" — which is `DEC-074`
+working. Direction is arrow, sign and colour on every gain, and a gain of
+exactly zero takes no arrow and no sign at all, which is `DEC-093` holding one
+surface down from where it was argued. The three empty states each name what
+would fill them rather than describing the emptiness.
+
+**Beautiful.** The tables hold up — rules rather than boxes, figures in the
+mono face with tabular numerals, the percentage stacked under its amount so
+the gain column is only as wide as its money, and a six-figure gain still
+inside its cell at 320px since `D31`. The curve is the best-looking thing on
+the tab: one gold line against a dashed grey benchmark, distinguishable
+without colour, over a dotted baseline at the starting figure.
+
+Looked at and left, filed as `D32`: the curve's scale reserves `9.2ch` at
+every width, and `9.2ch` is a constant 95.66px. At 1440 that is 7.7% of the
+chart; at 390 it is 26.7%, so three repeats of `$102,000` take a quarter of
+the width the line is drawn in. The x-axis beside it already abbreviates — "3
+Jun", "26 Aug" — and guide §13 asks for sensible abbreviation of large values.
+Not fixed inside this audit because the gutter is shared machinery: the dates
+row reserves the same width so both axes measure the same plot, and
+`chart.css` is built the same way with `5.6ch`, so narrowing one is a decision
+about an arrangement two charts keep, not a touch-up.
+
+**Performing.** Cheap, with one caveat already filed. The holdings table and
+the trade log fetch nothing — both draw from the replayed ledger, and the log
+is pure storage. The curve is the one surface on this tab that asks for
+anything: a series for every symbol the ledger has ever touched, including
+ones closed out and no longer in the table, plus the benchmark, refusing past
+`portfolio-history.js`'s limit rather than drawing a curve with holes. On the
+seeds here that is free — the three symbols are already being priced for the
+table and the benchmark is SPY, which is held — and it only costs beyond that
+for a portfolio whose history has left the holdings behind. Nothing here
+blocks the dashboard, which is a different tab. The redraw timing is `D18` and
+is unchanged: the summary fills while the two surfaces below it still show
+their empty state for a few hundred milliseconds.

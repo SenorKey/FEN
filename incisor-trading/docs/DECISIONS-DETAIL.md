@@ -2933,3 +2933,54 @@ Stated here rather than beside the ticket because it binds any control that
 can be refused, and Phases 2 and 3 add several: reset, cancel, the replay
 transport. The ticket's own file carries the mechanism; this carries the rule.
 
+
+---
+
+## DEC-116 — a control no seed reaches is judged by nobody
+
+*Recurring trap · 10-04 · T16 audit*
+
+**Decision**
+
+**Before auditing a surface, check that every control on it is reachable by a
+`shoot.py` seed or flag. If one is not, add the seed first — the audit is the
+work, and an audit that cannot see a control has not judged the surface.**
+This is cheap in the direction that matters: a seed is a value in a list, and
+the alternative is a verdict written about a surface with a hole in it.
+
+**Why**
+
+The trade log previews twelve trades and keeps its expander hidden below that
+(`LOG_PREVIEW` in `js/view-positions.js`). Every `--portfolio` seed made four
+trades or fewer. So "Show N older trades" — the only control on the holdings
+table, the trade log and the equity curve between them, the only thing on
+those three surfaces a reader can press — appeared in no screenshot, and three
+audits of this surface (09-12's shipping pass, 09-17, and the start of 10-04)
+answered guide §18's *easy* question without it.
+
+Nothing was wrong with the control. That is the point: the trap is not that a
+defect hid, it is that **a verdict was recorded over a surface part of which
+had never been looked at**, and a *keep* on that basis is indistinguishable
+from a *keep* on the whole thing.
+
+**The third bite, which is why this is a trap and not a settled row.** `D20`
+is the order ticket: every state worth judging comes after typing, and two
+audits paid for it with a scratchpad driver. `D23` is the market clock: it
+reads `new Date()`, so a run photographs whichever of nine sessions the wall
+clock is in. Both are filed, both are real, and both need a flag and a driver.
+This one needed sixteen lines of JSON, which is what makes it the bite worth
+promoting on — the gap is not always expensive, and the cheap instance sat
+unfixed for the same reason the expensive ones did.
+
+**What the seed owes the page.** `--portfolio busy` is held to a ledger the
+game's own rules could have produced: no sale of shares not held, cash never
+overdrawn, in date order, asserted in `tests/test_positions.py`. A reader
+cannot tell a seeded log from a played one, and a screenshot of a state the
+game forbids teaches whatever shape it has — the `DEC-056` argument about
+fixtures, one layer up.
+
+**Second-order.** Twelve rows are also what made that session's actual finding
+visible: with four trades the trade column's misaligned header read as slack
+in a wide table, and with twelve it reads as a label over an empty channel.
+A seed that reaches a control tends to reach the surface's real proportions
+with it.

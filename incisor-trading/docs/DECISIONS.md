@@ -126,3 +126,4 @@ there will be a third.
 | DEC-113 | **A nowrap figure's track is sized by the longest figure the surface can show.** Six-figure gains overran two surfaces for weeks; every check was seeded with three. |
 | DEC-114 | **Step 1 is failed by a changed tracked *source*, not by a tracked build artifact.** A committed `.pyc`, rewritten by importing another project, cost a fourth day with its source clean. |
 | DEC-115 | **A control the page has already refused says so on itself — `aria-disabled`, not `disabled`.** It keeps its place in the tab order and still answers the press with the reason. |
+| DEC-116 | **A control no `shoot.py` seed reaches is judged by nobody.** Three audits read the trade log without seeing its expander; `D20` and `D23` are the same gap. Reach the state, then audit. |

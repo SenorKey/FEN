@@ -200,6 +200,24 @@ phase. When the call is unclear, file it as a defect.
 **Renumbered 09-15:** a duplicate `D16` became **D18**, a duplicate `D15`
 became **D19**. `PROGRESS.md` before that date uses the old numbers.
 
+- [ ] **D32 · The equity curve reserves the same scale gutter on a phone as on
+  a desktop** `[enhancement]` *(2026-10-04, from the T16 audit)* —
+  `css/performance.css` sets `--inc-perf-gutter: 9.2ch`, wide enough for
+  `$102,000`, and `9.2ch` is a constant 95.66px at every width. That is 7.7%
+  of the chart at 1440, 13.3% at 768 and **26.7% at 390**: on a phone a
+  quarter of the width the line is drawn in holds three repeats of the same
+  six-digit figure. The x-axis under it already abbreviates — "3 Jun", "26
+  Aug" — and guide §13 asks for sensible abbreviation of large values, so
+  `$102k` is the page's own answer, worth roughly 40px of plot back.
+  **Not a touch-up, which is why the audit filed it rather than doing it:**
+  the dates row reserves the same width so both axes measure the same plot,
+  and `css/chart.css` is built the same way with `5.6ch` for prices — so this
+  is a change to an arrangement two charts share (`DEC-111`), and the labels
+  are written by `js/view-performance.js`, not by CSS.
+  *Accept:* at narrow widths the scale's gutter costs the plot visibly less
+  and every tick still states its level; both charts still measure their plot
+  with one reserved width per axis; judged from `shoot.py` images.
+
 - [ ] **D29 · `css/positions.css` restates the page-wide reduced-motion rule**
   `[enhancement]` *(2026-09-27, from the T10 audit)* — `incisor.css` stops
   every transition and animation under `body.incisor *` with `!important`, so
