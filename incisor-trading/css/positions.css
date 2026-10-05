@@ -97,6 +97,13 @@
     color: var(--muted);
 }
 
+/* "Bought AAPL" is a phrase, not a figure, so the trade column reads left to
+   right like the date beside it. The header is named in the same rule rather
+   than left to the right-aligned default: aligned alone, the cell moved and
+   the label did not, so "Trade" sat at the far edge of a 303px column with
+   twelve rows of data starting 250px to its left (DEC-065 — assert the pair,
+   and here, write the pair). */
+.inc-trade-log thead th:nth-child(2),
 .inc-trade-log td:nth-child(2) {
     text-align: left;
 }

@@ -153,5 +153,42 @@ class TestTheShotSeedReachesTheLogsOwnControl(unittest.TestCase):
         self.assertEqual(stamps, sorted(stamps))
 
 
+class TestTheTradeColumnsHeaderTravelsWithItsCells(unittest.TestCase):
+    """Every other column on these tables is a figure and reads right to left;
+    the trade column is a phrase and reads left to right. The cell was given
+    that alignment on its own, and the header kept the right-aligned default —
+    so at desktop "Trade" sat at the far edge of a 303px column with its data
+    starting 250px to its left. DEC-065: assert the pair, and write it as one
+    rule so the two cannot drift apart again."""
+
+    def setUp(self):
+        # Comments first: these carry commas, and a selector list is split on
+        # them, so a rule's prose would arrive as half a dozen selectors
+        # (DEC-066 — a blunt match over a file reads things that are not there).
+        self.css = re.sub(r'/\*.*?\*/', '', read('css/positions.css'),
+                          flags=re.S)
+
+    def rules_setting_left_alignment(self):
+        for selectors, body in re.findall(r'([^{}]+)\{([^{}]*)\}', self.css):
+            if re.search(r'text-align:\s*left', body):
+                yield [part.strip() for part in selectors.split(',')]
+
+    def test_one_rule_names_both_the_header_and_the_cell(self):
+        wanted = {'.inc-trade-log thead th:nth-child(2)',
+                  '.inc-trade-log td:nth-child(2)'}
+        for selectors in self.rules_setting_left_alignment():
+            if wanted <= set(selectors):
+                return
+        self.fail('no single rule left-aligns both halves of the trade '
+                  'column; found %r' % list(self.rules_setting_left_alignment()))
+
+    def test_no_other_rule_aligns_only_one_half(self):
+        for selectors in self.rules_setting_left_alignment():
+            found = {s for s in selectors if 'nth-child(2)' in s
+                     and '.inc-trade-log' in s}
+            if found:
+                self.assertEqual(len(found), 2, 'a rule aligns %r alone' % found)
+
+
 if __name__ == '__main__':
     unittest.main()
