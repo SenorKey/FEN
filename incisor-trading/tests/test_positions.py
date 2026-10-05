@@ -17,6 +17,7 @@ zero, or whether six money columns fit a phone. tools/shoot.py does that.
 
 import json
 import os
+import re
 import shutil
 import subprocess
 import unittest
@@ -107,6 +108,49 @@ class TestTheShotSeedReachesAFlatPosition(unittest.TestCase):
 
     def test_it_places_no_order_that_would_move_the_figure(self):
         self.assertEqual(self.seed['orders'], [])
+
+
+class TestTheShotSeedReachesTheLogsOwnControl(unittest.TestCase):
+    """The expander is hidden until the ledger runs past the preview, so with
+    four trades it is in no screenshot — which is how three audits of this
+    surface judged a trade log without ever seeing the one thing on it a
+    reader can press. Sibling of the flat seed above, and kept for the same
+    reason: the next audit starts where this one ended."""
+
+    def setUp(self):
+        import sys
+        sys.path.insert(0, os.path.join(PAGE_DIR, 'tools'))
+        import shoot
+        self.seed = json.loads(shoot.PORTFOLIO_SEEDS['busy'])
+        self.preview = int(re.search(r'LOG_PREVIEW = (\d+)',
+                                     read('js/view-positions.js')).group(1))
+
+    def test_it_makes_more_trades_than_the_log_previews(self):
+        self.assertGreater(len(self.seed['ledger']), self.preview)
+
+    def test_no_position_or_balance_in_it_could_not_have_happened(self):
+        """A log that the game's own rules forbid teaches the wrong shape, and
+        a reader cannot tell a seeded ledger from a played one."""
+        shares = {}
+        cash = self.seed['startingCash']
+        for entry in self.seed['ledger']:
+            held = shares.get(entry['symbol'], 0)
+            amount = round(entry['shares'] * entry['price'] * 100)
+            if entry['kind'] == 'buy':
+                shares[entry['symbol']] = held + entry['shares']
+                cash -= amount
+            else:
+                self.assertLessEqual(entry['shares'], held,
+                                     'sold %d %s holding %d'
+                                     % (entry['shares'], entry['symbol'], held))
+                shares[entry['symbol']] = held - entry['shares']
+                cash += amount
+            self.assertGreaterEqual(cash, 0, 'cash went negative at %s'
+                                    % entry['at'])
+
+    def test_it_is_in_date_order_so_the_log_reverses_a_real_sequence(self):
+        stamps = [entry['at'] for entry in self.seed['ledger']]
+        self.assertEqual(stamps, sorted(stamps))
 
 
 if __name__ == '__main__':

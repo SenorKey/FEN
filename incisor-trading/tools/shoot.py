@@ -27,7 +27,7 @@ Usage:
                            [--search app] [--tab trade]
                            [--explain] [--sector-window 1M]
                            [--watch SPY,QQQ] [--block-storage]
-                           [--portfolio corrupt|newer|held|flat|wide]
+                           [--portfolio corrupt|newer|held|flat|wide|busy]
 
 Serves the repo root itself, so no dev server needs to be running. Exits
 non-zero if the page logs a console error or overflows horizontally — the two
@@ -59,8 +59,11 @@ browser context has no site data, so a list built by clicking would only show
 that the click worked. --block-storage makes localStorage throw on access, the
 way a private window does, so the degraded state is a picture rather than a
 claim. --portfolio does the same for the paper portfolio: a stored one that
-cannot be read, one a newer page saved, or one holding positions — three
-states a fresh browser context can never be in.
+cannot be read, one a newer page saved, or one holding positions — states a
+fresh browser context can never be in. One of them, `busy`, exists for a
+control rather than a state: the trade log hides its own expander until a
+portfolio has more trades than the log previews, so without it the only thing
+on that surface a reader can press is in no screenshot.
 
 --chart-no-history is the one state no fixture can produce: a quote that
 arrives with no series behind it, which the chart says in its own space rather
@@ -393,6 +396,48 @@ PORTFOLIO_SEEDS = {
     "wide": json.dumps({"v": 2, "startingCash": 10000000, "ledger": [
         {"kind": "buy", "symbol": "AAPL", "shares": 730, "price": 130.00,
          "at": "2021-03-04T15:02:11.000Z"},
+    ], "orders": []}),
+    # Sixteen trades against js/view-positions.js's LOG_PREVIEW of 12, which
+    # is the only way the trade log's own control appears: under the cap the
+    # button is hidden, and every other seed here makes four trades or fewer.
+    # So "Show 4 older trades" — the one thing on that surface a reader can
+    # press — had never been in a screenshot before the 10-04 audit.
+    # Chronological, every position non-negative at every step and cash never
+    # overdrawn, because a log that could not have happened teaches the wrong
+    # shape. Leaves SPY 20, AAPL 27, QQQ 12 and cash $73,282.60.
+    "busy": json.dumps({"v": 2, "startingCash": 10000000, "ledger": [
+        {"kind": "buy", "symbol": "SPY", "shares": 10, "price": 690.00,
+         "at": "2026-03-02T15:02:00.000Z"},
+        {"kind": "buy", "symbol": "AAPL", "shares": 20, "price": 232.10,
+         "at": "2026-03-09T15:11:00.000Z"},
+        {"kind": "buy", "symbol": "QQQ", "shares": 15, "price": 541.20,
+         "at": "2026-03-23T14:48:00.000Z"},
+        {"kind": "sell", "symbol": "SPY", "shares": 5, "price": 702.40,
+         "at": "2026-04-06T18:20:00.000Z"},
+        {"kind": "buy", "symbol": "AAPL", "shares": 10, "price": 241.55,
+         "at": "2026-04-20T15:05:00.000Z"},
+        {"kind": "buy", "symbol": "SPY", "shares": 8, "price": 715.30,
+         "at": "2026-05-04T16:32:00.000Z"},
+        {"kind": "sell", "symbol": "QQQ", "shares": 5, "price": 558.90,
+         "at": "2026-05-18T19:01:00.000Z"},
+        {"kind": "buy", "symbol": "AAPL", "shares": 15, "price": 250.05,
+         "at": "2026-06-01T14:40:00.000Z"},
+        {"kind": "sell", "symbol": "AAPL", "shares": 20, "price": 262.40,
+         "at": "2026-06-15T17:12:00.000Z"},
+        {"kind": "buy", "symbol": "QQQ", "shares": 10, "price": 572.65,
+         "at": "2026-06-29T15:26:00.000Z"},
+        {"kind": "buy", "symbol": "SPY", "shares": 6, "price": 744.80,
+         "at": "2026-07-13T18:55:00.000Z"},
+        {"kind": "sell", "symbol": "SPY", "shares": 4, "price": 738.10,
+         "at": "2026-07-27T14:33:00.000Z"},
+        {"kind": "buy", "symbol": "AAPL", "shares": 12, "price": 268.90,
+         "at": "2026-08-03T16:09:00.000Z"},
+        {"kind": "sell", "symbol": "QQQ", "shares": 8, "price": 585.40,
+         "at": "2026-08-10T19:44:00.000Z"},
+        {"kind": "buy", "symbol": "SPY", "shares": 5, "price": 729.95,
+         "at": "2026-08-17T15:18:00.000Z"},
+        {"kind": "sell", "symbol": "AAPL", "shares": 10, "price": 271.30,
+         "at": "2026-08-24T17:50:00.000Z"},
     ], "orders": []}),
 }
 
