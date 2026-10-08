@@ -1901,7 +1901,8 @@ a.case-a:focus-visible {
    underline is offset and thin so a line of citations still reads as a
    citation rather than as a row of links, and the arrow marks that the
    filing opens away from the page. Entries with no PDF - the court's
-   paperless orders - stay plain text, because there is nothing to open. */
+   paperless orders - have nothing to open, so a page either leaves them
+   as plain text or links the docket entry itself. */
 .cite-doc {
   color: var(--muted);
   text-decoration: underline;
