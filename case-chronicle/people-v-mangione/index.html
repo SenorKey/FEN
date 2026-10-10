@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010c">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -116,59 +116,79 @@
         <!-- ═══════════════════════════════════════════════
              Two ways in
 
-             A pair of doors in one frame, hung the way a pair is: the
-             pulls meet in the middle, so each leaf is the other's
-             mirror. Both are ordinary links. The lock on the right-hand
-             leaf is put there by the script and taken off by the reader,
-             so without a script it is simply a door that opens.
+             Two doorways, one for each way of reading the case, and
+             each an ordinary link: the casing, the transom and the two
+             leaves are all inside the anchor, with the words under
+             them. The stylesheet draws the doorway. The only picture
+             in this markup is the sign in the glass.
+
+             A courtroom is locked until the court has sat in it. For a
+             case with no day in court yet, put data-door-lock on the
+             second door-slot and the script hangs the padlock that is
+             waiting, hidden, beside that link; take the attribute off
+             when the courtroom page gets its first hearing. The reader
+             can break the lock, and it is back the next time the page
+             is shown.
              ═══════════════════════════════════════════════ -->
         <nav class="doors" aria-label="Two ways to see this case">
             <div class="wrap">
                 <p class="doors-l">Two ways in</p>
                 <div class="doorway">
                     <div class="door-slot">
-                        <a class="door door-time" href="/case-chronicle/people-v-mangione/chronology/">
-                            <span class="door-pane" aria-hidden="true">
-                            <svg viewBox="0 0 120 84" focusable="false">
-                                <path d="M60 6v72"/>
-                                <circle cx="60" cy="16" r="4"/><path d="M52 16H22M22 11h22M22 21h16"/>
-                                <circle cx="60" cy="42" r="4" class="door-fill"/><path d="M68 42h30M76 37h22M82 47h16"/>
-                                <circle cx="60" cy="68" r="4"/><path d="M52 68H22M22 63h22M22 73h16"/>
-                            </svg>
+                        <a class="door" href="/case-chronicle/people-v-mangione/chronology/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128" focusable="false">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <path d="M60 6v6M60 20v18M60 46v18M60 72v6"/>
+                                            <circle cx="60" cy="16" r="4"/><path d="M52 16H22M22 11h22M22 21h16"/>
+                                            <circle cx="60" cy="42" r="4" class="door-fill"/><path d="M68 42h30M76 37h22M82 47h16"/>
+                                            <circle cx="60" cy="68" r="4"/><path d="M52 68H22M22 63h22M22 73h16"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
                                 <span class="door-t">Chronological View</span>
                                 <span class="door-s">Every step of the case, in the order it happened.</span>
                                 <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
-                            <span class="door-pull" aria-hidden="true"></span>
                         </a>
                     </div>
-                    <div class="door-slot" data-door-lock>
-                        <a class="door door-court" href="/case-chronicle/people-v-mangione/courtroom/">
-                            <span class="door-pane" aria-hidden="true">
-                            <svg viewBox="0 0 120 84" focusable="false">
-                                <rect x="8" y="6" width="104" height="72"/>
-                                <rect x="42" y="12" width="36" height="9"/><circle cx="60" cy="16.5" r="2.4" class="door-fill"/>
-                                <rect x="14" y="24" width="9" height="26"/>
-                                <rect x="34" y="36" width="22" height="7"/><rect x="64" y="36" width="22" height="7"/>
-                                <circle cx="45" cy="48" r="2.4" class="door-fill"/><circle cx="75" cy="48" r="2.4" class="door-fill"/>
-                                <path d="M8 56h46M66 56h46"/>
-                                <path d="M18 63h34M18 70h34M68 63h34M68 70h34"/>
-                            </svg>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/people-v-mangione/courtroom/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128" focusable="false">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="104" height="72"/>
+                                            <rect x="42" y="12" width="36" height="9"/><circle cx="60" cy="16.5" r="2.4" class="door-fill"/>
+                                            <rect x="14" y="24" width="9" height="26"/>
+                                            <rect x="34" y="36" width="22" height="7"/><rect x="64" y="36" width="22" height="7"/>
+                                            <circle cx="45" cy="48" r="2.4" class="door-fill"/><circle cx="75" cy="48" r="2.4" class="door-fill"/>
+                                            <path d="M8 56h46M66 56h46"/>
+                                            <path d="M18 63h34M18 70h34M68 63h34M68 70h34"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
                                 <span class="door-t">Courtroom View</span>
                                 <span class="door-s">The room from above, and who sat where.</span>
                                 <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
-                            <span class="door-pull" aria-hidden="true"></span>
                         </a>
                         <button class="door-unlock" type="button" hidden>
-                            <svg class="door-lock" viewBox="0 0 28 34" aria-hidden="true" focusable="false">
-                                <path class="door-lock-s" d="M8 15V10a6 6 0 0 1 12 0v5"/>
-                                <rect class="door-lock-b" x="4" y="15" width="20" height="16" rx="2"/>
-                                <path class="door-lock-k" d="M14 21v4"/>
+                            <svg class="door-lock" viewBox="0 0 40 50" aria-hidden="true" focusable="false">
+                                <g class="door-lock-s"><path d="M11 25V15a9 9 0 0 1 18 0v10"/><path d="M11 25V15a9 9 0 0 1 18 0v10"/></g>
+                                <rect class="door-lock-b" x="4.5" y="22" width="31" height="24.5" rx="3.6"/>
+                                <path class="door-lock-d" d="M5 37h30v6a3.6 3.6 0 0 1-3.6 3.5H8.6A3.6 3.6 0 0 1 5 43z"/>
+                                <path class="door-lock-h" d="M8.5 25.4h23"/>
+                                <path class="door-lock-k" d="M20 28.6a3 3 0 0 1 1.7 5.5l.9 5.4h-5.2l.9-5.4a3 3 0 0 1 1.7-5.5z"/>
                             </svg>
                             <span class="door-unlock-l">Unlock</span>
                         </button>
@@ -551,7 +571,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261010" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261010c" defer></script>
 </body>
 
 </html>

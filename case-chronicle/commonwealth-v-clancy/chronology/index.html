@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010c">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,15 +253,29 @@
 
                 <!-- The key names this case's two sides. The colours are fixed
                      by the stylesheet and mean the same thing on every page:
-                     the moving side, the answering side, the court. -->
+                     the moving side, the answering side, the court.
+
+                     On a wide screen it is also the bar that stays put over the
+                     chronology, with a side's name over each column, which is
+                     what the two wrappers are for. The empty span is where the
+                     script writes which part of the case is passing underneath;
+                     with no script it stays empty. -->
                 <div class="tl-key" aria-hidden="true">
-                    <span class="tk tk-p">Commonwealth</span>
+                    <span class="tk-l">
+                        <span class="tk-here"></span>
+                        <span class="tk tk-p">Commonwealth</span>
+                    </span>
                     <span class="tk tk-c">Court</span>
-                    <span class="tk tk-d">Defence</span>
-                    <span class="tk tk-n">Neither &middot; off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a></span>
+                    <span class="tk-r">
+                        <span class="tk tk-d">Defence</span>
+                        <span class="tk tk-n">Neither &middot; off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a></span>
+                    </span>
                 </div>
 
-                <ol class="tl">
+                <!-- The two names are what a phone prints on each card. There the
+                     rail moves to the edge and every card hangs off the same side
+                     of it, so the card has to say in words whose move it was. -->
+                <ol class="tl" style="--p-name: 'Commonwealth'; --d-name: 'Defence';">
                     <li class="tl-phase">
                         <div class="tl-phase-in">
                             <p class="tl-phase-l">Before the charges</p>
@@ -892,7 +906,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261010" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261010c" defer></script>
 </body>
 
 </html>

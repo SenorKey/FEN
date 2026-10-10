@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 572" preserveAspectRatio="none">
+<!--
+  The casing of a courtroom doorway: two fluted pilasters on plinth blocks,
+  a frieze, a dentilled cornice and a low pediment. chronicle.css lays it
+  over the transom and the two leaves, which is why both openings are left
+  clear and why the last group here is nothing but shadow: it is the shade
+  the casing throws on what stands inside it.
+
+  Lit from the top left. An edge that faces up or left carries a pale line
+  (.l) and an edge that faces down or right a dark one (.k), and that rule
+  is the whole of the modelling.
+
+  The openings are 240 wide from x=30: the transom from y=92 to y=218, the
+  leaves from y=230 to y=566. chronicle.css places the glass and the leaves
+  by those numbers, as percentages of this drawing, so a change to one is
+  a change to the other.
+-->
+<defs>
+<style>.k{fill:none;stroke:#17140f}.l{fill:none;stroke:#fff}</style>
+<!-- a moulding seen from the front: lit along the top, dark underneath -->
+<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f7050"/><stop offset=".45" stop-color="#684d33"/><stop offset="1" stop-color="#3e2c1e"/></linearGradient>
+<!-- a pilaster shaft -->
+<linearGradient id="p" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#73573b"/><stop offset=".5" stop-color="#5a422c"/><stop offset="1" stop-color="#443020"/></linearGradient>
+<!-- a flute: its left wall in shadow, its right wall catching the light -->
+<linearGradient id="f" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#281c12"/><stop offset=".55" stop-color="#493524"/><stop offset="1" stop-color="#866848"/></linearGradient>
+<!-- shadow falling down, and falling to the right -->
+<linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17140f" stop-opacity=".55"/><stop offset="1" stop-color="#17140f" stop-opacity="0"/></linearGradient>
+<linearGradient id="e" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#17140f" stop-opacity=".45"/><stop offset="1" stop-color="#17140f" stop-opacity="0"/></linearGradient>
+<!-- the grain: noise drawn out long, upright for the pilasters and lying down for the head -->
+<filter id="v" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".5 .008" numOctaves="3" seed="5"/><feColorMatrix values="0 0 0 0 .13 0 0 0 0 .08 0 0 0 0 .04 1.9 0 0 0 -.8"/></filter>
+<filter id="g" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".008 .5" numOctaves="3" seed="9"/><feColorMatrix values="0 0 0 0 .13 0 0 0 0 .08 0 0 0 0 .04 1.9 0 0 0 -.8"/></filter>
+<!-- the dentils: 35 blocks, the last ending where the head does -->
+<pattern id="t" patternUnits="userSpaceOnUse" x="8" y="16.5" width="8.2059" height="8"><rect width="5" height="6.3" fill="#775b3e"/><path class="l" stroke-opacity=".3" stroke-width=".6" d="M.3 6.3V.3H5"/><path class="k" stroke-opacity=".5" stroke-width=".6" d="M4.7 .3V6.3"/></pattern>
+</defs>
+
+<!-- the pediment: the tympanum, the shade under the rake, the rake -->
+<path fill="#4c3625" d="M40.59 34L150 9.2L259.41 34z"/>
+<path fill="#17140f" fill-opacity=".36" d="M40.59 34L150 9.2L259.41 34H237.41L150 14.2L62.59 34z"/>
+<path fill="#7a5c3e" d="M0 34L150 0L300 34H259.41L150 9.2L40.59 34z"/>
+<path class="l" stroke-opacity=".34" stroke-width=".7" d="M3.09 34L150 .7L296.91 34"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M11.47 34L150 2.6L288.53 34"/>
+<path class="l" stroke-opacity=".18" stroke-width=".6" d="M14.56 34L150 3.3L285.44 34"/>
+<path class="k" stroke-opacity=".34" stroke-width=".6" d="M30.88 34L150 7L269.12 34"/>
+<path class="k" stroke-opacity=".75" stroke-width=".8" d="M40.59 34L150 9.2L259.41 34"/>
+<path class="k" stroke-opacity=".6" stroke-width=".8" stroke-linejoin="round" d="M.4 34L150 .4L299.6 34"/>
+
+<!-- everything else is drawn from y=0 and moved down under the pediment -->
+<g transform="translate(0 34)">
+
+<!-- the left pilaster: shaft, flutes, capital, base and plinth block -->
+<rect x="8" y="58" width="22" height="480" fill="url(#p)"/>
+<rect x="8" y="58" width="22" height="480" filter="url(#v)" opacity=".4"/>
+<g fill="url(#f)"><rect x="12.4" y="82" width="3.2" height="396" rx="1.6"/><rect x="17.4" y="82" width="3.2" height="396" rx="1.6"/><rect x="22.4" y="82" width="3.2" height="396" rx="1.6"/></g>
+<path class="k" stroke-opacity=".55" stroke-width=".8" d="M8.4 58V538M29.6 58V538"/>
+<path class="l" stroke-opacity=".16" stroke-width=".7" d="M9.3 68V488"/>
+<rect x="6" y="58" width="26" height="10.5" fill="url(#a)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M6 61.6h26M6 65h26"/>
+<path class="l" stroke-opacity=".28" stroke-width=".6" d="M6.5 58.8h25M6.5 62.3h25"/>
+<rect x="8" y="68.5" width="22" height="7" fill="url(#d)" opacity=".7"/>
+<rect x="6" y="487" width="26" height="6.5" rx="1.4" fill="url(#a)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<rect x="5" y="493.5" width="28" height="44.5" fill="url(#p)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<rect x="5" y="493.5" width="28" height="44.5" filter="url(#v)" opacity=".36"/>
+<path class="l" stroke-opacity=".3" stroke-width=".7" d="M5.5 494.4h27"/>
+<path class="k" stroke-opacity=".34" stroke-width=".6" d="M5 500h28"/>
+<path class="l" stroke-opacity=".16" stroke-width=".6" d="M5 500.8h28"/>
+
+<!-- the right pilaster: shaft, flutes, capital, base and plinth block -->
+<rect x="270" y="58" width="22" height="480" fill="url(#p)"/>
+<rect x="270" y="58" width="22" height="480" filter="url(#v)" opacity=".4"/>
+<g fill="url(#f)"><rect x="274.4" y="82" width="3.2" height="396" rx="1.6"/><rect x="279.4" y="82" width="3.2" height="396" rx="1.6"/><rect x="284.4" y="82" width="3.2" height="396" rx="1.6"/></g>
+<path class="k" stroke-opacity=".55" stroke-width=".8" d="M270.4 58V538M291.6 58V538"/>
+<path class="l" stroke-opacity=".16" stroke-width=".7" d="M271.3 68V488"/>
+<rect x="268" y="58" width="26" height="10.5" fill="url(#a)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M268 61.6h26M268 65h26"/>
+<path class="l" stroke-opacity=".28" stroke-width=".6" d="M268.5 58.8h25M268.5 62.3h25"/>
+<rect x="270" y="68.5" width="22" height="7" fill="url(#d)" opacity=".7"/>
+<rect x="268" y="487" width="26" height="6.5" rx="1.4" fill="url(#a)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<rect x="267" y="493.5" width="28" height="44.5" fill="url(#p)" stroke="#17140f" stroke-opacity=".55" stroke-width=".7"/>
+<rect x="267" y="493.5" width="28" height="44.5" filter="url(#v)" opacity=".36"/>
+<path class="l" stroke-opacity=".3" stroke-width=".7" d="M267.5 494.4h27"/>
+<path class="k" stroke-opacity=".34" stroke-width=".6" d="M267 500h28"/>
+<path class="l" stroke-opacity=".16" stroke-width=".6" d="M267 500.8h28"/>
+
+<!-- the head: architrave and frieze, a sunk tablet, a patera over each pilaster -->
+<rect x="8" y="28" width="284" height="30" fill="#5b432d"/>
+<rect x="8" y="28" width="284" height="30" filter="url(#g)" opacity=".42"/>
+<rect x="8" y="48" width="284" height="3.8" fill="url(#a)"/>
+<path class="k" stroke-opacity=".45" stroke-width=".6" d="M8 48h284M8 51.8h284M8 58h22M270 58h22"/>
+<path class="k" stroke-opacity=".8" stroke-width=".8" d="M30 58h240"/>
+<rect x="37" y="32.6" width="226" height="10.8" fill="#17140f" fill-opacity=".16"/>
+<path class="k" stroke-opacity=".6" stroke-width=".7" d="M37 43.4V32.6h226"/>
+<path class="l" stroke-opacity=".22" stroke-width=".7" d="M263 32.6v10.8H37"/>
+<circle cx="19.5" cy="38" r="5.6" fill="#71563a" stroke="#17140f" stroke-opacity=".6" stroke-width=".7"/>
+<circle class="k" cx="19.5" cy="38" r="3.5" stroke-opacity=".4" stroke-width=".6"/>
+<circle cx="19.5" cy="38" r="1.6" fill="#39291b"/>
+<path class="l" stroke-opacity=".4" stroke-width=".7" stroke-linecap="round" d="M15.6 35.4a4.6 4.6 0 0 1 5.4-2.6"/>
+<circle cx="280.5" cy="38" r="5.6" fill="#71563a" stroke="#17140f" stroke-opacity=".6" stroke-width=".7"/>
+<circle class="k" cx="280.5" cy="38" r="3.5" stroke-opacity=".4" stroke-width=".6"/>
+<circle cx="280.5" cy="38" r="1.6" fill="#39291b"/>
+<path class="l" stroke-opacity=".4" stroke-width=".7" stroke-linecap="round" d="M276.6 35.4a4.6 4.6 0 0 1 5.4-2.6"/>
+
+<!-- the cornice, from the shade it drops on the frieze up to its top edge -->
+<rect x="8" y="28" width="284" height="6.5" fill="url(#d)" opacity=".75"/>
+<rect x="8" y="24" width="284" height="4" fill="url(#a)"/>
+<rect x="8" y="15.5" width="284" height="8.5" fill="#251a11"/>
+<rect x="8" y="16.5" width="284" height="6.3" fill="url(#t)"/>
+<rect x="5" y="12.4" width="290" height="3.2" fill="#5e452e"/>
+<path fill="url(#a)" d="M2 4h296l-3 8.4H5z"/>
+<rect width="300" height="4.2" fill="#775a3d"/>
+<path class="l" stroke-opacity=".36" stroke-width=".7" d="M.4 .6h299.2M5.4 12.9h289.2M8.4 24.5h283.2"/>
+<path class="k" stroke-opacity=".55" stroke-width=".7" d="M0 4.2h300M5 12.4h290M5 15.6h290M8 24h284M8 28h284"/>
+<path class="k" stroke-opacity=".6" stroke-width=".8" d="M.4 0v4.2h2l3 8.2v3.2h3V58M299.6 0v4.2h-2l-3 8.2v3.2h-3V58"/>
+
+<!-- the transom bar, and the sill the leaves close on -->
+<rect x="30" y="184" width="240" height="12" fill="url(#a)"/>
+<rect x="30" y="184" width="240" height="12" filter="url(#g)" opacity=".3"/>
+<path class="l" stroke-opacity=".3" stroke-width=".7" d="M30 184.8h240"/>
+<path class="k" stroke-opacity=".45" stroke-width=".6" d="M30 188h240"/>
+<path class="k" stroke-opacity=".8" stroke-width=".8" d="M30 184h240M30 196h240"/>
+<rect x="30" y="532" width="240" height="6" fill="#4a3524"/>
+<path class="k" stroke-opacity=".8" stroke-width=".8" d="M30 532h240"/>
+<path class="l" stroke-opacity=".2" stroke-width=".6" d="M30 533h240"/>
+
+<!-- shade: on the transom under the head, on the leaves under the bar, and down the left of both -->
+<rect x="30" y="58" width="240" height="11" fill="url(#d)" opacity=".8"/>
+<rect x="30" y="58" width="8" height="126" fill="url(#e)" opacity=".7"/>
+<rect x="30" y="196" width="240" height="13" fill="url(#d)"/>
+<rect x="30" y="196" width="9" height="336" fill="url(#e)"/>
+<path class="k" stroke-opacity=".8" stroke-width=".8" d="M30.4 58V532M269.6 58V532"/>
+</g>
+</svg>

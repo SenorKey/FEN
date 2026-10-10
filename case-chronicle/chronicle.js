@@ -57,7 +57,12 @@
    The detail ships open and the toggles ship hidden, so a reader with no
    JavaScript gets everything and no dead controls. This collapses them,
    then arms the transition a frame later so the initial close is instant
-   rather than a page-load animation. */
+   rather than a page-load animation.
+
+   Each button also says what is behind it. A drawer that holds a
+   citation and nothing else is not "more", it is the source, so the
+   button says Source. Any other drawer says how many documents it links
+   to, so a reader knows the sources are there before opening anything. */
 
 (function () {
   'use strict';
@@ -75,6 +80,18 @@
       if (!btn || !region) return;
 
       var label = btn.querySelector('.tl-more-l');
+      var links = region.querySelectorAll('.cite-doc').length;
+      var bare = !region.querySelector('.tl-x-t') && !!region.querySelector('.tl-cite');
+      var shut = bare ? (links > 1 ? 'Sources' : 'Source') : 'More';
+
+      if (links && !bare) {
+        var count = document.createElement('span');
+        count.className = 'tl-more-n';
+        count.textContent = links === 1 ? '1 source' : links + ' sources';
+        btn.appendChild(count);
+      }
+
+      label.textContent = shut;
       btn.hidden = false;
       btn.setAttribute('aria-expanded', 'false');
       wired++;
@@ -82,7 +99,7 @@
       btn.addEventListener('click', function () {
         var open = card.classList.toggle('is-open');
         btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        label.textContent = open ? 'Less' : 'More';
+        label.textContent = open ? 'Less' : shut;
       });
     })(cards[i]);
   }
@@ -97,6 +114,64 @@
      un-animated until it was first looked at. */
   void tl.offsetHeight;
   tl.classList.add('js-anim');
+})();
+
+/* ── chronology: which part of the case is on screen ──
+   On a wide screen the key stays put as a bar over the chronology,
+   naming each side over its column. Its left end says which part of the
+   case is passing underneath, read off the page's own dividers: the
+   last one to have gone up under the bar.
+
+   The span this writes into ships empty and stays empty without
+   JavaScript, so there is no dead label. On a narrow screen the bar is
+   an ordinary key and the span is not displayed, so nothing is
+   measured there. */
+
+(function () {
+  'use strict';
+
+  var tl = document.querySelector('.tl');
+  var bar = document.querySelector('.tl-key');
+  var here = bar && bar.querySelector('.tk-here');
+  if (!tl || !here) return;
+
+  var parts = tl.querySelectorAll('.tl-phase');
+  if (!parts.length) return;
+
+  var shown = null;
+  var ticking = false;
+
+  function read() {
+    ticking = false;
+
+    /* display:none leaves an element with no offsetParent. */
+    if (!here.offsetParent) return;
+
+    var line = bar.getBoundingClientRect().bottom + 8;
+    var now = null;
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].getBoundingClientRect().bottom > line) break;
+      now = parts[i];
+    }
+    if (now === shown) return;
+    shown = now;
+
+    var name = now && now.querySelector('.tl-phase-l');
+    here.textContent = name ? name.textContent.replace(/\s+/g, ' ').trim() : '';
+    here.classList.toggle('is-on', !!name);
+  }
+
+  /* One read per frame at most, and only geometry: nothing here writes
+     anything that could move the dividers it is measuring. */
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(read);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  read();
 })();
 
 /* ── exhibit wash: the parallax ──
@@ -359,16 +434,22 @@
 })();
 
 /* ── the locked door ──
-   The Courtroom View is a preview of something unfinished, and the door
-   to it says so by being locked. The lock is hung here rather than in
-   the markup, so a reader with no JavaScript gets a plain link to the
-   preview and never a padlock with nothing to take it off.
+   A courtroom is locked until the court has sat in it. The case page
+   says so itself: data-door-lock goes on the slot its Courtroom door
+   stands in for as long as the case's courtroom page lists no day in
+   court, and comes off when the first one is added. Nothing here
+   checks. The two pages are edited by the same hand.
 
-   Unlocking is remembered, on this browser, for every case: having
-   broken one lock the reader has made the decision, and making them
-   repeat it four times would turn a small ceremony into a toll. Storage
-   is asked for inside a try because a private window may refuse it, in
-   which case the lock simply comes back next visit. */
+   Behind a locked door there is still a room, drawn and mostly empty,
+   and a reader who wants to see it can break the lock. That lasts as
+   long as the page does. Nothing is remembered, so the lock is back on
+   a reload, in a new tab, and whenever the reader comes back to the
+   page: it says something about the case, and that is as true the
+   second time as the first.
+
+   The lock is hung here rather than in the markup, so a reader with no
+   JavaScript gets a plain link to the room and never a padlock with
+   nothing to take it off. */
 
 (function () {
   'use strict';
@@ -381,26 +462,38 @@
   var label = slot.querySelector('.door-go-l');
   if (!door || !btn || !label) return;
 
-  var KEY = 'cc-courtroom-unlocked';
   var href = door.getAttribute('href');
+  /* What the door says when it is only a door, kept to put back. */
+  var words = label.textContent;
+  var locked = false;
+  var leaving;
 
-  function remembered() {
-    try { return window.localStorage.getItem(KEY) === '1'; } catch (e) { return false; }
+  /* Locked: no href, so the door is neither a link nor a tab stop, and
+     the padlock is the one control on it. */
+  function lock() {
+    clearTimeout(leaving);
+    locked = true;
+    door.removeAttribute('href');
+    label.textContent = 'Locked · no hearing yet';
+    slot.classList.remove('is-unlocked');
+    slot.classList.add('is-locked');
+    btn.classList.remove('is-broken');
+    btn.classList.remove('is-rattled');
+    btn.hidden = false;
   }
 
-  if (remembered()) return;
+  /* The broken lock, cleared off the floor. Not if the door has been
+     locked again in the meantime: a timer set before the reader left
+     can come due after they are back. */
+  function gone() {
+    if (!locked) btn.hidden = true;
+  }
 
-  /* Locked: no href, so the leaf is neither a link nor a tab stop, and
-     the padlock is the one control on it. */
-  door.removeAttribute('href');
-  label.textContent = 'Locked · still being built';
-  slot.classList.add('is-locked');
   btn.setAttribute('aria-label', 'Unlock the Courtroom View preview');
-  btn.hidden = false;
+  lock();
 
   /* Trying the door rattles the lock, which is how a reader who has not
      noticed the padlock finds out where it is. */
-  var locked = true;
   door.addEventListener('click', function () {
     if (!locked) return;
     btn.classList.remove('is-rattled');
@@ -409,25 +502,97 @@
   });
 
   btn.addEventListener('click', function () {
+    if (!locked) return;
     locked = false;
     btn.classList.remove('is-rattled');
-    try { window.localStorage.setItem(KEY, '1'); } catch (e) { /* not remembered, still unlocked */ }
 
     door.setAttribute('href', href);
-    label.textContent = 'Preview';
+    label.textContent = words;
     slot.classList.remove('is-locked');
+    /* Unlocked by the reader, as against never locked: the stylesheet
+       brings the light up behind the transom for one and not the
+       other. */
+    slot.classList.add('is-unlocked');
     btn.classList.add('is-broken');
 
-    /* The button is about to leave, and focus must not leave with it. */
-    door.focus();
+    /* The button is about to leave, and focus must not leave with it.
+       The door is taller than a small screen, and the reader is already
+       looking at it, so the page is not to be moved to show it. */
+    door.focus({ preventScroll: true });
 
-    var gone = function () { btn.hidden = true; };
-    btn.addEventListener('animationend', function (e) {
-      if (e.target === btn) gone();
-    });
     /* For a reader with motion turned down, where the stylesheet cuts
        the fall to nothing and the event may not be worth waiting on. */
-    setTimeout(gone, 900);
+    leaving = setTimeout(gone, 1100);
+  });
+
+  btn.addEventListener('animationend', function (e) {
+    if (e.target === btn) gone();
+  });
+
+  /* Back from somewhere else, on a page the browser kept as it was
+     left: unlocked, and as likely as not with the door standing open.
+     The leaves are given the half second they take to shut before the
+     lock goes back on them. */
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) setTimeout(lock, 500);
+  });
+})();
+
+/* ── the doors, opening ──
+   A door that is a link opens before it is gone through: the leaves
+   swing, and the page follows when they have. The swing is the
+   stylesheet's. All this does is hold the navigation for as long as it
+   takes, and start fetching the page behind the door meanwhile, so the
+   half second is spent on the wait rather than added to it.
+
+   It stands aside for anything that is not a plain click on a plain
+   link. A click with a modifier held is asking for a new tab or a new
+   window and gets one, a locked door has no href and is the lock's
+   business, and a reader with motion turned down goes straight
+   through.
+
+   A page brought back from the back/forward cache comes back exactly
+   as it was left, which is with a door standing open, so the doors are
+   shut again when it is shown. */
+
+(function () {
+  'use strict';
+
+  var doors = document.querySelectorAll('.door');
+  if (!doors.length) return;
+
+  /* A little short of the stylesheet's 0.56s. The end of the swing is
+     the leaves settling, and the page can go while they do. */
+  var SWING = 520;
+  var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+  Array.prototype.forEach.call(doors, function (door) {
+    door.addEventListener('click', function (e) {
+      var href = door.getAttribute('href');
+      if (!href) return;
+      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (still && still.matches) return;
+      /* Already open and waiting on the network: a second press is not
+         made to wait for a second swing. */
+      if (door.classList.contains('is-open')) return;
+
+      e.preventDefault();
+      door.classList.add('is-open');
+
+      var ahead = document.createElement('link');
+      ahead.rel = 'prefetch';
+      ahead.href = href;
+      document.head.appendChild(ahead);
+
+      setTimeout(function () { window.location.href = href; }, SWING);
+    });
+  });
+
+  window.addEventListener('pageshow', function (e) {
+    if (!e.persisted) return;
+    Array.prototype.forEach.call(doors, function (door) {
+      door.classList.remove('is-open');
+    });
   });
 })();
 

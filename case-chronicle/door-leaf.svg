@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 336" preserveAspectRatio="none">
+<!--
+  One leaf of a pair of courtroom doors: two stiles, four rails, three
+  raised panels and a brass kick plate. chronicle.css uses this one
+  drawing for every leaf and hangs the pull on whichever stile meets the
+  other leaf, so nothing here knows left from right.
+
+  Lit from the top left, like the casing it stands in. A raised panel is
+  two rings of four mitred faces: the step down off the frame, which is in
+  shadow under the rail and beside the left stile, and then the bevel up
+  to the field, which is lit the other way about.
+-->
+<defs>
+<style>.k{fill:none;stroke:#17140f}.l{fill:none;stroke:#fff}</style>
+<!-- the wood, lighter at the head of the door than at its foot -->
+<linearGradient id="w" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="336"><stop offset="0" stop-color="#86653f"/><stop offset=".4" stop-color="#6d4f31"/><stop offset="1" stop-color="#503824"/></linearGradient>
+<!-- the face of a panel -->
+<linearGradient id="f" x1="0" y1="0" x2=".35" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".1"/><stop offset=".5" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="#17140f" stop-opacity=".1"/></linearGradient>
+<!-- brass -->
+<linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2d2a4"/><stop offset=".5" stop-color="#b9a16c"/><stop offset="1" stop-color="#857044"/></linearGradient>
+<!-- the grain: noise drawn out long. Upright for the stiles and panels, lying down for the rails, as the boards run -->
+<filter id="v" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".5 .008" numOctaves="3" seed="3"/><feColorMatrix values="0 0 0 0 .13 0 0 0 0 .08 0 0 0 0 .04 1.9 0 0 0 -.8"/></filter>
+<filter id="h" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".008 .5" numOctaves="3" seed="8"/><feColorMatrix values="0 0 0 0 .13 0 0 0 0 .08 0 0 0 0 .04 1.9 0 0 0 -.8"/></filter>
+<!-- and the pale streaks in it -->
+<filter id="s" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".34 .006" numOctaves="2" seed="11"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 .88 0 0 0 0 .68 1.8 0 0 0 -.92"/></filter>
+</defs>
+
+<!-- the board, with its grain -->
+<rect width="120" height="336" fill="url(#w)"/>
+<rect width="120" height="336" filter="url(#v)" opacity=".5"/>
+<rect width="120" height="336" filter="url(#s)" opacity=".11"/>
+
+<!-- the four rails, laid over the upright grain with their own, and where they meet the stiles -->
+<rect x="14" y="0" width="92" height="14" fill="url(#w)"/>
+<rect x="14" y="0" width="92" height="14" filter="url(#h)" opacity=".42"/>
+<rect x="14" y="58" width="92" height="12" fill="url(#w)"/>
+<rect x="14" y="58" width="92" height="12" filter="url(#h)" opacity=".42"/>
+<rect x="14" y="200" width="92" height="14" fill="url(#w)"/>
+<rect x="14" y="200" width="92" height="14" filter="url(#h)" opacity=".42"/>
+<rect x="14" y="294" width="92" height="42" fill="url(#w)"/>
+<rect x="14" y="294" width="92" height="42" filter="url(#h)" opacity=".42"/>
+<path class="k" stroke-opacity=".3" stroke-width=".5" d="M14 0v14M106 0v14M14 58v12M106 58v12M14 200v14M106 200v14M14 294v42M106 294v42"/>
+
+<!-- the frieze panel: step, bevel, field, and the mitres -->
+<path fill="#17140f" fill-opacity=".58" d="M14 14L106 14L103.4 16.6L16.6 16.6z"/>
+<path fill="#17140f" fill-opacity=".42" d="M14 14L16.6 16.6L16.6 55.4L14 58z"/>
+<path fill="#fff" fill-opacity=".2" d="M14 58L16.6 55.4L103.4 55.4L106 58z"/>
+<path fill="#fff" fill-opacity=".12" d="M106 14L106 58L103.4 55.4L103.4 16.6z"/>
+<path fill="#fff" fill-opacity=".2" d="M16.6 16.6L103.4 16.6L94.9 25.1L25.1 25.1z"/>
+<path fill="#fff" fill-opacity=".1" d="M16.6 16.6L25.1 25.1L25.1 46.9L16.6 55.4z"/>
+<path fill="#17140f" fill-opacity=".36" d="M16.6 55.4L25.1 46.9L94.9 46.9L103.4 55.4z"/>
+<path fill="#17140f" fill-opacity=".24" d="M103.4 16.6L103.4 55.4L94.9 46.9L94.9 25.1z"/>
+<rect x="25.1" y="25.1" width="69.8" height="21.8" fill="url(#f)"/>
+<path class="l" stroke-opacity=".3" stroke-width=".6" d="M25.1 46.9V25.1H94.9"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M94.9 25.1V46.9H25.1"/>
+<rect class="k" x="14" y="14" width="92" height="44" stroke-opacity=".5" stroke-width=".6"/>
+<path class="k" stroke-opacity=".22" stroke-width=".5" d="M16.6 16.6L25.1 25.1M103.4 16.6L94.9 25.1M16.6 55.4L25.1 46.9M103.4 55.4L94.9 46.9"/>
+
+<!-- the tall panel: step, bevel, field, and the mitres -->
+<path fill="#17140f" fill-opacity=".58" d="M14 70L106 70L103.4 72.6L16.6 72.6z"/>
+<path fill="#17140f" fill-opacity=".42" d="M14 70L16.6 72.6L16.6 197.4L14 200z"/>
+<path fill="#fff" fill-opacity=".2" d="M14 200L16.6 197.4L103.4 197.4L106 200z"/>
+<path fill="#fff" fill-opacity=".12" d="M106 70L106 200L103.4 197.4L103.4 72.6z"/>
+<path fill="#fff" fill-opacity=".2" d="M16.6 72.6L103.4 72.6L94.9 81.1L25.1 81.1z"/>
+<path fill="#fff" fill-opacity=".1" d="M16.6 72.6L25.1 81.1L25.1 188.9L16.6 197.4z"/>
+<path fill="#17140f" fill-opacity=".36" d="M16.6 197.4L25.1 188.9L94.9 188.9L103.4 197.4z"/>
+<path fill="#17140f" fill-opacity=".24" d="M103.4 72.6L103.4 197.4L94.9 188.9L94.9 81.1z"/>
+<rect x="25.1" y="81.1" width="69.8" height="107.8" fill="url(#f)"/>
+<path class="l" stroke-opacity=".3" stroke-width=".6" d="M25.1 188.9V81.1H94.9"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M94.9 81.1V188.9H25.1"/>
+<rect class="k" x="14" y="70" width="92" height="130" stroke-opacity=".5" stroke-width=".6"/>
+<path class="k" stroke-opacity=".22" stroke-width=".5" d="M16.6 72.6L25.1 81.1M103.4 72.6L94.9 81.1M16.6 197.4L25.1 188.9M103.4 197.4L94.9 188.9"/>
+
+<!-- the bottom panel: step, bevel, field, and the mitres -->
+<path fill="#17140f" fill-opacity=".58" d="M14 214L106 214L103.4 216.6L16.6 216.6z"/>
+<path fill="#17140f" fill-opacity=".42" d="M14 214L16.6 216.6L16.6 291.4L14 294z"/>
+<path fill="#fff" fill-opacity=".2" d="M14 294L16.6 291.4L103.4 291.4L106 294z"/>
+<path fill="#fff" fill-opacity=".12" d="M106 214L106 294L103.4 291.4L103.4 216.6z"/>
+<path fill="#fff" fill-opacity=".2" d="M16.6 216.6L103.4 216.6L94.9 225.1L25.1 225.1z"/>
+<path fill="#fff" fill-opacity=".1" d="M16.6 216.6L25.1 225.1L25.1 282.9L16.6 291.4z"/>
+<path fill="#17140f" fill-opacity=".36" d="M16.6 291.4L25.1 282.9L94.9 282.9L103.4 291.4z"/>
+<path fill="#17140f" fill-opacity=".24" d="M103.4 216.6L103.4 291.4L94.9 282.9L94.9 225.1z"/>
+<rect x="25.1" y="225.1" width="69.8" height="57.8" fill="url(#f)"/>
+<path class="l" stroke-opacity=".3" stroke-width=".6" d="M25.1 282.9V225.1H94.9"/>
+<path class="k" stroke-opacity=".4" stroke-width=".6" d="M94.9 225.1V282.9H25.1"/>
+<rect class="k" x="14" y="214" width="92" height="80" stroke-opacity=".5" stroke-width=".6"/>
+<path class="k" stroke-opacity=".22" stroke-width=".5" d="M16.6 216.6L25.1 225.1M103.4 216.6L94.9 225.1M16.6 291.4L25.1 282.9M103.4 291.4L94.9 282.9"/>
+
+<!-- the kick plate: its shadow, the brass, the light along its top edge, four screws -->
+<rect x="10.5" y="307.2" width="100" height="21" fill="#17140f" fill-opacity=".4"/>
+<rect x="10" y="306" width="100" height="21" fill="url(#b)" stroke="#17140f" stroke-opacity=".5" stroke-width=".6"/>
+<path class="l" stroke-opacity=".55" stroke-width=".7" d="M10.6 306.8h98.8"/>
+<g fill="#17140f" fill-opacity=".42"><circle cx="14.5" cy="310.2" r="1"/><circle cx="14.5" cy="322.8" r="1"/><circle cx="105.5" cy="310.2" r="1"/><circle cx="105.5" cy="322.8" r="1"/></g>
+
+<!-- the two long edges -->
+<path class="k" stroke-opacity=".6" stroke-width=".9" d="M.45 0V336M119.55 0V336"/>
+<path class="l" stroke-opacity=".12" stroke-width=".6" d="M1.4 0V336"/>
+</svg>
