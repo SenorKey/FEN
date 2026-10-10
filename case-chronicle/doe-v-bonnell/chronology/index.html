@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This page deliberately does not load /assets/css/styles.css. The shared
+         shell pins the body to 100vh with overflow hidden for the golden-ratio
+         layout; this is a long-form scrolling document. The nav, skip link and
+         design tokens are ported into chronicle.css so the page still reads
+         as part of the site. Same precedent as /preside-by-side/.
+
+         chronicle.css and chronicle.js are shared by every case in the
+         Chronicle. Nothing in either names a case; what is specific to this
+         one lives in this file. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <!-- IBM Plex Sans takes the body and JetBrains Mono the docket citations,
+         dates and labels, in one request. The display face is Fraunces, which
+         the stylesheet self-hosts from /assets/fonts: the CDN build ships
+         without the SOFT and WONK axes, and those are the two doing the work
+         at display size. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Doe v. Bonnell, step by step: every substantive event in the case in the order it happened, built from the public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/doe-v-bonnell/chronology/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/doe-v-bonnell/chronology/">
+    <meta property="og:title" content="Doe v. Bonnell, in order — Case Chronicle">
+    <meta property="og:description"
+        content="Doe v. Bonnell, step by step: every substantive event in the case in the order it happened, built from the public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Doe v. Bonnell, in order — Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="doe-v-bonnell">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Exhibit wash
+
+         Recreations of the screenshot exhibits each side filed, running
+         down the outer edges of the page behind the argument. Left is
+         the plaintiff's evidence, right is the defendant's — the same
+         teal/violet rule the rest of the page follows.
+
+         Text, not images: the originals are 1-bit scans that would be
+         unreadable at this size and unsearchable at any size. Every
+         card is transcribed from the PDF named in its cite. Explicit
+         passages are elided the same way they are elsewhere on the
+         page — the record's language, not the record's pornography.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>&#10005;&#10005;&#10005;&#10005;</b> <time>11/3/23, 10:41 AM</time></p>
+                    <p class="ex-t">btw destiny sends me sex tapes all the time and he thinks idk the girls in
+                        them but <mark>I have videos of him &mdash;&mdash; cheiry and pxie like lmfao he just sent me
+                            another one haven&rsquo;t opened it let&rsquo;s see who he&rsquo;s &mdash;&mdash; this
+                            time</mark></p>
+                    <p class="ex-t ex-t-2">he should be more careful basically lmaooo</p>
+                    <figcaption class="ex-cite">DE 86-1</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-sms">
+                    <p class="ex-meta">Text Message &middot; RCS &middot; Friday 1:39 PM</p>
+                    <p class="ex-bub">Steven Bonnell has abused his position of power and community to gain favor
+                        and harass people in the past. I find his actions deplorable and terrifying. I will never
+                        feel comfortable being a witness in this case against Steven unless my identity is
+                        protected. I fear for my family, friends, and my current and future careers. Without
+                        protection, I am almost certain I will receive harassment and doxxing from his community.
+                    </p>
+                    <figcaption class="ex-cite">DE 84-4</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-x">
+                    <p class="ex-h"><b>Destiny | Steven Bonnell II</b> <span>@TheOmniLiberal</span></p>
+                    <p class="ex-t">If you really want to show your nuts, why not attack places like Kiwifarms
+                        WHERE THE CONTENT IS LITERALLY STILL BEING HOSTED AND BLASTED TO THE WORLD? Oh, because
+                        that&rsquo;s a scarier party to go after, eh.</p>
+                    <p class="ex-t ex-t-2">Talk about cowards.</p>
+                    <p class="ex-meta">11:59 AM &middot; Feb 9, 2025 &middot; 1.1M Views</p>
+                    <figcaption class="ex-cite">DE 52-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>SoloTinyLeaks</b> <time>Dec 4, 2024</time></p>
+                    <p class="ex-t">Below I&rsquo;ve attached the Google drive links sent to Rose, all of which are
+                        dead now for obvious reasons.</p>
+                    <p class="ex-l"><time>27/04/2023 5:17 pm</time> <span class="ex-u">drive.google.com/file/d/1SuF-yeNJEC&hellip;</span></p>
+                    <p class="ex-l"><time>06/04/2023 6:32 pm</time> <span class="ex-u">drive.google.com/file/d/1NrAbRv&hellip;</span></p>
+                    <p class="ex-l"><time>10/04/2022 1:04 am</time> <span class="ex-u">drive.google.com/open?id=13Q77VRf&hellip;</span> does this work?</p>
+                    <p class="ex-l"><time>04/04/2022 2:35 am</time> <span class="ex-u">drive.google.com/open?id=1Aaf_aSEBOB&hellip;</span></p>
+                    <figcaption class="ex-cite">DE 52-1</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-sms">
+                    <p class="ex-bub">It&rsquo;s just I don&rsquo;t have money for a lawyer or anything. Once he
+                        knows my name or something I&rsquo;m afraid he&rsquo;s going to harass me or get others to
+                        do so.</p>
+                    <p class="ex-meta">Jan 22, 2025, 2:15 PM</p>
+                    <figcaption class="ex-cite">DE 84-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>2/26/20, 11:20 PM</time></p>
+                    <p class="ex-t">Don&rsquo;t worry I totally trust you and you&rsquo;ve been very clear with how
+                        seriously you take consent and I also feel that you&rsquo;ve been very honest with me so I
+                        trust you and your words</p>
+                    <figcaption class="ex-cite">DE 50-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Steven Bonnell II</b> <time>11/29/2024</time></p>
+                    <p class="ex-t">Ughhhh there shouldn&rsquo;t be no, I&rsquo;m so sorry there&rsquo;s literally
+                        no excuse, I&rsquo;d had phone convos and stuff with this person they were fairly close to
+                        me, it&rsquo;s worthless to say it at this point but I&rsquo;m super sorry, there&rsquo;s
+                        literally no excuse.</p>
+                    <figcaption class="ex-cite">Am. Compl. &para;&thinsp;20</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>4/9/2022 8:28 PM</time></p>
+                    <p class="ex-t">ooooo</p>
+                    <p class="ex-t ex-t-2">there was a girl once, she was young&hellip; do you want that vid?</p>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 8:33 PM</time></p>
+                    <p class="ex-t">Id love it omg</p>
+                    <figcaption class="ex-cite">DE 42-4, p.&thinsp;1 &middot; his side</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>10/04/2022 1:28 am</time></p>
+                    <p class="ex-t">ooooo</p>
+                    <p class="ex-t ex-t-2">there was a girl once, she was young&hellip; do you want that vid?</p>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>10/04/2022 1:33 am</time></p>
+                    <p class="ex-t">Id love it omg</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>10/04/2022 1:36 am</time></p>
+                    <p class="ex-att">&#9654; 0:00</p>
+                    <figcaption class="ex-cite">DE 42-4, p.&thinsp;2 &middot; her side</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>14/04/2022</time></p>
+                    <p class="ex-t">Just streaming</p>
+                    <p class="ex-note">14 cannot be a month.</p>
+                    <figcaption class="ex-cite">DE 132-3</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-x">
+                    <p class="ex-h"><b>Pxie</b> <span>@pxielovee</span></p>
+                    <p class="ex-t">Steven is a multi-millionaire and I want him to lose so much money as a result
+                        of this that every time he thinks of the word &ldquo;nude&rdquo; he cringes at his mistake.</p>
+                    <p class="ex-t ex-t-2">My goal here is not public humiliation of Steven, or even all the money in
+                        the world, it&rsquo;s him receiving such a financial hit/penalty that he will permanently
+                        learn his lesson.</p>
+                    <p class="ex-meta">9:08 AM &middot; 1/20/25 &middot; 6K Views</p>
+                    <figcaption class="ex-cite">DE 42-10</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-rd">
+                    <p class="ex-h"><b>Rose</b> <time>4/9/2022 7:23 PM</time></p>
+                    <span class="ex-bar ex-b4"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 7:25 PM</time></p>
+                    <span class="ex-bar ex-b1"></span>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 7:26 PM</time></p>
+                    <span class="ex-bar ex-b3"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 7:46 PM</time></p>
+                    <span class="ex-bar ex-b2"></span>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 8:04 PM</time></p>
+                    <span class="ex-bar ex-b2"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 8:06 PM</time></p>
+                    <span class="ex-bar ex-b4"></span>
+                    <figcaption class="ex-cite">DE 132-3, Ex.&thinsp;B</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>1/3/25, 10:37 PM</time></p>
+                    <p class="ex-t">I have never ever sent videos of other people to steven ever.</p>
+                    <figcaption class="ex-cite">DE 50-1</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>12/5/24, 1:23 AM</time></p>
+                    <p class="ex-t">holy &mdash;&mdash; I cannot find a DMCA/email/contact or anything off of this</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>12/5/24, 1:42 AM</time></p>
+                    <p class="ex-t">Okay I emailed the registrar, &ldquo;namesake&rdquo;, so it should be removed
+                        once they respond</p>
+                    <figcaption class="ex-cite">DE 51-3</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>3/19/2020 5:12 AM</time></p>
+                    <p class="ex-t">Would you wanna make some videos together?</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>3/19/2020 5:13 AM</time></p>
+                    <p class="ex-t">If you want to yeah for sure</p>
+                    <figcaption class="ex-cite">DE 42-3</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The two views sit side by side underneath as halves
+             of one bar, the same pairing as the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/doe-v-bonnell/">&larr;&nbsp; Doe v. Bonnell</a></p>
+                <p class="eyebrow">United States District Court &middot; Southern District of Florida &middot; No.
+                    1:25-cv-20757-JB</p>
+                <h1 class="masthead-title">Doe <em>v.</em> Bonnell</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" aria-current="page" href="/case-chronicle/doe-v-bonnell/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <p class="kicker">Chronological View</p>
+                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
+                <p class="section-lede">Every substantive step, from long before there was a lawsuit through to the
+                    most recent thing on the public docket. The rest is the layout: what the plaintiff did sits left
+                    of the line, what the defendant did sits right of it, and the court keeps to the middle.</p>
+
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk tk-p">Plaintiff</span>
+                    <span class="tk tk-c">Court</span>
+                    <span class="tk tk-d">Defendant</span>
+                    <span class="tk tk-n">Neither &middot; off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a></span>
+                </div>
+
+                    <ol class="tl">
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">Before the suit</p>
+                                <p class="tl-phase-n">The events the case is about. Only the ones below the line can support a federal claim.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-they-meet-online">
+                            <div class="tl-c">
+                                <p class="tl-date">Oct 2019</p>
+                                <h3 class="tl-h">They meet online</h3>
+                                <p class="tl-b">She sends him a private message after a debate on a streaming platform. A friendship follows.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-1" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-1">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">She sent the first message. Both sides describe what followed as a friendship that moved into discussing their sex lives, a characterisation neither disputes, though they draw opposite conclusions from it.</p>
+                                        <p class="tl-cite">Bonnell Decl. &para;&nbsp;5 &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-1, opens the filing as a PDF">42-1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-video-is-recorded">
+                            <div class="tl-c">
+                                <p class="tl-date">12 Sept 2020</p>
+                                <h3 class="tl-h">The video is recorded</h3>
+                                <p class="tl-b">In Miami, consensually. Neither side has ever said otherwise.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-2" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-2">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court noted the point explicitly when denying a later motion: neither party alleges the recording itself, or its subject, was non-consensual. That matters, because it narrows the case to distribution alone.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.142.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 142, opens the filing as a PDF">142</a> at 5</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d is-key" id="ev-he-sends-it-to-rose">
+                            <div class="tl-c">
+                                <p class="tl-date">9 Apr 2022</p>
+                                <h3 class="tl-h">He sends it to &#8220;Rose&#8221;</h3>
+                                <p class="tl-b">Over Discord, to an account he took to be a college student&rsquo;s. He admits this, and the plaintiff now accepts the date.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-3" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-3">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">His <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> puts the transmission at 8:36 p.m. Eastern. The account was in fact operated by an adult man in the United Kingdom using a real woman&rsquo;s identity, established at her <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> three and a half years later. He states he has sent the video to no one since.</p>
+                                        <p class="tl-cite">Bonnell Decl. (Apr 2025) &para;&para;&nbsp;9&ndash;10 &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-1, opens the filing as a PDF">42-1</a> &middot; Bonnell Decl. (Jan 2026) &para;&para;&nbsp;2, 3, 5, 7 &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.213.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 213, opens the filing as a PDF">213</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-mark">
+                            <div class="tl-mark-in">
+                                <p class="tl-mark-d">1 Oct 2022</p>
+                                <p class="tl-mark-t">15 U.S.C. &sect;&nbsp;6851 takes effect</p>
+                                <p class="tl-mark-b">The statute is not <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactive</a>. It reaches conduct below this line and nothing above it, which is why the date of a single message decides whether a federal court can hear the case at all.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p is-key" id="ev-the-alleged-second-transmission">
+                            <div class="tl-c">
+                                <p class="tl-date">3 Nov 2023</p>
+                                <h3 class="tl-h">The alleged second transmission</h3>
+                                <p class="tl-b">To a witness known as &#8220;Abbymc.&#8221; Contested from the first day to the last, and the whole federal claim rests on it.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-4" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-4">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The witness swears she received the video by Google Drive link and recognised the plaintiff. Her message to a friend that morning is timestamped 10:41. The defendant&rsquo;s log puts his only links that day at 2:39 p.m. The plaintiff reads that as a four-hour gap, and his reply brief never addresses it. At his deposition he said he was not sure which time zone the log uses.</p>
+                                        <p class="tl-cite">Abbymc Decl. &para;&para;&nbsp;6&ndash;7 &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-2, opens the filing as a PDF">49-2</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.86.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 86-1, opens the filing as a PDF">86-1</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=222" target="_blank" rel="noopener" aria-label="Deposition transcript, page 221, opens ECF No. 305-1 as a PDF">221:3&ndash;13</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-leak">
+                            <div class="tl-c">
+                                <p class="tl-date">29 Nov 2024</p>
+                                <h3 class="tl-h">The leak</h3>
+                                <p class="tl-b">A third party operating as &#8220;SoloTinyLeaks&#8221; publishes a cache of his private files, including this video, to a forum. Neither party consented.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-5" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-5">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Twenty-nine files went up at once. The forum&rsquo;s own operator posted that the resulting traffic surge caused a database failure. From there the video spread to several pornography sites, captioned with both parties&rsquo; screen names.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.8.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-8, opens the filing as a PDF">42-8</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.52.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 52-3, opens the filing as a PDF">52-3</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-they-work-on-takedowns-together">
+                            <div class="tl-c">
+                                <p class="tl-date">Dec 2024</p>
+                                <h3 class="tl-h">They work on takedowns together</h3>
+                                <p class="tl-b">He retains specialist counsel and they coordinate removal requests across sites.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-6" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-6">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Their messages show him hunting for a DMCA contact, emailing a registrar and passing her a search-removal form while she sends him further URLs. He cites this as proof there was nothing left for an injunction to order him to do.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.51.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 51-3, opens the filing as a PDF">51-3</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-preservation-letter-served">
+                            <div class="tl-c">
+                                <p class="tl-date">22 Jan 2025</p>
+                                <h3 class="tl-h">Preservation letter served</h3>
+                                <p class="tl-b">Formal written notice to preserve everything potentially relevant.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-7" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-7">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The letter directed him to &#8220;preserve, maintain, prevent <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> of, and not destroy&#8221; anything related to the matter. It fixes the outer date on which his duty to preserve attached; she argues it attached earlier, at the November leak.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.21.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 21-3, opens the filing as a PDF">21-3</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d is-flag" id="ev-the-redaction">
+                            <div class="tl-c">
+                                <p class="tl-date">Jan&ndash;Feb 2025</p>
+                                <h3 class="tl-h">The redaction</h3>
+                                <p class="tl-b">He later says on a livestream that he &#8220;ran like a whole redact&#8221; of his Discord in this window. Off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>, but central to the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion eighteen months later.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-8" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-8">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Said on a stream in May 2026 and quoted back at him in the <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a> motion. He also testified he deleted his messages with one witness &#8220;sometime maybe at the end of 2024,&#8221; and added that he had archived them with the Redact tool and produced the archives. His position is that removing material from view is not the same as destroying it.</p>
+                                        <p class="tl-cite">Peters Decl. &para;&para;&nbsp;38&ndash;39, ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.263.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 263, opens the filing as a PDF">263</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=244" target="_blank" rel="noopener" aria-label="Deposition transcript, page 243, opens ECF No. 305-1 as a PDF">243:25&ndash;244:10</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">The case</p>
+                                <p class="tl-phase-n">Filed 18 February 2025. Everything below is on the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-complaint-filed">
+                            <div class="tl-c">
+                                <p class="tl-date">18 Feb 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">Complaint</a> filed</h3>
+                                <p class="tl-b">Four counts. Only the federal one carries <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-9" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-9">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Counts under the federal statute, Florida&rsquo;s sexual cyberharassment statute, intentional infliction of emotional distress, and invasion of privacy. Only the first supports federal jurisdiction; the other three ride on it through supplemental jurisdiction.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.1.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 1, opens the filing as a PDF">1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-leave-to-proceed-as-jane-doe">
+                            <div class="tl-c">
+                                <p class="tl-date">20 Feb 2025<span class="chip chip-g">Granted</span></p>
+                                <h3 class="tl-h">Leave to proceed as &#8220;Jane Doe&#8221;</h3>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-10" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-10">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Granted the day after it was filed, unopposed. The order seals identifying filings, releases her name to defence counsel on request, and bars disclosure to the media without her counsel&rsquo;s consent. The statute itself contemplates pseudonymity.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.7.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 7, opens the filing as a PDF">7</a> &middot; <a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener" aria-label="15 U.S.C. section 6851, opens the statute text">15 U.S.C. &sect;&nbsp;6851(b)(3)(B)</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-motion-for-a-restraining-order-and">
+                            <div class="tl-c">
+                                <p class="tl-date">3 Apr 2025</p>
+                                <h3 class="tl-h">Motion for a restraining order and injunction</h3>
+                                <p class="tl-b">Four forms of relief, five months after the leak.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-11" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-11">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The plaintiff asked the court to order the defendant to stop sharing the video, take down the copies he controlled, and tell third parties in writing to remove their own. The fourth request was to preserve evidence. The first three all aimed at publication that had already happened, which is most of why the motion failed.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.21.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 21, opens the filing as a PDF">21</a> at 6</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-restraining-order-denied">
+                            <div class="tl-c">
+                                <p class="tl-date">4 Apr 2025<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Restraining order denied</h3>
+                                <p class="tl-b">No emergency. Her counsel concedes &#8220;most of the damage has already been done.&#8221;</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-12" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-12">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Judge Becerra: &#8220;There is nothing that&rsquo;s happening today that wasn&rsquo;t happening when you filed the suit.&#8221; The court also told counsel that <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> relief needs its own separately filed motion under Rule 37(e), advice not acted on for another thirteen months.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.38.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 38, opens the filing as a PDF">38</a> at 5:19&ndash;23, 6:3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-opposition-with-the-date-format-exhibits">
+                            <div class="tl-c">
+                                <p class="tl-date">25 Apr 2025</p>
+                                <h3 class="tl-h">Opposition, with the date-format <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibits</a></h3>
+                                <p class="tl-b">The paired screenshots reading 4/9/2022 on his side and 10/04/2022 on the recipient&rsquo;s.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-13" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-13">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The exhibit that decides the <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdictional</a> question: the same exchange captured from both sides of the conversation. A later message in the same thread stamped 14/04/2022 confirms the day-first format, since there is no fourteenth month.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42, opens the filing as a PDF">42</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.4.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-4, opens the filing as a PDF">42-4</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-abbymc-s-first-declaration">
+                            <div class="tl-c">
+                                <p class="tl-date">2 May 2025</p>
+                                <h3 class="tl-h">Abbymc&rsquo;s first <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a></h3>
+                                <p class="tl-b">The document the federal claim now depends on.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-14" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-14">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Two pages, sworn under penalty of perjury. It asserts the transmission and the recognition but attaches no message, no link and no file, which becomes the defendant&rsquo;s central objection at <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a>.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-2, opens the filing as a PDF">49-2</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-motion-for-a-protective-order-over-discovery">
+                            <div class="tl-c">
+                                <p class="tl-date">23 May 2025</p>
+                                <h3 class="tl-h">Motion for a <a class="term" href="#t-protective-order" data-term="t-protective-order" title="Protective order: An order limiting what either side may do with the material it receives in discovery.">protective order</a> over <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a></h3>
+                                <p class="tl-b">Filed after the negotiation between counsel breaks down.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-15" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-15">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court later found she declared meet-and-confer &#8220;exhausted&#8221; about thirty-six hours after sending an eleven-page draft, and two minutes before opposing counsel replied that he had already marked it up.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.82.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 82, opens the filing as a PDF">82</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.92.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 92-3, opens the filing as a PDF">92-3</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-evidentiary-hearing">
+                            <div class="tl-c">
+                                <p class="tl-date">3 Jun 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-evidentiary-hearing" data-term="t-evidentiary-hearing" title="Evidentiary hearing: A hearing where witnesses actually testify and are cross-examined, rather than lawyers simply arguing.">Evidentiary hearing</a></h3>
+                                <p class="tl-b">Both parties testify for about two and a half hours, in open court.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-16" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-16">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">She testified she had never personally seen a record of any transmission after October 2022. He testified he never obtained verbal or written consent to share the video, but believed the context of their exchanges implied it.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the filing as a PDF">90</a> at 55:7&ndash;13, 83:7&ndash;13</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-protective-order-entered">
+                            <div class="tl-c">
+                                <p class="tl-date">2 Sep 2025<span class="chip chip-p">Granted in part</span></p>
+                                <h3 class="tl-h"><a class="term" href="#t-protective-order" data-term="t-protective-order" title="Protective order: An order limiting what either side may do with the material it receives in discovery.">Protective order</a> entered</h3>
+                                <p class="tl-b">In the court&rsquo;s own modified form, closer to the draft the parties had negotiated.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-17" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-17">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It covers intimate images, her legal name, the names of sealed non-party witnesses, and medical records, and it bars disclosure of any of it to the media or to &#8220;any online broadcast, podcast, stream, post or direct message.&#8221;</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.116.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 116, opens the filing as a PDF">116</a> &para;&para;&nbsp;2, 7</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-leave-to-amend-granted">
+                            <div class="tl-c">
+                                <p class="tl-date">4 Sep 2025<span class="chip chip-g">Granted</span></p>
+                                <h3 class="tl-h">Leave to amend granted</h3>
+                                <p class="tl-b">The court calls the evidence of the timeline &#8220;murky at best.&#8221;</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-18" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-18">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It noted that the defendant&rsquo;s own <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a> contains a screenshot taken from the recipient&rsquo;s side of the chat, an image he could not have captured himself, and that no testimony from that recipient was ever offered to explain it.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.119.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 119, opens the filing as a PDF">119</a> at 8</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-amended-complaint">
+                            <div class="tl-c">
+                                <p class="tl-date">5 Sep 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">Amended complaint</a></h3>
+                                <p class="tl-b">Adds the Abbymc transmission and the continuing-accessibility theory.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-19" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-19">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Both additions are attempts to land a qualifying act after the statute&rsquo;s effective date. The court had just held that amendment would not be futile, which is a low bar but not nothing.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 120, opens the filing as a PDF">120</a> &para;&para;&nbsp;13&ndash;15, 45</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d is-flag" id="ev-artificially-creating-a-file">
+                            <div class="tl-c">
+                                <p class="tl-date">8&ndash;9 Sep 2025</p>
+                                <h3 class="tl-h">&#8220;Artificially creating a file&#8221;</h3>
+                                <p class="tl-b">On a livestream he describes reconstructing a log. Days later he files a log with the court. Whether it is the same one is disputed.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-20" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-20">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">&#8220;There is no original file. I&rsquo;m trying to reconstruct the file. I&rsquo;m artificially creating a file by reconstructing a log of stuff.&#8221; On 19 September he filed a log and swore it was a true and correct record of everything he had sent the witness. The plaintiff says that is the file he was describing. At his <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> he said he did not remember which file the stream was about, that the filed log was a filtered list of his own sent messages, and that the merging only lined up timestamps and changed no message. Her filings date the clip to 8 September in one place and 9 September in another.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 139, opens the filing as a PDF">139</a> at 13, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.150.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 150, opens the filing as a PDF">150</a> (audio), <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.6.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132-6, opens the filing as a PDF">132-6</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=312" target="_blank" rel="noopener" aria-label="Deposition transcript, page 311, opens ECF No. 305-1 as a PDF">311:4&ndash;313:20</a> (the clip, as played), <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=306" target="_blank" rel="noopener" aria-label="Deposition transcript, page 305, opens ECF No. 305-1 as a PDF">305:8&ndash;307:19</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=315" target="_blank" rel="noopener" aria-label="Deposition transcript, page 314, opens ECF No. 305-1 as a PDF">314:5&ndash;318:9</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-motion-to-dismiss">
+                            <div class="tl-c">
+                                <p class="tl-date">19 Sep 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-motion-to-dismiss" data-term="t-motion-to-dismiss" title="Motion to dismiss: Argues the case cannot proceed even if everything alleged is true — usually because the court lacks power to hear it.">Motion to dismiss</a></h3>
+                                <p class="tl-b">No <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>: the only transmission predates the statute.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-21" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-21">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A factual attack under Rule 12(b)(1). On that footing the court may weigh evidence from outside the <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">complaint</a> and answer, no presumption of truth attaches to the complaint, and the <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> of establishing jurisdiction sits with the plaintiff.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132, opens the filing as a PDF">132</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-opposition-and-the-footnote">
+                            <div class="tl-c">
+                                <p class="tl-date">3 Oct 2025</p>
+                                <h3 class="tl-h">Opposition and the footnote</h3>
+                                <p class="tl-b">Asserts the recipient was a minor. This becomes the <a class="term" href="#t-rule-11" data-term="t-rule-11" title="Rule 11: The rule requiring that filings have a factual basis. A Rule 11 motion says the other side asserted something it could not support.">Rule 11</a> fight.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-22" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-22">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The assertion sat in a footnote, resting on a redacted driving record said to fix the recipient&rsquo;s date of birth. That premise collapsed at her <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> three weeks later. What the Rule 11 motion actually targets is not the footnote but the refusal to file <a class="term" href="#t-errata" data-term="t-errata" title="Errata: A formal correction a witness files to their own sworn testimony after reading it back.">errata</a> afterwards.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 139, opens the filing as a PDF">139</a> at 7 n.2, 139-2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-injunction-denied-forum-motion-denied">
+                            <div class="tl-c">
+                                <p class="tl-date">6 Oct 2025<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Injunction denied. Forum motion denied.</h3>
+                                <p class="tl-b">The court also notes that no <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion has been filed.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-23" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-23">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">No irreparable harm: five months&rsquo; delay with no convincing justification, and her own post that she wanted him to &#8220;lose so much money&#8221; showed the injury could be met in damages. The forum motion failed because Rule 65 does not reach non-parties.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.143.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 143, opens the filing as a PDF">143</a> at 12, 142</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-deposition-in-illinois">
+                            <div class="tl-c">
+                                <p class="tl-date">23 Oct 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">Deposition</a> in Illinois</h3>
+                                <p class="tl-b">The woman whose identity was used testifies she never spoke to him, and that an adult man in the United Kingdom impersonated her.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-24" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-24">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">She testified she never messaged him, never saw the video, and had no idea who the plaintiff was. She also explained why the leaked screenshots carry European date formatting, the single most useful fact the defence obtained in <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a>.</p>
+                                        <p class="tl-cite">Brettler Decl. Ex. L at 67:13&ndash;24, 79:22&ndash;80:7</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-sealing-the-hearing-transcript-denied">
+                            <div class="tl-c">
+                                <p class="tl-date">27 Oct 2025<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Sealing the hearing <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcript</a> denied</h3>
+                                <p class="tl-b">The hearing was public and the material was already in her own filings.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-25" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-25">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">No one had asked to close the courtroom, and non-parties attended. The passages she sought to seal, including those about suicidal ideation, had been in her own <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">complaint</a> on the public <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a> since February. Prior publication defeated the request.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.154.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 154, opens the filing as a PDF">154</a> at 6&ndash;10</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-she-does-not-appear-for-her-deposition">
+                            <div class="tl-c">
+                                <p class="tl-date">3 Nov 2025</p>
+                                <h3 class="tl-h">She does not appear for her <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a></h3>
+                                <p class="tl-b">No <a class="term" href="#t-protective-order" data-term="t-protective-order" title="Protective order: An order limiting what either side may do with the material it receives in discovery.">protective order</a> was sought. Her own deposition and his are both delayed as a result.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-26" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-26">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Defence counsel had travelled for it. No relief was requested and no explanation filed. The court issued an order to show cause two days later and stayed the defendant&rsquo;s deposition until the dispute was resolved.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.163.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 163, opens the filing as a PDF">163</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=167&amp;entry_lte=167" target="_blank" rel="noopener" aria-label="ECF No. 167, opens the docket entry">167</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-his-deposition-stayed">
+                            <div class="tl-c">
+                                <p class="tl-date">5 Nov 2025</p>
+                                <h3 class="tl-h">His <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> stayed</h3>
+                                <p class="tl-b">And an order to show cause issued against the plaintiff.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-27" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-27">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The stay is what she later relies on to explain the timing of her <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion: the intent evidence, she argues, could only come from his testimony, and his testimony was unavailable until the court lifted the stay the following April.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=167&amp;entry_lte=167" target="_blank" rel="noopener" aria-label="ECF No. 167, opens the docket entry">167</a> &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.275.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 275, opens the filing as a PDF">275</a> at 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-subpoena-served-on-abbymc">
+                            <div class="tl-c">
+                                <p class="tl-date">21 Nov 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">Subpoena</a> served on Abbymc</h3>
+                                <p class="tl-b">A month before the cutoff. She produces nothing, and he never moves to compel.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-28" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-28">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Served three and a half weeks before the <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> cutoff, after six months of disputed attempts. When she produced nothing he pursued neither a motion to compel under Rule 45(d)(2)(B)(i) nor contempt under Rule 45(g), and opposed the extension that would have allowed more time.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.10.pdf" target="_blank" rel="noopener" aria-label="ECF No. 212-10, opens the filing as a PDF">212-10</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-rule-11-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">1 Dec 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-rule-11" data-term="t-rule-11" title="Rule 11: The rule requiring that filings have a factual basis. A Rule 11 motion says the other side asserted something it could not support.">Rule 11</a> motion</h3>
+                                <p class="tl-b">Over the minor allegation in the footnote.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-29" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-29">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Safe harbour observed and <a class="term" href="#t-errata" data-term="t-errata" title="Errata: A formal correction a witness files to their own sworn testimony after reading it back.">errata</a> demanded first. His strongest point is relevance: whether the recipient was seventeen has no bearing on whether the transmission preceded 1 October 2022, which is the only thing his own motion is about. The court denied the motion without prejudice on 21 April 2026.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.183.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 183, opens the filing as a PDF">183</a> &middot; ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=240&amp;entry_lte=240" target="_blank" rel="noopener" aria-label="ECF No. 240, opens the docket entry">240</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-rule-11-cross-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">4 Dec 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-rule-11" data-term="t-rule-11" title="Rule 11: The rule requiring that filings have a factual basis. A Rule 11 motion says the other side asserted something it could not support.">Rule 11</a> cross-motion</h3>
+                                <p class="tl-b">The <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a> motion is itself sanctionable.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-30" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-30">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It rests on the Advisory Committee&rsquo;s own note that a sanctions motion is subject to the rule, and on decisions from this district, one written by this <a class="term" href="#t-magistrate-judge" data-term="t-magistrate-judge" title="Magistrate judge: A judge who handles pre-trial matters. On some questions they recommend, and the district judge decides.">magistrate judge</a>, holding that Rule 11 is not a vehicle for resolving a disputed fact. It was denied without prejudice in the same order as his.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.186.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 186, opens the filing as a PDF">186</a> &middot; ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=240&amp;entry_lte=240" target="_blank" rel="noopener" aria-label="ECF No. 240, opens the docket entry">240</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-discovery-closes">
+                            <div class="tl-c">
+                                <p class="tl-date">16 Dec 2025</p>
+                                <h3 class="tl-h"><a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">Discovery</a> closes</h3>
+                                <p class="tl-b">With the production disputes unresolved and no motion to compel ever filed.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-31" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-31">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Neither side filed one. That single fact shapes everything after it: his <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">complaint</a> about an untested witness and her complaint about an incomplete production both arrive without the remedy that was available to fix them.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.23.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 23, opens the filing as a PDF">23</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-motion-for-summary-judgment">
+                            <div class="tl-c">
+                                <p class="tl-date">30 Jan 2026</p>
+                                <h3 class="tl-h">Motion for <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a></h3>
+                                <p class="tl-b">The same <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdictional</a> argument, now on the full <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> record.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-32" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-32">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Under Rule 56 he may carry his initial <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> simply by pointing to an absence of evidence. He went further and filed affirmative evidence too, including his log of the media files he had sent the witness. The plaintiff says it is the log he described reconstructing on stream four months earlier.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.210.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 210, opens the filing as a PDF">210</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.213.5.pdf" target="_blank" rel="noopener" aria-label="ECF No. 213-5, opens the filing as a PDF">213-5</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-rule-56-d-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">13 Feb 2026</p>
+                                <h3 class="tl-h">Rule 56(d) motion</h3>
+                                <p class="tl-b">Asking the court to defer for <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> not yet taken.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-33" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-33">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It asked the court to deny or defer until his <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> and a Swedish deposition could be taken. It was the third time in four months she had asked the court to wait for discovery, and the court had already remarked on the pattern.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.216.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 216, opens the filing as a PDF">216</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-speech-order-denied-contempt-denied">
+                            <div class="tl-c">
+                                <p class="tl-date">30 Mar 2026<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Speech order denied. Contempt denied.</h3>
+                                <p class="tl-b">The court calls the requested restraint a prior restraint with &#8220;no limiting principle.&#8221;</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-34" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-34">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It held that Rule 26 reaches only <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a>, and that her authorities were criminal cases resting on a Sixth Amendment right absent from a civil case. On contempt it corrected the record: it had made none of the findings she had attributed to it.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.223.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 223, opens the filing as a PDF">223</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.225.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 225, opens the filing as a PDF">225</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-motions-in-limine-both-sides">
+                            <div class="tl-c">
+                                <p class="tl-date">30 Mar 2026</p>
+                                <h3 class="tl-h"><a class="term" href="#t-motion-in-limine" data-term="t-motion-in-limine" title="Motion in limine: Filed before trial to decide what a jury will and will not be allowed to hear.">Motions in limine</a>, both sides</h3>
+                                <p class="tl-b">What a jury would be allowed to hear, if there is a trial.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-35" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-35">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Hers seeks to exclude implied-consent evidence under Rules 412 and 403. His seeks to exclude the minor allegation, the Abbymc <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> and <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a>, and her use of a pseudonym in front of a jury. Both are undecided.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.222.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 222, opens the filing as a PDF">222</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.224.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 224, opens the filing as a PDF">224</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-schedule-rule-56-d-and-both-rule-11-motions">
+                            <div class="tl-c">
+                                <p class="tl-date">21 Apr 2026<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Schedule, Rule 56(d) and both Rule 11 motions denied</h3>
+                                <p class="tl-b"><a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">Depositions</a> ordered within ten days, and no other <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> permitted. The trial moves to 10 August.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-36" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-36">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A <a class="term" href="#t-paperless-order" data-term="t-paperless-order" title="Paperless order: A short ruling typed straight onto the docket. It has no document behind it, so its citation opens the docket entry instead.">paperless order</a>, and a consequential one. It denied the two Rule 11 motions without prejudice, which leaves either side free to file again, and granted her request to move the trial only in part. The words &#8220;no other discovery is permitted during these ten days&#8221; are what the defendant later invokes against the second Abbymc <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a>, produced ten days after the order.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=240&amp;entry_lte=240" target="_blank" rel="noopener" aria-label="ECF No. 240, opens the docket entry">240</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-parties-are-deposed">
+                            <div class="tl-c">
+                                <p class="tl-date">27 &amp; 30 Apr 2026</p>
+                                <h3 class="tl-h">The parties are deposed</h3>
+                                <p class="tl-b">His testimony supplies most of the intent evidence for the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-37" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-37">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">He was deposed on 30 April. He testified that the files behind the Drive links &#8220;are not existing anymore,&#8221; and that the video stayed available to anyone logged into his Discord account or the recipient&rsquo;s until he deleted it around November 2024. On the log, he said the version he filed was a filtered list of the media he had sent the witness, and that the merging he had described on stream was to make timestamps line up. His <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcript</a> stayed sealed until a redacted copy was filed that September.</p>
+                                        <p class="tl-cite">Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=238" target="_blank" rel="noopener" aria-label="Deposition transcript, page 237, opens ECF No. 305-1 as a PDF">237:3&ndash;6</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=200" target="_blank" rel="noopener" aria-label="Deposition transcript, page 199, opens ECF No. 305-1 as a PDF">199:15&ndash;200:11</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=306" target="_blank" rel="noopener" aria-label="Deposition transcript, page 305, opens ECF No. 305-1 as a PDF">305:25&ndash;306:6</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=315" target="_blank" rel="noopener" aria-label="Deposition transcript, page 314, opens ECF No. 305-1 as a PDF">314:18&ndash;315:18</a> &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 305-1, opens the filing as a PDF">305-1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-a-second-abbymc-declaration">
+                            <div class="tl-c">
+                                <p class="tl-date">30 Apr 2026</p>
+                                <h3 class="tl-h">A second Abbymc <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a></h3>
+                                <p class="tl-b">Produced after <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> closed, and days after she testified she had no recent contact with the witness.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-38" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-38">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Materially identical to the first, adding no new facts. It arrived after the close of discovery, after the court had barred further discovery, and days after that testimony. The defendant asks that it be disregarded entirely under Rules 26(e) and 37(c)(1).</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.249.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 249-1, opens the filing as a PDF">249-1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p is-key" id="ev-opposition-to-summary-judgment">
+                            <div class="tl-c">
+                                <p class="tl-date">8 May 2026</p>
+                                <h3 class="tl-h">Opposition to <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a></h3>
+                                <p class="tl-b">She concedes the April 2022 date. The case narrows to two routes across the line.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-39" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-39">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The concession matters more than the opposition. Having pleaded October 2022, then &#8220;sometime in 2022,&#8221; she now accepts 9 April 2022. From here the federal claim can survive only on the Abbymc transmission or on continuing accessibility.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.247.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 247, opens the filing as a PDF">247</a> at 1, 3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-spoliation-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">18 May 2026</p>
+                                <h3 class="tl-h"><a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">Spoliation</a> motion</h3>
+                                <p class="tl-b">Seven weeks after the motion deadline, five months after <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> closed.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-40" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-40">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It asks for judgment on liability, or an <a class="term" href="#t-adverse-inference" data-term="t-adverse-inference" title="Adverse inference: A sanction where the jury is told it may assume the destroyed evidence would have hurt the side that destroyed it.">adverse-inference</a> instruction. Its strongest point is one the defendant concedes: the sworn log of everything he sent the witness omits two Google Drive links that his own produced chat thread shows him sending.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.262.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 262, opens the filing as a PDF">262</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-opposition">
+                            <div class="tl-c">
+                                <p class="tl-date">1 Jun 2026</p>
+                                <h3 class="tl-h">Opposition</h3>
+                                <p class="tl-b">Untimely, and no bad faith.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-41" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-41">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Untimeliness first, merits second. He is on solid ground on timing, since this judge has denied <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motions as untimely in his own prior opinions, and weakest on the log, where the opposition concedes the omission and calls it inadvertent.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.271.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 271, opens the filing as a PDF">271</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272, opens the filing as a PDF">272</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-trial-taken-off-the-calendar">
+                            <div class="tl-c">
+                                <p class="tl-date">30 Jun 2026</p>
+                                <h3 class="tl-h">Trial taken off the calendar</h3>
+                                <p class="tl-b">No new date will be set until the court has ruled on the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-44" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-44">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The trial had been set for 10 August. The order setting the first hearing on the motion removed it, &#8220;given that the Motions pertain to evidence central to the resolution of Plaintiff&rsquo;s claims.&#8221; A second order on 23 July moved that hearing to 19 August and repeated the point.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=280&amp;entry_lte=280" target="_blank" rel="noopener" aria-label="ECF No. 280, opens the docket entry">280</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=284&amp;entry_lte=284" target="_blank" rel="noopener" aria-label="ECF No. 284, opens the docket entry">284</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-supplemental-declarations">
+                            <div class="tl-c">
+                                <p class="tl-date">17 Aug 2026</p>
+                                <h3 class="tl-h">Supplemental <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a></h3>
+                                <p class="tl-b">Including a previously undisclosed witness, two days before the hearing.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-42" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-42">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The defendant objects that the witness was never disclosed under Rule 26 and could not be deposed, that her statement is <a class="term" href="#t-hearsay" data-term="t-hearsay" title="Hearsay: Repeating what someone said outside court to prove it was true. Generally not allowed, with many exceptions.">hearsay</a>, and that her evidence concerns the pre-statute transmission in any event, so it cannot cure the <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdictional</a> defect. Her declaration is sealed. A later filing by the plaintiff, since struck, describes it: she says he told her in January 2025 that he was &#8220;wiping&#8221; his Discord logs, and that she watched him archive and then delete their messages that February.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.285.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 285, opens the filing as a PDF">285</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.289.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 289, opens the filing as a PDF">289</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.298.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 298, opens the filing as a PDF">298</a> at 3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-hearing-on-the-spoliation-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">19 Aug 2026</p>
+                                <h3 class="tl-h">Hearing on the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion</h3>
+                                <p class="tl-b">Supplemental filings ordered. No ruling.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-43" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-43">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court directed both sides to file the underlying materials: the <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcript</a>, the expert report, and the document requests and responses. It also asked each side to say which sealed entries should be opened. Nothing was decided from the bench.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&amp;entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry">292</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.293.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 293, opens the filing as a PDF">293</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-both-sides-agree-on-what-to-unseal">
+                            <div class="tl-c">
+                                <p class="tl-date">24 Aug 2026</p>
+                                <h3 class="tl-h">Both sides agree on what to unseal</h3>
+                                <p class="tl-b">He lists ten sealed entries. She agrees, provided they are redacted as the protective orders require.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-45" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-45">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court had asked for the lists from the bench. No unsealing order has followed. The same day she filed two notices setting out which earlier filings she relies on, one for the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion and one against <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a>.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.294.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 294, opens the filing as a PDF">294</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.297.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 297, opens the filing as a PDF">297</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.295.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 295, opens the filing as a PDF">295</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.296.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 296, opens the filing as a PDF">296</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-two-unrequested-responses-struck">
+                            <div class="tl-c">
+                                <p class="tl-date">26 Aug 2026<span class="chip chip-d">Stricken</span></p>
+                                <h3 class="tl-h">Two unrequested responses struck</h3>
+                                <p class="tl-b">And <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> is put on hold until the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion is decided.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-46" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-46">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The day before, she had filed two responses of about eighteen pages each to his objections to her supplemental <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a>. The court struck both, noting that it had given neither side leave to file anything further on the <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a> motion. A separate order the same day stayed summary judgment and promised an evidentiary hearing.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.298.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 298, opens the filing as a PDF">298</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.299.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 299, opens the filing as a PDF">299</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=300&amp;entry_lte=300" target="_blank" rel="noopener" aria-label="ECF No. 300, opens the docket entry">300</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=301&amp;entry_lte=301" target="_blank" rel="noopener" aria-label="ECF No. 301, opens the docket entry">301</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-both-case-ending-motions-stayed">
+                            <div class="tl-c">
+                                <p class="tl-date">4 Sep 2026</p>
+                                <h3 class="tl-h">Both case-ending motions stayed</h3>
+                                <p class="tl-b">The <a class="term" href="#t-motion-to-dismiss" data-term="t-motion-to-dismiss" title="Motion to dismiss: Argues the case cannot proceed even if everything alleged is true — usually because the court lacks power to hear it.">motion to dismiss</a> and <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> now wait for the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> ruling.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-47" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-47">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A <a class="term" href="#t-paperless-order" data-term="t-paperless-order" title="Paperless order: A short ruling typed straight onto the docket. It has no document behind it, so its citation opens the docket entry instead.">paperless order</a> widening the August stay to cover the motion to dismiss. It fixes the order of decision: spoliation first, then <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>. The same day she filed a redacted copy of his <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcript</a>, the first of the four to reach the public docket.</p>
+                                        <p class="tl-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=304&amp;entry_lte=304" target="_blank" rel="noopener" aria-label="ECF No. 304, opens the docket entry">304</a> &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 305, opens the filing as a PDF">305</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 305-1, opens the filing as a PDF">305-1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-evidentiary-hearing-on-the-spoliation-motion">
+                            <div class="tl-c">
+                                <p class="tl-date">2 Oct 2026</p>
+                                <h3 class="tl-h">Evidentiary hearing on the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion</h3>
+                                <p class="tl-b">He and her forensic expert testify. No ruling from the bench.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-48" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-48">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Set by an order of 8 September and held in Miami. The minute entry records two witnesses, the defendant and Jesus Pe&ntilde;a, and says an order will follow. The defence put in one <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a>: her message to him on the night of the leak, asking him to &#8220;please just make sure to delete&#8221; the videos. No <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcript</a> of the hearing is on the docket yet.</p>
+                                        <p class="tl-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=306&amp;entry_lte=306" target="_blank" rel="noopener" aria-label="ECF No. 306, opens the docket entry">306</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&amp;entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry">309</a>, <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.310.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 310, opens the filing as a PDF">310</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272-1, opens the filing as a PDF">272-1</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-end">
+                            <div class="tl-end-in">
+                                <p class="tl-end-d">7 Oct 2026 &middot; the record ends</p>
+                                <h3 class="tl-end-h">Five motions still awaiting decision</h3>
+                                <ul class="tl-open">
+                                    <li class="is-major"><span class="o-d">May 2026</span><span class="o-t"><a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">Spoliation</a> <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a></span></li>
+                                    <li class="is-major"><span class="o-d">Sep 2025</span><span class="o-t"><a class="term" href="#t-motion-to-dismiss" data-term="t-motion-to-dismiss" title="Motion to dismiss: Argues the case cannot proceed even if everything alleged is true — usually because the court lacks power to hear it.">Motion to dismiss</a>, stayed</span></li>
+                                    <li class="is-major"><span class="o-d">Jan 2026</span><span class="o-t"><a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">Summary judgment</a>, stayed</span></li>
+                                    <li><span class="o-d">Mar 2026</span><span class="o-t">Two <a class="term" href="#t-motion-in-limine" data-term="t-motion-in-limine" title="Motion in limine: Filed before trial to decide what a jury will and will not be allowed to hear.">motions in limine</a></span></li>
+                                </ul>
+                                <p class="tl-end-n">The spoliation motion comes first, and it could hand the plaintiff judgment on liability without a trial. The motion to dismiss and summary judgment would each end the case outright, and both are stayed until it is decided. There is no trial date.</p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <p class="tl-close">Read as a whole the pattern is one-sided: the plaintiff has lost most of what she has
+                        asked for: on delay, on choosing the wrong procedural vehicle, on asking for a restraint the First
+                        Amendment does not permit in a civil case. None of it goes to whether her underlying account is true. The
+                        judge who denied her injunction also found her testimony <em>&#8220;fully credible.&#8221;</em></p>
+
+                <!-- Plain anchors, and sticky rather than fixed: the pill rides its own
+                     section and settles at the end of it. No script, so it degrades to an
+                     ordinary in-page jump. The smooth scroll and the reduced-motion
+                     opt-out are the ones already set on <html>. -->
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/doe-v-bonnell/" aria-label="Back to the case page for Doe v. Bonnell">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Doe v. Bonnell II, No. 1:25-cv-20757-JB (S.D. Fla.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-answer">Answer</dt><dd>The defendant&rsquo;s formal response to the complaint, admitting
+                        or denying each allegation.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                    <div><dt id="t-errata">Errata</dt><dd>A formal correction a witness files to their own sworn testimony
+                        after reading it back.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-protective-order">Protective order</dt><dd>An order limiting what either side may do with the
+                        material it receives in discovery.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, so its citation opens the docket entry instead.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Argues the case cannot proceed even if everything
+                        alleged is true &mdash; usually because the court lacks power to hear it.</dd></div>
+                    <div><dt id="t-summary-judgment">Summary judgment</dt><dd>Argues the facts are not genuinely in dispute, so the
+                        judge can decide without a trial. If facts <em>are</em> disputed, it fails.</dd></div>
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-sanctions">Sanctions</dt><dd>A penalty for misconduct in the litigation itself. They can
+                        run from a fine to losing the case outright.</dd></div>
+                    <div><dt id="t-adverse-inference">Adverse inference</dt><dd>A sanction where the jury is told it may assume the
+                        destroyed evidence would have hurt the side that destroyed it.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all.
+                        A federal court needs a federal claim, which is why one date decides so much
+                        here.</dd></div>
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose that
+                        point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone said outside court to prove it was true.
+                        Generally not allowed, with many exceptions.</dd></div>
+                    <div><dt id="t-authentication">Authentication</dt><dd>Showing a document or screenshot is genuinely what its
+                        proponent says it is. The bar is low, but it is not nothing.</dd></div>
+                    <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
+                        admissible and still carry very little weight.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>

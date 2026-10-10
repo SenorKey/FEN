@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description" content="People v. Mangione, step by step: every substantive event in the case in the order it happened, built from the public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/people-v-mangione/chronology/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/people-v-mangione/chronology/">
+    <meta property="og:title" content="People v. Mangione, in order &mdash; Case Chronicle">
+    <meta property="og:description" content="People v. Mangione, step by step: every substantive event in the case in the order it happened, built from the public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>People v. Mangione, in order &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="people-v-mangione">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No trial wash on this page, and the reason is the case itself: there
+         has been no trial, in either court, and so there is no sworn
+         testimony to run down the margins. What exists instead is written
+         argument and two judges' opinions, and an opinion is not a side's
+         own words. The layer goes in when the state case is tried, or when
+         the double jeopardy motion is argued on 10 December and there is a
+         transcript of counsel saying these things out loud. Until then the
+         quotations belong on the cards, cited, where a reader can see what
+         document they came from. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The two views sit side by side underneath as halves
+             of one bar, the same pairing as the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/people-v-mangione/">&larr;&nbsp; People v. Mangione</a></p>
+                <p class="eyebrow">N.Y. Sup. Ct., New York Cty., Part 32 &middot; Ind. No. 75657&#8209;24 &nbsp;&middot;&nbsp; S.D.N.Y. &middot; No. 1:25&#8209;cr&#8209;00176</p>
+                <h1 class="masthead-title">People <em>v.</em> Mangione</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" aria-current="page" href="/case-chronicle/people-v-mangione/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/people-v-mangione/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+
+             This page has a problem the other three do not: two
+             prosecutions, two courts, and no single docket that holds
+             the whole story. A filing in one case is routinely the
+             reason for a ruling in the other, and the two judges reach
+             opposite answers on the same backpack.
+
+             The rail is kept anyway, with one adjustment: the left
+             column is whichever government is prosecuting and the
+             middle is whichever court is ruling, and every card says
+             which. The alternative — two parallel timelines — hides
+             exactly the thing this case is about, which is the two
+             cases acting on each other.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <p class="kicker">Chronological View</p>
+                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
+                <p class="section-lede">Every substantive step in both prosecutions, interleaved, from the shooting
+                    through to the last filing in the public record. The rail keeps the page&rsquo;s usual rule &mdash;
+                    one side left, the other right, the court down the middle &mdash; but there are two of each here,
+                    so each card names its court.</p>
+
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk tk-p">Prosecution &middot; state or federal</span>
+                    <span class="tk tk-c">Court &middot; Carro or Garnett</span>
+                    <span class="tk tk-d">Defence</span>
+                    <span class="tk tk-n">Neither &middot; off the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a></span>
+                </div>
+
+                <ol class="tl">
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">The killing, and the arrest</p>
+                            <p class="tl-phase-n">Five days and some two hundred and eighty miles. Almost everything the rest of the case argues about was in a backpack in Altoona.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-n" id="ev-west-54th-street">
+                        <div class="tl-c">
+                            <p class="tl-date">4 Dec 2024</p>
+                            <h3 class="tl-h">West 54th Street</h3>
+                            <p class="tl-b">Brian Thompson, fifty years old and the chief executive of UnitedHealthcare, is shot dead on the pavement outside a midtown Manhattan hotel, early in the morning, on his way into his company&rsquo;s investor conference. He leaves a wife and two sons.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-n" id="ev-a-mcdonald-s-in-altoona">
+                        <div class="tl-c">
+                            <p class="tl-date">9 Dec 2024</p>
+                            <h3 class="tl-h">A McDonald&rsquo;s in Altoona</h3>
+                            <p class="tl-b">Luigi Mangione, twenty-six, is arrested in Altoona, Pennsylvania, after a customer recognises him. Officers find a backpack. Inside it: a firearm fitted with a silencer, a loaded magazine, a forged New Jersey driver&rsquo;s licence, a passport, a phone, and a red spiral notebook of handwritten entries.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-1" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-1">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">Every item on that list is litigated in two courts over the following eighteen months, and the two courts do not agree. The order in which the officers looked in the bag &mdash; at the counter, or later at the station on an inventory form &mdash; is the whole of the dispute, and it is the kind of question that only gets asked because a federal court and a state court were both asking it.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">Charged in three places</p>
+                            <p class="tl-phase-n">Within eleven days he is a defendant in a state court, a federal court, and a Pennsylvania county court. Only one of those three ever gets near a jury.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-the-state-indictment-eleven-counts">
+                        <div class="tl-c">
+                            <p class="tl-date">17 Dec 2024</p>
+                            <h3 class="tl-h">The state indictment &mdash; eleven counts</h3>
+                            <p class="tl-b">A New York County <a class="term" href="#t-grand-jury" data-term="t-grand-jury" title="Grand jury: A panel that hears the prosecution’s evidence in secret and decides whether there is enough to charge. It does not decide guilt.">grand jury</a> returns murder in the first degree in furtherance of an act of terrorism, murder in the second degree as a crime of terrorism, murder in the second degree, seven weapons <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a>, and one count of possessing a forged instrument. Signed by District Attorney Alvin L. Bragg Jr.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-2" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-2">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">Counts one through ten are each pleaded as having happened &ldquo;on or about December 4, 2024.&rdquo; Count eleven is not: the forged New Jersey licence is pleaded as &ldquo;on or about November 24, 2024,&rdquo; ten days before the killing. Nobody had reason to care about that difference for another twenty months. It is now the reason one count of this indictment is going to outlive the other ten whatever happens.</p>
+                                    <p class="tl-cite">Indictment, No. 75657-24 (N.Y. Cty. Sup. Ct.), counts 1&ndash;11</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-a-sealed-federal-complaint">
+                        <div class="tl-c">
+                            <p class="tl-date">18 Dec 2024</p>
+                            <h3 class="tl-h">A sealed federal complaint</h3>
+                            <p class="tl-b">The United States charges him separately in the Southern District of New York: interstate stalking, stalking by electronic communication, murder through use of a firearm, and a firearm-and-silencer count. The first two are the ones that matter in the end; at this point they look like the small ones.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-extradited-and-detained">
+                        <div class="tl-c">
+                            <p class="tl-date">19 Dec 2024</p>
+                            <h3 class="tl-h">Extradited, and detained</h3>
+                            <p class="tl-b">Brought to New York and presented in the federal court the same day. Detention on consent, without prejudice. He is held at the Metropolitan Detention Center in Brooklyn, in federal custody, for the whole of what follows &mdash; which is why, later, a federal judge has to order that he be allowed a suit to wear to a state court hearing.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-and-a-third-prosecution-in-blair-county">
+                        <div class="tl-c">
+                            <p class="tl-date">Dec 2024</p>
+                            <h3 class="tl-h">And a third prosecution, in Blair County</h3>
+                            <p class="tl-b">Pennsylvania charges him over the arrest itself: forgery and carrying a firearm without a licence, both felonies, plus tampering with records, possessing an instrument of crime, and giving a false identification to police.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-3" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-3">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">It never moves. The federal courts decline repeatedly to produce him in Pennsylvania, citing cost and security; a hearing set for November 2025 is cancelled when he will not appear remotely. A Blair County judge treats his unavailability as a waiver of <a class="term" href="#t-rule-600" data-term="t-rule-600" title="Rule 600: Pennsylvania’s speedy-trial rule. It normally requires trial within a year of the complaint, but time a defendant is unavailable does not count against it.">Rule 600</a>, Pennsylvania&rsquo;s speedy-trial rule, and orders the case reported on every sixty days. It is still open and has never been tried. This page does not track it further.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">The capital question</p>
+                            <p class="tl-phase-n">For ten months the federal case is a death penalty case. It stops being one on a point of statutory construction that has nothing to do with what happened on West 54th Street.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-learned-counsel-appointed">
+                        <div class="tl-c">
+                            <p class="tl-date">4 Feb 2025</p>
+                            <h3 class="tl-h"><a class="term" href="#t-learned-counsel" data-term="t-learned-counsel" title="Learned counsel: A lawyer experienced in death penalty cases, appointed at public expense whenever a federal case is capital. Required by statute, not discretionary.">Learned counsel</a> appointed</h3>
+                            <p class="tl-b">Because the federal case is capital, the court appoints Avraham Moskowitz at public expense under 18 U.S.C. &sect;&nbsp;3005, alongside the retained team of Karen Friedman Agnifilo, Marc Agnifilo and Jacob Kaplan. The appointment is a reliable marker of what the case is: it arrives when the case becomes capital and it is withdrawn when it stops being one.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-moving-to-preclude-a-notice-that-has-not">
+                        <div class="tl-c">
+                            <p class="tl-date">11 Apr 2025</p>
+                            <h3 class="tl-h">Moving to preclude a notice that has not been filed</h3>
+                            <p class="tl-b">The defence asks the court to bar the government from seeking death before the government has said it will. The motion is later denied as moot, without prejudice, once the notice actually arrives.</p>
+                            <p class="tl-cite">ECF No. 16</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-the-federal-indictment-four-counts">
+                        <div class="tl-c">
+                            <p class="tl-date">17 Apr 2025</p>
+                            <h3 class="tl-h">The federal indictment &mdash; four counts</h3>
+                            <p class="tl-b">Counts One and Two: stalking, by interstate travel and by electronic communication, each with death resulting, each carrying a maximum of life. Count Three: murder through use of a firearm, 18 U.S.C. &sect;&nbsp;924(j). Count Four: use of a firearm, brandished, discharged and silenced, &sect;&nbsp;924(c). Count Three is the only count in any of the three cases that could carry a death sentence.</p>
+                            <p class="tl-cite">ECF No. 22</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-notice-of-intent-to-seek-the-death-penalty">
+                        <div class="tl-c">
+                            <p class="tl-date">24 Apr 2025</p>
+                            <h3 class="tl-h">Notice of intent to seek the death penalty</h3>
+                            <p class="tl-b">Filed the day before the <a class="term" href="#t-arraignment" data-term="t-arraignment" title="Arraignment: The hearing where a defendant is formally told the charges and enters a plea to them.">arraignment</a>.</p>
+                            <p class="tl-cite">ECF No. 25</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-arraigned-in-the-federal-case">
+                        <div class="tl-c">
+                            <p class="tl-date">25 Apr 2025</p>
+                            <h3 class="tl-h">Arraigned in the federal case</h3>
+                            <p class="tl-b">Not guilty on all four counts. The court sets a motions schedule and says what it intends to do about the trial date, in terms the parties go on quoting back to it for the next year.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-4" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-4">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">&ldquo;But my goal will be to leave that December 5 conference with a firm trial date set for 2026,&rdquo; and &ldquo;barring some request otherwise, my intention is that we will set a schedule for this case as if it&rsquo;s the only case.&rdquo; It was not the only case, and the second half of that sentence is what the fight over who goes first is about.</p>
+                                    <p class="tl-cite">4/25/25 Tr. at 12, 17, quoted at ECF No. 108</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">The state case narrows</p>
+                            <p class="tl-phase-n">The terrorism theory does not survive the first serious look at it, and with it goes any possibility of life without parole in New York.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-the-state-omnibus-motion-including-double">
+                        <div class="tl-c">
+                            <p class="tl-date">May 2025</p>
+                            <h3 class="tl-h">The state omnibus motion &mdash; including double jeopardy, first time</h3>
+                            <p class="tl-b">The defence moves in state court to suppress the backpack and his statements, to bar identification testimony from witnesses who had grown familiar with surveillance footage, to dismiss the terrorism counts as unsupported by the grand jury evidence, and to dismiss the whole case on double jeopardy and constitutional grounds.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-5" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-5">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">Worth marking clearly, because it is the single most misreported thing about this case: the double jeopardy argument is not new, and it did not arrive with the plea. It was made here, in May 2025, and it lost. It lost because New York&rsquo;s statute bars a <em>second</em> prosecution, and in May 2025 there had not yet been a first one that ended in anything. The argument was not wrong. It was early.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-carro-j-the-terrorism-counts-are-legally">
+                        <div class="tl-c">
+                            <p class="tl-date">16 Sept 2025</p>
+                            <h3 class="tl-h">Carro, J.: the terrorism counts are <a class="term" href="#t-legally-insufficient" data-term="t-legally-insufficient" title="Legally insufficient: The evidence put before the grand jury, taken at its best, could not establish an element of the charge. The count goes without any finding about whether the defendant did it.">legally insufficient</a></h3>
+                            <p class="tl-b">Counts one and two are dismissed. The court finds nothing in the grand jury record establishing the element the terrorism statutes require &mdash; an intent to intimidate a civilian population or to coerce a government.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-6" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-6">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">&ldquo;There was no evidence presented that the defendant made any demands of government or sought any particular governmental policy change, let alone that he did so by intimidation or coercion.&rdquo;</p>
+                                    <p class="tl-x-t">The practical effect is a sentencing one. Murder in the first degree in New York carries life without parole; murder in the second degree carries twenty-five years to life, and is parole-eligible. From this date forward the state case is the less severe of the two in its maximum exposure &mdash; the federal stalking counts each carry life &mdash; which is worth holding onto, because it makes the plea eleven months later harder to read as simple damage control.</p>
+                                    <p class="tl-cite">Decision and order, 16 Sept 2025, Part 32</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-moving-to-dismiss-over-what-the-attorney">
+                        <div class="tl-c">
+                            <p class="tl-date">20 Sept 2025</p>
+                            <h3 class="tl-h">Moving to dismiss over what the Attorney General said</h3>
+                            <p class="tl-b">In the federal case, the defence moves to dismiss on the basis of public statements by senior Department of Justice officials, attaching a press release and an Instagram post by the Attorney General as exhibits.</p>
+                            <p class="tl-cite">ECF No. 51, Exs. 1&ndash;2</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-garnett-j-puts-the-department-of-justice-on">
+                        <div class="tl-c">
+                            <p class="tl-date">24 Sept 2025</p>
+                            <h3 class="tl-h">Garnett, J. puts the Department of Justice on notice</h3>
+                            <p class="tl-b">The court finds that statements by two high-ranking Department staff, including within the Office of the Attorney General, &ldquo;appear to be in direct violation&rdquo; of Local Criminal Rule 23.1 and of its own April order, and orders a sworn declaration explaining how it happened.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-7" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-7">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">The order requires the declaration to come from &ldquo;a person of suitable authority&rdquo; &mdash; naming the Acting U.S. Attorney as the floor, &ldquo;if not an official at Main Justice&rdquo; &mdash; and directs the government to advise the Deputy Attorney General that future violations &ldquo;may result in sanctions, which could include personal financial penalties, contempt of court findings, or relief specific to the prosecution of this matter,&rdquo; and to confirm that the message was passed on. A declaration from the Acting U.S. Attorney follows on 8 October.</p>
+                                    <p class="tl-cite">ECF No. 53; response and declaration at ECF No. 56</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-dismiss-counts-three-and-four">
+                        <div class="tl-c">
+                            <p class="tl-date">11 Oct 2025</p>
+                            <h3 class="tl-h">Dismiss Counts Three and Four</h3>
+                            <p class="tl-b">The motion that decides whether this is a death penalty case, and it is almost entirely technical. Counts Three and Four both require a <a class="term" href="#t-predicate" data-term="t-predicate" title="Predicate offence: An offence that another, more serious charge is built on top of. If the predicate fails as a matter of law, the charge built on it fails with it.">predicate offence</a> that is a <a class="term" href="#t-crime-of-violence" data-term="t-crime-of-violence" title="Crime of violence: For these statutes, a felony that has as an element the use, attempted use, or threatened use of physical force against the person or property of another.">crime of violence</a>. The only predicate alleged is the federal stalking charged in Counts One and Two. The defence says stalking does not qualify.</p>
+                            <p class="tl-cite">ECF No. 59</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-state-suppression-hearings-begin">
+                        <div class="tl-c">
+                            <p class="tl-date">1 Dec 2025</p>
+                            <h3 class="tl-h">State suppression hearings begin</h3>
+                            <p class="tl-b">Days of testimony in Part 32 about the Altoona arrest. Partway through, the People withdraw his interrogation statements altogether, over a problem with Pennsylvania&rsquo;s law on recording.</p>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">Thirty days in January</p>
+                            <p class="tl-phase-n">The federal case stops being capital, the two courts split on the backpack, and the District Attorney starts trying to get to a jury first. Everything after this follows from this month.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-argued">
+                        <div class="tl-c">
+                            <p class="tl-date">9 Jan 2026</p>
+                            <h3 class="tl-h">Argued</h3>
+                            <p class="tl-b">Oral argument on Counts Three and Four. The court also sets out the shape it has in mind for jury selection, with trial dates that depend on whether the case is still capital when it gets there.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-the-district-attorney-asks-to-go-first">
+                        <div class="tl-c">
+                            <p class="tl-date">28 Jan 2026</p>
+                            <h3 class="tl-h">The District Attorney asks to go first</h3>
+                            <p class="tl-b">Bragg&rsquo;s office writes to Carro, J. asking for a state trial on 1 July 2026 &mdash; ahead of the federal case. New York has primary jurisdiction, having arrested him first, and the letter is the first open move in a fight about sequence that runs for the next six months.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-a-hearing-about-an-inventory-form">
+                        <div class="tl-c">
+                            <p class="tl-date">23 Jan 2026</p>
+                            <h3 class="tl-h">A hearing about an inventory form</h3>
+                            <p class="tl-b">Garnett, J. orders the government to produce an Altoona police officer who can speak to the Department&rsquo;s December 2024 procedures for securing and inventorying the property of someone arrested in a public place &mdash; adding that the witness &ldquo;need not have had any personal involvement in the Defendant&rsquo;s arrest,&rdquo; because the question is about the procedure and not about him.</p>
+                            <p class="tl-cite">ECF Nos. 90, 91</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-two-opinions-the-same-morning">
+                        <div class="tl-c">
+                            <p class="tl-date">30 Jan 2026</p>
+                            <h3 class="tl-h">Two opinions, the same morning</h3>
+                            <p class="tl-b">The first denies suppression of the backpack and everything in it. The second dismisses Counts Three and Four. Between them they take the death penalty off the table and leave the evidence in &mdash; and the reasoning in the second one is the reason the state case is now in trouble.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-8" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-8">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">On the backpack: suppression is denied on three independent grounds &mdash; the loaded magazine found in a pre-transport safety search, the rest recovered in an inventory search at the station, and in any event the inevitable discovery of all of it under the federal search warrant, &ldquo;even excising references to any items found or seen after the magazine, firearm, and/or silencer were found.&rdquo;</p>
+                                    <p class="tl-x-t">On Counts Three and Four, the court is unusually direct about what it is being made to do. &ldquo;The Court would be remiss not to note at the outset the apparent absurdity of the inquiry.&rdquo; The defendant is charged with selecting a stranger to kill based on his employment, planning it, travelling across states to do it, and shooting him on a public street with a silenced handgun: &ldquo;No one could seriously question that this is violent criminal conduct.&rdquo; But the <a class="term" href="#t-categorical" data-term="t-categorical" title="Categorical approach: A method that ignores what the defendant actually did and asks only whether the offence, as written, always requires force — judged by the least serious conduct the statute could cover.">categorical approach</a> forbids looking at the conduct, and asks instead about &ldquo;the hypothetically least serious conduct that the charged crime could possibly cover.&rdquo;</p>
+                                    <p class="tl-x-t">Run that way, federal stalking fails twice over: the only element that could supply force can be committed recklessly, which is not enough, and the statute can be satisfied by a threat of self-harm, which is not force &ldquo;against the person of another&rdquo; at all. So stalking is not a crime of violence, so it cannot be the predicate, so Counts Three and Four go &mdash; and with them the only capital exposure anywhere in the case.</p>
+                                    <p class="tl-x-t">&ldquo;The analysis contained in the balance of this Opinion may strike the average person &mdash; and indeed many lawyers and judges &mdash; as tortured and strange, and the result may seem contrary to our intuitions about the criminal law. But it represents the Court&rsquo;s committed effort to faithfully apply the dictates of the Supreme Court to the charges in this case. The law must be the Court&rsquo;s only concern.&rdquo;</p>
+                                    <p class="tl-cite">ECF Nos. 102 (backpack), 103 (Counts Three and Four)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-carro-j-moves-the-state-trial-up">
+                        <div class="tl-c">
+                            <p class="tl-date">6 Feb 2026</p>
+                            <h3 class="tl-h">Carro, J. moves the state trial up</h3>
+                            <p class="tl-b">The defence files the federal scheduling order in state court, showing Carro, J. that federal jury selection is set for 8 September. He responds by moving the state trial forward, from a date in the autumn to 8 June 2026.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-9" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-9">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">The defence then reports all of this back to the federal court, with an edge to it: the federal schedule had been set in open court and &ldquo;extensively reported in the media,&rdquo; and yet &ldquo;the District Attorney&rsquo;s Office did not write to Justice Carro or this Court at the time to address the state prosecutors&rsquo; concerns with a 2026 federal trial date. Given the above, the defense has been preparing for a federal trial.&rdquo;</p>
+                                    <p class="tl-cite">ECF No. 108 and Ex. A</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-double-jeopardy-by-any-common-sense">
+                        <div class="tl-c">
+                            <p class="tl-date">Feb 2026</p>
+                            <h3 class="tl-h">&ldquo;Double jeopardy by any common sense&rdquo;</h3>
+                            <p class="tl-b">Being escorted out of a New York courtroom, Mangione is heard objecting to the prospect of back-to-back trials: &ldquo;It&rsquo;s the same trial twice. One plus one is two. Double jeopardy by any common sense.&rdquo; His counsel says double jeopardy is being used as a weapon against him.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-10" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-10">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">It is not a filing and it decides nothing, and it is on this page for one reason: it is an accurate statement of the <em>constitutional</em> position and an accurate statement of why that position loses. Under <a class="term" href="#t-dual-sovereignty" data-term="t-dual-sovereignty" title="Dual sovereignty: The doctrine that a state and the federal government are separate sovereigns, so a prosecution by each for the same conduct is not the same offence under the Fifth Amendment.">dual sovereignty</a>, two prosecutions by two sovereigns are not the same offence, however much they look like the same trial. What saves the argument is not the Constitution but a New York statute, and the statute needs a conviction before it does anything.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-p" id="ev-the-government-will-not-appeal">
+                        <div class="tl-c">
+                            <p class="tl-date">27 Feb 2026</p>
+                            <h3 class="tl-h">The government will not appeal</h3>
+                            <p class="tl-b">Having been given a month to decide whether to take an <a class="term" href="#t-interlocutory" data-term="t-interlocutory" title="Interlocutory appeal: An appeal taken in the middle of a case, before final judgment, usually only where a statute allows it.">interlocutory appeal</a> of the dismissal, the government writes to say it will not. The federal case ceases to be capital for good. Learned counsel is relieved in April, with the court&rsquo;s thanks.</p>
+                            <p class="tl-cite">ECF Nos. 113, 114, 129</p>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">The race to go first, and who won it</p>
+                            <p class="tl-phase-n">Both trial dates move four times between them. In June the federal court yields and the state case gets what the District Attorney had asked for.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-both-trials-move-on-the-same-day">
+                        <div class="tl-c">
+                            <p class="tl-date">1 Apr 2026</p>
+                            <h3 class="tl-h">Both trials move, on the same day</h3>
+                            <p class="tl-b">The state trial is adjourned from 8 June to 8 September 2026. Hours later the federal court reshuffles its own schedule around that: in-person voir dire on 13 October, openings on 4 November, with January 2027 dates held in reserve &ldquo;should a further adjournment of the trial become necessary.&rdquo;</p>
+                            <p class="tl-cite">ECF No. 124</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-carro-j-splits-the-backpack-the-other-way">
+                        <div class="tl-c">
+                            <p class="tl-date">18 May 2026</p>
+                            <h3 class="tl-h">Carro, J. splits the backpack the other way</h3>
+                            <p class="tl-b">The firearm and the red notebook are admissible, recovered under the Altoona Department&rsquo;s own protocol. But what came out of the first search, at the counter in the McDonald&rsquo;s, is suppressed &mdash; a loaded magazine, a passport, a wallet, a phone, a computer chip &mdash; because officers went into the bag without a warrant when he was already detained and surrounded. Pre-Miranda statements go too.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-11" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-11">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">So the two courts look at one backpack and give two answers. Garnett, J. denied suppression outright on 30 January; Carro, J. grants it in part on 18 May. Neither is obviously wrong &mdash; they are applying different records, and the federal ruling leans on a federal warrant the state case does not have &mdash; and nothing turns on the disagreement now that the federal case is over. It is here because it is the cleanest illustration of what running one killing through two systems actually produces: not a double punishment, but two different sets of facts.</p>
+                                    <p class="tl-x-t">What survives in state court is also what matters most. Whatever the notebook is taken to show, it is in.</p>
+                                    <p class="tl-cite">Decision and order, 18 May 2026, Part 32</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-the-federal-trial-yields">
+                        <div class="tl-c">
+                            <p class="tl-date">29 Jun 2026</p>
+                            <h3 class="tl-h">The federal trial yields</h3>
+                            <p class="tl-b">Garnett, J. adjourns the federal trial to 25 January 2027, with voir dire from 5 January. The state case will go first, on 8 September, by a clear four months. This is the posture that makes everything in August possible.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-12" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-12">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">It is worth stopping on this, because it is where the case turns and it does not look like it at the time. The District Attorney spent five months arguing for the right to try him first, and won. The consequence of winning is that on 29 June the federal case becomes the one that is not about to happen &mdash; and therefore the one that can be ended unilaterally, by a defendant, at a moment of his choosing, without anybody&rsquo;s agreement. Six weeks later that is exactly what happens.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="tl-phase">
+                        <div class="tl-phase-in">
+                            <p class="tl-phase-l">Four days in August</p>
+                            <p class="tl-phase-n">He pleads guilty in the case that was five months away, and the case that was three weeks away stops.</p>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                        <div class="tl-c">
+                            <p class="tl-date">14 Aug 2026</p>
+                            <h3 class="tl-h">&ldquo;I shot Mr. Thompson in Manhattan and he died&rdquo;</h3>
+                            <p class="tl-b">An <a class="term" href="#t-open-plea" data-term="t-open-plea" title="Open plea: A guilty plea entered with no agreement from the prosecution — no charge concessions, no sentencing recommendation. The defendant gives up the trial and keeps none of the usual consideration for it.">open plea</a> to Counts One and Two: guilty to both federal stalking counts, with no plea agreement, no charges dropped, and nothing conceded by the government in return. Maximum exposure, life. He tells the court he knew what he was doing was illegal. Sentencing is set for 18 December 2026, a presentence report ordered, detention continued.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-13" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-13">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">The timing is the whole of it. This is three and a half weeks before the state murder trial and five months before his own federal trial. He pleaded guilty, without consideration, in the case that was not about to start, and in doing so admitted on the record to the killing that the case about to start was going to be about.</p>
+                                    <p class="tl-x-t">An open plea is normally a bad trade: the defendant surrenders the trial and receives nothing for it. It stops looking like a bad trade if what he is buying is not leniency but a conviction &mdash; because a conviction is the one thing New York&rsquo;s double jeopardy statute needs before it can bar anything. That reading is an inference, not something either side has said on the record, and it is marked as an inference here.</p>
+                                    <p class="tl-cite">Change of plea, 14 Aug 2026; minute entry and oral order</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-d" id="ev-and-within-hours-a-motion-to-end-the-state">
+                        <div class="tl-c">
+                            <p class="tl-date">14 Aug 2026</p>
+                            <h3 class="tl-h">And, within hours, a motion to end the state case</h3>
+                            <p class="tl-b">Filed the same day in Part 32: dismiss counts three through ten &mdash; the murder count and every weapons count &mdash; under New York&rsquo;s double jeopardy statute and on due process grounds, together with a renewed suppression application.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-14" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-14">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">Counts three through ten, and not count eleven. The forged licence is pleaded as 24 November 2024 and belongs to a different <a class="term" href="#t-criminal-transaction" data-term="t-criminal-transaction" title="Criminal transaction: Conduct closely connected enough in time and purpose to count as one episode. New York’s double jeopardy statute works on transactions, not just on single acts.">criminal transaction</a> from the one the federal case covered, so there is nothing for the statute to bar. If the motion succeeds completely, what is left of this indictment is one count of carrying a fake New Jersey driver&rsquo;s licence.</p>
+                                    <p class="tl-x-t">Karen Friedman Agnifilo, for the defence: &ldquo;New York law does not permit a person to be prosecuted and punished twice for the exact same crime under a statute that covers successive prosecutions.&rdquo;</p>
+                                    <p class="tl-cite">Motion to dismiss, 14 Aug 2026, Part 32</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-the-state-trial-does-not-happen">
+                        <div class="tl-c">
+                            <p class="tl-date">17 Aug 2026</p>
+                            <h3 class="tl-h">The state trial does not happen</h3>
+                            <p class="tl-b">Carro, J.&rsquo;s order is three sentences long and never uses the word adjourned: the People respond by 9 October 2026, the defence may reply by 30 October, and &ldquo;the next adjourn date will be December 10, 2026.&rdquo; The trial set for 8 September cannot go ahead while the motion is undecided, and so it simply does not.</p>
+                            <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-15" hidden>
+                                <span class="tl-more-i" aria-hidden="true"></span>
+                                <span class="tl-more-l">More</span>
+                            </button>
+                            <div class="tl-x" id="tlx-15">
+                                <div class="tl-x-in">
+                                    <p class="tl-x-t">A spokesperson for the District Attorney&rsquo;s office says it will litigate the defence motions, and that the office &ldquo;remains committed to seeking justice for Mr. Thompson and his family.&rdquo; That is a position, not an argument, and the argument is not due until 9 October &mdash; which is why the Side by side section of the case page is empty.</p>
+                                    <p class="tl-cite">Order, 17 Aug 2026, Part 32</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="tl-ev tl-court" id="ev-two-transcripts-unsealed">
+                        <div class="tl-c">
+                            <p class="tl-date">28 Aug 2026</p>
+                            <h3 class="tl-h">Two transcripts unsealed</h3>
+                            <p class="tl-b">The federal court unseals the transcripts of its June and August conferences, with redactions, weighing &ldquo;the presumption of public access to judicial documents against the countervailing privacy interests.&rdquo; It is the last entry on the federal docket.</p>
+                            <p class="tl-cite">ECF No. 145, citing <em>Lugosch v. Pyramid Co. of Onondaga</em>, 435 F.3d 110 (2d Cir. 2006)</p>
+                        </div>
+                    </li>
+
+                    <li class="tl-end">
+                        <div class="tl-end-in">
+                            <p class="tl-end-d">1 Oct 2026 &middot; the record ends</p>
+                            <h3 class="tl-end-h">Three dates, none of them reached</h3>
+                            <ul class="tl-open">
+                                <li class="is-major"><span class="o-d">9 Oct 2026</span><span class="o-t">The People&rsquo;s response to the <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> motion</span></li>
+                                <li><span class="o-d">30 Oct 2026</span><span class="o-t">The defence reply</span></li>
+                                <li class="is-major"><span class="o-d">10 Dec 2026</span><span class="o-t">Next appearance in Part 32</span></li>
+                                <li class="is-major"><span class="o-d">18 Dec 2026</span><span class="o-t">Federal sentencing, Counts One and Two</span></li>
+                            </ul>
+                            <p class="tl-end-n">This page closes eight days before the People file the only document that matters. Nothing in the public record yet contains the argument that New York is entitled to try him anyway, and so nothing on this page states it.</p>
+                        </div>
+                    </li>
+                </ol>
+
+                <p class="tl-close">Read as a whole, the case is a sequence of wins that each cost the winner something.
+                    The defence beat the terrorism counts, and in doing so reduced the state case to the one New York
+                    could most easily retry. It beat the capital counts, and in doing so established that the federal
+                    case is about stalking rather than violence &mdash; which is the premise the People now need. The
+                    District Attorney won the right to go first, and in doing so left the federal case idle and
+                    available to be closed by the defendant alone. None of those were mistakes. They were just moves
+                    in two games at once, scored in one.</p>
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/people-v-mangione/" aria-label="Back to the case page for People v. Mangione">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">People v. Mangione, No. 75657-24 (N.Y. Sup. Ct., N.Y. Cty.) &middot; United States v. Mangione, No. 1:25-cr-00176 (S.D.N.Y.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the courts use them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a federal filing is cited: its docket number. A number after a
+                        dash, like 59-2, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>The document a grand jury returns to start a felony
+                        prosecution. It lists the charges and nothing else; it is not evidence of anything.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charged offence. An indictment with eleven counts charges eleven
+                        separate offences, and a jury answers for each one separately.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A panel that hears the prosecution&rsquo;s evidence in
+                        secret and decides whether there is enough to charge. It does not decide guilt.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by page and
+                        line, so 12:7 means page 12, line 7.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-arraignment">Arraignment</dt><dd>The hearing where a defendant is formally told the charges
+                        and enters a plea to them.</dd></div>
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side files
+                        an <em>opposition</em> or <em>response</em>; the moving side may then <em>reply</em>.</dd></div>
+                    <div><dt id="t-suppression">Suppression</dt><dd>Keeping evidence out of a trial because of how it was
+                        obtained. The evidence may be entirely genuine; the question is only whether the police were
+                        entitled to get it that way.</dd></div>
+                    <div><dt id="t-inventory-search">Inventory search</dt><dd>A search of a detained person&rsquo;s property to
+                        log what is in it, done to a standard procedure rather than to look for evidence. Lawful without a
+                        warrant, which is why the procedure itself gets litigated.</dd></div>
+                    <div><dt id="t-miranda">Miranda warnings</dt><dd>The caution police must give before questioning someone in
+                        custody. Answers given before it are generally inadmissible; answers to routine booking or safety
+                        questions generally are not affected.</dd></div>
+                    <div><dt id="t-voir-dire">Voir dire</dt><dd>The questioning of prospective jurors before a trial, to decide
+                        who sits on it.</dd></div>
+                    <div><dt id="t-interlocutory">Interlocutory appeal</dt><dd>An appeal taken in the middle of a case, before
+                        final judgment, usually only where a statute allows it.</dd></div>
+                    <div><dt id="t-psi">Presentence report</dt><dd>An investigation by the probation office, ordered after
+                        conviction, that the judge reads before sentencing.</dd></div>
+                    <div><dt id="t-learned-counsel">Learned counsel</dt><dd>A lawyer experienced in death penalty cases,
+                        appointed at public expense whenever a federal case is capital. Required by statute, not
+                        discretionary &mdash; so the appointment arriving and being withdrawn marks when a case was and was
+                        not capital.</dd></div>
+                    <div><dt id="t-primary-jurisdiction">Primary jurisdiction</dt><dd>Which of two governments holding claims on
+                        the same defendant gets to deal with him first. It usually follows who arrested him.</dd></div>
+                    <div><dt id="t-rule-600">Rule 600</dt><dd>Pennsylvania&rsquo;s speedy-trial rule. It normally requires trial
+                        within a year of the complaint, but time a defendant is unavailable does not count against
+                        it.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Pleas</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-open-plea">Open plea</dt><dd>A guilty plea entered with no agreement from the prosecution
+                        &mdash; no charge concessions, no sentencing recommendation. The defendant gives up the trial and
+                        keeps none of the usual consideration for it.</dd></div>
+                    <div><dt id="t-plea-agreement">Plea agreement</dt><dd>The usual arrangement: a plea in exchange for
+                        something, normally dropped charges or a position on sentence. There was none here.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The tests in this case</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-double-jeopardy">Double jeopardy</dt><dd>The bar on being prosecuted twice for the same
+                        offence. New York&rsquo;s statutory version is broader than the Fifth Amendment&rsquo;s and reaches
+                        across sovereigns.</dd></div>
+                    <div><dt id="t-dual-sovereignty">Dual sovereignty</dt><dd>The doctrine that a state and the federal
+                        government are separate sovereigns, so a prosecution by each for the same conduct is not the same
+                        offence under the Fifth Amendment.</dd></div>
+                    <div><dt id="t-criminal-transaction">Criminal transaction</dt><dd>Conduct closely connected enough in time
+                        and purpose to count as one episode. New York&rsquo;s double jeopardy statute works on transactions,
+                        not just on single acts &mdash; which is why the date on a count matters.</dd></div>
+                    <div><dt id="t-crime-of-violence">Crime of violence</dt><dd>For these statutes, a felony that has as an
+                        element the use, attempted use, or threatened use of physical force against the person or property
+                        of another.</dd></div>
+                    <div><dt id="t-predicate">Predicate offence</dt><dd>An offence that another, more serious charge is built on
+                        top of. If the predicate fails as a matter of law, the charge built on it fails with it.</dd></div>
+                    <div><dt id="t-categorical">Categorical approach</dt><dd>A method that ignores what the defendant actually
+                        did and asks only whether the offence, as written, always requires force &mdash; judged by the least
+                        serious conduct the statute could cover.</dd></div>
+                    <div><dt id="t-legally-insufficient">Legally insufficient</dt><dd>The evidence put before the grand jury,
+                        taken at its best, could not establish an element of the charge. The count goes without any finding
+                        about whether the defendant did it.</dd></div>
+                    <div><dt id="t-armed-felony">Armed felony</dt><dd>A New York classification attaching to certain offences
+                        committed with a loaded weapon. It restricts what sentence and what plea are available.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>

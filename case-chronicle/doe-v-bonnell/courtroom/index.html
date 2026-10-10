@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This page deliberately does not load /assets/css/styles.css. The shared
+         shell pins the body to 100vh with overflow hidden for the golden-ratio
+         layout; this is a long-form scrolling document. The nav, skip link and
+         design tokens are ported into chronicle.css so the page still reads
+         as part of the site. Same precedent as /preside-by-side/.
+
+         chronicle.css and chronicle.js are shared by every case in the
+         Chronicle. Nothing in either names a case; what is specific to this
+         one lives in this file. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <!-- IBM Plex Sans takes the body and JetBrains Mono the docket citations,
+         dates and labels, in one request. The display face is Fraunces, which
+         the stylesheet self-hosts from /assets/fonts: the CDN build ships
+         without the SOFT and WONK axes, and those are the two doing the work
+         at display size. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Doe v. Bonnell as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <!-- A preview of a view that is still being built. Out of the
+         index until it is finished. -->
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/doe-v-bonnell/courtroom/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/doe-v-bonnell/courtroom/">
+    <meta property="og:title" content="Doe v. Bonnell, the courtroom — Case Chronicle">
+    <meta property="og:description"
+        content="Doe v. Bonnell as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Doe v. Bonnell, the courtroom — Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="doe-v-bonnell">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The two views sit side by side underneath as halves
+             of one bar, the same pairing as the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/doe-v-bonnell/">&larr;&nbsp; Doe v. Bonnell</a></p>
+                <p class="eyebrow">United States District Court &middot; Southern District of Florida &middot; No.
+                    1:25-cv-20757-JB</p>
+                <h1 class="masthead-title">Doe <em>v.</em> Bonnell</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/doe-v-bonnell/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The courtroom, from above
+
+             A preview. The plan is the same for every case: a bench, a
+             stand, a jury box, two tables, the bar and the gallery. What
+             differs is the list of people underneath it, which is plain
+             markup and is the whole of this page's data: who, in which
+             seat, and between which entries of the chronology.
+
+             The script reads that list, reads the chronology page for
+             the moments, and seats people accordingly. With no script
+             the plan is drawn empty and the list is simply a list.
+
+             Left is the side that filed, as everywhere else here, which
+             is also where a real courtroom puts it: the party carrying
+             the burden sits nearest the jury.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-room" id="courtroom" aria-labelledby="cr-h">
+            <div class="wrap">
+                <p class="kicker">Courtroom View &middot; Preview</p>
+                <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
+                <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, who was only on a screen, and which parts of it stood empty.</p>
+                <p class="cr-build"><strong>Still being built.</strong> A filled circle is someone a source places
+                    in the room that day: a minute entry, a transcript, a photograph or a report, linked from the
+                    card. A hollow one is someone who was part of the case at that point and is not recorded in
+                    the room, which on most dates is because nothing happened in court at all. A question mark
+                    explains a part of the room. The plan is a plain one and not a drawing of the real courtroom.</p>
+
+                <div class="cr" data-chronology="/case-chronicle/doe-v-bonnell/chronology/" data-opens="ev-complaint-filed">
+
+                    <!-- The bar of moments. Empty here and hidden: it is built
+                         from the chronology, which only the script can fetch. -->
+                    <div class="ct" hidden>
+                        <button class="ct-step ct-prev" type="button" aria-label="Previous event">
+                            <span class="ct-step-a" aria-hidden="true">&larr;</span>
+                            <span class="ct-step-l">Previous</span>
+                        </button>
+                        <div class="ct-track" role="slider" tabindex="0" aria-label="Moment in the case"
+                            aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+                            <div class="ct-ticks"></div>
+                            <div class="ct-line"></div>
+                        </div>
+                        <button class="ct-step ct-next" type="button" aria-label="Next event">
+                            <span class="ct-step-l">Next</span>
+                            <span class="ct-step-a" aria-hidden="true">&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="cr-cols">
+                        <div class="cr-fig">
+                            <div class="cr-plan">
+                            <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true" focusable="false">
+                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
+                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+
+                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
+                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+
+                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
+                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+
+                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
+                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+
+                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+
+                            <!-- The parts of the room, for the script to measure. Never drawn. -->
+                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
+                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+
+                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
+                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
+                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                        </svg>
+                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
+                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
+                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
+                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
+                        <span class="cr-lab" style="left:39.34%;top:45%">Plaintiff</span>
+                        <span class="cr-lab" style="left:66.97%;top:45%">Defendant</span>
+                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
+                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            </div>
+
+                            <!-- What the marks mean. Hidden until the script has
+                                 drawn any, since without it there are none. -->
+                            <ul class="cr-key" hidden>
+                                <li><i class="cr-k cr-k-in"></i>In the room</li>
+                                <li><i class="cr-k cr-k-remote"></i>By video</li>
+                                <li><i class="cr-k cr-k-case"></i>In the case, not recorded in the room</li>
+                                <li><i class="cr-k cr-k-q">?</i>About this part of the room</li>
+                            </ul>
+                        </div>
+
+                        <div class="cr-side">
+                            <div class="cm" hidden>
+                                <p class="cm-meta"><span class="cm-n"></span><span class="cm-date"></span><span class="cm-who"></span></p>
+                                <h3 class="cm-h"></h3>
+                                <p class="cm-b"></p>
+                                <p class="cm-room"></p>
+                                <a class="cm-link" href="/case-chronicle/doe-v-bonnell/chronology/">Read this entry in the Chronological View <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+
+                            <div class="cr-list">
+                                <h3 class="cr-cast-h">In the room</h3>
+                                <ul class="cr-cast">
+                                <li class="cr-who" id="cr-p1" data-seat="judge-l" data-side="court" data-in="ev-restraining-order-denied ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">The district judge</p>
+                                    <p class="cr-name">Becerra, J.</p>
+                                    <p class="cr-note">Jacqueline Becerra, the judge the case is assigned to. Took the hearings of 4 April 2025, 21 April 2026, 19 August 2026 and 2 October 2026.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge-r" data-side="court" data-in="ev-evidentiary-hearing">
+                                    <p class="cr-role">The magistrate judge</p>
+                                    <p class="cr-name">Torres, M.J.</p>
+                                    <p class="cr-note">Edwin G. Torres, to whom pre-trial matters are referred. Heard the evidence on 3 June 2025 and took the motion away to write a recommendation, which the district judge then decides.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="rep" data-side="n" data-at="ev-restraining-order-denied ev-evidentiary-hearing ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion" data-in="*">
+                                    <p class="cr-role">Court staff</p>
+                                    <p class="cr-name">The court reporter</p>
+                                    <p class="cr-note">Each minute entry names the reporter who took the hearing down. The transcript of 3 June 2025 runs to 140 pages.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=90&entry_lte=90" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the docket entry on CourtListener">90</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="p1" data-side="p" data-not="ev-evidentiary-hearing">
+                                    <p class="cr-role">The plaintiff</p>
+                                    <p class="cr-name">Jane Doe</p>
+                                    <p class="cr-note">Sues under a name the court allowed on 20 February 2025, two days after the complaint. The record places her in the room once, on 3 June 2025.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="stand-a" data-side="p" data-at="ev-evidentiary-hearing" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Jane Doe</p>
+                                    <p class="cr-note">Sworn and testified. She said she had never personally seen a record of any transmission after October 2022.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="p2" data-side="p" data-from="ev-restraining-order-denied" data-in="ev-restraining-order-denied ev-evidentiary-hearing ev-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the plaintiff</p>
+                                    <p class="cr-name">Carlos A. Garcia Perez</p>
+                                    <p class="cr-note">Lead counsel on the docket, of SMGQ Law in Coral Gables. In court on 4 April 2025, 3 June 2025 and 19 August 2026.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>; <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/parties/doe-v-bonnell/" target="_blank" rel="noopener" aria-label="The docket&rsquo;s list of parties and attorneys, opens on CourtListener">parties and attorneys</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="p3" data-side="p" data-from="ev-restraining-order-denied" data-in="ev-restraining-order-denied ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the plaintiff</p>
+                                    <p class="cr-name">Joan Schlump Peters</p>
+                                    <p class="cr-note">Of JSP Law in Naples, Florida, admitted for this case. In court at four of the five hearings.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="p4" data-side="p" data-from="ev-evidentiary-hearing" data-in="ev-evidentiary-hearing ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the plaintiff</p>
+                                    <p class="cr-name">Gustavo D. Lage</p>
+                                    <p class="cr-note">Of the same Coral Gables firm as lead counsel. In court at every hearing from 3 June 2025 on.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="d1" data-side="d" data-not="ev-evidentiary-hearing ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">The defendant</p>
+                                    <p class="cr-name">Bonnell</p>
+                                    <p class="cr-note">The record places him in the room twice, both times to give evidence: 3 June 2025 and 2 October 2026.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="stand-b" data-side="d" data-at="ev-evidentiary-hearing" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Bonnell</p>
+                                    <p class="cr-note">Sworn and testified. He said he never obtained verbal or written consent to share the video, but believed the context of their exchanges implied it.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="stand-a" data-side="d" data-at="ev-evidentiary-hearing-on-the-spoliation-motion" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Bonnell</p>
+                                    <p class="cr-note">One of two witnesses sworn. The minute entry says an order will follow.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="stand-b" data-side="p" data-at="ev-evidentiary-hearing-on-the-spoliation-motion" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Jesus Pe&ntilde;a</p>
+                                    <p class="cr-note">The plaintiff&rsquo;s forensic expert, and the other witness sworn that day.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="d2" data-side="d" data-from="ev-restraining-order-denied" data-in="ev-evidentiary-hearing ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion" data-remote="ev-restraining-order-denied">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Andrew B. Brettler</p>
+                                    <p class="cr-note">Of Berk Brettler in West Hollywood, admitted for this case. Joined the first conference by Zoom and has been in the room for every hearing since.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="d3" data-side="d" data-from="ev-restraining-order-denied" data-gone="ev-subpoena-served-on-abbymc" data-in="ev-restraining-order-denied ev-evidentiary-hearing">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Robert L. Raskopf</p>
+                                    <p class="cr-note">Of Bilzin Sumberg in Miami. In court on 4 April and 3 June 2025. Left the case on 18 November 2025, by the docket.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>; <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/parties/doe-v-bonnell/" target="_blank" rel="noopener" aria-label="The docket&rsquo;s list of parties and attorneys, opens on CourtListener">parties and attorneys</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="d4" data-side="d" data-from="ev-restraining-order-denied" data-gone="ev-motion-for-summary-judgment" data-in="ev-evidentiary-hearing" data-remote="ev-restraining-order-denied">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Patricia M. Patino</p>
+                                    <p class="cr-note">Of Bilzin Sumberg. By Zoom on 4 April 2025 and in the room on 3 June. Left the case on 12 January 2026, by the docket.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>; <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/parties/doe-v-bonnell/" target="_blank" rel="noopener" aria-label="The docket&rsquo;s list of parties and attorneys, opens on CourtListener">parties and attorneys</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="d3" data-side="d" data-from="ev-schedule-rule-56-d-and-both-rule-11-motions" data-in="ev-schedule-rule-56-d-and-both-rule-11-motions ev-hearing-on-the-spoliation-motion ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Michael S. Morgan</p>
+                                    <p class="cr-note">Of Bilzin Sumberg. In court at each of the three hearings in 2026.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="d5" data-side="d" data-from="ev-hearing-on-the-spoliation-motion" data-in="ev-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Jake A. Camara</p>
+                                    <p class="cr-note">Of Berk Brettler. In court on 19 August 2026.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="d6" data-side="d" data-from="ev-evidentiary-hearing-on-the-spoliation-motion" data-in="ev-evidentiary-hearing-on-the-spoliation-motion">
+                                    <p class="cr-role">Counsel for the defendant</p>
+                                    <p class="cr-name">Joel Sichel</p>
+                                    <p class="cr-note">Of Berk Brettler. In court on 2 October 2026.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p19" data-seat="g1" data-side="n" data-at="ev-evidentiary-hearing-on-the-spoliation-motion" data-in="*">
+                                    <p class="cr-role">A lawyer, side not stated</p>
+                                    <p class="cr-name">Augusto Lopez</p>
+                                    <p class="cr-note">Listed among the lawyers who appeared on 2 October 2026. The docket&rsquo;s own list of attorneys does not show this name for either party, so the seat is behind the bar.</p>
+                                    <p class="cr-cite">ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a>; <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/parties/doe-v-bonnell/" target="_blank" rel="noopener" aria-label="The docket&rsquo;s list of parties and attorneys, opens on CourtListener">parties and attorneys</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p20" data-seat="g5" data-side="n" data-from="ev-abbymc-s-first-declaration">
+                                    <p class="cr-role">A witness in the case</p>
+                                    <p class="cr-name">&ldquo;Abbymc&rdquo;</p>
+                                    <p class="cr-note">Known in the case only by that name. Her sworn declaration of 2 May 2025 is the document the federal claim now depends on. No minute entry places her in the courtroom.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="jury">
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no jury yet</p>
+                                    <p class="cr-note">No jury has been chosen, and the trial was taken off the calendar on 30 June 2026. The defendant has asked for one, so if the case is tried this is where it sits. A federal civil jury has between six and twelve members and has to be unanimous.</p>
+                                    <p class="cr-cite">Jury demand: <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/" target="_blank" rel="noopener" aria-label="The docket, opens on CourtListener">docket</a>; <a class="cite-doc" href="https://www.law.cornell.edu/rules/frcp/rule_48" target="_blank" rel="noopener" aria-label="Federal Rule of Civil Procedure 48, opens on Cornell LII">Fed. R. Civ. P. 48</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="gallery" data-when="court" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The minute entries list the lawyers and say nothing about who watched, so the benches are drawn empty. The hearings were open. For a case followed this closely online, the people usually found here are reporters, friends of the parties and other lawyers from the firms.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="gallery" data-when="paper away">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Nothing was heard in court on this date, so there was nothing to watch. These benches are where the public and the press sit when there is.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no witnesses</p>
+                                    <p class="cr-note">Nobody gave evidence at this hearing. It was argument between the lawyers and the judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="stand" data-when="paper away">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath, beside the judge and facing the lawyers. It has been used twice in this case: on 3 June 2025 and on 2 October 2026.</p>
+                                    <p class="cr-cite">ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judge sits, raised above the rest of the room. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="stand" data-before>
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath, beside the judge and facing the lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="jury" data-before>
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the jurors sit, along the wall nearest the side that has to prove its case. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="p" data-before>
+                                    <p class="cr-role">The plaintiff&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that brings the case sits with its lawyers. It is always drawn on the left here. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="d" data-before>
+                                    <p class="cr-role">The defendant&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that answers the case sits with its lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Benches behind the bar for the public and the press. Courts sit in the open, so anyone may take a seat. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="staff" data-before>
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the reporter sits to take down every word of a hearing. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="staff" data-when="court">
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">A reporter takes down every hearing. The sources used for this one do not mention the reporter, so the seat is drawn empty.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="staff" data-when="paper away">
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">A reporter sits here at every hearing and takes down every word. Nothing was heard on this date.</p>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The days something happened in a room. With the script
+                         each one is shown under its own moment; without it this
+                         is the list. -->
+                    <div class="cr-days">
+                        <h3 class="cr-cast-h">Days in court</h3>
+                        <ol class="cr-sits">
+                            <li data-at="ev-restraining-order-denied" data-kind="court"><span class="cr-sit-d">4 Apr 2025</span> <span class="cr-sit-t">A status conference before Judge Becerra, held partly in person and partly by Zoom.</span> <span class="cr-cite">Minute entry, ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=31&entry_lte=31" target="_blank" rel="noopener" aria-label="ECF No. 31, opens the docket entry on CourtListener">31</a></span></li>
+                            <li data-at="ev-evidentiary-hearing" data-kind="court"><span class="cr-sit-d">3 Jun 2025</span> <span class="cr-sit-t">A hearing on the injunction motion before Chief Magistrate Judge Torres. Two hours and thirty-five minutes in court, and both parties gave evidence.</span> <span class="cr-cite">Minute order, ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=87&entry_lte=87" target="_blank" rel="noopener" aria-label="ECF No. 87, opens the docket entry on CourtListener">87</a></span></li>
+                            <li data-at="ev-schedule-rule-56-d-and-both-rule-11-motions" data-kind="court"><span class="cr-sit-d">21 Apr 2026</span> <span class="cr-sit-t">A motion hearing before Judge Becerra. Twenty minutes in court.</span> <span class="cr-cite">Minute entry, ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=239&entry_lte=239" target="_blank" rel="noopener" aria-label="ECF No. 239, opens the docket entry on CourtListener">239</a></span></li>
+                            <li data-at="ev-hearing-on-the-spoliation-motion" data-kind="court"><span class="cr-sit-d">19 Aug 2026</span> <span class="cr-sit-t">A motion hearing before Judge Becerra on the spoliation motion and a motion to seal.</span> <span class="cr-cite">Minute entry, ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=292&entry_lte=292" target="_blank" rel="noopener" aria-label="ECF No. 292, opens the docket entry on CourtListener">292</a></span></li>
+                            <li data-at="ev-evidentiary-hearing-on-the-spoliation-motion" data-kind="court"><span class="cr-sit-d">2 Oct 2026</span> <span class="cr-sit-t">An evidentiary hearing before Judge Becerra. Two witnesses were sworn.</span> <span class="cr-cite">Minute entry, ECF No. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry on CourtListener">309</a></span></li>
+                            <li data-at="ev-deposition-in-illinois ev-she-does-not-appear-for-her-deposition ev-the-parties-are-deposed" data-kind="away"><span class="cr-sit-d">Depositions</span> <span class="cr-sit-t">A deposition. It is taken in an office and not in court. Lawyers for both sides attend, and there is no judge and no public.</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/doe-v-bonnell/" aria-label="Back to the case page for Doe v. Bonnell">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Doe v. Bonnell II, No. 1:25-cv-20757-JB (S.D. Fla.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-answer">Answer</dt><dd>The defendant&rsquo;s formal response to the complaint, admitting
+                        or denying each allegation.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                    <div><dt id="t-errata">Errata</dt><dd>A formal correction a witness files to their own sworn testimony
+                        after reading it back.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-protective-order">Protective order</dt><dd>An order limiting what either side may do with the
+                        material it receives in discovery.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, so its citation opens the docket entry instead.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Argues the case cannot proceed even if everything
+                        alleged is true &mdash; usually because the court lacks power to hear it.</dd></div>
+                    <div><dt id="t-summary-judgment">Summary judgment</dt><dd>Argues the facts are not genuinely in dispute, so the
+                        judge can decide without a trial. If facts <em>are</em> disputed, it fails.</dd></div>
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-sanctions">Sanctions</dt><dd>A penalty for misconduct in the litigation itself. They can
+                        run from a fine to losing the case outright.</dd></div>
+                    <div><dt id="t-adverse-inference">Adverse inference</dt><dd>A sanction where the jury is told it may assume the
+                        destroyed evidence would have hurt the side that destroyed it.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all.
+                        A federal court needs a federal claim, which is why one date decides so much
+                        here.</dd></div>
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose that
+                        point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone said outside court to prove it was true.
+                        Generally not allowed, with many exceptions.</dd></div>
+                    <div><dt id="t-authentication">Authentication</dt><dd>Showing a document or screenshot is genuinely what its
+                        proponent says it is. The bar is low, but it is not nothing.</dd></div>
+                    <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
+                        admissible and still carry very little weight.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>

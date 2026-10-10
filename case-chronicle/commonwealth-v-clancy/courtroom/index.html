@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description" content="Commonwealth v. Clancy as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <!-- A preview of a view that is still being built. Out of the
+         index until it is finished. -->
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/courtroom/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/courtroom/">
+    <meta property="og:title" content="Commonwealth v. Clancy, the courtroom &mdash; Case Chronicle">
+    <meta property="og:description" content="Commonwealth v. Clancy as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Commonwealth v. Clancy, the courtroom &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="commonwealth-v-clancy">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The two views sit side by side underneath as halves
+             of one bar, the same pairing as the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/commonwealth-v-clancy/">&larr;&nbsp; Commonwealth v. Clancy</a></p>
+                <p class="eyebrow">Plymouth County Superior Court, Massachusetts &middot; No. 2383CR00199</p>
+                <h1 class="masthead-title">Commonwealth <em>v.</em> Clancy</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/commonwealth-v-clancy/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/commonwealth-v-clancy/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The courtroom, from above
+
+             A preview. The plan is the same for every case: a bench, a
+             stand, a jury box, two tables, the bar and the gallery. What
+             differs is the list of people underneath it, which is plain
+             markup and is the whole of this page's data: who, in which
+             seat, and between which entries of the chronology.
+
+             The script reads that list, reads the chronology page for
+             the moments, and seats people accordingly. With no script
+             the plan is drawn empty and the list is simply a list.
+
+             Left is the side that filed, as everywhere else here, which
+             is also where a real courtroom puts it: the party carrying
+             the burden sits nearest the jury.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-room" id="courtroom" aria-labelledby="cr-h">
+            <div class="wrap">
+                <p class="kicker">Courtroom View &middot; Preview</p>
+                <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
+                <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, who was only on a screen, and which parts of it stood empty.</p>
+                <p class="cr-build"><strong>Still being built.</strong> A filled circle is someone a source places
+                    in the room that day: a minute entry, a transcript, a photograph or a report, linked from the
+                    card. A hollow one is someone who was part of the case at that point and is not recorded in
+                    the room, which on most dates is because nothing happened in court at all. A question mark
+                    explains a part of the room. The plan is a plain one and not a drawing of the real courtroom.</p>
+
+                <div class="cr" data-chronology="/case-chronicle/commonwealth-v-clancy/chronology/" data-opens="ev-arraigned-from-a-hospital-bed">
+
+                    <!-- The bar of moments. Empty here and hidden: it is built
+                         from the chronology, which only the script can fetch. -->
+                    <div class="ct" hidden>
+                        <button class="ct-step ct-prev" type="button" aria-label="Previous event">
+                            <span class="ct-step-a" aria-hidden="true">&larr;</span>
+                            <span class="ct-step-l">Previous</span>
+                        </button>
+                        <div class="ct-track" role="slider" tabindex="0" aria-label="Moment in the case"
+                            aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+                            <div class="ct-ticks"></div>
+                            <div class="ct-line"></div>
+                        </div>
+                        <button class="ct-step ct-next" type="button" aria-label="Next event">
+                            <span class="ct-step-l">Next</span>
+                            <span class="ct-step-a" aria-hidden="true">&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="cr-cols">
+                        <div class="cr-fig">
+                            <div class="cr-plan">
+                            <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true" focusable="false">
+                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
+                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+
+                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
+                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-box" x="36" y="230" width="116" height="336"/>
+
+                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="102"/>
+                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="102"/>
+                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
+                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+
+                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
+                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+
+                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+
+                            <!-- The parts of the room, for the script to measure. Never drawn. -->
+                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="336"/>
+                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="102"/>
+                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="102"/>
+                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+
+                            <circle class="cr-seat" data-seat="judge" cx="404" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="13" cx="70" cy="468" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="14" cx="118" cy="468" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="15" cx="70" cy="502" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="16" cx="118" cy="502" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="17" cx="70" cy="536" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="18" cx="118" cy="536" r="11"/>
+                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                        </svg>
+                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
+                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
+                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
+                        <span class="cr-lab" style="left:39.34%;top:45%">Commonwealth</span>
+                        <span class="cr-lab" style="left:66.97%;top:45%">Defence</span>
+                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
+                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            </div>
+
+                            <!-- What the marks mean. Hidden until the script has
+                                 drawn any, since without it there are none. -->
+                            <ul class="cr-key" hidden>
+                                <li><i class="cr-k cr-k-in"></i>In the room</li>
+                                <li><i class="cr-k cr-k-remote"></i>By video</li>
+                                <li><i class="cr-k cr-k-case"></i>In the case, not recorded in the room</li>
+                                <li><i class="cr-k cr-k-q">?</i>About this part of the room</li>
+                            </ul>
+                        </div>
+
+                        <div class="cr-side">
+                            <div class="cm" hidden>
+                                <p class="cm-meta"><span class="cm-n"></span><span class="cm-date"></span><span class="cm-who"></span></p>
+                                <h3 class="cm-h"></h3>
+                                <p class="cm-b"></p>
+                                <p class="cm-room"></p>
+                                <a class="cm-link" href="/case-chronicle/commonwealth-v-clancy/chronology/">Read this entry in the Chronological View <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+
+                            <div class="cr-list">
+                                <h3 class="cr-cast-h">In the room</h3>
+                                <ul class="cr-cast">
+                                <li class="cr-who" id="cr-p1" data-seat="judge" data-side="court" data-gone="ev-indicted" data-in="ev-arraigned-from-a-hospital-bed">
+                                    <p class="cr-role">The judge, Plymouth District Court</p>
+                                    <p class="cr-name">Judge John Canavan</p>
+                                    <p class="cr-note">Presided at the first arraignment on 7 February 2023 and ordered her held in a medical facility. The indictment that September moved the case to the Superior Court.</p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge" data-side="court" data-from="ev-arraigned-again-at-tewksbury" data-in="ev-arraigned-again-at-tewksbury ev-jury-selection ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge ev-twelve-of-eighteen ev-deadlocked-and-told-to-keep-going ev-the-foreperson-s-note ev-mistrial ev-the-first-hearing-since">
+                                    <p class="cr-role">The judge, Superior Court</p>
+                                    <p class="cr-name">Sullivan, J.</p>
+                                    <p class="cr-note">William Sullivan. Presided at the hospital arraignment in October 2023 and at every day of the trial, declared the mistrial on 4 September 2026, and heard the Rule 25 motion on 29 September.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-mistrial" target="_blank" rel="noopener" aria-label="Trial transcript, mistrial, opens on Rev">Mistrial</a>; <a class="cite-doc" href="https://weartv.com/news/nation-world/gallery/lindsay-clancy-team-returns-to-court-following-mistrial-sept-29-2026?photo=2" target="_blank" rel="noopener" aria-label="Patriot Ledger pool photographs of 29 September 2026, as carried by WEAR">Patriot Ledger photographs, 29 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="p1" data-side="p" data-from="ev-arraigned-again-at-tewksbury" data-in="ev-arraigned-again-at-tewksbury ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge ev-twelve-of-eighteen ev-mistrial">
+                                    <p class="cr-role">For the Commonwealth</p>
+                                    <p class="cr-name">Jennifer Sprague</p>
+                                    <p class="cr-note">Assistant District Attorney. Appeared at the October 2023 arraignment, was named by the clerk for the Commonwealth at the start of each trial day, and spoke for it on the day of the mistrial.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">Day 21</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="p2" data-side="p" data-from="ev-the-commonwealth-s-case" data-in="ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge ev-twelve-of-eighteen ev-the-first-hearing-since">
+                                    <p class="cr-role">For the Commonwealth</p>
+                                    <p class="cr-name">Shanan Buckingham</p>
+                                    <p class="cr-note">Assistant District Attorney. Gave the Commonwealth&rsquo;s opening on 27 July 2026, was named by the clerk at the start of each trial day, and answered the Rule 25 motion on 29 September.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.nbcboston.com/news/local/opening-statements-begin-today-in-lindsay-clancy-trial/3987412/" target="_blank" rel="noopener" aria-label="NBC10 Boston report of 27 July 2026">NBC10 Boston, 27 Jul 2026</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="d1" data-side="d" data-in="ev-arraigned-again-at-tewksbury ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge ev-twelve-of-eighteen ev-mistrial ev-the-first-hearing-since" data-remote="ev-arraigned-from-a-hospital-bed ev-move-the-trial-to-boston">
+                                    <p class="cr-role">The defendant</p>
+                                    <p class="cr-name">Lindsay Clancy</p>
+                                    <p class="cr-note">By video from a hospital bed in 2023 and by Zoom in November 2025. Her first appearance in a courtroom in person came on 20 February 2026. At trial she sat in a wheelchair, and the clerk recorded her as present at the start of each day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.nbcboston.com/news/local/opening-statements-begin-today-in-lindsay-clancy-trial/3987412/" target="_blank" rel="noopener" aria-label="NBC10 Boston report of 27 July 2026">NBC10 Boston, 27 Jul 2026</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a>; <a class="cite-doc" href="https://weartv.com/news/nation-world/gallery/lindsay-clancy-team-returns-to-court-following-mistrial-sept-29-2026?photo=2" target="_blank" rel="noopener" aria-label="Patriot Ledger pool photographs of 29 September 2026, as carried by WEAR">Patriot Ledger photographs, 29 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="d2" data-side="d" data-from="ev-arraigned-again-at-tewksbury" data-in="ev-arraigned-again-at-tewksbury ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge ev-twelve-of-eighteen ev-the-foreperson-s-note ev-mistrial ev-the-first-hearing-since">
+                                    <p class="cr-role">Counsel for the defence</p>
+                                    <p class="cr-name">Kevin Reddington</p>
+                                    <p class="cr-note">Sat beside her at the October 2023 arraignment, opened for the defence on 27 July 2026, and was her only lawyer named by the clerk at trial. Argued the Rule 25 motion on 29 September.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.nbcboston.com/news/local/opening-statements-begin-today-in-lindsay-clancy-trial/3987412/" target="_blank" rel="noopener" aria-label="NBC10 Boston report of 27 July 2026">NBC10 Boston, 27 Jul 2026</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a>; <a class="cite-doc" href="https://weartv.com/news/nation-world/gallery/lindsay-clancy-team-returns-to-court-following-mistrial-sept-29-2026?photo=2" target="_blank" rel="noopener" aria-label="Patriot Ledger pool photographs of 29 September 2026, as carried by WEAR">Patriot Ledger photographs, 29 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="d3" data-side="d" data-at="ev-arraigned-again-at-tewksbury" data-in="*">
+                                    <p class="cr-role">At the defence table</p>
+                                    <p class="cr-name">A psychiatrist retained by the defence</p>
+                                    <p class="cr-note">At the arraignment of 26 October 2023 she sat in a wheelchair between this psychiatrist and her lawyer.</p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="d3" data-side="d" data-from="ev-three-motions-none-of-them-a-retrial">
+                                    <p class="cr-role">Co-counsel for the defence</p>
+                                    <p class="cr-name">Martin Weinberg</p>
+                                    <p class="cr-note">Filed the double jeopardy motion on 21 September 2026. The sources used here do not place him in the courtroom.</p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="stand-a" data-side="p" data-at="ev-the-commonwealth-s-case" data-in="*">
+                                    <p class="cr-role">On the stand, first</p>
+                                    <p class="cr-name">Her former husband</p>
+                                    <p class="cr-note">The first witness, on 27 July 2026. He was the one who found the children. He told the jury he had never seen her harm them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.nbcboston.com/news/local/opening-statements-begin-today-in-lindsay-clancy-trial/3987412/" target="_blank" rel="noopener" aria-label="NBC10 Boston report of 27 July 2026">NBC10 Boston, 27 Jul 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="stand-b" data-side="p" data-at="ev-the-commonwealth-s-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">First responders and investigators</p>
+                                    <p class="cr-note">The paramedics, firefighters and police who came to the house, and the officers who worked the scene.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-3" target="_blank" rel="noopener" aria-label="Trial transcript, day 3, opens on Rev">Day 3</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="stand-c" data-side="p" data-at="ev-the-commonwealth-s-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">The medical examiner and the forensic examiners</p>
+                                    <p class="cr-note">The cause of each death, and what was on the phones and computers.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-13" target="_blank" rel="noopener" aria-label="Trial transcript, day 13, opens on Rev">Day 13</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="stand-d" data-side="p" data-at="ev-the-commonwealth-s-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">The clinicians who treated her</p>
+                                    <p class="cr-note">Her psychiatrist testified across two full days and a nurse practitioner for a third. Neither had recorded observing psychosis.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-9" target="_blank" rel="noopener" aria-label="Trial transcript, day 9, opens on Rev">Day 9</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-10" target="_blank" rel="noopener" aria-label="Trial transcript, day 10, opens on Rev">Day 10</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-11" target="_blank" rel="noopener" aria-label="Trial transcript, day 11, opens on Rev">Day 11</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="stand" data-side="p" data-at="ev-the-investigation-on-cross" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">A State Police forensic examiner</p>
+                                    <p class="cr-note">Agreed in cross-examination that there were no &ldquo;ways to kill&rdquo; searches on the computer.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-13" target="_blank" rel="noopener" aria-label="Trial transcript, day 13, opens on Rev">Day 13</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="stand-a" data-side="d" data-at="ev-the-defence-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Family, and the family&rsquo;s nanny</p>
+                                    <p class="cr-note">The people who lived alongside her in the months before.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-15" target="_blank" rel="noopener" aria-label="Trial transcript, day 15, opens on Rev">Day 15</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-16" target="_blank" rel="noopener" aria-label="Trial transcript, day 16, opens on Rev">Day 16</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-17" target="_blank" rel="noopener" aria-label="Trial transcript, day 17, opens on Rev">Day 17</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-18" target="_blank" rel="noopener" aria-label="Trial transcript, day 18, opens on Rev">Day 18</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="stand-b" data-side="d" data-at="ev-the-defence-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">A forensic psychiatrist for the defence</p>
+                                    <p class="cr-note">Said she was frankly psychotic that day, acting out of a suicidal conviction that the children could not survive without her.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-15" target="_blank" rel="noopener" aria-label="Trial transcript, day 15, opens on Rev">Day 15</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-16" target="_blank" rel="noopener" aria-label="Trial transcript, day 16, opens on Rev">Day 16</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-17" target="_blank" rel="noopener" aria-label="Trial transcript, day 17, opens on Rev">Day 17</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-18" target="_blank" rel="noopener" aria-label="Trial transcript, day 18, opens on Rev">Day 18</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="stand-c" data-side="d" data-at="ev-the-defence-case" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">A second defence expert</p>
+                                    <p class="cr-note">Concluded she could neither appreciate the wrongfulness of the act nor conform her conduct to the law.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-15" target="_blank" rel="noopener" aria-label="Trial transcript, day 15, opens on Rev">Day 15</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-16" target="_blank" rel="noopener" aria-label="Trial transcript, day 16, opens on Rev">Day 16</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-17" target="_blank" rel="noopener" aria-label="Trial transcript, day 17, opens on Rev">Day 17</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-18" target="_blank" rel="noopener" aria-label="Trial transcript, day 18, opens on Rev">Day 18</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="stand-a" data-side="p" data-at="ev-rebuttal" data-in="*">
+                                    <p class="cr-role">On the stand, in rebuttal</p>
+                                    <p class="cr-name">A forensic expert for the Commonwealth</p>
+                                    <p class="cr-note">The first of three. Between them: a major depressive episode, but no mania and so no psychosis.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-20" target="_blank" rel="noopener" aria-label="Trial transcript, day 20, opens on Rev">Day 20</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">Day 21</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="stand-b" data-side="p" data-at="ev-rebuttal" data-in="*">
+                                    <p class="cr-role">On the stand, in rebuttal</p>
+                                    <p class="cr-name">A second forensic expert</p>
+                                    <p class="cr-note">The second of three called by the Commonwealth to answer the defence experts.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-20" target="_blank" rel="noopener" aria-label="Trial transcript, day 20, opens on Rev">Day 20</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">Day 21</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p19" data-seat="stand-c" data-side="p" data-at="ev-rebuttal" data-in="*">
+                                    <p class="cr-role">On the stand, in rebuttal</p>
+                                    <p class="cr-name">The last of the three</p>
+                                    <p class="cr-note">Told the jury it was unusual that she had never reported a voice to any clinician before that day, and &ldquo;very unusual&rdquo; that it stopped when it did.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-20" target="_blank" rel="noopener" aria-label="Trial transcript, day 20, opens on Rev">Day 20</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">Day 21</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p20" data-seat="jury" data-side="n" data-from="ev-jury-selection" data-gone="ev-twelve-of-eighteen" data-jury="1-18" data-in="ev-jury-selection ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-closings-and-the-charge">
+                                    <p class="cr-role">The jury</p>
+                                    <p class="cr-name">Eighteen jurors</p>
+                                    <p class="cr-note">Twelve women and six men, six of them to be alternates. Two of those first seated were excused and replaced before the panel was complete. The judge said why there were so many: it was &ldquo;a lengthy case over the summer.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://turnto10.com/newsletter-daily/court-seeks-to-seat-1-more-juror-before-lindsay-clancy-murder-trial-begins-july-23-2026" target="_blank" rel="noopener" aria-label="WJAR report of 23 July 2026">WJAR, 23 Jul 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p21" data-seat="jury" data-side="n" data-from="ev-twelve-of-eighteen" data-gone="ev-the-foreperson-s-note" data-jury="1-12" data-in="ev-twelve-of-eighteen ev-deadlocked-and-told-to-keep-going">
+                                    <p class="cr-role">The jury</p>
+                                    <p class="cr-name">Twelve deliberating jurors</p>
+                                    <p class="cr-note">Drawn at random from the eighteen on 27 August 2026, leaving nine women and three men. The six alternates were set apart. Five verdicts were open to the twelve.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p22" data-seat="jury" data-side="d" data-from="ev-the-foreperson-s-note" data-gone="ev-the-jurors-talk-and-the-juror-list-is-sealed" data-jury="1-11" data-in="ev-the-foreperson-s-note ev-mistrial">
+                                    <p class="cr-role">The jury, divided</p>
+                                    <p class="cr-name">Eleven jurors</p>
+                                    <p class="cr-note">Reportedly accepted the defence account, that she was not criminally responsible. A verdict has to be unanimous, so eleven decided nothing. Several were visibly upset when the mistrial was declared.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.npr.org/transcripts/nx-s1-5950421" target="_blank" rel="noopener" aria-label="NPR broadcast transcript of 4 September 2026">NPR, 4 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p23" data-seat="jury" data-side="p" data-from="ev-the-foreperson-s-note" data-gone="ev-the-jurors-talk-and-the-juror-list-is-sealed" data-jury="18-18" data-in="ev-the-foreperson-s-note ev-mistrial">
+                                    <p class="cr-role">The jury, divided</p>
+                                    <p class="cr-name">One juror</p>
+                                    <p class="cr-note">The holdout, who reportedly did not accept the defence account. The foreperson says he acknowledged reasonable doubt and would not return the verdict it pointed to. He says he had no doubt at all. He is &ldquo;Juror Doe&rdquo; in the filings.</p>
+                                </li>
+                                <li class="cr-who" id="cr-p24" data-seat="g1" data-side="d" data-at="ev-the-first-hearing-since" data-in="*">
+                                    <p class="cr-role">In the gallery</p>
+                                    <p class="cr-name">Her father</p>
+                                    <p class="cr-note">Photographed listening from the public benches at the hearing of 29 September 2026.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://weartv.com/news/nation-world/gallery/lindsay-clancy-team-returns-to-court-following-mistrial-sept-29-2026?photo=2" target="_blank" rel="noopener" aria-label="Patriot Ledger pool photographs of 29 September 2026, as carried by WEAR">Patriot Ledger photographs, 29 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p25" data-seat="g5" data-side="n" data-at="ev-the-first-hearing-since" data-in="*">
+                                    <p class="cr-role">In the gallery</p>
+                                    <p class="cr-name">A lawyer for &ldquo;Juror Doe&rdquo;</p>
+                                    <p class="cr-note">Appeared for the holdout juror at the hearing of 29 September 2026.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="gallery" data-at="ev-arraigned-again-at-tewksbury">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Nobody in person</p>
+                                    <p class="cr-note">The hearing was held at the hospital. The public could watch over Zoom.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="gallery" data-at="ev-closings-and-the-charge ev-twelve-of-eighteen" data-crowd="full" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Packed</p>
+                                    <p class="cr-note">A photograph from the closing arguments shows the public benches full.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://turnto10.com/news/local/gallery/jury-in-lindsay-clancy-murder-trial-to-continue-deliberations-friday-aug-28-2026?photo=2" target="_blank" rel="noopener" aria-label="Associated Press photograph of 27 August 2026, as carried by WJAR">AP photograph, 27 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="gallery" data-at="ev-mistrial" data-crowd="full" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Full, with an overflow room</p>
+                                    <p class="cr-note">The courthouse was crowded enough on the last day that spectators were sent to an overflow room, and the press was there in numbers.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.npr.org/transcripts/nx-s1-5950421" target="_blank" rel="noopener" aria-label="NPR broadcast transcript of 4 September 2026">NPR, 4 Sept 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="gallery" data-at="ev-the-first-hearing-since" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">The rest of the benches</p>
+                                    <p class="cr-note">Beyond the two people the record puts here, the sources used do not say who watched.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="gallery" data-at="ev-jury-selection ev-the-commonwealth-s-case ev-the-investigation-on-cross ev-the-defence-case ev-rebuttal ev-deadlocked-and-told-to-keep-going ev-the-foreperson-s-note">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Open, and on camera</p>
+                                    <p class="cr-note">The trial was open to the public and broadcast from a pool camera in the room. Who sat here day to day is not in the sources used. By the closing arguments the benches were full.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://turnto10.com/news/local/gallery/jury-in-lindsay-clancy-murder-trial-to-continue-deliberations-friday-aug-28-2026?photo=2" target="_blank" rel="noopener" aria-label="Associated Press photograph of 27 August 2026, as carried by WJAR">AP photograph, 27 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="gallery" data-when="court">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The sources used here do not say who watched.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="gallery" data-when="paper away">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Nothing was heard in this courtroom on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="stand" data-at="ev-jury-selection">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no witnesses yet</p>
+                                    <p class="cr-note">The week was spent choosing a jury. The first witness, her former husband, was called after the openings on 27 July.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://turnto10.com/newsletter-daily/court-seeks-to-seat-1-more-juror-before-lindsay-clancy-murder-trial-begins-july-23-2026" target="_blank" rel="noopener" aria-label="WJAR report of 23 July 2026">WJAR, 23 Jul 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="stand" data-at="ev-closings-and-the-charge ev-twelve-of-eighteen">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: the evidence is closed</p>
+                                    <p class="cr-note">The Commonwealth had rested its rebuttal. What was left was argument and the judge&rsquo;s instructions.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">Day 21</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="stand" data-at="ev-deadlocked-and-told-to-keep-going ev-the-foreperson-s-note ev-mistrial">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">No more evidence is heard once a jury is deliberating.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no witnesses</p>
+                                    <p class="cr-note">Nobody gave evidence at this hearing.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="stand" data-when="paper away">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath, beside the judge and facing the lawyers.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="jury" data-gone="ev-jury-selection">
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no jury yet</p>
+                                    <p class="cr-note">A jury is chosen at the start of a trial, and this trial was put back three times. Eighteen jurors were finally seated in the week of 20 July 2026.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="jury" data-from="ev-the-jurors-talk-and-the-juror-list-is-sealed">
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: the jury was discharged</p>
+                                    <p class="cr-note">The judge discharged the jury on 4 September 2026 with nothing decided. The list of jurors&rsquo; names has been impounded since 14 September. If the case is tried again, a new jury sits here.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judge sits, raised above the rest of the room. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="stand" data-before>
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath, beside the judge and facing the lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a17" data-zone="jury" data-before>
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the jurors sit, along the wall nearest the side that has to prove its case. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a18" data-zone="p" data-before>
+                                    <p class="cr-role">The Commonwealth&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that brings the case sits with its lawyers. It is always drawn on the left here. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a19" data-zone="d" data-before>
+                                    <p class="cr-role">The defence table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that answers the case sits with its lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a20" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Benches behind the bar for the public and the press. Courts sit in the open, so anyone may take a seat. On this date the case had not reached a court.</p>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The days something happened in a room. With the script
+                         each one is shown under its own moment; without it this
+                         is the list. -->
+                    <div class="cr-days">
+                        <h3 class="cr-cast-h">Days in court</h3>
+                        <ol class="cr-sits">
+                            <li data-at="ev-arraigned-from-a-hospital-bed" data-kind="court"><span class="cr-sit-d">7 Feb 2023</span> <span class="cr-sit-t">Plymouth District Court. The judge was in the courtroom and the defendant was on a screen, from a hospital bed in Boston.</span></li>
+                            <li data-at="ev-arraigned-again-at-tewksbury" data-kind="court"><span class="cr-sit-d">26 Oct 2023</span> <span class="cr-sit-t">Not a courtroom at all: the Superior Court sat at Tewksbury State Hospital, where she was being held. The room drawn here stands in for it.</span></li>
+                            <li data-at="ev-move-the-trial-to-boston" data-kind="court"><span class="cr-sit-d">18 Nov 2025</span> <span class="cr-sit-t">A hearing in the Superior Court. She attended by Zoom.</span></li>
+                            <li data-at="ev-jury-selection" data-kind="court"><span class="cr-sit-d">20 Jul 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. Jury selection, which ran through the week.</span> <span class="cr-cite"><a class="cite-doc" href="https://turnto10.com/newsletter-daily/court-seeks-to-seat-1-more-juror-before-lindsay-clancy-murder-trial-begins-july-23-2026" target="_blank" rel="noopener" aria-label="WJAR report of 23 July 2026">WJAR, 23 Jul 2026</a></span></li>
+                            <li data-at="ev-the-commonwealth-s-case" data-kind="court"><span class="cr-sit-d">Jul&ndash;Aug 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The Commonwealth&rsquo;s witnesses, from the openings on 27 July until it rested.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.nbcboston.com/news/local/opening-statements-begin-today-in-lindsay-clancy-trial/3987412/" target="_blank" rel="noopener" aria-label="NBC10 Boston report of 27 July 2026">NBC10 Boston, 27 Jul 2026</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-3" target="_blank" rel="noopener" aria-label="Trial transcript, day 3, opens on Rev">Day 3</a></span></li>
+                            <li data-at="ev-the-investigation-on-cross" data-kind="court"><span class="cr-sit-d">Aug 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. Cross-examination of the Commonwealth&rsquo;s investigators.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-13" target="_blank" rel="noopener" aria-label="Trial transcript, day 13, opens on Rev">Day 13</a></span></li>
+                            <li data-at="ev-the-defence-case" data-kind="court"><span class="cr-sit-d">Aug 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The defence witnesses.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-15" target="_blank" rel="noopener" aria-label="Trial transcript, day 15, opens on Rev">Day 15</a></span></li>
+                            <li data-at="ev-rebuttal" data-kind="court"><span class="cr-sit-d">Aug 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The Commonwealth&rsquo;s rebuttal witnesses.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-20" target="_blank" rel="noopener" aria-label="Trial transcript, day 20, opens on Rev">Day 20</a></span></li>
+                            <li data-at="ev-closings-and-the-charge ev-twelve-of-eighteen" data-kind="court"><span class="cr-sit-d">27 Aug 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. Closing arguments, the judge&rsquo;s instructions, and the draw that left twelve jurors to deliberate.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-closing-arguments" target="_blank" rel="noopener" aria-label="Trial transcript, closing arguments, opens on Rev">Closing Arguments</a></span></li>
+                            <li data-at="ev-deadlocked-and-told-to-keep-going ev-the-foreperson-s-note" data-kind="court"><span class="cr-sit-d">1&ndash;3 Sept 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The jury deliberated in another room and came back in when it sent a note.</span></li>
+                            <li data-at="ev-mistrial" data-kind="court"><span class="cr-sit-d">4 Sept 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The third note, and the mistrial. The courthouse was crowded enough that spectators were sent to an overflow room.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-mistrial" target="_blank" rel="noopener" aria-label="Trial transcript, mistrial, opens on Rev">Mistrial</a>; <a class="cite-doc" href="https://www.npr.org/transcripts/nx-s1-5950421" target="_blank" rel="noopener" aria-label="NPR broadcast transcript of 4 September 2026">NPR, 4 Sept 2026</a></span></li>
+                            <li data-at="ev-an-hour-at-the-supreme-judicial-court" data-kind="away"><span class="cr-sit-d">4 Sept 2026</span> <span class="cr-sit-t">Decided somewhere else: by a single justice of the Supreme Judicial Court, on papers filed inside the hour. The trial courtroom waited.</span></li>
+                            <li data-at="ev-the-first-hearing-since" data-kind="court"><span class="cr-sit-d">29 Sept 2026</span> <span class="cr-sit-t">Plymouth Superior Court, before Judge Sullivan. The first hearing after the mistrial. Only the Rule 25 motion was argued.</span> <span class="cr-cite"><a class="cite-doc" href="https://weartv.com/news/nation-world/gallery/lindsay-clancy-team-returns-to-court-following-mistrial-sept-29-2026?photo=2" target="_blank" rel="noopener" aria-label="Patriot Ledger pool photographs of 29 September 2026, as carried by WEAR">Patriot Ledger photographs, 29 Sept 2026</a></span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/commonwealth-v-clancy/" aria-label="Back to the case page for Commonwealth v. Clancy">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Commonwealth v. Clancy, No. 2383CR00199 (Mass. Super. Ct., Plymouth Cty.)</p>
+            </div>
+        </footer>
+
+<!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>The formal charge that starts a felony case in the
+                        Superior Court. It replaces the complaint the district court began with.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A jury that decides only whether there is enough
+                        evidence to charge someone, not whether they are guilty. It hears one side.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a proceeding. A court
+                        reporter&rsquo;s transcript is cited by page and line; a transcript of a televised proceeding,
+                        as here, has no line numbers and is cited by day.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, object or record put in evidence. This trial
+                        had roughly three hundred.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record.
+                        Both sides and the judge can read it; nobody else can. Material is <em>unsealed</em> when that
+                        is lifted, as the search warrants were in October 2023.</dd></div>
+                    <div><dt id="t-impounded">Impounded</dt><dd>Withheld from public inspection by order. The juror
+                        list in this case was impounded indefinitely after the trial.</dd></div>
+                    <div><dt id="t-affidavit">Affidavit</dt><dd>A sworn written statement. A search warrant affidavit
+                        is the officer&rsquo;s account of why there is reason to search. It is not evidence at trial.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-arraignment">Arraignment</dt><dd>The hearing where the charges are read and the
+                        defendant pleads. It happens once in the district court and again after indictment.</dd></div>
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-stipulate">Stipulate</dt><dd>To agree formally that something is true so it need not
+                        be proved. The other side does not have to accept the offer, and here it did not.</dd></div>
+                    <div><dt id="t-in-camera">In camera</dt><dd>Heard in private, in the judge&rsquo;s chambers rather
+                        than in open court.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>Evidence one side puts in to answer the other&rsquo;s
+                        case, after that case has closed. It cannot open new ground.</dd></div>
+                    <div><dt id="t-interlocutory">Interlocutory appeal</dt><dd>An appeal taken in the middle of a case
+                        rather than at the end of it. They are rare, and usually urgent.</dd></div>
+                    <div><dt id="t-under-advisement">Under advisement</dt><dd>Argued, but not yet decided. The judge
+                        will rule later.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The ones that can end it</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-mistrial">Mistrial</dt><dd>A trial ended without a verdict. It decides nothing: the
+                        charges stay live and the case can, in principle, be tried again.</dd></div>
+                    <div><dt id="t-hung-jury">Hung jury</dt><dd>A jury that cannot reach the required unanimity. Eleven
+                        to one is not a verdict, and is worth no more than nothing to one.</dd></div>
+                    <div><dt id="t-tuey-rodriguez">Tuey-Rodriguez charge</dt><dd>What a Massachusetts judge tells a
+                        deadlocked jury: reconsider, but surrender no conscientiously held belief. Elsewhere it is
+                        called an <em>Allen</em> charge, or a dynamite charge.</dd></div>
+                    <div><dt id="t-rule-25">Rule 25</dt><dd>A motion asking the judge to enter a finding of not guilty
+                        because no rational juror could convict on the evidence. It is about legal sufficiency, not
+                        about whether this jury was persuaded.</dd></div>
+                    <div><dt id="t-double-jeopardy">Double jeopardy</dt><dd>The rule against being tried twice for the
+                        same offence. A mistrial usually does not trigger it, which is why it has to be argued.</dd></div>
+                    <div><dt id="t-manifest-necessity">Manifest necessity</dt><dd>The standard a judge must meet to end a trial
+                        without a verdict over the defendant&rsquo;s objection. If it was not met, a second trial is barred.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The test this case turned on</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose
+                        that point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-reasonable-doubt">Beyond a reasonable doubt</dt><dd>The criminal standard, and the
+                        highest one the law uses. It is not proof beyond all possible doubt.</dd></div>
+                    <div><dt id="t-criminal-responsibility">Criminal responsibility</dt><dd>Whether the defendant can be
+                        held answerable at all. In Massachusetts the <strong>Commonwealth</strong> must prove she was
+                        responsible, beyond a reasonable doubt. The defendant proves nothing.</dd></div>
+                    <div><dt id="t-mental-disease">Mental disease or defect</dt><dd>A legal term, not a medical one. It
+                        need not match any formal diagnosis, and a jury decides whether there was one.</dd></div>
+                    <div><dt id="t-substantial-capacity">Substantial capacity</dt><dd>The second limb. Even with a
+                        mental disease or defect, a person is responsible if she could both <em>appreciate</em> that
+                        what she was doing was wrong and <em>conform</em> her conduct to the law. Losing either is
+                        enough.</dd></div>
+                    <div><dt id="t-appreciate">Appreciate</dt><dd>To understand, rather than merely to know. Knowing an
+                        act is illegal is not the same as grasping what that means.</dd></div>
+                    <div><dt id="t-ngi">Not guilty by reason of lack of criminal responsibility</dt><dd>Often shortened
+                        to NGI. It is not an acquittal in effect: it ordinarily leads to a petition to commit, and
+                        commitment is reviewed at intervals and renewable without limit.</dd></div>
+                    <div><dt id="t-postpartum-psychosis">Postpartum psychosis</dt><dd>A rare and serious illness arising
+                        after childbirth. It is a clinical term and carries no legal consequence by itself &mdash; the
+                        legal test is the one above.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>

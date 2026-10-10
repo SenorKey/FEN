@@ -75,26 +75,50 @@
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/chronology/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/depp-v-heard/</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/depp-v-heard/chronology/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/</loc>
-    <lastmod>2026-09-29</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
+    <loc>https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/chronology/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-10</lastmod>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/chronology/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <priority>0.6</priority>
   </url>
 
 </urlset>

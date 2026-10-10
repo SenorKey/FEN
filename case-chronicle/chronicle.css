@@ -1045,6 +1045,1234 @@ a.case-a:focus-visible {
 }
 
 /* ═══════════════════════════════════════════════
+   Two ways in
+
+   A case can be read two ways, and the choice is made once, here, at
+   the foot of the masthead: in the order things happened, or as the
+   room they happened in. They are drawn as a pair of doors in one
+   frame because that is what a pair of equal choices looks like in a
+   courthouse, and because a pair of doors is symmetrical by
+   construction. Each leaf is the mirror of the other: the pulls meet
+   at the middle and the hinges take the outside.
+
+   Bound in the hub's browns and stamped in its cream, so a door reads
+   as the same material as the volume the reader took down to get here.
+   None of the three working inks is used: neither view belongs to a
+   side.
+
+   Nothing opens. The leaf lifts a little under the pointer, the way a
+   spine does on the shelf, and that is all the movement it is given.
+   ═══════════════════════════════════════════════ */
+
+.doors {
+  padding: 76px 0 0;
+  border-bottom: 1px solid var(--rule);
+  /* The floor the doors stand on. The frame has no sill, so the band's
+     own bottom rule is the threshold. */
+  background: linear-gradient(180deg, transparent 62%, rgba(23, 20, 15, 0.05));
+}
+
+.doors-l {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+/* The frame: two jambs and a lintel, in the darkest binding. */
+.doorway {
+  display: grid;
+  /* minmax(0, ...) and not a bare 1fr: a leaf is exactly half the frame
+     whatever its words would like, or the pair stops being a pair. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 12px 12px 0;
+  background: var(--bind-2);
+  border-radius: 3px 3px 0 0;
+  box-shadow:
+    inset 0 1px 0 rgba(239, 233, 220, 0.14),
+    0 -1px 0 rgba(23, 20, 15, 0.3),
+    0 26px 44px -18px rgba(23, 20, 15, 0.5);
+}
+
+.door-slot {
+  position: relative;
+  display: flex;
+  min-width: 0;
+}
+
+.door {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 450px;
+  padding: 22px 46px 26px 24px;
+
+  color: var(--stamp);
+  text-decoration: none;
+
+  /* Grain: long soft bands running the height of the leaf, laid over the
+     binding colour. Faint enough to be a surface, not a pattern. */
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(23, 20, 15, 0) 0 13px,
+      rgba(23, 20, 15, 0.07) 13px 14px,
+      rgba(239, 233, 220, 0.025) 14px 22px,
+      rgba(23, 20, 15, 0) 22px 31px),
+    linear-gradient(180deg, var(--bind-3), var(--bind-1) 38%, var(--bind-4));
+  box-shadow:
+    inset 0 0 0 1px rgba(23, 20, 15, 0.45),
+    inset 0 1px 0 1px rgba(239, 233, 220, 0.1);
+
+  transition: filter 0.25s, transform 0.25s;
+}
+
+/* The second leaf is the first one turned over: the wide stile goes to
+   the other outside edge, so both pulls land on the meeting line. */
+.door-court { padding: 22px 24px 26px 46px; }
+
+/* Two recessed panels to a leaf, as on a panelled door: the upper one
+   holds the picture and the lower one the words. Cut in rather than
+   raised: a dark top edge and a light bottom one. */
+.door-pane,
+.door-plate {
+  display: flex;
+  background: rgba(23, 20, 15, 0.2);
+  box-shadow:
+    inset 0 2px 3px rgba(23, 20, 15, 0.5),
+    inset 0 -1px 0 rgba(239, 233, 220, 0.13),
+    0 0 0 1px rgba(23, 20, 15, 0.3);
+}
+
+.door-pane {
+  flex: 1 1 0;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.door-pane svg {
+  width: min(100%, 190px);
+  height: auto;
+  fill: none;
+  stroke: var(--stamp);
+  stroke-width: 1.4;
+  stroke-linecap: square;
+  opacity: 0.86;
+}
+
+.door-pane .door-fill { fill: var(--stamp); }
+
+.door-plate {
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 9px;
+  padding: 22px 22px 20px;
+}
+
+.door-t {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1;
+  font-weight: 600;
+  /* Sized so the longest word on either leaf, Chronological, fits its
+     plate at every width the frame can be. */
+  font-size: clamp(0.9rem, 4vw, 1.74rem);
+  line-height: 1.1;
+  letter-spacing: -0.008em;
+  color: var(--paper);
+}
+
+.door-s {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--stamp);
+}
+
+.door-go {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.door-go-a {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+/* The pull: a plain bar on the meeting stile, in the unbound volume's
+   pale cloth, which is the nearest thing this palette has to brass. */
+.door-pull {
+  position: absolute;
+  top: 50%;
+  right: 17px;
+  width: 7px;
+  height: 78px;
+  margin-top: -39px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #cfc2a6, var(--bind-plain) 45%, #8f8168);
+  box-shadow: 0 1px 3px rgba(23, 20, 15, 0.6);
+}
+
+.door-court .door-pull { right: auto; left: 17px; }
+
+.door:hover,
+.door:focus-visible { filter: brightness(1.09); }
+
+.door:hover .door-go-a,
+.door:focus-visible .door-go-a { transform: translateX(3px); }
+
+/* Inset and in the stamp colour: the page's red ring would sit on the
+   frame, where it is nearly invisible against the binding. */
+.door:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: -7px;
+}
+
+/* ── the lock ──
+   The right-hand door leads to a view that is still being built, so the
+   script hangs a padlock on its pull. The reader takes it off. That is
+   the whole of the mechanism: nothing is being kept from anybody, and
+   the lock is there to say "unfinished" in a way a reader can answer.
+
+   While it is on, the leaf is not a link, so there is no dead control
+   on the page: the padlock is the only thing on that door to press. */
+.door-slot.is-locked .door {
+  filter: brightness(0.8) saturate(0.75);
+  cursor: default;
+}
+
+.door-slot.is-locked .door-go-a { visibility: hidden; }
+
+.door-unlock {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  /* Centred on the pull, which sits 17px in and is 7px wide. */
+  transform: translate(calc(20.5px - 50%), 6px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 0 0 8px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.door-lock {
+  width: 34px;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 2px 3px rgba(23, 20, 15, 0.6));
+  transition: transform 0.2s;
+}
+
+.door-lock-s {
+  fill: none;
+  stroke: #cfc2a6;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  transform-origin: 20px 15px;
+}
+
+.door-lock-b { fill: var(--bind-plain); stroke: rgba(23, 20, 15, 0.5); stroke-width: 1; }
+.door-lock-k { stroke: var(--bind-2); stroke-width: 2.6; stroke-linecap: round; }
+
+.door-unlock-l {
+  padding: 4px 8px 3px;
+  background: var(--bind-2);
+  box-shadow: 0 0 0 1px rgba(239, 233, 220, 0.3);
+}
+
+.door-unlock:hover .door-lock,
+.door-unlock:focus-visible .door-lock { transform: rotate(-7deg); }
+
+.door-unlock:hover .door-unlock-l,
+.door-unlock:focus-visible .door-unlock-l { box-shadow: 0 0 0 1px var(--paper); }
+
+.door-unlock:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 4px;
+}
+
+/* Broken: the shackle springs, and the lock falls off the pull. */
+@keyframes lock-spring {
+  to { transform: rotate(38deg) translateY(-2px); }
+}
+
+@keyframes lock-fall {
+  0%   { transform: translate(calc(20.5px - 50%), 6px); opacity: 1; }
+  28%  { transform: translate(calc(20.5px - 50%), 2px) rotate(-5deg); opacity: 1; }
+  100% { transform: translate(calc(20.5px - 50%), 150px) rotate(26deg); opacity: 0; }
+}
+
+.door-unlock.is-broken {
+  pointer-events: none;
+  animation: lock-fall 0.62s cubic-bezier(0.5, 0, 0.9, 0.6) forwards;
+}
+
+.door-unlock.is-broken .door-lock-s { animation: lock-spring 0.16s ease-out forwards; }
+
+/* Rattled: the reader tried the door, and the lock says why it did not
+   open. */
+@keyframes lock-rattle {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-16deg); }
+  45% { transform: rotate(13deg); }
+  70% { transform: rotate(-8deg); }
+  88% { transform: rotate(4deg); }
+}
+
+.door-unlock.is-rattled .door-lock {
+  transform-origin: 50% 12%;
+  animation: lock-rattle 0.42s ease-out;
+}
+.door-unlock.is-broken .door-unlock-l { visibility: hidden; }
+
+@media (max-width: 620px) {
+  .doors { padding-top: 54px; }
+  .doorway { padding: 8px 8px 0; gap: 2px; }
+  .door { min-height: 340px; gap: 9px; padding: 12px 24px 14px 11px; }
+  .door-court { padding: 12px 11px 14px 24px; }
+  .door-pane { padding: 12px; }
+  .door-plate { padding: 13px 11px 12px; gap: 7px; }
+  .door-s { font-size: 0.8rem; line-height: 1.42; }
+  .door-go { font-size: 0.6rem; letter-spacing: 0.1em; }
+  .door-pull { right: 8px; width: 6px; height: 60px; margin-top: -30px; }
+  .door-court .door-pull { left: 8px; }
+  .door-unlock { transform: translate(calc(11px - 50%), 6px); }
+  .door-lock { width: 30px; }
+  /* No room for the word beside the plate at this width, and the
+     padlock on the pull says it without one. The button keeps its name
+     for a screen reader. */
+  .door-unlock-l { display: none; }
+
+  @keyframes lock-fall {
+    0%   { transform: translate(calc(11px - 50%), 6px); opacity: 1; }
+    100% { transform: translate(calc(11px - 50%), 120px) rotate(26deg); opacity: 0; }
+  }
+}
+
+@media (max-width: 360px) {
+  .door { padding: 10px 22px 12px 8px; }
+  .door-court { padding: 10px 8px 12px 22px; }
+  .door-plate { padding: 11px 6px 10px; }
+  .door-t { font-size: 0.78rem; }
+  .door-s { font-size: 0.74rem; }
+}
+
+@media print {
+  .doors { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   A view's own page
+
+   The chronology and the courtroom each have a page, and neither is
+   the case: the case page is. So the masthead here is cut down to the
+   name and the way back, and under it the two views sit as halves of
+   one bar that runs the width of the column. Equal halves, so the pair
+   is symmetrical about the middle of the page the way the doors are,
+   and the half the reader is standing in is open to the band below it.
+   ═══════════════════════════════════════════════ */
+
+.masthead-view {
+  padding: 84px 0 0;
+  border-bottom: 0;
+}
+
+.masthead-view .eyebrow { margin-bottom: 20px; }
+
+.masthead-view .masthead-title {
+  font-size: clamp(2.3rem, 6.2vw, 4.1rem);
+  margin-bottom: 44px;
+}
+
+.views {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule);
+  border-bottom: 0;
+}
+
+.view {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 14px 14px;
+
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  color: var(--muted);
+  background: rgba(23, 20, 15, 0.035);
+  box-shadow: inset 0 -1px 0 var(--rule);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.view + .view { border-left: 1px solid var(--rule); }
+
+.view:hover,
+.view:focus-visible { color: var(--ink); background: rgba(23, 20, 15, 0.012); }
+
+.view:focus-visible { outline-offset: -4px; }
+
+/* The same ground as the band underneath, and no rule between them. */
+.view[aria-current] {
+  color: var(--ink);
+  background: var(--bg-band);
+  box-shadow: inset 0 2px 0 var(--court);
+}
+
+.view-tag {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  padding: 2px 6px 1px;
+  border: 1px solid var(--rule);
+  color: var(--faint);
+}
+
+/* An entry arrived at by its own address, from the courtroom view or
+   from a link somebody sent. Held, not flashed: the reader may have
+   come a long way down the page to find it. */
+.tl-ev { scroll-margin-top: 84px; }
+/* Two classes deep on purpose: a key entry sets its own inset shadow
+   further down the sheet, and this has to beat it. */
+.tl .tl-ev:target .tl-c { box-shadow: 0 0 0 2px var(--court), 0 0 0 6px rgba(111, 74, 46, 0.14); }
+
+@media (max-width: 620px) {
+  .masthead-view { padding-top: 56px; }
+  .masthead-view .masthead-title { margin-bottom: 30px; }
+  .view { flex-direction: column; align-items: center; gap: 5px; padding: 12px 8px; font-size: 0.62rem; letter-spacing: 0.06em; }
+}
+
+@media print {
+  .views { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
+   The courtroom, from above
+
+   A plan, not a picture: walls, a bench, a stand, a jury box, two
+   tables, the bar, the gallery. Drawn in rules on the stock like
+   everything else here, with no perspective and no furniture beyond
+   what tells a reader where somebody would sit.
+
+   People are the only thing in colour, and they wear the page's three
+   inks for the page's three jobs: the side that filed, the side that
+   answered, the court. Anyone else is ink at half strength. An empty
+   seat is a dashed ring, which is what the room mostly is until the
+   record says otherwise.
+   ═══════════════════════════════════════════════ */
+
+.band-room { background: var(--bg-band); }
+
+.cr-build {
+  margin-top: 22px;
+  max-width: 50em;
+  padding: 14px 18px;
+  border-left: 2px solid var(--court);
+  background: rgba(111, 74, 46, 0.06);
+  font-size: 0.9rem;
+  line-height: 1.58;
+  color: var(--ink-2);
+}
+
+.cr-build strong { font-weight: 600; color: var(--court); }
+
+.cr { margin-top: 44px; }
+
+/* ── the bar of moments ──
+   One wide box, a tick for every entry in the chronology, and a single
+   thin line that says which one the room is showing. Previous sits at
+   the left end and Next at the right, because that is the direction
+   each of them goes.
+
+   Ticks are evenly spaced, one per entry, and not placed by date. The
+   record runs for years and does most of its work in a few weeks, so a
+   bar drawn to scale would put the trial in a sliver nobody could hit.
+   The years are written along the bottom where each one begins.
+
+   It follows the reader down the page, under the site nav, so the room
+   can be watched while the line is moved, which on a phone is the only
+   way to see both. */
+.ct {
+  position: sticky;
+  top: 44px;
+  z-index: 4;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(111, 74, 46, 0.55);
+  background: var(--bg-deep);
+  box-shadow: 0 6px 20px rgba(23, 20, 15, 0.14);
+}
+
+.ct-step {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 18px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.ct-prev { border-right: 1px solid var(--rule); }
+.ct-next { border-left: 1px solid var(--rule); }
+
+.ct-step:hover:not(:disabled),
+.ct-step:focus-visible { background: var(--bg-band); color: var(--ink); }
+
+.ct-step:focus-visible { outline-offset: -4px; }
+.ct-step:disabled { color: rgba(23, 20, 15, 0.3); cursor: default; }
+
+.ct-step-a { transition: transform 0.2s; }
+.ct-prev:hover:not(:disabled) .ct-step-a { transform: translateX(-2px); }
+.ct-next:hover:not(:disabled) .ct-step-a { transform: translateX(2px); }
+
+.ct-track {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 74px;
+  cursor: ew-resize;
+  /* A drag along the bar is the bar's, not the page's. Vertical
+     scrolling still starts from it. */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ct-track:focus-visible { outline-offset: -4px; }
+
+/* Ticks and the line share one inset box, so 0% and 100% are the first
+   and last entry and neither sits on the border. */
+.ct-ticks {
+  position: absolute;
+  inset: 0 22px;
+}
+
+.ct-tick {
+  position: absolute;
+  bottom: 24px;
+  width: 2px;
+  height: 14px;
+  margin-left: -1px;
+  background: rgba(23, 20, 15, 0.34);
+}
+
+.ct-tick.is-key { height: 26px; }
+.ct-tick-p { background: var(--p); }
+.ct-tick-d { background: var(--d); }
+.ct-tick-court { background: var(--court); }
+
+/* Before the case reached a court: shorter and paler still. */
+.ct-tick.is-before { opacity: 0.45; }
+
+/* A day something was heard in the room carries a dot over its tick, so
+   the hearings can be picked out from the paper between them. */
+.ct-tick.is-court::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: -9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.ct-year {
+  position: absolute;
+  bottom: 6px;
+  padding-left: 4px;
+  border-left: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+/* A year that begins at the far end is hung to the left of its tick,
+   so it stays inside the bar. */
+.ct-year-end {
+  transform: translateX(-100%);
+  padding: 0 4px 0 0;
+  border-left: 0;
+  border-right: 1px solid var(--rule);
+}
+
+.ct-line {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink);
+  pointer-events: none;
+  transition: left 0.22s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+/* A grip at each end, so a two-pixel line reads as something to hold. */
+.ct-line::before,
+.ct-line::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  width: 10px;
+  height: 4px;
+  background: var(--ink);
+}
+
+.ct-line::before { top: 0; }
+.ct-line::after { bottom: 0; }
+
+.ct.is-dragging .ct-line { transition: none; }
+
+/* ── the plan and what sits beside it ── */
+.cr-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+/* The plan and the key to its marks, as one column. */
+.cr-fig { max-width: 600px; }
+
+.cr-plan {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 760 / 880;
+  background: var(--paper);
+  box-shadow: 0 1px 0 rgba(23, 20, 15, 0.05), 0 10px 30px rgba(23, 20, 15, 0.08);
+}
+
+.cr-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: rgba(23, 20, 15, 0.5);
+  stroke-width: 1.5;
+}
+
+.cr-wall { stroke: var(--ink); stroke-width: 3; }
+.cr-door { stroke: var(--ink); stroke-width: 3; }
+.cr-desk { fill: rgba(23, 20, 15, 0.09); }
+.cr-box { fill: rgba(23, 20, 15, 0.035); }
+.cr-pew { fill: rgba(23, 20, 15, 0.05); stroke: rgba(23, 20, 15, 0.3); }
+.cr-bar { stroke: var(--ink); stroke-width: 2.5; }
+.cr-gate { stroke: rgba(23, 20, 15, 0.45); stroke-dasharray: 3 4; }
+
+/* The part of the room that acted in this moment: a table, or the
+   bench. Invisible until the script names it. */
+.cr-area {
+  stroke: none;
+  fill: transparent;
+  transition: fill 0.3s;
+}
+
+.cr-area[data-area="court"] { fill: rgba(23, 20, 15, 0.03); stroke: rgba(23, 20, 15, 0.3); }
+.cr-area.is-acting[data-area="p"] { fill: var(--p-wash); stroke: var(--p-edge); }
+.cr-area.is-acting[data-area="d"] { fill: var(--d-wash); stroke: var(--d-edge); }
+.cr-area.is-acting[data-area="court"] { fill: rgba(111, 74, 46, 0.12); stroke: rgba(111, 74, 46, 0.6); }
+
+.cr-seat {
+  stroke: rgba(23, 20, 15, 0.34);
+  stroke-dasharray: 3 3.5;
+  transition: fill 0.25s, stroke 0.25s;
+}
+
+/* A place on a bench is not a chair: nothing is drawn until someone
+   is sitting in it. */
+.cr-seat-bench { stroke: none; }
+
+/* The parts of the room, for the script to measure. Never drawn. */
+.cr-zone { stroke: none; fill: none; }
+
+/* The public: unnamed, and only there when a source says the benches
+   had people on them. Smaller and greyer than anyone with a name. */
+.cr-pub { stroke: none; fill: none; transition: fill 0.25s; }
+.cr-pub.is-on { fill: rgba(23, 20, 15, 0.36); }
+
+.cr-seat-j.is-on { stroke-dasharray: none; stroke: none; fill: rgba(23, 20, 15, 0.6); }
+.cr-seat-j.is-on.is-p { fill: var(--p); }
+.cr-seat-j.is-on.is-d { fill: var(--d); }
+.cr-seat-j.is-on.is-alt { fill: none; stroke: rgba(23, 20, 15, 0.6); stroke-width: 2; }
+
+/* A jury that exists and is not in the room at this moment. */
+.cr-seat-j.is-on.is-ghost { fill-opacity: 0.28; stroke-opacity: 0.4; }
+
+/* Labels are set over the plan in the page's own type, not drawn in
+   it, so they stay one size while the room scales under them. */
+.cr-lab {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--faint);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ── a person ──
+   A real button over the seat, so it takes focus and a finger as well
+   as a pointer. The ring of stock around it is what separates two
+   people at one table when the plan is a phone wide. */
+.cr-node {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  padding: 0;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: rgba(23, 20, 15, 0.6);
+  box-shadow: 0 1px 4px rgba(23, 20, 15, 0.35);
+  cursor: help;
+  /* Above the part of the room they are in, by rule and not by the
+     order the script happened to add them in. */
+  z-index: 1;
+  transition: transform 0.18s, box-shadow 0.18s;
+  animation: node-in 0.3s ease-out;
+}
+
+@keyframes node-in {
+  from { opacity: 0; transform: scale(0.4); }
+}
+
+.cr-node[data-side="p"] { background: var(--p); }
+.cr-node[data-side="d"] { background: var(--d); }
+.cr-node[data-side="court"] { background: var(--court); }
+
+.cr-node:hover,
+.cr-node:focus-visible,
+.cr-node.is-open {
+  transform: scale(1.22);
+  box-shadow: 0 0 0 3px rgba(23, 20, 15, 0.16), 0 2px 8px rgba(23, 20, 15, 0.4);
+  z-index: 2;
+}
+
+.cr-node:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ── three ways of being there ──
+   Filled: a source places this person in the room at this moment.
+   Ringed with a dot: they appeared, on a screen.
+   Hollow and dashed: they are part of the case at this point, and no
+   more than that is recorded, which on most dates is because nothing
+   was heard in court at all. The colour is still whose side they are
+   on, so the room keeps its shape when it is nearly all hollow. */
+.cr-node.is-case {
+  background: var(--paper);
+  border: 2px dashed rgba(23, 20, 15, 0.5);
+  box-shadow: none;
+}
+
+.cr-node.is-case[data-side="p"] { background: var(--paper); border-color: var(--p); }
+.cr-node.is-case[data-side="d"] { background: var(--paper); border-color: var(--d); }
+.cr-node.is-case[data-side="court"] { background: var(--paper); border-color: var(--court); }
+
+.cr-node.is-remote {
+  border: 2px solid rgba(23, 20, 15, 0.6);
+  background: radial-gradient(circle, rgba(23, 20, 15, 0.6) 0 34%, var(--paper) 38%);
+}
+
+.cr-node.is-remote[data-side="p"] { border-color: var(--p); background: radial-gradient(circle, var(--p) 0 34%, var(--paper) 38%); }
+.cr-node.is-remote[data-side="d"] { border-color: var(--d); background: radial-gradient(circle, var(--d) 0 34%, var(--paper) 38%); }
+.cr-node.is-remote[data-side="court"] { border-color: var(--court); background: radial-gradient(circle, var(--court) 0 34%, var(--paper) 38%); }
+
+/* The jury is many circles and one thing to point at: the node is a
+   frame around its seats, and the circles are drawn underneath it. */
+.cr-node-group {
+  width: auto;
+  height: auto;
+  margin: 0;
+  border: 1px dashed rgba(23, 20, 15, 0.42);
+  border-radius: 4px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.cr-node-group[data-side="p"] { background: transparent; border-color: var(--p); }
+.cr-node-group[data-side="d"] { background: transparent; border-color: var(--d); }
+
+.cr-node-group:hover,
+.cr-node-group:focus-visible,
+.cr-node-group.is-open {
+  transform: none;
+  background: rgba(23, 20, 15, 0.07);
+  box-shadow: none;
+}
+
+.cr-node-group[data-side="p"]:hover,
+.cr-node-group[data-side="p"]:focus-visible,
+.cr-node-group[data-side="p"].is-open { background: var(--p-wash); }
+
+.cr-node-group[data-side="d"]:hover,
+.cr-node-group[data-side="d"]:focus-visible,
+.cr-node-group[data-side="d"].is-open { background: var(--d-wash); }
+
+.cr-node-group.is-ghost { border-style: dotted; }
+
+/* ── a part of the room ──
+   The whole of it is the thing to point at, and the question mark in
+   its corner is what says so: the same mark as the Terms button, for
+   the same offer. Nothing else is drawn until it is pointed at, so an
+   empty jury box still looks empty. */
+.cr-node-zone {
+  width: auto;
+  height: auto;
+  margin: 0;
+  border: 1px dashed transparent;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  animation: none;
+  /* Under everyone in it, always. See the rule below. */
+  z-index: 0;
+}
+
+/* A circle lifts above its neighbours when it is pointed at, which is
+   right for a circle and wrong for the floor it stands on: a part of
+   the room that rose with the pointer would come up over the people
+   sitting in it, and nobody inside it could ever be reached. So the
+   lift is taken back off here, in all three states that grant it. */
+.cr-node-zone:hover,
+.cr-node-zone:focus-visible,
+.cr-node-zone.is-open {
+  transform: none;
+  border-color: rgba(111, 74, 46, 0.6);
+  background: rgba(111, 74, 46, 0.07);
+  box-shadow: none;
+  z-index: 0;
+}
+
+.cr-q {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1px solid rgba(111, 74, 46, 0.7);
+  background: var(--bg-deep);
+  color: var(--court);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 15px;
+  text-align: center;
+  transition: background-color 0.18s, color 0.18s;
+}
+
+.cr-node-zone:hover .cr-q,
+.cr-node-zone:focus-visible .cr-q,
+.cr-node-zone.is-open .cr-q { background: var(--court); color: var(--paper); }
+
+/* ── the key ── */
+.cr-key {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.cr-key li { display: flex; align-items: center; gap: 8px; }
+
+.cr-k {
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  font-style: normal;
+}
+
+.cr-k-in { background: rgba(23, 20, 15, 0.6); }
+.cr-k-remote { border: 2px solid rgba(23, 20, 15, 0.6); background: radial-gradient(circle, rgba(23, 20, 15, 0.6) 0 30%, transparent 36%); }
+.cr-k-case { border: 2px dashed rgba(23, 20, 15, 0.5); }
+
+.cr-k-q {
+  width: 15px;
+  height: 15px;
+  border: 1px solid rgba(111, 74, 46, 0.7);
+  color: var(--court);
+  font-size: 0.56rem;
+  font-weight: 600;
+  line-height: 13px;
+  text-align: center;
+}
+
+/* ── the card a seat opens ──
+   The glossary's own frame at a smaller size, because it is the same
+   act: the reader has pointed at something and asked what it is. */
+.cr-pop {
+  position: absolute;
+  z-index: 3;
+  width: min(280px, calc(100% - 20px));
+  padding: 15px 17px 16px;
+  background: var(--bg-deep);
+  border: 1px solid rgba(111, 74, 46, 0.55);
+  box-shadow:
+    0 0 0 2px var(--bg-deep),
+    0 0 0 3px var(--court),
+    0 12px 32px 3px rgba(23, 20, 15, 0.28);
+  pointer-events: none;
+  animation: gloss-in 0.16s ease-out;
+}
+
+/* Pinned by a press, it can be read, selected and scrolled past. */
+.cr-pop.is-pinned { pointer-events: auto; }
+
+/* The one thing a circle cannot say about itself: that pressing it
+   keeps the card. As small as the page sets anything, in the corner a
+   reader's eye leaves a card by. It changes when the card is stuck, to
+   say how to let it go. */
+.cr-hint {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--faint);
+}
+
+.cr-pop.is-pinned .cr-hint { color: var(--court); }
+
+.cr-pop .cr-role,
+.cr-cast .cr-role {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--court);
+  margin-bottom: 5px;
+}
+
+.cr-pop .cr-name,
+.cr-cast .cr-name {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 0;
+  font-weight: 600;
+  font-size: 1.08rem;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 7px;
+}
+
+.cr-pop .cr-note,
+.cr-cast .cr-note {
+  font-size: 0.84rem;
+  line-height: 1.52;
+  color: var(--ink-2);
+}
+
+/* Which of the three this person is at this moment, said in words above
+   their name, for a reader who cannot tell a filled circle from a
+   hollow one or would rather not have to. */
+.cr-status {
+  display: inline-block;
+  margin-bottom: 7px;
+  padding: 2px 6px 1px;
+  border: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+[data-status="in"] > .cr-status,
+[data-status="remote"] > .cr-status { color: var(--ink); border-color: rgba(23, 20, 15, 0.4); }
+
+/* Where it comes from. The same form as a citation in the chronology,
+   and for the same reason: a seat is a claim, and the reader should be
+   one click from checking it. */
+.cr-cite {
+  margin-top: 9px;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  color: var(--faint);
+}
+
+span.cr-cite { margin: 0; white-space: normal; }
+
+/* ── the moment ── */
+.cm {
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-bottom: 12px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.cm-n { color: var(--faint); }
+.cm-date { color: var(--ink); }
+
+.cm-who {
+  padding: 2px 7px 1px;
+  border: 1px solid var(--rule);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cm-who[data-side="p"] { color: var(--p); border-color: var(--p-edge); }
+.cm-who[data-side="d"] { color: var(--d); border-color: var(--d-edge); }
+.cm-who[data-side="court"] { color: var(--court); border-color: rgba(111, 74, 46, 0.5); }
+
+.cm-h {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  line-height: 1.16;
+  letter-spacing: -0.008em;
+  margin-bottom: 12px;
+}
+
+.cm-b {
+  font-size: 0.96rem;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+/* Where this moment happened: in the room, in some other room, or on
+   paper. It decides how the whole plan should be read, so it is set
+   apart from the chronology's own words above it. */
+.cm-room {
+  margin-top: 16px;
+  padding: 11px 14px 12px;
+  border-left: 2px solid var(--rule);
+  background: rgba(23, 20, 15, 0.03);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.cm-room[data-kind="court"] { border-left-color: var(--court); background: rgba(111, 74, 46, 0.07); }
+
+.cm-room-k {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.cm-room[data-kind="court"] .cm-room-k { color: var(--court); }
+.cm-room .cr-cite { display: block; margin-top: 6px; }
+
+.cm-room:empty { display: none; }
+
+.cm-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--court);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(111, 74, 46, 0.35);
+  padding-bottom: 2px;
+}
+
+.cm-link:hover,
+.cm-link:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
+
+/* ── everyone in the room, as a list ──
+   The plan again, for a reader who cannot hover, cannot see it, or
+   would simply rather read. It is also the page's data: the script
+   seats people from these rows and hides the ones who are not there
+   yet. */
+.cr-cast-h {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+  margin-bottom: 4px;
+}
+
+.cr-cast { list-style: none; }
+
+.cr-who {
+  position: relative;
+  padding: 14px 0 14px 22px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.cr-who:last-child { border-bottom: 0; }
+
+.cr-who::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 19px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(23, 20, 15, 0.6);
+}
+
+.cr-who[data-side="p"]::before { background: var(--p); }
+.cr-who[data-side="d"]::before { background: var(--d); }
+.cr-who[data-side="court"]::before { background: var(--court); }
+.cr-who[data-side="alt"]::before { background: none; box-shadow: inset 0 0 0 1.5px rgba(23, 20, 15, 0.6); }
+
+/* The list wears the same three marks as the plan. */
+.cr-who[data-status="case"]::before {
+  background: none;
+  border: 1.5px dashed rgba(23, 20, 15, 0.5);
+  width: 10px;
+  height: 10px;
+}
+
+.cr-who[data-status="case"][data-side="p"]::before { background: none; border-color: var(--p); }
+.cr-who[data-status="case"][data-side="d"]::before { background: none; border-color: var(--d); }
+.cr-who[data-status="case"][data-side="court"]::before { background: none; border-color: var(--court); }
+
+.cr-who[data-status="remote"]::before { box-shadow: 0 0 0 2px var(--bg-band), 0 0 0 3.5px rgba(23, 20, 15, 0.5); width: 6px; height: 6px; left: 2px; top: 21px; }
+
+/* A note on a part of the room, not a person. */
+.cr-about::before {
+  content: '?';
+  top: 15px;
+  width: 14px;
+  height: 14px;
+  left: -3px;
+  border: 1px solid rgba(111, 74, 46, 0.7);
+  background: none;
+  color: var(--court);
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  font-weight: 600;
+  line-height: 13px;
+  text-align: center;
+}
+
+/* ── the days in court, as a list ──
+   Only ever seen without the script, which otherwise shows each day
+   under its own moment and puts this away. */
+.cr-days { margin-top: 44px; max-width: 46em; }
+
+.cr-sits { list-style: none; }
+
+.cr-sits li {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.cr-sit-d {
+  display: inline-block;
+  min-width: 9.5em;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.cr-sits li[data-kind="away"] .cr-sit-d { color: var(--faint); }
+
+.cr-who.is-lit { background: rgba(111, 74, 46, 0.07); box-shadow: -10px 0 0 rgba(111, 74, 46, 0.07), 10px 0 0 rgba(111, 74, 46, 0.07); }
+
+.cr-cast .cr-name { font-size: 1rem; margin-bottom: 4px; }
+
+.cr-empty {
+  padding: 14px 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .cr-cols { grid-template-columns: 1fr; gap: 34px; }
+  /* On one column the moment is read first and the room second, with
+     the list last. The side column is taken apart so the plan can sit
+     between its two halves. */
+  .cr-side { display: contents; }
+  .cm { order: -1; margin-bottom: 0; padding-bottom: 0; border-bottom: 0; }
+  .cr-fig { margin: 0 auto; width: 100%; }
+}
+
+@media (max-width: 620px) {
+  .ct-step { padding: 0 13px; }
+  .ct-step-l { display: none; }
+  .ct-track { height: 64px; }
+  .ct-ticks { inset: 0 12px; }
+  .ct-tick { bottom: 22px; }
+  .cr-node:not(.cr-node-group):not(.cr-node-zone) { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+  .cr-q { top: 3px; right: 3px; width: 15px; height: 15px; line-height: 13px; font-size: 0.54rem; }
+  .cr-lab { font-size: 0.48rem; letter-spacing: 0.08em; }
+}
+
+@media print {
+  .ct, .cr-pop { display: none; }
+}
+
+/* ═══════════════════════════════════════════════
    Bands and section headers
    ═══════════════════════════════════════════════ */
 
@@ -2768,36 +3996,63 @@ a.case-a:focus-visible {
   background-color: rgba(111, 74, 46, 0.08);
 }
 
-/* Where the reader lands. The entry lights and settles, which is enough
-   to say "here" without holding on to the page afterwards. Both the row
-   and the term itself move, because the definition is the thing wanted
-   and the word is the thing recognised. */
+/* Where the reader lands. The panel opens in a corner the eye has just
+   left, so the entry has to call it back: the row flares as lit paper
+   with a lamp-coloured halo, well past anything else on the page, and
+   then lets go. As it does, the light passes to the word itself, which
+   holds it for as long as the panel is open. The flare says "here"; the
+   word goes on saying "this one" after the reader has looked away and
+   come back.
+
+   The resting state lives in the plain rule and the animation only
+   describes the way in, so a reader who has asked for less movement
+   gets the lit word at once and nothing has to be filled forwards. */
 @keyframes term-found {
-  0%   { background-color: rgba(111, 74, 46, 0.26); }
-  55%  { background-color: rgba(111, 74, 46, 0.18); }
-  100% { background-color: rgba(111, 74, 46, 0); }
+  0% {
+    background-color: rgba(255, 244, 214, 0);
+    box-shadow: 0 0 0 1px rgba(111, 74, 46, 0), 0 0 0 0 rgba(196, 132, 44, 0);
+  }
+  10% {
+    background-color: rgba(255, 244, 214, 0.96);
+    box-shadow: 0 0 0 1px rgba(111, 74, 46, 0.7), 0 0 18px 4px rgba(196, 132, 44, 0.7);
+  }
+  45% {
+    background-color: rgba(255, 244, 214, 0.8);
+    box-shadow: 0 0 0 1px rgba(111, 74, 46, 0.5), 0 0 14px 2px rgba(196, 132, 44, 0.45);
+  }
+  100% {
+    background-color: rgba(255, 244, 214, 0);
+    box-shadow: 0 0 0 1px rgba(111, 74, 46, 0), 0 0 0 0 rgba(196, 132, 44, 0);
+  }
 }
 
 @keyframes term-found-dt {
-  0%   { color: var(--court); }
-  55%  { color: var(--court); }
-  100% { color: var(--ink); }
+  0%, 45% {
+    color: var(--court);
+    text-shadow: none;
+  }
 }
 
-.gloss-l > div.is-found {
-  animation: term-found 1.9s ease-out;
-  border-radius: 2px;
-}
+.gloss-l > div.is-found { animation: term-found 2.4s ease-out; }
 
-.gloss-l > div.is-found dt { animation: term-found-dt 1.9s ease-out; }
+.gloss-l > div.is-found dt {
+  color: #8a4a12;
+  font-weight: 600;
+  text-shadow: 0 0 9px rgba(214, 146, 48, 0.85), 0 0 2px rgba(255, 236, 190, 0.9);
+  animation: term-found-dt 2.4s ease-out;
+}
 
 /* Without a script the anchor still lands, and :target still marks it. */
 .gloss-l dt:target { color: var(--court); }
 
+@keyframes gloss-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gloss-l > div.is-found,
-  .gloss-l > div.is-found dt { animation: none; }
-  .gloss-l > div.is-found { background-color: rgba(111, 74, 46, 0.16); }
+  .gloss-l > div.is-found dt,
+  .gloss[open] .gloss-p { animation: none; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -2860,17 +4115,28 @@ a.case-a:focus-visible {
 .gloss-p {
   position: absolute;
   left: 0;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 15px);
   width: min(30rem, calc(100vw - 2 * var(--gut)));
   max-height: min(62vh, 620px);
   overflow-y: auto;
   overscroll-behavior: contain;
 
   padding: 26px 28px 28px;
-  border: 1px solid var(--rule);
   background: var(--bg-deep);
-  box-shadow: 0 14px 46px rgba(23, 20, 15, 0.2);
+
+  /* A ruled frame, the way a certificate or a title page is boxed: a
+     hairline, a band of the stock, then the heavier rule. The outer two
+     are shadows rather than a second border because the panel scrolls,
+     and anything drawn inside the padding would have the entries run
+     across it. Sepia, since this is the court's vocabulary. */
+  border: 1px solid rgba(111, 74, 46, 0.55);
+  box-shadow:
+    0 0 0 3px var(--bg-deep),
+    0 0 0 5px var(--court),
+    0 18px 50px 5px rgba(23, 20, 15, 0.3);
 }
+
+.gloss[open] .gloss-p { animation: gloss-in 0.24s ease-out; }
 
 .gloss-h {
   font-family: var(--display);
@@ -2897,11 +4163,15 @@ a.case-a:focus-visible {
   border-bottom: 1px solid var(--rule-soft);
 }
 
+/* Each row is let out past its text by the same amount it is padded
+   back in, so the text sits where it always did and the flare above has
+   a margin to be a rectangle in rather than hugging the letters. */
 .gloss-l > div {
   display: grid;
   grid-template-columns: 8.5rem 1fr;
   gap: 4px 16px;
-  padding: 8px 0;
+  margin: 0 -10px;
+  padding: 8px 10px;
 }
 
 .gloss-l dt {

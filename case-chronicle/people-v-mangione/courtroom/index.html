@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description" content="People v. Mangione as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <!-- A preview of a view that is still being built. Out of the
+         index until it is finished. -->
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/people-v-mangione/courtroom/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/people-v-mangione/courtroom/">
+    <meta property="og:title" content="People v. Mangione, the courtroom &mdash; Case Chronicle">
+    <meta property="og:description" content="People v. Mangione as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>People v. Mangione, the courtroom &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="people-v-mangione">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No trial wash on this page, and the reason is the case itself: there
+         has been no trial, in either court, and so there is no sworn
+         testimony to run down the margins. What exists instead is written
+         argument and two judges' opinions, and an opinion is not a side's
+         own words. The layer goes in when the state case is tried, or when
+         the double jeopardy motion is argued on 10 December and there is a
+         transcript of counsel saying these things out loud. Until then the
+         quotations belong on the cards, cited, where a reader can see what
+         document they came from. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The two views sit side by side underneath as halves
+             of one bar, the same pairing as the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/people-v-mangione/">&larr;&nbsp; People v. Mangione</a></p>
+                <p class="eyebrow">N.Y. Sup. Ct., New York Cty., Part 32 &middot; Ind. No. 75657&#8209;24 &nbsp;&middot;&nbsp; S.D.N.Y. &middot; No. 1:25&#8209;cr&#8209;00176</p>
+                <h1 class="masthead-title">People <em>v.</em> Mangione</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/people-v-mangione/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/people-v-mangione/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The courtroom, from above
+
+             A preview. The plan is the same for every case: a bench, a
+             stand, a jury box, two tables, the bar and the gallery. What
+             differs is the list of people underneath it, which is plain
+             markup and is the whole of this page's data: who, in which
+             seat, and between which entries of the chronology.
+
+             The script reads that list, reads the chronology page for
+             the moments, and seats people accordingly. With no script
+             the plan is drawn empty and the list is simply a list.
+
+             Left is the side that filed, as everywhere else here, which
+             is also where a real courtroom puts it: the party carrying
+             the burden sits nearest the jury.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-room" id="courtroom" aria-labelledby="cr-h">
+            <div class="wrap">
+                <p class="kicker">Courtroom View &middot; Preview</p>
+                <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
+                <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, who was only on a screen, and which parts of it stood empty.</p>
+                <p class="cr-build"><strong>Still being built.</strong> A filled circle is someone a source places
+                    in the room that day: a minute entry, a transcript, a photograph or a report, linked from the
+                    card. A hollow one is someone who was part of the case at that point and is not recorded in
+                    the room, which on most dates is because nothing happened in court at all. A question mark
+                    explains a part of the room. The plan is a plain one and not a drawing of the real courtroom.</p>
+
+                <div class="cr" data-chronology="/case-chronicle/people-v-mangione/chronology/" data-opens="ev-extradited-and-detained">
+
+                    <!-- The bar of moments. Empty here and hidden: it is built
+                         from the chronology, which only the script can fetch. -->
+                    <div class="ct" hidden>
+                        <button class="ct-step ct-prev" type="button" aria-label="Previous event">
+                            <span class="ct-step-a" aria-hidden="true">&larr;</span>
+                            <span class="ct-step-l">Previous</span>
+                        </button>
+                        <div class="ct-track" role="slider" tabindex="0" aria-label="Moment in the case"
+                            aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+                            <div class="ct-ticks"></div>
+                            <div class="ct-line"></div>
+                        </div>
+                        <button class="ct-step ct-next" type="button" aria-label="Next event">
+                            <span class="ct-step-l">Next</span>
+                            <span class="ct-step-a" aria-hidden="true">&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="cr-cols">
+                        <div class="cr-fig">
+                            <div class="cr-plan">
+                            <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true" focusable="false">
+                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
+                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+
+                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
+                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+
+                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
+                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+
+                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
+                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+
+                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+
+                            <!-- The parts of the room, for the script to measure. Never drawn. -->
+                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
+                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+
+                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
+                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
+                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                        </svg>
+                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
+                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
+                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
+                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
+                        <span class="cr-lab" style="left:39.34%;top:45%">Prosecution</span>
+                        <span class="cr-lab" style="left:66.97%;top:45%">Defence</span>
+                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
+                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            </div>
+
+                            <!-- What the marks mean. Hidden until the script has
+                                 drawn any, since without it there are none. -->
+                            <ul class="cr-key" hidden>
+                                <li><i class="cr-k cr-k-in"></i>In the room</li>
+                                <li><i class="cr-k cr-k-remote"></i>By video</li>
+                                <li><i class="cr-k cr-k-case"></i>In the case, not recorded in the room</li>
+                                <li><i class="cr-k cr-k-q">?</i>About this part of the room</li>
+                            </ul>
+                        </div>
+
+                        <div class="cr-side">
+                            <div class="cm" hidden>
+                                <p class="cm-meta"><span class="cm-n"></span><span class="cm-date"></span><span class="cm-who"></span></p>
+                                <h3 class="cm-h"></h3>
+                                <p class="cm-b"></p>
+                                <p class="cm-room"></p>
+                                <a class="cm-link" href="/case-chronicle/people-v-mangione/chronology/">Read this entry in the Chronological View <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+
+                            <div class="cr-list">
+                                <h3 class="cr-cast-h">In the room</h3>
+                                <ul class="cr-cast">
+                                <li class="cr-who" id="cr-p1" data-seat="judge-l" data-side="court" data-in="ev-carro-j-the-terrorism-counts-are-legally ev-state-suppression-hearings-begin ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense">
+                                    <p class="cr-role">The state court, Part 32</p>
+                                    <p class="cr-name">Carro, J.</p>
+                                    <p class="cr-note">Gregory Carro hears the New York prosecution. Two judges in two courthouses are drawn at one bench here because the two cases act on each other. Only one of them is ever in the room.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://6abc.com/post/luigi-mangione-due-court-amid-double-jeopardy-fight-unitedhealthcare-ceos-killing/17826291/" target="_blank" rel="noopener" aria-label="Associated Press report of 16 September 2025, as carried by 6abc">AP, 16 Sept 2025</a>; <a class="cite-doc" href="https://www.nbcnews.com/news/us-news/luigi-mangione-will-face-trial-new-york-june-8-rcna257767" target="_blank" rel="noopener" aria-label="NBC News report of 6 February 2026">NBC News, 6 Feb 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge-r" data-side="court" data-at="ev-extradited-and-detained" data-in="*">
+                                    <p class="cr-role">Magistrate judge, federal court</p>
+                                    <p class="cr-name">Parker, M.J.</p>
+                                    <p class="cr-note">Katharine H. Parker took his first federal appearance and ordered him held, on consent and without prejudice.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?entry_gte=5&entry_lte=5" target="_blank" rel="noopener" aria-label="Minute entry of 19 December 2024, opens the docket entry on CourtListener">19 Dec 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="judge-r" data-side="court" data-from="ev-the-federal-indictment-four-counts" data-in="ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">The federal court, S.D.N.Y.</p>
+                                    <p class="cr-name">Garnett, J.</p>
+                                    <p class="cr-note">Margaret M. Garnett has the federal case from the indictment on. Took the arraignment, every conference since, and the guilty plea of 14 August 2026.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-474531497" target="_blank" rel="noopener" aria-label="Minute entry of 14 Aug 2026, opens the federal docket on CourtListener">14 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="rep" data-side="n" data-at="ev-extradited-and-detained ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died" data-in="*">
+                                    <p class="cr-role">Court staff</p>
+                                    <p class="cr-name">The court reporter</p>
+                                    <p class="cr-note">Every federal minute entry records a court reporter present. The transcripts of two later conferences were unsealed, with redactions, on 28 August 2026.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="p1" data-side="p" data-gone="ev-state-suppression-hearings-begin">
+                                    <p class="cr-role">The state prosecution</p>
+                                    <p class="cr-name">The District Attorney&rsquo;s office</p>
+                                    <p class="cr-note">The indictment of 17 December 2024 is signed by District Attorney Alvin L. Bragg Jr. The reporting used here does not name the prosecutor in court before December 2025.</p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="p1" data-side="p" data-from="ev-state-suppression-hearings-begin" data-in="ev-state-suppression-hearings-begin ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense">
+                                    <p class="cr-role">For the People</p>
+                                    <p class="cr-name">Joel Seidemann</p>
+                                    <p class="cr-note">Assistant District Attorney. Questioned the officers at the December suppression hearing, and on 6 February 2026 told the court the killing happened &ldquo;on our streets, in our city.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://abc7ny.com/post/bodycam-arrest-video-alleged-manifesto-take-center-stage-luigi-mangiones-hearing/18274719/" target="_blank" rel="noopener" aria-label="WABC report of 11 December 2025">WABC, 11 Dec 2025</a>; <a class="cite-doc" href="https://www.nbcnews.com/news/us-news/luigi-mangione-will-face-trial-new-york-june-8-rcna257767" target="_blank" rel="noopener" aria-label="NBC News report of 6 February 2026">NBC News, 6 Feb 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="p2" data-side="p" data-in="ev-extradited-and-detained ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">For the United States</p>
+                                    <p class="cr-name">Dominic Gentile</p>
+                                    <p class="cr-note">Assistant U.S. Attorney. The one federal prosecutor at his first appearance, and present at every federal hearing since.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?entry_gte=5&entry_lte=5" target="_blank" rel="noopener" aria-label="Minute entry of 19 December 2024, opens the docket entry on CourtListener">19 Dec 2024</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-474531497" target="_blank" rel="noopener" aria-label="Minute entry of 14 Aug 2026, opens the federal docket on CourtListener">14 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="p3" data-side="p" data-from="ev-arraigned-in-the-federal-case" data-in="ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">For the United States</p>
+                                    <p class="cr-name">Jun Xiang</p>
+                                    <p class="cr-note">Assistant U.S. Attorney. Present at every hearing from the arraignment on.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-459385601" target="_blank" rel="noopener" aria-label="Minute entry of 1 Apr 2026, opens the federal docket on CourtListener">1 Apr 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="p4" data-side="p" data-from="ev-arraigned-in-the-federal-case" data-in="ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">For the United States</p>
+                                    <p class="cr-name">Alexandra Messiter</p>
+                                    <p class="cr-note">Assistant U.S. Attorney. Present at the arraignment and at most hearings since. Not at the conference of 1 April 2026.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-469650131" target="_blank" rel="noopener" aria-label="Minute entry of 29 Jun 2026, opens the federal docket on CourtListener">29 Jun 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="p5" data-side="p" data-from="ev-arraigned-in-the-federal-case" data-in="ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">For the United States</p>
+                                    <p class="cr-name">Thomas Wright</p>
+                                    <p class="cr-note">Assistant U.S. Attorney. Present at the arraignment and at most hearings since. Not at the conference of 1 April 2026.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-469650131" target="_blank" rel="noopener" aria-label="Minute entry of 29 Jun 2026, opens the federal docket on CourtListener">29 Jun 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="d1" data-side="d" data-in="ev-extradited-and-detained ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died ev-carro-j-the-terrorism-counts-are-legally ev-state-suppression-hearings-begin ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense">
+                                    <p class="cr-role">The defendant</p>
+                                    <p class="cr-name">Mangione</p>
+                                    <p class="cr-note">Held in federal custody in Brooklyn throughout, and produced for each court in turn. In state court he has appeared in jail clothes and shackles.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://6abc.com/post/luigi-mangione-due-court-amid-double-jeopardy-fight-unitedhealthcare-ceos-killing/17826291/" target="_blank" rel="noopener" aria-label="Associated Press report of 16 September 2025, as carried by 6abc">AP, 16 Sept 2025</a>; minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-474531497" target="_blank" rel="noopener" aria-label="Minute entry of 14 Aug 2026, opens the federal docket on CourtListener">14 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="d2" data-side="d" data-in="ev-extradited-and-detained ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died ev-state-suppression-hearings-begin ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense">
+                                    <p class="cr-role">Retained counsel</p>
+                                    <p class="cr-name">Karen Friedman Agnifilo</p>
+                                    <p class="cr-note">With him from his first federal appearance. Cross-examined officers at the state suppression hearing, and on 6 February 2026 told the state court the defence would not be ready by June.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?entry_gte=5&entry_lte=5" target="_blank" rel="noopener" aria-label="Minute entry of 19 December 2024, opens the docket entry on CourtListener">19 Dec 2024</a>; <a class="cite-doc" href="https://abc7ny.com/post/more-officers-expected-testify-luigi-mangiones-evidence-suppression-hearing-day-7/18279337/" target="_blank" rel="noopener" aria-label="WABC report of 12 December 2025">WABC, 12 Dec 2025</a>; <a class="cite-doc" href="https://www.nbcnews.com/news/us-news/luigi-mangione-will-face-trial-new-york-june-8-rcna257767" target="_blank" rel="noopener" aria-label="NBC News report of 6 February 2026">NBC News, 6 Feb 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="d3" data-side="d" data-in="ev-extradited-and-detained ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died">
+                                    <p class="cr-role">Retained counsel</p>
+                                    <p class="cr-name">Marc Agnifilo</p>
+                                    <p class="cr-note">With him from his first federal appearance, and at every federal hearing since.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?entry_gte=5&entry_lte=5" target="_blank" rel="noopener" aria-label="Minute entry of 19 December 2024, opens the docket entry on CourtListener">19 Dec 2024</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-474531497" target="_blank" rel="noopener" aria-label="Minute entry of 14 Aug 2026, opens the federal docket on CourtListener">14 Aug 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="d4" data-side="d" data-from="ev-learned-counsel-appointed" data-in="ev-arraigned-in-the-federal-case ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning ev-both-trials-move-on-the-same-day ev-the-federal-trial-yields ev-i-shot-mr-thompson-in-manhattan-and-he-died ev-state-suppression-hearings-begin">
+                                    <p class="cr-role">Retained counsel</p>
+                                    <p class="cr-name">Jacob Kaplan</p>
+                                    <p class="cr-note">At every federal hearing from the arraignment on. In state court, cross-examined the sergeant who photographed what came out of the backpack.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>; <a class="cite-doc" href="https://abc7ny.com/post/bodycam-arrest-video-alleged-manifesto-take-center-stage-luigi-mangiones-hearing/18274719/" target="_blank" rel="noopener" aria-label="WABC report of 11 December 2025">WABC, 11 Dec 2025</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="d5" data-side="d" data-from="ev-learned-counsel-appointed" data-gone="ev-both-trials-move-on-the-same-day" data-in="ev-arraigned-in-the-federal-case ev-argued ev-two-opinions-the-same-morning">
+                                    <p class="cr-role">Learned counsel</p>
+                                    <p class="cr-name">Avraham Moskowitz</p>
+                                    <p class="cr-note">Appointed at public expense on 4 February 2025 because the federal case was capital. Relieved in April 2026, once it no longer was.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-452468391" target="_blank" rel="noopener" aria-label="Minute entry of 30 Jan 2026, opens the federal docket on CourtListener">30 Jan 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="d6" data-side="d" data-at="ev-argued ev-a-hearing-about-an-inventory-form ev-two-opinions-the-same-morning" data-in="*">
+                                    <p class="cr-role">Also for the defence</p>
+                                    <p class="cr-name">Schulman, Neff and Patel</p>
+                                    <p class="cr-note">Eylan Schulman, Christopher Neff and Paresh Patel appeared with the defence on 9 and 23 January 2026. Schulman and Neff were there again on the 30th.</p>
+                                    <p class="cr-cite">Minute entries, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-449871499" target="_blank" rel="noopener" aria-label="Minute entry of 9 Jan 2026, opens the federal docket on CourtListener">9 Jan 2026</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-451902100" target="_blank" rel="noopener" aria-label="Minute entry of 23 Jan 2026, opens the federal docket on CourtListener">23 Jan 2026</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-452468391" target="_blank" rel="noopener" aria-label="Minute entry of 30 Jan 2026, opens the federal docket on CourtListener">30 Jan 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="stand" data-side="p" data-at="ev-a-hearing-about-an-inventory-form" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">An Altoona police officer</p>
+                                    <p class="cr-note">The court had ordered the government to produce an officer who could speak to how the Altoona department secured and inventoried an arrested person&rsquo;s property. The minute entry records testimony and does not name the witness.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-451902100" target="_blank" rel="noopener" aria-label="Minute entry of 23 Jan 2026, opens the federal docket on CourtListener">23 Jan 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="stand" data-side="p" data-at="ev-state-suppression-hearings-begin" data-in="*">
+                                    <p class="cr-role">On the stand, over several days</p>
+                                    <p class="cr-name">Altoona police officers</p>
+                                    <p class="cr-note">The officers from the arrest, one after another: among them Lt. William Hanelly, the senior officer at the McDonald&rsquo;s, Sgt. John Burns, Sgt. Eric Heuston and Officer Samuel McCoy.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://abc7ny.com/post/bodycam-arrest-video-alleged-manifesto-take-center-stage-luigi-mangiones-hearing/18274719/" target="_blank" rel="noopener" aria-label="WABC report of 11 December 2025">WABC, 11 Dec 2025</a>; <a class="cite-doc" href="https://abc7ny.com/post/more-officers-expected-testify-luigi-mangiones-evidence-suppression-hearing-day-7/18279337/" target="_blank" rel="noopener" aria-label="WABC report of 12 December 2025">WABC, 12 Dec 2025</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="jury">
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no jury in either case</p>
+                                    <p class="cr-note">Federal jury selection was set for 8 September 2026, then 13 October, then 5 January 2027, and the plea of 14 August ended the need for one. The state trial set for 8 September 2026 has not begun.</p>
+                                    <p class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-469650131" target="_blank" rel="noopener" aria-label="Minute entry of 29 Jun 2026, opens the federal docket on CourtListener">29 Jun 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="gallery" data-at="ev-carro-j-the-terrorism-counts-are-legally" data-crowd="some" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Supporters, and the press</p>
+                                    <p class="cr-note">A few dozen supporters came, most of them women and some dressed in green. About two dozen had queued outside to get in, one of them for thirty hours.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://6abc.com/post/luigi-mangione-due-court-amid-double-jeopardy-fight-unitedhealthcare-ceos-killing/17826291/" target="_blank" rel="noopener" aria-label="Associated Press report of 16 September 2025, as carried by 6abc">AP, 16 Sept 2025</a>; <a class="cite-doc" href="https://www.nbcnews.com/news/us-news/new-york-judge-dismisses-state-terrorism-charges-luigi-mangione-keeps-rcna231594" target="_blank" rel="noopener" aria-label="NBC News report of 16 September 2025">NBC News, 16 Sept 2025</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="gallery" data-at="ev-state-suppression-hearings-begin ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The reporting used here describes the supporters outside the courthouse and not the benches inside. His state hearings have drawn queues for seats, so these were probably not empty.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.nbcnews.com/news/us-news/luigi-mangione-will-face-trial-new-york-june-8-rcna257767" target="_blank" rel="noopener" aria-label="NBC News report of 6 February 2026">NBC News, 6 Feb 2026</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="gallery" data-when="court">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">A minute entry lists the lawyers and says nothing about who watched. His hearings in the state court have drawn queues of supporters and a full press bench, and the same kind of crowd is likely here.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="gallery" data-when="paper away">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Nothing was heard in court on this date. These benches are where the public and the press sit when there is.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no witnesses</p>
+                                    <p class="cr-note">Nobody gave evidence at this hearing. It was argument, scheduling or a plea.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="stand" data-when="paper away">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath. In these two cases it has been used for the police officers who arrested him: for days in the state court from 1 December 2025, and once in the federal court on 23 January 2026.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judge sits, raised above the rest of the room. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="stand" data-before>
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where a witness sits to give evidence under oath, beside the judge and facing the lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="jury" data-before>
+                                    <p class="cr-role">The jury box</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the jurors sit, along the wall nearest the side that has to prove its case. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="p" data-before>
+                                    <p class="cr-role">The prosecution table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that brings the case sits with its lawyers. It is always drawn on the left here. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="d" data-before>
+                                    <p class="cr-role">The defence table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that answers the case sits with its lawyers. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Benches behind the bar for the public and the press. Courts sit in the open, so anyone may take a seat. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="staff" data-before>
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the reporter sits to take down every word of a hearing. On this date the case had not reached a court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="staff" data-when="court">
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">A reporter takes down every hearing. The sources used for this one do not mention the reporter, so the seat is drawn empty.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="staff" data-when="paper away">
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">A reporter sits here at every hearing and takes down every word. Nothing was heard on this date.</p>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The days something happened in a room. With the script
+                         each one is shown under its own moment; without it this
+                         is the list. -->
+                    <div class="cr-days">
+                        <h3 class="cr-cast-h">Days in court</h3>
+                        <ol class="cr-sits">
+                            <li data-at="ev-extradited-and-detained" data-kind="court"><span class="cr-sit-d">19 Dec 2024</span> <span class="cr-sit-t">Federal court, before Magistrate Judge Katharine H. Parker. His first appearance, on the day he was brought to New York.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?entry_gte=5&entry_lte=5" target="_blank" rel="noopener" aria-label="Minute entry of 19 December 2024, opens the docket entry on CourtListener">19 Dec 2024</a></span></li>
+                            <li data-at="ev-arraigned-in-the-federal-case" data-kind="court"><span class="cr-sit-d">25 Apr 2025</span> <span class="cr-sit-t">Federal court, before Judge Garnett. Arraignment on the four-count indictment.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=1#minute-entry-423568842" target="_blank" rel="noopener" aria-label="Minute entry of 25 Apr 2025, opens the federal docket on CourtListener">25 Apr 2025</a></span></li>
+                            <li data-at="ev-carro-j-the-terrorism-counts-are-legally" data-kind="court"><span class="cr-sit-d">16 Sept 2025</span> <span class="cr-sit-t">State court, before Justice Carro. He was brought in handcuffed and shackled, in tan jail clothes, and the written decision was released while he was in the room.</span> <span class="cr-cite"><a class="cite-doc" href="https://6abc.com/post/luigi-mangione-due-court-amid-double-jeopardy-fight-unitedhealthcare-ceos-killing/17826291/" target="_blank" rel="noopener" aria-label="Associated Press report of 16 September 2025, as carried by 6abc">AP, 16 Sept 2025</a></span></li>
+                            <li data-at="ev-state-suppression-hearings-begin" data-kind="court"><span class="cr-sit-d">1 Dec 2025</span> <span class="cr-sit-t">State court, before Justice Carro. A suppression hearing in Part 32 that ran for days of testimony about the arrest.</span> <span class="cr-cite"><a class="cite-doc" href="https://abc7ny.com/post/bodycam-arrest-video-alleged-manifesto-take-center-stage-luigi-mangiones-hearing/18274719/" target="_blank" rel="noopener" aria-label="WABC report of 11 December 2025">WABC, 11 Dec 2025</a>; <a class="cite-doc" href="https://abc7ny.com/post/more-officers-expected-testify-luigi-mangiones-evidence-suppression-hearing-day-7/18279337/" target="_blank" rel="noopener" aria-label="WABC report of 12 December 2025">WABC, 12 Dec 2025</a></span></li>
+                            <li data-at="ev-argued" data-kind="court"><span class="cr-sit-d">9 Jan 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. Argument on the motion to dismiss Counts Three and Four.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-449871499" target="_blank" rel="noopener" aria-label="Minute entry of 9 Jan 2026, opens the federal docket on CourtListener">9 Jan 2026</a></span></li>
+                            <li data-at="ev-a-hearing-about-an-inventory-form" data-kind="court"><span class="cr-sit-d">23 Jan 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. A suppression hearing. Evidence was entered and testimony taken.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-451902100" target="_blank" rel="noopener" aria-label="Minute entry of 23 Jan 2026, opens the federal docket on CourtListener">23 Jan 2026</a></span></li>
+                            <li data-at="ev-two-opinions-the-same-morning" data-kind="court"><span class="cr-sit-d">30 Jan 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. A status conference, on the morning the two opinions came out.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-452468391" target="_blank" rel="noopener" aria-label="Minute entry of 30 Jan 2026, opens the federal docket on CourtListener">30 Jan 2026</a></span></li>
+                            <li data-at="ev-carro-j-moves-the-state-trial-up ev-double-jeopardy-by-any-common-sense" data-kind="court"><span class="cr-sit-d">6 Feb 2026</span> <span class="cr-sit-t">State court, before Justice Carro. The hearing at which the state trial was set for 8 June. More than twenty supporters stood outside the courthouse.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.nbcnews.com/news/us-news/luigi-mangione-will-face-trial-new-york-june-8-rcna257767" target="_blank" rel="noopener" aria-label="NBC News report of 6 February 2026">NBC News, 6 Feb 2026</a></span></li>
+                            <li data-at="ev-both-trials-move-on-the-same-day" data-kind="court"><span class="cr-sit-d">1 Apr 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. A status conference. The state court&rsquo;s adjournment the same day is a separate step.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-459385601" target="_blank" rel="noopener" aria-label="Minute entry of 1 Apr 2026, opens the federal docket on CourtListener">1 Apr 2026</a></span></li>
+                            <li data-at="ev-carro-j-splits-the-backpack-the-other-way" data-kind="court"><span class="cr-sit-d">18 May 2026</span> <span class="cr-sit-t">State court, before Justice Carro. The ruling came during a run of pre-trial hearings. The reporting used here does not say who was in the room, so nobody is drawn as present.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.fox19.com/2026/05/18/judge-blocks-some-evidence-mangione-state-case/" target="_blank" rel="noopener" aria-label="Gray Media report of 18 May 2026, as carried by WXIX">Gray Media, 18 May 2026</a></span></li>
+                            <li data-at="ev-the-federal-trial-yields" data-kind="court"><span class="cr-sit-d">29 Jun 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. A status conference, at which the federal trial was put back to January 2027.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-469650131" target="_blank" rel="noopener" aria-label="Minute entry of 29 Jun 2026, opens the federal docket on CourtListener">29 Jun 2026</a></span></li>
+                            <li data-at="ev-i-shot-mr-thompson-in-manhattan-and-he-died" data-kind="court"><span class="cr-sit-d">14 Aug 2026</span> <span class="cr-sit-t">Federal court, before Judge Garnett. The change of plea.</span> <span class="cr-cite">Minute entry, <a class="cite-doc" href="https://www.courtlistener.com/docket/69908942/united-states-v-mangione/?page=2#minute-entry-474531497" target="_blank" rel="noopener" aria-label="Minute entry of 14 Aug 2026, opens the federal docket on CourtListener">14 Aug 2026</a></span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/people-v-mangione/" aria-label="Back to the case page for People v. Mangione">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">People v. Mangione, No. 75657-24 (N.Y. Sup. Ct., N.Y. Cty.) &middot; United States v. Mangione, No. 1:25-cr-00176 (S.D.N.Y.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the courts use them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a federal filing is cited: its docket number. A number after a
+                        dash, like 59-2, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>The document a grand jury returns to start a felony
+                        prosecution. It lists the charges and nothing else; it is not evidence of anything.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charged offence. An indictment with eleven counts charges eleven
+                        separate offences, and a jury answers for each one separately.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A panel that hears the prosecution&rsquo;s evidence in
+                        secret and decides whether there is enough to charge. It does not decide guilt.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by page and
+                        line, so 12:7 means page 12, line 7.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-arraignment">Arraignment</dt><dd>The hearing where a defendant is formally told the charges
+                        and enters a plea to them.</dd></div>
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side files
+                        an <em>opposition</em> or <em>response</em>; the moving side may then <em>reply</em>.</dd></div>
+                    <div><dt id="t-suppression">Suppression</dt><dd>Keeping evidence out of a trial because of how it was
+                        obtained. The evidence may be entirely genuine; the question is only whether the police were
+                        entitled to get it that way.</dd></div>
+                    <div><dt id="t-inventory-search">Inventory search</dt><dd>A search of a detained person&rsquo;s property to
+                        log what is in it, done to a standard procedure rather than to look for evidence. Lawful without a
+                        warrant, which is why the procedure itself gets litigated.</dd></div>
+                    <div><dt id="t-miranda">Miranda warnings</dt><dd>The caution police must give before questioning someone in
+                        custody. Answers given before it are generally inadmissible; answers to routine booking or safety
+                        questions generally are not affected.</dd></div>
+                    <div><dt id="t-voir-dire">Voir dire</dt><dd>The questioning of prospective jurors before a trial, to decide
+                        who sits on it.</dd></div>
+                    <div><dt id="t-interlocutory">Interlocutory appeal</dt><dd>An appeal taken in the middle of a case, before
+                        final judgment, usually only where a statute allows it.</dd></div>
+                    <div><dt id="t-psi">Presentence report</dt><dd>An investigation by the probation office, ordered after
+                        conviction, that the judge reads before sentencing.</dd></div>
+                    <div><dt id="t-learned-counsel">Learned counsel</dt><dd>A lawyer experienced in death penalty cases,
+                        appointed at public expense whenever a federal case is capital. Required by statute, not
+                        discretionary &mdash; so the appointment arriving and being withdrawn marks when a case was and was
+                        not capital.</dd></div>
+                    <div><dt id="t-primary-jurisdiction">Primary jurisdiction</dt><dd>Which of two governments holding claims on
+                        the same defendant gets to deal with him first. It usually follows who arrested him.</dd></div>
+                    <div><dt id="t-rule-600">Rule 600</dt><dd>Pennsylvania&rsquo;s speedy-trial rule. It normally requires trial
+                        within a year of the complaint, but time a defendant is unavailable does not count against
+                        it.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Pleas</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-open-plea">Open plea</dt><dd>A guilty plea entered with no agreement from the prosecution
+                        &mdash; no charge concessions, no sentencing recommendation. The defendant gives up the trial and
+                        keeps none of the usual consideration for it.</dd></div>
+                    <div><dt id="t-plea-agreement">Plea agreement</dt><dd>The usual arrangement: a plea in exchange for
+                        something, normally dropped charges or a position on sentence. There was none here.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The tests in this case</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-double-jeopardy">Double jeopardy</dt><dd>The bar on being prosecuted twice for the same
+                        offence. New York&rsquo;s statutory version is broader than the Fifth Amendment&rsquo;s and reaches
+                        across sovereigns.</dd></div>
+                    <div><dt id="t-dual-sovereignty">Dual sovereignty</dt><dd>The doctrine that a state and the federal
+                        government are separate sovereigns, so a prosecution by each for the same conduct is not the same
+                        offence under the Fifth Amendment.</dd></div>
+                    <div><dt id="t-criminal-transaction">Criminal transaction</dt><dd>Conduct closely connected enough in time
+                        and purpose to count as one episode. New York&rsquo;s double jeopardy statute works on transactions,
+                        not just on single acts &mdash; which is why the date on a count matters.</dd></div>
+                    <div><dt id="t-crime-of-violence">Crime of violence</dt><dd>For these statutes, a felony that has as an
+                        element the use, attempted use, or threatened use of physical force against the person or property
+                        of another.</dd></div>
+                    <div><dt id="t-predicate">Predicate offence</dt><dd>An offence that another, more serious charge is built on
+                        top of. If the predicate fails as a matter of law, the charge built on it fails with it.</dd></div>
+                    <div><dt id="t-categorical">Categorical approach</dt><dd>A method that ignores what the defendant actually
+                        did and asks only whether the offence, as written, always requires force &mdash; judged by the least
+                        serious conduct the statute could cover.</dd></div>
+                    <div><dt id="t-legally-insufficient">Legally insufficient</dt><dd>The evidence put before the grand jury,
+                        taken at its best, could not establish an element of the charge. The count goes without any finding
+                        about whether the defendant did it.</dd></div>
+                    <div><dt id="t-armed-felony">Armed felony</dt><dd>A New York classification attaching to certain offences
+                        committed with a loaded weapon. It restricts what sentence and what plea are available.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js" defer></script>
+</body>
+
+</html>
