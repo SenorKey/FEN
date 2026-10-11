@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010c">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010d">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -330,102 +330,167 @@
         </nav>
 
         <!-- ═══════════════════════════════════════════════
-             The decision tree
+             Case flow
+
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on everything the case has been through, and
+             is-here with its flag on the card it is waiting at.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
              ═══════════════════════════════════════════════ -->
         <section class="band band-tree" id="tree" aria-labelledby="tree-h">
             <div class="wrap">
-                <p class="kicker">01 &middot; The whole thing at once</p>
-                <h2 class="section-title" id="tree-h">How it actually resolves</h2>
-                <p class="section-lede">Every question the jury was actually asked, drawn once so the shape is
-                    visible without reading the chronology twice.</p>
+                <h2 class="kicker" id="tree-h">01 &middot; Case Flow TLDR</h2>
 
-                <div class="tree-scroll">
-                    <svg class="tree" viewBox="0 0 1180 1273" role="img" aria-labelledby="tree-t tree-d" xmlns="http://www.w3.org/2000/svg">
-                        <title id="tree-t">What the jury in Commonwealth v. Clancy was actually asked</title>
-                        <desc id="tree-d">A decision tree showing what the jury was actually asked. Two things had to be proved by the Commonwealth, not by the defendant: the elements of murder, which the defence conceded and offered to stipulate to, and that the defendant was criminally responsible, which was contested and took up almost the whole trial. Both had to be proved beyond a reasonable doubt, and the defendant carried no burden to prove a lack of criminal responsibility. To prove criminal responsibility the Commonwealth had to establish at least one of two things: either that she had no mental disease or defect at the time, a legal rather than a medical term, or that if she did have one she nonetheless retained the substantial capacity both to appreciate the wrongfulness of her conduct and to conform that conduct to the law, both rather than either. If the Commonwealth proved one of those, she was criminally responsible and the jury went on to the counts, where it could return first-degree murder, second-degree murder, manslaughter or not guilty. If it proved neither, the verdict was not guilty by reason of lack of criminal responsibility, which is not a release: the district attorney petitions to commit, to Bridgewater State Hospital, subject to review at intervals and renewable without limit, possibly for life. In the event the jury reached none of this. It split eleven to one over thirty-eight hours and seven days, sent three notes, and the judge declared a mistrial on the fourth of September 2026. Nothing was decided.</desc>
-                        <defs>
-                            <marker id="ah" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                                <path d="M 0 0 L 8 4 L 0 8 z" class="ah"/>
-                            </marker>
-                            <marker id="ahn" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                                <path d="M 0 0 L 8 4 L 0 8 z" class="ahn"/>
-                            </marker>
-                            <marker id="ahb" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                                <path d="M 0 0 L 8 4 L 0 8 z" class="ahb"/>
-                            </marker>
-                        </defs>
-
-                        <rect x="50" y="20" width="470" height="109" rx="3" class="n n-p"/>
-                        <text x="70" y="45" class="t-k k-p"><tspan x="70" dy="0">The Commonwealth must prove</tspan></text>
-                        <text x="70" y="69" class="t-h"><tspan x="70" dy="0">The elements of murder</tspan></text>
-                        <text x="70" y="91" class="t-b"><tspan x="70" dy="0">Not contested. The defence conceded the conduct and offered</tspan><tspan x="70" dy="16">to stipulate to it; the Commonwealth declined and proved it.</tspan></text>
-                        <rect x="660" y="20" width="470" height="109" rx="3" class="n n-p"/>
-                        <text x="680" y="45" class="t-k k-p"><tspan x="680" dy="0">The Commonwealth must prove</tspan></text>
-                        <text x="680" y="69" class="t-h"><tspan x="680" dy="0">That she was criminally responsible</tspan></text>
-                        <text x="680" y="91" class="t-b"><tspan x="680" dy="0">Contested, and contested alone. Six weeks of evidence</tspan><tspan x="680" dy="16">went to this and almost nothing went to the counts.</tspan></text>
-                        <rect x="245" y="197" width="690" height="109" rx="3" class="n n-test"/>
-                        <text x="265" y="222" class="t-k k-c"><tspan x="265" dy="0">Before anything else</tspan></text>
-                        <text x="265" y="246" class="t-h"><tspan x="265" dy="0">Whose burden is it?</tspan></text>
-                        <text x="265" y="268" class="t-b"><tspan x="265" dy="0">The Commonwealth&rsquo;s, beyond a reasonable doubt, on both. &ldquo;The defendant has no burden to prove a lack of</tspan><tspan x="265" dy="16">criminal responsibility.&rdquo; This is the point most arguments about the case get backwards.</tspan></text>
-                        <path d="M 285 129 L 285 155 Q 285 163 293 163 L 582 163 Q 590 163 590 171 L 590 197" class="ln"/>
-                        <path d="M 895 129 L 895 155 Q 895 163 887 163 L 598 163 Q 590 163 590 171 L 590 197" class="ln"/>
-                        <rect x="245" y="366" width="690" height="72" rx="3" class="n n-test"/>
-                        <text x="265" y="391" class="t-k k-c"><tspan x="265" dy="0">To carry it</tspan></text>
-                        <text x="265" y="415" class="t-h"><tspan x="265" dy="0">The Commonwealth must prove at least one of these two things</tspan></text>
-                        <path d="M 590 306 L 590 366" class="ln"/>
-                        <rect x="50" y="498" width="470" height="125" rx="3" class="n n-test"/>
-                        <text x="70" y="523" class="t-k k-c"><tspan x="70" dy="0">Either</tspan></text>
-                        <text x="70" y="547" class="t-h"><tspan x="70" dy="0">No mental disease or defect</tspan></text>
-                        <text x="70" y="569" class="t-b"><tspan x="70" dy="0">That at the time of the killings she had none. It is a</tspan><tspan x="70" dy="16">legal term, not a medical one, and need not match any</tspan><tspan x="70" dy="16">formal diagnosis.</tspan></text>
-                        <rect x="660" y="498" width="470" height="125" rx="3" class="n n-test"/>
-                        <text x="680" y="523" class="t-k k-c"><tspan x="680" dy="0">Or</tspan></text>
-                        <text x="680" y="547" class="t-h"><tspan x="680" dy="0">Substantial capacity retained</tspan></text>
-                        <text x="680" y="569" class="t-b"><tspan x="680" dy="0">That if she did have one, she kept the capacity both to</tspan><tspan x="680" dy="16">appreciate the wrongfulness of the act and to conform her</tspan><tspan x="680" dy="16">conduct to the law. Both, not either.</tspan></text>
-                        <path d="M 590 438 L 590 460 Q 590 468 582 468 L 293 468 Q 285 468 285 476 L 285 498" class="ln"/>
-                        <path d="M 590 438 L 590 460 Q 590 468 598 468 L 887 468 Q 895 468 895 476 L 895 498" class="ln"/>
-                        <text x="303" y="462" class="e-y"><tspan x="303" dy="0">either</tspan></text>
-                        <text x="821" y="462" class="e-y"><tspan x="821" dy="0">or</tspan></text>
-                        <rect x="295" y="683" width="590" height="72" rx="3" class="n n-test"/>
-                        <text x="315" y="708" class="t-k k-c"><tspan x="315" dy="0">The question</tspan></text>
-                        <text x="315" y="732" class="t-h"><tspan x="315" dy="0">Proved, beyond a reasonable doubt?</tspan></text>
-                        <path d="M 285 623 L 285 645 Q 285 653 293 653 L 582 653 Q 590 653 590 661 L 590 683" class="ln"/>
-                        <path d="M 895 623 L 895 645 Q 895 653 887 653 L 598 653 Q 590 653 590 661 L 590 683" class="ln"/>
-                        <rect x="50" y="815" width="470" height="72" rx="3" class="n n-term-p"/>
-                        <text x="70" y="840" class="t-k k-p"><tspan x="70" dy="0">Yes</tspan></text>
-                        <text x="70" y="864" class="t-h"><tspan x="70" dy="0">Criminally responsible</tspan></text>
-                        <rect x="660" y="815" width="470" height="72" rx="3" class="n n-term-d"/>
-                        <text x="680" y="840" class="t-k k-d"><tspan x="680" dy="0">No</tspan></text>
-                        <text x="680" y="864" class="t-h"><tspan x="680" dy="0">Not criminally responsible</tspan></text>
-                        <path d="M 590 755 L 590 777 Q 590 785 582 785 L 293 785 Q 285 785 285 793 L 285 815" class="ln"/>
-                        <path d="M 590 755 L 590 777 Q 590 785 598 785 L 887 785 Q 895 785 895 793 L 895 815" class="ln-n"/>
-                        <text x="303" y="779" class="e-y"><tspan x="303" dy="0">proved</tspan></text>
-                        <text x="799" y="779" class="e-n"><tspan x="799" dy="0">not proved</tspan></text>
-                        <rect x="50" y="947" width="470" height="125" rx="3" class="n n-out-p"/>
-                        <text x="70" y="972" class="t-k k-p"><tspan x="70" dy="0">Then the jury reaches the counts</tspan></text>
-                        <text x="70" y="996" class="t-h"><tspan x="70" dy="0">Four ways it can land</tspan></text>
-                        <text x="70" y="1018" class="t-b"><tspan x="70" dy="0">First-degree murder, second-degree murder, manslaughter,</tspan><tspan x="70" dy="16">or not guilty. Only here does the evidence about the acts</tspan><tspan x="70" dy="16">start doing any work.</tspan></text>
-                        <rect x="660" y="947" width="470" height="125" rx="3" class="n n-out-d"/>
-                        <text x="680" y="972" class="t-k k-d"><tspan x="680" dy="0">Then the verdict is</tspan></text>
-                        <text x="680" y="996" class="t-h"><tspan x="680" dy="0">Not guilty by reason of insanity</tspan></text>
-                        <text x="680" y="1018" class="t-b"><tspan x="680" dy="0">Not a release. The district attorney petitions to commit;</tspan><tspan x="680" dy="16">Bridgewater State Hospital; reviewed at intervals and</tspan><tspan x="680" dy="16">renewable without limit &mdash; possibly for life.</tspan></text>
-                        <path d="M 285 887 L 285 947" class="ln"/>
-                        <path d="M 895 887 L 895 947" class="ln-n"/>
-                        <rect x="245" y="1140" width="690" height="109" rx="3" class="n n-bypass"/>
-                        <text x="265" y="1165" class="t-k k-c"><tspan x="265" dy="0">What actually happened</tspan></text>
-                        <text x="265" y="1189" class="t-h"><tspan x="265" dy="0">Neither. The jury never answered the question</tspan></text>
-                        <text x="265" y="1211" class="t-b"><tspan x="265" dy="0">Eleven to one, thirty-eight hours, seven days, three notes. Mistrial on 4 September 2026.</tspan><tspan x="265" dy="16">Nothing below the second box on this diagram was ever reached, and nothing was decided.</tspan></text>
-                        <path d="M 285 1072 L 285 1098 Q 285 1106 293 1106 L 582 1106 Q 590 1106 590 1114 L 590 1140" class="ln-b"/>
-                        <path d="M 895 1072 L 895 1098 Q 895 1106 887 1106 L 598 1106 Q 590 1106 590 1114 L 590 1140" class="ln-b"/>
-                        <text x="600" y="1104" class="e-n"><tspan x="600" dy="0">never reached</tspan></text>
-                    </svg>
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>No verdict. The jury could not agree, and a mistrial was declared on 4 September 2026.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Commonwealth</li>
+                            <li class="cf-key-d">Defence</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has got</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger: every card
+                             opens on its own, and with no JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow">
+                        <li class="cf-node is-done">
+                            <article class="cf-card cf-c">
+                                <p class="cf-k"><span class="cf-k-t">Before anything else</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Whose burden is it?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Whose burden is it?</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">The Commonwealth&rsquo;s, beyond a reasonable doubt, on both. &ldquo;The defendant has no burden to prove a lack of criminal responsibility.&rdquo; This is the point most arguments about the case get backwards.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q6" title="Did the Commonwealth carry a burden it may not have known it had?" aria-label="Question 6 below: Did the Commonwealth carry a burden it may not have known it had?">6</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">it must prove both of these</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
+                                <p class="cf-k"><span class="cf-k-t">The Commonwealth must prove</span><span class="cf-st cf-st-set">Not in dispute</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The elements of murder"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">The elements of murder</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Not contested. The defence conceded the conduct and offered to stipulate to it; the Commonwealth declined and proved it.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q5" title="Was the investigation sound enough to rely on?" aria-label="Question 5 below: Was the investigation sound enough to rely on?">5</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-here has-via">
+                            <p class="cf-via">and</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
+                                <p class="cf-here">The jury stopped here</p>
+                                <p class="cf-k"><span class="cf-k-t">The Commonwealth must prove</span><span class="cf-st cf-st-open">No verdict</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That she was criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">That she was criminally responsible</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Contested, and contested alone. Six weeks of evidence went to this and almost nothing went to the counts.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 2">
+                            <p class="cf-grp">to carry it, at least one of these two</p>
+                            <ol class="cf-col">
+                                <li class="cf-node">
+                                    <article class="cf-card cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">Either</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No mental disease or defect"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">No mental disease or defect</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">That at the time of the killings she had none. It is a legal term, not a medical one, and need not match any formal diagnosis.</p>
+                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q1" title="Was she psychotic on 24 January?" aria-label="Question 1 below: Was she psychotic on 24 January?">1</a><a class="cf-ref" href="#q3" title="What do the treating clinicians’ records establish?" aria-label="Question 3 below: What do the treating clinicians’ records establish?">3</a></p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col" data-op="or">
+                                <li class="cf-node">
+                                    <article class="cf-card cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">Or</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Substantial capacity retained"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">Substantial capacity retained</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">That if she did have one, she kept the capacity both to appreciate the wrongfulness of the act and to conform her conduct to the law. Both, not either.</p>
+                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q2" title="Does the planning show she knew what she was doing?" aria-label="Question 2 below: Does the planning show she knew what she was doing?">2</a><a class="cf-ref" href="#q4" title="Was the suicide attempt real?" aria-label="Question 4 below: Was the suicide attempt real?">4</a></p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-node">
+                            <article class="cf-card cf-c">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-k"><span class="cf-k-t">The question</span></p>
+                                <h3 class="cf-h">Proved, beyond a reasonable doubt?</h3>
+                            </article>
+                        </li>
+                        <li class="cf-two cf-two-split cf-join cf-dash" style="--cf-rows: 2">
+                            <ol class="cf-col cf-arm-p">
+                                <li class="cf-node has-via">
+                                    <p class="cf-via">proved</p>
+                                    <article class="cf-card cf-out cf-p">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">Yes</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">Criminally responsible</h3>
+                                        <div class="cf-then">
+                                            <p class="cf-k"><span class="cf-k-t">Then the jury reaches the counts</span></p>
+                                            <h4 class="cf-h">Four ways it can land</h4>
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-b">First-degree murder, second-degree murder, manslaughter, or not guilty. Only here does the evidence about the acts start doing any work.</p>
+                                            </div></div>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col cf-arm-d">
+                                <li class="cf-node has-via">
+                                    <p class="cf-via">not proved</p>
+                                    <article class="cf-card cf-out cf-d">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">No</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">Not criminally responsible</h3>
+                                        <div class="cf-then">
+                                            <p class="cf-k"><span class="cf-k-t">Then the verdict is</span></p>
+                                            <h4 class="cf-h">Not guilty by reason of insanity</h4>
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-b">Not a release. The district attorney petitions to commit; Bridgewater State Hospital; reviewed at intervals and renewable without limit &mdash; possibly for life.</p>
+                                            </div></div>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-node has-via cf-dash">
+                            <p class="cf-via">never reached</p>
+                            <article class="cf-card cf-aside">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-k"><span class="cf-k-t">What actually happened</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Neither. The jury never answered the question"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Neither. The jury never answered the question</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Eleven to one, thirty-eight hours, seven days, three notes. Mistrial on 4 September 2026. Neither ending above was ever reached, and nothing was decided.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                    </ol>
                 </div>
 
-                <p class="tree-caption">The burden runs the opposite way to the intuition: the Commonwealth had to
-                    prove she <em>was</em> responsible, not the defence that she was not. Nothing on this diagram asks
-                    whether she killed her children, because by the time the jury was empanelled nobody was arguing
-                    about it.</p>
+                <p class="tree-caption">The burden runs the opposite way to the intuition: the Commonwealth had to prove she <em>was</em> responsible, not the defence that she was not. Nothing on this diagram asks whether she killed her children, because by the time the jury was empanelled nobody was arguing about it.</p>
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by side">
+                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
                         <span class="sect-nav-l">Next</span>
                         <span class="sect-nav-t">02</span>
                         <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
@@ -439,11 +504,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
             <div class="wrap">
-                <p class="kicker">02 &middot; Side by side</p>
-                <h2 class="section-title" id="sbs-h">Six questions, two answers each</h2>
-                <p class="section-lede">Positions as each side has actually argued them, in its filings and at trial, not as
-                    the other side characterises them. On this page the court line is usually empty, because on almost
-                    every question there is still no answer.</p>
+                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
 
                 <div class="ledger-head">
                     <div class="ledger-key" aria-hidden="true">
@@ -760,7 +821,7 @@
                 </div>
 
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, The whole thing at once">
+                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, Case Flow TLDR">
                         <span class="sect-nav-a" aria-hidden="true">&larr;</span>
                         <span class="sect-nav-l">Previous</span>
                         <span class="sect-nav-t">01</span>
@@ -852,7 +913,7 @@
                     through <span class="mono">8 October 2026</span>, a week after the Rule&nbsp;25 motion was denied. The next hearing is
                     <span class="mono">2 November 2026</span>.</p>
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by side">
+                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
                         <span class="sect-nav-a" aria-hidden="true">&larr;</span>
                         <span class="sect-nav-l">Previous</span>
                         <span class="sect-nav-t">02</span>
@@ -975,7 +1036,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261010c" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261010d" defer></script>
 </body>
 
 </html>

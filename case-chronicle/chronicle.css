@@ -132,19 +132,6 @@
   --p-pool: rgba(176, 48, 42, 0.3);
   --d-pool: rgba(31, 64, 118, 0.28);
 
-  /* The decision tree's fills and inks. Literals inside the tree rules
-     would mean a case that restates its side colours gets everything in
-     its own inks except the one diagram that is nothing but sides. */
-  --p-node: rgba(176, 48, 42, 0.09);
-  --p-node-out: rgba(176, 48, 42, 0.17);
-  --p-ink: rgba(176, 48, 42, 0.9);
-
-  --d-node: rgba(31, 64, 118, 0.09);
-  --d-node-out: rgba(31, 64, 118, 0.17);
-  --d-ink: rgba(31, 64, 118, 0.9);
-  --d-line: rgba(31, 64, 118, 0.5);
-  --d-arrow: rgba(31, 64, 118, 0.72);
-
   /* ── The bindings ──
      A fourth family, and the only one here with no argument to carry.
      The two side inks and the court's sepia are spoken for, so the
@@ -2544,6 +2531,40 @@ span.cr-cite { margin: 0; white-space: normal; }
 .band-ledger { padding-bottom: 116px; }
 .band-notes { background: var(--bg-deep); }
 
+/* ── Cards on a band ──
+   Two sections lay cards of a lighter stock on a band: the case flow
+   and the chronology. This is the stock, and the inks mixed for it.
+
+   Set here rather than on the root so they are worked out below the
+   body, where a case restates its two inks. Everything a side needs in
+   either section is mixed from its one colour, so a case that sets --p
+   and --d has nothing more to restate for them. */
+.band-tree,
+.band-time {
+  background: var(--bg-band);
+
+  --tl-card: #fbf7ef;
+  --tl-edge: rgba(23, 20, 15, 0.16);
+  --tl-lift: 0 1px 1px rgba(23, 20, 15, 0.05), 0 14px 24px -16px rgba(23, 20, 15, 0.34);
+  --tl-lift-up: 0 1px 1px rgba(23, 20, 15, 0.06), 0 24px 34px -18px rgba(23, 20, 15, 0.46);
+
+  /* Ink for small type, a shade down from the spot colour. */
+  --tl-p-ink: color-mix(in oklab, var(--p) 84%, var(--ink));
+  --tl-d-ink: color-mix(in oklab, var(--d) 84%, var(--ink));
+  --tl-c-ink: color-mix(in oklab, var(--court) 80%, var(--ink));
+
+  /* Lines and rules. Mixed into the band's own colour rather than
+     thinned with alpha, so they are solid: the rule under the
+     chronology's bar has cards passing beneath it. */
+  --tl-p-line: color-mix(in oklab, var(--p) 58%, var(--bg-band));
+  --tl-d-line: color-mix(in oklab, var(--d) 58%, var(--bg-band));
+  --tl-c-line: color-mix(in oklab, var(--court) 36%, var(--bg-band));
+  --tl-n-line: color-mix(in oklab, var(--ink) 34%, var(--bg-band));
+  --tl-hair: color-mix(in srgb, var(--ink) 15%, var(--bg-band));
+
+  --tl-c-tint: color-mix(in oklab, var(--court) 12%, var(--tl-card));
+}
+
 /* Set as a <p> under a section title everywhere but the hub, where it is
    the section's only heading and carries the h2 itself. Stated here so
    the two render identically rather than one arriving bold. */
@@ -3006,113 +3027,929 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cn-out .cn-t b { font-weight: 600; }
 
 /* ═══════════════════════════════════════════════
-   The decision tree
+   Case flow
 
-   Inline SVG so the connectors are exact. Text is styled here rather
-   than in the markup, so the diagram inherits the page's faces and
-   there is one place to change a colour.
+   The logic of a case as a map: what has to be answered, in what
+   order, and where each answer leads. It stands first on a case page,
+   ahead of the arguments it is made of, and is meant to be taken in at
+   a glance.
+
+   A question is the court's, so the questions run down the middle in
+   the court's ink, each one a card with a mark where the line reaches
+   it. A way out of the chain turns left or right, towards the side it
+   is good for, and ends in that side's ink.
+
+   The line is drawn twice. Pale is the route as it is laid out; dark is
+   how far the case has actually got along it, and it stops where the
+   case has stopped.
+
+   Every connector is a border or a background on an element that is
+   already there. Nothing is measured and nothing is drawn by script, so
+   the map is whole with JavaScript off and reflows like text. It took
+   the place of an inline SVG that could not go below 940px wide, so a
+   phone had to scroll it sideways.
+
+   What a page writes:
+
+     ol.cf-flow    the chain, top to bottom
+     li.cf-node    one card, and the line that reaches it
+     li.cf-two     two columns side by side, each an ol.cf-col of nodes:
+                   cf-two-in where the chain starts, -ways for the ways
+                   one question can be met, -split for the two ways out,
+                   -score for a tally that is not a step
+     .cf-join      on a cf-two that comes back to one line
+     .cf-ragged    on a cf-two whose columns differ in length
+     p.cf-via      the word on a line: what that answer is called
+     p.cf-grp      the name of a fork: one way is enough, or both are
+     .is-done      on whatever the case has been through
+     .is-here      on the card the case is waiting at, with a p.cf-here
+     .cf-dash      on a line or a join that leaves the chain
+
+   A card is cf-c when it is the court's (cf-q for a question), cf-p or
+   cf-d when it is a side's, cf-out for an ending, and cf-aside for
+   whatever stands outside the chain.
    ═══════════════════════════════════════════════ */
 
-.band-tree { background: var(--bg-band); }
+.cf { container: cf / inline-size; }
 
-.tree-scroll {
-  margin-top: 56px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--rule) transparent;
+/* ── where it stands ──
+   One line ahead of the map, under the mark the ledger gives the
+   court's line on a question. */
+
+.cf-now {
+  max-width: 46em;
+  padding: 12px 0 12px 18px;
+  border-left: 2px solid rgba(111, 74, 46, 0.5);
+  font-size: 0.98rem;
+  color: var(--ink-2);
 }
 
-.tree {
-  display: block;
-  width: 100%;
-  min-width: 940px;   /* below this the labels collide; scroll instead */
-  height: auto;
-}
-
-/* nodes */
-.tree .n {
-  fill: var(--bg);
-  stroke: var(--rule);
-  stroke-width: 1;
-}
-
-.tree .n-test { stroke: rgba(111, 74, 46, 0.62); fill: rgba(111, 74, 46, 0.07); }
-.tree .n-p { stroke: var(--p-edge); fill: var(--p-node); }
-.tree .n-d { stroke: var(--d-edge); fill: var(--d-node); }
-
-.tree .n-out-p { stroke: var(--p); fill: var(--p-node-out); }
-.tree .n-out-d { stroke: var(--d); fill: var(--d-node-out); }
-
-.tree .n-term-p { stroke: var(--p-edge); fill: var(--p-node); }
-.tree .n-term-d { stroke: var(--d-edge); fill: var(--d-node); }
-
-.tree .n-bypass {
-  stroke: rgba(111, 74, 46, 0.55);
-  stroke-dasharray: 5 4;
-  fill: rgba(111, 74, 46, 0.05);
-}
-
-/* node text */
-.tree text { font-family: var(--body); }
-
-.tree .t-k {
+.cf-now-l {
+  margin-right: 14px;
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  fill: var(--faint);
+  color: var(--court);
 }
 
-.tree .t-h {
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.012em;
-  fill: var(--ink);
+/* ── the key, and the control beside it ── */
+
+.cf-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin: 22px 0 34px;
 }
 
-.tree .t-b {
-  font-size: 12.5px;
-  font-weight: 300;
-  fill: var(--muted);
-}
+.cf-head .depth-all { margin: 0; }
 
-/* Kicker colour follows the node it labels. */
-.tree .k-c { fill: rgba(111, 74, 46, 0.9); }
-.tree .k-p { fill: var(--p-ink); }
-.tree .k-d { fill: var(--d-ink); }
-
-/* edges */
-.tree .ln,
-.tree .ln-n,
-.tree .ln-n0,
-.tree .ln-b {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.tree .ln { stroke: rgba(23, 20, 15, 0.3); stroke-width: 1.4; marker-end: url(#ah); }
-.tree .ln-n { stroke: var(--d-line); stroke-width: 1.4; stroke-dasharray: 4 4; marker-end: url(#ahn); }
-.tree .ln-n0 { stroke: var(--d-line); stroke-width: 1.4; stroke-dasharray: 4 4; }
-.tree .ln-b { stroke: rgba(111, 74, 46, 0.6); stroke-width: 1.4; stroke-dasharray: 5 4; marker-end: url(#ahb); }
-
-.tree .ah { fill: rgba(23, 20, 15, 0.42); }
-.tree .ahn { fill: var(--d-arrow); }
-.tree .ahb { fill: rgba(111, 74, 46, 0.8); }
-
-/* edge labels */
-.tree .e-y,
-.tree .e-n {
+.cf-key {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 26px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.cf-key li { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+.cf-key li::before { content: ''; flex: none; }
+
+.cf-key-p { color: var(--tl-p-ink); font-weight: 600; }
+.cf-key-d { color: var(--tl-d-ink); font-weight: 600; }
+
+/* Each is the mark it names: a side's ring, the court's diamond filled
+   or hollow, and the line in its two weights. */
+.cf-key-p::before,
+.cf-key-d::before {
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--p);
+  border-radius: 50%;
+  background: var(--tl-card);
+}
+
+.cf-key-d::before { border-color: var(--d); }
+
+.cf-key-done::before,
+.cf-key-open::before {
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--court);
+  border-radius: 1px;
+  background: var(--court);
+  transform: rotate(45deg);
+}
+
+.cf-key-open::before { background: var(--tl-card); }
+
+.cf-key-line::before {
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--court) 62%, var(--tl-c-line) 0);
+}
+
+/* ── the chain ── */
+
+.cf-flow {
+  --cf-col: 462px;      /* a column of a pair, at most */
+  --cf-gap: 72px;       /* between the two columns */
+  --cf-one: 596px;      /* a card on its own, at most */
+  --cf-stem: 24px;      /* the line into a card */
+  --cf-drop: 18px;      /* from a card down to the bar of a fork */
+  --cf-r: 12px;         /* the turn of a fork */
+
+  /* The line, the same line once the case has been along it, and the
+     ink for a word set on it. A way out restates all three. */
+  --cf-pale: var(--tl-c-line);
+  --cf-dark: var(--court);
+  --cf-word: var(--tl-c-ink);
+
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.cf-flow ol { list-style: none; }
+
+/* A card and the line that reaches it. The line is the node's, not the
+   card's, so it can be drawn before there is a card to hang it on. */
+.cf-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--cf-stem);
+}
+
+/* Longer where it has a word to carry. */
+.cf-node.has-via { --cf-stem: 54px; }
+
+.cf-node > .cf-card { flex: 1 0 auto; }
+
+/* Two layers: the pale line, and the dark one laid over as much of it
+   as the case has travelled. */
+.cf-node::before,
+.cf-two::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: var(--cf-stem);
+  margin-left: -1px;
+  background:
+    linear-gradient(var(--cf-dark), var(--cf-dark)) no-repeat 0 0 / 100% var(--cf-run, 0%),
+    var(--cf-pale);
+}
+
+.cf-flow > .cf-node {
+  align-self: center;
+  width: min(100%, var(--cf-one));
+}
+
+.cf-flow > :first-child { padding-top: 0; }
+.cf-flow > :first-child::before { display: none; }
+
+/* What an answer is called, set on the line it travels, with the band's
+   own colour behind it so the line stops for the word. */
+.cf-via,
+.cf-grp {
+  position: absolute;
+  left: 50%;
+  z-index: 3;
+  translate: -50% -50%;
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: var(--bg-band);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--cf-word);
+}
+
+/* Centred on the part of the line that shows above the mark, which
+   takes the last of it. */
+.cf-via { top: calc((var(--cf-stem) - 16px) / 2); }
+
+/* ── two columns ──
+   Both columns are laid on one set of rows, so two cards that stand
+   level are the same height whatever is in them. The page says how
+   many rows in --cf-rows. */
+
+.cf-two {
+  /* From the middle of one column to the middle of the other. */
+  --cf-span: min(var(--cf-col) + var(--cf-gap), (100% + var(--cf-gap)) / 2);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, var(--cf-col)));
+  justify-content: center;
+  column-gap: var(--cf-gap);
+  padding-top: var(--cf-drop);
+}
+
+.cf-two::before { height: var(--cf-drop); }
+
+.cf-col {
+  position: relative;
+  display: grid;
+  grid-row: span var(--cf-rows, 1);
+  grid-template-rows: subgrid;
+}
+
+/* Two columns that do not hold the same number of cards cannot share
+   rows without one card being stretched to match two. Each runs to its
+   own length instead. */
+.cf-ragged > .cf-col {
+  display: flex;
+  flex-direction: column;
+  grid-row: auto;
+}
+
+.cf-ragged .cf-node > .cf-card { flex: 0 0 auto; }
+
+/* Each column draws its own half of the fork, from the middle out and
+   round the turn, so the two halves can be in two inks. */
+.cf-col::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  height: var(--cf-r);
+  border: 0 solid var(--cf-line, var(--cf-pale));
+  border-top-width: 2px;
+}
+
+.cf-col:first-of-type::before {
+  left: calc(50% - 1px);
+  right: calc(var(--cf-gap) / -2);
+  border-left-width: 2px;
+  border-top-left-radius: var(--cf-r);
+}
+
+.cf-col:last-of-type::before {
+  right: calc(50% - 1px);
+  left: calc(var(--cf-gap) / -2);
+  border-right-width: 2px;
+  border-top-right-radius: var(--cf-r);
+}
+
+/* The first card in a column takes its line from under the turn. */
+.cf-col > .cf-node:first-child::before {
+  top: var(--cf-r);
+  height: calc(var(--cf-stem) - var(--cf-r));
+}
+
+.cf-col > .cf-node:first-child > .cf-via { top: calc((var(--cf-stem) + var(--cf-r) - 8px) / 2); }
+
+/* The name of the fork itself: whether one way through is enough or
+   both are needed. On the bar, and solid, because it is the one word on
+   the map the logic turns on. */
+.cf-grp {
+  top: var(--cf-drop);
+  padding: 4px 11px;
+  background: var(--court);
+  color: var(--tl-card);
+}
+
+/* Where the chain starts there is nothing above to fork from. */
+.cf-flow > .cf-two:first-child > .cf-col::before,
+.cf-flow > .cf-two:first-child > .cf-col > .cf-node:first-child::before { display: none; }
+
+.cf-flow > .cf-two:first-child > .cf-col > .cf-node:first-child { padding-top: 0; }
+
+/* ── two columns coming back to one ──
+   A tail under each column, down to a turn that gathers them. */
+
+.cf-join { padding-bottom: var(--cf-r); }
+
+.cf-join > .cf-col::after {
+  content: '';
+  grid-row-end: -1;
+  justify-self: center;
+  width: 2px;
+  min-height: 16px;
+  background: var(--cf-line, var(--cf-pale));
+}
+
+.cf-join::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: calc(var(--cf-span) + 2px);
+  height: var(--cf-r);
+  translate: -50% 0;
+  border: 2px solid var(--cf-line, var(--cf-pale));
+  border-top: 0;
+  border-radius: 0 0 var(--cf-r) var(--cf-r);
+}
+
+/* ── the ways out ──
+   Left is the side that filed and right the side that answered, as it
+   is everywhere else on the page. */
+
+.cf-arm-p { --cf-pale: var(--tl-p-line); --cf-dark: var(--p); --cf-word: var(--tl-p-ink); }
+.cf-arm-d { --cf-pale: var(--tl-d-line); --cf-dark: var(--d); --cf-word: var(--tl-d-ink); }
+
+/* ── the tally ──
+   What came of it, under a heading of its own. Not joined to anything
+   above: it is a count of what went each way, not a step. */
+
+.cf-two-score { padding-top: 0; }
+
+.cf-two-score::before,
+.cf-two-score > .cf-col::before,
+.cf-two-score .cf-node::before { display: none; }
+
+.cf-two-score .cf-node { padding-top: 0; }
+
+.cf-title {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 38px 0 20px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.35rem, 2.3vw, 1.7rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.cf-title::before,
+.cf-title::after {
+  content: '';
+  flex: 1 1 40px;
+  height: 1px;
+  background: var(--tl-hair);
+}
+
+/* ── leaving the chain ──
+   Dashed, and in the court's ink whichever columns it gathers. */
+
+.cf-node.cf-dash::before {
+  background: repeating-linear-gradient(to bottom, var(--cf-pale) 0 5px, transparent 5px 9px);
+}
+
+.cf-two.cf-dash::after { border-style: dashed; border-color: var(--tl-c-line); }
+
+.cf-two.cf-dash > .cf-col::after {
+  background: repeating-linear-gradient(to bottom, var(--tl-c-line) 0 5px, transparent 5px 9px);
+}
+
+/* ── how far the case has got ──
+   Whatever the case has been through is drawn dark. Where the browser
+   can tie an animation to the scroll, the dark runs down the route as
+   the reader does and stops where the case stopped: the chronology's
+   rail, under the same two guards. Anywhere else it is simply drawn. */
+
+.cf-node.is-done::before,
+.cf-node.is-here::before,
+.cf-two.is-done::before { --cf-run: 100%; }
+
+.cf-two.is-done,
+.cf-two.is-done > .cf-col,
+.cf-col.is-done { --cf-line: var(--cf-dark); }
+
+@keyframes cf-run {
+  from { background-size: 100% 0%, auto; }
+  to { background-size: 100% 100%, auto; }
+}
+
+@keyframes cf-turn {
+  from { border-color: var(--cf-pale); }
+  to { border-color: var(--cf-dark); }
+}
+
+@keyframes cf-tail {
+  from { background: var(--cf-pale); }
+  to { background: var(--cf-dark); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    .cf-node.is-done::before,
+    .cf-node.is-here::before,
+    .cf-two.is-done::before {
+      animation: cf-run linear both;
+      animation-timeline: view(block 46% 54%);
+    }
+
+    .cf-two.is-done > .cf-col::before,
+    .cf-col.is-done::before,
+    .cf-two.is-done.cf-join::after {
+      animation: cf-turn linear both;
+      animation-timeline: view(block 46% 54%);
+    }
+
+    .cf-two.is-done.cf-join > .cf-col::after {
+      animation: cf-tail linear both;
+      animation-timeline: view(block 46% 54%);
+    }
+  }
+}
+
+/* ── a card ──
+   The chronology's index card: the lighter stock, solid, lifted a
+   little. It takes a z-index for the reason those do, which is the
+   exhibit wash lying over every band. */
+
+.cf-card {
+  position: relative;
+  z-index: 3;
+  padding: 16px 19px;
+  border: 1px solid var(--tl-edge);
+  border-radius: 3px;
+  background: var(--tl-card);
+  box-shadow: var(--tl-lift);
+  transition: box-shadow 0.25s ease;
+}
+
+@media (hover: hover) {
+  .cf-card:hover { box-shadow: var(--tl-lift-up); }
+}
+
+.cf-card :focus-visible { outline-color: var(--court); }
+
+.cf-c {
+  border-color: color-mix(in oklab, var(--court) 42%, var(--tl-card));
+  border-top: 3px solid var(--court);
+}
+
+.cf-p { border-top: 3px solid var(--p); }
+.cf-d { border-top: 3px solid var(--d); }
+
+.cf-k {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-bottom: 7px;
+  font-family: var(--mono);
+  font-size: 0.69rem;
+  font-weight: 500;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+  color: var(--tl-c-ink);
 }
 
-.tree .e-y { fill: var(--p); }
-.tree .e-n { fill: var(--d); }
+/* The stamp keeps to the far end of the row. */
+.cf-k-t { margin-right: auto; }
+
+.cf-p .cf-k { color: var(--tl-p-ink); }
+.cf-d .cf-k { color: var(--tl-d-ink); }
+
+.cf-h {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 30, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.14rem;
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.014em;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.cf-q .cf-h { font-size: 1.28rem; }
+
+.cf-b {
+  margin-top: 6px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+  color: rgba(23, 20, 15, 0.84);
+}
+
+/* ── the fold ──
+   A card is shut to its kicker and heading and opens for the rest. The
+   rest ships open, as the chronology's extra layer does, so a reader
+   with no JavaScript has the whole map written out and no dead button.
+   The script shuts the cards and shows the control.
+
+   Shut, the text is hidden as well as collapsed, which takes its links
+   out of the tab order and out of a screen reader's way. */
+
+.cf-more {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--tl-edge);
+  border-radius: 2px;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.18s, border-color 0.18s;
+}
+
+.cf-more:hover { border-color: rgba(23, 20, 15, 0.34); background: rgba(23, 20, 15, 0.045); }
+
+/* A + that becomes a − when the card opens */
+.cf-more-i { position: relative; width: 9px; height: 9px; }
+
+.cf-more-i::before,
+.cf-more-i::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.cf-more-i::before { inset: 3.5px 0; height: 2px; }
+.cf-more-i::after { inset: 0 3.5px; width: 2px; }
+
+.cf-card.is-open .cf-more-i::after { transform: scaleY(0); opacity: 0; }
+
+.cf.js-collapse .cf-x { display: grid; grid-template-rows: 0fr; }
+.cf.js-collapse .cf-x-in { overflow: hidden; min-height: 0; opacity: 0; visibility: hidden; }
+.cf.js-collapse .cf-card.is-open .cf-x { grid-template-rows: 1fr; }
+.cf.js-collapse .cf-card.is-open .cf-x-in { opacity: 1; visibility: visible; }
+
+/* Armed after the collapse, so the first close does not animate. */
+.cf.js-anim .cf-x { transition: grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1); }
+.cf.js-anim .cf-x-in { transition: opacity 0.16s ease, visibility 0s linear 0.34s; }
+.cf.js-anim .cf-card.is-open .cf-x-in { transition: opacity 0.28s ease 0.1s, visibility 0s; }
+
+/* Room in the kicker's row for the control in the corner, and the whole
+   of a card that has one is a place to press. */
+.cf.js-collapse .cf-card > .cf-k { padding-right: 30px; }
+.cf.js-collapse .cf-card:has(.cf-more) { cursor: pointer; }
+
+/* ── where the line arrives ──
+   A diamond for the court, numbered when the question is, and a ring
+   for a side: the chronology's own marks, with its collar. Hollow until
+   the case has been through it. */
+
+.cf-pin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
+  translate: 0 calc(-50% - 1.5px);
+  rotate: 45deg;
+  border: 2px solid var(--court);
+  border-radius: 1px;
+  background: var(--tl-card);
+  box-shadow: 0 0 0 4px var(--bg-band);
+}
+
+.cf-pin-n {
+  width: 26px;
+  height: 26px;
+  margin-left: -13px;
+  border-width: 2.5px;
+  border-radius: 3px;
+}
+
+.cf-pin-n b {
+  display: block;
+  rotate: -45deg;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  line-height: 21px;
+  text-align: center;
+  color: var(--tl-c-ink);
+}
+
+.cf-pin-o {
+  width: 15px;
+  height: 15px;
+  margin-left: -7.5px;
+  rotate: none;
+  border: 3px solid var(--cf-dark);
+  border-radius: 50%;
+}
+
+.is-done > .cf-card > .cf-pin,
+.is-here > .cf-card > .cf-pin { background: var(--court); }
+
+.is-done > .cf-card > .cf-pin-o { background: var(--cf-dark); }
+
+.is-done > .cf-card > .cf-pin-n b,
+.is-here > .cf-card > .cf-pin-n b { color: var(--tl-card); }
+
+/* ── the case is here ──
+   A flag beside the mark, and the mark gives off a ring. */
+
+.cf-here {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 30px);
+  z-index: 1;
+  translate: 0 calc(-50% - 1.5px);
+  padding: 4px 10px 4px 9px;
+  border-radius: 2px;
+  background: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tl-card);
+}
+
+.cf-here::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  translate: 0 -50%;
+  rotate: 45deg;
+  background: var(--ink);
+}
+
+@keyframes cf-here {
+  from { box-shadow: 0 0 0 4px var(--bg-band), 0 0 0 4px color-mix(in oklab, var(--court) 60%, transparent); }
+  to { box-shadow: 0 0 0 4px var(--bg-band), 0 0 0 13px transparent; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .is-here > .cf-card > .cf-pin { animation: cf-here 2.4s ease-out infinite; }
+}
+
+/* ── how a question stands ──
+   The chronology's stamp, and its rule that how much ink says how
+   settled: decided is solid, not in dispute is half-toned, open is an
+   outline, and here a dashed one. */
+
+.cf-st {
+  padding: 2px 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tl-c-ink);
+}
+
+.cf-st-done { border-color: var(--court); background: var(--court); color: var(--tl-card); }
+.cf-st-set { background: color-mix(in oklab, var(--court) 24%, transparent); }
+.cf-st-open { border-style: dashed; }
+
+/* ── under the text: who has to prove it, and where it is argued ── */
+
+.cf-who,
+.cf-see {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.cf-who + .cf-see { margin-top: 6px; }
+
+.cf-l {
+  margin-right: 0.9em;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tl-c-ink);
+}
+
+/* A numbered tab down to the question in the ledger where the point is
+   argued. The citation's tab in the chronology, with a number on it. */
+.cf-ref {
+  display: inline-block;
+  min-width: 23px;
+  margin-right: 5px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--court) 12%, transparent);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  color: var(--tl-c-ink);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.cf-ref:hover,
+.cf-ref:focus-visible { background: var(--court); color: var(--tl-card); }
+
+/* ── an ending ── */
+
+.cf-out { border-top-width: 4px; }
+.cf-out.cf-p { background: color-mix(in oklab, var(--p) 6%, var(--tl-card)); }
+.cf-out.cf-d { background: color-mix(in oklab, var(--d) 6%, var(--tl-card)); }
+.cf-out.cf-c { background: color-mix(in oklab, var(--court) 8%, var(--tl-card)); }
+.cf-out > .cf-h { font-size: 1.3rem; }
+
+/* What follows from it, under a rule. */
+.cf-then {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+
+.cf-then .cf-h { font-size: 1.08rem; }
+
+/* How many went this way: a box to each, inked where it did. */
+.cf-toks { display: flex; gap: 7px; margin-top: 11px; }
+
+.cf-tok {
+  width: 17px;
+  height: 17px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+}
+
+.cf-tok.is-on { background: currentColor; }
+
+.cf-p .cf-toks { color: var(--p); }
+.cf-d .cf-toks { color: var(--d); }
+
+/* ── a card outside the chain ── */
+
+.cf-aside {
+  border: 1.5px dashed color-mix(in oklab, var(--court) 56%, var(--tl-card));
+  background: color-mix(in oklab, var(--tl-card) 62%, var(--bg-band));
+  box-shadow: none;
+}
+
+.cf-aside .cf-pin,
+.cf-aside .cf-here { translate: 0 calc(-50% - 0.75px); }
+
+/* ── one column ──
+   With less room than two columns need, a pair stands one above the
+   other inside a frame, and the frame is what says they are two ways
+   and not two steps. Asked of the map's own width and not the window's,
+   so it is right wherever the map is put. */
+
+@container cf (max-width: 700px) {
+
+  .cf-flow { --cf-stem: 26px; }
+  .cf-node.has-via { --cf-stem: 16px; }
+
+  /* A word on a line stands in the line here instead of over it: a
+     short run down to it, the word, and a run on to the card. However
+     many lines the word takes, it cannot reach the mark beneath. */
+  .cf-via {
+    position: static;
+    translate: none;
+    align-self: center;
+    max-width: calc(100% - 20px);
+    padding: 5px 10px 0;
+    background: none;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .cf-via::after {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 24px;
+    margin: 6px auto 0;
+    background: var(--cf-pale);
+  }
+
+  .is-done > .cf-via::after,
+  .is-here > .cf-via::after { background: var(--cf-dark); }
+
+  .cf-two {
+    display: block;
+    margin-top: var(--cf-stem);
+    padding: 16px 14px 18px;
+    border: 2px solid var(--tl-c-line);
+    border-radius: var(--cf-r);
+  }
+
+  /* A frame with no name still has to clear the mark on its first card. */
+  .cf-two:not(:has(> .cf-grp)) { padding-top: 26px; }
+
+  .cf-two.is-done { border-color: var(--court); }
+
+  /* The line into the frame, from the card above. */
+  .cf-two::before { top: calc(var(--cf-stem) * -1 - 2px); height: var(--cf-stem); }
+
+  .cf-flow > .cf-two:first-child { margin-top: 0; padding-top: 14px; }
+  .cf-flow > .cf-two:first-child::before { display: none; }
+
+  .cf-col { display: block; }
+  .cf-col::before { display: none; }
+
+  .cf-col > .cf-node:first-child { padding-top: 0; }
+  .cf-col > .cf-node:first-child::before { display: none; }
+
+  /* The second of the pair, set off from the first, with the word that
+     joins them where there is one. */
+  .cf-col + .cf-col {
+    margin-top: 16px;
+    padding-top: 30px;
+    border-top: 1px dashed var(--tl-c-line);
+  }
+
+  .cf-col[data-op]::before {
+    content: attr(data-op);
+    display: block;
+    top: 0;
+    left: 50%;
+    right: auto;
+    height: auto;
+    translate: -50% -50%;
+    padding: 2px 10px;
+    border: 0;
+    border-radius: 0;
+    background: var(--bg-band);
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--tl-c-ink);
+  }
+
+  /* The name of a frame heads it. */
+  .cf-grp {
+    position: static;
+    translate: none;
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto 20px;
+    text-align: center;
+    white-space: normal;
+  }
+
+  /* An answer names the way out above the card it leads to. */
+  .cf-col > .cf-node:first-child > .cf-via {
+    align-self: flex-start;
+    max-width: 100%;
+    margin: 0 0 20px;
+    padding: 4px 10px;
+    background: var(--cf-dark);
+    text-align: left;
+    color: var(--tl-card);
+  }
+
+  .cf-col > .cf-node:first-child > .cf-via::after { display: none; }
+
+  .cf-join { padding-bottom: 18px; }
+
+  .cf-join::after,
+  .cf-join > .cf-col::after { display: none; }
+
+  /* The tally is not a pair of ways, so it takes no frame. */
+  .cf-flow > .cf-two-score { margin-top: 0; padding: 0; border: 0; }
+  .cf-title { margin: 34px 0 20px; }
+
+  .cf-card { padding: 16px; }
+
+  /* Beside the mark there is no room for the flag, so it leads the card
+     instead. */
+  .cf-here,
+  .cf-aside .cf-here {
+    position: static;
+    translate: none;
+    width: max-content;
+    max-width: 100%;
+    margin-bottom: 11px;
+    white-space: normal;
+  }
+
+  .cf-here::before { display: none; }
+}
+
+/* On paper every card is open and nothing is a control. */
+@media print {
+  .cf-card { box-shadow: none; }
+  .cf-more, .cf-all { display: none; }
+  .cf.js-collapse .cf-x { grid-template-rows: 1fr; }
+  .cf.js-collapse .cf-x-in { opacity: 1; visibility: visible; }
+}
 
 .tree-caption {
   margin-top: 26px;
@@ -3139,37 +3976,13 @@ span.cr-cite { margin: 0; white-space: normal; }
    one above, at 4, so a card keeps the same tooth as the page.
    ═══════════════════════════════════════════════ */
 
+/* The stock and the inks are set with the bands, further up, because the
+   case flow lays the same cards. These are the chronology's own
+   measures. */
 .band-time {
-  background: var(--bg-band);
-
-  /* Set here rather than on the root so they are worked out below the
-     body, where a case restates its two inks. Everything a side needs
-     in the chronology is mixed from its one colour, so a case that sets
-     --p and --d has nothing more to restate for this section. */
-  --tl-card: #fbf7ef;
-  --tl-edge: rgba(23, 20, 15, 0.16);
-  --tl-lift: 0 1px 1px rgba(23, 20, 15, 0.05), 0 14px 24px -16px rgba(23, 20, 15, 0.34);
-  --tl-lift-up: 0 1px 1px rgba(23, 20, 15, 0.06), 0 24px 34px -18px rgba(23, 20, 15, 0.46);
-
   --tl-gutter: 104px;
   --tl-node: 15px;
   --tl-bar: 42px;
-
-  /* Ink for small type, a shade down from the spot colour. */
-  --tl-p-ink: color-mix(in oklab, var(--p) 84%, var(--ink));
-  --tl-d-ink: color-mix(in oklab, var(--d) 84%, var(--ink));
-  --tl-c-ink: color-mix(in oklab, var(--court) 80%, var(--ink));
-
-  /* Lines and rules. Mixed into the band's own colour rather than
-     thinned with alpha, so they are solid: the rule under the bar has
-     cards passing beneath it. */
-  --tl-p-line: color-mix(in oklab, var(--p) 58%, var(--bg-band));
-  --tl-d-line: color-mix(in oklab, var(--d) 58%, var(--bg-band));
-  --tl-c-line: color-mix(in oklab, var(--court) 36%, var(--bg-band));
-  --tl-n-line: color-mix(in oklab, var(--ink) 34%, var(--bg-band));
-  --tl-hair: color-mix(in srgb, var(--ink) 15%, var(--bg-band));
-
-  --tl-c-tint: color-mix(in oklab, var(--court) 12%, var(--tl-card));
 }
 
 /* ── the key, and the bar it becomes ──
@@ -4882,13 +5695,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 
   .agreed-item { grid-template-columns: 34px 1fr; gap: 8px 16px; }
   .agreed-item p { grid-column: 2; }
-
-  /* The tree keeps its geometry and scrolls sideways; squeezing it
-     collides the labels. */
-  .tree-scroll {
-    margin-inline: calc(var(--gut) * -1);
-    padding-inline: var(--gut);
-  }
 
   /* Ledger stacks: question, plaintiff, defendant, court. Reading order
      is preserved, and the two sides keep their coloured rules so the

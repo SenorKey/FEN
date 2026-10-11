@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010c">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261010d">
 
     <!-- This case's own inks and the two masthead portraits. After the shared
          sheet, because it restates tokens the shared sheet sets. -->
@@ -353,93 +353,179 @@
         </nav>
 
         <!-- ═══════════════════════════════════════════════
-             The decision tree
+             Case flow
+
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on everything the case has been through, and
+             is-here with its flag on the card it is waiting at.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
              ═══════════════════════════════════════════════ -->
         <section class="band band-tree" id="tree" aria-labelledby="tree-h">
             <div class="wrap">
-                <p class="kicker">01 &middot; The whole thing at once</p>
-                <h2 class="section-title" id="tree-h">How it actually resolves</h2>
-                <p class="section-lede">Every dispute in the case feeding the gates that decide it, drawn once so the
-                    shape is visible without reading the chronology twice.</p>
+                <h2 class="kicker" id="tree-h">01 &middot; Case Flow TLDR</h2>
 
-                <div class="tree-scroll">
-                    <svg class="tree" viewBox="0 0 1180 1060" role="img" aria-labelledby="tree-t tree-d" xmlns="http://www.w3.org/2000/svg">
-                        <title id="tree-t">What the jury was actually asked in Depp v. Heard</title>
-                        <desc id="tree-d">A decision tree showing what the jury was actually asked. Two inputs feed one shared chain of four gates: the three sentences from the op-ed that Depp sued over, and the three statements his lawyer gave the Daily Mail that Heard counterclaimed over. Each of the six statements is run through the same four gates on its own: whether it is of and concerning the claimant, whether it is a false statement of fact, whether it is defamatory in meaning, and whether it was published with actual malice, which for public figures means knowledge of falsity or reckless disregard proved to a clear-and-convincing standard. A statement that clears all four is actionable and damages are assessed on it alone; a statement that fails any one of them fails entirely. Applied six times, all three op-ed sentences cleared every gate, giving Depp ten million dollars compensatory and five million punitive, the punitive reduced to three hundred and fifty thousand by Virginia statute. One of the three lawyer statements cleared every gate, giving Heard two million compensatory and nothing punitive. The other two failed.</desc>
-                        <defs>
-                            <marker id="ah" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                                <path d="M 0 0 L 8 4 L 0 8 z" class="ah"/>
-                            </marker>
-                            <marker id="ahn" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto">
-                                <path d="M 0 0 L 8 4 L 0 8 z" class="ahn"/>
-                            </marker>
-                        </defs>
-
-                        <g class="edges">
-                        <path d="M 285 112 L 285 138 Q 285 146 293 146 L 552 146 Q 560 146 560 154 L 560 180" class="ln"/>
-                        <path d="M 895 112 L 895 138 Q 895 146 887 146 L 628 146 Q 620 146 620 154 L 620 180" class="ln"/>
-                        <path d="M 590 272 L 590 332" class="ln"/>
-                        <path d="M 590 424 L 590 484" class="ln"/>
-                        <path d="M 590 576 L 590 636" class="ln"/>
-                        <path d="M 590 740 L 590 766 Q 590 774 582 774 L 293 774 Q 285 774 285 782 L 285 800" class="ln"/>
-                        <path d="M 590 740 L 590 766 Q 590 774 598 774 L 887 774 Q 895 774 895 782 L 895 800" class="ln-n"/>
-                        <path d="M 285 872 L 285 930" class="ln"/>
-                        <path d="M 400 872 L 400 898 Q 400 906 408 906 L 852 906 Q 860 906 860 914 L 860 930" class="ln"/>
-                        <path d="M 960 872 L 960 930" class="ln-n"/>
-                        </g>
-
-                        <g class="elab">
-                        <text x="300" y="912" class="e-y"><tspan x="300" dy="0">all three</tspan></text>
-                        <text x="415" y="896" class="e-y"><tspan x="415" dy="0">one of three</tspan></text>
-                        <text x="975" y="912" class="e-n"><tspan x="975" dy="0">the other two</tspan></text>
-                        <text x="600" y="790" class="e-n"><tspan x="600" dy="0">if any gate fails</tspan></text>
-                        </g>
-
-                        <rect x="50" y="20" width="470" height="92" rx="3" class="n n-p"/>
-                        <text x="70" y="45" class="t-k k-p"><tspan x="70" dy="0">What he sued over</tspan></text>
-                        <text x="70" y="69" class="t-h"><tspan x="70" dy="0">The op-ed &mdash; three sentences</tspan></text>
-                        <text x="70" y="91" class="t-b"><tspan x="70" dy="0">Published 18 December 2018. It never names him.</tspan></text>
-                        <rect x="660" y="20" width="470" height="92" rx="3" class="n n-d"/>
-                        <text x="680" y="45" class="t-k k-d"><tspan x="680" dy="0">What she counterclaimed over</tspan></text>
-                        <text x="680" y="69" class="t-h"><tspan x="680" dy="0">His lawyer to the Daily Mail &mdash; three statements</tspan></text>
-                        <text x="680" y="91" class="t-b"><tspan x="680" dy="0">April and June 2020. Each calls her allegations a hoax.</tspan></text>
-                        <rect x="295" y="180" width="590" height="92" rx="3" class="n n-test"/>
-                        <text x="315" y="205" class="t-k k-c"><tspan x="315" dy="0">Gate 1</tspan></text>
-                        <text x="315" y="229" class="t-h"><tspan x="315" dy="0">Is it of and concerning the claimant?</tspan></text>
-                        <text x="315" y="251" class="t-b"><tspan x="315" dy="0">It need not name them. It has to be about them, to a reader who knows the context.</tspan></text>
-                        <rect x="295" y="332" width="590" height="92" rx="3" class="n n-test"/>
-                        <text x="315" y="357" class="t-k k-c"><tspan x="315" dy="0">Gate 2</tspan></text>
-                        <text x="315" y="381" class="t-h"><tspan x="315" dy="0">Is it a false statement of fact?</tspan></text>
-                        <text x="315" y="403" class="t-b"><tspan x="315" dy="0">Opinion is not actionable, and truth is a complete defence.</tspan></text>
-                        <rect x="295" y="484" width="590" height="92" rx="3" class="n n-test"/>
-                        <text x="315" y="509" class="t-k k-c"><tspan x="315" dy="0">Gate 3</tspan></text>
-                        <text x="315" y="533" class="t-h"><tspan x="315" dy="0">Is it defamatory in meaning?</tspan></text>
-                        <text x="315" y="555" class="t-b"><tspan x="315" dy="0">Implication counts &mdash; which is how an op-ed naming nobody reaches a jury at all.</tspan></text>
-                        <rect x="295" y="636" width="590" height="104" rx="3" class="n n-test"/>
-                        <text x="315" y="661" class="t-k k-c"><tspan x="315" dy="0">Gate 4</tspan></text>
-                        <text x="315" y="685" class="t-h"><tspan x="315" dy="0">Was it published with actual malice?</tspan></text>
-                        <text x="315" y="707" class="t-b"><tspan x="315" dy="0">Both are public figures, so: knowledge of falsity, or reckless disregard for it &mdash;</tspan><tspan x="315" dy="16">and proved to a clear-and-convincing standard rather than the usual balance.</tspan></text>
-                        <rect x="85" y="800" width="400" height="72" rx="3" class="n n-test"/>
-                        <text x="105" y="825" class="t-k k-c"><tspan x="105" dy="0">All four yes</tspan></text>
-                        <text x="105" y="849" class="t-h"><tspan x="105" dy="0">The statement is actionable</tspan></text>
-                        <rect x="695" y="800" width="400" height="72" rx="3" class="n n-test"/>
-                        <text x="715" y="825" class="t-k k-c"><tspan x="715" dy="0">Any one no</tspan></text>
-                        <text x="715" y="849" class="t-h"><tspan x="715" dy="0">That statement fails</tspan></text>
-                        <rect x="50" y="930" width="470" height="104" rx="3" class="n n-out-p"/>
-                        <text x="70" y="955" class="t-k k-p"><tspan x="70" dy="0">The op-ed, scored</tspan></text>
-                        <text x="70" y="979" class="t-h"><tspan x="70" dy="0">Three of three</tspan></text>
-                        <text x="70" y="1001" class="t-b"><tspan x="70" dy="0">$10m compensatory and $5m punitive &mdash; the punitive</tspan><tspan x="70" dy="16">cut to $350,000 by Virginia&rsquo;s statutory cap.</tspan></text>
-                        <rect x="660" y="930" width="470" height="104" rx="3" class="n n-out-d"/>
-                        <text x="680" y="955" class="t-k k-d"><tspan x="680" dy="0">The lawyer&rsquo;s statements, scored</tspan></text>
-                        <text x="680" y="979" class="t-h"><tspan x="680" dy="0">One of three</tspan></text>
-                        <text x="680" y="1001" class="t-b"><tspan x="680" dy="0">$2m compensatory, and nothing punitive. It is the only</tspan><tspan x="680" dy="16">part of the verdict either side tried to appeal.</tspan></text>
-                    </svg>
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Finished. The jury answered all of it on 1 June 2022.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Depp</li>
+                            <li class="cf-key-d">Heard</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has got</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger: every card
+                             opens on its own, and with no JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow">
+                        <li class="cf-two cf-two-in cf-join is-done" style="--cf-rows: 2">
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-p">
+                                        <p class="cf-k"><span class="cf-k-t">What he sued over</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The op-ed — three sentences"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">The op-ed &mdash; three sentences</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">Published 18 December 2018. It never names him.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-d">
+                                        <p class="cf-k"><span class="cf-k-t">What she counterclaimed over</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: His lawyer to the Daily Mail — three statements"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">His lawyer to the Daily Mail &mdash; three statements</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">April and June 2020. Each calls her allegations a hoax.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">each statement, on its own</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
+                                <p class="cf-k"><span class="cf-k-t">Question 1</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it of and concerning the claimant?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Is it of and concerning the claimant?</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">It need not name them. It has to be about them, to a reader who knows the context.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q1" title="Can an op-ed defame a man it never names?" aria-label="Question 1 below: Can an op-ed defame a man it never names?">1</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
+                                <p class="cf-k"><span class="cf-k-t">Question 2</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it a false statement of fact?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Is it a false statement of fact?</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Opinion is not actionable, and truth is a complete defence.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q4" title="Was the penthouse staged between the two 911 calls?" aria-label="Question 4 below: Was the penthouse staged between the two 911 calls?">4</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
+                                <p class="cf-k"><span class="cf-k-t">Question 3</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it defamatory in meaning?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Is it defamatory in meaning?</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Implication counts &mdash; which is how an op-ed naming nobody reaches a jury at all.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q1" title="Can an op-ed defame a man it never names?" aria-label="Question 1 below: Can an op-ed defame a man it never names?">1</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>4</b></span>
+                                <p class="cf-k"><span class="cf-k-t">Question 4</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it published with actual malice?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                <h3 class="cf-h">Was it published with actual malice?</h3>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Both are public figures, so: knowledge of falsity, or reckless disregard for it &mdash; and proved to a clear-and-convincing standard rather than the usual balance.</p>
+                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q5" title="Did she publish knowing it was false?" aria-label="Question 5 below: Did she publish knowing it was false?">5</a></p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-two cf-two-split is-done" style="--cf-rows: 1">
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done has-via">
+                                    <p class="cf-via">all four yes</p>
+                                    <article class="cf-card cf-out cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">Then</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The statement is actionable"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">The statement is actionable</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">Damages are assessed on it alone.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done has-via">
+                                    <p class="cf-via">any one no</p>
+                                    <article class="cf-card cf-out cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <p class="cf-k"><span class="cf-k-t">Then</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That statement fails"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">That statement fails</h3>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">A statement that fails any one of them fails entirely.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-two cf-two-score is-done" style="--cf-rows: 1">
+                            <p class="cf-title">The same four questions, six times over</p>
+                            <ol class="cf-col cf-arm-p is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-out cf-p">
+                                        <p class="cf-k"><span class="cf-k-t">The op-ed, scored</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Three of three"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">Three of three</h3>
+                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span></p>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">$10m compensatory and $5m punitive &mdash; the punitive cut to $350,000 by Virginia&rsquo;s statutory cap.</p>
+                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q6" title="What did the op-ed actually cost him?" aria-label="Question 6 below: What did the op-ed actually cost him?">6</a></p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col cf-arm-d is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-out cf-d">
+                                        <p class="cf-k"><span class="cf-k-t">The lawyer&rsquo;s statements, scored</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: One of three"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <h3 class="cf-h">One of three</h3>
+                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok"></span><span class="cf-tok"></span></p>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">$2m compensatory, and nothing punitive. It is the only part of the verdict either side tried to appeal.</p>
+                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q4" title="Was the penthouse staged between the two 911 calls?" aria-label="Question 4 below: Was the penthouse staged between the two 911 calls?">4</a></p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
                 </div>
 
-                <p class="tree-caption">The same four gates, six times over. Nothing on this diagram asks whether
-                    the marriage was abusive, because no question on the verdict form did either.</p>
+                <p class="tree-caption">Nothing on this diagram asks whether the marriage was abusive, because no question on the verdict form did either.</p>
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by side">
+                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
                         <span class="sect-nav-l">Next</span>
                         <span class="sect-nav-t">02</span>
                         <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
@@ -453,10 +539,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
             <div class="wrap">
-                <p class="kicker">02 &middot; Side by side</p>
-                <h2 class="section-title" id="sbs-h">Six questions, two answers each</h2>
-                <p class="section-lede">Positions as each side actually argued them, in its filings and at trial, not as
-                    the other side characterises them. Where a court or the jury has spoken, it is marked.</p>
+                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
 
                 <div class="ledger-head">
                     <div class="ledger-key" aria-hidden="true">
@@ -781,7 +864,7 @@
                 </div>
 
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, The whole thing at once">
+                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, Case Flow TLDR">
                         <span class="sect-nav-a" aria-hidden="true">&larr;</span>
                         <span class="sect-nav-l">Previous</span>
                         <span class="sect-nav-t">01</span>
@@ -872,7 +955,7 @@
 
                 <p class="notes-updated">Record reviewed through <span class="mono">28 September 2026</span>. The case ended on 19 December 2022 and nothing has been filed in it since, so this page is complete as to the docket &mdash; which is not the same as complete.</p>
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by side">
+                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
                         <span class="sect-nav-a" aria-hidden="true">&larr;</span>
                         <span class="sect-nav-l">Previous</span>
                         <span class="sect-nav-t">02</span>
@@ -989,7 +1072,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261010c" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261010d" defer></script>
 </body>
 
 </html>

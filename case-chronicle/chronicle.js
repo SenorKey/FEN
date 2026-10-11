@@ -53,6 +53,97 @@
   sync();
 })();
 
+/* ── case flow: every card shut to its heading ──
+   The map is there to be taken in at a glance, so each card is shut to
+   its kicker and heading and opens for the rest: from its own control,
+   or from a press anywhere on the card that is not on a link and is not
+   the end of a text selection. One more control opens or shuts them all,
+   and is the ledger's button under another label.
+
+   The rest of every card ships open and the controls ship hidden, so a
+   reader with no JavaScript has the whole map written out and no dead
+   buttons. This shuts the cards, then arms the transition after a forced
+   reflow so the first close is instant. A reflow rather than
+   requestAnimationFrame, which is paused in a background tab. */
+
+(function () {
+  'use strict';
+
+  var flow = document.querySelector('.cf');
+  if (!flow) return;
+
+  var cards = flow.querySelectorAll('.cf-card');
+  var wired = [];
+
+  function set(item, open) {
+    item.card.classList.toggle('is-open', open);
+    item.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  for (var i = 0; i < cards.length; i++) {
+    (function (card) {
+      var btn = card.querySelector('.cf-more');
+      if (!btn) return;
+
+      var item = { card: card, btn: btn };
+      wired.push(item);
+      btn.hidden = false;
+
+      /* The control is inside the card, so its own press would otherwise
+         be heard twice and leave the card as it was. */
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        set(item, !card.classList.contains('is-open'));
+        sync();
+      });
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('a, button')) return;
+        if (window.getSelection && String(window.getSelection())) return;
+        set(item, !card.classList.contains('is-open'));
+        sync();
+      });
+    })(cards[i]);
+  }
+
+  if (!wired.length) return;
+
+  var all = flow.querySelector('.cf-all');
+  var label = all && all.querySelector('.da-l');
+  var OPEN = 'Open every card';
+  var SHUT = 'Shut every card';
+
+  function allOpen() {
+    for (var i = 0; i < wired.length; i++) {
+      if (!wired[i].card.classList.contains('is-open')) return false;
+    }
+    return true;
+  }
+
+  /* Keeps the button honest when cards are opened one at a time. */
+  function sync() {
+    if (!all) return;
+    var open = allOpen();
+    all.setAttribute('aria-expanded', open ? 'true' : 'false');
+    all.classList.toggle('is-open', open);
+    label.textContent = open ? SHUT : OPEN;
+  }
+
+  if (all) {
+    all.addEventListener('click', function () {
+      var open = !allOpen();
+      for (var i = 0; i < wired.length; i++) set(wired[i], open);
+      sync();
+    });
+    all.hidden = false;
+  }
+
+  flow.classList.add('js-collapse');
+  void flow.offsetHeight;
+  flow.classList.add('js-anim');
+  sync();
+})();
+
 /* ── chronology: one more layer per card ──
    The detail ships open and the toggles ship hidden, so a reader with no
    JavaScript gets everything and no dead controls. This collapses them,
