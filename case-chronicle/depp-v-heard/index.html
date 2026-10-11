@@ -19,7 +19,7 @@
 
     <!-- This case's own inks and the two masthead portraits. After the shared
          sheet, because it restates tokens the shared sheet sets. -->
-    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css">
+    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css?v=20261011a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,45 +226,91 @@
         <!-- ═══════════════════════════════════════════════
              Masthead
              ═══════════════════════════════════════════════ -->
-        <header class="masthead" id="top">
-            <!-- Decorative, and stated as such: empty alt and aria-hidden, so
-                 a screen reader is not told there are two pictures of nobody
-                 in particular. Each sits on its own side of the case.
+        <header class="masthead masthead-case" id="top">
+            <div class="mh">
+                <div class="mh-main">
+                    <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
+                    <p class="eyebrow">Circuit Court of Fairfax County, Virginia &middot; No. CL-2019-0002911</p>
+                    <h1 class="masthead-title">Depp <em>v.</em> Heard</h1>
+                    <p class="masthead-lede">Two defamation cases tried as one. He sued over a newspaper op&#8209;ed that never named him; she counterclaimed over statements his lawyer gave to a newspaper. The jury found for him on all three of the statements he sued over, and for her on one of the three she did. Both noticed appeals, and <strong>neither was ever heard</strong>.</p>
 
-                 Lazy, although both are above the fold. The stylesheet hides
-                 them below 1100px, and an image that is never rendered is
-                 never fetched when it is lazy — so a phone stops paying 108 KB
-                 for two pictures it was never going to be shown. On a wide
-                 screen the only cost is that they load at a lower priority
-                 than the title they sit behind, which is the right order
-                 for something drawn at a tenth of full strength. -->
-            <img class="fig fig-p" src="/case-chronicle/depp-v-heard/depp.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async" loading="lazy">
-            <img class="fig fig-d" src="/case-chronicle/depp-v-heard/heard.webp" alt="" aria-hidden="true" width="1024" height="1536" decoding="async" loading="lazy">
+                    <dl class="docket-meta">
+                        <div>
+                            <dt>Filed</dt>
+                            <dd>1 Mar 2019</dd>
+                        </div>
+                        <div>
+                            <dt>Tried</dt>
+                            <dd>11 Apr &ndash; 1 Jun 2022</dd>
+                        </div>
+                        <div>
+                            <dt>Verdict</dt>
+                            <dd>1 Jun 2022</dd>
+                        </div>
+                        <div>
+                            <dt>Status</dt>
+                            <dd><span class="pip pip-closed"></span>Settled</dd>
+                        </div>
+                    </dl>
+                </div>
 
-            <div class="wrap">
-                <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
-                <p class="eyebrow">Circuit Court of Fairfax County, Virginia &middot; No. CL-2019-0002911</p>
-                <h1 class="masthead-title">Depp <em>v.</em> Heard</h1>
-                <p class="masthead-lede">Two defamation cases tried as one. He sued over a newspaper op&#8209;ed that never named him; she counterclaimed over statements his lawyer gave to a newspaper. The jury found for him on all three of the statements he sued over, and for her on one of the three she did. Both noticed appeals, and <strong>neither was ever heard</strong>.</p>
+                <!-- The two sides. A card each: who they are, and what
+                     they were known for before the case. The side that
+                     filed is first, and the wide layout sets it to the
+                     left of the title and the other to the right.
 
-                <dl class="docket-meta">
-                    <div>
-                        <dt>Filed</dt>
-                        <dd>1 Mar 2019</dd>
+                     A card shows the name and one line, and opens for
+                     the rest. The rest ships open and the control ships
+                     hidden; the script shuts one and shows the other, so
+                     with no JavaScript both cards are written out.
+
+                     Under each card on this page stands that side's
+                     portrait. Decorative, and stated as such: empty alt
+                     and aria-hidden, so a screen reader is not told
+                     there are two pictures of nobody in particular.
+
+                     Lazy, although both are above the fold. The case's
+                     stylesheet shows them only in the wide layout, and
+                     an image that is never rendered is never fetched
+                     when it is lazy, so a phone does not pay 108 KB for
+                     two pictures it was never going to be shown. -->
+                <div class="mh-side mh-side-p">
+                    <article class="party party-p" aria-labelledby="party-p-h">
+                        <p class="party-role">Plaintiff <span>The side that sued</span></p>
+                        <h2 class="party-name" id="party-p-h">Johnny Depp</h2>
+                        <p class="party-what">Film actor</p>
+                        <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                            <span class="party-more-i" aria-hidden="true"></span>
+                            <span class="party-more-l">More</span>
+                        </button>
+                        <div class="party-x" id="party-p-x"><div class="party-x-in">
+                            <p class="party-b">He&rsquo;s an American actor, born in Kentucky in 1963. He got famous in the late 1980s on the TV show 21 Jump Street, then made a long run of films with the director Tim Burton, starting with Edward Scissorhands. Most people know him as Captain Jack Sparrow, who he played in five Pirates of the Caribbean films from 2003 to 2017. That role got him the first of his three Oscar nominations.</p>
+                            <p class="party-src">Background: <a class="cite-doc" href="https://www.britannica.com/biography/Johnny-Depp" target="_blank" rel="noopener" aria-label="Britannica, Johnny Depp, opens in a new tab">Britannica</a></p>
+                        </div></div>
+                    </article>
+                    <div class="fig-stand" aria-hidden="true">
+                        <img class="fig fig-p" src="/case-chronicle/depp-v-heard/depp.webp" alt="" width="1024" height="1536" decoding="async" loading="lazy">
                     </div>
-                    <div>
-                        <dt>Tried</dt>
-                        <dd>11 Apr &ndash; 1 Jun 2022</dd>
+                </div>
+
+                <div class="mh-side mh-side-d">
+                    <article class="party party-d" aria-labelledby="party-d-h">
+                        <p class="party-role">Defendant <span>The side that was sued, and sued back</span></p>
+                        <h2 class="party-name" id="party-d-h">Amber Heard</h2>
+                        <p class="party-what">Film actor</p>
+                        <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                            <span class="party-more-i" aria-hidden="true"></span>
+                            <span class="party-more-l">More</span>
+                        </button>
+                        <div class="party-x" id="party-d-x"><div class="party-x-in">
+                            <p class="party-b">She&rsquo;s an American actor, born in Texas in 1986. Her early films include Pineapple Express and Never Back Down, both from 2008, and she&rsquo;s best known for playing Mera in Aquaman and the other DC superhero films. She met Depp on the set of The Rum Diary. They married in February 2015 and she filed for divorce in May 2016.</p>
+                            <p class="party-src">Background: <a class="cite-doc" href="https://en.wikipedia.org/wiki/Amber_Heard" target="_blank" rel="noopener" aria-label="Wikipedia, Amber Heard, opens in a new tab">Wikipedia</a></p>
+                        </div></div>
+                    </article>
+                    <div class="fig-stand" aria-hidden="true">
+                        <img class="fig fig-d" src="/case-chronicle/depp-v-heard/heard.webp" alt="" width="1024" height="1536" decoding="async" loading="lazy">
                     </div>
-                    <div>
-                        <dt>Verdict</dt>
-                        <dd>1 Jun 2022</dd>
-                    </div>
-                    <div>
-                        <dt>Status</dt>
-                        <dd><span class="pip pip-closed"></span>Settled</dd>
-                    </div>
-                </dl>
+                </div>
             </div>
         </header>
 
@@ -371,7 +417,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-tree" id="tree" aria-labelledby="tree-h">
             <div class="wrap">
-                <h2 class="kicker" id="tree-h">01 &middot; Case Flow TLDR</h2>
+                <h2 class="kicker" id="tree-h">01 &middot; TLDR Case Flow</h2>
 
                 <div class="cf">
                     <p class="cf-now"><span class="cf-now-l">Where it stands</span>Finished. The jury answered all of it on 1 June 2022.</p>
@@ -395,10 +441,14 @@
                             <ol class="cf-col is-done">
                                 <li class="cf-node is-done">
                                     <article class="cf-card cf-p">
-                                        <p class="cf-k"><span class="cf-k-t">What he sued over</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The op-ed — three sentences"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                        <h3 class="cf-h">The op-ed &mdash; three sentences</h3>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">Published 18 December 2018. It never names him.</p>
+                                            <p class="cf-k">What he sued over</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The op-ed &mdash; three sentences</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The op-ed — three sentences"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is where his side of the case starts. On 18 December 2018 the Washington Post published an op-ed under Amber Heard&rsquo;s name, about what happens to women who speak up about abuse. It never mentions Johnny Depp by name. He sued her for <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> anyway, which means he says it hurt his reputation by stating things about him that were false.</p>
+                                            <p class="cf-b">He didn&rsquo;t sue over the whole piece. He picked out three sentences from it, and one of those is the headline, which the newspaper wrote and not her. Each of the three goes through the four questions below separately.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -406,10 +456,14 @@
                             <ol class="cf-col is-done">
                                 <li class="cf-node is-done">
                                     <article class="cf-card cf-d">
-                                        <p class="cf-k"><span class="cf-k-t">What she counterclaimed over</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: His lawyer to the Daily Mail — three statements"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                        <h3 class="cf-h">His lawyer to the Daily Mail &mdash; three statements</h3>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">April and June 2020. Each calls her allegations a hoax.</p>
+                                            <p class="cf-k">What she counterclaimed over</p>
+                                        </div></div>
+                                        <h3 class="cf-h">His lawyer to the Daily Mail &mdash; three statements</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: His lawyer to the Daily Mail — three statements"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is where her side starts. After he sued her, she sued him back inside the same case, which is called a <a class="term" href="#t-counterclaim" data-term="t-counterclaim" title="Counterclaim: A claim the person being sued brings back against the person who sued them. Both are tried together as one case.">counterclaim</a>. Hers isn&rsquo;t about anything he said himself. It&rsquo;s about three statements his lawyer, Adam Waldman, gave to the Daily Mail in April and June 2020, each one calling her abuse allegations a hoax.</p>
+                                            <p class="cf-b">Her argument is that the lawyer was speaking for him, so he answers for what was said. Her three statements go through the same four questions as his three. That makes six statements in total, and that&rsquo;s all the jury was ever asked to decide.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -419,11 +473,14 @@
                             <p class="cf-via">each statement, on its own</p>
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
-                                <p class="cf-k"><span class="cf-k-t">Question 1</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it of and concerning the claimant?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                <h3 class="cf-h">Is it of and concerning the claimant?</h3>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">It need not name them. It has to be about them, to a reader who knows the context.</p>
-                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q1" title="Can an op-ed defame a man it never names?" aria-label="Question 1 below: Can an op-ed defame a man it never names?">1</a></p>
+                                    <p class="cf-k">Question 1</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it of and concerning the claimant?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it of and concerning the claimant?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b"><a class="term" href="#t-of-and-concerning" data-term="t-of-and-concerning" title="Of and concerning: About the person who is suing. The statement need not name them, as long as people who know the background would understand who it means.">&ldquo;Of and concerning&rdquo;</a> is the court&rsquo;s way of asking if a statement is actually about the person suing over it. The claimant is whoever is suing over that statement, so that&rsquo;s him for the op-ed sentences and her for the lawyer&rsquo;s statements. The statement doesn&rsquo;t have to use their name. It&rsquo;s enough that people reading it, who know the background, would understand who it means.</p>
+                                    <p class="cf-b">This question matters most for the op-ed, because it never names him. If the jury had decided those sentences weren&rsquo;t about him, his case would have ended right here. A yes moves the statement on to question 2. A no ends it for that statement.</p>
                                 </div></div>
                             </article>
                         </li>
@@ -431,11 +488,14 @@
                             <p class="cf-via">yes</p>
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
-                                <p class="cf-k"><span class="cf-k-t">Question 2</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it a false statement of fact?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                <h3 class="cf-h">Is it a false statement of fact?</h3>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">Opinion is not actionable, and truth is a complete defence.</p>
-                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q4" title="Was the penthouse staged between the two 911 calls?" aria-label="Question 4 below: Was the penthouse staged between the two 911 calls?">4</a></p>
+                                    <p class="cf-k">Question 2</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it a false statement of fact?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it a false statement of fact?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">There are really two things packed into this one. First, the statement has to be saying something as a fact, meaning something that can be shown to be true or false. An opinion can&rsquo;t be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>, no matter how harsh it is. Second, that fact has to be false. If what was said is true, the claim over that statement is finished, because the truth is a complete defence.</p>
+                                    <p class="cf-b">For the op-ed, the jury wasn&rsquo;t asked about the marriage in general. They were asked if what each of those three sentences said or implied about him was false.</p>
                                 </div></div>
                             </article>
                         </li>
@@ -443,11 +503,14 @@
                             <p class="cf-via">yes</p>
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
-                                <p class="cf-k"><span class="cf-k-t">Question 3</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it defamatory in meaning?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                <h3 class="cf-h">Is it defamatory in meaning?</h3>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">Implication counts &mdash; which is how an op-ed naming nobody reaches a jury at all.</p>
-                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q1" title="Can an op-ed defame a man it never names?" aria-label="Question 1 below: Can an op-ed defame a man it never names?">1</a></p>
+                                    <p class="cf-k">Question 3</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it defamatory in meaning?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it defamatory in meaning?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">A statement can be false and still not be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>. To count, it has to be the kind of thing that damages a person&rsquo;s reputation, the kind that makes people think less of them. And it doesn&rsquo;t have to say it outright. What a statement implies counts just as much as what it says word for word.</p>
+                                    <p class="cf-b">That&rsquo;s the only reason an op-ed that never names him could go in front of a jury in the first place. His claim was about what those sentences implied about him, not what they literally said.</p>
                                 </div></div>
                             </article>
                         </li>
@@ -455,11 +518,14 @@
                             <p class="cf-via">yes</p>
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin cf-pin-n" aria-hidden="true"><b>4</b></span>
-                                <p class="cf-k"><span class="cf-k-t">Question 4</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it published with actual malice?"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                <h3 class="cf-h">Was it published with actual malice?</h3>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">Both are public figures, so: knowledge of falsity, or reckless disregard for it &mdash; and proved to a clear-and-convincing standard rather than the usual balance.</p>
-                                    <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q5" title="Did she publish knowing it was false?" aria-label="Question 5 below: Did she publish knowing it was false?">5</a></p>
+                                    <p class="cf-k">Question 4</p>
+                                </div></div>
+                                <h3 class="cf-h">Was it published with actual malice?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it published with actual malice?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This is the hardest of the four to prove. <a class="term" href="#t-actual-malice" data-term="t-actual-malice" title="Actual malice: Putting a statement out knowing it was false, or with serious doubts about whether it was true. It has nothing to do with spite. A public figure has to prove it.">Actual malice</a> sounds like it&rsquo;s about spite or bad intentions, but in court it means something more specific. It means the person put the statement out knowing it was false, or had serious doubts about it being true and put it out anyway.</p>
+                                    <p class="cf-b">It&rsquo;s only on the list because both of them are public figures, and the law makes it harder on purpose for well-known people to win a <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> case. It also has to be proven to a higher standard than usual. In most lawsuits &ldquo;more likely than not&rdquo; is enough. Here it has to be <a class="term" href="#t-clear-and-convincing" data-term="t-clear-and-convincing" title="Clear and convincing: A standard of proof above the usual civil one of more likely than not, and below the criminal one of beyond a reasonable doubt.">clear and convincing</a>, which is a step above that.</p>
                                 </div></div>
                             </article>
                         </li>
@@ -469,10 +535,13 @@
                                     <p class="cf-via">all four yes</p>
                                     <article class="cf-card cf-out cf-c">
                                         <span class="cf-pin" aria-hidden="true"></span>
-                                        <p class="cf-k"><span class="cf-k-t">Then</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The statement is actionable"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                        <h3 class="cf-h">The statement is actionable</h3>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">Damages are assessed on it alone.</p>
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The statement is actionable</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The statement is actionable"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b"><a class="term" href="#t-actionable" data-term="t-actionable" title="Actionable: Enough to win a lawsuit over. A statement that is not actionable cannot support a claim, however much it stung.">Actionable</a> just means the statement is something you can win a lawsuit over. A statement only gets here if the jury said yes to all four questions about it. Only the statements that make it this far can be counted when the jury decides how much money is owed, which is called <a class="term" href="#t-damages" data-term="t-damages" title="Damages: Money a court orders one side to pay the other.">damages</a>.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -482,10 +551,14 @@
                                     <p class="cf-via">any one no</p>
                                     <article class="cf-card cf-out cf-c">
                                         <span class="cf-pin" aria-hidden="true"></span>
-                                        <p class="cf-k"><span class="cf-k-t">Then</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That statement fails"><span class="cf-more-i" aria-hidden="true"></span></button></p>
-                                        <h3 class="cf-h">That statement fails</h3>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">A statement that fails any one of them fails entirely.</p>
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h3 class="cf-h">That statement fails</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That statement fails"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The four questions aren&rsquo;t a score where three out of four is good enough. A statement needs all four. If the jury says no to even one of them, that statement is out completely and no money can be awarded for it.</p>
+                                            <p class="cf-b">But it&rsquo;s only that one statement that is out. Each of the others gets its own run through the same four questions, so one failing doesn&rsquo;t take the rest down with it.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -496,12 +569,15 @@
                             <ol class="cf-col cf-arm-p is-done">
                                 <li class="cf-node is-done">
                                     <article class="cf-card cf-out cf-p">
-                                        <p class="cf-k"><span class="cf-k-t">The op-ed, scored</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Three of three"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">The op-ed, scored</p>
+                                        </div></div>
                                         <h3 class="cf-h">Three of three</h3>
                                         <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Three of three"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">$10m compensatory and $5m punitive &mdash; the punitive cut to $350,000 by Virginia&rsquo;s statutory cap.</p>
-                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q6" title="What did the op-ed actually cost him?" aria-label="Question 6 below: What did the op-ed actually cost him?">6</a></p>
+                                            <p class="cf-b">This is how his side came out. The jury said yes to all four questions on all three of the op-ed sentences, including the headline she didn&rsquo;t write. They awarded him $10 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a>, which is money to make up for the harm done, and another $5 million in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>, which is money meant purely as punishment.</p>
+                                            <p class="cf-b">Virginia puts a legal limit on punitive damages, so the judge cut that $5 million down to $350,000. That left him with $10.35 million.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -509,12 +585,15 @@
                             <ol class="cf-col cf-arm-d is-done">
                                 <li class="cf-node is-done">
                                     <article class="cf-card cf-out cf-d">
-                                        <p class="cf-k"><span class="cf-k-t">The lawyer&rsquo;s statements, scored</span><button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: One of three"><span class="cf-more-i" aria-hidden="true"></span></button></p>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">The lawyer&rsquo;s statements, scored</p>
+                                        </div></div>
                                         <h3 class="cf-h">One of three</h3>
                                         <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok"></span><span class="cf-tok"></span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: One of three"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">$2m compensatory, and nothing punitive. It is the only part of the verdict either side tried to appeal.</p>
-                                            <p class="cf-see"><span class="cf-l">Argued below</span><a class="cf-ref" href="#q4" title="Was the penthouse staged between the two 911 calls?" aria-label="Question 4 below: Was the penthouse staged between the two 911 calls?">4</a></p>
+                                            <p class="cf-b">This is how her side came out. Only one of the lawyer&rsquo;s three statements made it through all four questions. That was the one claiming she and her friends staged the penthouse between two 911 calls. The other two, which called her allegations a hoax in broader terms, failed. The jury awarded her $2 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a> and nothing in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>.</p>
+                                            <p class="cf-b">So each of them was found to have <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamed</a> the other, but the amounts were nowhere close. He appealed this one finding and she filed an appeal as well. Both were dropped when the two of them settled, so no higher court ever reviewed any of it.</p>
                                         </div></div>
                                     </article>
                                 </li>
@@ -864,7 +943,7 @@
                 </div>
 
                 <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, Case Flow TLDR">
+                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, TLDR Case Flow">
                         <span class="sect-nav-a" aria-hidden="true">&larr;</span>
                         <span class="sect-nav-l">Previous</span>
                         <span class="sect-nav-t">01</span>
@@ -1061,6 +1140,34 @@
                         proponent says it is. The bar is low, but it is not nothing.</dd></div>
                     <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
                         admissible and still carry very little weight.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Defamation and damages</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-defamation">Defamation</dt><dd>A false statement of fact, put out to
+                        other people, that damages someone&rsquo;s reputation.</dd></div>
+                    <div><dt id="t-counterclaim">Counterclaim</dt><dd>A claim the person being sued
+                        brings back against the person who sued them. Both are tried together as one
+                        case.</dd></div>
+                    <div><dt id="t-of-and-concerning">Of and concerning</dt><dd>About the person who is
+                        suing. The statement need not name them, as long as people who know the background
+                        would understand who it means.</dd></div>
+                    <div><dt id="t-actual-malice">Actual malice</dt><dd>Putting a statement out knowing
+                        it was false, or with serious doubts about whether it was true. It has nothing to do
+                        with spite. A public figure has to prove it.</dd></div>
+                    <div><dt id="t-clear-and-convincing">Clear and convincing</dt><dd>A standard of
+                        proof above the usual civil one of more likely than not, and below the criminal one
+                        of beyond a reasonable doubt.</dd></div>
+                    <div><dt id="t-actionable">Actionable</dt><dd>Enough to win a lawsuit over. A
+                        statement that is not actionable cannot support a claim, however much it
+                        stung.</dd></div>
+                    <div><dt id="t-damages">Damages</dt><dd>Money a court orders one side to pay the
+                        other.</dd></div>
+                    <div><dt id="t-compensatory">Compensatory damages</dt><dd>Money meant to make up for
+                        harm actually done.</dd></div>
+                    <div><dt id="t-punitive">Punitive damages</dt><dd>Money awarded as punishment, on
+                        top of what makes up for the harm. Some states cap it by law, and Virginia is
+                        one.</dd></div>
                 </dl>
             </div>
         </details>

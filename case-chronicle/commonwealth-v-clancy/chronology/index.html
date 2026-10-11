@@ -221,8 +221,9 @@
              the masthead only has to say which case and offer the way
              back. The two views sit side by side underneath as halves
              of one bar, the same pairing as the doors on the case page.
+             Who is on each side of it is said at the head of the rail.
              ═══════════════════════════════════════════════ -->
-        <header class="masthead masthead-view" id="top">
+        <header class="masthead masthead-view masthead-plain" id="top">
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/commonwealth-v-clancy/">&larr;&nbsp; Commonwealth v. Clancy</a></p>
                 <p class="eyebrow">Plymouth County Superior Court, Massachusetts &middot; No. 2383CR00199</p>
@@ -245,11 +246,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-time" id="chronology" aria-labelledby="chr-h">
             <div class="wrap">
-                <p class="kicker">Chronological View</p>
-                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
-                <p class="section-lede">Every substantive step, from the events the case is about through to the last
-                    filing in the public record. The rail sets the page&rsquo;s rule: one side on the left, the other
-                    on the right, the court down the middle.</p>
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
 
                 <!-- The key names this case's two sides. The colours are fixed
                      by the stylesheet and mean the same thing on every page:
@@ -282,7 +279,40 @@
                             <p class="tl-phase-n">None of this is disputed. The defence has never contested any of it &mdash; which is what makes the rest of the case unusual.</p>
                         </div>
                     </li>
-                    <li class="tl-ev tl-n" id="ev-she-stops-sleeping">
+                    <li class="tl-ev tl-n tl-first" id="ev-she-stops-sleeping">
+                        <!-- The two sides stand either side of the first entry: the
+                             same two cards the case page has, shut to a name and a
+                             line until opened. On a wide window each keeps to its
+                             corner of the page, level with this entry. The entry
+                             they stand beside has to be one that straddles the
+                             rail, the court's or neither side's, or a card in a
+                             side's column would run under one of them. -->
+                        <article class="party party-p" aria-labelledby="party-p-h">
+                            <p class="party-role">Prosecution <span>The side bringing the charges</span></p>
+                            <h2 class="party-name" id="party-p-h">The Commonwealth</h2>
+                            <p class="party-what">The state of Massachusetts</p>
+                            <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                                <span class="party-more-i" aria-hidden="true"></span>
+                                <span class="party-more-l">More</span>
+                            </button>
+                            <div class="party-x" id="party-p-x"><div class="party-x-in">
+                                <p class="party-b">Nobody sues in a criminal case. The state brings the charges, and Massachusetts calls itself the Commonwealth, so that&rsquo;s the name on the case. The lawyers doing it work for the Plymouth County District Attorney&rsquo;s Office, which prosecutes crimes across the county south of Boston that Duxbury is in. Timothy Cruz has been the district attorney there since 2001.</p>
+                                <p class="party-src">Background: <a class="cite-doc" href="https://plymouthda.com/the-office/meet-da-tim-cruz/" target="_blank" rel="noopener" aria-label="Plymouth County District Attorney, about the office, opens in a new tab">Plymouth County District Attorney</a></p>
+                            </div></div>
+                        </article>
+                        <article class="party party-d" aria-labelledby="party-d-h">
+                            <p class="party-role">Defendant <span>The person charged</span></p>
+                            <h2 class="party-name" id="party-d-h">Lindsay Clancy</h2>
+                            <p class="party-what">Labour and delivery nurse</p>
+                            <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                                <span class="party-more-i" aria-hidden="true"></span>
+                                <span class="party-more-l">More</span>
+                            </button>
+                            <div class="party-x" id="party-d-x"><div class="party-x-in">
+                                <p class="party-b">Before any of this she was a labour and delivery nurse at Massachusetts General Hospital in Boston, so her job was looking after women giving birth. She was in her early thirties and lived with her family in Duxbury, a coastal town south of Boston, where she was raising three young children. She wasn&rsquo;t a public figure. What most people know about her, they know from this case.</p>
+                                <p class="party-src">Reporting: <a class="cite-doc" href="https://www.cbsnews.com/boston/news/search-warrants-lindsay-clancy-duxbury/" target="_blank" rel="noopener" aria-label="CBS Boston, 24 October 2023, opens in a new tab">CBS Boston, 24 Oct 2023</a></p>
+                            </div></div>
+                        </article>
                         <div class="tl-c">
                             <p class="tl-date">Autumn 2022</p>
                             <h3 class="tl-h">She stops sleeping</h3>

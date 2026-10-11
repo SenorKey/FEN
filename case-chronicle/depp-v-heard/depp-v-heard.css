@@ -5,8 +5,8 @@
    Everything in the Chronicle that is specific to this one case. Loaded
    after chronicle.css, which carries the structure and names no case.
 
-   Two jobs: restate the side inks, and hang the two portraits in the
-   masthead.
+   Two jobs: restate the side inks, and stand the two portraits under
+   their cards in the masthead.
    ═══════════════════════════════════════════════ */
 
 /* ── The two sides, in their own colours ──
@@ -32,14 +32,12 @@ body[data-case="depp-v-heard"] {
   --p-dim: #6f3634;
   --p-wash: rgba(132, 64, 62, 0.085);
   --p-edge: rgba(132, 64, 62, 0.4);
-  --p-pool: rgba(132, 64, 62, 0.46);
 
   /* Heard — the suit */
   --d: #1a4a3e;
   --d-dim: #2f5d51;
   --d-wash: rgba(26, 74, 62, 0.085);
   --d-edge: rgba(26, 74, 62, 0.4);
-  --d-pool: rgba(26, 74, 62, 0.42);
 
   /* Nothing more for the case flow or the chronology: both mix every
      tint they need from --p and --d. */
@@ -50,49 +48,77 @@ body[data-case="depp-v-heard"] {
 }
 
 /* ── The portraits ──
-   Flat vector figures, backgrounds keyed out, so what sits in the corner
+   Flat vector figures, backgrounds keyed out, so what stands on the page
    is the figure and not a plate. That matters more than it sounds: the
    grounds these came on were a blue-grey sky and a dark bokeh, and either
    one laid over warm stock at any opacity reads as a stain rather than as
    printing. Cut out, they ink into the paper the way everything else on
    this page does.
 
-   Anchored to the masthead's top corners, each on the side whose colour
-   was sampled off it, so the page says who is on which side before it
-   says anything else. The masthead already clips.
+   Each stands under its own side's card, in the column the shared sheet
+   gives that side, so the page says who is on which side twice over: in
+   words on the card and in the figure below it. They used to hang from
+   the masthead's top corners behind the title, at a tenth of full
+   strength so the title could be read through them. Nothing is set over
+   them now, so they are printed properly.
+
+   fig-stand is the window a figure is seen through. It takes whatever
+   height the column has left under the card and runs on down through the
+   masthead's bottom padding to the rule, and it is the stand that fades,
+   at its foot, so a figure goes into the rule rather than being cut off
+   by it however much of it the column has room for.
 
    Inert: aria-hidden in the markup, no pointer, no selection. */
 
-.fig {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: auto;
-  opacity: 0.115;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  z-index: 0;
+.fig-stand { display: none; }
 
-  /* One fade, at the feet, so the figures stand out of the bottom rule
-     rather than being cut off by it. No inner-edge fade any more — with
-     the grounds gone there is no rectangle to disguise, and a fade there
-     would eat an arm. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
-  mask-image: linear-gradient(to bottom, #000 62%, transparent 97%);
-}
+/* The shared sheet's own breakpoint for a column down each side. Below
+   it the cards sit under the title, side by side or stacked, and there
+   is no column for a figure to stand in. */
+@media (min-width: 1200px) {
+  body[data-case="depp-v-heard"] .masthead-case .mh-side {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+  }
 
-.fig-p { left: -2%; }
-.fig-d { right: -2%; }
+  /* The title block is shorter than a card with a figure under it, so it
+     is set to the middle of the height rather than left hanging from
+     the top with the difference under it. */
+  body[data-case="depp-v-heard"] .masthead-case .mh-main { align-self: center; }
 
-/* The masthead's colour pools sit above the figures and multiply into
-   them, which is the same bargain every other tint on this page makes:
-   ink over ink, not glass over ink. */
-body[data-case="depp-v-heard"] .masthead::before { z-index: 1; }
-body[data-case="depp-v-heard"] .masthead .wrap { z-index: 2; }
+  .fig-stand {
+    /* A figure is four fifths of the column wide, and the pictures are
+       two wide by three tall. */
+    --fig-h: calc(var(--mh-side) * 0.8 * 1.5);
 
-/* The title has to win. Below this the figures are behind the words
-   rather than beside them, and a figure under a headline is a smudge. */
-@media (max-width: 1100px) {
-  .fig { display: none; }
+    display: block;
+    position: relative;
+    flex: 1 1 auto;
+
+    /* Room for four fifths of a figure, counting the masthead's bottom
+       padding, which the stand runs down through. */
+    min-height: calc(var(--fig-h) * 0.8);
+    margin: 10px 0 -84px;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 99%);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 99%);
+  }
+
+  /* Hung from the foot of the stand rather than from under the card. The
+     two cards are not the same height, and this way the two figures
+     still stand on one line. */
+  .fig {
+    position: absolute;
+    bottom: calc(var(--fig-h) * -0.2);
+    left: 10%;
+    width: 80%;
+    height: auto;
+    opacity: 0.56;
+    mix-blend-mode: multiply;
+  }
 }

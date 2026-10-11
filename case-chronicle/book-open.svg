@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" fill="none" stroke="#6f4a2e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- An open book in outline, for the top corners of a masthead. The
+       stylesheet places it and turns it; the ink is the court's sepia,
+       stated here because a picture cannot be handed a colour.
+       Boards, the two pages, the gutter, then the lines of text. -->
+  <path vector-effect="non-scaling-stroke" d="M12 34v118c38-9 78-6 108 10 30-16 70-19 108-10V34M12 34l10-4M228 34l-10-4"/>
+  <path vector-effect="non-scaling-stroke" d="M120 40C92 24 54 22 22 30v112c32-8 70-6 98 10"/>
+  <path vector-effect="non-scaling-stroke" d="M120 40c28-16 66-18 98-10v112c-32-8-70-6-98 10"/>
+  <path vector-effect="non-scaling-stroke" d="M120 40v112"/>
+  <path vector-effect="non-scaling-stroke" d="M38 50c24-5 46-3 66 6M38 68c24-5 46-3 66 6M38 86c24-5 46-3 66 6M38 104c24-5 46-3 66 6M38 122c16-3 30-3 44 0"/>
+  <path vector-effect="non-scaling-stroke" d="M202 50c-24-5-46-3-66 6M202 68c-24-5-46-3-66 6M202 86c-24-5-46-3-66 6M202 104c-24-5-46-3-66 6M202 122c-16-3-30-3-44 0"/>
+</svg>

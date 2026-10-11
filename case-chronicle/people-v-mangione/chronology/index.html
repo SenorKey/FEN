@@ -89,8 +89,9 @@
              the masthead only has to say which case and offer the way
              back. The two views sit side by side underneath as halves
              of one bar, the same pairing as the doors on the case page.
+             Who is on each side of it is said at the head of the rail.
              ═══════════════════════════════════════════════ -->
-        <header class="masthead masthead-view" id="top">
+        <header class="masthead masthead-view masthead-plain" id="top">
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/people-v-mangione/">&larr;&nbsp; People v. Mangione</a></p>
                 <p class="eyebrow">N.Y. Sup. Ct., New York Cty., Part 32 &middot; Ind. No. 75657&#8209;24 &nbsp;&middot;&nbsp; S.D.N.Y. &middot; No. 1:25&#8209;cr&#8209;00176</p>
@@ -126,12 +127,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-time" id="chronology" aria-labelledby="chr-h">
             <div class="wrap">
-                <p class="kicker">Chronological View</p>
-                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
-                <p class="section-lede">Every substantive step in both prosecutions, interleaved, from the shooting
-                    through to the last filing in the public record. The rail keeps the page&rsquo;s usual rule &mdash;
-                    one side left, the other right, the court down the middle &mdash; but there are two of each here,
-                    so each card names its court.</p>
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
 
                 <!-- The key names this case's two sides. The colours are fixed
                      by the stylesheet and mean the same thing on every page:
@@ -165,7 +161,40 @@
                             <p class="tl-phase-n">Five days and some two hundred and eighty miles. Almost everything the rest of the case argues about was in a backpack in Altoona.</p>
                         </div>
                     </li>
-                    <li class="tl-ev tl-n" id="ev-west-54th-street">
+                    <li class="tl-ev tl-n tl-first" id="ev-west-54th-street">
+                        <!-- The two sides stand either side of the first entry: the
+                             same two cards the case page has, shut to a name and a
+                             line until opened. On a wide window each keeps to its
+                             corner of the page, level with this entry. The entry
+                             they stand beside has to be one that straddles the
+                             rail, the court's or neither side's, or a card in a
+                             side's column would run under one of them. -->
+                        <article class="party party-p" aria-labelledby="party-p-h">
+                            <p class="party-role">Prosecution <span>The side bringing the charges</span></p>
+                            <h2 class="party-name" id="party-p-h">The People</h2>
+                            <p class="party-what">The State of New York</p>
+                            <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                                <span class="party-more-i" aria-hidden="true"></span>
+                                <span class="party-more-l">More</span>
+                            </button>
+                            <div class="party-x" id="party-p-x"><div class="party-x-in">
+                                <p class="party-b">A criminal case in New York is brought in the name of the People, which just means the state. The lawyers are from the Manhattan District Attorney&rsquo;s Office, which Alvin Bragg runs, because the killing happened in Manhattan. They aren&rsquo;t the only ones who charged him. The federal government did too, and so did a county in Pennsylvania, where he was arrested.</p>
+                                <p class="party-src">Background: <a class="cite-doc" href="https://manhattanda.org/meet-alvin-bragg/" target="_blank" rel="noopener" aria-label="Manhattan District Attorney, about the office, opens in a new tab">Manhattan District Attorney</a></p>
+                            </div></div>
+                        </article>
+                        <article class="party party-d" aria-labelledby="party-d-h">
+                            <p class="party-role">Defendant <span>The person charged</span></p>
+                            <h2 class="party-name" id="party-d-h">Luigi Mangione</h2>
+                            <p class="party-what">Computer science graduate</p>
+                            <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                                <span class="party-more-i" aria-hidden="true"></span>
+                                <span class="party-more-l">More</span>
+                            </button>
+                            <div class="party-x" id="party-d-x"><div class="party-x-in">
+                                <p class="party-b">He was 26 when he was arrested. He grew up outside Baltimore, Maryland, in a wealthy family whose businesses there include country clubs and a care home company. He finished top of his class at a private school in 2016, then took a bachelor&rsquo;s and a master&rsquo;s degree in computer science at the University of Pennsylvania. After that he worked remotely as a data engineer for a car-buying website and lived for a while in Hawaii, where he hurt his back.</p>
+                                <p class="party-src">Background: <a class="cite-doc" href="https://www.britannica.com/biography/Luigi-Mangione" target="_blank" rel="noopener" aria-label="Britannica, Luigi Mangione, opens in a new tab">Britannica</a></p>
+                            </div></div>
+                        </article>
                         <div class="tl-c">
                             <p class="tl-date">4 Dec 2024</p>
                             <h3 class="tl-h">West 54th Street</h3>

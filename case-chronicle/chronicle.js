@@ -53,12 +53,17 @@
   sync();
 })();
 
-/* ── case flow: every card shut to its heading ──
+/* ── case flow: every card shut to its text ──
    The map is there to be taken in at a glance, so each card is shut to
-   its kicker and heading and opens for the rest: from its own control,
-   or from a press anywhere on the card that is not on a link and is not
-   the end of a text selection. One more control opens or shuts them all,
-   and is the ledger's button under another label.
+   its text and opens for the rest, the line over it that says what it
+   is and the explanation under it: from its own control, or from a
+   press anywhere on the card that is not on a link or a button and is
+   not the end of a text selection. One more control opens or shuts them
+   all, and is the ledger's button under another label.
+
+   A card with nothing under its text has no control of its own. It
+   still has its line to show, so it follows the control that opens
+   every card.
 
    The rest of every card ships open and the controls ship hidden, so a
    reader with no JavaScript has the whole map written out and no dead
@@ -74,6 +79,7 @@
 
   var cards = flow.querySelectorAll('.cf-card');
   var wired = [];
+  var bare = [];
 
   function set(item, open) {
     item.card.classList.toggle('is-open', open);
@@ -83,7 +89,10 @@
   for (var i = 0; i < cards.length; i++) {
     (function (card) {
       var btn = card.querySelector('.cf-more');
-      if (!btn) return;
+      if (!btn) {
+        bare.push(card);
+        return;
+      }
 
       var item = { card: card, btn: btn };
       wired.push(item);
@@ -133,6 +142,7 @@
     all.addEventListener('click', function () {
       var open = !allOpen();
       for (var i = 0; i < wired.length; i++) set(wired[i], open);
+      for (var j = 0; j < bare.length; j++) bare[j].classList.toggle('is-open', open);
       sync();
     });
     all.hidden = false;
@@ -142,6 +152,65 @@
   void flow.offsetHeight;
   flow.classList.add('js-anim');
   sync();
+})();
+
+/* ── the two sides: each card shut to its name ──
+   A side's card says who it is and what they are in a line, and opens
+   for the rest: from its own control, or from a press anywhere on the
+   card that is not on a link or a button and is not the end of a text
+   selection. The same bargain as the flow's cards. The cards are in the
+   masthead on the case page and beside the first entry on the
+   chronology's, so each carries its own state rather than taking it
+   from whatever it stands in.
+
+   The rest ships open and the control ships hidden, so a reader with no
+   JavaScript has both cards written out and no dead button. */
+
+(function () {
+  'use strict';
+
+  var cards = document.querySelectorAll('.party');
+  var wired = [];
+
+  for (var i = 0; i < cards.length; i++) {
+    (function (card) {
+      var btn = card.querySelector('.party-more');
+      var region = card.querySelector('.party-x');
+      if (!btn || !region) return;
+
+      var label = btn.querySelector('.party-more-l');
+
+      function set(open) {
+        card.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        label.textContent = open ? 'Less' : 'More';
+      }
+
+      btn.hidden = false;
+      set(false);
+      card.classList.add('js-collapse');
+      wired.push(card);
+
+      /* The control is inside the card, so its own press would otherwise
+         be heard twice and leave the card as it was. */
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        set(!card.classList.contains('is-open'));
+      });
+
+      card.addEventListener('click', function (e) {
+        if (e.target.closest && e.target.closest('a, button')) return;
+        if (window.getSelection && String(window.getSelection())) return;
+        set(!card.classList.contains('is-open'));
+      });
+    })(cards[i]);
+  }
+
+  if (!wired.length) return;
+
+  /* Armed after a forced reflow, so the first close is instant. */
+  void document.body.offsetHeight;
+  for (var k = 0; k < wired.length; k++) wired[k].classList.add('js-anim');
 })();
 
 /* ── chronology: one more layer per card ──

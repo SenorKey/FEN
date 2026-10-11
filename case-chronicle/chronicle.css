@@ -14,9 +14,7 @@
 
    A printed record rather than a screen. The ground is warm stock, the
    parties are two spot inks, and every tint multiplies into the paper
-   the way ink does instead of glowing on top of it. Where the two side
-   colours overlap behind the masthead they overprint into a third
-   colour neither side chose, which is a fair description of the case.
+   the way ink does instead of glowing on top of it.
 
    Colour carries the argument: one ink is the moving side, one is the
    answering side, sepia is the court. Nothing else may use those three.
@@ -124,13 +122,6 @@
   --d-dim: #35507e;
   --d-wash: rgba(31, 64, 118, 0.085);
   --d-edge: rgba(31, 64, 118, 0.4);
-
-  /* The pools the two sides cast behind the masthead. Tokens rather than
-     literals in the gradient, because a case that restates its side colours
-     has to be able to restate these with them — otherwise the masthead keeps
-     the last case's inks and nothing else does. */
-  --p-pool: rgba(176, 48, 42, 0.3);
-  --d-pool: rgba(31, 64, 118, 0.28);
 
   /* ── The bindings ──
      A fourth family, and the only one here with no argument to carry.
@@ -323,20 +314,47 @@ body::after {
   border-bottom: 1px solid var(--rule);
 }
 
-/* Two pools of the side colours, meeting in the middle. The whole page's
-   thesis, stated in the background before a word is read - and on stock
-   they can do what two inks actually do when they meet: multiply. Red
-   over blue makes a plum neither side picked, directly under the title.
-   Nothing else on the page is allowed this trick. */
-.masthead::before {
+/* ── a book in each top corner ──
+   Every masthead used to open on two pools of the side colours. None
+   does now. A case page has a card for each side in those corners (see
+   "The two sides"), the chronology's has nothing there, and the hub and
+   the courtroom's page have this: the same drawing in each corner, a
+   book lying open, turned so its head is in the corner and its pages
+   open towards the middle of the page, with the corner itself cutting
+   off the far half. Line only, in the court's ink at about a fifth of
+   it, the strength of a watermark. The two are one drawing turned
+   opposite ways, so the pair is symmetrical about whatever stands
+   between them.
+
+   masthead-books asks for the pair. The drawing is a file of its own
+   beside this one, for the reason the doors are: most pages never show
+   it. Each is placed by its own middle, slid up and out so the middle
+   of the book lies a little inside the corner, and then turned. */
+.masthead-books::before,
+.masthead-books::after {
   content: '';
   position: absolute;
-  inset: 0;
-  mix-blend-mode: multiply;
-  background:
-    radial-gradient(ellipse 62% 72% at 14% 6%, var(--p-pool), transparent 64%),
-    radial-gradient(ellipse 62% 72% at 86% 10%, var(--d-pool), transparent 64%);
+  top: 0;
+  width: clamp(150px, 17vw, 250px);
+  aspect-ratio: 4 / 3;
+  background: url('/case-chronicle/book-open.svg') center / contain no-repeat;
+  opacity: 0.22;
   pointer-events: none;
+}
+
+.masthead-books::before { left: 0; translate: -17% -22%; rotate: -38deg; }
+.masthead-books::after { right: 0; translate: 17% -22%; rotate: 38deg; }
+
+/* On a phone a title runs nearly the width of the window, so the two
+   books are partly behind it. Smaller and fainter there. */
+@media (max-width: 620px) {
+  .masthead-books::before,
+  .masthead-books::after { width: 128px; opacity: 0.14; }
+}
+
+@media print {
+  .masthead-books::before,
+  .masthead-books::after { content: none; }
 }
 
 .masthead .wrap { position: relative; }
@@ -464,6 +482,291 @@ body::after {
   box-shadow: none;
 }
 
+/* ═══════════════════════════════════════════════
+   The two sides
+
+   A case page opens on who is in the case. In the top corners of its
+   masthead there is a card for each side: who they are, and what they were
+   known for before any of this. Left is the side that filed, as it is
+   everywhere else on the page, and the title stands between the two
+   the way its own "v." does.
+
+   masthead-case goes on the masthead of a case page and nowhere else.
+   The chronology's page carries the same two cards beside the first
+   entry on its rail, and the rules that stand them there are with the
+   chronology's own.
+
+     mh           the frame: the title block and a column for each side
+     mh-main      crumb, court, title, and on a case page the lede and
+                  the docket line
+     mh-side      one side's column; mh-side-p filed, mh-side-d answers
+     party        the card; party-p and party-d ink it
+     party-role   which side this is, and under it what that word means
+     party-name   who it is, as the filings name them
+     party-what   what they are, in a line
+     party-more   the control that opens the rest
+     party-x      the rest: party-b, the paragraph, and party-src,
+                  where the paragraph comes from
+
+   A card is shut to its name and its one line, and opens for the rest,
+   the way a card in the flow or the chronology does and by the same
+   means: the rest ships open and the control ships hidden, and the
+   script shuts one and shows the other.
+
+   The card is the index card the flow and the chronology use, and it
+   takes a z-index for the reason theirs do: the exhibit wash lies over
+   the whole page at 3, and these stand in the margins it runs down.
+
+   The title block comes first in the markup and the cards after it, so
+   a screen reader and a narrow window both get the case before the
+   parties. Only the wide layout sets the left card ahead of the title.
+   ═══════════════════════════════════════════════ */
+
+
+.mh {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    "main main"
+    "p d";
+  gap: 52px 28px;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gut);
+}
+
+.mh-main { grid-area: main; min-width: 0; }
+.mh-side-p { grid-area: p; }
+.mh-side-d { grid-area: d; }
+
+.party {
+  position: relative;
+  z-index: 3;
+  padding: 17px 20px 15px;
+  border: 1px solid var(--tl-edge);
+  border-top: 3px solid var(--party);
+  border-radius: 3px;
+  background: var(--tl-card);
+  box-shadow: var(--tl-lift);
+}
+
+/* Side by side under the title the two cards are one height while both
+   are shut, whichever has the longer name. Once one is opened each is
+   as tall as its own text, and in the corners they always are. */
+@media (min-width: 721px) and (max-width: 1199px) {
+  .mh:not(:has(.party.is-open)) .party { height: 100%; }
+}
+
+.party-p { --party: var(--p); --party-ink: var(--tl-p-ink); }
+.party-d { --party: var(--d); --party-ink: var(--tl-d-ink); }
+
+.party-role {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--party-ink);
+}
+
+/* The word is a court's word, so the card says what it means in the
+   next breath rather than sending the reader to the glossary for it. */
+.party-role span {
+  display: block;
+  margin-top: 1px;
+  font-family: var(--body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--faint);
+}
+
+.party-name {
+  margin-top: 13px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 40, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.62rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.party-what {
+  margin-top: 4px;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* The chronology's own "More", so a reader who has met one knows the
+   other. Its mark takes the side's ink. */
+.party-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid var(--tl-edge);
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color 0.18s, background-color 0.18s, border-color 0.18s;
+}
+
+.party-more:hover {
+  border-color: rgba(23, 20, 15, 0.34);
+  background: rgba(23, 20, 15, 0.045);
+  color: var(--ink);
+}
+
+/* A + that becomes a − when the card opens */
+.party-more-i { position: relative; width: 9px; height: 9px; flex: 0 0 9px; }
+
+.party-more-i::before,
+.party-more-i::after {
+  content: '';
+  position: absolute;
+  background: var(--party);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.party-more-i::before { inset: 3.5px 0; height: 2px; }
+.party-more-i::after { inset: 0 3.5px; width: 2px; }
+
+.party.is-open .party-more-i::after { transform: scaleY(0); opacity: 0; }
+
+/* Shut, the rest is hidden as well as collapsed, which takes it and
+   its links out of the way of a keyboard and a screen reader. */
+.party.js-collapse .party-x { display: grid; grid-template-rows: 0fr; }
+.party.js-collapse .party-x-in { overflow: hidden; min-height: 0; opacity: 0; visibility: hidden; }
+.party.js-collapse.is-open .party-x { grid-template-rows: 1fr; }
+.party.js-collapse.is-open .party-x-in { opacity: 1; visibility: visible; }
+
+/* Armed after the collapse, so the first close does not animate. */
+.party.js-anim .party-x { transition: grid-template-rows 0.34s cubic-bezier(0.4, 0, 0.2, 1); }
+.party.js-anim .party-x-in { transition: opacity 0.16s ease, visibility 0s linear 0.34s; }
+.party.js-anim.is-open .party-x-in { transition: opacity 0.28s ease 0.1s, visibility 0s; }
+
+/* The whole of a card is a place to press, as it is in the flow. */
+.party.js-collapse { cursor: pointer; }
+
+.party-b {
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.party-src {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  color: var(--faint);
+}
+
+.party :focus-visible { outline-color: var(--court); }
+
+/* Wide enough for a column down each side of the title. The cards go
+   to the top corners, which is where the pools were, and the title
+   block is set to the middle between them. The title is sized off its
+   own column from here on, since the window no longer says how much
+   room it has. The lede stays ranged left under it: it runs to a
+   hundred words on some cases, and that many lines centred is a
+   shape, not a paragraph. */
+@media (min-width: 1200px) {
+  .masthead-case { padding: 76px 0 84px; }
+
+  .mh {
+    --mh-side: clamp(252px, 21vw, 322px);
+
+    grid-template-columns: var(--mh-side) minmax(0, 1fr) var(--mh-side);
+    grid-template-areas: "p main d";
+    gap: 0 clamp(32px, 3.4vw, 62px);
+    align-items: start;
+    max-width: 1700px;
+    padding: 0 clamp(28px, 3vw, 52px);
+  }
+
+  .mh-main {
+    container-type: inline-size;
+    text-align: center;
+  }
+
+  .masthead-case .masthead-title {
+    font-size: clamp(3.2rem, 13.4cqi, 7.2rem);
+    text-wrap: balance;
+  }
+
+  .masthead-case .masthead-lede {
+    max-width: 33em;
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .masthead-case .eyebrow { text-wrap: balance; }
+
+  /* Four entries have to share a column now rather than the page, so
+     the space between them comes off the column as well. */
+  .masthead-case .docket-meta { justify-content: center; }
+
+  .masthead-case .docket-meta > div {
+    padding-right: clamp(18px, 3.6cqi, 46px);
+    margin-right: clamp(18px, 3.6cqi, 46px);
+  }
+
+  .masthead-case .docket-meta > div:last-child { margin-right: 0; padding-right: 0; }
+}
+
+@media (max-width: 720px) {
+  .mh {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "main"
+      "p"
+      "d";
+    gap: 18px;
+  }
+
+  .mh-main { margin-bottom: 22px; }
+}
+
+/* masthead-plain is the chronology's masthead, which has nothing in its
+   corners: its two sides stand at the head of its rail instead. On a
+   wide window its title is set to the middle, over the rail and between
+   the two cards further down. */
+@media (min-width: 1200px) {
+  .masthead-plain .crumb,
+  .masthead-plain .eyebrow,
+  .masthead-plain .masthead-title { text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .party-x,
+  .party-x-in,
+  .party-more-i::before,
+  .party-more-i::after { transition: none !important; }
+}
+
+@media print {
+  .party { box-shadow: none; break-inside: avoid; }
+  .party-more { display: none; }
+}
+
 /* ── A section that has not been written yet ──
    Every case page ships its whole skeleton from the first commit, so the
    shape of the argument is reviewable before a word of research lands.
@@ -495,6 +798,101 @@ body::after {
 
 @media (max-width: 720px) {
   .pending { padding: 32px 26px; }
+}
+
+/* ═══════════════════════════════════════════════
+   The hub — its masthead
+
+   Short on purpose. The shelf is what this page is for, and it should
+   be on the screen when the page opens, so the masthead is the title
+   and one line under it, both set to the middle, and nothing else.
+
+     masthead-hub  on the hub's masthead and nowhere else
+     hub-head      the title, and the motto under it
+     hub-motto     the one line: what all of this is for
+     clock-o       the "o" in Chronicle, which is a clock
+
+   The two top corners hold the open book every unclaimed corner in the
+   Chronicle does; masthead-books, further up, draws the pair.
+   ═══════════════════════════════════════════════ */
+
+/* Two classes, so the narrow-window padding every masthead is given at
+   the foot of this file does not win over this one. */
+.masthead.masthead-hub { padding: 52px 0 44px; }
+
+/* The first band gives a little back as well, for the same reason. */
+.masthead-hub + .band { padding-top: 76px; }
+
+.hub-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.masthead-hub .masthead-title { margin-bottom: 0; }
+
+/* The letter stays where it is and gives the clock its room; only its
+   ink is taken away. The clock is a little taller than the lowercase,
+   since a dial that small would not read as one, and it is set about
+   the middle of the lowercase so it runs over by the same amount above
+   and below. The offset is this face's: its baseline lies 0.115em above
+   the foot of the box at the title's line height. */
+.clock-o {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.05em 0 0.035em;
+  color: transparent;
+}
+
+.clock-o svg {
+  position: absolute;
+  left: 50%;
+  bottom: 0.068em;
+  width: 0.54em;
+  height: 0.54em;
+  translate: -48% 0;
+  overflow: visible;
+  fill: none;
+  stroke: var(--court);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.clock-rim { stroke-width: 7.2; }
+.clock-hands { stroke-width: 4.6; }
+
+/* The motto, set the way a title page sets one: the display face's
+   italic, small, under the title. The last word is the whole point of
+   the sentence, so it is the one word in roman and in full ink. */
+.hub-motto {
+  max-width: 34em;
+  font-family: var(--display);
+  font-style: italic;
+  font-variation-settings: 'opsz' 30, 'SOFT' 40, 'WONK' 0;
+  font-size: clamp(1.1rem, 1.7vw, 1.46rem);
+  font-weight: 400;
+  line-height: 1.34;
+  letter-spacing: -0.004em;
+  text-wrap: balance;
+  color: var(--muted);
+}
+
+.hub-motto strong {
+  font-style: normal;
+  font-weight: 600;
+  font-variation-settings: 'opsz' 30, 'SOFT' 0, 'WONK' 0;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .masthead.masthead-hub { padding: 42px 0 34px; }
+  .masthead-hub + .band { padding-top: 56px; }
+}
+
+@media (max-width: 620px) {
+  .hub-head { gap: 12px; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -2540,9 +2938,8 @@ span.cr-cite { margin: 0; white-space: normal; }
    either section is mixed from its one colour, so a case that sets --p
    and --d has nothing more to restate for them. */
 .band-tree,
-.band-time {
-  background: var(--bg-band);
-
+.band-time,
+.mh {
   --tl-card: #fbf7ef;
   --tl-edge: rgba(23, 20, 15, 0.16);
   --tl-lift: 0 1px 1px rgba(23, 20, 15, 0.05), 0 14px 24px -16px rgba(23, 20, 15, 0.34);
@@ -2552,6 +2949,14 @@ span.cr-cite { margin: 0; white-space: normal; }
   --tl-p-ink: color-mix(in oklab, var(--p) 84%, var(--ink));
   --tl-d-ink: color-mix(in oklab, var(--d) 84%, var(--ink));
   --tl-c-ink: color-mix(in oklab, var(--court) 80%, var(--ink));
+}
+
+/* The card itself is wanted on a masthead too, for the two sides, so
+   the stock and its inks are set above for the frame that holds those
+   as well. What follows belongs to the two bands alone. */
+.band-tree,
+.band-time {
+  background: var(--bg-band);
 
   /* Lines and rules. Mixed into the band's own colour rather than
      thinned with alpha, so they are solid: the rule under the
@@ -3466,7 +3871,10 @@ span.cr-cite { margin: 0; white-space: normal; }
 /* ── a card ──
    The chronology's index card: the lighter stock, solid, lifted a
    little. It takes a z-index for the reason those do, which is the
-   exhibit wash lying over every band. */
+   exhibit wash lying over every band.
+
+   Everything on it is set to the middle, under the mark the line
+   arrives at. */
 
 .cf-card {
   position: relative;
@@ -3476,6 +3884,7 @@ span.cr-cite { margin: 0; white-space: normal; }
   border-radius: 3px;
   background: var(--tl-card);
   box-shadow: var(--tl-lift);
+  text-align: center;
   transition: box-shadow 0.25s ease;
 }
 
@@ -3493,27 +3902,26 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cf-p { border-top: 3px solid var(--p); }
 .cf-d { border-top: 3px solid var(--d); }
 
+/* What sort of thing the card is, in a line over its text. It is folded
+   away with the rest, so a shut card is its text and nothing more. */
 .cf-k {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 10px;
-  margin-bottom: 7px;
+  margin-bottom: 6px;
   font-family: var(--mono);
   font-size: 0.69rem;
   font-weight: 500;
   letter-spacing: 0.11em;
+  line-height: 1.5;
   text-transform: uppercase;
   color: var(--tl-c-ink);
 }
 
-/* The stamp keeps to the far end of the row. */
-.cf-k-t { margin-right: auto; }
-
 .cf-p .cf-k { color: var(--tl-p-ink); }
 .cf-d .cf-k { color: var(--tl-d-ink); }
 
+/* The card's text. Held in a little at either side, which keeps its
+   last line clear of the control in the corner and keeps it centred. */
 .cf-h {
+  padding-inline: 12px;
   font-family: var(--display);
   font-variation-settings: 'opsz' 30, 'SOFT' 0, 'WONK' 0;
   font-size: 1.14rem;
@@ -3526,32 +3934,41 @@ span.cr-cite { margin: 0; white-space: normal; }
 
 .cf-q .cf-h { font-size: 1.28rem; }
 
+/* The explanation, which runs to a paragraph or two. That much text
+   centred has no edge for the eye to come back to, so it is set as
+   prose: ranged left under the centred text, with air between its
+   paragraphs. */
 .cf-b {
-  margin-top: 6px;
+  margin-top: 10px;
   font-size: 0.93rem;
-  line-height: 1.5;
+  line-height: 1.55;
+  text-align: left;
   text-wrap: pretty;
   color: rgba(23, 20, 15, 0.84);
 }
 
-/* ── the fold ──
-   A card is shut to its kicker and heading and opens for the rest. The
-   rest ships open, as the chronology's extra layer does, so a reader
-   with no JavaScript has the whole map written out and no dead button.
-   The script shuts the cards and shows the control.
+.cf-b + .cf-b { margin-top: 0.75em; }
 
-   Shut, the text is hidden as well as collapsed, which takes its links
-   out of the tab order and out of a screen reader's way. */
+/* ── the fold ──
+   A card is shut to its text, and its stamp where it has one. It opens
+   for the rest: the line that says what it is, above the text, and the
+   explanation below. The rest ships open, as the chronology's extra
+   layer does, so a reader with no JavaScript has the whole map written
+   out and no dead button. The script shuts the cards and shows the
+   control, which sits in the bottom corner.
+
+   Shut, the rest is hidden as well as collapsed, which takes it out of
+   a screen reader's way. */
 
 .cf-more {
   position: absolute;
-  top: 11px;
-  right: 11px;
+  right: 6px;
+  bottom: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border: 1px solid var(--tl-edge);
   border-radius: 2px;
   background: none;
@@ -3588,10 +4005,16 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cf.js-anim .cf-x-in { transition: opacity 0.16s ease, visibility 0s linear 0.34s; }
 .cf.js-anim .cf-card.is-open .cf-x-in { transition: opacity 0.28s ease 0.1s, visibility 0s; }
 
-/* Room in the kicker's row for the control in the corner, and the whole
-   of a card that has one is a place to press. */
-.cf.js-collapse .cf-card > .cf-k { padding-right: 30px; }
+/* The whole of a card that has a control is a place to press. */
 .cf.js-collapse .cf-card:has(.cf-more) { cursor: pointer; }
+
+/* Open, such a card keeps a band at its foot for the control, so the
+   last line of its text cannot run under it. */
+.cf.js-collapse .cf-card.is-open:has(.cf-more) { padding-bottom: 34px; }
+
+.cf.js-anim .cf-card {
+  transition: box-shadow 0.25s ease, padding-bottom 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 /* ── where the line arrives ──
    A diamond for the court, numbered when the question is, and a ring
@@ -3641,6 +4064,10 @@ span.cr-cite { margin: 0; white-space: normal; }
   border: 3px solid var(--cf-dark);
   border-radius: 50%;
 }
+
+/* A numbered mark reaches further into its card than the others, and
+   the text is straight under it now. */
+.cf-card:has(> .cf-pin-n) { padding-top: 25px; }
 
 .is-done > .cf-card > .cf-pin,
 .is-here > .cf-card > .cf-pin { background: var(--court); }
@@ -3696,7 +4123,11 @@ span.cr-cite { margin: 0; white-space: normal; }
 /* ── how a question stands ──
    The chronology's stamp, and its rule that how much ink says how
    settled: decided is solid, not in dispute is half-toned, open is an
-   outline, and here a dashed one. */
+   outline, and here a dashed one. It stands under the card's text and
+   is not folded away, so the state of a question can be read off a
+   shut card. */
+
+.cf-stamp { display: flex; justify-content: center; margin-top: 9px; }
 
 .cf-st {
   padding: 2px 8px;
@@ -3715,17 +4146,16 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cf-st-set { background: color-mix(in oklab, var(--court) 24%, transparent); }
 .cf-st-open { border-style: dashed; }
 
-/* ── under the text: who has to prove it, and where it is argued ── */
+/* ── under the text: who has to prove it ── */
 
-.cf-who,
-.cf-see {
-  margin-top: 10px;
+.cf-who {
+  margin-top: 0.75em;
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.55;
+  text-align: left;
+  text-wrap: pretty;
   color: var(--ink-2);
 }
-
-.cf-who + .cf-see { margin-top: 6px; }
 
 .cf-l {
   margin-right: 0.9em;
@@ -3736,27 +4166,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   text-transform: uppercase;
   color: var(--tl-c-ink);
 }
-
-/* A numbered tab down to the question in the ledger where the point is
-   argued. The citation's tab in the chronology, with a number on it. */
-.cf-ref {
-  display: inline-block;
-  min-width: 23px;
-  margin-right: 5px;
-  padding: 1px 6px;
-  border-radius: 2px;
-  background: color-mix(in oklab, var(--court) 12%, transparent);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-align: center;
-  text-decoration: none;
-  color: var(--tl-c-ink);
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.cf-ref:hover,
-.cf-ref:focus-visible { background: var(--court); color: var(--tl-card); }
 
 /* ── an ending ── */
 
@@ -3776,7 +4185,7 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cf-then .cf-h { font-size: 1.08rem; }
 
 /* How many went this way: a box to each, inked where it did. */
-.cf-toks { display: flex; gap: 7px; margin-top: 11px; }
+.cf-toks { display: flex; justify-content: center; gap: 7px; margin-top: 11px; }
 
 .cf-tok {
   width: 17px;
@@ -3936,7 +4345,7 @@ span.cr-cite { margin: 0; white-space: normal; }
     translate: none;
     width: max-content;
     max-width: 100%;
-    margin-bottom: 11px;
+    margin: 0 auto 11px;
     white-space: normal;
   }
 
@@ -4703,6 +5112,56 @@ span.cr-cite { margin: 0; white-space: normal; }
   .tl-d .tl-c::after { left: calc(-3px - var(--tl-run)); background: var(--tl-d-line); }
 }
 
+/* ── the two sides, beside the first entry ──
+   The chronology opens with who is in the case: the plaintiff's card
+   to the left of the first entry and the defendant's to the right,
+   which is the page's rule said once more before the rail gets going.
+   They are the case page's cards (see "The two sides") and they are in
+   the first entry's own row, tl-first, so opening one pushes the rest
+   of the rail down instead of lying over it.
+
+   The entry they stand beside straddles the rail. The markup says why
+   it has to. */
+
+/* Wide: each card keeps to its corner of the page, where it stands on
+   the case page, and only comes down to be level with the first entry.
+   The corners are outside the reading column, so each is pulled out of
+   the row by the distance from the column's edge to the corner. */
+@media (min-width: 1200px) {
+  .tl-first {
+    --tl-out: calc((100vw - min(100vw, var(--wrap))) / 2 + var(--gut) - clamp(28px, 3vw, 52px));
+  }
+
+  .tl-first > .party {
+    grid-row: 1;
+    align-self: start;
+    width: clamp(252px, 21vw, 322px);
+  }
+
+  .tl-first > .party-p { grid-column: 1; justify-self: start; margin-left: calc(-1 * var(--tl-out)); }
+  .tl-first > .party-d { grid-column: 3; justify-self: end; margin-right: calc(-1 * var(--tl-out)); }
+
+  /* Kept to its own height, or it would be drawn out to a card's when
+     one is opened beside it. */
+  .tl-first > .tl-c { grid-row: 1; align-self: start; }
+}
+
+/* Three columns and no corners to speak of: the row is the two cards
+   and the entry between them, and the entry gives up width before the
+   cards do. */
+@media (min-width: 901px) and (max-width: 1199px) {
+  .tl-first {
+    grid-template-columns: minmax(196px, 1fr) minmax(0, 520px) minmax(196px, 1fr);
+    column-gap: 22px;
+  }
+
+  .tl-first > .party { grid-row: 1; align-self: start; padding: 15px 16px 14px; }
+  .tl-first > .party-p { grid-column: 1; }
+  .tl-first > .party-d { grid-column: 3; }
+  .tl-first > .tl-c { grid-column: 2; grid-row: 1; align-self: start; max-width: none; }
+  .tl-first .party-name { font-size: 1.36rem; }
+}
+
 /* Between these widths the bar has room for the three names and the
    part of the case, and not for the fourth mark as well. */
 @media (min-width: 901px) and (max-width: 1100px) {
@@ -4748,7 +5207,8 @@ span.cr-cite { margin: 0; white-space: normal; }
       animation-timeline: view(block 46% 54%);
     }
 
-    .tl-ev::before {
+    .tl-ev::before,
+    .tl-first > .tl-c::before {
       animation: tl-pass linear both;
       animation-timeline: view(block 46% 54%);
     }
@@ -5743,6 +6203,28 @@ span.cr-cite { margin: 0; white-space: normal; }
   .tl-c { padding: 15px 17px 17px; }
   .tl-p .tl-c { border-left: 3px solid var(--p); }
   .tl-d .tl-c { border-left: 3px solid var(--d); }
+
+  /* The two sides hang off the rail ahead of the first entry, one
+     under the other. The row's mark belongs to the entry and not to
+     them, so here it is drawn off the entry's own card, which is the
+     one thing in the row whose place is known. */
+  .tl-first { row-gap: 12px; }
+  .tl-first::before { content: none; }
+
+  .tl-first > .tl-c::before {
+    content: '';
+    position: absolute;
+    left: -30.5px;
+    top: 18px;
+    width: 11px;
+    height: 11px;
+    --tl-node-bg: var(--tl-card);
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    background: var(--tl-node-bg);
+    color: var(--tl-n-line);
+    box-shadow: 0 0 0 4px var(--bg-band);
+  }
 
   .tl-date::before {
     padding: 2px 7px;

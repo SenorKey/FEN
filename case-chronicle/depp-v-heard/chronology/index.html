@@ -19,7 +19,7 @@
 
     <!-- This case's own inks and the two masthead portraits. After the shared
          sheet, because it restates tokens the shared sheet sets. -->
-    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css">
+    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css?v=20261011a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -230,8 +230,9 @@
              the masthead only has to say which case and offer the way
              back. The two views sit side by side underneath as halves
              of one bar, the same pairing as the doors on the case page.
+             Who is on each side of it is said at the head of the rail.
              ═══════════════════════════════════════════════ -->
-        <header class="masthead masthead-view" id="top">
+        <header class="masthead masthead-view masthead-plain" id="top">
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/depp-v-heard/">&larr;&nbsp; Depp v. Heard</a></p>
                 <p class="eyebrow">Circuit Court of Fairfax County, Virginia &middot; No. CL-2019-0002911</p>
@@ -254,11 +255,7 @@
              ═══════════════════════════════════════════════ -->
         <section class="band band-time" id="chronology" aria-labelledby="chr-h">
             <div class="wrap">
-                <p class="kicker">Chronological View</p>
-                <h2 class="section-title" id="chr-h">The whole case, in order</h2>
-                <p class="section-lede">Every substantive step, from the events the case is about through to the last
-                    filing in the public record. The rail sets the page&rsquo;s rule: one side on the left, the other
-                    on the right, the court down the middle.</p>
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
 
                 <!-- The key names this case's two sides. The colours are fixed
                      by the stylesheet and mean the same thing on every page:
@@ -291,7 +288,40 @@
                                 <p class="tl-phase-n">The events the trial was about. None of it is what he sued over — that is the line further down.</p>
                             </div>
                         </li>
-                        <li class="tl-ev tl-n" id="ev-they-meet">
+                        <li class="tl-ev tl-n tl-first" id="ev-they-meet">
+                            <!-- The two sides stand either side of the first entry: the
+                                 same two cards the case page has, shut to a name and a
+                                 line until opened. On a wide window each keeps to its
+                                 corner of the page, level with this entry. The entry
+                                 they stand beside has to be one that straddles the
+                                 rail, the court's or neither side's, or a card in a
+                                 side's column would run under one of them. -->
+                            <article class="party party-p" aria-labelledby="party-p-h">
+                                <p class="party-role">Plaintiff <span>The side that sued</span></p>
+                                <h2 class="party-name" id="party-p-h">Johnny Depp</h2>
+                                <p class="party-what">Film actor</p>
+                                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                                    <span class="party-more-i" aria-hidden="true"></span>
+                                    <span class="party-more-l">More</span>
+                                </button>
+                                <div class="party-x" id="party-p-x"><div class="party-x-in">
+                                    <p class="party-b">He&rsquo;s an American actor, born in Kentucky in 1963. He got famous in the late 1980s on the TV show 21 Jump Street, then made a long run of films with the director Tim Burton, starting with Edward Scissorhands. Most people know him as Captain Jack Sparrow, who he played in five Pirates of the Caribbean films from 2003 to 2017. That role got him the first of his three Oscar nominations.</p>
+                                    <p class="party-src">Background: <a class="cite-doc" href="https://www.britannica.com/biography/Johnny-Depp" target="_blank" rel="noopener" aria-label="Britannica, Johnny Depp, opens in a new tab">Britannica</a></p>
+                                </div></div>
+                            </article>
+                            <article class="party party-d" aria-labelledby="party-d-h">
+                                <p class="party-role">Defendant <span>The side that was sued, and sued back</span></p>
+                                <h2 class="party-name" id="party-d-h">Amber Heard</h2>
+                                <p class="party-what">Film actor</p>
+                                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                                    <span class="party-more-i" aria-hidden="true"></span>
+                                    <span class="party-more-l">More</span>
+                                </button>
+                                <div class="party-x" id="party-d-x"><div class="party-x-in">
+                                    <p class="party-b">She&rsquo;s an American actor, born in Texas in 1986. Her early films include Pineapple Express and Never Back Down, both from 2008, and she&rsquo;s best known for playing Mera in Aquaman and the other DC superhero films. She met Depp on the set of The Rum Diary. They married in February 2015 and she filed for divorce in May 2016.</p>
+                                    <p class="party-src">Background: <a class="cite-doc" href="https://en.wikipedia.org/wiki/Amber_Heard" target="_blank" rel="noopener" aria-label="Wikipedia, Amber Heard, opens in a new tab">Wikipedia</a></p>
+                                </div></div>
+                            </article>
                             <div class="tl-c">
                                 <p class="tl-date">2009</p>
                                 <h3 class="tl-h">They meet</h3>

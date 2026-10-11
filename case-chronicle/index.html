@@ -73,15 +73,28 @@
 
         <!-- ═══════════════════════════════════════════════
              Masthead
+
+             The title, and under it the one line that says what all of
+             this is for, both set to the middle. Everything else that
+             used to stand here is in the notes at the foot of the page.
+
+             An open book holds each top corner: one drawing, used
+             twice and turned opposite ways, in line only and faint, the
+             way a watermark sits in a sheet. masthead-books asks the
+             stylesheet for the pair, so there is nothing of it in this
+             markup and nothing for a screen reader to be told about.
+
+             The "o" in Chronicle is a clock. The letter is still there
+             underneath it, set in no colour, so the word keeps its
+             spacing and is still a word to anything that reads the
+             page rather than looks at it.
              ═══════════════════════════════════════════════ -->
-        <header class="masthead" id="top">
+        <header class="masthead masthead-hub masthead-books" id="top">
             <div class="wrap">
-                <p class="eyebrow">frontendneeded.com &middot; from the public record</p>
-                <h1 class="masthead-title">Case <em>Chronicle</em></h1>
-                <p class="masthead-lede">Court cases read end to end, in the order things actually happened. Every
-                    entry is built from the public docket: what each side filed, on what date, and what the court did
-                    with it. No verdicts of my own &mdash; the point is to make a record that is already public
-                    <strong>readable</strong>.</p>
+                <div class="hub-head">
+                    <h1 class="masthead-title" aria-label="Case Chronicle">Case <em>Chr<span class="clock-o">o<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle class="clock-rim" cx="24" cy="24" r="20"/><path class="clock-hands" d="M24 12.6V24l6.9 4.2"/></svg></span>nicle</em></h1>
+                    <p class="hub-motto">The point is to make a record that is already public, <strong>readable</strong>.</p>
+                </div>
             </div>
         </header>
 
@@ -321,9 +334,6 @@
                             court has not resolved something, these pages say so and stop.</p>
                     </div>
                 </div>
-
-                <p class="notes-updated">Corrections go on the case page they concern &mdash; there is a form at the
-                    foot of each one.</p>
             </div>
         </section>
 
