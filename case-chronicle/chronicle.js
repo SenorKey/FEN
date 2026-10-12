@@ -4,50 +4,50 @@
    markup it enhances is absent, so a page that has no ledger, no
    exhibit wash or no corrections form simply does without.
 
+   Every block is an enhancement. A control that only a script can work
+   ships hidden or disabled and is brought out by the block that works
+   it, so a reader with no JavaScript never meets a dead one. */
+
+'use strict';
+
+/* ── the ledger: every layer at once ──
    One control: open or collapse every depth in the ledger at once.
 
    Pure enhancement. The drawers are <details>, so they already work
    individually with no script and no pointer. The button stays hidden
    until this file runs, so a reader without JS never sees a dead control. */
 
-(function () {
-  'use strict';
-
-  var btn = document.getElementById('depth-all');
-  var ledger = document.getElementById('ledger');
+(() => {
+  const btn = document.getElementById('depth-all');
+  const ledger = document.getElementById('ledger');
   if (!btn || !ledger) return;
 
-  var drawers = ledger.querySelectorAll('details.drawer');
+  const drawers = [...ledger.querySelectorAll('details.drawer')];
   if (!drawers.length) return;
 
-  var label = btn.querySelector('.da-l');
-  var OPEN = 'Open every layer';
-  var SHUT = 'Collapse everything';
+  const label = btn.querySelector('.da-l');
+  const OPEN = 'Open every layer';
+  const SHUT = 'Collapse everything';
 
-  function allOpen() {
-    for (var i = 0; i < drawers.length; i++) {
-      if (!drawers[i].open) return false;
-    }
-    return true;
-  }
+  const allOpen = () => drawers.every((drawer) => drawer.open);
 
   function sync() {
-    var open = allOpen();
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const open = allOpen();
+    btn.setAttribute('aria-expanded', open);
     btn.classList.toggle('is-open', open);
     label.textContent = open ? SHUT : OPEN;
   }
 
-  btn.addEventListener('click', function () {
-    var open = !allOpen();
-    for (var i = 0; i < drawers.length; i++) drawers[i].open = open;
+  btn.addEventListener('click', () => {
+    const open = !allOpen();
+    for (const drawer of drawers) drawer.open = open;
     sync();
   });
 
-  /* Keep the button honest when drawers are opened one at a time. */
-  for (var i = 0; i < drawers.length; i++) {
-    drawers[i].addEventListener('toggle', sync);
-  }
+  /* Keep the button honest when drawers are opened one at a time. A
+     toggle does not bubble, but it can be heard on its way down, so one
+     listener on the ledger hears every drawer in it. */
+  ledger.addEventListener('toggle', sync, true);
 
   btn.hidden = false;
   sync();
@@ -71,78 +71,71 @@
    reflow so the first close is instant. A reflow rather than
    requestAnimationFrame, which is paused in a background tab. */
 
-(function () {
-  'use strict';
-
-  var flow = document.querySelector('.cf');
+(() => {
+  const flow = document.querySelector('.cf');
   if (!flow) return;
 
-  var cards = flow.querySelectorAll('.cf-card');
-  var wired = [];
-  var bare = [];
+  const wired = [];
+  const bare = [];
+
+  const all = flow.querySelector('.cf-all');
+  const label = all?.querySelector('.da-l');
+  const OPEN = 'Open every card';
+  const SHUT = 'Shut every card';
 
   function set(item, open) {
     item.card.classList.toggle('is-open', open);
-    item.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    item.btn.setAttribute('aria-expanded', open);
   }
 
-  for (var i = 0; i < cards.length; i++) {
-    (function (card) {
-      var btn = card.querySelector('.cf-more');
-      if (!btn) {
-        bare.push(card);
-        return;
-      }
-
-      var item = { card: card, btn: btn };
-      wired.push(item);
-      btn.hidden = false;
-
-      /* The control is inside the card, so its own press would otherwise
-         be heard twice and leave the card as it was. */
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        set(item, !card.classList.contains('is-open'));
-        sync();
-      });
-
-      card.addEventListener('click', function (e) {
-        if (e.target.closest && e.target.closest('a, button')) return;
-        if (window.getSelection && String(window.getSelection())) return;
-        set(item, !card.classList.contains('is-open'));
-        sync();
-      });
-    })(cards[i]);
-  }
-
-  if (!wired.length) return;
-
-  var all = flow.querySelector('.cf-all');
-  var label = all && all.querySelector('.da-l');
-  var OPEN = 'Open every card';
-  var SHUT = 'Shut every card';
-
-  function allOpen() {
-    for (var i = 0; i < wired.length; i++) {
-      if (!wired[i].card.classList.contains('is-open')) return false;
-    }
-    return true;
-  }
+  const allOpen = () => wired.every((item) => item.card.classList.contains('is-open'));
 
   /* Keeps the button honest when cards are opened one at a time. */
   function sync() {
     if (!all) return;
-    var open = allOpen();
-    all.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const open = allOpen();
+    all.setAttribute('aria-expanded', open);
     all.classList.toggle('is-open', open);
     label.textContent = open ? SHUT : OPEN;
   }
 
+  for (const card of flow.querySelectorAll('.cf-card')) {
+    const btn = card.querySelector('.cf-more');
+    if (!btn) {
+      bare.push(card);
+      continue;
+    }
+
+    const item = { card, btn };
+    wired.push(item);
+    btn.hidden = false;
+
+    const toggle = () => {
+      set(item, !card.classList.contains('is-open'));
+      sync();
+    };
+
+    /* The control is inside the card, so its own press would otherwise
+       be heard twice and leave the card as it was. */
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggle();
+    });
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest?.('a, button')) return;
+      if (window.getSelection()?.toString()) return;
+      toggle();
+    });
+  }
+
+  if (!wired.length) return;
+
   if (all) {
-    all.addEventListener('click', function () {
-      var open = !allOpen();
-      for (var i = 0; i < wired.length; i++) set(wired[i], open);
-      for (var j = 0; j < bare.length; j++) bare[j].classList.toggle('is-open', open);
+    all.addEventListener('click', () => {
+      const open = !allOpen();
+      for (const item of wired) set(item, open);
+      for (const card of bare) card.classList.toggle('is-open', open);
       sync();
     });
     all.hidden = false;
@@ -166,102 +159,93 @@
    The rest ships open and the control ships hidden, so a reader with no
    JavaScript has both cards written out and no dead button. */
 
-(function () {
-  'use strict';
+(() => {
+  const wired = [];
 
-  var cards = document.querySelectorAll('.party');
-  var wired = [];
+  for (const card of document.querySelectorAll('.party')) {
+    const btn = card.querySelector('.party-more');
+    const region = card.querySelector('.party-x');
+    if (!btn || !region) continue;
 
-  for (var i = 0; i < cards.length; i++) {
-    (function (card) {
-      var btn = card.querySelector('.party-more');
-      var region = card.querySelector('.party-x');
-      if (!btn || !region) return;
+    const label = btn.querySelector('.party-more-l');
 
-      var label = btn.querySelector('.party-more-l');
+    const set = (open) => {
+      card.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', open);
+      label.textContent = open ? 'Less' : 'More';
+    };
+    const toggle = () => set(!card.classList.contains('is-open'));
 
-      function set(open) {
-        card.classList.toggle('is-open', open);
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        label.textContent = open ? 'Less' : 'More';
-      }
+    btn.hidden = false;
+    set(false);
+    card.classList.add('js-collapse');
+    wired.push(card);
 
-      btn.hidden = false;
-      set(false);
-      card.classList.add('js-collapse');
-      wired.push(card);
+    /* The control is inside the card, so its own press would otherwise
+       be heard twice and leave the card as it was. */
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggle();
+    });
 
-      /* The control is inside the card, so its own press would otherwise
-         be heard twice and leave the card as it was. */
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        set(!card.classList.contains('is-open'));
-      });
-
-      card.addEventListener('click', function (e) {
-        if (e.target.closest && e.target.closest('a, button')) return;
-        if (window.getSelection && String(window.getSelection())) return;
-        set(!card.classList.contains('is-open'));
-      });
-    })(cards[i]);
+    card.addEventListener('click', (e) => {
+      if (e.target.closest?.('a, button')) return;
+      if (window.getSelection()?.toString()) return;
+      toggle();
+    });
   }
 
   if (!wired.length) return;
 
   /* Armed after a forced reflow, so the first close is instant. */
   void document.body.offsetHeight;
-  for (var k = 0; k < wired.length; k++) wired[k].classList.add('js-anim');
+  for (const card of wired) card.classList.add('js-anim');
 })();
 
 /* ── chronology: one more layer per card ──
    The detail ships open and the toggles ship hidden, so a reader with no
    JavaScript gets everything and no dead controls. This collapses them,
-   then arms the transition a frame later so the initial close is instant
-   rather than a page-load animation.
+   then arms the transition after a forced reflow so the initial close is
+   instant rather than a page-load animation.
 
    Each button also says what is behind it. A drawer that holds a
    citation and nothing else is not "more", it is the source, so the
    button says Source. Any other drawer says how many documents it links
    to, so a reader knows the sources are there before opening anything. */
 
-(function () {
-  'use strict';
-
-  var tl = document.querySelector('.tl');
+(() => {
+  const tl = document.querySelector('.tl');
   if (!tl) return;
 
-  var cards = tl.querySelectorAll('.tl-c');
-  var wired = 0;
+  let wired = 0;
 
-  for (var i = 0; i < cards.length; i++) {
-    (function (card) {
-      var btn = card.querySelector('.tl-more');
-      var region = card.querySelector('.tl-x');
-      if (!btn || !region) return;
+  for (const card of tl.querySelectorAll('.tl-c')) {
+    const btn = card.querySelector('.tl-more');
+    const region = card.querySelector('.tl-x');
+    if (!btn || !region) continue;
 
-      var label = btn.querySelector('.tl-more-l');
-      var links = region.querySelectorAll('.cite-doc').length;
-      var bare = !region.querySelector('.tl-x-t') && !!region.querySelector('.tl-cite');
-      var shut = bare ? (links > 1 ? 'Sources' : 'Source') : 'More';
+    const label = btn.querySelector('.tl-more-l');
+    const links = region.querySelectorAll('.cite-doc').length;
+    const bare = !region.querySelector('.tl-x-t') && !!region.querySelector('.tl-cite');
+    const shut = bare ? (links > 1 ? 'Sources' : 'Source') : 'More';
 
-      if (links && !bare) {
-        var count = document.createElement('span');
-        count.className = 'tl-more-n';
-        count.textContent = links === 1 ? '1 source' : links + ' sources';
-        btn.appendChild(count);
-      }
+    if (links && !bare) {
+      const count = document.createElement('span');
+      count.className = 'tl-more-n';
+      count.textContent = links === 1 ? '1 source' : `${links} sources`;
+      btn.append(count);
+    }
 
-      label.textContent = shut;
-      btn.hidden = false;
-      btn.setAttribute('aria-expanded', 'false');
-      wired++;
+    label.textContent = shut;
+    btn.hidden = false;
+    btn.setAttribute('aria-expanded', 'false');
+    wired++;
 
-      btn.addEventListener('click', function () {
-        var open = card.classList.toggle('is-open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-        label.textContent = open ? 'Less' : shut;
-      });
-    })(cards[i]);
+    btn.addEventListener('click', () => {
+      const open = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open);
+      label.textContent = open ? 'Less' : shut;
+    });
   }
 
   if (!wired) return;
@@ -287,19 +271,17 @@
    an ordinary key and the span is not displayed, so nothing is
    measured there. */
 
-(function () {
-  'use strict';
-
-  var tl = document.querySelector('.tl');
-  var bar = document.querySelector('.tl-key');
-  var here = bar && bar.querySelector('.tk-here');
+(() => {
+  const tl = document.querySelector('.tl');
+  const bar = document.querySelector('.tl-key');
+  const here = bar?.querySelector('.tk-here');
   if (!tl || !here) return;
 
-  var parts = tl.querySelectorAll('.tl-phase');
+  const parts = tl.querySelectorAll('.tl-phase');
   if (!parts.length) return;
 
-  var shown = null;
-  var ticking = false;
+  let shown = null;
+  let ticking = false;
 
   function read() {
     ticking = false;
@@ -307,16 +289,16 @@
     /* display:none leaves an element with no offsetParent. */
     if (!here.offsetParent) return;
 
-    var line = bar.getBoundingClientRect().bottom + 8;
-    var now = null;
-    for (var i = 0; i < parts.length; i++) {
-      if (parts[i].getBoundingClientRect().bottom > line) break;
-      now = parts[i];
+    const line = bar.getBoundingClientRect().bottom + 8;
+    let now = null;
+    for (const part of parts) {
+      if (part.getBoundingClientRect().bottom > line) break;
+      now = part;
     }
     if (now === shown) return;
     shown = now;
 
-    var name = now && now.querySelector('.tl-phase-l');
+    const name = now?.querySelector('.tl-phase-l');
     here.textContent = name ? name.textContent.replace(/\s+/g, ' ').trim() : '';
     here.classList.toggle('is-on', !!name);
   }
@@ -343,22 +325,20 @@
    Transform only, written inside a frame, so the whole thing stays on
    the compositor and never triggers layout. */
 
-(function () {
-  'use strict';
-
-  var layer = document.querySelector('.exhibits');
+(() => {
+  const layer = document.querySelector('.exhibits');
   if (!layer) return;
 
-  var cols = [
+  const cols = [
     { strip: document.querySelector('.ex-col-p .ex-strip'), rate: 0.42 },
     { strip: document.querySelector('.ex-col-d .ex-strip'), rate: 0.30 }
   ];
   if (!cols[0].strip || !cols[1].strip) return;
 
-  var slow = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var bound = false;
-  var ticking = false;
-  var pending = false;
+  const slow = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let bound = false;
+  let ticking = false;
+  let pending = false;
 
   /* A strip that only moves at 42% of the scroll still has to be under
      the viewport when the page has run out. Measure one pass of the
@@ -366,28 +346,25 @@
      need. The layer is fixed, so none of this can feed back into the
      document height it is measuring. */
   function fill(col) {
-    if (col.seed == null) {
+    if (col.seed === undefined) {
       col.seed = col.strip.innerHTML;
       col.unit = col.strip.offsetHeight;
     }
     if (!col.unit) return;
 
-    var run = document.documentElement.scrollHeight - window.innerHeight;
-    var need = run * col.rate + window.innerHeight + 240;
-    var copies = Math.max(1, Math.ceil(need / col.unit));
+    const run = document.documentElement.scrollHeight - window.innerHeight;
+    const need = run * col.rate + window.innerHeight + 240;
+    const copies = Math.max(1, Math.ceil(need / col.unit));
     if (copies === col.copies) return;
 
-    var out = '';
-    for (var i = 0; i < copies; i++) out += col.seed;
-    col.strip.innerHTML = out;
+    col.strip.innerHTML = col.seed.repeat(copies);
     col.copies = copies;
   }
 
   function place() {
-    var y = window.pageYOffset;
-    for (var i = 0; i < cols.length; i++) {
-      cols[i].strip.style.transform =
-        'translate3d(0,' + (-y * cols[i].rate).toFixed(2) + 'px,0)';
+    const y = window.scrollY;
+    for (const col of cols) {
+      col.strip.style.transform = `translateY(${(-y * col.rate).toFixed(2)}px)`;
     }
     ticking = false;
   }
@@ -405,8 +382,7 @@
   function sync() {
     pending = false;
 
-    var on = !slow.matches &&
-             window.getComputedStyle(layer).display !== 'none';
+    const on = !slow.matches && window.getComputedStyle(layer).display !== 'none';
 
     if (on && !bound) {
       window.addEventListener('scroll', onScroll, { passive: true });
@@ -417,11 +393,11 @@
     }
 
     if (!on) {
-      for (var i = 0; i < cols.length; i++) cols[i].strip.style.transform = '';
+      for (const col of cols) col.strip.style.transform = '';
       return;
     }
 
-    for (var j = 0; j < cols.length; j++) fill(cols[j]);
+    for (const col of cols) fill(col);
     place();
   }
 
@@ -437,11 +413,9 @@
      of the page as they open, which changes how much strip is needed.
      Watching the body catches those, and web-font swap, without either
      control having to know this layer exists. */
-  if (window.ResizeObserver) {
-    new ResizeObserver(resync).observe(document.body);
-  }
+  new ResizeObserver(resync).observe(document.body);
 
-  if (slow.addEventListener) slow.addEventListener('change', resync);
+  slow.addEventListener('change', resync);
 
   sync();
 })();
@@ -457,48 +431,40 @@
    without any of this; what needs the script is knowing when to offer
    it. */
 
-(function () {
-  'use strict';
-
-  var btn = document.querySelector('.to-top');
-  var mast = document.querySelector('.masthead');
-  if (!btn || !mast || !window.IntersectionObserver) return;
+(() => {
+  const btn = document.querySelector('.to-top');
+  const mast = document.querySelector('.masthead');
+  if (!btn || !mast) return;
 
   btn.hidden = false;
 
   /* Section navigation steps aside by exactly the width of this button,
-     and CSS
-     has no way to ask for that, so it is published here as a custom
-     property. Measured rather than hardcoded: the label is one line of
-     mono, and its width moves with the reader's base font size, with
-     zoom, and with whether the web font has arrived yet. Re-measured
-     whenever any of that can have changed. */
-  function publishWidth() {
-    document.documentElement.style.setProperty('--totop-w', btn.offsetWidth + 'px');
-  }
+     and CSS has no way to ask for that, so it is published here as a
+     custom property. Measured rather than hardcoded: the label is one
+     line of mono, and its width moves with the reader's base font size,
+     with zoom, and with whether the web font has arrived yet. */
+  const publishWidth = () => {
+    document.documentElement.style.setProperty('--totop-w', `${btn.offsetWidth}px`);
+  };
 
   publishWidth();
 
-  /* Watching the button itself rather than the window, because the things
-     that change its width mostly are not resizes: the mono face arriving,
-     the reader's base font size, page zoom. A ResizeObserver catches all
-     of them and nothing else. Publishing the width cannot change the
+  /* Re-measured whenever any of that can have changed. Watching the
+     button itself rather than the window, because the things that change
+     its width mostly are not resizes: the mono face arriving, the
+     reader's base font size, page zoom. A ResizeObserver catches all of
+     them and nothing else. Publishing the width cannot change the
      button's own size, so this cannot feed back on itself. */
-  if (window.ResizeObserver) {
-    new ResizeObserver(publishWidth).observe(btn);
-  } else {
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(publishWidth);
-    window.addEventListener('resize', publishWidth);
-  }
+  new ResizeObserver(publishWidth).observe(btn);
 
   /* The class on the root is what lets the section pill step aside for
      this button, and only while it is actually out: without it the pill
      would sit beside an empty slot for the first screen of the page. */
-  new IntersectionObserver(function (entries) {
-    var out = !entries[0].isIntersecting;
+  new IntersectionObserver((entries) => {
+    const out = !entries.at(-1).isIntersecting;
     btn.classList.toggle('is-on', out);
     document.documentElement.classList.toggle('has-to-top', out);
-  }, { threshold: 0 }).observe(mast);
+  }).observe(mast);
 })();
 
 /* ── terms: from the page into the glossary ──
@@ -512,24 +478,18 @@
    and the reader's place on a twenty-screen page is worth more than a
    linkable fragment. */
 
-(function () {
-  'use strict';
-
-  var gloss = document.querySelector('.gloss');
-  var panel = document.querySelector('.gloss-p');
+(() => {
+  const gloss = document.querySelector('.gloss');
+  const panel = document.querySelector('.gloss-p');
   if (!gloss || !panel) return;
 
-  function unlight() {
-    var lit = panel.querySelector('.is-found');
-    if (lit) lit.classList.remove('is-found');
-  }
+  const unlight = () => panel.querySelector('.is-found')?.classList.remove('is-found');
 
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('a.term') : null;
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest?.('a.term');
     if (!a) return;
 
-    var dt = document.getElementById(a.getAttribute('data-term'));
-    var row = dt && dt.parentElement;
+    const row = document.getElementById(a.dataset.term)?.parentElement;
     if (!row) return;                       /* let the anchor do its own work */
 
     e.preventDefault();
@@ -549,14 +509,14 @@
 
   /* The entry stays lit for as long as the panel is open, and the panel
      can be closed three ways: its own button, Escape, or a press outside
-     it. This is the one place that hears about all of them. Opened again from the button, the glossary is a list with
-     nothing singled out. */
-  gloss.addEventListener('toggle', function () {
+     it. This is the one place that hears about all of them. Opened again
+     from the button, the glossary is a list with nothing singled out. */
+  gloss.addEventListener('toggle', () => {
     if (!gloss.open) unlight();
   });
 
   /* Escape closes it, the way every other panel on the web does. */
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && gloss.open) {
       gloss.open = false;
       gloss.querySelector('.gloss-b').focus();
@@ -574,20 +534,20 @@
      A marked word is left to the handler above, which is about to want
      the panel open. Focus is not moved: the reader has just said where
      their attention is. */
-  var SLOP = 6;
-  var down = null;
+  const SLOP = 6;
+  let down = null;
 
-  document.addEventListener('pointerdown', function (e) {
+  document.addEventListener('pointerdown', (e) => {
     down = gloss.open && !gloss.contains(e.target)
       ? { x: e.clientX, y: e.clientY }
       : null;
   });
 
-  document.addEventListener('pointerup', function (e) {
-    var from = down;
+  document.addEventListener('pointerup', (e) => {
+    const from = down;
     down = null;
     if (!from || !gloss.open || gloss.contains(e.target)) return;
-    if (e.target.closest && e.target.closest('a.term')) return;
+    if (e.target.closest?.('a.term')) return;
     if (Math.abs(e.clientX - from.x) > SLOP || Math.abs(e.clientY - from.y) > SLOP) return;
     gloss.open = false;
   });
@@ -616,22 +576,20 @@
    hearing. That door has no words under it and names its own padlock,
    so both of those are only handled here when they are there. */
 
-(function () {
-  'use strict';
-
-  var slot = document.querySelector('[data-door-lock]');
+(() => {
+  const slot = document.querySelector('[data-door-lock]');
   if (!slot) return;
 
-  var door = slot.querySelector('.door');
-  var btn = slot.querySelector('.door-unlock');
-  var label = slot.querySelector('.door-go-l');
+  const door = slot.querySelector('.door');
+  const btn = slot.querySelector('.door-unlock');
+  const label = slot.querySelector('.door-go-l');
   if (!door || !btn) return;
 
-  var href = door.getAttribute('href');
+  const href = door.getAttribute('href');
   /* What the door says when it is only a door, kept to put back. */
-  var words = label ? label.textContent : '';
-  var locked = false;
-  var leaving;
+  const words = label ? label.textContent : '';
+  let locked = false;
+  let leaving;
 
   /* Locked: no href, so the door is neither a link nor a tab stop, and
      the padlock is the one control on it. */
@@ -642,8 +600,7 @@
     if (label) label.textContent = 'Locked · no hearing yet';
     slot.classList.remove('is-unlocked');
     slot.classList.add('is-locked');
-    btn.classList.remove('is-broken');
-    btn.classList.remove('is-rattled');
+    btn.classList.remove('is-broken', 'is-rattled');
     btn.hidden = false;
   }
 
@@ -659,14 +616,14 @@
 
   /* Trying the door rattles the lock, which is how a reader who has not
      noticed the padlock finds out where it is. */
-  door.addEventListener('click', function () {
+  door.addEventListener('click', () => {
     if (!locked) return;
     btn.classList.remove('is-rattled');
     void btn.offsetWidth;
     btn.classList.add('is-rattled');
   });
 
-  btn.addEventListener('click', function () {
+  btn.addEventListener('click', () => {
     if (!locked) return;
     locked = false;
     btn.classList.remove('is-rattled');
@@ -690,7 +647,7 @@
     leaving = setTimeout(gone, 1100);
   });
 
-  btn.addEventListener('animationend', function (e) {
+  btn.addEventListener('animationend', (e) => {
     if (e.target === btn) gone();
   });
 
@@ -698,7 +655,7 @@
      left: unlocked, and as likely as not with the door standing open.
      The leaves are given the half second they take to shut before the
      lock goes back on them. */
-  window.addEventListener('pageshow', function (e) {
+  window.addEventListener('pageshow', (e) => {
     if (e.persisted) setTimeout(lock, 500);
   });
 })();
@@ -720,24 +677,22 @@
    as it was left, which is with a door standing open, so the doors are
    shut again when it is shown. */
 
-(function () {
-  'use strict';
-
-  var doors = document.querySelectorAll('.door');
+(() => {
+  const doors = document.querySelectorAll('.door');
   if (!doors.length) return;
 
   /* A little short of the stylesheet's 0.56s. The end of the swing is
      the leaves settling, and the page can go while they do. A heavier
      door says how long it takes in data-swing, by the same rule. */
-  var SWING = 520;
-  var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const SWING = 520;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  Array.prototype.forEach.call(doors, function (door) {
-    door.addEventListener('click', function (e) {
-      var href = door.getAttribute('href');
+  for (const door of doors) {
+    door.addEventListener('click', (e) => {
+      const href = door.getAttribute('href');
       if (!href) return;
       if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (still && still.matches) return;
+      if (still.matches) return;
       /* Already open and waiting on the network: a second press is not
          made to wait for a second swing. */
       if (door.classList.contains('is-open')) return;
@@ -745,20 +700,18 @@
       e.preventDefault();
       door.classList.add('is-open');
 
-      var ahead = document.createElement('link');
+      const ahead = document.createElement('link');
       ahead.rel = 'prefetch';
       ahead.href = href;
-      document.head.appendChild(ahead);
+      document.head.append(ahead);
 
-      setTimeout(function () { window.location.href = href; }, parseInt(door.getAttribute('data-swing'), 10) || SWING);
+      setTimeout(() => { window.location.href = href; }, Number(door.dataset.swing) || SWING);
     });
-  });
+  }
 
-  window.addEventListener('pageshow', function (e) {
+  window.addEventListener('pageshow', (e) => {
     if (!e.persisted) return;
-    Array.prototype.forEach.call(doors, function (door) {
-      door.classList.remove('is-open');
-    });
+    for (const door of doors) door.classList.remove('is-open');
   });
 })();
 
@@ -791,58 +744,82 @@
    If the chronology cannot be fetched the bar never appears, and the
    page stays what it is without a script: an empty plan and two lists. */
 
-(function () {
-  'use strict';
+(async () => {
+  const root = document.querySelector('.cr');
+  if (!root) return;
 
-  var root = document.querySelector('.cr');
-  if (!root || !window.fetch || !window.DOMParser) return;
-
-  var plan = root.querySelector('.cr-plan');
-  var svg = root.querySelector('.cr-svg');
-  var bar = root.querySelector('.ct');
-  var track = root.querySelector('.ct-track');
-  var ticks = root.querySelector('.ct-ticks');
-  var line = root.querySelector('.ct-line');
-  var prev = root.querySelector('.ct-prev');
-  var next = root.querySelector('.ct-next');
-  var panel = root.querySelector('.cm');
-  var list = root.querySelector('.cr-cast');
+  const plan = root.querySelector('.cr-plan');
+  const svg = root.querySelector('.cr-svg');
+  const bar = root.querySelector('.ct');
+  const track = root.querySelector('.ct-track');
+  const ticks = root.querySelector('.ct-ticks');
+  const line = root.querySelector('.ct-line');
+  const prev = root.querySelector('.ct-prev');
+  const next = root.querySelector('.ct-next');
+  const panel = root.querySelector('.cm');
+  const list = root.querySelector('.cr-cast');
   if (!plan || !svg || !bar || !track || !ticks || !line || !prev || !next || !panel || !list) return;
 
-  var legend = root.querySelector('.cr-key');
-  var days = root.querySelector('.cr-days');
+  const legend = root.querySelector('.cr-key');
+  const days = root.querySelector('.cr-days');
 
-  var src = root.getAttribute('data-chronology');
-  var view = svg.viewBox.baseVal;
-  var all = [].slice.call(list.querySelectorAll('.cr-who'));
-  var rows = all.filter(function (r) { return !r.classList.contains('cr-about'); });
-  var abouts = all.filter(function (r) { return r.classList.contains('cr-about'); });
+  /* Everything the line rewrites as it moves is in the page from the
+     start, so it is looked up once: the parts of the moment's panel, and
+     the parts of the drawing that are filled in or measured. */
+  const cm = {
+    n: panel.querySelector('.cm-n'),
+    date: panel.querySelector('.cm-date'),
+    who: panel.querySelector('.cm-who'),
+    title: panel.querySelector('.cm-h'),
+    body: panel.querySelector('.cm-b'),
+    room: panel.querySelector('.cm-room'),
+    link: panel.querySelector('.cm-link')
+  };
+  const areas = [...svg.querySelectorAll('.cr-area')];
+  const jurors = [...svg.querySelectorAll('.cr-seat-j')];
+  const pubs = [...svg.querySelectorAll('.cr-pub')];
+  const seats = new Map();         /* seat name -> its circle on the plan */
+  const zones = new Map();         /* part of the room -> its box on the plan */
+  for (const c of svg.querySelectorAll('.cr-seat[data-seat]')) {
+    if (!seats.has(c.dataset.seat)) seats.set(c.dataset.seat, c);
+  }
+  for (const z of svg.querySelectorAll('.cr-zone[data-zone]')) {
+    if (!zones.has(z.dataset.zone)) zones.set(z.dataset.zone, z);
+  }
 
-  var moments = [];
-  var index = {};          /* entry id -> position in moments */
-  var names = {};          /* side -> the name the chronology's key gives it */
-  var sits = {};           /* entry id -> { kind, li }: the days something happened in a room */
-  var opens = 0;
-  var now = -1;
-  var nodes = [];
-  var pop = null;
-  var pinned = null;
-  var via = 'mouse';       /* how the reader last acted: mouse, touch, pen or key */
-  var touring = false;     /* the line is moving by itself, or is waiting to */
-  var tourTimer = 0;
-  var tourWatch = null;
-  var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  const src = root.dataset.chronology;
+  const view = svg.viewBox.baseVal;
+  const all = [...list.querySelectorAll('.cr-who')];
+  const rows = all.filter((row) => !row.classList.contains('cr-about'));
+  const abouts = all.filter((row) => row.classList.contains('cr-about'));
 
-  function text(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
+  const moments = [];
+  const index = new Map();         /* entry id -> position in moments */
+  const names = {};                /* side -> the name the chronology's key gives it */
+  const sits = new Map();          /* entry id -> { kind, li }: the days something happened in a room */
+  const statusLine = new Map();    /* a person's row -> the line saying which of the three they are */
+  let opens = 0;
+  let now = -1;
+  let nodes = [];
+  let pop = null;                  /* the card that is up, { el, hint, node }, or nothing */
+  let pinned = null;
+  let via = 'mouse';               /* how the reader last acted: mouse, touch, pen or key */
+  let touring = false;             /* the line is moving by itself, or is waiting to */
+  let tourTimer = 0;
+  let tourWatch = null;
+  let spacedFor = 0;               /* the width of bar the year labels were last spaced for */
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const text = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
 
   function sideOf(li) {
-    var c = li.classList;
+    const c = li.classList;
     return c.contains('tl-p') ? 'p' : c.contains('tl-d') ? 'd' : c.contains('tl-court') ? 'court' : 'n';
   }
 
   /* ── reading the chronology ── */
   function read(doc) {
-    var key = doc.querySelector('.tl-key');
+    const key = doc.querySelector('.tl-key');
     if (key) {
       names.p = text(key.querySelector('.tk-p'));
       names.d = text(key.querySelector('.tk-d'));
@@ -850,20 +827,17 @@
     }
     names.n = 'Off the docket';
 
-    var items = doc.querySelectorAll('.tl > li.tl-ev');
-    for (var i = 0; i < items.length; i++) {
-      var li = items[i];
-      var date = li.querySelector('.tl-date');
-      var body = li.querySelector('.tl-b');
-      var chip = date && date.querySelector('.chip');
-      var when = '';
+    for (const li of doc.querySelectorAll('.tl > li.tl-ev')) {
+      const date = li.querySelector('.tl-date');
+      const body = li.querySelector('.tl-b');
+      const chip = date?.querySelector('.chip');
+      let when = '';
       if (date) {
-        var d = date.cloneNode(true);
-        var c = d.querySelector('.chip');
-        if (c) d.removeChild(c);
+        const d = date.cloneNode(true);
+        d.querySelector('.chip')?.remove();
         when = text(d);
       }
-      index[li.id] = moments.length;
+      index.set(li.id, moments.length);
       moments.push({
         id: li.id,
         side: sideOf(li),
@@ -877,11 +851,9 @@
   }
 
   function readSittings() {
-    var items = root.querySelectorAll('.cr-sits > li');
-    for (var i = 0; i < items.length; i++) {
-      var ids = (items[i].getAttribute('data-at') || '').split(/\s+/);
-      for (var k = 0; k < ids.length; k++) {
-        if (ids[k]) sits[ids[k]] = { kind: items[i].getAttribute('data-kind'), li: items[i] };
+    for (const li of root.querySelectorAll('.cr-sits > li')) {
+      for (const id of (li.dataset.at || '').split(/\s+/)) {
+        if (id) sits.set(id, { kind: li.dataset.kind, li });
       }
     }
   }
@@ -889,7 +861,7 @@
   /* court: a sitting in this room. away: it happened in some other
      room. paper: a filing, a written order, or something off the docket. */
   function kindOf(i) {
-    var s = sits[moments[i].id];
+    const s = sits.get(moments[i].id);
     return s ? s.kind : 'paper';
   }
 
@@ -899,21 +871,18 @@
      so a retitled card leaves someone seated too long, never drops
      them from the room without a trace. */
   function at(attr, row) {
-    var out = [];
-    var ids = (row.getAttribute(attr) || '').split(/\s+/);
-    for (var i = 0; i < ids.length; i++) {
-      if (ids[i] && index[ids[i]] != null) out.push(index[ids[i]]);
-    }
-    return out;
+    return (row.getAttribute(attr) || '').split(/\s+/)
+      .filter((id) => id && index.has(id))
+      .map((id) => index.get(id));
   }
 
   function present(row, i) {
     if (row.hasAttribute('data-before')) return i < opens;
     if (i < opens) return false;
-    if (row.hasAttribute('data-at')) return at('data-at', row).indexOf(i) !== -1;
-    if (at('data-not', row).indexOf(i) !== -1) return false;
-    var from = at('data-from', row);
-    var gone = at('data-gone', row);
+    if (row.hasAttribute('data-at')) return at('data-at', row).includes(i);
+    if (at('data-not', row).includes(i)) return false;
+    const from = at('data-from', row);
+    const gone = at('data-gone', row);
     if (from.length && i < from[0]) return false;
     if (gone.length && i >= gone[0]) return false;
     return true;
@@ -925,9 +894,9 @@
     if (kindOf(i) !== 'court') return 'case';
     /* Known to have been somewhere else, which is more than not known
        to have been here. Drawn the same; said differently. */
-    if (at('data-away', row).indexOf(i) !== -1) return 'away';
-    if (at('data-remote', row).indexOf(i) !== -1) return 'remote';
-    if (row.getAttribute('data-in') === '*' || at('data-in', row).indexOf(i) !== -1) return 'in';
+    if (at('data-away', row).includes(i)) return 'away';
+    if (at('data-remote', row).includes(i)) return 'remote';
+    if (row.dataset.in === '*' || at('data-in', row).includes(i)) return 'in';
     return 'case';
   }
 
@@ -943,16 +912,16 @@
   function zoneOf(seat) {
     if (seat === 'jury') return 'jury';
     if (seat === 'rep') return 'staff';
-    if (seat.indexOf('judge') === 0) return 'bench';
-    if (seat.indexOf('stand') === 0) return 'stand';
-    return seat.charAt(0) === 'g' ? 'gallery' : seat.charAt(0);
+    if (seat.startsWith('judge')) return 'bench';
+    if (seat.startsWith('stand')) return 'stand';
+    return seat[0] === 'g' ? 'gallery' : seat[0];
   }
 
   /* ── the card ── */
   function closePop() {
-    if (pop && pop.parentNode) pop.parentNode.removeChild(pop);
-    if (pinned) pinned.classList.remove('is-open');
-    for (var i = 0; i < all.length; i++) all[i].classList.remove('is-lit');
+    pop?.el.remove();
+    pinned?.classList.remove('is-open');
+    for (const row of all) row.classList.remove('is-lit');
     pop = null;
     pinned = null;
   }
@@ -968,8 +937,8 @@
   }
 
   function stick(node, how) {
-    pop.classList.add('is-pinned');
-    pop._hint.textContent = hint(true, how);
+    pop.el.classList.add('is-pinned');
+    pop.hint.textContent = hint(true, how);
     pinned = node;
     node.classList.add('is-open');
   }
@@ -977,65 +946,64 @@
   /* Let go, and leave the card up: the pointer or the focus is still on
      the circle, so it is back to being a card that is pointed at. */
   function unstick(how) {
-    pop.classList.remove('is-pinned');
-    pop._hint.textContent = hint(false, how);
+    pop.el.classList.remove('is-pinned');
+    pop.hint.textContent = hint(false, how);
     pinned.classList.remove('is-open');
     pinned = null;
   }
 
-  function openPop(node, pin, how) {
-    var row = node._row;
-    if (pop && pop._for === node) {
+  function openPop(node, row, pin, how) {
+    if (pop?.node === node) {
       if (pin) stick(node, how);
       return;
     }
     closePop();
 
-    pop = document.createElement('div');
-    pop.className = 'cr-pop';
-    pop.setAttribute('aria-hidden', 'true');   /* the button is already described by the row */
-    pop.innerHTML = row.innerHTML;
-    pop._hint = document.createElement('p');
-    pop._hint.className = 'cr-hint';
-    pop._hint.textContent = hint(false, how);
-    pop.appendChild(pop._hint);
-    pop._for = node;
-    plan.appendChild(pop);
+    const el = document.createElement('div');
+    el.className = 'cr-pop';
+    el.setAttribute('aria-hidden', 'true');   /* the button is already described by the row */
+    el.innerHTML = row.innerHTML;
+    const tip = document.createElement('p');
+    tip.className = 'cr-hint';
+    tip.textContent = hint(false, how);
+    el.append(tip);
+    pop = { el, hint: tip, node };
+    plan.append(el);
     row.classList.add('is-lit');
 
     if (pin) stick(node, how);
 
     /* Above the seat when there is room, below it when there is not, and
        never off either edge of the plan. */
-    var P = plan.getBoundingClientRect();
-    var N = node.getBoundingClientRect();
-    var w = pop.offsetWidth;
-    var h = pop.offsetHeight;
-    var cx = N.left + N.width / 2 - P.left;
-    var left = Math.max(10, Math.min(P.width - w - 10, cx - w / 2));
-    var above = N.top - P.top - h - 14;
+    const P = plan.getBoundingClientRect();
+    const N = node.getBoundingClientRect();
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const cx = N.left + N.width / 2 - P.left;
+    const left = Math.max(10, Math.min(P.width - w - 10, cx - w / 2));
+    const above = N.top - P.top - h - 14;
     /* "Room" is measured from the foot of the bar of moments, which is
        stuck to the top of the window and would otherwise sit on the card. */
-    var clear = bar.getBoundingClientRect().bottom + 10;
-    var top = (N.top - h - 14 > clear) ? above : (N.bottom - P.top + 14);
+    const clear = bar.getBoundingClientRect().bottom + 10;
+    let top = (N.top - h - 14 > clear) ? above : (N.bottom - P.top + 14);
     /* A part of the room can be taller than the window has room for
        either way. Then the card sits over it, at its head. */
     if (N.height > 120 && N.top - h - 14 <= clear) top = N.top - P.top + 14;
-    pop.style.left = left + 'px';
-    pop.style.top = top + 'px';
+    el.style.left = `${left}px`;
+    el.style.top = `${top}px`;
   }
 
-  function wire(node) {
-    node.addEventListener('pointerenter', function (e) {
-      if (e.pointerType === 'mouse' && !pinned) openPop(node, false, 'mouse');
+  function wire(node, row) {
+    node.addEventListener('pointerenter', (e) => {
+      if (e.pointerType === 'mouse' && !pinned) openPop(node, row, false, 'mouse');
     });
-    node.addEventListener('pointerleave', function (e) {
+    node.addEventListener('pointerleave', (e) => {
       if (e.pointerType === 'mouse' && !pinned) closePop();
     });
-    node.addEventListener('focus', function () { if (!pinned) openPop(node, false, via); });
-    node.addEventListener('blur', function () { if (!pinned) closePop(); });
-    node.addEventListener('click', function () {
-      if (pinned !== node) { openPop(node, true, via); return; }
+    node.addEventListener('focus', () => { if (!pinned) openPop(node, row, false, via); });
+    node.addEventListener('blur', () => { if (!pinned) closePop(); });
+    node.addEventListener('click', () => {
+      if (pinned !== node) { openPop(node, row, true, via); return; }
       /* A second press lets it go. A finger has no "still pointing at
          it" to fall back to, so for a finger letting go is closing. */
       if (via === 'touch') closePop();
@@ -1045,87 +1013,95 @@
 
   /* Both in the capture phase, so that `via` is already right by the
      time a circle hears about the same press. */
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener('keydown', (e) => {
     via = 'key';
     if (e.key === 'Escape' && pop) closePop();
   }, true);
 
-  document.addEventListener('pointerdown', function (e) {
+  document.addEventListener('pointerdown', (e) => {
     via = e.pointerType || 'mouse';
-    if (pinned && !pinned.contains(e.target) && !(pop && pop.contains(e.target))) closePop();
+    if (pinned && !pinned.contains(e.target) && !pop?.el.contains(e.target)) closePop();
   }, true);
 
   /* ── seating ── */
   function button(row, cls) {
-    var node = document.createElement('button');
+    const node = document.createElement('button');
     node.type = 'button';
-    node.className = 'cr-node' + (cls ? ' ' + cls : '');
-    node.setAttribute('aria-label', text(row.querySelector('.cr-role')) + ': ' + text(row.querySelector('.cr-name')));
+    node.className = cls ? `cr-node ${cls}` : 'cr-node';
+    node.setAttribute('aria-label', `${text(row.querySelector('.cr-role'))}: ${text(row.querySelector('.cr-name'))}`);
     node.setAttribute('aria-describedby', row.id);
-    node._row = row;
     return node;
   }
 
   function frame(node, x0, y0, x1, y1) {
-    node.style.left = (x0 / view.width * 100) + '%';
-    node.style.top = (y0 / view.height * 100) + '%';
-    node.style.width = ((x1 - x0) / view.width * 100) + '%';
-    node.style.height = ((y1 - y0) / view.height * 100) + '%';
+    node.style.left = `${x0 / view.width * 100}%`;
+    node.style.top = `${y0 / view.height * 100}%`;
+    node.style.width = `${(x1 - x0) / view.width * 100}%`;
+    node.style.height = `${(y1 - y0) / view.height * 100}%`;
   }
 
   function place(row, st) {
-    var seat = row.getAttribute('data-seat');
+    const seat = row.dataset.seat;
+    const side = row.dataset.side;
+    const jury = seat === 'jury';
     /* A jury is a frame round its seats and not a circle, so it does not
        take the circle's three fills. Its dots carry the difference. */
-    var node = button(row, seat === 'jury' ? 'cr-node-group' + (st === 'in' ? '' : ' is-ghost') : 'is-' + (st === 'away' ? 'case' : st));
-    node.setAttribute('data-side', row.getAttribute('data-side'));
+    const node = button(row, jury
+      ? `cr-node-group${st === 'in' ? '' : ' is-ghost'}`
+      : `is-${st === 'away' ? 'case' : st}`);
+    node.dataset.side = side;
 
-    if (seat === 'jury') {
+    if (jury) {
       /* One frame round the seats this row speaks for. */
-      var range = (row.getAttribute('data-jury') || '').split('-');
-      var jurors = svg.querySelectorAll('.cr-seat-j');
-      var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-      for (var i = 0; i < jurors.length; i++) {
-        var n = +jurors[i].getAttribute('data-juror');
-        if (n < +range[0] || n > +range[1]) continue;
-        var cx = jurors[i].cx.baseVal.value, cy = jurors[i].cy.baseVal.value;
-        x0 = Math.min(x0, cx); x1 = Math.max(x1, cx);
-        y0 = Math.min(y0, cy); y1 = Math.max(y1, cy);
-        var side = row.getAttribute('data-side');
-        jurors[i].classList.add('is-on');
-        if (side !== 'n') jurors[i].classList.add('is-' + side);
-        if (st !== 'in') jurors[i].classList.add('is-ghost');
+      const [first, last] = (row.dataset.jury || '').split('-').map(Number);
+      let x0 = Infinity;
+      let y0 = Infinity;
+      let x1 = -Infinity;
+      let y1 = -Infinity;
+      for (const juror of jurors) {
+        const n = Number(juror.dataset.juror);
+        if (n < first || n > last) continue;
+        const cx = juror.cx.baseVal.value;
+        const cy = juror.cy.baseVal.value;
+        x0 = Math.min(x0, cx);
+        x1 = Math.max(x1, cx);
+        y0 = Math.min(y0, cy);
+        y1 = Math.max(y1, cy);
+        juror.classList.add('is-on');
+        if (side !== 'n') juror.classList.add(`is-${side}`);
+        if (st !== 'in') juror.classList.add('is-ghost');
       }
       frame(node, x0 - 19, y0 - 19, x1 + 19, y1 + 19);
     } else {
-      var c = svg.querySelector('.cr-seat[data-seat="' + seat + '"]');
+      const c = seats.get(seat);
       if (!c) return null;
-      node.style.left = (c.cx.baseVal.value / view.width * 100) + '%';
-      node.style.top = (c.cy.baseVal.value / view.height * 100) + '%';
+      node.style.left = `${c.cx.baseVal.value / view.width * 100}%`;
+      node.style.top = `${c.cy.baseVal.value / view.height * 100}%`;
     }
 
-    plan.appendChild(node);
-    wire(node);
+    plan.append(node);
+    wire(node, row);
     return node;
   }
 
   /* A part of the room, as one thing to point at: the question mark in
      its corner, and the whole of it as the target. */
   function placeZone(row) {
-    var z = svg.querySelector('.cr-zone[data-zone="' + row.getAttribute('data-zone') + '"]');
+    const z = zones.get(row.dataset.zone);
     if (!z) return null;
-    var node = button(row, 'cr-node-zone');
-    var x = z.x.baseVal.value, y = z.y.baseVal.value;
+    const node = button(row, 'cr-node-zone');
+    const x = z.x.baseVal.value;
+    const y = z.y.baseVal.value;
     frame(node, x, y, x + z.width.baseVal.value, y + z.height.baseVal.value);
-    var q = document.createElement('span');
+    const q = document.createElement('span');
     q.className = 'cr-q';
     q.setAttribute('aria-hidden', 'true');
     q.textContent = '?';
-    node.appendChild(q);
+    node.append(q);
     /* Before the people, so that anyone sitting in this part of the
        room is on top of it and can still be pointed at. */
     plan.insertBefore(node, plan.querySelector('.cr-node'));
-    wire(node);
+    wire(node, row);
     return node;
   }
 
@@ -1133,83 +1109,83 @@
      Spread by a fixed stride so that a few look like a few, and so the
      same moment always draws the same room. */
   function crowd(level) {
-    var pubs = svg.querySelectorAll('.cr-pub');
-    var want = level === 'full' ? pubs.length : level === 'some' ? Math.round(pubs.length / 2) : level === 'few' ? Math.round(pubs.length / 4) : 0;
-    for (var i = 0; i < pubs.length; i++) pubs[i].setAttribute('class', 'cr-pub');
-    for (var k = 0; k < want; k++) pubs[(k * 7) % pubs.length].setAttribute('class', 'cr-pub is-on');
+    const want = level === 'full' ? pubs.length
+      : level === 'some' ? Math.round(pubs.length / 2)
+      : level === 'few' ? Math.round(pubs.length / 4)
+      : 0;
+    const on = new Set();
+    for (let k = 0; k < want; k++) on.add((k * 7) % pubs.length);
+    pubs.forEach((pub, k) => pub.classList.toggle('is-on', on.has(k)));
   }
 
   function seatRoom(i) {
     closePop();
-    for (var k = 0; k < nodes.length; k++) plan.removeChild(nodes[k]);
+    for (const node of nodes) node.remove();
     nodes = [];
 
-    var jurors = svg.querySelectorAll('.cr-seat-j');
-    for (var j = 0; j < jurors.length; j++) jurors[j].setAttribute('class', 'cr-seat cr-seat-j');
+    for (const juror of jurors) juror.setAttribute('class', 'cr-seat cr-seat-j');
 
-    var kind = kindOf(i);
-    var taken = {};
-    var listed = 0;
+    const kind = kindOf(i);
+    const taken = new Set();
+    let listed = 0;
 
-    for (var r = 0; r < rows.length; r++) {
-      var row = rows[r];
-      var here = present(row, i);
-      var st = here ? status(row, i) : '';
+    for (const row of rows) {
+      const here = present(row, i);
+      const st = here ? status(row, i) : '';
       /* The list is who was in the room, in person or on a screen.
          Someone who is in the case and not in the room is still drawn,
          hollow, and their row is what the circle opens. It is only not
          listed. */
-      var inRoom = st === 'in' || st === 'remote';
+      const inRoom = st === 'in' || st === 'remote';
       row.hidden = !inRoom;
       if (!here) continue;
       if (inRoom) listed++;
 
-      row.setAttribute('data-status', st === 'away' ? 'case' : st);
-      row._status.textContent = statusText(st, kind);
+      row.dataset.status = st === 'away' ? 'case' : st;
+      statusLine.get(row).textContent = statusText(st, kind);
       /* Only someone actually there fills a part of the room. A person
          who is in the case and not in the room leaves it empty, and
          empty is what the note is for. */
-      if (st === 'in' || st === 'remote') taken[zoneOf(row.getAttribute('data-seat'))] = true;
+      if (inRoom) taken.add(zoneOf(row.dataset.seat));
 
-      var node = place(row, st);
+      const node = place(row, st);
       if (node) nodes.push(node);
     }
 
     /* One note to a part of the room, the first that fits: the specific
        ones are written first in the list. */
-    var noted = {};
-    var level = '';
-    for (var a = 0; a < abouts.length; a++) {
-      var note = abouts[a];
-      var zone = note.getAttribute('data-zone');
-      var when = note.getAttribute('data-when');
-      var show = present(note, i) && !noted[zone] &&
-                 (!when || when.split(/\s+/).indexOf(kind) !== -1) &&
-                 (note.hasAttribute('data-always') || !taken[zone]);
+    const noted = new Set();
+    let level = '';
+    for (const note of abouts) {
+      const zone = note.dataset.zone;
+      const when = note.dataset.when;
+      const fits = present(note, i) && !noted.has(zone) &&
+                   (!when || when.split(/\s+/).includes(kind)) &&
+                   (note.hasAttribute('data-always') || !taken.has(zone));
       /* A note is listed when it is about people: the public, where a
          source says the benches had them. A part of the room that stood
          empty says so on the plan and nowhere else. */
-      var crowded = show && !!note.getAttribute('data-crowd');
+      const crowded = fits && !!note.dataset.crowd;
       note.hidden = !crowded;
-      if (!show) continue;
-      noted[zone] = true;
+      if (!fits) continue;
+      noted.add(zone);
       if (crowded) listed++;
-      if (zone === 'gallery') level = note.getAttribute('data-crowd') || '';
-      var zn = placeZone(note);
-      if (zn) nodes.push(zn);
+      if (zone === 'gallery') level = note.dataset.crowd || '';
+      const node = placeZone(note);
+      if (node) nodes.push(node);
     }
     crowd(level);
 
     /* Most moments are steps taken on paper, so most of the time the
        list is this one line, and it says which kind of nobody it is. */
-    var none = list.querySelector('.cr-empty');
+    let none = list.querySelector('.cr-empty');
     if (listed) {
-      if (none) list.removeChild(none);
+      none?.remove();
     } else {
       if (!none) {
         none = document.createElement('li');
         none.className = 'cr-empty';
-        list.appendChild(none);
+        list.append(none);
       }
       none.textContent = i < opens ? 'Nobody yet.'
         : kind === 'court' ? 'Nobody is recorded in the room on this date.'
@@ -1220,17 +1196,17 @@
 
   /* ── the moment ── */
   function roomLine(i, m) {
-    var room = panel.querySelector('.cm-room');
-    var s = sits[m.id];
-    var tag, body;
+    const s = sits.get(m.id);
+    let tag;
+    let body;
     if (i < opens) {
       tag = 'Before the case';
       body = 'This is before the case reached a court, so the room is empty.';
     } else if (s) {
       tag = s.kind === 'court' ? 'In court' : 'Not in this room';
-      var t = s.li.querySelector('.cr-sit-t');
-      var c = s.li.querySelector('.cr-cite');
-      body = (t ? t.innerHTML : '') + (c ? ' <span class="cr-cite">' + c.innerHTML + '</span>' : '');
+      const t = s.li.querySelector('.cr-sit-t');
+      const c = s.li.querySelector('.cr-cite');
+      body = (t ? t.innerHTML : '') + (c ? ` <span class="cr-cite">${c.innerHTML}</span>` : '');
     } else if (m.side === 'n') {
       tag = 'Outside court';
       body = 'This did not happen in a courtroom. The people drawn are the ones in the case at this point.';
@@ -1238,85 +1214,86 @@
       tag = 'On paper';
       body = 'Nothing was heard in court on this date. The step was taken in writing, and the people drawn are the ones in the case at this point.';
     }
-    room.innerHTML = '<span class="cm-room-k">' + tag + '</span> ' + body;
-    room.setAttribute('data-kind', i < opens ? 'before' : s ? s.kind : 'paper');
+    cm.room.innerHTML = `<span class="cm-room-k">${tag}</span> ${body}`;
+    cm.room.dataset.kind = i < opens ? 'before' : s ? s.kind : 'paper';
   }
 
-  function show(i) {
-    i = Math.max(0, Math.min(moments.length - 1, i));
+  function show(to) {
+    const last = moments.length - 1;
+    const i = Math.max(0, Math.min(last, to));
     if (i === now) return;
     now = i;
-    var m = moments[i];
+    const m = moments[i];
 
-    var last = moments.length - 1;
-    line.style.left = (last ? i / last * 100 : 50) + '%';
+    line.style.left = `${last ? i / last * 100 : 50}%`;
     prev.disabled = i === 0;
     next.disabled = i === last;
 
     track.setAttribute('aria-valuenow', i + 1);
-    track.setAttribute('aria-valuetext', m.date + ': ' + m.title);
+    track.setAttribute('aria-valuetext', `${m.date}: ${m.title}`);
 
-    panel.querySelector('.cm-n').textContent = (i + 1) + ' of ' + moments.length;
-    panel.querySelector('.cm-date').textContent = m.date;
-    var who = panel.querySelector('.cm-who');
-    who.textContent = (names[m.side] || '') + (m.ruling ? ' · ' + m.ruling : '');
-    who.setAttribute('data-side', m.side);
-    panel.querySelector('.cm-h').textContent = m.title;
-    panel.querySelector('.cm-b').innerHTML = m.body;
+    cm.n.textContent = `${i + 1} of ${moments.length}`;
+    cm.date.textContent = m.date;
+    cm.who.textContent = (names[m.side] || '') + (m.ruling ? ` · ${m.ruling}` : '');
+    cm.who.dataset.side = m.side;
+    cm.title.textContent = m.title;
+    cm.body.innerHTML = m.body;
     roomLine(i, m);
-    panel.querySelector('.cm-link').href = src + '#' + m.id;
+    cm.link.href = `${src}#${m.id}`;
 
-    var areas = svg.querySelectorAll('.cr-area');
-    for (var a = 0; a < areas.length; a++) {
-      areas[a].classList.toggle('is-acting', i >= opens && areas[a].getAttribute('data-area') === m.side);
+    for (const area of areas) {
+      area.classList.toggle('is-acting', i >= opens && area.dataset.area === m.side);
     }
 
     seatRoom(i);
   }
 
-  /* ── the bar ── */
+  /* ── the bar ──
+     Drawn once, and again only when its width has changed, which is the
+     one thing the spacing of the year labels depends on. */
   function build() {
-    var last = moments.length - 1;
-    var width = ticks.clientWidth || 1;
-    var html = '';
-    var years = [];
-    for (var i = 0; i < moments.length; i++) {
-      var m = moments[i];
-      var x = (last ? i / last * 100 : 50);
-      html += '<i class="ct-tick ct-tick-' + m.side + (m.key ? ' is-key' : '') +
-              (i < opens ? ' is-before' : '') + (kindOf(i) === 'court' ? ' is-court' : '') +
-              '" style="left:' + x + '%"></i>';
+    const width = ticks.clientWidth || 1;
+    if (width === spacedFor) return;
+    spacedFor = width;
+
+    const last = moments.length - 1;
+    const years = [];
+    let html = '';
+    moments.forEach((m, i) => {
+      const x = last ? i / last * 100 : 50;
+      html += `<span class="ct-tick ct-tick-${m.side}${m.key ? ' is-key' : ''}` +
+              `${i < opens ? ' is-before' : ''}${kindOf(i) === 'court' ? ' is-court' : ''}` +
+              `" style="left:${x}%"></span>`;
 
       /* A year is written where it begins. Two that begin within a
          label's width of each other cannot both be read, so the earlier
          one gives way: it is the one with the fewest entries under it. */
-      var y = (m.date.match(/\b(19|20)\d\d\b/) || [''])[0];
-      if (y && (!years.length || years[years.length - 1].y !== y)) {
-        if (years.length && (x - years[years.length - 1].x) / 100 * width < 36) years.pop();
-        years.push({ y: y, x: x });
+      const y = m.date.match(/\b(19|20)\d\d\b/)?.[0];
+      if (y && years.at(-1)?.y !== y) {
+        if (years.length && (x - years.at(-1).x) / 100 * width < 36) years.pop();
+        years.push({ y, x });
       }
-    }
-    for (var k = 0; k < years.length; k++) {
-      html += '<span class="ct-year' + (years[k].x > 90 ? ' ct-year-end' : '') +
-              '" style="left:' + years[k].x + '%">' + years[k].y + '</span>';
+    });
+    for (const { y, x } of years) {
+      html += `<span class="ct-year${x > 90 ? ' ct-year-end' : ''}" style="left:${x}%">${y}</span>`;
     }
     ticks.innerHTML = html;
-    ticks.appendChild(line);       /* inside the same inset box as the ticks */
+    ticks.append(line);       /* inside the same inset box as the ticks */
     track.setAttribute('aria-valuemax', moments.length);
   }
 
   function nearest(clientX) {
-    var r = ticks.getBoundingClientRect();
-    var t = (clientX - r.left) / r.width;
+    const r = ticks.getBoundingClientRect();
+    const t = (clientX - r.left) / r.width;
     return Math.round(Math.max(0, Math.min(1, t)) * (moments.length - 1));
   }
 
   function controls() {
-    prev.addEventListener('click', function () { show(now - 1); });
-    next.addEventListener('click', function () { show(now + 1); });
+    prev.addEventListener('click', () => show(now - 1));
+    next.addEventListener('click', () => show(now + 1));
 
-    track.addEventListener('keydown', function (e) {
-      var to = null;
+    track.addEventListener('keydown', (e) => {
+      let to = null;
       if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') to = now - 1;
       else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') to = now + 1;
       else if (e.key === 'PageDown') to = now - 5;
@@ -1328,26 +1305,28 @@
       show(to);
     });
 
-    var dragging = false;
-    track.addEventListener('pointerdown', function (e) {
+    let dragging = false;
+    track.addEventListener('pointerdown', (e) => {
       if (e.button) return;
       endTour();
       dragging = true;
       bar.classList.add('is-dragging');
-      if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
+      track.setPointerCapture(e.pointerId);
       show(nearest(e.clientX));
     });
-    track.addEventListener('pointermove', function (e) {
+    track.addEventListener('pointermove', (e) => {
       if (dragging) show(nearest(e.clientX));
     });
-    var stop = function () {
+    const stop = () => {
       dragging = false;
       bar.classList.remove('is-dragging');
     };
     track.addEventListener('pointerup', stop);
     track.addEventListener('pointercancel', stop);
 
-    /* The year labels are spaced for a width, so a new width respaces them. */
+    /* The year labels are spaced for a width, so a new width respaces
+       them. A resize that leaves the width alone, which is what a phone
+       sends every time its address bar slides away, redraws nothing. */
     window.addEventListener('resize', build);
   }
 
@@ -1365,50 +1344,49 @@
      Putting a finger down does not, because that is also how a phone is
      scrolled. A reader who has asked for less motion is not shown it at
      all. */
-  root.addEventListener('click', endTour, true);
-  root.addEventListener('keydown', endTour, true);
-
   function endTour() {
     if (!touring) return;
     touring = false;
     clearTimeout(tourTimer);
-    if (tourWatch) tourWatch.disconnect();
+    tourWatch?.disconnect();
     tourWatch = null;
     bar.classList.remove('is-touring');
   }
 
-  function tour() {
-    var last = moments.length - 1;
-    if (last < 3 || (still && still.matches)) return;
+  root.addEventListener('click', endTour, true);
+  root.addEventListener('keydown', endTour, true);
 
-    var gap = Math.max(2, Math.round(last / 4));
-    function pick(a, b) {
-      var ok = [];
-      for (var i = 0; i <= last; i++) {
-        if (Math.abs(i - a) >= gap && (b == null || Math.abs(i - b) >= gap)) ok.push(i);
+  function tour() {
+    const last = moments.length - 1;
+    if (last < 3 || still.matches) return;
+
+    const gap = Math.max(2, Math.round(last / 4));
+    const pick = (a, b) => {
+      const ok = [];
+      for (let i = 0; i <= last; i++) {
+        if (Math.abs(i - a) >= gap && (b === undefined || Math.abs(i - b) >= gap)) ok.push(i);
       }
       if (!ok.length) return a < last / 2 ? last : 0;
       return ok[Math.floor(Math.random() * ok.length)];
-    }
-    var first = pick(opens);
-    var stops = [first, pick(first, opens), opens];
+    };
+    const first = pick(opens);
+    const stops = [first, pick(first, opens), opens];
 
-    function hop() {
+    const hop = () => {
       show(stops.shift());
       /* After the last one, long enough for the line to finish its way
          back before it is given its own speed again. */
       tourTimer = setTimeout(stops.length ? hop : endTour, stops.length ? 1250 : 700);
-    }
+    };
 
-    function begin() {
+    const begin = () => {
       bar.classList.add('is-touring');
       tourTimer = setTimeout(hop, 700);
-    }
+    };
 
     touring = true;
-    if (!window.IntersectionObserver) { begin(); return; }
-    tourWatch = new IntersectionObserver(function (seen) {
-      if (!seen[seen.length - 1].isIntersecting) return;
+    tourWatch = new IntersectionObserver((seen) => {
+      if (!seen.at(-1).isIntersecting) return;
       tourWatch.disconnect();
       tourWatch = null;
       begin();
@@ -1416,42 +1394,45 @@
     tourWatch.observe(bar);
   }
 
-  fetch(src, { credentials: 'same-origin' }).then(function (res) {
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.text();
-  }).then(function (html) {
-    read(new DOMParser().parseFromString(html, 'text/html'));
-    if (!moments.length) return;
+  let page;
+  try {
+    const res = await fetch(src);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    page = await res.text();
+  } catch {
+    return;       /* the page stays a plan and two lists */
+  }
 
-    readSittings();
+  read(new DOMParser().parseFromString(page, 'text/html'));
+  if (!moments.length) return;
 
-    var o = index[root.getAttribute('data-opens')];
-    opens = o == null ? 0 : o;
+  readSittings();
 
-    /* Each person's row gets a line saying which of the three they are
-       at this moment. Made once, here, and rewritten as the line moves. */
-    for (var r = 0; r < rows.length; r++) {
-      var st = document.createElement('p');
-      st.className = 'cr-status';
-      rows[r].insertBefore(st, rows[r].firstChild);
-      rows[r]._status = st;
-    }
+  opens = index.get(root.dataset.opens) ?? 0;
 
-    /* Shown before it is built, because the year labels are spaced by
-       the bar's measured width. */
-    bar.hidden = false;
-    panel.hidden = false;
-    if (legend) legend.hidden = false;
-    if (days) days.hidden = true;     /* each day now shows under its own moment */
-    build();
-    controls();
+  /* Each person's row gets a line saying which of the three they are
+     at this moment. Made once, here, and rewritten as the line moves. */
+  for (const row of rows) {
+    const st = document.createElement('p');
+    st.className = 'cr-status';
+    row.prepend(st);
+    statusLine.set(row, st);
+  }
 
-    /* Start where the room first has anyone in it. A reader can step
-       back into the empty part; they should not have to step through
-       it to find out what this view does. */
-    show(opens);
-    tour();
-  }).catch(function () { /* the page stays a plan and two lists */ });
+  /* Shown before it is built, because the year labels are spaced by
+     the bar's measured width. */
+  bar.hidden = false;
+  panel.hidden = false;
+  if (legend) legend.hidden = false;
+  if (days) days.hidden = true;     /* each day now shows under its own moment */
+  build();
+  controls();
+
+  /* Start where the room first has anyone in it. A reader can step
+     back into the empty part; they should not have to step through
+     it to find out what this view does. */
+  show(opens);
+  tour();
 })();
 
 /* ── corrections ──
@@ -1474,66 +1455,63 @@
    alike, and this turns it on. With no JavaScript the form says it cannot
    send, and sends nothing. */
 
-(function () {
-  'use strict';
-
-  var form = document.getElementById('fix-form');
+(() => {
+  const form = document.getElementById('fix-form');
   if (!form) return;
 
-  var CASE = document.body.getAttribute('data-case') || '';
+  const CASE = document.body.dataset.case || '';
   if (!CASE) return;          /* no case, nothing to file a correction against */
 
-  var ENDPOINT = '/api/suggest/case';
-  var COOLDOWN_MS = 4000;
+  const ENDPOINT = '/api/suggest/case';
+  const COOLDOWN_MS = 4000;
 
-  var status = document.getElementById('fix-status');
-  var send = form.querySelector('.fix-send');
-  var detail = form.querySelector('[name="detail"]');
-  var source = form.querySelector('[name="source"]');
-  var last = 0;
+  const status = document.getElementById('fix-status');
+  const send = form.querySelector('.fix-send');
+  const detail = form.querySelector('[name="detail"]');
+  const source = form.querySelector('[name="source"]');
+  let last = 0;
 
   function say(text, kind) {
     status.textContent = text;
     status.classList.remove('is-error', 'is-success');
-    if (kind) status.classList.add('is-' + kind);
+    if (kind) status.classList.add(`is-${kind}`);
   }
 
   /* "example.com/x" is a link with the scheme left off, not a typo. Say so
      rather than refusing it after the round trip. */
-  function bareDomain(v) {
-    return /^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)*\.[a-z]{2,}(\/.*)?$/i.test(v);
-  }
+  const bareDomain = (v) => /^[a-z0-9][a-z0-9-]*(\.[a-z0-9-]+)*\.[a-z]{2,}(\/.*)?$/i.test(v);
 
-  source.addEventListener('input', function () {
-    var v = source.value.trim();
-    var bad = v !== '' && !/^https?:\/\//i.test(v);
+  source.addEventListener('input', () => {
+    const v = source.value.trim();
+    const bad = v !== '' && !/^https?:\/\//i.test(v);
     source.classList.toggle('is-invalid', bad);
     if (bad) say(bareDomain(v) ? 'Add https:// to the link, or clear it.' : 'That link needs to start with http:// or https://', 'error');
     else if (status.classList.contains('is-error')) say('', null);
   });
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (source.classList.contains('is-invalid')) return;
 
-    var now = Date.now();
+    const now = Date.now();
     if (now - last < COOLDOWN_MS) return;
 
-    var data = new FormData(form);
+    const data = new FormData(form);
+    const field = (name) => String(data.get(name) ?? '');
 
     /* Honeypot. Accept and discard, so a bot never learns it was caught. */
-    if ((data.get('website') || '').toString().trim() !== '') {
+    if (field('website').trim() !== '') {
       say('Sent. Thank you.', 'success');
       form.reset();
       return;
     }
 
-    var body = {
-      'case': CASE,
-      kind: (data.get('kind') || '').toString(),
-      detail: (data.get('detail') || '').toString().trim(),
-      source: (data.get('source') || '').toString().trim(),
+    const body = {
+      case: CASE,
+      kind: field('kind'),
+      detail: field('detail').trim(),
+      source: field('source').trim(),
       website: ''
     };
 
@@ -1545,40 +1523,39 @@
 
     last = now;
     send.disabled = true;
-    var label = send.textContent;
+    const label = send.textContent;
     send.textContent = 'Sending…';
     say('', null);
 
-    fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    }).then(function (res) {
-      if (res.ok) return null;
-      /* Surface the service's own message when it has one, so the reader
-         can fix the thing rather than guess. */
-      return res.json().catch(function () { return null; }).then(function (b) {
-        throw new Error((b && b.error) || 'HTTP ' + res.status);
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
       });
-    }).then(function () {
+      if (!res.ok) {
+        /* Surface the service's own message when it has one, so the reader
+           can fix the thing rather than guess. */
+        const reply = await res.json().catch(() => null);
+        throw new Error(reply?.error || `HTTP ${res.status}`);
+      }
       say('Sent. I read all of these.', 'success');
       form.reset();
       source.classList.remove('is-invalid');
-    }).catch(function (err) {
-      say(err && err.message ? 'Could not send — ' + err.message
-                             : 'Could not send — try again in a moment.', 'error');
+    } catch (err) {
+      say(err?.message ? `Could not send — ${err.message}`
+                       : 'Could not send — try again in a moment.', 'error');
       last = 0;
-    }).then(function () {
+    } finally {
       send.disabled = false;
       send.textContent = label;
-    });
+    }
   });
 
   send.disabled = false;
 })();
 
-/* The shelf, for a reader with nothing to point with.
-
+/* ── the shelf, for a reader with nothing to point with ──
    A volume's plate comes up when the volume is pointed at, and the plate
    is the only place the hub describes a case. A finger cannot point. It
    can only press, and a press on a link is a visit. So the first tap on
@@ -1598,24 +1575,22 @@
    With no JavaScript every volume is a plain link and the first tap
    goes through. */
 
-(function () {
-  'use strict';
+(() => {
+  const rail = document.querySelector('.shelf-rail');
+  if (!rail) return;
 
-  var rail = document.querySelector('.shelf-rail');
-  if (!rail || !window.matchMedia) return;
+  const noHover = window.matchMedia('(hover: none)');
+  let picked = null;
 
-  var noHover = window.matchMedia('(hover: none)');
-  var picked = null;
-
-  rail.addEventListener('click', function (e) {
-    var bk = e.target.closest ? e.target.closest('.bk') : null;
+  rail.addEventListener('click', (e) => {
+    const bk = e.target.closest?.('.bk');
     if (!bk || bk === picked) return;
     if (e.detail === 0) return;          /* the keyboard made this click */
 
-    var finger = e.pointerType ? e.pointerType === 'touch' : noHover.matches;
+    const finger = e.pointerType ? e.pointerType === 'touch' : noHover.matches;
     if (!finger) return;
 
-    if (picked) picked.classList.remove('is-picked');
+    picked?.classList.remove('is-picked');
     picked = bk;
     bk.classList.add('is-picked');
     e.preventDefault();
