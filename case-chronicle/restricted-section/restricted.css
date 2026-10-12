@@ -1,0 +1,695 @@
+/* ═══════════════════════════════════════════════
+   restricted.css
+   frontendneeded.com/case-chronicle/restricted-section/
+
+   The room behind the old door on the hub. Loaded after chronicle.css,
+   which still does the laying out: this is the hub's masthead and the
+   hub's shelf, with the light turned down and the books left to age.
+
+   Everywhere else the Chronicle is a printed record in daylight. Here
+   it is night and there is one lantern. So the ground is a wall in the
+   dark, the ink is the stock's own colour, and the court's sepia gives
+   way to old gilt, which is what a lamp picks out on a shelf like this
+   one. Neither side ink is used: no volume here belongs to a side.
+
+   Old and knocked about, and no more than that. These are records of
+   wars people are still living through, so the room is worn the way an
+   archive that has been through one is worn: cracked plaster, a mended
+   binding, a burnt one. Nothing here is for fright.
+
+   Three jobs: restate the tokens, hang the lantern, age the shelf.
+   ═══════════════════════════════════════════════ */
+
+/* ── Tokens ──
+   The same names chronicle.css reads, so everything it draws comes out
+   in this room's colours without being told. The secondary steps are
+   set by contrast against the wall, as the originals are against the
+   stock. */
+:root {
+  --paper: #15100a;
+  --bg: var(--paper);
+  --bg-band: #1a130c;
+  --bg-deep: #0e0a07;
+
+  --ink: #ece1ca;
+  --ink-2: rgba(236, 225, 202, 0.9);
+  --muted: rgba(236, 225, 202, 0.78);
+  --faint: rgba(236, 225, 202, 0.6);
+  --rule: rgba(236, 225, 202, 0.14);
+  --rule-soft: rgba(236, 225, 202, 0.07);
+
+  /* Where the Chronicle has the court's sepia, this room has gilt. */
+  --court: #c9a868;
+  --gilt: #d3b26c;
+  --gilt-dim: rgba(211, 178, 108, 0.6);
+  --gilt-line: rgba(211, 178, 108, 0.46);
+
+  /* The lantern: how far along the column it hangs, how long its cord
+     is and how wide it is drawn. Everything that is lit takes its
+     bearings from these three. */
+  --lx: 63%;
+  --cord: 64px;
+  --lamp-w: 116px;
+}
+
+/* ── Base ── */
+
+/* The tooth of the stock was multiplied into paper. Multiplied into a
+   wall this dark it would not show at all, so here it is laid over as
+   light and shade instead. */
+body::after {
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+}
+
+::selection { background: rgba(201, 168, 104, 0.34); }
+
+/* The Chronicle's ring is the moving side's red. No side in here. */
+:focus-visible { outline-color: var(--court); }
+
+.site-nav {
+  border-image: linear-gradient(90deg, transparent, rgba(201, 168, 104, 0.5), transparent) 1;
+}
+
+.site-nav a,
+.nav-dropdown-toggle { color: rgba(236, 225, 202, 0.6); }
+
+.nav-dropdown-menu { box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5); }
+
+.rs-defs { position: absolute; }
+
+/* ═══════════════════════════════════════════════
+   The room
+
+   One box round the masthead and the shelf. The wall is painted on it
+   and the two bands inside go clear, so the lantern's light, which is
+   hung in the second, falls across the first with no edge between
+   them.
+
+   Three layers lie behind everything, in this order: the plaster, the
+   light on it, and the dark the light does not reach. All three are
+   one step under the page, which keeps them beneath every word and
+   every volume without any of those having to be raised.
+   ═══════════════════════════════════════════════ */
+
+.rs-room {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--paper);
+  animation: rs-arrive 1.1s ease-out both;
+}
+
+/* Eyes getting used to it. */
+@keyframes rs-arrive {
+  from { opacity: 0; }
+}
+
+/* The plaster: blotched all over, and cracked from two corners. It is
+   kept quiet on purpose. The shelf is what there is to look at. */
+.rs-room::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 520 420' fill='none' stroke-linejoin='round'%3E%3Cg stroke='%23000' stroke-opacity='.62' stroke-width='1.3'%3E%3Cpath d='M0 46l34 20 24 3 28 27 12 31 36 17 19 35 6 31 28 21 14 36 33 12'/%3E%3Cpath d='M86 96l31-10 22 6 26-14'/%3E%3Cpath d='M153 179l-9 30 6 24-13 28'/%3E%3Cpath d='M178 245l34-6 21 9'/%3E%3C/g%3E%3Cg stroke='%23f1cf96' stroke-opacity='.09' stroke-width='.8'%3E%3Cpath d='M0 47.6l34 20 24 3 28 27 12 31 36 17 19 35 6 31 28 21 14 36 33 12'/%3E%3Cpath d='M86 97.6l31-10 22 6 26-14'/%3E%3C/g%3E%3C/svg%3E") left top / 520px 420px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 360' fill='none' stroke-linejoin='round'%3E%3Cg stroke='%23000' stroke-opacity='.58' stroke-width='1.2'%3E%3Cpath d='M420 300l-30-17-26 5-22-26-31-8-17-30-34-11'/%3E%3Cpath d='M342 262l-8 30 10 22'/%3E%3Cpath d='M294 228l-27 16-9 26'/%3E%3C/g%3E%3Cpath stroke='%23f1cf96' stroke-opacity='.08' stroke-width='.8' d='M420 301.6l-30-17-26 5-22-26-31-8-17-30-34-11'/%3E%3C/svg%3E") right bottom / 420px 360px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560'%3E%3Cfilter id='m' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.5 0 0 0 -.52'/%3E%3C/filter%3E%3Crect width='560' height='560' filter='url(%23m)'/%3E%3C/svg%3E") 0 0 / 560px 560px;
+}
+
+/* The dark the lantern does not reach. Centred where the lantern is,
+   near enough: it is a soft thing and a column's width out is nothing
+   to it. */
+.rs-room::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 78% 92% at 58% 52%, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+.rs-room .masthead { border-bottom-color: var(--rule); }
+
+/* The way out sits over the title rather than beside it, and a little
+   closer to it than a case's does. */
+.rs-room .masthead.masthead-hub { padding: 40px 0 42px; }
+.rs-room .crumb { margin-bottom: 10px; }
+
+.rs-stacks {
+  --pad-top: 76px;
+
+  padding-bottom: 148px;
+  border-bottom: 0;
+}
+
+.rs-stacks .wrap { position: relative; }
+
+/* ── the lantern ──
+   A storm lantern on a cord, hung from the rule under the masthead and
+   a little to the right of the volumes, so its light comes across
+   their spines from that side.
+
+   The box is the cord and the lamp both: the cord is its padding, with
+   a line drawn down it, and the drawing sits underneath. It turns
+   about its top, where it is hung. When the page opens it is still
+   swinging from the door, and it settles. */
+
+.rs-lamp {
+  position: absolute;
+  top: calc(var(--pad-top) * -1);
+  left: var(--lx);
+  width: var(--lamp-w);
+  margin-left: calc(var(--lamp-w) / -2);
+  padding-top: var(--cord);
+  pointer-events: none;
+  background: linear-gradient(#090604, #090604) top center / 1.6px var(--cord) no-repeat;
+  transform-origin: 50% 0;
+  animation: rs-sway 9s both;
+}
+
+.rs-lamp svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* The glare round the glass. The flame is 0.925 of the lamp's width
+   down the drawing. */
+.rs-lamp::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(var(--cord) + var(--lamp-w) * 0.925);
+  width: calc(var(--lamp-w) * 4.4);
+  height: calc(var(--lamp-w) * 4.4);
+  margin: calc(var(--lamp-w) * -2.2) 0 0 calc(var(--lamp-w) * -2.2);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 232, 170, 0.5), rgba(255, 204, 124, 0.2) 34%, rgba(255, 190, 100, 0.06) 66%, rgba(255, 190, 100, 0));
+  mix-blend-mode: screen;
+  animation: rs-flicker 5.3s linear infinite;
+}
+
+.rs-lamp-flame {
+  transform-origin: 40px 83px;
+  animation: rs-flame 2.7s ease-in-out infinite;
+}
+
+/* Its light on the wall: one wide pool, centred on the flame. */
+.rs-light {
+  position: absolute;
+  left: var(--lx);
+  top: calc(var(--cord) + var(--lamp-w) * 0.925 - var(--pad-top));
+  z-index: -1;
+  width: 1700px;
+  height: 1400px;
+  margin: -700px 0 0 -850px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 200, 118, 0.5) 0, rgba(250, 182, 98, 0.3) 13%, rgba(226, 150, 72, 0.15) 32%, rgba(190, 116, 50, 0.06) 56%, rgba(190, 116, 50, 0) 80%);
+  animation: rs-sway-light 9s both, rs-flicker 5.3s linear infinite;
+}
+
+/* Left by the door: a swing each way, and less every time. The light
+   goes with the lamp, by about the distance the flame travels. */
+@keyframes rs-sway {
+  0%   { rotate: 2.8deg; animation-timing-function: ease-in-out; }
+  17%  { rotate: -2deg; animation-timing-function: ease-in-out; }
+  34%  { rotate: 1.4deg; animation-timing-function: ease-in-out; }
+  51%  { rotate: -0.9deg; animation-timing-function: ease-in-out; }
+  68%  { rotate: 0.5deg; animation-timing-function: ease-in-out; }
+  84%  { rotate: -0.2deg; animation-timing-function: ease-in-out; }
+  100% { rotate: 0deg; }
+}
+
+@keyframes rs-sway-light {
+  0%   { translate: -9px 0; animation-timing-function: ease-in-out; }
+  17%  { translate: 6.4px 0; animation-timing-function: ease-in-out; }
+  34%  { translate: -4.5px 0; animation-timing-function: ease-in-out; }
+  51%  { translate: 2.9px 0; animation-timing-function: ease-in-out; }
+  68%  { translate: -1.6px 0; animation-timing-function: ease-in-out; }
+  84%  { translate: 0.6px 0; animation-timing-function: ease-in-out; }
+  100% { translate: 0 0; }
+}
+
+/* A flame, so never quite steady. */
+@keyframes rs-flicker {
+  0%, 100% { filter: brightness(1); }
+  7%   { filter: brightness(0.93); }
+  12%  { filter: brightness(1.03); }
+  31%  { filter: brightness(0.96); }
+  38%  { filter: brightness(0.88); }
+  43%  { filter: brightness(1); }
+  64%  { filter: brightness(1.04); }
+  71%  { filter: brightness(0.94); }
+  88%  { filter: brightness(0.98); }
+}
+
+@keyframes rs-flame {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  22% { transform: scale(0.94, 1.05) skewX(-2.4deg); }
+  47% { transform: scale(1.04, 0.95) skewX(1.6deg); }
+  71% { transform: scale(0.97, 1.03) skewX(-1deg); }
+}
+
+/* ═══════════════════════════════════════════════
+   The shelf, older
+
+   chronicle.css lays the rail out and lights the plates. What changes
+   here is what things are made of, an oak board on two iron brackets
+   where the hub has a pale one and volumes in old leather, and where
+   the plate stands.
+   ═══════════════════════════════════════════════ */
+
+/* The board, the brackets under it and the shade the two throw on the
+   wall, all from the one box: its top 26px is the board. Lit along its
+   front edge, most of all under the lantern, and split a third of the
+   way along where something heavy came down on it once. The bracket is
+   one drawing, used at both ends. */
+.rs-stacks .shelf-rail::after {
+  --rs-bracket: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 50'%3E%3Cpath d='M4 0h8v40q0 6-4 9l-3-2q1-3 1-7zM12 2h24l2 5H12zM14 9l19 0L13 36z' fill='%23110d09'/%3E%3Cpath d='M12.8 7.4h23.6' stroke='%23e9a548' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M32 9L13.4 34.6' stroke='%23e9a548' stroke-opacity='.22' stroke-width='.8'/%3E%3Ccircle cx='8' cy='12' r='1.3' fill='%23302720'/%3E%3Ccircle cx='8' cy='32' r='1.3' fill='%23302720'/%3E%3C/svg%3E");
+
+  left: -18px;
+  right: -18px;
+  bottom: -88px;
+  height: 88px;
+  box-shadow: none;
+  background:
+    radial-gradient(ellipse 44% 100% at var(--lx) 0, rgba(255, 216, 152, 0.85), rgba(255, 216, 152, 0)) top / 100% 1.6px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Cpath d='M15 0l4 5-3 6 5 5-2 5 3 5' fill='none' stroke='%23000' stroke-opacity='.8' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M16.4 0l4 5-3 6 5 5-2 5 3 5' fill='none' stroke='%23f1cf96' stroke-opacity='.16' stroke-width='.7' stroke-linejoin='round'/%3E%3Cpath d='M8 0l5 0 2 4-4 1z' fill='%23000' fill-opacity='.7'/%3E%3Cpath d='M19 16l9 1-7 2z' fill='%23000' fill-opacity='.45'/%3E%3C/svg%3E") left 34% top / 40px 26px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='26'%3E%3Cfilter id='g' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .5' numOctaves='3' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.9 0 0 0 -.84'/%3E%3C/filter%3E%3Crect width='300' height='26' filter='url(%23g)'/%3E%3C/svg%3E") top left / 300px 26px repeat-x,
+    linear-gradient(180deg, #644a2f 0, #43301e 34%, #22180f 100%) top / 100% 26px no-repeat,
+    var(--rs-bracket) left 9% top 25px / 40px 50px no-repeat,
+    var(--rs-bracket) right 9% top 25px / 40px 50px no-repeat,
+    linear-gradient(180deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0)) left top 26px / 100% 48px no-repeat;
+}
+
+/* How far the lantern's light gets along the rail: full on the volumes
+   under it and falling away to the left. Over the volumes rather than
+   in them, so a sixth is lit by where it stands and by nothing in its
+   markup. And warmer as well as brighter nearest the lamp, which is the
+   wash of amber laid over the dark.
+
+   The same box carries what has come down off the ceiling onto the
+   board: a few chips of plaster and the dust of it, lying in front of
+   the volumes about where the row ends, and drawn at the rail's own
+   scale so they stay chips when the volumes are small. */
+.rs-stacks .shelf-rail::before {
+  content: '';
+  position: absolute;
+  top: -48px;
+  bottom: -88px;
+  left: -60px;
+  right: 0;
+  z-index: 3;
+  pointer-events: none;
+  /* Run out to nothing at the right-hand end and over the heads of the
+     volumes, so neither the shade nor the wash has an edge: the lantern
+     can hang close to the first, and on a narrow window the plate
+     stands just above the second. */
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 78%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 48px);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, #000 0, #000 78%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 48px);
+  mask-composite: intersect;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cellipse cx='96' cy='10' rx='96' ry='2.2' fill='%23d8c9a8' fill-opacity='.13'/%3E%3Cg fill='%238a7c63'%3E%3Cpath d='M7 10l2-4.4 5-1 3.4 5.4z'/%3E%3Cpath d='M24 10l1-2.2 3.2 0 1 2.2z'/%3E%3Cpath d='M43 10l3-6.4 6.4 2 2 4.4z'/%3E%3Cpath d='M72 10l1-2 2.4 .4 .8 1.6z'/%3E%3Cpath d='M99 10l2-3.2 4.2 .6 1.6 2.6z'/%3E%3Cpath d='M134 10l1-1.8 2.6 0 .6 1.8z'/%3E%3Cpath d='M163 10l2-4.2 4.4-.6 3 4.8z'/%3E%3Cpath d='M188 10l.8-1.6 2 0 .8 1.6z'/%3E%3C/g%3E%3Cg fill='%23f3e2bd' fill-opacity='.36'%3E%3Cpath d='M14 4.6l3.4 5.4h-1.6z'/%3E%3Cpath d='M52.4 5.6l2 4.4h-1.4z'/%3E%3Cpath d='M105.2 7.4l1.6 2.6h-1.2z'/%3E%3Cpath d='M169.4 5.2l3 4.8h-1.4z'/%3E%3C/g%3E%3C/svg%3E") left 53% bottom 88px / calc(200px * var(--bk-scale, 1)) calc(10px * var(--bk-scale, 1)) no-repeat,
+    radial-gradient(ellipse 46% 110% at var(--lx) 34%, rgba(255, 170, 78, 0.2), rgba(255, 170, 78, 0.07) 46%, rgba(255, 170, 78, 0) 78%),
+    linear-gradient(90deg, rgba(8, 5, 3, 0.46) 0, rgba(8, 5, 3, 0.24) 22%, rgba(8, 5, 3, 0.07) 42%, rgba(8, 5, 3, 0) 58%);
+}
+
+/* ── where the plate stands ──
+   The hub has taken its plate off the board and set it on the wall
+   beside the shelf. This one stays where the lantern is: on the board
+   past the last volume, and above the rail when the window is too
+   narrow for that. So the shelf is one column again, the board runs
+   the width of the room, and every entry is set from the board upwards
+   so that its last line stands the same distance over it. These are
+   the rules the hub's shelf had until it moved. */
+.rs-stacks .shelf {
+  display: block;
+  margin-top: 12px;
+  container-type: normal;
+}
+
+.rs-stacks .shelf-rail { padding-right: 0; }
+
+.rs-stacks .shelf-plate {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 172px;
+  margin-top: 0;
+  padding: 0 0 28px;
+}
+
+.rs-stacks .bk-plate {
+  top: auto;
+  bottom: calc(100% + 28px);
+  left: 0;
+  right: 0;
+  width: auto;
+  max-width: 46em;
+}
+
+@media (min-width: 1024px) {
+  /* The reserve is out of flow here and the rail follows the kicker
+     directly, so the air it needs has to be put back. */
+  .rs-stacks .shelf { margin-top: 44px; }
+
+  .rs-stacks .shelf-plate {
+    position: absolute;
+    left: 56%;
+    right: 0;
+    bottom: 0;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .rs-stacks .bk-plate {
+    left: 56%;
+    bottom: 0;
+    max-width: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .rs-stacks .shelf-plate { min-height: 200px; }
+}
+
+@media (max-width: 620px) {
+  .rs-stacks .shelf-plate { min-height: 232px; }
+}
+
+/* Nothing here can raise an entry and this page has no script to pick
+   one, so the room held for it is dead space. The resting line drops to
+   where it falls, and the entries go out of the document. */
+@media (hover: none) {
+  .rs-stacks .shelf-plate { min-height: 0; }
+  .rs-stacks .bk-plate { display: none; }
+}
+
+/* The plate keeps to the left of the lantern while it stands over the
+   rail, and comes out in display type: there is only a name to say. */
+.rs-stacks .plate-rest { max-width: 30em; }
+
+.rs-stacks .bk-plate-t {
+  margin-top: 8px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 40, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.3rem, 2.1vw, 1.7rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.rs-stacks .bk-plate-court::before {
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.5),
+              inset 1px 0 0 rgba(255, 232, 190, 0.2),
+              0 0 0 1px rgba(236, 225, 202, 0.16);
+}
+
+.rs-stacks .pip-soon { background: var(--faint); }
+
+/* ── a volume ──
+   The hub's spine is one box. Here the box is only the shape, and the
+   leather is a layer inside it, because a binding that has been torn
+   or burnt has an outline of its own and the lettering must not be cut
+   by it. The shadow is on the box, so it follows whatever outline the
+   leather has, and it falls to the left: the lantern is on the right. */
+
+.bk-old .sp {
+  background: none;
+  box-shadow: none;
+  isolation: isolate;
+  filter: drop-shadow(-7px 5px 7px rgba(0, 0, 0, 0.6));
+}
+
+.bk-old .sp::before,
+.bk-old .sp::after { content: none; }
+
+.bk-old .sp-head,
+.bk-old .sp-name,
+.bk-old .sp-vol { z-index: 2; }
+
+/* Four layers, from the bottom: the leather, the bands raised in it,
+   the drawing of what has happened to it, and then the light. The
+   light is last so that it falls on the damage too: bare board under a
+   lantern is lit like the leather beside it. */
+.sp-skin {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--bind);
+  /* worn pale down the two joints, where a hand takes hold of it */
+  background-image: linear-gradient(90deg, rgba(226, 196, 148, 0.18) 0, rgba(226, 196, 148, 0) 7%, rgba(226, 196, 148, 0) 92%, rgba(226, 196, 148, 0.26) 100%);
+}
+
+/* Raised bands, where the cords the book is sewn on run under the
+   leather, with a gilt line tooled either side of each. One picture of
+   a band, placed as many times as the binding has them.
+
+   Two pairs by default, at the head and the tail, which leaves the
+   long panel between for a title lettered along the spine. */
+.sp-skin::before {
+  --band: linear-gradient(180deg,
+    rgba(0, 0, 0, 0) 3.7%, var(--gilt-line) 3.7%, var(--gilt-line) 7.4%, rgba(0, 0, 0, 0) 7.4%,
+    rgba(0, 0, 0, 0) 29.6%, rgba(0, 0, 0, 0.5) 31%, rgba(255, 226, 180, 0.36) 39%, rgba(255, 226, 180, 0.12) 55.6%, rgba(0, 0, 0, 0.56) 68.5%, rgba(0, 0, 0, 0) 76%,
+    rgba(0, 0, 0, 0) 92.6%, var(--gilt-line) 92.6%, var(--gilt-line) 96.3%, rgba(0, 0, 0, 0) 96.3%);
+  --band-h: calc(27px * var(--bk-scale, 1));
+
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    var(--band) 0 11% / 100% var(--band-h) no-repeat,
+    var(--band) 0 18.5% / 100% var(--band-h) no-repeat,
+    var(--band) 0 79.5% / 100% var(--band-h) no-repeat,
+    var(--band) 0 87% / 100% var(--band-h) no-repeat;
+}
+
+/* Five, evenly, for a binding old enough to be lettered across. */
+.bk-bands .sp-skin::before {
+  background:
+    var(--band) 0 13% / 100% var(--band-h) no-repeat,
+    var(--band) 0 31% / 100% var(--band-h) no-repeat,
+    var(--band) 0 49% / 100% var(--band-h) no-repeat,
+    var(--band) 0 67% / 100% var(--band-h) no-repeat,
+    var(--band) 0 85% / 100% var(--band-h) no-repeat;
+}
+
+/* The light, and what it shows up: the grain of the leather in pale
+   specks and dark ones, the blotching of it, the lantern strongest at
+   the head of the spine, and the round of the spine with its right
+   side to the lamp. The first three are noise given only an alpha, so
+   they sit on whatever is under them without a blend mode. */
+.sp-skin::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .9 0 0 0 0 .74 .5 0 0 0 -.25'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0 0 0 -.4'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='260'%3E%3Cfilter id='m' x='0' y='0' width='1' height='1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .018' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.1 0 0 0 -.44'/%3E%3C/filter%3E%3Crect width='180' height='260' filter='url(%23m)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, rgba(255, 210, 140, 0.26) 0, rgba(255, 210, 140, 0.1) 26%, rgba(0, 0, 0, 0.04) 60%, rgba(0, 0, 0, 0.32) 100%),
+    linear-gradient(90deg,
+      rgba(0, 0, 0, 0.5) 0,
+      rgba(0, 0, 0, 0.2) 11%,
+      rgba(255, 226, 176, 0.03) 36%,
+      rgba(255, 226, 176, 0.2) 70%,
+      rgba(255, 226, 176, 0.08) 87%,
+      rgba(0, 0, 0, 0.32) 100%);
+}
+
+/* ── what has happened to it ──
+   Each volume carries one small drawing of its own damage, in its own
+   width and height, and these are the inks it is drawn in. */
+.sp-wear {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* scuffed: short pale strokes where something has caught it */
+.w-scuff { fill: none; stroke: #ecd3a4; stroke-opacity: 0.2; stroke-width: 0.8; stroke-linecap: round; }
+/* cracked, and the lip of the crack lifting */
+.w-crack { fill: none; stroke: #070504; stroke-opacity: 0.84; stroke-width: 1.2; stroke-linejoin: round; }
+.w-lift { fill: none; stroke: #ebcf9f; stroke-opacity: 0.26; stroke-width: 0.7; stroke-linejoin: round; }
+/* bare: the leather gone, and what was under it */
+.w-bare { fill: #806c4e; }
+.w-flap { fill: #5a4830; stroke: #070504; stroke-opacity: 0.6; stroke-width: 0.6; }
+.w-cord { fill: none; stroke: #5d4a31; stroke-width: 3.6; }
+.w-thread { fill: none; stroke: #5d4a31; stroke-opacity: 0.4; stroke-width: 0.5; }
+.w-edge { fill: none; stroke: #070504; stroke-opacity: 0.8; stroke-width: 1.8; stroke-linejoin: round; }
+/* burnt: the leather crazed where it shrank, and ash */
+.w-craze { fill: none; stroke: #4a3c2f; stroke-opacity: 0.7; stroke-width: 0.6; stroke-linejoin: round; }
+.w-ash { fill: #c9bfae; fill-opacity: 0.36; }
+/* wet once: the stain, and the line it dried to */
+.w-stain { fill: #070504; fill-opacity: 0.3; }
+.w-tide { fill: none; stroke: #070504; stroke-opacity: 0.5; stroke-width: 1.3; }
+.w-tide-2 { stroke-opacity: 0.22; stroke-width: 1; }
+/* mended: a strip of linen round the spine */
+.w-tape { fill: #b8aa8a; }
+.w-weave { fill: none; stroke: #7d7058; stroke-opacity: 0.55; stroke-width: 0.6; }
+.w-soil { fill: #4a3a25; fill-opacity: 0.34; }
+.w-shade { fill: #070504; fill-opacity: 0.55; }
+
+/* ── the lettering ──
+   Gilt. The hub pressed its names blind into cloth because gold would
+   have been a louder claim than that page makes. This is leather by
+   lamplight, and gold is what was used on it. Rubbed, so it runs
+   brighter and duller along its length.
+
+   The name is painted with a gradient where a browser can clip one to
+   the letters, and in flat gilt where it cannot. */
+.bk-old .sp-name {
+  /* In the middle of its panel whether or not there is a number under
+     it: one of these has lost the leather its number was on. */
+  margin-top: auto;
+  margin-bottom: auto;
+  color: var(--gilt);
+  letter-spacing: 0.035em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .bk-old .sp-name {
+    color: transparent;
+    text-shadow: none;
+    background-image: linear-gradient(180deg, #dcbd76 0, #b39457 17%, #e3c688 30%, #a88a52 46%, #d8b86f 59%, #bb9b5b 77%, #e0c27f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* A shadow under clipped letters would be painted over them, so it
+       is thrown by the finished line instead. */
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.62));
+  }
+}
+
+.bk-old .sp-vol {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 14, 'SOFT' 0, 'WONK' 0;
+  font-weight: 600;
+  font-size: calc(0.8rem * var(--bk-scale, 1));
+  letter-spacing: 0.12em;
+  color: var(--gilt-dim);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* A tool-mark in the head panel where the hub has a pip: a lozenge
+   with a point in it. */
+.bk-old .sp-head::before {
+  content: '';
+  display: block;
+  width: calc(9px * var(--bk-scale, 1));
+  height: calc(9px * var(--bk-scale, 1));
+  rotate: 45deg;
+  border: 1.3px solid var(--gilt-dim);
+  background: radial-gradient(circle, var(--gilt-dim) 0, var(--gilt-dim) 22%, rgba(0, 0, 0, 0) 30%);
+}
+
+/* A volume lettered across. The name, the mark above it and the number
+   below it each take a panel between two bands, so they are placed by
+   the bands' own percentages and not by the spine's flow. */
+.bk-bands .sp-head,
+.bk-bands .sp-name,
+.bk-bands .sp-vol {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 18%;
+}
+
+.bk-bands .sp-head { top: 13%; }
+.bk-bands .sp-vol { top: 67%; }
+
+.bk-bands .sp-name {
+  top: 31%;
+  max-inline-size: none;
+  writing-mode: horizontal-tb;
+  transform: none;
+  font-variation-settings: 'opsz' 14, 'SOFT' 0, 'WONK' 0;
+  /* Not below nine pixels, whatever the rail is scaled to: this is the
+     one line on the shelf a phone cannot make bigger by turning. */
+  font-size: max(9px, calc(0.8rem * var(--bk-scale, 1)));
+  line-height: 1.24;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  background-image: linear-gradient(90deg, #cfae68 0, #e3c688 34%, #b39457 58%, #dcbd76 100%);
+}
+
+/* The ampersand takes a line of its own, as a binder would set it. */
+.bk-bands .sp-name em {
+  display: block;
+  font-size: 1.16em;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── slumped ──
+   Nothing holds the end of the row up, so the last volume has gone
+   over against its neighbour. It turns about the corner it stands on,
+   and the gap it leaves at the foot is the sine of the angle times its
+   own height, less the gap the rail already gives. Slim, because a
+   thick book this upright would right itself. */
+.bk-lean { margin-left: calc(var(--bk-h) * var(--bk-scale, 1) * 0.1908 - 7px); }
+
+.bk-lean .sp {
+  transform-origin: 0 100%;
+  rotate: -11deg;
+}
+
+/* ── narrower ── */
+
+/* Under this the plate is above the rail and not beside it, so the
+   lantern moves out to the right-hand end and the words stop short of
+   it. */
+@media (max-width: 1023px) {
+  :root { --lx: 85%; --cord: 34px; --lamp-w: 96px; }
+
+  .rs-stacks .plate-rest { max-width: 68%; }
+  .rs-stacks .bk-plate { max-width: 68%; }
+}
+
+@media (max-width: 900px) {
+  .rs-stacks { --pad-top: 56px; padding-bottom: 124px; }
+  .rs-room .masthead.masthead-hub { padding: 32px 0 34px; }
+}
+
+@media (max-width: 620px) {
+  :root { --lx: 86%; --cord: 22px; --lamp-w: 64px; }
+  .rs-stacks .plate-rest { max-width: 72%; }
+  .rs-stacks .shelf-rail::after { left: -10px; right: -10px; }
+}
+
+/* The narrowest phones: one more step down, or the fifth volume is off
+   the end of the board. */
+@media (max-width: 350px) {
+  .rs-stacks .shelf-rail { --bk-scale: 0.52; }
+  /* And the lettering across a spine closes up to stay on it. */
+  .bk-bands .sp-name { font-size: 8.5px; letter-spacing: 0.05em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rs-room,
+  .rs-lamp,
+  .rs-lamp::after,
+  .rs-lamp-flame,
+  .rs-light { animation: none; }
+}
+
+/* The hub prints its plates one after another. These say only a name
+   and that nothing is written, so on paper the resting line is enough. */
+@media print {
+  .rs-lamp,
+  .rs-light,
+  .rs-stacks .shelf-rail { display: none; }
+  .rs-stacks .shelf-plate { min-height: 0; margin: 0; padding: 0; }
+}

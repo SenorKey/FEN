@@ -896,50 +896,73 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════
-   The hub — a shelf, and then the catalogue
+   The hub — a shelf, and the plate that goes with it
 
-   The volumes are the quick way in: one binding per case, the name
-   stamped up the spine, and a plate above the rail that fills with
-   whichever volume the reader is pointing at. The ruled rows below
-   carry the same five cases at length, because a shelf is a thing you
-   browse and a catalogue is a thing you read — and a reader with no
-   pointer to hover with is owed the second one in full. Nothing on the
-   rail is the only copy of anything.
+   One binding per case, the name stamped up the spine, and one plate:
+   a box off the shelf that fills with whichever volume the reader is
+   pointing at, and holds a line about all of them when the reader is
+   pointing at none. There is no catalogue under the shelf to say it
+   again, so the plate is the only place a case is described and it
+   has to be reachable every way a volume is: by the pointer, by the
+   Tab key, and by a finger, which chronicle.js gives a first tap to
+   (is-picked, below).
+
+   The plate is off the board. Where there is room it stands on the
+   wall beside the shelf, level with the heads of the volumes; where
+   there is not, it goes under the shelf, the width of the shelf. It is
+   never above it: the shelf is what this page is for and nothing is
+   put in its way.
 
    Every plate is a child of its own volume rather than a sibling of
    the others, so lighting one is .bk:hover .bk-plate and no rule in
-   here ever counts the cases. The price is that the reserve above the
-   rail is a fixed height instead of the tallest plate's: one grid cell
-   would size itself, but only if the plates were siblings, and that is
-   a worse trade than a magic number. The number is in one place and
-   the stylesheet never has to learn there is a sixth case.
+   here ever counts the cases. The price is that the plates cannot
+   share a grid cell and size it between them, so each is placed over
+   the one box by arithmetic, and under the shelf that box is a fixed
+   height instead of the tallest plate's. That is a worse look than a
+   cell that sizes itself and a better trade: the numbers are in one
+   place and the stylesheet never has to learn there is a sixth case.
 
    A case nobody has written yet still gets its volume, bound in plain
    boards and lettered in ink rather than stamped, because an empty
    shelf mark is more honest than a shelf that pretends to be full.
-   The board runs on past the last of them for the same reason.
+   The board runs on past the last of them for the same reason, by
+   about the width of one more, and stops there.
+
+   The Restricted Section stands its plate on the board the way this
+   shelf used to, and restates those rules in its own sheet.
    ═══════════════════════════════════════════════ */
 
+/* One column, as wide as the rail and no wider than the page, with
+   the plate under the rail, until there is room for two. The air above
+   is for the volume that is lifted off the board.
+
+   A container, so that a plate, which hangs from the rail and knows
+   only the rail's width, can be told how wide the whole shelf is. */
 .shelf {
+  --plate-gap: 34px;    /* board to plate, when the plate is underneath */
+  --board: 15px;        /* how thick the board is */
+
   position: relative;
-  margin-top: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, max-content);
+  margin-top: 44px;
+  container-type: inline-size;
 }
 
-/* The reserve. Every plate is positioned into this one box, so the rail
-   cannot shift under the reader as entries of different lengths swap
-   through it. Deep enough for the longest of them at the width where
-   the rail still fits on one row. */
-/* The reserve. Entries are set from the shelf upwards, not from the
-   heading down: whatever its length, an entry's last line sits the same
-   distance above the rail, and the slack it does not use is taken out
-   of the air under the heading where nobody is looking. The height here
-   is only the room that slack is allowed. */
+/* The box the plates are placed over, and where the resting line
+   lives. Under the shelf it holds the room the longest entry needs, so
+   the notes below do not move as entries of different lengths swap
+   through it.
+
+   No width of its own and then all of the column's: a paragraph asked
+   how wide it would like to be says one long line, and the column is
+   the rail's to size. */
 .shelf-plate {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 172px;
-  padding-bottom: 28px;
+  grid-row: 2;
+  width: 0;
+  min-width: 100%;
+  margin-top: calc(var(--board) + var(--plate-gap));
+  min-height: 236px;
 }
 
 .plate-rest { max-width: 44em; }
@@ -951,10 +974,11 @@ body::after {
 
 /* Five of these lie on top of each other here and four are transparent
    at any moment, so none of them may take the pointer — without this
-   the last one in the markup would answer for the whole box. */
+   the last one in the markup would answer for the whole box. Hung from
+   the rail, whose foot is the top of the board. */
 .bk-plate {
   position: absolute;
-  bottom: calc(100% + 28px);
+  top: calc(100% + var(--board) + var(--plate-gap));
   left: 0;
   right: 0;
   max-width: 46em;
@@ -974,8 +998,7 @@ body::after {
 
 /* The binding quoted into the plate: the one mark that says which
    volume on the rail is doing the talking. */
-.bk-plate-court::before,
-.case-row .case-court::before {
+.bk-plate-court::before {
   content: '';
   display: inline-block;
   width: 10px;
@@ -986,6 +1009,26 @@ body::after {
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.35),
               inset 1px 0 0 rgba(255, 255, 255, 0.14);
 }
+
+/* The name, the right way up. A spine is read with the head tilted,
+   and this is the one line that says for certain which volume the
+   plate is talking about. */
+.bk-plate-n {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.7rem, 3.1vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+
+.bk-plate-n em { font-style: italic; font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1; }
+
+/* Not written yet, and set back the way its volume is. */
+.bk-unbound .bk-plate-n { color: var(--muted); }
 
 .bk-plate-t {
   display: block;
@@ -1005,17 +1048,43 @@ body::after {
   color: var(--faint);
 }
 
+/* The way through, for a reader who picked the volume with a finger and
+   so has not gone anywhere yet. A pointer never sees it: a click on the
+   volume has already gone, and the plate cannot be reached to click. */
+.bk-plate-go {
+  display: none;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--court);
+}
+
 .bk:hover .bk-plate,
-.bk:focus-visible .bk-plate {
+.bk:focus-visible .bk-plate,
+.bk.is-picked .bk-plate {
   opacity: 1;
   transform: none;
   transition-delay: 0.06s;
 }
 
+/* Picked, the plate is part of its link and takes the second tap. */
+.bk.is-picked .bk-plate { pointer-events: auto; }
+.bk.is-picked .bk-plate-go { display: block; }
+
+/* A screen that takes both a finger and a pointer can have one volume
+   picked and another pointed at. The pointer is the newer of the two. */
+.shelf-rail:has(.bk:hover) .bk.is-picked:not(:hover) .bk-plate,
+.shelf-rail:has(.bk:focus-visible) .bk.is-picked:not(:focus-visible) .bk-plate {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* The section's own lede is the rail's resting voice. It steps aside
    for a volume and comes back when the pointer leaves. */
 .shelf:has(.bk:hover) .plate-rest,
-.shelf:has(.bk:focus-visible) .plate-rest {
+.shelf:has(.bk:focus-visible) .plate-rest,
+.shelf:has(.bk.is-picked) .plate-rest {
   opacity: 0;
   transform: translateY(-6px);
 }
@@ -1026,10 +1095,14 @@ body::after {
    rail's own top edge, which is the line they all have to meet. */
 .shelf-rail {
   position: relative;
+  grid-row: 1;
   display: flex;
   align-items: flex-end;
   gap: 7px;
-  padding-left: 14px;
+  /* The right-hand one is the board running on, and it is the first
+     thing to give when the volumes need the whole width of a phone. */
+  padding: 0 calc(62px * var(--bk-scale, 1)) 0 14px;
+  max-width: 100%;
 }
 
 /* The board. Drawn under the volumes rather than behind them: the
@@ -1195,7 +1268,8 @@ body::after {
 /* Off the shelf far enough to see it move, not far enough to leave the
    board. */
 .bk:hover .sp,
-.bk:focus-visible .sp { transform: translateY(-15px); }
+.bk:focus-visible .sp,
+.bk.is-picked .sp { transform: translateY(-15px); }
 
 .bk:focus-visible { outline: none; }
 
@@ -1223,73 +1297,71 @@ body::after {
   box-shadow: inset 0 0 0 1.5px rgba(23, 20, 15, 0.38);
 }
 
-/* ── the plate, once there is a shelf wide enough to stand it on ──
+/* ── the plate, once there is room beside the shelf ──
 
-   Above a certain width the volumes stop short of the right-hand end of
-   the board and the entry goes into the gap instead, standing on the
-   same shelf they do. 56% is the near edge: the volumes are fixed
-   widths against a wrap that is not, so their share of the rail peaks
-   at about half when the wrap has narrowed but --bk-scale has not yet
-   stepped down, and the plate starts clear of that worst case rather
-   than of the comfortable one.
+   The plate takes the rest of the row: on the wall, its first line a
+   little under the head of the tallest volume. Set from the top down,
+   so the name is in the same place whichever volume is asked for.
 
-   Below it the gap is not worth having and the entry goes back above
-   the rail, which is also where a phone wants it — there is no pointer
-   there to raise one with anyway. */
+   A plate hangs from the rail, so its left edge is the rail's width
+   plus the gap, and its own width is what the shelf has left: the
+   whole of it (100cqi), less the rail (100%), less the gap. */
 
 @media (min-width: 1024px) {
 
-  /* Here the reserve is out of flow and the rail follows the kicker
-     directly, so the air it needs has to be put back. */
-  .shelf { margin-top: 44px; }
+  .shelf {
+    --plate-gap: 68px;    /* board end to plate, when the plate is beside */
+    --plate-top: 26px;
+
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--plate-gap);
+  }
 
   .shelf-plate {
-    position: absolute;
-    left: 56%;
-    right: 0;
-    bottom: 0;
+    grid-row: 1;
+    grid-column: 2;
+    width: auto;
+    min-width: 0;
+    margin-top: 0;
     min-height: 0;
-    padding-bottom: 0;
+    padding-top: var(--plate-top);
   }
 
   .bk-plate {
-    left: 56%;
-    right: 0;
-    top: auto;
-    bottom: 0;
+    top: var(--plate-top);
+    left: calc(100% + var(--plate-gap));
+    right: auto;
+    width: calc(100cqi - 100% - var(--plate-gap));
     max-width: none;
   }
 }
 
-/* ── the rail, narrowed ── */
+/* ── the rail, narrowed ──
+   And the room held under it, which has to grow as the lines get
+   shorter and an entry takes more of them. */
 
 @media (max-width: 1080px) {
   .shelf-rail { --bk-scale: 0.88; }
 }
 
 @media (max-width: 860px) {
-  .shelf-plate { min-height: 200px; }
   .shelf-rail { --bk-scale: 0.78; }
 }
 
 @media (max-width: 620px) {
-  .shelf-plate { min-height: 232px; }
+  .shelf { --plate-gap: 30px; margin-top: 36px; }
+  .shelf-plate { min-height: 264px; }
   .shelf-rail { --bk-scale: 0.62; gap: 5px; padding-left: 8px; }
 }
 
-/* Nothing here can raise an entry, so the room held for one is dead
-   space — and with no section title above it to fill, it reads as a
-   hole rather than as air. The lede drops to where it falls, just under
-   the kicker, and the entries go out of the document entirely so a
-   tap's momentary hover cannot paint one over the heading on its way
-   to the case page. Everything they would have said is in the rows
-   below, in full. Last of the rail's rules, so it wins over the widths.
+@media (max-width: 389px) {
+  .shelf-plate { min-height: 320px; }
+}
 
-   This is a question about the pointer, not the screen: a touch laptop
-   answers hover and keeps its reserve at any width. */
-@media (hover: none) {
-  .shelf-plate { min-height: 0; }
-  .bk-plate { display: none; }
+/* The narrowest phones: one more step down, or the fifth volume is off
+   the end of the board. */
+@media (max-width: 350px) {
+  .shelf-rail { --bk-scale: 0.52; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1298,135 +1370,28 @@ body::after {
   .sp { transition: none; }
   .bk-plate { transform: none; }
   .bk:hover .sp,
-  .bk:focus-visible .sp { transform: none; }
+  .bk:focus-visible .sp,
+  .bk.is-picked .sp { transform: none; }
 }
 
-/* On paper there is no pointer, so the rail is five pictures of things
-   the reader is about to read anyway. The resting lede stays. */
+/* On paper there is no pointer and no shelf worth the ink. The volumes
+   go, and every plate is set out in turn under the resting line, which
+   is the whole of what this page has to say. */
 @media print {
-  .shelf-rail { display: none; }
-  .shelf-plate { min-height: 0; padding-bottom: 0; }
-  .bk-plate { display: none; }
-}
-
-/* ── the catalogue ── */
-
-.case-list {
-  list-style: none;
-  margin: 8px 0 0;
-  border-top: 1px solid var(--rule);
-}
-
-.case-row { border-bottom: 1px solid var(--rule); }
-
-/* One grid for both states, so a case that gets written later lands on
-   exactly the metrics it already had. */
-.case-a {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 190px;
-  gap: 6px 48px;
-  padding: 38px 0 36px;
-  color: inherit;
-  text-decoration: none;
-}
-
-.case-court {
-  grid-column: 1;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-.case-n {
-  grid-column: 1;
-  font-family: var(--display);
-  font-weight: 600;
-  font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0;
-  font-size: clamp(1.9rem, 4.2vw, 2.9rem);
-  line-height: 1.04;
-  letter-spacing: -0.012em;
-  margin: 4px 0 0;
-}
-
-.case-n em { font-style: italic; font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1; }
-
-.case-l {
-  grid-column: 1;
-  max-width: 60ch;
-  color: var(--muted);
-  margin-top: 12px;
-}
-
-/* The status column rides the top line of the row rather than centring
-   against a block whose height depends on how long the lede is. */
-.case-s {
-  grid-column: 2;
-  grid-row: 1 / span 3;
-  align-self: start;
-  font-family: var(--mono);
-  font-size: 0.74rem;
-  line-height: 1.7;
-  color: var(--faint);
-}
-
-.case-s dt {
-  font-size: 0.62rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--faint);
-  opacity: 0.8;
-}
-
-.case-s dd { margin: 0 0 12px; color: var(--ink-2); }
-.case-s dd:last-child { margin-bottom: 0; }
-
-/* The read-through cue. Under the name rather than beside it: the eye is
-   already there, and a row this wide would leave an arrow stranded. */
-.case-go {
-  grid-column: 1;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--court);
-  margin-top: 18px;
-}
-
-.case-go span {
-  display: inline-block;
-  transition: transform 0.18s;
-}
-
-a.case-a:hover .case-n,
-a.case-a:focus-visible .case-n { color: var(--court); }
-a.case-a:hover .case-go span,
-a.case-a:focus-visible .case-go span { transform: translateX(5px); }
-
-a.case-a:focus-visible {
-  outline: 2px solid var(--court);
-  outline-offset: 4px;
-}
-
-/* Not written yet. Set back rather than hidden — the Chronicle says what
-   it intends to cover, and a reader who arrives for one of these learns
-   the truth in one line instead of getting a 404. */
-.case-a.is-soon { opacity: 0.52; }
-.case-a.is-soon .case-n { font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 0; }
-
-.case-soon-t {
-  grid-column: 1;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--faint);
-  margin-top: 18px;
-}
-
-@media (max-width: 860px) {
-  .case-a { grid-template-columns: minmax(0, 1fr); }
-  .case-s { grid-column: 1; grid-row: auto; margin-top: 18px; }
-  .case-s dd { margin-bottom: 8px; }
+  .shelf,
+  .shelf-rail { display: block; }
+  .shelf-rail { padding: 0; }
+  .shelf-rail::after,
+  .sp,
+  .bk-plate-go { display: none; }
+  .shelf-plate { min-height: 0; margin: 0 0 1.6em; padding: 0; }
+  .bk { display: block; width: auto; height: auto; margin-bottom: 1.4em; }
+  .bk-plate {
+    position: static;
+    width: auto;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -2030,6 +1995,340 @@ a.case-a:focus-visible {
 }
 
 /* ═══════════════════════════════════════════════
+   The old door
+
+   One more door, at the foot of the hub, in the wall beside the notes.
+   Nothing on the page says what it is or where it goes, and nothing
+   is meant to: it is there to be noticed and tried.
+
+   It is the courthouse door's mechanism in other wood. The same link,
+   the same four numbers, the same lock and the same script, so every
+   rule below restates one of those. old-door goes on the box the slot
+   stands in, and what follows is only where this door differs: one
+   leaf instead of two, weathered oak and iron for oiled wood and
+   brass, a lamp behind it instead of daylight, and a chain.
+
+   It is always locked. The courtroom's lock says a room has not been
+   used yet, and comes off when it has. This one says nothing about
+   what is kept behind it, so data-door-lock stays on its slot whatever
+   is written in there.
+
+   The frame, the leaf and the room behind them are drawings beside
+   this file, as the courthouse pair are: old-door-frame.svg,
+   old-door-leaf.svg and old-door-room.svg.
+   ═══════════════════════════════════════════════ */
+
+/* The hub's four notes stand two by two with the door beside them, and
+   the door stands on the band's own bottom edge, which is the floor.
+   So the band gives up its padding there and the notes take it. Two
+   classes, because the rule every band takes its padding from comes
+   later in this file. */
+.band.band-notes-door { padding-bottom: 0; }
+
+.notes-door {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: clamp(40px, 7vw, 104px);
+  align-items: end;
+}
+
+.notes-door .notes-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-bottom: 104px;
+}
+
+.old-door {
+  /* One measure, as on the case pages. The frame is drawn 200 by 384. */
+  --dw: clamp(128px, min(42vw, 36vh), 188px);
+  --dh: calc(var(--dw) * 1.92);
+  /* How much of the lamp shows while the door is shut. */
+  --lamp: 0.6;
+
+  position: relative;
+  isolation: isolate;
+}
+
+/* The shade the door throws on the floor, which is the footer. Half as
+   wide again as the door and no wider: the door stands at the end of
+   the column, and anything that reached further would be past the
+   gutter and off the side of the page. */
+.old-door::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: calc(var(--dw) * 1.5);
+  height: calc(var(--dw) * 0.12);
+  transform: translateX(-50%);
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(23, 20, 15, 0), rgba(23, 20, 15, 0.5) 16%, rgba(23, 20, 15, 0.5) 84%, rgba(23, 20, 15, 0))
+      top / 100% 1px no-repeat,
+    radial-gradient(ellipse 50% 100% at 50% 0, rgba(23, 20, 15, 0.22), rgba(23, 20, 15, 0));
+}
+
+/* And the lamplight that gets out under it. */
+.old-door::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 14%;
+  right: 14%;
+  height: calc(var(--dw) * 0.05);
+  pointer-events: none;
+  background: radial-gradient(ellipse 50% 100% at 50% 0, rgba(255, 190, 96, 0.5), rgba(255, 190, 96, 0));
+  animation: old-lamp 5.3s linear infinite;
+}
+
+/* Nothing under this door to keep level with a neighbour's, so none of
+   the case pages' shared rows: three boxes, one inside the next. */
+.old-door .door-slot,
+.old-door .door,
+.old-door .door-case { display: block; }
+
+/* Once the chain is off, the door comes off its latch by its own
+   weight and stands a finger open. Ahead of the two rules that follow
+   and no heavier than them, so the pointer and the choosing still win. */
+.old-door .is-unlocked .door {
+  --swing: 3.4deg;
+  --glow: 0.3;
+}
+
+/* The lamp never goes out, so shut is not dark: --glow only brings the
+   rest of the light up over what is already showing. */
+.old-door .door[href]:hover,
+.old-door .door[href]:focus-visible {
+  --swing: 12deg;
+  --glow: 0.8;
+  --spill: 0.16;
+}
+
+.old-door .door.is-open[href] {
+  --swing: 76deg;
+  --glow: 1;
+  --shade: 0.55;
+  --spill: 1;
+}
+
+.old-door .door-case::after { background-image: url("/case-chronicle/old-door-frame.svg"); }
+
+.old-door .door-case::before {
+  left: 16%;
+  right: 16%;
+  background: linear-gradient(180deg, rgba(255, 205, 128, 0.92), rgba(255, 205, 128, 0));
+}
+
+/* Placed by the drawing's own numbers, and cut a hair large all round
+   like the courthouse glass: the opening is 144 of the frame's 200
+   across and begins 28 in. */
+.old-door .door-way {
+  left: 13.7%;
+  top: 8.958%;
+  width: 72.6%;
+  height: 89.375%;
+  background: #0c0906;
+}
+
+/* The room, which is a third drawing, old-door-room.svg: a lantern, a
+   shelf and a floor, seen from the threshold. The leaf has a hole
+   between its bars and stops short of the sill, so a little of it
+   shows in both places while the door is shut, and the line of light
+   laid over its foot here is what gets out underneath. */
+.old-door .door-way::before {
+  background:
+    linear-gradient(0deg, rgba(255, 196, 110, 0.95) 0, rgba(255, 196, 110, 0) 3.6%),
+    url("/case-chronicle/old-door-room.svg") center / 100% 100% no-repeat;
+  opacity: calc(var(--lamp) + var(--glow) * (1 - var(--lamp)));
+  animation: old-lamp 5.3s linear infinite;
+}
+
+/* A flame, so never quite steady. Brightness and not opacity, which
+   belongs to --glow. */
+@keyframes old-lamp {
+  0%, 100% { filter: brightness(1); }
+  7%   { filter: brightness(0.9); }
+  12%  { filter: brightness(1.03); }
+  31%  { filter: brightness(0.94); }
+  38%  { filter: brightness(0.82); }
+  43%  { filter: brightness(1); }
+  64%  { filter: brightness(1.05); }
+  71%  { filter: brightness(0.9); }
+  88%  { filter: brightness(0.97); }
+}
+
+/* One leaf has no seam down the middle. The light gets round its free
+   edge instead, the far side from the straps, and only while there is
+   an edge for it to get round: it is gone again by the time the door
+   stands open and the room itself is showing. */
+.old-door .door-way::after {
+  left: auto;
+  right: 0;
+  width: 26%;
+  transform: none;
+  background: linear-gradient(270deg, rgba(255, 214, 150, 0.42), rgba(255, 214, 150, 0));
+  opacity: calc(var(--glow) * (1 - var(--spill)));
+}
+
+/* The whole opening in one piece, hung on the left where the straps
+   are. Half its own width either side of the perspective this time,
+   not all of it, which is what puts the vanishing point in the middle
+   of an opening one leaf fills. Slower than the courthouse leaves: it
+   is a heavier door. */
+.old-door .door-leaf {
+  width: 100%;
+  background-image: url("/case-chronicle/old-door-leaf.svg");
+  transform: translateX(50%) perspective(calc(var(--dw) * 2.2)) translateX(-50%) rotateY(var(--swing));
+  transition-duration: 0.7s;
+}
+
+/* The ring is in the drawing. */
+.old-door .door-leaf::after { content: none; }
+
+/* Chosen, it does not swing so much as give: a little, a stop, and
+   then the rest. The second line is that; the first is for a browser
+   that does not know linear(). */
+.old-door .door.is-open .door-leaf {
+  transition-duration: 0.9s;
+  transition-timing-function: cubic-bezier(0.5, 0, 0.15, 1);
+  transition-timing-function: linear(0, 0.05 10%, 0.085 19%, 0.1 29%, 0.105 36%, 0.3 50%, 0.56 64%, 0.8 78%, 0.94 90%, 1);
+}
+
+/* Already as dark as it should be. */
+.old-door .door-slot.is-locked .door { --shade: 1; }
+
+/* Coming off its latch, further up, waits for the lock to land: for as
+   long as the broken padlock is still on its way down, and not after,
+   so the door does not hang back like this every time the pointer
+   leaves it. The script takes the padlock away when it has landed. */
+.old-door .door-slot:has(.door-unlock.is-broken:not([hidden])) .door:not(:hover):not(.is-open) .door-leaf { transition-delay: 0.75s; }
+
+/* ── the chain ──
+   From an eye on each post down to the ring, where the padlock holds
+   the two ends together. A chain with a weight on it hangs straight,
+   so each half is a straight run turned about its eye: drawn hanging
+   plumb, and held out to the middle for as long as the lock is on.
+   When the lock goes, each swings back down against its own post and
+   settles there.
+
+   A length of chain is one link seen flat and one seen edge on, over
+   and over, so it is drawn as that pair and repeated down the box:
+   eight and a bit of them, to end on a flat link. Hung by the script
+   with the padlock, and gone without it. */
+.old-door .door-chain {
+  --hang: 38.7deg;
+  --side: -1;
+
+  position: absolute;
+  top: calc(var(--dh) * 0.401);
+  left: calc(var(--dw) * 0.09);
+  z-index: 4;
+  display: none;
+  width: calc(var(--dw) * 0.05);
+  height: calc(var(--dw) * 0.61);
+  margin-left: calc(var(--dw) * -0.025);
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 14'%3E%3Cg fill='%23262320' stroke='%230e0b08' stroke-width='.5'%3E%3Crect x='3.8' y='-6' width='2.4' height='8.4' rx='1.2'/%3E%3Crect x='3.8' y='8' width='2.4' height='8.4' rx='1.2'/%3E%3C/g%3E%3Crect x='2.2' y='.7' width='5.6' height='9.4' rx='2.8' fill='none' stroke='%230e0b08' stroke-width='2.5'/%3E%3Crect x='2.2' y='.7' width='5.6' height='9.4' rx='2.8' fill='none' stroke='%2334312d' stroke-width='1.6'/%3E%3Cpath d='M2 6.6V3.4A2.9 2.9 0 0 1 4.4 .6' fill='none' stroke='%23a59e92' stroke-opacity='.6' stroke-width='.5' stroke-linecap='round'/%3E%3Cpath d='M4.3 10.6v3.2' fill='none' stroke='%23a59e92' stroke-opacity='.4' stroke-width='.4' stroke-linecap='round'/%3E%3C/svg%3E") top center / 100% auto repeat-y;
+  filter: drop-shadow(calc(var(--dw) * 0.006) calc(var(--dw) * 0.014) calc(var(--dw) * 0.008) rgba(0, 0, 0, 0.6));
+  transform-origin: 50% 0;
+  transform: rotate(calc(var(--hang) * var(--side)));
+}
+
+.old-door .door-chain + .door-chain {
+  --side: 1;
+  left: calc(var(--dw) * 0.91);
+}
+
+.old-door .door-slot.is-locked .door-chain,
+.old-door .door-slot.is-unlocked .door-chain { display: block; }
+
+/* Let go: past plumb, back, and less each time. */
+@keyframes chain-fall {
+  0%   { transform: rotate(calc(var(--hang) * var(--side))); animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.6); }
+  24%  { transform: rotate(calc(var(--hang) * var(--side) * -0.4)); animation-timing-function: ease-in-out; }
+  44%  { transform: rotate(calc(var(--hang) * var(--side) * 0.2)); animation-timing-function: ease-in-out; }
+  62%  { transform: rotate(calc(var(--hang) * var(--side) * -0.1)); animation-timing-function: ease-in-out; }
+  79%  { transform: rotate(calc(var(--hang) * var(--side) * 0.04)); animation-timing-function: ease-in-out; }
+  100% { transform: rotate(0deg); }
+}
+
+.old-door .door-slot.is-unlocked .door-chain {
+  transform: none;
+  animation: chain-fall 1.9s 0.05s both;
+}
+
+/* ── its lock ──
+   The courthouse padlock again, in iron, and larger: it is the only
+   thing on this door to press. It hangs where the two halves of the
+   chain meet, with its shackle through the ring. */
+.old-door .door-unlock {
+  --lock-drop: calc(var(--dh) * 0.24);
+
+  top: calc(var(--dh) * 0.624 - 2px);
+  padding: 2px 8px 6px;
+}
+
+.old-door .door-lock {
+  width: calc(var(--dw) * 0.2);
+  filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.6));
+  transform-origin: 50% 14%;
+}
+
+.old-door .door-lock-s { transform-origin: 32px 28px; }
+.old-door .door-lock-s path { stroke: #0e0b08; stroke-width: 7.4; }
+.old-door .door-lock-s path + path { stroke: #57524b; stroke-width: 4.4; }
+
+.old-door .door-lock-b { fill: #2f2c28; stroke: #0e0b08; stroke-width: 1.2; }
+.old-door .door-lock-d { fill: rgba(0, 0, 0, 0.3); }
+.old-door .door-lock-t { fill: #47433d; stroke: #0e0b08; stroke-width: 1; }
+.old-door .door-lock-h { stroke: rgba(243, 230, 204, 0.42); stroke-width: 1; }
+.old-door .door-lock-r { fill: #171513; }
+/* The plate round the keyhole is the one piece of brass on the door. */
+.old-door .door-lock-e { fill: #8d7847; stroke: #0e0b08; stroke-width: 0.9; }
+.old-door .door-lock-k { fill: #0e0b08; }
+
+/* Tried: the door gives as far as the chain lets it, which is not
+   far, and the chain says so. */
+@keyframes chain-rattle {
+  0%, 100% { transform: rotate(calc(var(--hang) * var(--side))); }
+  18% { transform: rotate(calc(var(--hang) * var(--side) * 1.05)); }
+  42% { transform: rotate(calc(var(--hang) * var(--side) * 0.965)); }
+  66% { transform: rotate(calc(var(--hang) * var(--side) * 1.025)); }
+  86% { transform: rotate(calc(var(--hang) * var(--side) * 0.99)); }
+}
+
+@keyframes old-door-try {
+  0%, 100% { transform: translateX(50%) perspective(calc(var(--dw) * 2.2)) translateX(-50%) rotateY(0deg); }
+  22% { transform: translateX(50%) perspective(calc(var(--dw) * 2.2)) translateX(-50%) rotateY(1.7deg); }
+  48% { transform: translateX(50%) perspective(calc(var(--dw) * 2.2)) translateX(-50%) rotateY(0.3deg); }
+  70% { transform: translateX(50%) perspective(calc(var(--dw) * 2.2)) translateX(-50%) rotateY(1deg); }
+}
+
+.old-door .door-unlock.is-rattled ~ .door-chain { animation: chain-rattle 0.46s ease-out; }
+.old-door .door-slot:has(.is-rattled) .door-leaf { animation: old-door-try 0.46s ease-out; }
+
+/* Under the notes instead of beside them once there is no room for
+   both, and still on the floor. */
+@media (max-width: 900px) {
+  .notes-door { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .notes-door .notes-grid { grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); padding-bottom: 56px; }
+  .old-door { justify-self: center; }
+}
+
+/* With motion turned down the leaf stays shut, as the courthouse
+   leaves do, and the lamp holds still. The chain is simply off. */
+@media (prefers-reduced-motion: reduce) {
+  .old-door .door-leaf { transform: none; }
+  .old-door::after,
+  .old-door .door-way::before { animation: none; }
+}
+
+@media print {
+  .old-door { display: none; }
+  .band.band-notes-door { padding-bottom: 104px; }
+  .notes-door .notes-grid { padding-bottom: 0; }
+}
+
+/* ═══════════════════════════════════════════════
    A view's own page
 
    The chronology and the courtroom each have a page, and neither is
@@ -2135,19 +2434,6 @@ a.case-a:focus-visible {
    ═══════════════════════════════════════════════ */
 
 .band-room { background: var(--bg-band); }
-
-.cr-build {
-  margin-top: 22px;
-  max-width: 50em;
-  padding: 14px 18px;
-  border-left: 2px solid var(--court);
-  background: rgba(111, 74, 46, 0.06);
-  font-size: 0.9rem;
-  line-height: 1.58;
-  color: var(--ink-2);
-}
-
-.cr-build strong { font-weight: 600; color: var(--court); }
 
 .cr { margin-top: 44px; }
 
@@ -2306,6 +2592,11 @@ a.case-a:focus-visible {
 .ct-line::after { bottom: 0; }
 
 .ct.is-dragging .ct-line { transition: none; }
+
+/* When the page opens the line moves by itself, twice and then back,
+   to say that it can be moved. Slower than a step the reader takes, so
+   the eye has time to find it and follow it across. */
+.ct.is-touring .ct-line { transition-duration: 0.62s; }
 
 /* ── the plan and what sits beside it ── */
 .cr-cols {
@@ -2675,6 +2966,9 @@ a.case-a:focus-visible {
 [data-status="in"] > .cr-status,
 [data-status="remote"] > .cr-status { color: var(--ink); border-color: rgba(23, 20, 15, 0.4); }
 
+/* In the list the heading has already said it. By video still says so. */
+.cr-cast > [data-status="in"] > .cr-status { display: none; }
+
 /* Where it comes from. The same form as a citation in the chronology,
    and for the same reason: a seat is a claim, and the reader should be
    one click from checking it. */
@@ -2784,11 +3078,13 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cm-link:hover,
 .cm-link:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
 
-/* ── everyone in the room, as a list ──
-   The plan again, for a reader who cannot hover, cannot see it, or
-   would simply rather read. It is also the page's data: the script
-   seats people from these rows and hides the ones who are not there
-   yet. */
+/* ── who was in the room, as a list ──
+   The people on the plan again, for a reader who cannot hover, cannot
+   see it, or would simply rather read. It is also the page's data:
+   every row is here, the script seats people from them, and it shows
+   only the rows for whoever was in the room at the moment the line is
+   on, in person or on a screen. Someone who was only in the case, and
+   a note on an empty part of the room, stay on the plan. */
 .cr-cast-h {
   font-family: var(--mono);
   font-size: 0.62rem;

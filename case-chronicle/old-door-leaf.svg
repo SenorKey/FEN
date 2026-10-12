@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 342" preserveAspectRatio="none">
+<!--
+  The one leaf of the old door: five oak planks hung on two iron straps,
+  a barred opening at eye height, a row of nails where the ledge runs
+  across the back, and a ring to pull it by. chronicle.css swings it on
+  its left edge, where the straps are, and hangs the chain and the
+  padlock over it.
+
+  Lit from the top left, like the frame it hangs in.
+
+  Two parts of it are not there. The opening between the bars is a hole,
+  and the foot of every plank stops a little short of the sill, each at
+  its own height, the way the end grain goes first on a door that has
+  stood in the damp. Both are cut by the mask, so whatever chronicle.css
+  stands behind the leaf shows through the bars and under the door.
+-->
+<defs>
+<style>.k{fill:none;stroke:#0e0b08}.l{fill:none;stroke:#f3e6cc}</style>
+<!-- the oak, lighter at the head of the door than at its foot -->
+<linearGradient id="w" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="342"><stop offset="0" stop-color="#6c573f"/><stop offset=".45" stop-color="#57442f"/><stop offset="1" stop-color="#3a2c20"/></linearGradient>
+<!-- iron -->
+<linearGradient id="i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a554e"/><stop offset=".4" stop-color="#2c2a27"/><stop offset="1" stop-color="#151413"/></linearGradient>
+<!-- the damp that has come up from the floor -->
+<linearGradient id="m" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0e0b08" stop-opacity=".66"/><stop offset="1" stop-color="#0e0b08" stop-opacity="0"/></linearGradient>
+<!-- the grain: noise drawn out long, as the boards run -->
+<filter id="v" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".6 .009" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .03 2.2 0 0 0 -.88"/></filter>
+<!-- and the grey that weather puts in it -->
+<filter id="s" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".4 .007" numOctaves="2" seed="17"/><feColorMatrix values="0 0 0 0 .86 0 0 0 0 .8 0 0 0 0 .7 1.9 0 0 0 -.96"/></filter>
+<!-- what is not there: the opening between the bars, and the feet of the planks -->
+<mask id="h" maskUnits="userSpaceOnUse" x="0" y="0" width="144" height="342">
+<rect width="144" height="342" fill="#fff"/>
+<rect x="51" y="65" width="42" height="52" rx="1" fill="#000"/>
+<path fill="#000" d="M0 342V338.4L7 339.3L13 338.1L21 339.6L30 338.7V336.4L38 337.7L47 336.1L57 337.3V339.5L69 338.3L80 339.9L89 338.8V337L99 338.5L108 336.7L116 337.9V339.2L127 337.9L136 339.5L144 338.3V342z"/>
+</mask>
+</defs>
+
+<g mask="url(#h)">
+<!-- the boards: one ground, and then each plank a little off its neighbours -->
+<rect width="144" height="342" fill="url(#w)"/>
+<rect x="30" width="27" height="342" fill="#0e0b08" fill-opacity=".15"/>
+<rect x="57" width="32" height="342" fill="#f3e6cc" fill-opacity=".035"/>
+<rect x="89" width="27" height="342" fill="#0e0b08" fill-opacity=".08"/>
+<rect x="116" width="28" height="342" fill="#0e0b08" fill-opacity=".19"/>
+<rect width="144" height="342" filter="url(#v)" opacity=".62"/>
+<rect width="144" height="342" filter="url(#s)" opacity=".2"/>
+
+<!-- three knots, and the grain going round them -->
+<ellipse cx="43" cy="141" rx="2.3" ry="3.7" fill="#140e09" fill-opacity=".8"/>
+<g class="k" stroke-width=".5"><ellipse cx="43" cy="141" rx="4.3" ry="7" stroke-opacity=".3"/><ellipse cx="43" cy="141" rx="6.3" ry="10.6" stroke-opacity=".16"/></g>
+<ellipse cx="103.5" cy="252" rx="1.9" ry="3" fill="#140e09" fill-opacity=".8"/>
+<g class="k" stroke-width=".5"><ellipse cx="103.5" cy="252" rx="3.6" ry="5.8" stroke-opacity=".3"/><ellipse cx="103.5" cy="252" rx="5.4" ry="9" stroke-opacity=".15"/></g>
+<ellipse cx="14" cy="246" rx="1.6" ry="2.6" fill="#140e09" fill-opacity=".75"/>
+<ellipse class="k" cx="14" cy="246" rx="3.2" ry="5.2" stroke-opacity=".26" stroke-width=".5"/>
+
+<!-- the checks that have opened down the boards -->
+<path class="k" stroke-opacity=".7" stroke-width=".55" stroke-linejoin="round" d="M8.6 78l.7 26-.9 31 .6 22M22.4 196l-.6 30 .7 24M67.4 228l.8 34-.7 30 .5 26M76.8 132l-.5 24 .6 18M99.4 22l.6 28-.7 22M108.2 150l.7 38-.8 26M126.2 96l-.6 34 .8 40-.5 20M134.8 240l.5 36-.6 28M48.6 20l.5 26M36.4 268l-.5 32 .6 22"/>
+
+<!-- where one plank meets the next: the gap, and the lit edge of the board beyond it -->
+<path class="k" stroke-opacity=".88" stroke-width="1" d="M30 0V342M57 0V342M89 0V342M116 0V342"/>
+<path class="l" stroke-opacity=".12" stroke-width=".5" d="M30.9 0V342M57.9 0V342M89.9 0V342M116.9 0V342"/>
+
+<!-- the damp -->
+<rect y="254" width="144" height="88" fill="url(#m)"/>
+
+<!-- the two long edges -->
+<path class="k" stroke-opacity=".7" stroke-width=".9" d="M.45 0V342M143.55 0V342"/>
+</g>
+
+<!-- rust, run down the boards from the ironwork above it -->
+<g fill="#7a4420">
+<path fill-opacity=".3" d="M8.2 45.4h1.7l-.4 15h-.9zM48.2 43.6h1.7l-.4 21h-.9zM87.2 41.8h1.6l-.3 11h-1zM28.3 307h1.6l-.4 17h-.8zM68.2 305.2h1.7l-.4 12h-.9z"/>
+<path fill-opacity=".26" d="M47.4 122h1.5l-.3 19h-.9zM94.6 122h1.5l-.3 12h-.9zM14.2 172.4h1.5l-.3 13h-.9zM101.7 172.4h1.5l-.3 17h-.9zM129.2 172.4h1.5l-.3 9h-.9z"/>
+</g>
+
+<!-- the top strap: its shadow, the iron, the light along its upper edge, five rivets -->
+<path fill="#0e0b08" fill-opacity=".5" d="M0 32.6L96 36.6L102 32.8L117.4 39.6L102 46.4L96 42.6L0 46.6z"/>
+<path fill="url(#i)" d="M0 31L96 35L102 31.2L116 38L102 44.8L96 41L0 45z"/>
+<path class="l" stroke-opacity=".34" stroke-width=".6" stroke-linejoin="round" d="M0 31.5L96 35.5L102 31.8L115 37.8"/>
+<path class="k" stroke-opacity=".75" stroke-width=".6" stroke-linejoin="round" d="M0 45L96 41L102 44.8L116 38"/>
+<g fill="#35322e" stroke="#0e0b08" stroke-opacity=".75" stroke-width=".5"><circle cx="9" cy="38" r="2"/><circle cx="29" cy="38" r="2"/><circle cx="49" cy="38" r="2"/><circle cx="69" cy="38" r="2"/><circle cx="88" cy="38" r="1.8"/></g>
+<path class="l" stroke-opacity=".5" stroke-width=".6" stroke-linecap="round" d="M7.8 37.4a1.3 1.3 0 0 1 1.5-.9M27.8 37.4a1.3 1.3 0 0 1 1.5-.9M47.8 37.4a1.3 1.3 0 0 1 1.5-.9M67.8 37.4a1.3 1.3 0 0 1 1.5-.9M86.9 37.4a1.2 1.2 0 0 1 1.4-.8"/>
+
+<!-- the bottom strap, the same -->
+<path fill="#0e0b08" fill-opacity=".5" d="M0 294.6L96 298.6L102 294.8L117.4 301.6L102 308.4L96 304.6L0 308.6z"/>
+<path fill="url(#i)" d="M0 293L96 297L102 293.2L116 300L102 306.8L96 303L0 307z"/>
+<path class="l" stroke-opacity=".3" stroke-width=".6" stroke-linejoin="round" d="M0 293.5L96 297.5L102 293.8L115 299.8"/>
+<path class="k" stroke-opacity=".75" stroke-width=".6" stroke-linejoin="round" d="M0 307L96 303L102 306.8L116 300"/>
+<g fill="#35322e" stroke="#0e0b08" stroke-opacity=".75" stroke-width=".5"><circle cx="9" cy="300" r="2"/><circle cx="29" cy="300" r="2"/><circle cx="49" cy="300" r="2"/><circle cx="69" cy="300" r="2"/><circle cx="88" cy="300" r="1.8"/></g>
+<path class="l" stroke-opacity=".45" stroke-width=".6" stroke-linecap="round" d="M7.8 299.4a1.3 1.3 0 0 1 1.5-.9M27.8 299.4a1.3 1.3 0 0 1 1.5-.9M47.8 299.4a1.3 1.3 0 0 1 1.5-.9M67.8 299.4a1.3 1.3 0 0 1 1.5-.9M86.9 299.4a1.2 1.2 0 0 1 1.4-.8"/>
+
+<!-- nails: one through each plank where the ledge crosses, and one beyond the tip of each strap -->
+<g fill="#33302c" stroke="#0e0b08" stroke-opacity=".75" stroke-width=".5">
+<rect x="13" y="168" width="4" height="4" rx=".6"/><rect x="41.5" y="168" width="4" height="4" rx=".6"/><rect x="71" y="168" width="4" height="4" rx=".6"/><rect x="100.5" y="168" width="4" height="4" rx=".6"/><rect x="128" y="168" width="4" height="4" rx=".6"/>
+<rect x="128" y="36" width="4" height="4" rx=".6"/><rect x="128" y="298" width="4" height="4" rx=".6"/>
+</g>
+<path class="l" stroke-opacity=".42" stroke-width=".5" d="M13.5 171.4V168.5h2.9M42 171.4V168.5h2.9M71.5 171.4V168.5h2.9M101 171.4V168.5h2.9M128.5 171.4V168.5h2.9M128.5 39.4V36.5h2.9M128.5 301.4V298.5h2.9"/>
+
+<!-- the opening: the iron round it and its shadow, the thickness of the door inside it, the bars -->
+<path fill="#0e0b08" fill-opacity=".5" fill-rule="evenodd" d="M46.8 61.6h52v62h-52zM51 65v52h42V65z"/>
+<path fill="url(#i)" fill-rule="evenodd" d="M46 60h52v62H46zM51 65v52h42V65z"/>
+<path class="l" stroke-opacity=".34" stroke-width=".6" d="M46.4 121.6V60.4h51.2"/>
+<path class="k" stroke-opacity=".8" stroke-width=".6" d="M98 60v62H46"/>
+<path fill="#0e0b08" fill-opacity=".72" d="M51 65h42v2.8H53.8V117H51z"/>
+<g fill="#1a1816"><circle cx="48.5" cy="62.5" r="1.1"/><circle cx="95.5" cy="62.5" r="1.1"/><circle cx="48.5" cy="119.5" r="1.1"/><circle cx="95.5" cy="119.5" r="1.1"/></g>
+<g fill="#1b1917"><rect x="60.4" y="65" width="3.2" height="52"/><rect x="70.4" y="65" width="3.2" height="52"/><rect x="80.4" y="65" width="3.2" height="52"/><rect x="51" y="89.4" width="42" height="3.2"/></g>
+<path class="l" stroke-opacity=".26" stroke-width=".5" d="M60.8 68V89M70.8 68V89M80.8 68V89M60.8 93V116.6M70.8 93V116.6M80.8 93V116.6M54 89.8h5.6M64.4 89.8h5.2M74.4 89.8h5.2M84.4 89.8h8.2"/>
+<g fill="#24211f" stroke="#0e0b08" stroke-opacity=".8" stroke-width=".4"><rect x="59.6" y="88.6" width="4.8" height="4.8"/><rect x="69.6" y="88.6" width="4.8" height="4.8"/><rect x="79.6" y="88.6" width="4.8" height="4.8"/></g>
+
+<!-- the ring: the boss it hangs from, and then its shadow, the iron and the light on it -->
+<circle cx="72.8" cy="199.6" r="8.6" fill="#0e0b08" fill-opacity=".5"/>
+<circle cx="72" cy="198" r="8.4" fill="url(#i)" stroke="#0e0b08" stroke-opacity=".75" stroke-width=".6"/>
+<path class="l" stroke-opacity=".4" stroke-width=".6" stroke-linecap="round" d="M65.4 194.6a7.4 7.4 0 0 1 7.6-3.8"/>
+<g fill="#151413"><circle cx="72" cy="192.2" r=".8"/><circle cx="66.2" cy="198" r=".8"/><circle cx="77.8" cy="198" r=".8"/></g>
+<circle cx="73" cy="211.8" r="12" fill="none" stroke="#0e0b08" stroke-opacity=".45" stroke-width="3.8"/>
+<circle cx="72" cy="210" r="12" fill="none" stroke="#211f1c" stroke-width="3.6"/>
+<path class="l" stroke-opacity=".34" stroke-width=".8" stroke-linecap="round" d="M61.1 206a11.6 11.6 0 0 1 6.5-6.8M72.6 220.6a10.6 10.6 0 0 0 8.4-5.2"/>
+<rect x="69.4" y="195" width="5.2" height="6" rx="1.4" fill="#211f1c" stroke="#0e0b08" stroke-opacity=".7" stroke-width=".5"/>
+<path class="l" stroke-opacity=".4" stroke-width=".5" stroke-linecap="round" d="M70.2 199.6v-3.2a1 1 0 0 1 1-1"/>
+</svg>

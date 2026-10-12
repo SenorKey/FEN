@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Kept out of search results and out of the sitemap, like the
+         courtroom previews, and for one more reason than they have: the
+         only way in that the Chronicle offers is a locked door at the foot
+         of the hub, and a search result would be a second one. -->
+    <meta name="robots" content="noindex">
+
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- The Chronicle's own sheet first, for the nav, the masthead and the
+         shelf, and then this room's, which turns the light down on all
+         three. -->
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261011b">
+    <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261011b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/restricted-section/">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>The Restricted Section — Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- No data-case: this is a shelf, like the hub, and not something on it. -->
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- What the worn bindings below are drawn with, kept once here and
+         pointed at from each of them: an edge made to fray, two torn
+         outlines, and the fade a burn leaves behind it. -->
+    <svg class="rs-defs" width="0" height="0" aria-hidden="true" focusable="false">
+        <defs>
+            <filter id="rs-fray" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="2" seed="3" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <!-- Two outlines a binding can be cut to, in fractions of its own
+                 box so either fits any volume: burnt away from the head,
+                 and the cap torn off one corner of it. -->
+            <clipPath id="rs-burnt" clipPathUnits="objectBoundingBox">
+                <path d="M0 .052C.05 .034 .09 .05 .15 .036C.2 .024 .22 .008 .29 .016C.35 .022 .38 .002 .45 .014C.51 .024 .53 .046 .6 .044C.67 .042 .69 .074 .76 .072C.83 .07 .84 .104 .9 .108C.95 .112 .96 .134 1 .142V1H0z"/>
+            </clipPath>
+            <clipPath id="rs-chipped" clipPathUnits="objectBoundingBox">
+                <path d="M0 0H.56C.6 .002 .61 .014 .66 .013C.71 .012 .73 .026 .79 .024C.85 .022 .87 .036 .92 .036C.96 .036 .98 .03 1 .034V1H0z"/>
+            </clipPath>
+            <linearGradient id="rs-char" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#050302" stop-opacity=".98"/>
+                <stop offset=".34" stop-color="#090604" stop-opacity=".82"/>
+                <stop offset=".7" stop-color="#140c07" stop-opacity=".34"/>
+                <stop offset="1" stop-color="#140c07" stop-opacity="0"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- The room. One box round the masthead and the shelf, because the
+             lantern is hung in the second and its light has to reach the
+             first: restricted.css paints the wall on this and lets the two
+             inside it go clear. -->
+        <div class="rs-room">
+
+            <!-- ═══════════════════════════════════════════════
+                 Masthead
+
+                 The hub's, cut the same way: a title, one line under
+                 it, and here the way back out above them, since this
+                 room has only the one door.
+                 ═══════════════════════════════════════════════ -->
+            <header class="masthead masthead-hub" id="top">
+                <div class="wrap">
+                    <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
+                    <div class="hub-head">
+                        <h1 class="masthead-title"><em>The</em> Restricted <em>Section</em></h1>
+                        <p class="hub-motto">These are conflicts, not cases, and each one runs from its start to
+                            today.</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ═══════════════════════════════════════════════
+                 The shelf
+
+                 The hub's shelf in an older room. The markup is the
+                 same rail of volumes and the same box for a plate, so
+                 chronicle.css still draws the rail and lights the
+                 plates. restricted.css keeps the plate on the board,
+                 where the hub's stood until it moved to the wall, and
+                 says what is different about a volume that carries
+                 bk-old:
+
+                   --bind, --bk-w, --bk-h   as on the hub
+                   bk-bands                 five raised bands, and the
+                                            title lettered across the
+                                            spine between two of them
+                                            (without it: two pairs of
+                                            bands, and the title along
+                                            the spine as on the hub)
+                   bk-lean                  slumped against the volume
+                                            to its left
+                   sp-skin                  the leather, and inside it
+                                            one small drawing of what
+                                            has happened to this copy
+
+                 The drawing is each volume's own and is measured in
+                 that volume's --bk-w by --bk-h, so it is never
+                 stretched. A torn or burnt outline is the clip-path on
+                 the same span, and the two there are so far are kept
+                 at the top of the page. Leave both off and the volume
+                 is only old.
+
+                 None of these is a link yet. Nothing has been written
+                 behind any of them, and the plate says so. The rail is
+                 a list of five to anything that reads the page instead
+                 of looking at it, since there are no rows under this
+                 shelf to say the same thing again.
+                 ═══════════════════════════════════════════════ -->
+            <section class="band rs-stacks" id="stacks" aria-labelledby="stacks-h">
+                <div class="wrap">
+                    <h2 class="kicker" id="stacks-h">The conflicts</h2>
+
+                    <!-- The lantern, and the light it throws. Decoration
+                         only: one box for the light on the wall, and one
+                         for the cord and the lamp that hangs from it. -->
+                    <div class="rs-light" aria-hidden="true"></div>
+                    <div class="rs-lamp" aria-hidden="true">
+                        <svg viewBox="0 0 80 124" focusable="false">
+                            <defs>
+                                <radialGradient id="rs-globe" gradientUnits="userSpaceOnUse" cx="40" cy="74" r="26">
+                                    <stop offset="0" stop-color="#fffbe6"/>
+                                    <stop offset=".3" stop-color="#ffe19a"/>
+                                    <stop offset=".68" stop-color="#eda94c"/>
+                                    <stop offset="1" stop-color="#99601f"/>
+                                </radialGradient>
+                                <linearGradient id="rs-tank" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0" stop-color="#4a3724"/>
+                                    <stop offset=".4" stop-color="#2a2017"/>
+                                    <stop offset="1" stop-color="#120d09"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- the ring and the bail it hangs by -->
+                            <circle cx="40" cy="6" r="3.6" fill="none" stroke="#17120d" stroke-width="1.8"/>
+                            <path d="M19 53C19 23 31 12.5 40 10.5C49 12.5 61 23 61 53" fill="none" stroke="#17120d" stroke-width="1.8"/>
+                            <!-- the two tubes that carry the air down to the burner -->
+                            <path d="M27.5 47C14.5 52 13 92 22.5 100M52.5 47C65.5 52 67 92 57.5 100" fill="none" stroke="#17120d" stroke-width="4.4" stroke-linecap="round"/>
+                            <path d="M27.6 49.6C18.2 55 17 88 23.6 97.4M52.4 49.6C61.8 55 63 88 56.4 97.4" fill="none" stroke="#e9a548" stroke-opacity=".5" stroke-width="1"/>
+                            <!-- the cap -->
+                            <path d="M31 44.5L33 36Q40 30 47 36L49 44.5z" fill="#1c1611" stroke="#0e0b08" stroke-width=".6"/>
+                            <rect x="28" y="44" width="24" height="4.4" rx="1.2" fill="#2b2118" stroke="#0e0b08" stroke-width=".6"/>
+                            <path d="M29.4 48h21.2" fill="none" stroke="#f0b65e" stroke-opacity=".7" stroke-width=".8"/>
+                            <!-- the glass, the flame, the burner under it -->
+                            <path class="rs-lamp-glass" d="M32 49.6C23 58 23 86 32 96H48C57 86 57 58 48 49.6z" fill="url(#rs-globe)" stroke="#17120d" stroke-width=".8"/>
+                            <path class="rs-lamp-flame" d="M40 60.5C45.4 69 46.6 76 43.8 81C42.6 83.2 37.4 83.2 36.2 81C33.4 76 34.6 69 40 60.5z" fill="#fffdf2"/>
+                            <rect x="35" y="85" width="10" height="7" rx="1" fill="#17120d"/>
+                            <!-- the wires round the glass -->
+                            <path d="M24.8 72Q40 76.4 55.2 72M34 50Q30.4 73 34 96M46 50Q49.6 73 46 96" fill="none" stroke="#17120d" stroke-opacity=".85" stroke-width="1"/>
+                            <!-- the tank, lit along its shoulder -->
+                            <rect x="24" y="95" width="32" height="5.4" rx="1.4" fill="#2b2118" stroke="#0e0b08" stroke-width=".6"/>
+                            <path d="M21 100h38l3.2 13.6q1 6.4-6 6.4H23.8q-7 0-6-6.4z" fill="url(#rs-tank)" stroke="#0e0b08" stroke-width=".7"/>
+                            <path d="M25 95.8h30M21.8 100.8h36.4" fill="none" stroke="#f0b65e" stroke-opacity=".62" stroke-width=".8"/>
+                            <!-- the wheel that turns the wick -->
+                            <path d="M56 93l7.4-2.6" fill="none" stroke="#17120d" stroke-width="1.4"/>
+                            <circle cx="64.6" cy="90" r="2.3" fill="#2b2118" stroke="#0e0b08" stroke-width=".6"/>
+                        </svg>
+                    </div>
+
+                    <div class="shelf">
+
+                        <div class="shelf-plate">
+                            <p class="plate-rest">None of these has been written yet. Each one will follow a single
+                                conflict the way a case&rsquo;s chronology follows a case, with every significant
+                                event in the order it happened, from the start up to today.</p>
+                        </div>
+
+                        <div class="shelf-rail" role="list">
+
+                            <span class="bk bk-old" role="listitem" style="--bind: #4b3524; --bk-w: 92px; --bk-h: 356px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume I</span>
+                                    <span class="bk-plate-t">Israel and Palestine</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true"
+                                        style="clip-path: url(#rs-chipped);">
+                                        <svg class="sp-wear" viewBox="0 0 92 356" preserveAspectRatio="none" focusable="false">
+                                            <path class="w-crack" d="M61 88l-2 25 3 27-4 31 2 29-3 35 2 26"/>
+                                            <path class="w-lift" d="M62.2 88l-2 25 3 27-4 31 2 29-3 35 2 26"/>
+                                            <path class="w-crack" d="M28 178l2 31-3 30 2 44"/>
+                                            <path class="w-lift" d="M29.2 178l2 31-3 30 2 44"/>
+                                            <path class="w-scuff" d="M70 268l9 15M74 263l8 14M67 276l6 10M11 104l8 13M15 99l7 12M9 112l5 8"/>
+                                            <path class="w-edge" d="M51.5 .6C55 1.2 56.5 5.4 60.7 5C65.3 4.6 67.2 9.6 72.7 8.9C78.2 8.2 80 13.2 84.6 13.2C88.3 13.2 90.2 11 92 12.4"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Israel <em>&amp;</em> Palestine</span>
+                                    <span class="sp-vol" aria-hidden="true">I</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old" role="listitem" style="--bind: #2c231b; --bk-w: 86px; --bk-h: 340px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume II</span>
+                                    <span class="bk-plate-t">Russia and Ukraine</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true"
+                                        style="clip-path: url(#rs-burnt);">
+                                        <svg class="sp-wear" viewBox="0 0 86 340" preserveAspectRatio="none" focusable="false">
+                                            <rect width="86" height="168" fill="url(#rs-char)"/>
+                                            <path class="w-craze" d="M9 34l7 9-3 11 8 8M30 22l-4 12 7 9-2 13 6 7M52 30l5 11-4 9 7 12-2 9M71 52l-5 10 6 11-3 9M18 76l6 8-3 9M42 70l-4 9 5 10M62 86l4 9-3 8"/>
+                                            <g class="w-ash"><circle cx="20" cy="52" r="1.1"/><circle cx="49" cy="66" r=".9"/><circle cx="66" cy="62" r="1.2"/><circle cx="34" cy="90" r=".8"/><circle cx="74" cy="98" r=".9"/><circle cx="12" cy="108" r=".8"/><circle cx="56" cy="118" r=".7"/></g>
+                                            <path class="w-scuff" d="M8 232l7 13M12 226l7 12M6 242l5 9"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Russia <em>&amp;</em> Ukraine</span>
+                                    <span class="sp-vol" aria-hidden="true">II</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old bk-bands" role="listitem" style="--bind: #7b5631; --bk-w: 118px; --bk-h: 372px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume III</span>
+                                    <span class="bk-plate-t">Allies and Axis: the Second World War</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 118 372" preserveAspectRatio="none" focusable="false">
+                                            <path class="w-stain" d="M0 262c13-9 28-3 41-12s24-19 38-9 24 3 39-9v140H0z"/>
+                                            <path class="w-tide" d="M0 262c13-9 28-3 41-12s24-19 38-9 24 3 39-9"/>
+                                            <path class="w-tide w-tide-2" d="M0 246c15-7 27-2 42-11s25-17 37-8 26 1 39-10"/>
+                                            <path class="w-scuff" d="M96 40l10 16M101 36l9 15M93 50l7 11M14 148l9 14M18 142l8 13"/>
+                                            <path class="w-crack" d="M88 196l-1.6 15 2.4 17-1.8 14"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Allies <em>&amp;</em> Axis</span>
+                                    <span class="sp-vol" aria-hidden="true">III</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old bk-bands" role="listitem" style="--bind: #634b31; --bk-w: 74px; --bk-h: 322px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume IV</span>
+                                    <span class="bk-plate-t">Sudan</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 74 322" preserveAspectRatio="none" focusable="false">
+                                            <path class="w-crack" d="M37 150l-1.6 14 2.2 15-1.8 17"/>
+                                            <path class="w-shade" d="M-2 205.6l78-4.6v3l-78 4.6z"/>
+                                            <path class="w-tape" d="M-3 178.6l80-4.8v27l-80 4.8z" filter="url(#rs-fray)"/>
+                                            <path class="w-weave" d="M-3 184l80-4.8M-3 189.6l80-4.8M-3 195.2l80-4.8M-3 200.6l80-4.8"/>
+                                            <path class="w-soil" d="M14 180c8 5 18 1 26 7s14 3 20 9l-1 8-46 3z"/>
+                                            <path class="w-scuff" d="M58 262l8 13M62 257l7 12M55 270l5 9"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Sudan</span>
+                                    <span class="sp-vol" aria-hidden="true">IV</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old bk-lean" role="listitem" style="--bind: #3e3224; --bk-w: 58px; --bk-h: 306px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume V</span>
+                                    <span class="bk-plate-t">The Democratic Republic of the Congo</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 58 306" preserveAspectRatio="none" focusable="false">
+                                            <path class="w-bare" d="M0 244l6-5 7 6 8-9 9 6 8-7 8 5 12-6v72H0z" filter="url(#rs-fray)"/>
+                                            <path class="w-cord" d="M0 262h58M0 287h58"/>
+                                            <path class="w-thread" d="M4 250v52M11 252v50M18 247v55M25 250v52M32 246v56M39 249v53M46 247v55M53 245v57"/>
+                                            <path class="w-edge" d="M0 245l6-5 7 6 8-9 9 6 8-7 8 5 12-6"/>
+                                            <path class="w-flap" d="M27 238l9-7 8 5-3 12-8 8z"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">D.R. Congo</span>
+                                </span>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a></p>
+                <p class="foot-cite">The Restricted Section</p>
+            </div>
+        </footer>
+
+    </main>
+</body>
+
+</html>

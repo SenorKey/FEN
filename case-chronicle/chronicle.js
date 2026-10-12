@@ -609,7 +609,12 @@
 
    The lock is hung here rather than in the markup, so a reader with no
    JavaScript gets a plain link to the room and never a padlock with
-   nothing to take it off. */
+   nothing to take it off.
+
+   The hub has a door of its own that wears the same lock, and wears it
+   always: its slot carries data-door-lock for good, not until a first
+   hearing. That door has no words under it and names its own padlock,
+   so both of those are only handled here when they are there. */
 
 (function () {
   'use strict';
@@ -620,11 +625,11 @@
   var door = slot.querySelector('.door');
   var btn = slot.querySelector('.door-unlock');
   var label = slot.querySelector('.door-go-l');
-  if (!door || !btn || !label) return;
+  if (!door || !btn) return;
 
   var href = door.getAttribute('href');
   /* What the door says when it is only a door, kept to put back. */
-  var words = label.textContent;
+  var words = label ? label.textContent : '';
   var locked = false;
   var leaving;
 
@@ -634,7 +639,7 @@
     clearTimeout(leaving);
     locked = true;
     door.removeAttribute('href');
-    label.textContent = 'Locked · no hearing yet';
+    if (label) label.textContent = 'Locked · no hearing yet';
     slot.classList.remove('is-unlocked');
     slot.classList.add('is-locked');
     btn.classList.remove('is-broken');
@@ -649,7 +654,7 @@
     if (!locked) btn.hidden = true;
   }
 
-  btn.setAttribute('aria-label', 'Unlock the Courtroom View preview');
+  if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Unlock the Courtroom View preview');
   lock();
 
   /* Trying the door rattles the lock, which is how a reader who has not
@@ -667,7 +672,7 @@
     btn.classList.remove('is-rattled');
 
     door.setAttribute('href', href);
-    label.textContent = words;
+    if (label) label.textContent = words;
     slot.classList.remove('is-locked');
     /* Unlocked by the reader, as against never locked: the stylesheet
        brings the light up behind the transom for one and not the
@@ -722,7 +727,8 @@
   if (!doors.length) return;
 
   /* A little short of the stylesheet's 0.56s. The end of the swing is
-     the leaves settling, and the page can go while they do. */
+     the leaves settling, and the page can go while they do. A heavier
+     door says how long it takes in data-swing, by the same rule. */
   var SWING = 520;
   var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 
@@ -744,7 +750,7 @@
       ahead.href = href;
       document.head.appendChild(ahead);
 
-      setTimeout(function () { window.location.href = href; }, SWING);
+      setTimeout(function () { window.location.href = href; }, parseInt(door.getAttribute('data-swing'), 10) || SWING);
     });
   });
 
@@ -774,8 +780,13 @@
    that says why.
 
    Everything drawn is a real button laid over the plan, so it takes a
-   pointer, a finger and the keyboard alike, and what it opens is the
-   same row the reader could have read in the list.
+   pointer, a finger and the keyboard alike, and what it opens is a row
+   of the list. The list itself shows only who was in the room at that
+   moment; everyone and everything else is on the plan.
+
+   When the bar first comes into view the line moves by itself, to two
+   moments picked at random and then back to where it started, because
+   nothing about a line on a bar says it can be moved.
 
    If the chronology cannot be fetched the bar never appears, and the
    page stays what it is without a script: an empty plan and two lists. */
@@ -817,6 +828,10 @@
   var pop = null;
   var pinned = null;
   var via = 'mouse';       /* how the reader last acted: mouse, touch, pen or key */
+  var touring = false;     /* the line is moving by itself, or is waiting to */
+  var tourTimer = 0;
+  var tourWatch = null;
+  var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 
   function text(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
 
@@ -1134,16 +1149,21 @@
 
     var kind = kindOf(i);
     var taken = {};
-    var any = false;
+    var listed = 0;
 
     for (var r = 0; r < rows.length; r++) {
       var row = rows[r];
       var here = present(row, i);
-      row.hidden = !here;
+      var st = here ? status(row, i) : '';
+      /* The list is who was in the room, in person or on a screen.
+         Someone who is in the case and not in the room is still drawn,
+         hollow, and their row is what the circle opens. It is only not
+         listed. */
+      var inRoom = st === 'in' || st === 'remote';
+      row.hidden = !inRoom;
       if (!here) continue;
-      any = true;
+      if (inRoom) listed++;
 
-      var st = status(row, i);
       row.setAttribute('data-status', st === 'away' ? 'case' : st);
       row._status.textContent = statusText(st, kind);
       /* Only someone actually there fills a part of the room. A person
@@ -1166,24 +1186,35 @@
       var show = present(note, i) && !noted[zone] &&
                  (!when || when.split(/\s+/).indexOf(kind) !== -1) &&
                  (note.hasAttribute('data-always') || !taken[zone]);
-      note.hidden = !show;
+      /* A note is listed when it is about people: the public, where a
+         source says the benches had them. A part of the room that stood
+         empty says so on the plan and nowhere else. */
+      var crowded = show && !!note.getAttribute('data-crowd');
+      note.hidden = !crowded;
       if (!show) continue;
       noted[zone] = true;
-      any = true;
+      if (crowded) listed++;
       if (zone === 'gallery') level = note.getAttribute('data-crowd') || '';
       var zn = placeZone(note);
       if (zn) nodes.push(zn);
     }
     crowd(level);
 
+    /* Most moments are steps taken on paper, so most of the time the
+       list is this one line, and it says which kind of nobody it is. */
     var none = list.querySelector('.cr-empty');
-    if (!any && !none) {
-      none = document.createElement('li');
-      none.className = 'cr-empty';
-      none.textContent = 'Nobody yet.';
-      list.appendChild(none);
-    } else if (any && none) {
-      list.removeChild(none);
+    if (listed) {
+      if (none) list.removeChild(none);
+    } else {
+      if (!none) {
+        none = document.createElement('li');
+        none.className = 'cr-empty';
+        list.appendChild(none);
+      }
+      none.textContent = i < opens ? 'Nobody yet.'
+        : kind === 'court' ? 'Nobody is recorded in the room on this date.'
+        : kind === 'away' ? 'Nobody. This did not happen in this room.'
+        : 'Nobody. Nothing was heard in court on this date.';
     }
   }
 
@@ -1300,6 +1331,7 @@
     var dragging = false;
     track.addEventListener('pointerdown', function (e) {
       if (e.button) return;
+      endTour();
       dragging = true;
       bar.classList.add('is-dragging');
       if (track.setPointerCapture) track.setPointerCapture(e.pointerId);
@@ -1317,6 +1349,71 @@
 
     /* The year labels are spaced for a width, so a new width respaces them. */
     window.addEventListener('resize', build);
+  }
+
+  /* ── the first few seconds ──
+     The line goes to two moments picked at random and then back to
+     where the room opens, which is where it stood to begin with. Each
+     stop is far enough from the one before, and the second far enough
+     from the start, that all three moves cross a good part of the bar:
+     a line that shifts by one tick has not been seen to move.
+
+     It waits until the bar is on the screen, since a demonstration
+     nobody is looking at is only the room changing behind their back.
+     The reader taking over ends it where it stands: a press on anything
+     in the view, a key while the focus is in it, or a hand on the line.
+     Putting a finger down does not, because that is also how a phone is
+     scrolled. A reader who has asked for less motion is not shown it at
+     all. */
+  root.addEventListener('click', endTour, true);
+  root.addEventListener('keydown', endTour, true);
+
+  function endTour() {
+    if (!touring) return;
+    touring = false;
+    clearTimeout(tourTimer);
+    if (tourWatch) tourWatch.disconnect();
+    tourWatch = null;
+    bar.classList.remove('is-touring');
+  }
+
+  function tour() {
+    var last = moments.length - 1;
+    if (last < 3 || (still && still.matches)) return;
+
+    var gap = Math.max(2, Math.round(last / 4));
+    function pick(a, b) {
+      var ok = [];
+      for (var i = 0; i <= last; i++) {
+        if (Math.abs(i - a) >= gap && (b == null || Math.abs(i - b) >= gap)) ok.push(i);
+      }
+      if (!ok.length) return a < last / 2 ? last : 0;
+      return ok[Math.floor(Math.random() * ok.length)];
+    }
+    var first = pick(opens);
+    var stops = [first, pick(first, opens), opens];
+
+    function hop() {
+      show(stops.shift());
+      /* After the last one, long enough for the line to finish its way
+         back before it is given its own speed again. */
+      tourTimer = setTimeout(stops.length ? hop : endTour, stops.length ? 1250 : 700);
+    }
+
+    function begin() {
+      bar.classList.add('is-touring');
+      tourTimer = setTimeout(hop, 700);
+    }
+
+    touring = true;
+    if (!window.IntersectionObserver) { begin(); return; }
+    tourWatch = new IntersectionObserver(function (seen) {
+      if (!seen[seen.length - 1].isIntersecting) return;
+      tourWatch.disconnect();
+      tourWatch = null;
+      begin();
+    }, { threshold: 0.5 });
+    tourWatch.observe(bar);
   }
 
   fetch(src, { credentials: 'same-origin' }).then(function (res) {
@@ -1353,6 +1450,7 @@
        back into the empty part; they should not have to step through
        it to find out what this view does. */
     show(opens);
+    tour();
   }).catch(function () { /* the page stays a plan and two lists */ });
 })();
 
@@ -1471,5 +1569,50 @@
       send.disabled = false;
       send.textContent = label;
     });
+  });
+})();
+
+/* The shelf, for a reader with nothing to point with.
+
+   A volume's plate comes up when the volume is pointed at, and the plate
+   is the only place the hub describes a case. A finger cannot point. It
+   can only press, and a press on a link is a visit. So the first tap on
+   a volume picks it, which stands its plate up and leaves the reader
+   where they are, and a second tap, on the volume or on the plate, goes
+   through. The plate is inside its volume's link, so the second tap needs
+   nothing from this file.
+
+   A mouse click goes through at once, as it always did, and so does the
+   Enter key: both have already had the plate, from the hover or from the
+   focus ring. Where the browser says what made the click that is what is
+   asked, and where it does not, whether the screen can hover at all.
+
+   A volume nobody has written yet is not a link. It is picked the same
+   way and there is nothing to go through to.
+
+   With no JavaScript every volume is a plain link and the first tap
+   goes through. */
+
+(function () {
+  'use strict';
+
+  var rail = document.querySelector('.shelf-rail');
+  if (!rail || !window.matchMedia) return;
+
+  var noHover = window.matchMedia('(hover: none)');
+  var picked = null;
+
+  rail.addEventListener('click', function (e) {
+    var bk = e.target.closest ? e.target.closest('.bk') : null;
+    if (!bk || bk === picked) return;
+    if (e.detail === 0) return;          /* the keyboard made this click */
+
+    var finger = e.pointerType ? e.pointerType === 'touch' : noHover.matches;
+    if (!finger) return;
+
+    if (picked) picked.classList.remove('is-picked');
+    picked = bk;
+    bk.classList.add('is-picked');
+    e.preventDefault();
   });
 })();

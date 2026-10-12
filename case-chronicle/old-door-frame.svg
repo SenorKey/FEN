@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 384" preserveAspectRatio="none">
+<!--
+  The frame of the old door at the foot of the hub: two oak posts, a head
+  beam pegged down onto them, and a sill worn hollow in the middle.
+  chronicle.css lays it over the one leaf, which is why the opening is left
+  clear and why the last group here is nothing but shadow: it is the shade
+  the frame throws on what hangs inside it.
+
+  Lit from the top left like the courthouse casing, and by the same rule:
+  an edge that faces up or left carries a pale line (.l) and an edge that
+  faces down or right a dark one (.k).
+
+  The opening is 144 wide from x=28 and runs from y=35 to y=377.
+  chronicle.css places the leaf by those numbers, as percentages of this
+  drawing, and hangs a chain from the eye on each post (x=18 and x=182,
+  y=156), so a change to one is a change to the other.
+
+  Nothing on it says what it is. The pale patch on the head beam is where
+  a plate used to be.
+-->
+<defs>
+<style>.k{fill:none;stroke:#0e0b08}.l{fill:none;stroke:#f3e6cc}</style>
+<!-- a post: lit down its left face and falling away to the right -->
+<linearGradient id="p" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6d5943"/><stop offset=".45" stop-color="#4f3e2c"/><stop offset="1" stop-color="#2f2419"/></linearGradient>
+<!-- the head beam, seen from the front: lit along the top, dark underneath -->
+<linearGradient id="a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#79634b"/><stop offset=".42" stop-color="#54412e"/><stop offset="1" stop-color="#2c2117"/></linearGradient>
+<!-- iron -->
+<linearGradient id="i" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a554e"/><stop offset=".4" stop-color="#2c2a27"/><stop offset="1" stop-color="#151413"/></linearGradient>
+<!-- shadow falling down, and falling to the right -->
+<linearGradient id="d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e0b08" stop-opacity=".7"/><stop offset="1" stop-color="#0e0b08" stop-opacity="0"/></linearGradient>
+<linearGradient id="e" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0e0b08" stop-opacity=".6"/><stop offset="1" stop-color="#0e0b08" stop-opacity="0"/></linearGradient>
+<!-- the damp that has come up the posts from the floor -->
+<linearGradient id="m" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#0e0b08" stop-opacity=".62"/><stop offset="1" stop-color="#0e0b08" stop-opacity="0"/></linearGradient>
+<!-- the grain: noise drawn out long, upright for the posts and lying down for the head -->
+<filter id="v" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".55 .009" numOctaves="3" seed="6"/><feColorMatrix values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .03 2.1 0 0 0 -.86"/></filter>
+<filter id="g" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".009 .55" numOctaves="3" seed="12"/><feColorMatrix values="0 0 0 0 .07 0 0 0 0 .05 0 0 0 0 .03 2.1 0 0 0 -.86"/></filter>
+</defs>
+
+<!-- the left post: the timber, its grain, the checks that have opened in it, the damp at its foot -->
+<rect x="8" y="35" width="20" height="342" fill="url(#p)"/>
+<rect x="8" y="35" width="20" height="342" filter="url(#v)" opacity=".55"/>
+<path class="k" stroke-opacity=".6" stroke-width=".5" stroke-linejoin="round" d="M14.2 58l.6 31-.9 27 .6 23M21.6 188l-.7 35 .8 29-.5 27M12 246l.6 43M23.4 70l-.5 38"/>
+<rect x="8" y="296" width="20" height="81" fill="url(#m)"/>
+<rect x="8" y="35" width="20" height="10" fill="url(#d)" opacity=".85"/>
+<path class="l" stroke-opacity=".2" stroke-width=".7" d="M8.9 44V376"/>
+<path class="k" stroke-opacity=".65" stroke-width=".8" d="M8.4 35V377M27.6 35V377"/>
+
+<!-- the right post, the same -->
+<rect x="172" y="35" width="20" height="342" fill="url(#p)"/>
+<rect x="172" y="35" width="20" height="342" filter="url(#v)" opacity=".55"/>
+<path class="k" stroke-opacity=".6" stroke-width=".5" stroke-linejoin="round" d="M178.4 96l.7 36-.8 30 .5 18M186 52l-.6 30 .7 22M183.6 224l.6 39-.7 34M176.2 262l.5 41"/>
+<rect x="172" y="296" width="20" height="81" fill="url(#m)"/>
+<rect x="172" y="35" width="20" height="10" fill="url(#d)" opacity=".85"/>
+<path class="l" stroke-opacity=".2" stroke-width=".7" d="M172.9 44V376"/>
+<path class="k" stroke-opacity=".65" stroke-width=".8" d="M172.4 35V377M191.6 35V377"/>
+
+<!-- the head beam: hewn rather than sawn, so no edge of it is quite straight -->
+<path fill="url(#a)" d="M0 8.2L58 7.4L141 7.9L200 7.1V35.2L152 34.6L66 35.1L0 34.7z"/>
+<rect x="0" y="8.6" width="200" height="25.6" filter="url(#g)" opacity=".55"/>
+<path class="k" stroke-opacity=".6" stroke-width=".5" stroke-linejoin="round" d="M30 18.7l14-.6 16 .9 12-.5M128 29l17 .5 14-.7 19 .4M134 12.4l24 .4 16-.5M38 28.6l19 .5"/>
+<!-- the arris over the opening, taken off with a chisel and stopped short of each post -->
+<path fill="#0e0b08" fill-opacity=".5" d="M38 35l3.6-3.8h116.8l3.6 3.8z"/>
+<path class="l" stroke-opacity=".14" stroke-width=".5" d="M41.8 31.4h116.4"/>
+<!-- where a plate was: paler wood, three empty holes, and the one nail that held -->
+<rect x="76" y="14.4" width="48" height="12.4" fill="#f3e6cc" fill-opacity=".085"/>
+<path class="k" stroke-opacity=".3" stroke-width=".4" d="M76 26.8V14.4h48"/>
+<path class="l" stroke-opacity=".12" stroke-width=".4" d="M124 14.4v12.4H76"/>
+<g fill="#0e0b08" fill-opacity=".8"><circle cx="121.6" cy="16.8" r=".7"/><circle cx="78.4" cy="24.4" r=".7"/><circle cx="121.6" cy="24.4" r=".7"/></g>
+<path fill="#7a4420" fill-opacity=".4" d="M77.7 17.6h1.4l-.3 9h-.8z"/>
+<circle cx="78.4" cy="16.8" r="1.1" fill="#3a3632" stroke="#0e0b08" stroke-opacity=".7" stroke-width=".4"/>
+<!-- two pegs through each joint -->
+<g fill="#1c140d" stroke="#f3e6cc" stroke-opacity=".16" stroke-width=".4"><circle cx="18" cy="14.6" r="1.7"/><circle cx="18" cy="27.4" r="1.7"/><circle cx="182" cy="14.6" r="1.7"/><circle cx="182" cy="27.4" r="1.7"/></g>
+<path class="l" stroke-opacity=".3" stroke-width=".7" d="M.4 8.8L58 8L141 8.5L199.6 7.7"/>
+<path class="k" stroke-opacity=".85" stroke-width=".8" d="M0 34.7L66 35.1L152 34.6L200 35.2"/>
+<path class="k" stroke-opacity=".6" stroke-width=".8" stroke-linejoin="round" d="M.4 34.7V8.2L58 7.4L141 7.9L199.6 7.1V35.2"/>
+
+<!-- an iron eye on each post for the chain: the plate, its two rivets, and the ring it carries -->
+<rect x="14.9" y="141.8" width="7.6" height="11" rx=".8" fill="#0e0b08" fill-opacity=".45"/>
+<rect x="14.2" y="141" width="7.6" height="11" rx=".8" fill="url(#i)" stroke="#0e0b08" stroke-opacity=".7" stroke-width=".5"/>
+<path class="l" stroke-opacity=".34" stroke-width=".5" d="M14.6 151.4V141.5h6.8"/>
+<g fill="#1a1816"><circle cx="18" cy="143.6" r=".9"/><circle cx="18" cy="148.2" r=".9"/></g>
+<circle cx="18" cy="155.2" r="3" fill="none" stroke="#0e0b08" stroke-opacity=".5" stroke-width="2.4"/>
+<circle cx="18" cy="155.2" r="3" fill="none" stroke="#2b2926" stroke-width="1.7"/>
+<path class="l" stroke-opacity=".4" stroke-width=".5" stroke-linecap="round" d="M15.3 154.2a3 3 0 0 1 2-1.9"/>
+<rect x="178.9" y="141.8" width="7.6" height="11" rx=".8" fill="#0e0b08" fill-opacity=".45"/>
+<rect x="178.2" y="141" width="7.6" height="11" rx=".8" fill="url(#i)" stroke="#0e0b08" stroke-opacity=".7" stroke-width=".5"/>
+<path class="l" stroke-opacity=".34" stroke-width=".5" d="M178.6 151.4V141.5h6.8"/>
+<g fill="#1a1816"><circle cx="182" cy="143.6" r=".9"/><circle cx="182" cy="148.2" r=".9"/></g>
+<circle cx="182" cy="155.2" r="3" fill="none" stroke="#0e0b08" stroke-opacity=".5" stroke-width="2.4"/>
+<circle cx="182" cy="155.2" r="3" fill="none" stroke="#2b2926" stroke-width="1.7"/>
+<path class="l" stroke-opacity=".4" stroke-width=".5" stroke-linecap="round" d="M179.3 154.2a3 3 0 0 1 2-1.9"/>
+
+<!-- the sill, worn down where the feet went -->
+<path fill="#2b2118" d="M2 377.4Q100 379.4 198 377.4L199 384H1z"/>
+<path class="l" stroke-opacity=".2" stroke-width=".7" d="M2.6 378Q100 380 197.4 378"/>
+<path class="k" stroke-opacity=".75" stroke-width=".8" d="M2 377.4Q100 379.4 198 377.4"/>
+
+<!-- shade: on the leaf under the head, and down the left of it beside the post -->
+<rect x="28" y="35" width="144" height="22" fill="url(#d)"/>
+<rect x="28" y="35" width="13" height="342" fill="url(#e)"/>
+<path class="k" stroke-opacity=".85" stroke-width=".8" d="M28.4 35V377M171.6 35V377"/>
+
+<!-- a web in the corner the door has not swung through in a long time -->
+<g fill="none" stroke="#f3e6cc" stroke-linecap="round">
+<path stroke-opacity=".34" stroke-width=".35" d="M172 35L122 35M172 35L128.8 50.7M172 35L132.8 69.1M172 35L152 74.2M172 35L172 89"/>
+<path stroke-opacity=".26" stroke-width=".3" d="M161 35Q163.3 36.5 161.7 38.8M161.7 38.8Q164.4 39.5 163.7 42.2M163.7 42.2Q166.6 41.9 167 44.8M167 44.8Q169.9 43.6 172 46M152 35Q156.2 37.8 153.2 41.8M153.2 41.8Q158.2 43.1 156.9 48.1M156.9 48.1Q162.1 47.6 162.9 52.8M162.9 52.8Q168.3 50.6 172 55M142 35Q148.4 39.2 143.8 45.3M143.8 45.3Q151.3 47.2 149.4 54.7M149.4 54.7Q157.2 53.9 158.4 61.7M158.4 61.7Q166.4 58.3 172 65M131 35Q139.7 40.7 133.5 49M133.5 49Q143.7 51.6 141.1 61.9M141.1 61.9Q151.8 60.8 153.4 71.5M153.4 71.5Q164.3 66.9 172 76"/>
+<path stroke-opacity=".22" stroke-width=".3" d="M150.6 66.2q-.8 7 .5 13M139 57.4q-1 5 .2 9"/>
+</g>
+</svg>
