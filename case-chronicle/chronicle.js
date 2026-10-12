@@ -65,6 +65,11 @@
    still has its line to show, so it follows the control that opens
    every card.
 
+   A question that is answered by others holds them inside its own
+   card, as parts, and each part opens and shuts like a card. So a
+   card's control is the one with no part between it and the card, and
+   a press inside a part is the part's and not the card's.
+
    The rest of every card ships open and the controls ship hidden, so a
    reader with no JavaScript has the whole map written out and no dead
    buttons. This shuts the cards, then arms the transition after a forced
@@ -75,6 +80,7 @@
   const flow = document.querySelector('.cf');
   if (!flow) return;
 
+  const FOLD = '.cf-card, .cf-part';
   const wired = [];
   const bare = [];
 
@@ -99,8 +105,8 @@
     label.textContent = open ? SHUT : OPEN;
   }
 
-  for (const card of flow.querySelectorAll('.cf-card')) {
-    const btn = card.querySelector('.cf-more');
+  for (const card of flow.querySelectorAll(FOLD)) {
+    const btn = [...card.querySelectorAll('.cf-more')].find((b) => b.closest(FOLD) === card);
     if (!btn) {
       bare.push(card);
       continue;
@@ -124,6 +130,7 @@
 
     card.addEventListener('click', (e) => {
       if (e.target.closest?.('a, button')) return;
+      if (e.target.closest?.(FOLD) !== card) return;
       if (window.getSelection()?.toString()) return;
       toggle();
     });

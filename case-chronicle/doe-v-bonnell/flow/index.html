@@ -298,10 +298,16 @@
              chronicle.css draws every line from it, and says at the
              head of its own block what each class is for.
 
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
              Where the case stands is said in three places here, and
              they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -329,166 +335,135 @@
                             <span class="da-l">Open every card</span>
                         </button>
                     </div>
-                    <ol class="cf-flow">
-                        <li class="cf-node is-here">
-                            <article class="cf-card cf-aside">
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The spoliation motion</p>
                                 <p class="cf-here">The case is here</p>
                                 <div class="cf-x"><div class="cf-x-in">
                                     <p class="cf-k">Decided first, and apart from the rest</p>
                                 </div></div>
-                                <h3 class="cf-h">The spoliation motion</h3>
+                                <h3 class="cf-h">Should he lose the case for destroying evidence?</h3>
                                 <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The spoliation motion"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Should he lose the case for destroying evidence?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
                                     <p class="cf-b"><a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">Spoliation</a> means destroying or losing evidence you were supposed to keep. The plaintiff says the defendant did that. She says he deleted his side of conversations after he was told to preserve them, and that a log he swore listed everything he sent one witness is missing two links. So she filed a <a class="term" href="#t-motion" data-term="t-motion" title="Motion: A formal request that the court do something. The other side files an opposition; the moving side may then file a reply.">motion</a>, which is a formal request to the judge, asking for him to be penalised for it. He says nothing was actually lost, and that she filed it too late.</p>
-                                    <p class="cf-b">The judge is deciding this first, and everything below it is on hold until he does. If he sides with her, the penalty could be small, like the jury being told it can assume the missing evidence was bad for him. Or it could be as big as the judge ruling that he is legally responsible without a trial on it, and then the question below never has to be answered at all. If he sides with the defendant, or throws the motion out for being late, the case just moves down to that question.</p>
+                                    <p class="cf-b">The judge is deciding this first, and everything below it is on hold until he does. The most she asked for is a ruling that he is legally responsible without a trial on it, and that&rsquo;s the yes on this card. If it goes that way, the question below never has to be answered at all. Anything less is a no here, and the case just moves down to that question. That covers the judge siding with the defendant, throwing the motion out for being late, or picking a smaller penalty, like the jury being told it can assume the missing evidence was bad for him.</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Judgment against him</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Judgment against him"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Decided in her favour without a trial</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is the most she asked for. The judge would rule that he is legally responsible without a trial on it, as the penalty for losing evidence he was supposed to keep. The rule she is relying on only allows that if he got rid of it on purpose, so that she couldn&rsquo;t use it.</p>
+                                            <p class="cf-b">If it went this way, the argument over what happened would be over, and in her favour. The date question in the middle of this page would never have to be answered.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d">
+                                <p class="cf-ans">If no</p>
+                            </div>
                         </li>
-                        <li class="cf-node has-via">
-                            <p class="cf-via">if that does not end it</p>
+                        <li class="cf-step">
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The only question</p>
-                                </div></div>
-                                <h3 class="cf-h">Did he disclose the video after 1&nbsp;October 2022?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">Stayed until that ruling</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he disclose the video after 1 October 2022?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is the question the whole case comes down to. The federal law she is suing under took effect on 1 October 2022, and it can&rsquo;t be used for anything that happened before that. Both sides now agree he sent the video to someone in April 2022, which is about six months too early. So she has to show that he disclosed it again at some point after that date. Disclose is the law&rsquo;s own word, and it covers sending something, publishing it, or making it accessible.</p>
-                                    <p class="cf-b">If she can&rsquo;t show that, there is no federal claim, and a federal court has no <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, meaning no power to hear the case at all. She has two different ways of trying to show it, and those are the two routes below. Right now this question is <a class="term" href="#t-stay" data-term="t-stay" title="Stay: A pause ordered by the court. Whatever is stayed sits on hold until something else is decided first.">stayed</a>, which means the judge has put it on hold until the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion above is decided.</p>
-                                    <p class="cf-who"><span class="cf-l">Who must prove it</span>She does. The <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is on the plaintiff, and she has to meet it by a <a class="term" href="#t-preponderance" data-term="t-preponderance" title="Preponderance of the evidence: More likely than not. It is the usual standard of proof in a civil case, and a lower bar than the criminal one.">preponderance of the evidence</a>, which just means more likely than not.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 3">
-                            <p class="cf-grp">either route is enough</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Route A</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The November 2023 transmission</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The November 2023 transmission"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is her first way of getting past that date. She says he sent the video a second time in November 2023, to a witness who goes by &ldquo;Abbymc&rdquo; online. That would be thirteen months after the law took effect, so if it happened, it counts. He says it never happened, and points to his own saved logs of what he sent her, where the video doesn&rsquo;t show up.</p>
-                                            <p class="cf-b">What she has is two <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> from Abbymc, which are sworn written statements, saying she received it. She also has a message Abbymc sent a friend that same morning. Whether that&rsquo;s enough is the test in the card below.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Test</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Could a jury credit an untested declaration?</h3>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The only question</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Did he disclose the video after 1&nbsp;October 2022?</h3>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Stayed until that ruling</span></p>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he disclose the video after 1 October 2022?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b">This is the question the whole case comes down to. The federal law she is suing under took effect on 1 October 2022, and it can&rsquo;t be used for anything that happened before that. Both sides now agree he sent the video to someone in April 2022, which is about six months too early. So she has to show that he disclosed it again at some point after that date. Disclose is the law&rsquo;s own word, and it covers sending something, publishing it, or making it accessible.</p>
+                                        <p class="cf-b">If she can&rsquo;t show that, there is no federal claim, and a federal court has no <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, meaning no power to hear the case at all. She has two different ways of trying to show it, and those are the two routes inside this card. A yes on either one makes this a yes. Right now this question is <a class="term" href="#t-stay" data-term="t-stay" title="Stay: A pause ordered by the court. Whatever is stayed sits on hold until something else is decided first.">stayed</a>, which means the judge has put it on hold until the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion above is decided.</p>
+                                        <p class="cf-who"><span class="cf-l">Who must prove it</span>She does. The <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is on the plaintiff, and she has to meet it by a <a class="term" href="#t-preponderance" data-term="t-preponderance" title="Preponderance of the evidence: More likely than not. It is the usual standard of proof in a civil case, and a lower bar than the criminal one.">preponderance of the evidence</a>, which just means more likely than not.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Route A &middot; The November 2023 transmission</p>
+                                        <h4 class="cf-h">Could a jury credit an untested declaration?</h4>
                                         <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
                                         <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Could a jury credit an untested declaration?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is her first way of getting past that date. She says he sent the video a second time in November 2023, to a witness who goes by &ldquo;Abbymc&rdquo; online. That would be thirteen months after the law took effect, so if it happened, it counts. He says it never happened, and points to his own saved logs of what he sent her, where the video doesn&rsquo;t show up.</p>
+                                            <p class="cf-b">What she has is two <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> from Abbymc, which are sworn written statements, saying she received it. She also has a message Abbymc sent a friend that same morning. Whether that&rsquo;s enough is the question this card asks.</p>
                                             <p class="cf-b">This is the test Route A has to pass. To credit a statement just means to believe it. A <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> does count as evidence, but Abbymc herself has never been questioned by either side. She never sat for a <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a>, which is sworn questioning outside of court. She handed over nothing when she was sent a <a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">subpoena</a>, which is a court order to produce documents or testify. And a few days after signing her first declaration she told the defendant she didn&rsquo;t want to be involved anymore.</p>
                                             <p class="cf-b">So the judge has to decide if a reasonable jury could still believe her on paper alone. If it could, the two sides have a real disagreement about a fact, and only a trial can settle that. If it couldn&rsquo;t, Route A is closed.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="or">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Route B</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Continuing accessibility</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Continuing accessibility"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is her second way, and it doesn&rsquo;t need a second send at all. The law doesn&rsquo;t only cover sending or publishing a video. It also covers making it accessible. The copy he sent in April 2022 stayed reachable until he deleted it in November 2024, and he has admitted that under oath.</p>
-                                            <p class="cf-b">So her argument is that even though the sending happened too early, leaving it reachable went on for about two years after the law took effect, and that this counts as a disclosure all by itself.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Test</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Does &#8220;make accessible&#8221; reach a private link?</h3>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Route B &middot; Continuing accessibility</p>
+                                        <h4 class="cf-h">Does &#8220;make accessible&#8221; reach a private link?</h4>
                                         <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
                                         <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does “make accessible” reach a private link?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is her second way, and it doesn&rsquo;t need a second send at all. The law doesn&rsquo;t only cover sending or publishing a video. It also covers making it accessible. The copy he sent in April 2022 stayed reachable until he deleted it in November 2024, and he has admitted that under oath.</p>
+                                            <p class="cf-b">So her argument is that even though the sending happened too early, leaving it reachable went on for about two years after the law took effect, and that this counts as a disclosure all by itself.</p>
                                             <p class="cf-b">This is the test Route B has to pass, and it&rsquo;s about what the words of the law mean, not about what happened. He never posted the video anywhere public himself. He sent it to one person privately, and even her own expert agreed the link was basically impossible to guess. The defendant says that isn&rsquo;t making something accessible in any real sense, and that she is stretching one message from April 2022 into something that lasts for years so that a newer law can reach it. She says the law says &ldquo;make accessible&rdquo;, not &ldquo;publish&rdquo;, so it doesn&rsquo;t have to be public.</p>
                                             <p class="cf-b">No court has applied this law to a private link like this before, so whichever way the judge goes, it will be a first. If she wins this one, the federal court keeps the case even if Route A fails.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-two cf-two-split cf-ragged" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">if yes on either</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Federal jurisdiction survives</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Federal jurisdiction survives"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Outcome</p>
+                                            <p class="cf-k">Then</p>
                                         </div></div>
-                                        <h3 class="cf-h">Federal jurisdiction survives</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Federal jurisdiction survives"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Trial on the merits</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If either route works, she has a disclosure after the date, and the federal court has <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, which is the power to hear the case at all. What comes next is a trial on the <a class="term" href="#t-merits" data-term="t-merits" title="Merits: What the case is actually about, meaning what happened and who is in the right. A ruling that a court cannot hear a case says nothing about the merits.">merits</a>. That means a trial about what actually happened and who is in the right, instead of about whether this court can hear it.</p>
-                                                <p class="cf-b">She would go into that trial in a strong position on the main issue, which is consent. He admits he sent the video, and he has testified that he never asked her. He says permission was implied by their earlier exchanges, but the law asks for consent that was actually given.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">if neither test passes</p>
-                                    <article class="cf-card cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <h4 class="cf-h">Trial on the merits</h4>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Neither route</p>
+                                            <p class="cf-b">If either route works, she has a disclosure after the date, and the federal court has <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, which is the power to hear the case at all. What comes next is a trial on the <a class="term" href="#t-merits" data-term="t-merits" title="Merits: What the case is actually about, meaning what happened and who is in the right. A ruling that a court cannot hear a case says nothing about the merits.">merits</a>. That means a trial about what actually happened and who is in the right, instead of about whether this court can hear it.</p>
+                                            <p class="cf-b">She would go into that trial in a strong position on the main issue, which is consent. He admits he sent the video, and he has testified that he never asked her. He says permission was implied by their earlier exchanges, but the law asks for consent that was actually given.</p>
                                         </div></div>
-                                        <h3 class="cf-h">The April 2022 transmission only</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The April 2022 transmission only"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <p class="cf-ban cf-ban-d">Neither route &middot; The April 2022 transmission only</p>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">No federal claim</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No federal claim"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Case ends here</h4>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">If neither route passes its test, the only sharing anyone has proven is the one from April 2022. That&rsquo;s about six months before the law took effect. She used to argue it happened in October 2022, but in May 2026 she agreed that the real date was 9 April 2022.</p>
-                                            <p class="cf-b">A law normally doesn&rsquo;t apply <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactively</a>, meaning to things that happened before it existed, so that one send can&rsquo;t support a federal claim. That leads to the ending below.</p>
+                                            <p class="cf-b">A law normally doesn&rsquo;t apply <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactively</a>, meaning to things that happened before it existed, so that one send can&rsquo;t support a federal claim.</p>
+                                            <p class="cf-b">With no disclosure after the date, there&rsquo;s nothing left under the federal law, and a federal court can only keep a case that has a federal claim in it. She also has claims under state law, but those are only in this court because they came attached to the federal one. So when the federal claim goes, the state ones are dismissed along with it, and the case is over in this court.</p>
+                                            <p class="cf-b">That wouldn&rsquo;t be a ruling that he did nothing wrong. It would be a ruling that this court isn&rsquo;t allowed to decide it.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Outcome</p>
-                                        </div></div>
-                                        <h3 class="cf-h">No federal claim</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No federal claim"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Case ends here</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">With no disclosure after the date, there&rsquo;s nothing left under the federal law, and a federal court can only keep a case that has a federal claim in it. She also has claims under state law, but those are only in this court because they came attached to the federal one. So when the federal claim goes, the state ones are dismissed along with it, and the case is over in this court.</p>
-                                                <p class="cf-b">That wouldn&rsquo;t be a ruling that he did nothing wrong. It would be a ruling that this court isn&rsquo;t allowed to decide it.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
+                                    </div>
+                                </article>
+                            </div>
                         </li>
                     </ol>
                 </div>

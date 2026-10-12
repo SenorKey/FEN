@@ -131,10 +131,16 @@
              instead. Count eleven gets a card because it is a real
              third outcome that sits outside the chain.
 
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
              Where the case stands is said in three places here, and
              they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -162,162 +168,135 @@
                             <span class="da-l">Open every card</span>
                         </button>
                     </div>
-                    <ol class="cf-flow">
-                        <li class="cf-two cf-two-in cf-join is-done" style="--cf-rows: 2">
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What has already concluded</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The federal conviction</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The federal conviction"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">He was charged over the same killing in more than one court. Two of them matter here, the federal government&rsquo;s case and the State of New York&rsquo;s. This card is the federal case, and it&rsquo;s finished. On 14 August 2026 he pleaded guilty in federal court to two <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a> of stalking, each one for stalking that ended in a death. A count is one charged offence.</p>
-                                            <p class="cf-b">A guilty plea is a conviction, the same as if a jury had found him guilty, and that conviction is what everything below hangs on. He is due to be sentenced on 18 December 2026, and each count carries up to life in prison.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What New York still holds</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Counts three through ten</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Counts three through ten"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This card is the New York case, and it&rsquo;s the one in question. The <a class="term" href="#t-indictment" data-term="t-indictment" title="Indictment: The document a grand jury returns to start a felony prosecution. It lists the charges and nothing else; it is not evidence of anything.">indictment</a>, which is the document that lists the charges, started out with eleven <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a>. A judge threw out the first two, the terrorism ones, in September 2025. Counts three through ten are what&rsquo;s left from the day of the shooting. That&rsquo;s one count of second-degree murder and seven weapons counts.</p>
-                                            <p class="cf-b">Every one of them is dated on or about 4 December 2024, the same morning the federal case was about. That shared date is why the defence has asked the court to dismiss all eight.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node is-done">
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
                             <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The federal conviction</p>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 1</p>
+                                    <p class="cf-k">The first question</p>
                                 </div></div>
                                 <h3 class="cf-h">Is there a previous prosecution?</h3>
                                 <p class="cf-stamp"><span class="cf-st cf-st-done">Yes, since 14 Aug 2026</span></p>
                                 <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is there a previous prosecution?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">He was charged over the same killing in more than one court. Two of them matter here, the federal government&rsquo;s case and the State of New York&rsquo;s. This card starts with the federal case, and it&rsquo;s finished. On 14 August 2026 he pleaded guilty in federal court to two <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a> of stalking, each one for stalking that ended in a death. A count is one charged offence.</p>
+                                    <p class="cf-b">A guilty plea is a conviction, the same as if a jury had found him guilty, and that conviction is what everything below hangs on. He is due to be sentenced on 18 December 2026, and each count carries up to life in prison.</p>
                                     <p class="cf-b"><a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">Double jeopardy</a> is the rule that you can&rsquo;t be prosecuted twice for the same thing, and New York has its own version written into state law. That law only does anything once there&rsquo;s an earlier prosecution that has actually ended in something, like a conviction. So the first question is if there is one.</p>
                                     <p class="cf-b">The defence tried this same argument in May 2025 and lost, because back then the federal case was still going and nothing had ended. The guilty plea on 14 August 2026 changed that. A guilty plea is a conviction, so now there is an earlier prosecution, and the answer is yes.</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
                         </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">yes</p>
+                        <li class="cf-step is-done">
                             <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">New York&rsquo;s counts three through ten</p>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 2</p>
+                                    <p class="cf-k">The second question</p>
                                 </div></div>
                                 <h3 class="cf-h">Was it the same act, or the same criminal transaction?</h3>
                                 <p class="cf-stamp"><span class="cf-st cf-st-set">Not in dispute</span></p>
                                 <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it the same act, or the same criminal transaction?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This card starts with the New York case, and it&rsquo;s the one in question. The <a class="term" href="#t-indictment" data-term="t-indictment" title="Indictment: The document a grand jury returns to start a felony prosecution. It lists the charges and nothing else; it is not evidence of anything.">indictment</a>, which is the document that lists the charges, started out with eleven <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a>. A judge threw out the first two, the terrorism ones, in September 2025. Counts three through ten are what&rsquo;s left from the day of the shooting. That&rsquo;s one count of second-degree murder and seven weapons counts.</p>
+                                    <p class="cf-b">Every one of them is dated on or about 4 December 2024, the same morning the federal case was about. That shared date is why the defence has asked the court to dismiss all eight.</p>
                                     <p class="cf-b">The second question is if both cases are about the same thing. Under the US Constitution this wouldn&rsquo;t even be asked. The federal government and a state count as two separate governments, or <a class="term" href="#t-dual-sovereignty" data-term="t-dual-sovereignty" title="Dual sovereignty: The doctrine that a state and the federal government are separate sovereigns, so a prosecution by each for the same conduct is not the same offence under the Fifth Amendment.">sovereigns</a>, and the Constitution lets each one prosecute the same conduct. New York&rsquo;s own law is stricter. It counts a federal prosecution too, as long as both cases come out of the same act or the same <a class="term" href="#t-criminal-transaction" data-term="t-criminal-transaction" title="Criminal transaction: Conduct closely connected enough in time and purpose to count as one episode. New York’s double jeopardy statute works on transactions, not just on single acts — which is why the date on a count matters.">criminal transaction</a>, which basically means one connected episode.</p>
                                     <p class="cf-b">That stricter state law is the only reason this fight exists. And the answer here isn&rsquo;t really in dispute. Both cases are about one defendant, one victim, one street and one morning.</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
                         </li>
-                        <li class="cf-node is-here has-via">
-                            <p class="cf-via">yes</p>
+                        <li class="cf-step is-here">
                             <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
+                                <span class="cf-pin" aria-hidden="true"></span>
                                 <p class="cf-here">The case is here</p>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 3</p>
-                                </div></div>
-                                <h3 class="cf-h">Does an exception in CPL 40.20(2) apply?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">The only one in dispute</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does an exception in CPL 40.20(2) apply?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-cpl-40-20" data-term="t-cpl-40-20" title="CPL 40.20: The section of New York’s Criminal Procedure Law that holds the state’s double jeopardy rule. Its second part bars a second prosecution over the same act or criminal transaction, and then lists the exceptions.">CPL 40.20</a> is the section of New York&rsquo;s Criminal Procedure Law that holds the <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> rule, and part (2) of it comes with a list of exceptions. If one of them applies, the second prosecution is allowed even though questions 1 and 2 were both a yes. So this is where the prosecution gets its chance to keep the case, and it&rsquo;s the only question of the three that&rsquo;s really being fought over.</p>
-                                    <p class="cf-b">The exception that matters here has two parts, shown in the two cards below, and the prosecution needs both of them. This is where the case is sitting right now. The judge hasn&rsquo;t ruled on it.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 2">
-                            <p class="cf-grp">both are needed</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">First limb</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Each offence contains an element the other lacks</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Each offence contains an element the other lacks"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The third question</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Does an exception in CPL 40.20(2) apply?</h3>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">The only one in dispute</span></p>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does an exception in CPL 40.20(2) apply?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b"><a class="term" href="#t-cpl-40-20" data-term="t-cpl-40-20" title="CPL 40.20: The section of New York’s Criminal Procedure Law that holds the state’s double jeopardy rule. Its second part bars a second prosecution over the same act or criminal transaction, and then lists the exceptions.">CPL 40.20</a> is the section of New York&rsquo;s Criminal Procedure Law that holds the <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> rule, and part (2) of it comes with a list of exceptions. If one of them applies, the second prosecution is allowed even though the first two questions were both a yes. So this is where the prosecution gets its chance to keep the case, and it&rsquo;s the only question of the three that&rsquo;s really being fought over.</p>
+                                        <p class="cf-b">The exception that matters here has two parts, shown in the two cards inside this one, and the prosecution needs both of them. This is where the case is sitting right now. The judge hasn&rsquo;t ruled on it.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">Both are needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The first part of the exception</p>
+                                        <h4 class="cf-h">Does each offence contain an element the other lacks?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does each offence contain an element the other lacks?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">This is the first part of the exception. An <a class="term" href="#t-element" data-term="t-element" title="Element: One of the separate things a prosecutor has to prove for a particular crime. If one is missing, the charge fails.">element</a> is one of the things a prosecutor has to prove for a particular crime. This part asks if each of the two crimes needs something proven that the other one doesn&rsquo;t, and it has to work in both directions.</p>
-                                            <p class="cf-b">Second-degree murder needs proof that he meant to cause a death, and federal stalking plainly has no such requirement. So this part isn&rsquo;t where the fight is. The fight is in the card next to it.</p>
+                                            <p class="cf-b">Second-degree murder needs proof that he meant to cause a death, and federal stalking plainly has no such requirement. So this part isn&rsquo;t where the fight is. The fight is in the other part.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="and">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Second limb</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The two statutes are designed to prevent very different kinds of harm</h3>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The second part of the exception</p>
+                                        <h4 class="cf-h">Are the two statutes designed to prevent very different kinds of harm?</h4>
                                         <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The two statutes are designed to prevent very different kinds of harm"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Are the two statutes designed to prevent very different kinds of harm?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">This is the second part, and it&rsquo;s where the real fight is. It isn&rsquo;t enough for the two crimes to be built differently on paper. The two laws also have to be aimed at very different kinds of harm. So the prosecution has to show that the federal stalking law and New York&rsquo;s murder law exist to protect against different things, even though in this case both were charged over the same death.</p>
                                             <p class="cf-b">There&rsquo;s a twist in it too. The strongest support for the prosecution&rsquo;s side comes from the federal case itself, where the judge ruled in January 2026 that stalking isn&rsquo;t a <a class="term" href="#t-crime-of-violence" data-term="t-crime-of-violence" title="Crime of violence: For these statutes, a felony that has as an element the use, attempted use, or threatened use of physical force against the person or property of another.">crime of violence</a>. That was a ruling the defence asked for, and it&rsquo;s what took the death penalty off the table.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-two cf-two-split cf-join cf-dash" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">an exception applies</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The state case survives</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The state case survives"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then the state case survives</p>
+                                            <p class="cf-k">Then</p>
                                         </div></div>
-                                        <h3 class="cf-h">Tried on counts three through ten</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Tried on counts three through ten"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <h4 class="cf-h">Tried on counts three through ten</h4>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">If the judge finds the exception applies, <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> doesn&rsquo;t block the New York case and it goes ahead. He would be tried in front of a jury on the murder <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">count</a> and the seven weapons counts, even though he has already pleaded guilty in federal court over the same morning.</p>
                                             <p class="cf-b">There&rsquo;s no date for that trial right now. It was supposed to start on 8 September 2026, but that date came and went while this <a class="term" href="#t-motion" data-term="t-motion" title="Motion: A formal request that the court do something. The other side files an opposition or response; the moving side may then reply.">motion</a> was waiting to be decided, and no new one has been set.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">none applies</p>
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The state case is over</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The state case is over"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then the state case is over</p>
+                                            <p class="cf-k">Then</p>
                                         </div></div>
-                                        <h3 class="cf-h">Counts three through ten dismissed</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Counts three through ten dismissed"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <h4 class="cf-h">Counts three through ten dismissed</h4>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">If no exception applies, New York&rsquo;s <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> law stops the state from prosecuting him over that morning a second time. The murder <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">count</a> is dismissed and all seven weapons counts go with it.</p>
                                             <p class="cf-b">That wouldn&rsquo;t mean nothing happens to him. He would still be sentenced in the federal case in December, where each of the two counts he pleaded guilty to carries up to life. It would mean New York never puts him on trial for the killing at all.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d cf-dash">
+                                <p class="cf-ans">Either way</p>
+                            </div>
                         </li>
-                        <li class="cf-node has-via cf-dash">
-                            <p class="cf-via">either way</p>
-                            <article class="cf-card cf-aside">
+                        <li class="cf-step">
+                            <article class="cf-card cf-out cf-c">
                                 <span class="cf-pin" aria-hidden="true"></span>
                                 <div class="cf-x"><div class="cf-x-in">
                                     <p class="cf-k">Outside the motion, either way</p>

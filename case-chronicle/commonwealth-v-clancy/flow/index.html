@@ -254,10 +254,16 @@
              chronicle.css draws every line from it, and says at the
              head of its own block what each class is for.
 
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
              Where the case stands is said in three places here, and
              they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -285,163 +291,128 @@
                             <span class="da-l">Open every card</span>
                         </button>
                     </div>
-                    <ol class="cf-flow">
-                        <li class="cf-node is-done">
-                            <article class="cf-card cf-c">
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Before anything else</p>
-                                </div></div>
-                                <h3 class="cf-h">Whose burden is it?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Whose burden is it?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">A <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is the job of proving something, so before anything else it matters whose job that is. Here it&rsquo;s entirely the Commonwealth&rsquo;s, which is what Massachusetts calls the prosecution. They have to prove two things, which are the two numbered cards below, and they have to prove both <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>, the highest standard the law has.</p>
-                                    <p class="cf-b">She doesn&rsquo;t have to prove anything, and that includes proving she was insane. The judge told the jury so in these words: &ldquo;The defendant has no burden to prove a lack of criminal responsibility.&rdquo; This is the part most arguments about the case get backwards. People assume it was on her to prove she was insane. It was on them to prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">it must prove both of these</p>
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
                             <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The Commonwealth must prove &middot; First</p>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The Commonwealth must prove</p>
+                                    <p class="cf-k">Whose burden is it? The Commonwealth&rsquo;s</p>
                                 </div></div>
-                                <h3 class="cf-h">The elements of murder</h3>
+                                <h3 class="cf-h">Did the Commonwealth prove the elements of murder?</h3>
                                 <p class="cf-stamp"><span class="cf-st cf-st-set">Not in dispute</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The elements of murder"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did the Commonwealth prove the elements of murder?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">A <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is the job of proving something, so before anything else it matters whose job that is. Here it&rsquo;s entirely the Commonwealth&rsquo;s, which is what Massachusetts calls the prosecution. They have to prove two things, which are this question and the one under it, and they have to prove both <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>, the highest standard the law has.</p>
+                                    <p class="cf-b">She doesn&rsquo;t have to prove anything, and that includes proving she was insane. The judge told the jury so in these words: &ldquo;The defendant has no burden to prove a lack of criminal responsibility.&rdquo; This is the part most arguments about the case get backwards. People assume it was on her to prove she was insane. It was on them to prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>.</p>
                                     <p class="cf-b"><a class="term" href="#t-element" data-term="t-element" title="Element: One of the separate things the prosecution has to prove for a particular crime. If one is missing, the charge fails.">Elements</a> are the separate pieces a crime is made of, and the prosecution has to prove every one of them. In most murder trials this is the whole fight. In this one it wasn&rsquo;t a fight at all. The defence didn&rsquo;t dispute what she did. They even offered to <a class="term" href="#t-stipulate" data-term="t-stipulate" title="Stipulate: To agree formally that something is true so it need not be proved. The other side does not have to accept the offer, and here it did not.">stipulate</a> to it, which means formally agreeing something is true so that nobody has to prove it.</p>
                                     <p class="cf-b">The Commonwealth turned that offer down and put the evidence in front of the jury anyway. So this step is marked as not in dispute, and the real argument is all in the second thing they had to prove.</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
                         </li>
-                        <li class="cf-node is-here has-via">
-                            <p class="cf-via">and</p>
+                        <li class="cf-step is-here">
                             <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The Commonwealth must prove &middot; Second</p>
                                 <p class="cf-here">The jury stopped here</p>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The Commonwealth must prove</p>
-                                </div></div>
-                                <h3 class="cf-h">That she was criminally responsible</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">No verdict</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That she was criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">Criminal responsibility</a> is the legal name for what most people would call the insanity question. It asks if she can be held answerable for what she did, given the state of her mind that day. This is the only thing the two sides really fought over. The trial ran for about six weeks and nearly all of the evidence went to this.</p>
-                                    <p class="cf-b">The Commonwealth said she was severely depressed but not psychotic, and that she made a series of deliberate choices. The defence said she was in <a class="term" href="#t-postpartum-psychosis" data-term="t-postpartum-psychosis" title="Postpartum psychosis: A rare and serious illness arising after childbirth. It is a clinical term and carries no legal consequence by itself — the legal test is the one above.">postpartum psychosis</a>. To prove she was responsible, the Commonwealth had two ways of doing it, which are the two cards below. This is also as far as the jury got. They couldn&rsquo;t agree on it, and that&rsquo;s why it says no verdict.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 2">
-                            <p class="cf-grp">to carry it, at least one of these two</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Either</p>
-                                        </div></div>
-                                        <h3 class="cf-h">No mental disease or defect</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No mental disease or defect"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-own">
+                                    <h3 class="cf-h">Did the Commonwealth prove she was criminally responsible?</h3>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">No verdict</span></p>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did the Commonwealth prove she was criminally responsible?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b"><a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">Criminal responsibility</a> is the legal name for what most people would call the insanity question. It asks if she can be held answerable for what she did, given the state of her mind that day. This is the only thing the two sides really fought over. The trial ran for about six weeks and nearly all of the evidence went to this.</p>
+                                        <p class="cf-b">The Commonwealth said she was severely depressed but not psychotic, and that she made a series of deliberate choices. The defence said she was in <a class="term" href="#t-postpartum-psychosis" data-term="t-postpartum-psychosis" title="Postpartum psychosis: A rare and serious illness arising after childbirth. It is a clinical term and carries no legal consequence by itself — the legal test is the one above.">postpartum psychosis</a>. To prove she was responsible, the Commonwealth had two ways of doing it, which are the two cards inside this one. This is also as far as the jury got. They couldn&rsquo;t agree on it, and that&rsquo;s why it says no verdict.</p>
+                                        <p class="cf-b">Whichever way they try, it has to be proved <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>. That doesn&rsquo;t mean beyond every possible doubt, but it&rsquo;s a long way past &ldquo;probably&rdquo;. And all twelve jurors have to agree on the answer, whichever answer it is.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The first way</p>
+                                        <h4 class="cf-h">Was she free of any mental disease or defect?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was she free of any mental disease or defect?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">This is the first way the Commonwealth could prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>. They could show that at the time of the killings she had no <a class="term" href="#t-mental-disease" data-term="t-mental-disease" title="Mental disease or defect: A legal term, not a medical one. It need not match any formal diagnosis, and a jury decides whether there was one.">mental disease or defect</a> at all. That phrase is a legal one, not a medical one. It doesn&rsquo;t have to match any official diagnosis, and it&rsquo;s the jury that decides if she had one, not the doctors.</p>
-                                            <p class="cf-b">If the Commonwealth proved this, that was enough, and the card next to this one wouldn&rsquo;t matter.</p>
+                                            <p class="cf-b">If the Commonwealth proved this, that was enough, and the other question in this card wouldn&rsquo;t matter.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="or">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Or</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Substantial capacity retained</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Substantial capacity retained"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The second way</p>
+                                        <h4 class="cf-h">If she had one, did she keep substantial capacity?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: If she had one, did she keep substantial capacity?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                         <div class="cf-x"><div class="cf-x-in">
                                             <p class="cf-b">This is the second way, in case the jury thought she did have a <a class="term" href="#t-mental-disease" data-term="t-mental-disease" title="Mental disease or defect: A legal term, not a medical one. It need not match any formal diagnosis, and a jury decides whether there was one.">mental disease or defect</a>. Having one doesn&rsquo;t make a person not responsible all by itself. The Commonwealth could still succeed by proving she kept what the law calls <a class="term" href="#t-substantial-capacity" data-term="t-substantial-capacity" title="Substantial capacity: The second limb. Even with a mental disease or defect, a person is responsible if she could both appreciate that what she was doing was wrong and conform her conduct to the law. Losing either is enough.">substantial capacity</a>, and that has two parts. One is that she could <a class="term" href="#t-appreciate" data-term="t-appreciate" title="Appreciate: To understand, rather than merely to know. Knowing an act is illegal is not the same as grasping what that means.">appreciate</a> that what she was doing was wrong. The other is that she was able to make herself follow the law.</p>
                                             <p class="cf-b">They had to prove she kept both. If her illness took away either one, she isn&rsquo;t responsible. And &ldquo;appreciate&rdquo; is a stronger word than &ldquo;know&rdquo;. It means really understanding that something is wrong, not just being aware that it&rsquo;s illegal.</p>
                                         </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node">
-                            <article class="cf-card cf-c">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The question</p>
-                                </div></div>
-                                <h3 class="cf-h">Proved, beyond a reasonable doubt?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Proved, beyond a reasonable doubt?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is the one question it all comes down to. Did the Commonwealth prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, in either of the two ways above, <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>? That doesn&rsquo;t mean beyond every possible doubt, but it&rsquo;s a long way past &ldquo;probably&rdquo;. And all twelve jurors have to agree on the answer, whichever answer it is.</p>
-                                    <p class="cf-b">Proved leads to one of the two endings below, and not proved leads to the other.</p>
-                                </div></div>
+                                    </div>
+                                </div>
                             </article>
-                        </li>
-                        <li class="cf-two cf-two-split cf-join cf-dash" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">proved</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If proved</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Yes</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Criminally responsible</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Yes</p>
+                                            <p class="cf-k">Then the jury reaches the counts</p>
                                         </div></div>
-                                        <h3 class="cf-h">Criminally responsible</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then the jury reaches the counts</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Four ways it can land</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If the jury had found she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, they still wouldn&rsquo;t have been done. That finding only opens the door to the actual charges, which were three <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. This case went to the jury on three of them, and a jury answers for each one separately.">counts</a> of first-degree murder. On those the jury would have had four options, which were first-degree murder, second-degree murder, manslaughter, or not guilty.</p>
-                                                <p class="cf-b">This is the only point where the evidence about what she did, and how, would really start to matter, because that&rsquo;s what separates one of those options from the next.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">not proved</p>
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <h4 class="cf-h">Four ways it can land</h4>
                                         <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">No</p>
+                                            <p class="cf-b">If the jury had found she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, they still wouldn&rsquo;t have been done. That finding only opens the door to the actual charges, which were three <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. This case went to the jury on three of them, and a jury answers for each one separately.">counts</a> of first-degree murder. On those the jury would have had four options, which were first-degree murder, second-degree murder, manslaughter, or not guilty.</p>
+                                            <p class="cf-b">This is the only point where the evidence about what she did, and how, would really start to matter, because that&rsquo;s what separates one of those options from the next.</p>
                                         </div></div>
-                                        <h3 class="cf-h">Not criminally responsible</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then the verdict is</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Not guilty by reason of insanity</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If the Commonwealth didn&rsquo;t prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, the verdict is <a class="term" href="#t-ngi" data-term="t-ngi" title="Not guilty by reason of lack of criminal responsibility: Often shortened to NGI. It is not an acquittal in effect: it ordinarily leads to a petition to commit, and commitment is reviewed at intervals and renewable without limit.">not guilty by reason of insanity</a>. A lot of people hear that as walking free, and it isn&rsquo;t. What generally happens next is that the district attorney asks the court to <a class="term" href="#t-commitment" data-term="t-commitment" title="Commitment: A court order holding a person in a hospital for treatment, not as a punishment. It is reviewed at intervals and can be renewed.">commit</a> her, which means ordering her held in a mental health facility or at Bridgewater State Hospital.</p>
-                                                <p class="cf-b">A commitment gets reviewed every so often, but it can be renewed again and again with no limit, for as long as she is still ill and still dangerous. The judge told the jury it could last for the rest of her life.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If not proved</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">No</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Not criminally responsible</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then the verdict is</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Not guilty by reason of insanity</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the Commonwealth didn&rsquo;t prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, the verdict is <a class="term" href="#t-ngi" data-term="t-ngi" title="Not guilty by reason of lack of criminal responsibility: Often shortened to NGI. It is not an acquittal in effect: it ordinarily leads to a petition to commit, and commitment is reviewed at intervals and renewable without limit.">not guilty by reason of insanity</a>. A lot of people hear that as walking free, and it isn&rsquo;t. What generally happens next is that the district attorney asks the court to <a class="term" href="#t-commitment" data-term="t-commitment" title="Commitment: A court order holding a person in a hospital for treatment, not as a punishment. It is reviewed at intervals and can be renewed.">commit</a> her, which means ordering her held in a mental health facility or at Bridgewater State Hospital.</p>
+                                            <p class="cf-b">A commitment gets reviewed every so often, but it can be renewed again and again with no limit, for as long as she is still ill and still dangerous. The judge told the jury it could last for the rest of her life.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If the jury cannot agree</p>
+                            </div>
                         </li>
-                        <li class="cf-node has-via cf-dash">
-                            <p class="cf-via">never reached</p>
-                            <article class="cf-card cf-aside">
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-out cf-c">
                                 <span class="cf-pin" aria-hidden="true"></span>
                                 <div class="cf-x"><div class="cf-x-in">
                                     <p class="cf-k">What actually happened</p>
                                 </div></div>
                                 <h3 class="cf-h">Neither. The jury never answered the question</h3>
                                 <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Neither. The jury never answered the question"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is what actually happened, and it&rsquo;s neither of the two endings above. The jury deliberated for thirty-eight hours over seven days and sent the judge three notes. They ended up split eleven to one. A verdict has to be unanimous, so eleven to one counts for exactly as much as no agreement at all. That&rsquo;s called a <a class="term" href="#t-hung-jury" data-term="t-hung-jury" title="Hung jury: A jury that cannot reach the required unanimity. Eleven to one is not a verdict, and is worth no more than nothing to one.">hung jury</a>.</p>
-                                    <p class="cf-b">On 4 September 2026 the judge declared a <a class="term" href="#t-mistrial" data-term="t-mistrial" title="Mistrial: A trial ended without a verdict. It decides nothing: the charges stay live and the case can, in principle, be tried again.">mistrial</a>, which is a trial that ends without a verdict. A mistrial decides nothing. She wasn&rsquo;t found guilty and she wasn&rsquo;t found not guilty. The charges are still there and the case can be tried again in front of a new jury. The defence has asked the court to rule that a second trial isn&rsquo;t allowed, and that&rsquo;s due to be argued on 2 November 2026.</p>
-                                </div></div>
+                                <div class="cf-then">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Then</p>
+                                    </div></div>
+                                    <h4 class="cf-h">A mistrial, declared on 4 September 2026</h4>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b">This is what actually happened, and it&rsquo;s neither of the two endings that question leads to. The jury deliberated for thirty-eight hours over seven days and sent the judge three notes. They ended up split eleven to one. A verdict has to be unanimous, so eleven to one counts for exactly as much as no agreement at all. That&rsquo;s called a <a class="term" href="#t-hung-jury" data-term="t-hung-jury" title="Hung jury: A jury that cannot reach the required unanimity. Eleven to one is not a verdict, and is worth no more than nothing to one.">hung jury</a>.</p>
+                                        <p class="cf-b">On 4 September 2026 the judge declared a <a class="term" href="#t-mistrial" data-term="t-mistrial" title="Mistrial: A trial ended without a verdict. It decides nothing: the charges stay live and the case can, in principle, be tried again.">mistrial</a>, which is a trial that ends without a verdict. A mistrial decides nothing. She wasn&rsquo;t found guilty and she wasn&rsquo;t found not guilty. The charges are still there and the case can be tried again in front of a new jury. The defence has asked the court to rule that a second trial isn&rsquo;t allowed, and that&rsquo;s due to be argued on 2 November 2026.</p>
+                                    </div></div>
+                                </div>
                             </article>
                         </li>
                     </ol>
