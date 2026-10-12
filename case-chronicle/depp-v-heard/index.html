@@ -1022,9 +1022,16 @@
                             </label>
                         </div>
 
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
                         <div class="fix-foot">
-                            <button type="submit" class="fix-send">Send correction</button>
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
                             <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
                         </div>
                     </form>
 

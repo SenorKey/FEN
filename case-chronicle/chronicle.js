@@ -1468,8 +1468,11 @@
    asking the reader keeps a third control off a form that already has
    three.
 
-   The form ships without an action, so with no JavaScript it simply does
-   not submit rather than navigating somewhere useless. */
+   A form with no action is not inert. Left to itself it submits to its own
+   page's address, with everything the reader typed in the query string. So
+   the Send button ships disabled, which stops a press and the Enter key
+   alike, and this turns it on. With no JavaScript the form says it cannot
+   send, and sends nothing. */
 
 (function () {
   'use strict';
@@ -1570,6 +1573,8 @@
       send.textContent = label;
     });
   });
+
+  send.disabled = false;
 })();
 
 /* The shelf, for a reader with nothing to point with.
