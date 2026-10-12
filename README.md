@@ -32,7 +32,7 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
 - `/case-chronicle/` — Court cases read end to end, built from the public docket. A hub listing
   the cases, and under it a page per case holding the masthead, four doors and the notes. Each
-  door opens one view of the case on a page of its own: `chronology/`, `courtroom/`, `flow/` and
+  door opens one view of the case on a page of its own: `flow/`, `chronology/`, `courtroom/` and
   `side-by-side/`. Every page loads `case-chronicle/chronicle.css` and `chronicle.js`, which
   name no case between them, so adding a case is HTML and nothing else. Standalone: they do not
   load the shared stylesheet, since the golden-ratio shell pins the body to 100vh and these are
