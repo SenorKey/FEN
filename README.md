@@ -30,14 +30,14 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 - `/preside-by-side/` — Side-by-side presidential misconduct comparison app
 - `/fresh-pull/` — One-click browsing data cleaner for Chrome
 - `/trtbench/` — YOLOv8n object-detection benchmarks across PyTorch, ONNX Runtime, and TensorRT
-- `/case-chronicle/` — Court cases read end to end in the order they happened, built from the
-  public docket. A hub listing the cases, plus one page per case beneath it. Every case page
-  loads `case-chronicle/chronicle.css` and `chronicle.js`, which name no case between them, so
-  adding a case is one HTML file. Standalone: they do not load the shared stylesheet, since the
-  golden-ratio shell pins the body to 100vh and these are scrolling documents
-  - `/case-chronicle/doe-v-bonnell/` — *Doe v. Bonnell II*, from the full public docket. The
-    only one with a **Common ground** section; the template for a new case is Chronology, the
-    decision tree, Side by side, and Notes
+- `/case-chronicle/` — Court cases read end to end, built from the public docket. A hub listing
+  the cases, and under it a page per case holding the masthead, four doors and the notes. Each
+  door opens one view of the case on a page of its own: `chronology/`, `courtroom/`, `flow/` and
+  `side-by-side/`. Every page loads `case-chronicle/chronicle.css` and `chronicle.js`, which
+  name no case between them, so adding a case is HTML and nothing else. Standalone: they do not
+  load the shared stylesheet, since the golden-ratio shell pins the body to 100vh and these are
+  scrolling documents
+  - `/case-chronicle/doe-v-bonnell/` — *Doe v. Bonnell II*, from the full public docket
   - `/case-chronicle/depp-v-heard/` — *Depp v. Heard*, from the Fairfax record, the court's own
     published letter opinions, and both parties' deposition transcripts. Carries its own
     stylesheet: the two side inks are sampled off the portraits in its masthead

@@ -75,7 +75,7 @@
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.7</priority>
   </url>
 
@@ -86,8 +86,20 @@
   </url>
 
   <url>
+    <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/flow/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/doe-v-bonnell/side-by-side/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://frontendneeded.com/case-chronicle/depp-v-heard/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.7</priority>
   </url>
 
@@ -98,8 +110,20 @@
   </url>
 
   <url>
+    <loc>https://frontendneeded.com/case-chronicle/depp-v-heard/flow/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/depp-v-heard/side-by-side/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.7</priority>
   </url>
 
@@ -110,14 +134,32 @@
   </url>
 
   <url>
+    <loc>https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/flow/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/commonwealth-v-clancy/side-by-side/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/chronology/</loc>
     <lastmod>2026-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/flow/</loc>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.6</priority>
   </url>
 

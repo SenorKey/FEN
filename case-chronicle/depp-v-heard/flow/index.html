@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
+
+    <!-- This case's own inks and the two masthead portraits. After the shared
+         sheet, because it restates tokens the shared sheet sets. -->
+    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css?v=20261012b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description" content="Depp v. Heard in short: what has to be decided, in what order, and where each answer leads, built from the public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/depp-v-heard/flow/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/depp-v-heard/flow/">
+    <meta property="og:title" content="Depp v. Heard, in short &mdash; Case Chronicle">
+    <meta property="og:description" content="Depp v. Heard in short: what has to be decided, in what order, and where each answer leads, built from the public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Depp v. Heard, in short &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="depp-v-heard">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Deposition wash
+
+         Each party's own sworn answers, run down their own side of the
+         page behind the argument. The other wash on this site recreates
+         screenshots; this recreates transcript, so it keeps the Q/A
+         ladder and the page:line cite and nothing else.
+
+         No line-number gutter. A transcript numbers 1-25 down every page,
+         and faking that column would mean either breaking the text at the
+         original line breaks, which a recreation cannot promise, or
+         printing numbers that mean nothing. The range is in the cite,
+         where it can be checked.
+
+         Selection is not mine: every passage below comes off a page one
+         side or the other put in front of the witness. The two sides'
+         provenance differs, and the Notes say how.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>A</dt><dd>It can be challenging because you&rsquo;re essentially &mdash; or I was &mdash; I&rsquo;m essentially a novelty, and it does &mdash; it does take its toll on you. There are times when you&rsquo;d like to be &mdash; feel normal.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 246:3</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>Did you ever accuse Bruce Witkin of stealing from you?</dd>
+                    <dt>A</dt><dd>Bruce Witkin of stealing from me?</dd>
+                    <dt>Q</dt><dd>Yes.</dd>
+                    <dt>A</dt><dd>No.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 247:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>A</dt><dd>No, I was forced to borrow large sums of money to pay the United States government millions, tens and tens and tens of millions of dollars because they had not paid my taxes in 17 years.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 248:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>Do you remember testifying in the U.K. that Mandel did not file your tax returns for 17 years?</dd>
+                    <dt>A</dt><dd>Yes, I think I &mdash; I believe I did. I don&rsquo;t remember if it came up, but it&rsquo;s &mdash; it&rsquo;s the truth.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 249:3</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>Well, the court already ordered you to produce them and you did not. Are you aware of that?</dd>
+                    <dt>A</dt><dd>I am not aware of that, no.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 250:5</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Depp</b> <time>10 Nov 2020</time></p>
+                    <dl class="ex-qa">
+                    <dt>A</dt><dd>I&rsquo;m going to say &mdash; I&rsquo;m going to take my attorney&rsquo;s advice because I don&rsquo;t want to waste your time.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Depp Dep. 253:8</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dd class="ex-read">&ldquo;&hellip; a bad argument that started with Johnny throwing a magnum size bottle of champagne at the wall and a wine glass on me and the floor &mdash; both which shattered.&rdquo;</dd>
+                    <dt>Q</dt><dd>Did you say that when you swore under penalty of perjury and signed your name to this document?</dd>
+                    <dt>A</dt><dd>Yes.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 246:2</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>And did you say in this same document that &ldquo;Johnny was screaming and threatening me, taunting me to stand up&rdquo;?</dd>
+                    <dt>A</dt><dd>Yes. He did that often in fights.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 246:19</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>And is that the truth?</dd>
+                    <dt>A</dt><dd>Yes.</dd>
+                    <dt>Q</dt><dd>Okay. After you say he did this, did you call the police?</dd>
+                    <dt>A</dt><dd>No, I did not.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 247:9</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dt>A</dt><dd>No. I attempted as best as I could to hide this and keep our lives as private as &mdash; as possible, and I did what a lot of I guess women do, tried to protect him.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 248:12</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>Were you attempting to hide this when you filed this declaration on May 27, 2016?</dd>
+                    <dt>A</dt><dd>It was unhideable because the cops had been called.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 248:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Heard</b> <time>13 Aug 2016</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>Okay. Did the bottle you refer to, did it ever touch your body?</dd>
+                    <dt>A</dt><dd>No.</dd>
+                    <dt>Q</dt><dd>Did the wine glass you refer to in reference to the bottle ever touch your body?</dd>
+                    <dt>A</dt><dd>Uh, pieces of it did. That&rsquo;s &mdash; it shattered.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Heard Dep. 249:15</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/depp-v-heard/">&larr;&nbsp; Depp v. Heard</a></p>
+                <p class="eyebrow">Circuit Court of Fairfax County, Virginia &middot; No. CL-2019-0002911</p>
+                <h1 class="masthead-title">Depp <em>v.</em> Heard</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/depp-v-heard/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/depp-v-heard/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/depp-v-heard/flow/">
+                        <span class="view-t">Case Flow View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/depp-v-heard/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Case flow
+
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on everything the case has been through, and
+             is-here with its flag on the card it is waiting at.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
+            <div class="wrap">
+                <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
+
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Finished. The jury answered all of it on 1 June 2022.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Depp</li>
+                            <li class="cf-key-d">Heard</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has got</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger in the Side
+                             by Side View: every card opens on its own, and with no
+                             JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow">
+                        <li class="cf-two cf-two-in cf-join is-done" style="--cf-rows: 2">
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-p">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">What he sued over</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The op-ed &mdash; three sentences</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The op-ed — three sentences"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is where his side of the case starts. On 18 December 2018 the Washington Post published an op-ed under Amber Heard&rsquo;s name, about what happens to women who speak up about abuse. It never mentions Johnny Depp by name. He sued her for <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> anyway, which means he says it hurt his reputation by stating things about him that were false.</p>
+                                            <p class="cf-b">He didn&rsquo;t sue over the whole piece. He picked out three sentences from it, and one of those is the headline, which the newspaper wrote and not her. Each of the three goes through the four questions below separately.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-d">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">What she counterclaimed over</p>
+                                        </div></div>
+                                        <h3 class="cf-h">His lawyer to the Daily Mail &mdash; three statements</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: His lawyer to the Daily Mail — three statements"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is where her side starts. After he sued her, she sued him back inside the same case, which is called a <a class="term" href="#t-counterclaim" data-term="t-counterclaim" title="Counterclaim: A claim the person being sued brings back against the person who sued them. Both are tried together as one case.">counterclaim</a>. Hers isn&rsquo;t about anything he said himself. It&rsquo;s about three statements his lawyer, Adam Waldman, gave to the Daily Mail in April and June 2020, each one calling her abuse allegations a hoax.</p>
+                                            <p class="cf-b">Her argument is that the lawyer was speaking for him, so he answers for what was said. Her three statements go through the same four questions as his three. That makes six statements in total, and that&rsquo;s all the jury was ever asked to decide.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">each statement, on its own</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Question 1</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it of and concerning the claimant?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it of and concerning the claimant?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b"><a class="term" href="#t-of-and-concerning" data-term="t-of-and-concerning" title="Of and concerning: About the person who is suing. The statement need not name them, as long as people who know the background would understand who it means.">&ldquo;Of and concerning&rdquo;</a> is the court&rsquo;s way of asking if a statement is actually about the person suing over it. The claimant is whoever is suing over that statement, so that&rsquo;s him for the op-ed sentences and her for the lawyer&rsquo;s statements. The statement doesn&rsquo;t have to use their name. It&rsquo;s enough that people reading it, who know the background, would understand who it means.</p>
+                                    <p class="cf-b">This question matters most for the op-ed, because it never names him. If the jury had decided those sentences weren&rsquo;t about him, his case would have ended right here. A yes moves the statement on to question 2. A no ends it for that statement.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Question 2</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it a false statement of fact?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it a false statement of fact?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">There are really two things packed into this one. First, the statement has to be saying something as a fact, meaning something that can be shown to be true or false. An opinion can&rsquo;t be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>, no matter how harsh it is. Second, that fact has to be false. If what was said is true, the claim over that statement is finished, because the truth is a complete defence.</p>
+                                    <p class="cf-b">For the op-ed, the jury wasn&rsquo;t asked about the marriage in general. They were asked if what each of those three sentences said or implied about him was false.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Question 3</p>
+                                </div></div>
+                                <h3 class="cf-h">Is it defamatory in meaning?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it defamatory in meaning?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">A statement can be false and still not be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>. To count, it has to be the kind of thing that damages a person&rsquo;s reputation, the kind that makes people think less of them. And it doesn&rsquo;t have to say it outright. What a statement implies counts just as much as what it says word for word.</p>
+                                    <p class="cf-b">That&rsquo;s the only reason an op-ed that never names him could go in front of a jury in the first place. His claim was about what those sentences implied about him, not what they literally said.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node is-done has-via">
+                            <p class="cf-via">yes</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>4</b></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Question 4</p>
+                                </div></div>
+                                <h3 class="cf-h">Was it published with actual malice?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it published with actual malice?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This is the hardest of the four to prove. <a class="term" href="#t-actual-malice" data-term="t-actual-malice" title="Actual malice: Putting a statement out knowing it was false, or with serious doubts about whether it was true. It has nothing to do with spite. A public figure has to prove it.">Actual malice</a> sounds like it&rsquo;s about spite or bad intentions, but in court it means something more specific. It means the person put the statement out knowing it was false, or had serious doubts about it being true and put it out anyway.</p>
+                                    <p class="cf-b">It&rsquo;s only on the list because both of them are public figures, and the law makes it harder on purpose for well-known people to win a <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> case. It also has to be proven to a higher standard than usual. In most lawsuits &ldquo;more likely than not&rdquo; is enough. Here it has to be <a class="term" href="#t-clear-and-convincing" data-term="t-clear-and-convincing" title="Clear and convincing: A standard of proof above the usual civil one of more likely than not, and below the criminal one of beyond a reasonable doubt.">clear and convincing</a>, which is a step above that.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-two cf-two-split is-done" style="--cf-rows: 1">
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done has-via">
+                                    <p class="cf-via">all four yes</p>
+                                    <article class="cf-card cf-out cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The statement is actionable</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The statement is actionable"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b"><a class="term" href="#t-actionable" data-term="t-actionable" title="Actionable: Enough to win a lawsuit over. A statement that is not actionable cannot support a claim, however much it stung.">Actionable</a> just means the statement is something you can win a lawsuit over. A statement only gets here if the jury said yes to all four questions about it. Only the statements that make it this far can be counted when the jury decides how much money is owed, which is called <a class="term" href="#t-damages" data-term="t-damages" title="Damages: Money a court orders one side to pay the other.">damages</a>.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col is-done">
+                                <li class="cf-node is-done has-via">
+                                    <p class="cf-via">any one no</p>
+                                    <article class="cf-card cf-out cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h3 class="cf-h">That statement fails</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That statement fails"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The four questions aren&rsquo;t a score where three out of four is good enough. A statement needs all four. If the jury says no to even one of them, that statement is out completely and no money can be awarded for it.</p>
+                                            <p class="cf-b">But it&rsquo;s only that one statement that is out. Each of the others gets its own run through the same four questions, so one failing doesn&rsquo;t take the rest down with it.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-two cf-two-score is-done" style="--cf-rows: 1">
+                            <p class="cf-title">The same four questions, six times over</p>
+                            <ol class="cf-col cf-arm-p is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-out cf-p">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">The op-ed, scored</p>
+                                        </div></div>
+                                        <h3 class="cf-h">Three of three</h3>
+                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Three of three"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is how his side came out. The jury said yes to all four questions on all three of the op-ed sentences, including the headline she didn&rsquo;t write. They awarded him $10 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a>, which is money to make up for the harm done, and another $5 million in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>, which is money meant purely as punishment.</p>
+                                            <p class="cf-b">Virginia puts a legal limit on punitive damages, so the judge cut that $5 million down to $350,000. That left him with $10.35 million.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col cf-arm-d is-done">
+                                <li class="cf-node is-done">
+                                    <article class="cf-card cf-out cf-d">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">The lawyer&rsquo;s statements, scored</p>
+                                        </div></div>
+                                        <h3 class="cf-h">One of three</h3>
+                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok"></span><span class="cf-tok"></span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: One of three"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is how her side came out. Only one of the lawyer&rsquo;s three statements made it through all four questions. That was the one claiming she and her friends staged the penthouse between two 911 calls. The other two, which called her allegations a hoax in broader terms, failed. The jury awarded her $2 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a> and nothing in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>.</p>
+                                            <p class="cf-b">So each of them was found to have <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamed</a> the other, but the amounts were nowhere close. He appealed this one finding and she filed an appeal as well. Both were dropped when the two of them settled, so no higher court ever reviewed any of it.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+
+                <p class="tree-caption">Nothing on this diagram asks whether the marriage was abusive, because no question on the verdict form did either.</p>
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/depp-v-heard/" aria-label="Back to the case page for Depp v. Heard">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Depp v. Heard, No. CL-2019-0002911 (Va. Cir. Ct., Fairfax Cty.)</p>
+            </div>
+        </footer>
+
+<!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-answer">Answer</dt><dd>The defendant&rsquo;s formal response to the complaint, admitting
+                        or denying each allegation.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                    <div><dt id="t-errata">Errata</dt><dd>A formal correction a witness files to their own sworn testimony
+                        after reading it back.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-protective-order">Protective order</dt><dd>An order limiting what either side may do with the
+                        material it receives in discovery.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, which is why some entries here do not link.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Argues the case cannot proceed even if everything
+                        alleged is true &mdash; usually because the court lacks power to hear it.</dd></div>
+                    <div><dt id="t-summary-judgment">Summary judgment</dt><dd>Argues the facts are not genuinely in dispute, so the
+                        judge can decide without a trial. If facts <em>are</em> disputed, it fails.</dd></div>
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-sanctions">Sanctions</dt><dd>A penalty for misconduct in the litigation itself. They can
+                        run from a fine to losing the case outright.</dd></div>
+                    <div><dt id="t-adverse-inference">Adverse inference</dt><dd>A sanction where the jury is told it may assume the
+                        destroyed evidence would have hurt the side that destroyed it.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all.
+                        A federal court needs a federal claim, which is why one date decides so much
+                        here.</dd></div>
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose that
+                        point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone said outside court to prove it was true.
+                        Generally not allowed, with many exceptions.</dd></div>
+                    <div><dt id="t-authentication">Authentication</dt><dd>Showing a document or screenshot is genuinely what its
+                        proponent says it is. The bar is low, but it is not nothing.</dd></div>
+                    <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
+                        admissible and still carry very little weight.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Defamation and damages</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-defamation">Defamation</dt><dd>A false statement of fact, put out to
+                        other people, that damages someone&rsquo;s reputation.</dd></div>
+                    <div><dt id="t-counterclaim">Counterclaim</dt><dd>A claim the person being sued
+                        brings back against the person who sued them. Both are tried together as one
+                        case.</dd></div>
+                    <div><dt id="t-of-and-concerning">Of and concerning</dt><dd>About the person who is
+                        suing. The statement need not name them, as long as people who know the background
+                        would understand who it means.</dd></div>
+                    <div><dt id="t-actual-malice">Actual malice</dt><dd>Putting a statement out knowing
+                        it was false, or with serious doubts about whether it was true. It has nothing to do
+                        with spite. A public figure has to prove it.</dd></div>
+                    <div><dt id="t-clear-and-convincing">Clear and convincing</dt><dd>A standard of
+                        proof above the usual civil one of more likely than not, and below the criminal one
+                        of beyond a reasonable doubt.</dd></div>
+                    <div><dt id="t-actionable">Actionable</dt><dd>Enough to win a lawsuit over. A
+                        statement that is not actionable cannot support a claim, however much it
+                        stung.</dd></div>
+                    <div><dt id="t-damages">Damages</dt><dd>Money a court orders one side to pay the
+                        other.</dd></div>
+                    <div><dt id="t-compensatory">Compensatory damages</dt><dd>Money meant to make up for
+                        harm actually done.</dd></div>
+                    <div><dt id="t-punitive">Punitive damages</dt><dd>Money awarded as punishment, on
+                        top of what makes up for the harm. Some states cap it by law, and Virginia is
+                        one.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
+</body>
+
+</html>

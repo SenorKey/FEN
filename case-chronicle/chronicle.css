@@ -319,7 +319,7 @@ body::after {
    Every masthead used to open on two pools of the side colours. None
    does now. A case page has a card for each side in those corners (see
    "The two sides"), the chronology's has nothing there, and the hub and
-   the courtroom's page have this: the same drawing in each corner, a
+   the other three views' pages have this: the same drawing in each corner, a
    book lying open, turned so its head is in the corner and its pages
    open towards the middle of the page, with the corner itself cutting
    off the far half. Line only, in the court's ink at about a fifth of
@@ -1422,19 +1422,20 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════
-   Two ways in
+   Four ways in
 
-   A case can be read two ways, and the choice is made once, here, at
-   the foot of the masthead: in the order things happened, or as the
-   room they happened in. Each way gets a doorway of its own, and it is
-   the doorway a courthouse gives a courtroom: a pair of panelled
-   leaves under a transom, in a wood casing with a pediment over it.
-   Two of the same, side by side, because the choices are equal. The
-   only thing that tells one from the other is the sign in the glass.
+   A case can be read four ways, and the choice is made once, here, at
+   the foot of the masthead: in the order things happened, as the room
+   they happened in, as the questions that decide it, or as what each
+   side argues set next to the other. Each way gets a doorway of its
+   own, and it is the doorway a courthouse gives a courtroom: a pair of
+   panelled leaves under a transom, in a wood casing with a pediment
+   over it. Four of the same, in a row, because the choices are equal.
+   The only thing that tells one from another is the sign in the glass.
 
    The wood is the hub's binding browns with oil in them, and the brass
    is as far towards gold as this page goes. None of the three working
-   inks is used: neither view belongs to a side.
+   inks is used: no view belongs to a side.
 
    The casing and the leaf are drawings, and they are files of their
    own beside this one rather than more of it. This stylesheet is on
@@ -1452,20 +1453,40 @@ body::after {
 .doors {
   /* One measure. --dw is the width of a casing and every other length
      in a doorway is a share of it, the way the volumes on the hub hang
-     off --bk-scale, so the pair goes from a desk to a phone without a
-     rule being restated. It follows whichever is tighter, the window's
-     width or its height: two doorways have to stand side by side on a
-     phone, and on a short window a doorway is held to under two thirds
-     of the height so the words beneath it are on the screen with it. */
-  --dw: clamp(124px, min(39vw, 33vh), 290px);
+     off --bk-scale, so the doorways go from a desk to a phone without
+     a rule being restated. It follows whichever is tighter, the
+     window's width or its height.
+
+     These are the numbers for a narrow window, where the four stand
+     two by two. A pair has to fit side by side on a phone, a doorway
+     is held to under two thirds of the window's height so the words
+     beneath it are on the screen with it, and it stops growing where
+     two rows of them would be most of a page. The row of four, just
+     below, restates all of it. --door-n is how many stand in a row. */
+  --door-n: 2;
+  --dw: clamp(124px, min(39vw, 33vh), 200px);
   /* The casing is drawn 300 by 572. */
   --dh: calc(var(--dw) * 1.9067);
   --door-gap: clamp(18px, 7vw, 96px);
+  /* How far the floor runs on past the first and the last doorway of a
+     row: a third of a doorway, or as much of that as the window has to
+     spare. The eight pixels are a scrollbar's share, which 100vw
+     counts as window. */
+  --floor-out: max(0px, min(var(--dw) * 0.35, (100vw - var(--dw) * var(--door-n) - var(--door-gap) * (var(--door-n) - 1)) / 2 - 8px));
 
   padding: 72px 0 64px;
   border-bottom: 1px solid var(--rule);
   /* The wall, a shade deeper towards the floor. */
   background: linear-gradient(180deg, transparent 55%, rgba(23, 20, 15, 0.045));
+}
+
+/* From here up there is room for all four in one row. */
+@media (min-width: 700px) {
+  .doors {
+    --door-n: 4;
+    --dw: clamp(132px, min(18.6vw, 33vh), 232px);
+    --door-gap: clamp(14px, 3vw, 60px);
+  }
 }
 
 .doors-l {
@@ -1478,12 +1499,15 @@ body::after {
   margin-bottom: 30px;
 }
 
-/* Two columns, and four rows that both doorways share: the casing,
-   then the three lines of words under it. Each door is a subgrid of
-   those rows, so a name or a description that wraps on one side moves
-   the line below it on both, and the two stay level at any width.
-   Where subgrid is not understood the rows are simply each door's
-   own.
+/* A column to a doorway, and four rows that the doorways of a row
+   share: the casing, then the three lines of words under it. Each door
+   is a subgrid of those rows, so a name or a description that wraps
+   under one moves the line below it under all of them, and they stay
+   level at any width. Where subgrid is not understood the rows are
+   simply each door's own.
+
+   Two by two, the second pair takes four more rows, which the grid
+   makes as it needs them.
 
    Isolated, because the parts of a doorway are stacked by number and
    those numbers are among themselves: none of them is to be weighed
@@ -1492,36 +1516,76 @@ body::after {
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: repeat(2, var(--dw));
-  grid-template-rows: repeat(4, auto);
+  grid-template-columns: repeat(var(--door-n), var(--dw));
+  grid-auto-rows: auto;
   justify-content: center;
   column-gap: var(--door-gap);
 }
 
-/* The floor: one line under both doorways, running out to nothing at
-   either end, and the shade the pair throws on it. */
-.doorway::before {
-  content: '';
-  position: absolute;
-  top: var(--dh);
-  left: 50%;
-  width: calc(var(--dw) * 2.7 + var(--door-gap));
-  max-width: 100vw;
-  height: calc(var(--dw) * 0.1);
-  transform: translateX(-50%);
-  background:
-    linear-gradient(90deg, rgba(23, 20, 15, 0), rgba(23, 20, 15, 0.5) 14%, rgba(23, 20, 15, 0.5) 86%, rgba(23, 20, 15, 0))
-      top / 100% 1px no-repeat,
-    radial-gradient(ellipse 50% 100% at 50% 0, rgba(23, 20, 15, 0.1), rgba(23, 20, 15, 0));
-}
-
-/* A doorway and, on the right-hand one, the lock hung over it. */
+/* A doorway and, on the Courtroom's, the lock hung over it. */
 .door-slot {
   position: relative;
   display: grid;
   grid-row: span 4;
   grid-template-rows: subgrid;
   min-width: 0;
+}
+
+/* The floor. Each doorway draws the line under itself and half way to
+   the next, so a row of them stands on one line however many it holds,
+   and the shade it throws lies under the line. The first and the last
+   of a row run the line on a little and out to nothing. Which those
+   are depends on how many stand in a row, so that is said once for
+   each arrangement below.
+
+   The four numbers are how far the line runs past the doorway on each
+   side, and over how much of its length at each end it fades. */
+.doorway > .door-slot {
+  --floor-l: calc(var(--door-gap) / 2);
+  --floor-r: calc(var(--door-gap) / 2);
+  --fade-l: 0px;
+  --fade-r: 0px;
+}
+
+.doorway > .door-slot::before {
+  content: '';
+  position: absolute;
+  top: var(--dh);
+  left: calc(var(--floor-l) * -1);
+  right: calc(var(--floor-r) * -1);
+  height: calc(var(--dw) * 0.1);
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(23, 20, 15, 0), rgba(23, 20, 15, 0.5) var(--fade-l), rgba(23, 20, 15, 0.5) calc(100% - var(--fade-r)), rgba(23, 20, 15, 0))
+      top / 100% 1px no-repeat,
+    radial-gradient(ellipse calc(var(--dw) * 0.8) 100% at calc(var(--floor-l) + var(--dw) / 2) 0, rgba(23, 20, 15, 0.1), rgba(23, 20, 15, 0));
+}
+
+@media (max-width: 699.98px) {
+  .doorway > .door-slot:nth-child(odd) {
+    --floor-l: var(--floor-out);
+    --fade-l: calc(var(--floor-out) + var(--dw) * 0.05);
+  }
+
+  .doorway > .door-slot:nth-child(even) {
+    --floor-r: var(--floor-out);
+    --fade-r: calc(var(--floor-out) + var(--dw) * 0.05);
+  }
+
+  /* The second pair, set down from the words under the first. */
+  .doorway > .door-slot:nth-child(n + 3) { margin-top: clamp(40px, 11vw, 64px); }
+}
+
+@media (min-width: 700px) {
+  .doorway > .door-slot:first-child {
+    --floor-l: var(--floor-out);
+    --fade-l: calc(var(--floor-out) + var(--dw) * 0.05);
+  }
+
+  .doorway > .door-slot:last-child {
+    --floor-r: var(--floor-out);
+    --fade-r: calc(var(--floor-out) + var(--dw) * 0.05);
+  }
 }
 
 /* The state of a door is four numbers, and everything that moves reads
@@ -1801,21 +1865,25 @@ body::after {
   font-variation-settings: 'opsz' 48, 'SOFT' 0, 'WONK' 1;
   font-weight: 600;
   /* Sized off the doorway, down to a floor at which the longest word on
-     either door, Chronological, still fits the narrowest one. */
+     any door, Chronological, still fits the narrowest one. */
   font-size: clamp(1.06rem, calc(var(--dw) * 0.095), 1.72rem);
-  /* The two names are different lengths, and there is a run of widths
-     where the shorter fits on a line and the longer does not. So they
-     are made to break alike: the middle term here is enormous one way
-     or the other depending on which side of 170px the doorway is, and
-     the clamp turns that into one of two answers. Above it, the whole
-     width and one line each. Below it, a measure wider than either
-     name's longest word and narrower than either name, so both take
-     two. */
-  max-width: clamp(7.2em, calc((var(--dw) - 170px) * 9999), 100%);
   line-height: 1.1;
   letter-spacing: -0.008em;
   color: var(--ink);
   transition: color 0.2s;
+}
+
+/* The names are different lengths, and there is a run of widths where
+   the shorter ones fit on a line and the longest does not. So they are
+   made to break alike, before the word they all end in. It is given a
+   least width, and the middle term of that is enormous one way or the
+   other depending on which side of 170px the doorway is, which the
+   clamp turns into one of two answers: nothing, and the word runs on
+   after the name, or the whole measure, and it has to take a line of
+   its own. */
+.door-t-v {
+  display: inline-block;
+  min-width: clamp(0px, calc((170px - var(--dw)) * 9999), 100%);
 }
 
 .door-s {
@@ -2358,12 +2426,12 @@ body::after {
 /* ═══════════════════════════════════════════════
    A view's own page
 
-   The chronology and the courtroom each have a page, and neither is
-   the case: the case page is. So the masthead here is cut down to the
-   name and the way back, and under it the two views sit as halves of
-   one bar that runs the width of the column. Equal halves, so the pair
-   is symmetrical about the middle of the page the way the doors are,
-   and the half the reader is standing in is open to the band below it.
+   Each view of a case has a page, and none of them is the case: the
+   case page is. So the masthead here is cut down to the name and the
+   way back, and under it the views sit as equal parts of one bar that
+   runs the width of the column, in the order their doors stand in on
+   the case page. The part the reader is standing in is open to the
+   band below it.
    ═══════════════════════════════════════════════ */
 
 .masthead-view {
@@ -2380,7 +2448,7 @@ body::after {
 
 .views {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--rule);
   border-bottom: 0;
 }
@@ -2418,6 +2486,11 @@ body::after {
   box-shadow: inset 0 2px 0 var(--court);
 }
 
+/* The side by side is the one view set on the page's own stock and not
+   on a band, so the part of the bar that opens on to it is that stock
+   too. */
+.masthead-view:has(+ .band-ledger) .view[aria-current] { background: none; }
+
 .view-tag {
   font-size: 0.58rem;
   letter-spacing: 0.12em;
@@ -2426,10 +2499,28 @@ body::after {
   color: var(--faint);
 }
 
+/* Four across, a part runs out of room for a name and its tag on one
+   line well before the window is narrow, so the tag goes under the
+   name, and a little further down the type comes in. */
+@media (max-width: 1040px) {
+  .view { flex-direction: column; align-items: center; gap: 5px; }
+}
+
+@media (max-width: 900px) {
+  .view { padding: 12px 8px; font-size: 0.62rem; letter-spacing: 0.06em; }
+}
+
+/* On a phone the bar is two rows of two. Only the lower row stands on
+   the band, so the part the reader is in can no longer open on to it
+   from wherever it happens to be: every part is a box here, and the
+   one in the court's ink along its top is the one. */
 @media (max-width: 620px) {
   .masthead-view { padding-top: 56px; }
   .masthead-view .masthead-title { margin-bottom: 30px; }
-  .view { flex-direction: column; align-items: center; gap: 5px; padding: 12px 8px; font-size: 0.62rem; letter-spacing: 0.06em; }
+  .views { grid-template-columns: 1fr 1fr; }
+  .view:nth-child(odd) { border-left: 0; }
+  .view:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  .view:nth-child(-n + 2):not([aria-current]) { box-shadow: none; }
 }
 
 @media print {
@@ -3733,9 +3824,9 @@ span.cr-cite { margin: 0; white-space: normal; }
    Case flow
 
    The logic of a case as a map: what has to be answered, in what
-   order, and where each answer leads. It stands first on a case page,
-   ahead of the arguments it is made of, and is meant to be taken in at
-   a glance.
+   order, and where each answer leads. It has a page of its own in
+   every case, the Case Flow View, and is meant to be taken in at a
+   glance.
 
    A question is the court's, so the questions run down the middle in
    the court's ink, each one a card with a mark where the line reaches
@@ -5804,25 +5895,19 @@ span.cr-cite { margin: 0; white-space: normal; }
 
    The chronology runs to about ten screens, and the ledger to fourteen
    with every drawer open. A reader who wants out of either should not
-   have to scroll the whole of it, so every section carries a way on and
-   a way back. The first has no previous and the last no next: Back to
-   top already covers the one, and nothing follows the other.
+   have to scroll the whole of it, so every view carries the way back
+   to its case along with it. It was a pair once, previous and next,
+   when a case page was three sections long; each of those is a page
+   now, and the one thing left to offer from inside it is the case.
 
-   Ordinary anchors. No script, no handler: the smooth scroll and the
-   reduced-motion opt-out are the ones already set on <html>, and with
-   JavaScript off they still work, because they were never doing
-   anything JavaScript was needed for.
+   An ordinary anchor. No script, no handler, and with JavaScript off
+   it still works, because it was never doing anything JavaScript was
+   needed for.
 
    Sticky to the bottom of the viewport rather than fixed to it, which
-   is the whole trick. It rides along for the length of its own section
+   is the whole trick. It rides along for the length of its own band
    and then settles at the end of it, so it is there for exactly as
-   long as it is useful and never follows the reader into the next
-   section to nag them.
-
-   One box split down the middle rather than two pills side by side.
-   The bottom rail already carries Terms and Back to top, and at the
-   narrow size there was only ever room for three: a divider costs a
-   pixel, a fourth box costs a row.
+   long as it is useful.
    ═══════════════════════════════════════════════ */
 
 .sect-nav {
@@ -5868,32 +5953,23 @@ span.cr-cite { margin: 0; white-space: normal; }
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* Between the two halves only, so a pill carrying one button - the
-   first section and the last - has no stray rule down an outside edge. */
-.sect-nav-b + .sect-nav-b { border-left: 1px solid var(--rule); }
-
 /* Set against the pill's own ground rather than inherited from the
    page's secondary steps, which are pitched for the stock behind them. */
 .sect-nav-l { color: var(--muted); }
 .sect-nav-t { color: var(--ink); }
 
-/* The border belongs to the container now, so tinting it on hover would
-   light up both halves for a pointer that is only over one. The lift is
-   on the half itself instead. */
 .sect-nav-b:hover,
 .sect-nav-b:focus-visible { background: var(--bg-band); }
 
 .sect-nav-b:hover .sect-nav-l,
 .sect-nav-b:focus-visible .sect-nav-l { color: var(--ink); }
 
-/* Inset, because the container's border would otherwise clip a ring
-   drawn on the shared edge between the halves. */
+/* Inset, because the container's border would otherwise clip the ring. */
 .sect-nav-b:focus-visible { outline-offset: -3px; }
 
-/* Each arrow leans the way its own button goes. */
+/* The arrow leans the way the button goes. */
 .sect-nav-a { transition: transform 0.2s; }
 .sect-nav-prev:hover .sect-nav-a { transform: translateX(-2px); }
-.sect-nav-next:hover .sect-nav-a { transform: translateX(2px); }
 
 /* The nav is sticky and 44px tall, so a section arrived at by anchor
    would otherwise land with its top edge tucked underneath it. The
@@ -6375,10 +6451,9 @@ span.cr-cite { margin: 0; white-space: normal; }
     font-size: 0.66rem;
   }
 
-  /* The words go and the numbers stay, so the pair reads as arrow-number
-     on each side and the whole box lands near the width the single skip
-     pill used to take. Same bargain as Back to top below: both anchors
-     carry aria-labels, so a screen reader loses nothing. */
+  /* "Back to" goes and where it goes to stays. Same bargain as Back to
+     top below: the anchor carries an aria-label, so a screen reader
+     loses nothing. */
   .sect-nav-l { display: none; }
 
   /* Section navigation runs most of the width at this size, so Back to

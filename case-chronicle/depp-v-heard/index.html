@@ -15,11 +15,11 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
 
     <!-- This case's own inks and the two masthead portraits. After the shared
          sheet, because it restates tokens the shared sheet sets. -->
-    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css?v=20261012a">
+    <link rel="stylesheet" href="/case-chronicle/depp-v-heard/depp-v-heard.css?v=20261012b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -315,25 +315,29 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Two ways in
+             Four ways in
 
-             Two doorways, one for each way of reading the case, and
+             Four doorways, one for each way of reading the case, and
              each an ordinary link: the casing, the transom and the two
              leaves are all inside the anchor, with the words under
              them. The stylesheet draws the doorway. The only picture
              in this markup is the sign in the glass.
 
+             They stand in the order the views are listed in the bar
+             at the head of each view's own page, so a door moved here
+             is a tab moved there.
+
              A courtroom is locked until the court has sat in it. For a
              case with no day in court yet, put data-door-lock on the
-             second door-slot and the script hangs the padlock that is
-             waiting, hidden, beside that link; take the attribute off
+             Courtroom door's slot and the script hangs the padlock that
+             is waiting, hidden, beside that link; take the attribute off
              when the courtroom page gets its first hearing. The reader
              can break the lock, and it is back the next time the page
              is shown.
              ═══════════════════════════════════════════════ -->
-        <nav class="doors" aria-label="Two ways to see this case">
+        <nav class="doors" aria-label="Four ways to see this case">
             <div class="wrap">
-                <p class="doors-l">Two ways in</p>
+                <p class="doors-l">Four ways in</p>
                 <div class="doorway">
                     <div class="door-slot">
                         <a class="door" href="/case-chronicle/depp-v-heard/chronology/">
@@ -352,7 +356,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Chronological View</span>
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
                                 <span class="door-s">Every step of the case, in the order it happened.</span>
                                 <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -378,7 +382,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Courtroom View</span>
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
                                 <span class="door-s">The room from above, and who sat where.</span>
                                 <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -394,575 +398,65 @@
                             <span class="door-unlock-l">Unlock</span>
                         </button>
                     </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/depp-v-heard/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Case Flow <span class="door-t-v">View</span></span>
+                                <span class="door-s">The TLDR. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/depp-v-heard/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
-
-        <!-- ═══════════════════════════════════════════════
-             Case flow
-
-             The logic of the case as a map: what has to be answered,
-             in what order, and where each answer leads. Markup only.
-             chronicle.css draws every line from it, and says at the
-             head of its own block what each class is for.
-
-             Where the case stands is said in three places here, and
-             they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
-
-             Every card ships open. The script shuts them and shows the
-             controls, so with no JavaScript the whole map is written
-             out and nothing sits behind a dead button.
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
-            <div class="wrap">
-                <h2 class="kicker" id="tree-h">01 &middot; TLDR Case Flow</h2>
-
-                <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Finished. The jury answered all of it on 1 June 2022.</p>
-                    <div class="cf-head">
-                        <ul class="cf-key" aria-hidden="true">
-                            <li class="cf-key-p">Depp</li>
-                            <li class="cf-key-d">Heard</li>
-                            <li class="cf-key-done">Settled or decided</li>
-                            <li class="cf-key-open">Still open</li>
-                            <li class="cf-key-line">How far the case has got</li>
-                        </ul>
-                        <!-- Enhancement only, like the one over the ledger: every card
-                             opens on its own, and with no JavaScript none is shut. -->
-                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
-                            <span class="da-i" aria-hidden="true"></span>
-                            <span class="da-l">Open every card</span>
-                        </button>
-                    </div>
-                    <ol class="cf-flow">
-                        <li class="cf-two cf-two-in cf-join is-done" style="--cf-rows: 2">
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What he sued over</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The op-ed &mdash; three sentences</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The op-ed — three sentences"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is where his side of the case starts. On 18 December 2018 the Washington Post published an op-ed under Amber Heard&rsquo;s name, about what happens to women who speak up about abuse. It never mentions Johnny Depp by name. He sued her for <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> anyway, which means he says it hurt his reputation by stating things about him that were false.</p>
-                                            <p class="cf-b">He didn&rsquo;t sue over the whole piece. He picked out three sentences from it, and one of those is the headline, which the newspaper wrote and not her. Each of the three goes through the four questions below separately.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-d">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What she counterclaimed over</p>
-                                        </div></div>
-                                        <h3 class="cf-h">His lawyer to the Daily Mail &mdash; three statements</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: His lawyer to the Daily Mail — three statements"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is where her side starts. After he sued her, she sued him back inside the same case, which is called a <a class="term" href="#t-counterclaim" data-term="t-counterclaim" title="Counterclaim: A claim the person being sued brings back against the person who sued them. Both are tried together as one case.">counterclaim</a>. Hers isn&rsquo;t about anything he said himself. It&rsquo;s about three statements his lawyer, Adam Waldman, gave to the Daily Mail in April and June 2020, each one calling her abuse allegations a hoax.</p>
-                                            <p class="cf-b">Her argument is that the lawyer was speaking for him, so he answers for what was said. Her three statements go through the same four questions as his three. That makes six statements in total, and that&rsquo;s all the jury was ever asked to decide.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">each statement, on its own</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 1</p>
-                                </div></div>
-                                <h3 class="cf-h">Is it of and concerning the claimant?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it of and concerning the claimant?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-of-and-concerning" data-term="t-of-and-concerning" title="Of and concerning: About the person who is suing. The statement need not name them, as long as people who know the background would understand who it means.">&ldquo;Of and concerning&rdquo;</a> is the court&rsquo;s way of asking if a statement is actually about the person suing over it. The claimant is whoever is suing over that statement, so that&rsquo;s him for the op-ed sentences and her for the lawyer&rsquo;s statements. The statement doesn&rsquo;t have to use their name. It&rsquo;s enough that people reading it, who know the background, would understand who it means.</p>
-                                    <p class="cf-b">This question matters most for the op-ed, because it never names him. If the jury had decided those sentences weren&rsquo;t about him, his case would have ended right here. A yes moves the statement on to question 2. A no ends it for that statement.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">yes</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 2</p>
-                                </div></div>
-                                <h3 class="cf-h">Is it a false statement of fact?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it a false statement of fact?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">There are really two things packed into this one. First, the statement has to be saying something as a fact, meaning something that can be shown to be true or false. An opinion can&rsquo;t be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>, no matter how harsh it is. Second, that fact has to be false. If what was said is true, the claim over that statement is finished, because the truth is a complete defence.</p>
-                                    <p class="cf-b">For the op-ed, the jury wasn&rsquo;t asked about the marriage in general. They were asked if what each of those three sentences said or implied about him was false.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">yes</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 3</p>
-                                </div></div>
-                                <h3 class="cf-h">Is it defamatory in meaning?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it defamatory in meaning?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">A statement can be false and still not be <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a>. To count, it has to be the kind of thing that damages a person&rsquo;s reputation, the kind that makes people think less of them. And it doesn&rsquo;t have to say it outright. What a statement implies counts just as much as what it says word for word.</p>
-                                    <p class="cf-b">That&rsquo;s the only reason an op-ed that never names him could go in front of a jury in the first place. His claim was about what those sentences implied about him, not what they literally said.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">yes</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>4</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 4</p>
-                                </div></div>
-                                <h3 class="cf-h">Was it published with actual malice?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it published with actual malice?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is the hardest of the four to prove. <a class="term" href="#t-actual-malice" data-term="t-actual-malice" title="Actual malice: Putting a statement out knowing it was false, or with serious doubts about whether it was true. It has nothing to do with spite. A public figure has to prove it.">Actual malice</a> sounds like it&rsquo;s about spite or bad intentions, but in court it means something more specific. It means the person put the statement out knowing it was false, or had serious doubts about it being true and put it out anyway.</p>
-                                    <p class="cf-b">It&rsquo;s only on the list because both of them are public figures, and the law makes it harder on purpose for well-known people to win a <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamation</a> case. It also has to be proven to a higher standard than usual. In most lawsuits &ldquo;more likely than not&rdquo; is enough. Here it has to be <a class="term" href="#t-clear-and-convincing" data-term="t-clear-and-convincing" title="Clear and convincing: A standard of proof above the usual civil one of more likely than not, and below the criminal one of beyond a reasonable doubt.">clear and convincing</a>, which is a step above that.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-split is-done" style="--cf-rows: 1">
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done has-via">
-                                    <p class="cf-via">all four yes</p>
-                                    <article class="cf-card cf-out cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The statement is actionable</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The statement is actionable"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b"><a class="term" href="#t-actionable" data-term="t-actionable" title="Actionable: Enough to win a lawsuit over. A statement that is not actionable cannot support a claim, however much it stung.">Actionable</a> just means the statement is something you can win a lawsuit over. A statement only gets here if the jury said yes to all four questions about it. Only the statements that make it this far can be counted when the jury decides how much money is owed, which is called <a class="term" href="#t-damages" data-term="t-damages" title="Damages: Money a court orders one side to pay the other.">damages</a>.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done has-via">
-                                    <p class="cf-via">any one no</p>
-                                    <article class="cf-card cf-out cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then</p>
-                                        </div></div>
-                                        <h3 class="cf-h">That statement fails</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That statement fails"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">The four questions aren&rsquo;t a score where three out of four is good enough. A statement needs all four. If the jury says no to even one of them, that statement is out completely and no money can be awarded for it.</p>
-                                            <p class="cf-b">But it&rsquo;s only that one statement that is out. Each of the others gets its own run through the same four questions, so one failing doesn&rsquo;t take the rest down with it.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-two cf-two-score is-done" style="--cf-rows: 1">
-                            <p class="cf-title">The same four questions, six times over</p>
-                            <ol class="cf-col cf-arm-p is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-out cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">The op-ed, scored</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Three of three</h3>
-                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span><span class="cf-tok is-on"></span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Three of three"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is how his side came out. The jury said yes to all four questions on all three of the op-ed sentences, including the headline she didn&rsquo;t write. They awarded him $10 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a>, which is money to make up for the harm done, and another $5 million in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>, which is money meant purely as punishment.</p>
-                                            <p class="cf-b">Virginia puts a legal limit on punitive damages, so the judge cut that $5 million down to $350,000. That left him with $10.35 million.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-out cf-d">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">The lawyer&rsquo;s statements, scored</p>
-                                        </div></div>
-                                        <h3 class="cf-h">One of three</h3>
-                                        <p class="cf-toks" aria-hidden="true"><span class="cf-tok is-on"></span><span class="cf-tok"></span><span class="cf-tok"></span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: One of three"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is how her side came out. Only one of the lawyer&rsquo;s three statements made it through all four questions. That was the one claiming she and her friends staged the penthouse between two 911 calls. The other two, which called her allegations a hoax in broader terms, failed. The jury awarded her $2 million in <a class="term" href="#t-compensatory" data-term="t-compensatory" title="Compensatory damages: Money meant to make up for harm actually done.">compensatory damages</a> and nothing in <a class="term" href="#t-punitive" data-term="t-punitive" title="Punitive damages: Money awarded as punishment, on top of what makes up for the harm. Some states cap it by law, and Virginia is one.">punitive damages</a>.</p>
-                                            <p class="cf-b">So each of them was found to have <a class="term" href="#t-defamation" data-term="t-defamation" title="Defamation: A false statement of fact, put out to other people, that damages someone’s reputation.">defamed</a> the other, but the amounts were nowhere close. He appealed this one finding and she filed an appeal as well. Both were dropped when the two of them settled, so no higher court ever reviewed any of it.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                    </ol>
-                </div>
-
-                <p class="tree-caption">Nothing on this diagram asks whether the marriage was abusive, because no question on the verdict form did either.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">02</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════
-             Side by side
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
-            <div class="wrap">
-                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
-
-                <div class="ledger-head">
-                    <div class="ledger-key" aria-hidden="true">
-                        <span class="lk lk-p">Plaintiff: John C. Depp II</span>
-                        <span class="lk lk-d">Defendant: Amber Laura Heard</span>
-                    </div>
-                    <!-- Enhancement only. Every drawer opens on its own without
-                         this button, and without any JavaScript at all. -->
-                    <button type="button" class="depth-all" id="depth-all" hidden
-                        aria-controls="ledger" aria-expanded="false">
-                        <span class="da-i" aria-hidden="true"></span>
-                        <span class="da-l">Open every layer</span>
-                    </button>
-                </div>
-
-                <div class="ledger" id="ledger">
-                <article class="row" id="q1">
-                    <h3 class="row-q"><span class="row-n">1</span>Can an op-ed defame a man it never names?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>Yes. It ran days after he was cast in a sequel and it describes, in order, the events of their marriage. Every reader knew. Virginia allows defamation by implication precisely so that a statement cannot escape by leaving the name out.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>No. It is about her experience and about how institutions respond to women who report abuse. It is opinion on a matter of public concern, and the First Amendment protects it whether or not readers draw their own conclusions about who she was married to.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>All three sentences found to be of and concerning him, and defamatory.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The test is not whether he is named but whether the statement is <em>of and concerning</em> him to a reader who knows the context. The op-ed supplies the context itself: two years ago, a public figure representing domestic abuse.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The timing against the publication of the piece; the identity of its author; the surrounding coverage that had already named him; the absence of any other person the description could fit.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Pendleton v. Newsome, 290 Va. 162 (2015), on defamation by implication.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Implication cases are harder than they look. The plaintiff has to show the defamatory meaning was intended and reasonably understood, not merely available to a motivated reader.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>A statement of opinion about one&rsquo;s own experience is not a factual assertion about another person. Nothing in the piece says he hit her; it says she spoke up and was punished for it.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The text of the op-ed; the absence of his name anywhere in it; its framing around institutional response rather than individual conduct.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>The usual opinion and public-concern protections under the First Amendment.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The piece is not abstract. It tracks the chronology of the marriage closely enough that the implication is difficult to call accidental, and the jury did not.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Is the statement of and concerning him, and does it carry a defamatory implication?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">It never names him and is about institutions, not individuals.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">The context identifies him to any reader.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">Readers supplying a name is not the same as the author asserting one.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">Virginia recognises implication for exactly this reason.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Found against her on all three sentences. This gate is the one everything else hangs from.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q2">
-                    <h3 class="row-q"><span class="row-n">2</span>Did the London judgment already settle whether he did it?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>No. Different parties, different statements, different publisher. He sued a newspaper over what <em>it</em> printed. This case is about what <em>she</em> wrote, months after that action began.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>Yes. A court heard the evidence over sixteen days and found the great majority of the alleged assaults proved. He should not get a second attempt at the same question in front of a different jury.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Plea in bar overruled, 17 August 2021, on three independent grounds.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Preclusion requires the parties be the same or in privity. <em>The Sun</em> was defending its own reporting. She was a witness in that case, not a party to it.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The UK pleadings; the fact that her statements postdate the commencement of the UK action.</p><p class="dp-cite"><a class="cite-doc" href="https://www.fairfaxcounty.gov/circuit/sites/circuit/files/Assets/Documents/PDF/Opinions/cl-2019-2911-depp-II-v-heard-08172021.pdf" target="_blank" rel="noopener" aria-label="Letter opinion of 17 August 2021, opens as a PDF">Op. 17 Aug 2021</a> at 5&ndash;6</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Va. R. Sup. Ct. 1:6; Nero v. Ferris, 222 Va. 807 (1981); Lane v. Bayview Loan Servicing, 297 Va. 645 (2019).</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Nothing much, legally. Rhetorically it is his weakest ground: the public reads two courts reaching opposite conclusions and does not care which parties were joined.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The issue &mdash; whether he assaulted her &mdash; was actually litigated, essential to the UK judgment, and lost by him, on the same preponderance standard that applies here.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The UK judgment of 2 November 2020; its affirmance on 25 March 2021; finality on 6 April 2021.</p><p class="dp-cite"><a class="cite-doc" href="https://www.fairfaxcounty.gov/circuit/sites/circuit/files/Assets/Documents/PDF/Opinions/cl-2019-2911-depp-II-v-heard-08172021.pdf" target="_blank" rel="noopener" aria-label="Letter opinion of 17 August 2021, opens as a PDF">Op. 17 Aug 2021</a> at 2</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Collateral estoppel, res judicata, comity, and the Uniform Foreign-Country Money Judgments Recognition Act.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Virginia still requires mutuality and has repeatedly declined to abandon it. And the court found he had no full and fair opportunity to litigate against <em>her</em>: she was never subject to party discovery, and the UK judge had refused his application for third-party disclosure against her.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Does the UK finding bind him here?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">He litigated this and lost. Preclusion applies.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">Different parties. No privity, no mutuality.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">The modern trend abandons mutuality; Virginia should follow.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">Virginia has considered the modern trend and declined it, unanimously.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Overruled. The case is tried in full. No appellate court has since reviewed that ruling.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q3">
-                    <h3 class="row-q"><span class="row-n">3</span>She did not write the headline. Does that matter?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>No. She promoted the piece as her own and never disclaimed the headline. A claimant does not get to publish under a banner and then disown the banner.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>Yes. <em>The Washington Post</em> wrote it. She cannot be liable in defamation for a sentence composed by somebody else and attached to her work without her approval.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>The jury found against her on the headline along with the other two statements.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Adoption and republication. The piece went out under her byline and she circulated it.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Her own promotion of the published piece; the absence of any correction or disclaimer.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Ordinary republication principles.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It is the thinnest of the three. Authorship is a real element, and the evidence that she approved this specific wording is weaker than for the sentences she actually drafted.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Publication requires that the defendant publish. She did not write or approve this sentence.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The <em>Post</em>&rsquo;s own editorial process, established at trial.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Publication as an element of the tort: Schaecher v. Bouffault, 290 Va. 83 (2015).</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The jury was unpersuaded, and the verdict form treated the headline exactly like the other two. Whether that was right is one of the questions her appeal would have raised.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Did she publish the headline?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">The newspaper wrote it.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">She published the piece and adopted what went out under her name.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">Adoption is not authorship, and publication is an element.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">She never disclaimed it.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Found against her. Untested on appeal, and the most appealable finding in the case.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q4">
-                    <h3 class="row-q"><span class="row-n">4</span>Was the penthouse staged between the two 911 calls?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>His lawyer said so publicly: that she and her friends spilled wine, roughed the place up and got their stories straight before calling a second time.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>No, and the assertion is defamatory. It accuses her of fabricating a police report, which is a crime, and it was made to a national newspaper by his agent.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>The only statement on which she prevailed. $2m compensatory, nothing punitive.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The statement was substantially true, or at minimum an opinion drawn from the discrepancy between what officers saw on the first attendance and what was reported on the second.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The attending officers&rsquo; testimony that they saw no damage to face or property on the first call.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Truth as a complete defence.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Fatal here. The jury found it false. It is also the statement most clearly factual rather than rhetorical, which is what made it actionable when the two broader &#8220;hoax&#8221; statements were not.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>It is a specific, checkable factual allegation of staging a crime scene, published by his lawyer in his name while he was suing her.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The <em>Daily Mail</em> statements of April 2020; the testimony of those present that night.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Defamation per se where the imputation is of criminal conduct.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>She recovered on one of three. The two broader statements &mdash; that her allegations were an abuse hoax and a sexual violence hoax &mdash; were not proved, so the verdict does not vindicate her account generally.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Is the staging allegation a false statement of fact?</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">It reports what the officers found, or fairly comments on it.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">Substantially true, or protected opinion.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">A specific accusation of fabricating a crime scene.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">The specificity is what makes it fact rather than rhetoric.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Found false and defamatory. Her only win, and the only finding he appealed.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q5">
-                    <h3 class="row-q"><span class="row-n">5</span>Did she publish knowing it was false?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>Yes. The allegations were manufactured, and the op-ed was the culmination of a campaign begun during the divorce to secure advantage and public standing.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>No. She was describing her own experience. Whatever else is disputed, a person cannot be reckless about the truth of what she believes happened to her.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Actual malice found on all three op-ed statements, to the clear-and-convincing standard.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Actual malice is knowledge of falsity or reckless disregard for it. If the underlying account is fabricated, the writer necessarily knows.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The audio recordings played at trial; the 2016 deposition testimony; the discrepancies between accounts.</p><p class="dp-cite">Heard Dep. 247:11, 249:15</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>New York Times v. Sullivan, 376 U.S. 254 (1964), as applied to public figures.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It requires the jury to find not merely that her account was wrong but that she knew it was &mdash; a much steeper finding, and one a different jury could decline to make on the same record.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Actual malice is subjective. Her contemporaneous conduct &mdash; the restraining order, the medical records, the declarations &mdash; is consistent with genuine belief even where the account is contested.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Her 2016 declaration and deposition; her testimony that she tried to hide the marriage&rsquo;s condition rather than publicise it.</p><p class="dp-cite">Heard Dep. 248:12, 248:16</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>The clear-and-convincing standard for actual malice.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The same deposition contains the concessions his side used against her: that she never called the police herself, and that the bottle never touched her.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Did she know the implication was false, or disregard whether it was?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">She was recounting what she believes happened to her.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">A fabricated account is one the author knows to be false.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">Contested memory is not knowledge of falsity.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">The recordings and the deposition show she knew.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Found, clear and convincing, on all three. The steepest finding in the case and the least reviewed.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q6">
-                    <h3 class="row-q"><span class="row-n">6</span>What did the op-ed actually cost him?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Depp</p><p>$50m claimed. He lost the sixth <em>Pirates</em> picture and the standing that made him bankable, and the op-ed is what tipped it.</p></div>
-                        <div class="side side-d"><p class="side-tag">Heard</p><p>Causation fails. His career difficulties predate the op-ed and follow from the UK coverage, the 2016 restraining order, and his own conduct and finances.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>$10m compensatory and $5m punitive; the punitive reduced to $350,000 by statute.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Depp</p>
-                            <div class="dp-block"><h4>The argument</h4><p>But for the op-ed and its republication, the roles and the earnings would have continued.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Agent and business-manager testimony on lost engagements and their timing.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Compensatory damages for reputational and economic loss.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The timeline is awkward. Much of the reputational damage was already done by the 2016 filings and the London proceedings, and the award came in at a fifth of what was asked.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Heard</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The losses have other, earlier and better-documented causes, and his own evidence describes financial chaos long predating 2018.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>His deposition on the state of his finances: borrowing to pay tens of millions in unpaid tax, and an $8.6m penalty.</p><p class="dp-cite">Depp Dep. 248:14</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Causation as an element of compensatory damages.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The jury plainly accepted some causal link, and the compensatory figure is large. Her own award of $2m was assessed on a single statement.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Did the op-ed cause the loss?</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Depp</span><p class="cn-t">The roles went after it ran.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Depp</p><p class="arm-t">The op-ed is the proximate cause of the collapse.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Heard</p><p class="arm-t">The collapse predates it and has other causes.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-d"><span class="cn-k">Heard</span><p class="cn-t">The UK case, the 2016 filings and his finances all came first.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">$10m compensatory. The punitive award hit Virginia&rsquo;s cap and fell from $5m to $350,000.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-                </div>
-
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, TLDR Case Flow">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">01</span>
-                    </a>
-                    <a class="sect-nav-b sect-nav-next" href="#notes" aria-label="Next section: 03, Notes">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">03</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- ═══════════════════════════════════════════════
              Notes
              ═══════════════════════════════════════════════ -->
         <section class="band band-notes" id="notes" aria-labelledby="notes-h">
             <div class="wrap">
-                <p class="kicker">03 &middot; Notes</p>
+                <p class="kicker">Notes</p>
                 <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
 
                 <div class="notes-grid">
@@ -1040,13 +534,6 @@
                 </div>
 
                 <p class="notes-updated">Record reviewed through <span class="mono">28 September 2026</span>. The case ended on 19 December 2022 and nothing has been filed in it since, so this page is complete as to the docket &mdash; which is not the same as complete.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">02</span>
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -1186,7 +673,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261012a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
 </body>
 
 </html>

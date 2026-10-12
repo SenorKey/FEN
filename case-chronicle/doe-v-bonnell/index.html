@@ -21,7 +21,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
 
     <!-- IBM Plex Sans takes the body and JetBrains Mono the docket citations,
          dates and labels, in one request. The display face is Fraunces, which
@@ -337,25 +337,29 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Two ways in
+             Four ways in
 
-             Two doorways, one for each way of reading the case, and
+             Four doorways, one for each way of reading the case, and
              each an ordinary link: the casing, the transom and the two
              leaves are all inside the anchor, with the words under
              them. The stylesheet draws the doorway. The only picture
              in this markup is the sign in the glass.
 
+             They stand in the order the views are listed in the bar
+             at the head of each view's own page, so a door moved here
+             is a tab moved there.
+
              A courtroom is locked until the court has sat in it. For a
              case with no day in court yet, put data-door-lock on the
-             second door-slot and the script hangs the padlock that is
-             waiting, hidden, beside that link; take the attribute off
+             Courtroom door's slot and the script hangs the padlock that
+             is waiting, hidden, beside that link; take the attribute off
              when the courtroom page gets its first hearing. The reader
              can break the lock, and it is back the next time the page
              is shown.
              ═══════════════════════════════════════════════ -->
-        <nav class="doors" aria-label="Two ways to see this case">
+        <nav class="doors" aria-label="Four ways to see this case">
             <div class="wrap">
-                <p class="doors-l">Two ways in</p>
+                <p class="doors-l">Four ways in</p>
                 <div class="doorway">
                     <div class="door-slot">
                         <a class="door" href="/case-chronicle/doe-v-bonnell/chronology/">
@@ -374,7 +378,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Chronological View</span>
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
                                 <span class="door-s">Every step of the case, in the order it happened.</span>
                                 <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -400,7 +404,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Courtroom View</span>
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
                                 <span class="door-s">The room from above, and who sat where.</span>
                                 <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -416,785 +420,65 @@
                             <span class="door-unlock-l">Unlock</span>
                         </button>
                     </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/doe-v-bonnell/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Case Flow <span class="door-t-v">View</span></span>
+                                <span class="door-s">The TLDR. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/doe-v-bonnell/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
-
-        <!-- ═══════════════════════════════════════════════
-             Case flow
-
-             The logic of the case as a map: what has to be answered,
-             in what order, and where each answer leads. Markup only.
-             chronicle.css draws every line from it, and says at the
-             head of its own block what each class is for.
-
-             Where the case stands is said in three places here, and
-             they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
-
-             Every card ships open. The script shuts them and shows the
-             controls, so with no JavaScript the whole map is written
-             out and nothing sits behind a dead button.
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
-            <div class="wrap">
-                <h2 class="kicker" id="tree-h">01 &middot; TLDR Case Flow</h2>
-
-                <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Waiting on the spoliation ruling. Everything under it is stayed until then.</p>
-                    <div class="cf-head">
-                        <ul class="cf-key" aria-hidden="true">
-                            <li class="cf-key-p">Plaintiff</li>
-                            <li class="cf-key-d">Defendant</li>
-                            <li class="cf-key-done">Settled or decided</li>
-                            <li class="cf-key-open">Still open</li>
-                            <li class="cf-key-line">How far the case has got</li>
-                        </ul>
-                        <!-- Enhancement only, like the one over the ledger: every card
-                             opens on its own, and with no JavaScript none is shut. -->
-                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
-                            <span class="da-i" aria-hidden="true"></span>
-                            <span class="da-l">Open every card</span>
-                        </button>
-                    </div>
-                    <ol class="cf-flow">
-                        <li class="cf-node is-here">
-                            <article class="cf-card cf-aside">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <p class="cf-here">The case is here</p>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Decided first, and apart from the rest</p>
-                                </div></div>
-                                <h3 class="cf-h">The spoliation motion</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The spoliation motion"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">Spoliation</a> means destroying or losing evidence you were supposed to keep. The plaintiff says the defendant did that. She says he deleted his side of conversations after he was told to preserve them, and that a log he swore listed everything he sent one witness is missing two links. So she filed a <a class="term" href="#t-motion" data-term="t-motion" title="Motion: A formal request that the court do something. The other side files an opposition; the moving side may then file a reply.">motion</a>, which is a formal request to the judge, asking for him to be penalised for it. He says nothing was actually lost, and that she filed it too late.</p>
-                                    <p class="cf-b">The judge is deciding this first, and everything below it is on hold until he does. If he sides with her, the penalty could be small, like the jury being told it can assume the missing evidence was bad for him. Or it could be as big as the judge ruling that he is legally responsible without a trial on it, and then the question below never has to be answered at all. If he sides with the defendant, or throws the motion out for being late, the case just moves down to that question.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node has-via">
-                            <p class="cf-via">if that does not end it</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The only question</p>
-                                </div></div>
-                                <h3 class="cf-h">Did he disclose the video after 1&nbsp;October 2022?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">Stayed until that ruling</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he disclose the video after 1 October 2022?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is the question the whole case comes down to. The federal law she is suing under took effect on 1 October 2022, and it can&rsquo;t be used for anything that happened before that. Both sides now agree he sent the video to someone in April 2022, which is about six months too early. So she has to show that he disclosed it again at some point after that date. Disclose is the law&rsquo;s own word, and it covers sending something, publishing it, or making it accessible.</p>
-                                    <p class="cf-b">If she can&rsquo;t show that, there is no federal claim, and a federal court has no <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, meaning no power to hear the case at all. She has two different ways of trying to show it, and those are the two routes below. Right now this question is <a class="term" href="#t-stay" data-term="t-stay" title="Stay: A pause ordered by the court. Whatever is stayed sits on hold until something else is decided first.">stayed</a>, which means the judge has put it on hold until the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion above is decided.</p>
-                                    <p class="cf-who"><span class="cf-l">Who must prove it</span>She does. The <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is on the plaintiff, and she has to meet it by a <a class="term" href="#t-preponderance" data-term="t-preponderance" title="Preponderance of the evidence: More likely than not. It is the usual standard of proof in a civil case, and a lower bar than the criminal one.">preponderance of the evidence</a>, which just means more likely than not.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 3">
-                            <p class="cf-grp">either route is enough</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Route A</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The November 2023 transmission</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The November 2023 transmission"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is her first way of getting past that date. She says he sent the video a second time in November 2023, to a witness who goes by &ldquo;Abbymc&rdquo; online. That would be thirteen months after the law took effect, so if it happened, it counts. He says it never happened, and points to his own saved logs of what he sent her, where the video doesn&rsquo;t show up.</p>
-                                            <p class="cf-b">What she has is two <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> from Abbymc, which are sworn written statements, saying she received it. She also has a message Abbymc sent a friend that same morning. Whether that&rsquo;s enough is the test in the card below.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Test</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Could a jury credit an untested declaration?</h3>
-                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Could a jury credit an untested declaration?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the test Route A has to pass. To credit a statement just means to believe it. A <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> does count as evidence, but Abbymc herself has never been questioned by either side. She never sat for a <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a>, which is sworn questioning outside of court. She handed over nothing when she was sent a <a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">subpoena</a>, which is a court order to produce documents or testify. And a few days after signing her first declaration she told the defendant she didn&rsquo;t want to be involved anymore.</p>
-                                            <p class="cf-b">So the judge has to decide if a reasonable jury could still believe her on paper alone. If it could, the two sides have a real disagreement about a fact, and only a trial can settle that. If it couldn&rsquo;t, Route A is closed.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="or">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Route B</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Continuing accessibility</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Continuing accessibility"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is her second way, and it doesn&rsquo;t need a second send at all. The law doesn&rsquo;t only cover sending or publishing a video. It also covers making it accessible. The copy he sent in April 2022 stayed reachable until he deleted it in November 2024, and he has admitted that under oath.</p>
-                                            <p class="cf-b">So her argument is that even though the sending happened too early, leaving it reachable went on for about two years after the law took effect, and that this counts as a disclosure all by itself.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Test</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Does &#8220;make accessible&#8221; reach a private link?</h3>
-                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does “make accessible” reach a private link?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the test Route B has to pass, and it&rsquo;s about what the words of the law mean, not about what happened. He never posted the video anywhere public himself. He sent it to one person privately, and even her own expert agreed the link was basically impossible to guess. The defendant says that isn&rsquo;t making something accessible in any real sense, and that she is stretching one message from April 2022 into something that lasts for years so that a newer law can reach it. She says the law says &ldquo;make accessible&rdquo;, not &ldquo;publish&rdquo;, so it doesn&rsquo;t have to be public.</p>
-                                            <p class="cf-b">No court has applied this law to a private link like this before, so whichever way the judge goes, it will be a first. If she wins this one, the federal court keeps the case even if Route A fails.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-two cf-two-split cf-ragged" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">if yes on either</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Outcome</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Federal jurisdiction survives</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Federal jurisdiction survives"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Trial on the merits</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If either route works, she has a disclosure after the date, and the federal court has <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, which is the power to hear the case at all. What comes next is a trial on the <a class="term" href="#t-merits" data-term="t-merits" title="Merits: What the case is actually about, meaning what happened and who is in the right. A ruling that a court cannot hear a case says nothing about the merits.">merits</a>. That means a trial about what actually happened and who is in the right, instead of about whether this court can hear it.</p>
-                                                <p class="cf-b">She would go into that trial in a strong position on the main issue, which is consent. He admits he sent the video, and he has testified that he never asked her. He says permission was implied by their earlier exchanges, but the law asks for consent that was actually given.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">if neither test passes</p>
-                                    <article class="cf-card cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Neither route</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The April 2022 transmission only</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The April 2022 transmission only"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">If neither route passes its test, the only sharing anyone has proven is the one from April 2022. That&rsquo;s about six months before the law took effect. She used to argue it happened in October 2022, but in May 2026 she agreed that the real date was 9 April 2022.</p>
-                                            <p class="cf-b">A law normally doesn&rsquo;t apply <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactively</a>, meaning to things that happened before it existed, so that one send can&rsquo;t support a federal claim. That leads to the ending below.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                                <li class="cf-node">
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Outcome</p>
-                                        </div></div>
-                                        <h3 class="cf-h">No federal claim</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No federal claim"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Case ends here</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">With no disclosure after the date, there&rsquo;s nothing left under the federal law, and a federal court can only keep a case that has a federal claim in it. She also has claims under state law, but those are only in this court because they came attached to the federal one. So when the federal claim goes, the state ones are dismissed along with it, and the case is over in this court.</p>
-                                                <p class="cf-b">That wouldn&rsquo;t be a ruling that he did nothing wrong. It would be a ruling that this court isn&rsquo;t allowed to decide it.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                    </ol>
-                </div>
-
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">02</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════
-             The ledger — side by side
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
-            <div class="wrap">
-                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
-
-                <div class="ledger-head">
-                    <div class="ledger-key" aria-hidden="true">
-                        <span class="lk lk-p">Plaintiff: Jane Doe</span>
-                        <span class="lk lk-d">Defendant: Steven Bonnell II</span>
-                    </div>
-                    <!-- Enhancement only. Every drawer opens on its own without
-                         this button, and without any JavaScript at all. -->
-                    <button type="button" class="depth-all" id="depth-all" hidden
-                        aria-controls="ledger" aria-expanded="false">
-                        <span class="da-i" aria-hidden="true"></span>
-                        <span class="da-l">Open every layer</span>
-                    </button>
-                </div>
-
-                <div class="ledger" id="ledger">
-                <article class="row" id="q1">
-                    <h3 class="row-q"><span class="row-n">1</span>Did he share it without her consent?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>Yes, and he has admitted it. She authorised no one. Her account is that she agreed he could show it to his then-fiancée and was explicit that it go no further.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>He does not deny the transmission. He argues the surrounding exchanges implied permission, and that he never identified her by name to the recipient.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>No merits ruling. He testified he obtained neither verbal nor written consent.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>The statute does not recognise silence or atmosphere as consent. It defines it as an <em>affirmative, conscious, and voluntary authorization</em>. Nothing of that kind exists anywhere in the record, and he does not claim it does.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>His own sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> admitting the transmission; his hearing testimony that he never obtained verbal or written consent; his message to her on the day of the leak, apologising and saying there was no excuse; her declaration that she permitted his then-fiancée and no one else.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-1, opens the filing as a PDF">42-1</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the filing as a PDF">90</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 120, opens the filing as a PDF">120</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener" aria-label="15 U.S.C. section 6851, opens the statute text">15 U.S.C. § 6851(a)(2)</a> supplies the definition of consent.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>None of consequence. This is the strongest element of her case, and the defence does not seriously contest it.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>He is not arguing that she said yes. He is arguing that two people who had spent a year exchanging explicit material of themselves and their partners had established a shared understanding, and that he acted inside it, anonymously, without ever naming her.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>Their 2020 message history, filed as <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibits</a>; his testimony that he believed he had implied consent given the norms of his circles; the fact that she raised no objection to his then-fiancée viewing it.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-3, opens the filing as a PDF">42-3</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.50.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 50-2, opens the filing as a PDF">50-2</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the filing as a PDF">90</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>None directly. No authority is cited for implied consent under this statute, because the statute runs the other way.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Fatal on this element. § 6851(b)(2)(A) says in terms that consenting to the recording is not consenting to its distribution. A court has already rejected a materially identical argument as contrary to the statute's plain language.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Did she give <em>affirmative, conscious, voluntary</em> authorisation to share it?</p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">He concedes he never asked her.</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">Statutory bar</p>
-                                    <p class="arm-t">§ 6851(b)(2)(A): consent to creation is not consent to distribution.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">Defence route</p>
-                                    <p class="arm-t">The context of their exchanges implied permission.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">The implied-consent route is closed by the text of the statute itself.</p>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">Element satisfied, <b>but only if the statute reaches the conduct at all.</b> That question is Dispute 7.</p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q2">
-                    <h3 class="row-q"><span class="row-n">2</span>When did that transmission happen?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>Pleaded October 2022, then &ldquo;sometime in 2022,&rdquo; and in May 2026 conceded 9 April 2022, before the statute. Her own expert reached that date first.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>9 April 2022. The screenshot reading <span class="mono">10/04/22</span> is the recipient&rsquo;s side of the chat in day/month format, because the account was run from the United Kingdom.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Called the timeline &ldquo;murky at best&rdquo; in September 2025. The concession came eight months later.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>Her original reading was not unreasonable on the face of the document, and her objection was never really about arithmetic. It was about provenance: the <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a> he relies on contains a screenshot taken from the <em>recipient's</em> side of the conversation. He could not have produced that image from his own account, and the person who supposedly took it never testified.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The ambiguity of <span class="mono">10/04/22</span> standing alone; the unexplained origin of the recipient-side image; the absence of that recipient as a witness for the defence.</p><p class="dp-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.119.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 119, opens the filing as a PDF">119</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>No presumption of truth attaches to either side on a factual <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdictional</a> attack, so the evidence has to actually establish the date.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>She lost this one. Her own forensic expert accepted April 2022 in October 2025 and she conceded formally in May 2026. Whatever the provenance question, this route to a federal claim is now closed by her own admission.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>The date is not a matter of interpretation once you put the two sides of the same conversation next to each other. His side reads 4/9/2022 at 8:28 PM. The recipient's side reads 10/04/2022 at 1:28 am: the same messages, four hours and thirty-eight minutes apart, which is exactly Miami to London.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The paired screenshots of the identical exchange; a control message stamped <span class="mono">14/04/2022</span>, which can only be read day-first because there is no fourteenth month; the <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> of the woman whose identity was borrowed, who confirmed the account was run by a man living in the United Kingdom; and the leaker's own published post, in which every date appears in European format.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.4.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-4, opens the filing as a PDF">42-4</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132-3, opens the filing as a PDF">132-3</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Landgraf v. USI Film Products bars <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactive</a> effect without clear congressional intent. Three district courts have applied that to this statute specifically.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>He raised jurisdiction in responses for roughly six months before filing an actual motion, which the court noted. And the provenance point the plaintiff raised was never answered: he has still not explained how he came to hold an image taken from the other side of the chat.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">The screenshot reads <span class="mono">10/04/22</span>. Is that 4 October or 10 April?</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">If 4 October 2022</p>
-                                    <p class="arm-t">After the statute. The federal claim stands on this transmission alone.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">If 10 April 2022</p>
-                                    <p class="arm-t">Before the statute. This route is closed.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">Control test: a later message in the same thread is stamped <span class="mono">14/04/2022</span>. There is no fourteenth month, so the format is day-first.</p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">Corroboration: the account holder's deposition places the correspondent in the United Kingdom.</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">Unanswered: the exhibit includes an image from the recipient's side that he could not have captured himself, and that recipient never testified.</p>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">Resolved in the defendant's favour. <b>The plaintiff conceded 9 April 2022 in May 2026.</b> Jurisdiction must now come from somewhere else.</p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q3">
-                    <h3 class="row-q"><span class="row-n">3</span>Was there a second transmission, after the statute?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>Yes. November 2023, to &ldquo;Abbymc,&rdquo; supported by two sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> and a message that witness sent a friend the same morning.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>It never happened. His preserved logs list every file he sent her and the video is not among them. The witness never testified, produced nothing under <a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">subpoena</a>, and later distanced herself.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Undecided. This is the question <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> turns on.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>The strongest piece is a clock. The witness's message to a friend is timestamped 10:41 in the morning. The two links the defendant says account for that day are logged at 2:39 in the afternoon. A message sent at 10:41 cannot be describing something that arrived four hours later. Something else came that morning.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>Two sworn declarations from the witness; the screenshot of her 10:41 message; the defendant's own log, which puts his links at 2:39 p.m.; his admission that he deleted his messages with her from Discord, which is where the direct proof would have been.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-2, opens the filing as a PDF">49-2</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.86.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 86-1, opens the filing as a PDF">86-1</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.249.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 249-1, opens the filing as a PDF">249-1</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=244" target="_blank" rel="noopener" aria-label="Deposition transcript, page 243, opens ECF No. 305-1 as a PDF">243:25&ndash;244:10</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Rule 56(c)(2) requires only that evidence be reducible to admissible form at trial: it has to be capable of being put in proper form later, not already in that form now. Rule 901's <a class="term" href="#t-authentication" data-term="t-authentication" title="Authentication: Showing a document or screenshot is genuinely what its proponent says it is. The bar is low, but it is not nothing.">authentication</a> bar is low, and the author has twice sworn the message is hers.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Serious. The witness never sat for deposition, produced nothing under a validly served subpoena, and days after signing her first declaration told the defendant she no longer wanted to be involved. A second declaration appeared after <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> had closed and after the plaintiff testified she had no recent contact with her. The clock is also less fixed than it looks. At deposition he agreed the log reads 2:39 p.m. but said he could not tell whether that was Eastern or universal time. In universal time it would be 10:39 a.m. in Miami, two minutes before her message.</p><p class="dp-cite">Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=222" target="_blank" rel="noopener" aria-label="Deposition transcript, page 221, opens ECF No. 305-1 as a PDF">221:3&ndash;13</a></p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>The plaintiff's entire federal case rests on one witness who has never been tested and one message that does not say what she needs it to say. It names no sender, attaches no video, produces no link, and is offered for the truth of what it asserts.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>His preserved communication log, which he swore identified every media file he ever sent her and in which the video's filename does not appear; the two Drive links from that day, which he says held videos of another woman who confirmed as much; proof of service of the subpoena she ignored.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.6.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132-6, opens the filing as a PDF">132-6</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.213.5.pdf" target="_blank" rel="noopener" aria-label="ECF No. 213-5, opens the filing as a PDF">213-5</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Anderson v. Liberty Lobby requires the side opposing summary judgment to produce evidence that is significantly <a class="term" href="#t-probative" data-term="t-probative" title="Probative: Actually tending to prove something. Evidence can be admissible and still carry very little weight.">probative</a>, not merely colourable: enough for a jury to act on, not just enough to sound plausible. Cases from this district exclude affidavits where the opponent was denied a meaningful chance to test the witness.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Two problems. He served that subpoena a month before the cutoff and then never moved to compel or for contempt, while opposing the extension that would have allowed more pursuit, so the gap he complains of is partly his own. And his opposition to the <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a> motion concedes the log he calls complete is not.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Is there evidence of a disclosure after 1 October 2022?</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">The witness swears she received the video on or about 3 November 2023, and messaged a friend about it that morning at <b>10:41 a.m.</b></p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">The only things sent that day were two links to another woman's videos, logged at <b>2:39 p.m.</b></p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">A 10:41 message cannot describe a 2:39 event. Something arrived earlier. <b>The reply brief does not answer this.</b></p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">But the witness was never deposed, produced nothing under subpoena, and later disavowed involvement.</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">If a jury could believe her</p>
-                                    <p class="arm-t">Genuine dispute of material fact. Summary judgment denied and the case goes to trial.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">If the declaration is not probative</p>
-                                    <p class="arm-t">No post-statute transmission is established. Judgment for the defendant.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">Undecided. <b>The single most consequential open question in the case.</b></p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q4">
-                    <h3 class="row-q"><span class="row-n">4</span>Does leaving a file reachable count as sharing it?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>The statute defines &ldquo;disclose&rdquo; to include <em>make accessible</em>, a continuing state, not a single moment. He controlled the file and left it reachable until he deleted it in November 2024.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>A private link sent to one person is not publication. Courts have held that an unguessable, unindexed link is not public access, and no court has stretched the statute this way.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Undecided, but treated as serious enough to allow the amendment that raised it.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>This is the argument that could win the case even after losing the date. Congress wrote four verbs: transfer, publish, distribute, <em>or make accessible</em>. If the fourth meant only the instant of sending, it would do no work the first three do not already do. Reading it as a continuing condition gives it meaning, and on that reading the defendant kept the video accessible for twenty-five months after the statute took effect.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The statutory text; her expert's analysis of how the platform stores and serves attachments; and above all the defendant's own <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> admission that the file remained reachable on his account or the recipient's until he deleted it in November 2024.</p><p class="dp-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 139-1, opens the filing as a PDF">139-1</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=200" target="_blank" rel="noopener" aria-label="Deposition transcript, page 199, opens ECF No. 305-1 as a PDF">199:15&ndash;200:11</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener" aria-label="15 U.S.C. section 6851, opens the statute text">15 U.S.C. § 6851(a)(4)</a>. A district court has held that continued post-enactment availability is itself a disclosure, regardless of when the material first went up.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Her own expert conceded the link was effectively unguessable and that it is not known whether search engines ever indexed it. That guts the <em>public</em> accessibility half of the theory. What is left is the narrower version, that he simply failed to delete it, which is not quite what the <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">amended complaint</a> pleads.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>Sending one person a private link is not publishing. The plaintiff is trying to convert a single message into a continuing act so that conduct from April 2022 can be prosecuted under a statute passed six months later, which is <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactivity</a> by another name.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>Two Arizona decisions holding that a long, non-guessable, unindexed URL is not public access, and that emailing such a link to one person is nothing like publishing in a newspaper. The plaintiff's lead authority involved posting to a public pornography site.</p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Wray v. Greenburg and Greenburg v. Wray; Landgraf on retroactivity.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>His factual premise is shakier than the brief admits. He told the court the video went only as a platform attachment and not by Drive link, but the leaker's own published post shows Drive links were in fact sent to that recipient. He also declined to engage this theory at all in his <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> motion and addressed it only on reply.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Does <em>make accessible</em> describe a continuing state, or only the moment of sending?</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">If a continuing state</p>
-                                    <p class="arm-t">Then ask the next question: was it still accessible after 1 October 2022?</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">If only the moment</p>
-                                    <p class="arm-t">Only April 2022 counts. This route closes and everything rides on Dispute 3.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">He admits he did not delete it until November 2024, so on his own account, yes.</p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">But accessible to <em>whom</em>? Her expert concedes the link was unguessable and may never have been indexed.</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">The statute says <em>make accessible</em>, not <em>publish</em>. It does not obviously require the public.</p>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">An open question of first impression. <b>If it resolves for the plaintiff, <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a> survives even if Dispute 3 fails.</b></p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q5">
-                    <h3 class="row-q"><span class="row-n">5</span>Does her earlier conduct amount to consent?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>The statute forecloses the argument in terms: agreeing to be recorded is not agreeing to distribution, and having shared something once is not agreement to share it again.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>He has not moved for judgment on consent. He offers the history for credibility and damages, pointing to a public statement of hers he says his own <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibits</a> contradict.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Not ruled. Both sides have asked to exclude the other&rsquo;s material at trial.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>Congress anticipated this defence and wrote it out of the statute in two sentences. Beyond that, the material is exactly what the rules of evidence keep out of a civil trial: sexual history offered to make a jury think less of the person it happened to.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The statutory text; a decision rejecting an identical argument; and the defendant's own testimony that he never asked her.</p><p class="dp-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the filing as a PDF">90</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener" aria-label="15 U.S.C. section 6851, opens the statute text">15 U.S.C. § 6851(b)(2)(A) and (B)</a>; Aaron v. Ferrell; Federal Rules of Evidence 412 and 403.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>One exhibit her own side filed is a message in which she tells him he had been very clear about how seriously he takes consent, which the defence can use on the reasonableness of his belief, even if belief is not a defence.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>He is not asking a jury to find she consented. He is asking that a jury be allowed to hear that she publicly said she had never sent him videos of other people, when his exhibits show she did, because a case that turns on whose account to believe cannot be tried with one side's credibility sealed off.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The 2020 message history; her January 2025 public statement; her <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> testimony.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-3, opens the filing as a PDF">42-3</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.50.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 50-1, opens the filing as a PDF">50-1</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Rule 412's own exceptions and Rule 403 balancing, which he argues permit the material for impeachment rather than consent.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The line is not as clean as the brief makes it. Roughly seven pages of a purely <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdictional</a> <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> motion are given over to her sexual history, none of which bears on the October 2022 date. The plaintiff declined to answer it on the merits and preserved her objection, which is a strong position to be in.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Is the history relevant to <em>consent</em>?</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">No. § 6851(b)(2)(A) and (B) exclude it by statute: creation is not distribution, and one disclosure is not permission for the next.</p>
-                        </li>
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Is it relevant to <em>credibility</em> instead?</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">Plaintiff</p>
-                                    <p class="arm-t">Even so, Rule 412 applies, and its balance is reversed: <a class="term" href="#t-probative" data-term="t-probative" title="Probative: Actually tending to prove something. Evidence can be admissible and still carry very little weight.">probative</a> value must <em>substantially outweigh</em> the harm.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">Defendant</p>
-                                    <p class="arm-t">Yes. She made a public statement his own exhibits contradict.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">Turns on the <a class="term" href="#t-motion-in-limine" data-term="t-motion-in-limine" title="Motion in limine: Filed before trial to decide what a jury will and will not be allowed to hear.">motions in limine</a>. Either way it <b>cannot establish the defence</b>, and at most it touches weight and damages.</p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q6">
-                    <h3 class="row-q"><span class="row-n">6</span>Did he destroy evidence?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>He deleted his side of conversations with several women after a preservation letter, and swore to a &ldquo;true and correct&rdquo; log of everything he sent one of them that omits two links his own production shows him sending.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>Nothing was lost. Removing material from public view at her request is not destruction, the omission was inadvertent, and the motion arrived five months after <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> closed, a discovery <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">complaint</a> relabelled as <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a>.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Argued 19 August 2026, with evidence heard on 2 October. Undecided, and now first in line.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>The centrepiece is a document he filed himself. He swore that a spreadsheet was a true and correct log of every media file and link he ever sent that witness. His own produced chat thread shows two links that are not on it, one of them introduced by a message asking whether he had already sent her a particular video. Either that link showed the plaintiff, which proves the transmission he denies, or his sworn statement of completeness is false. There is no third option.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The conceded omission; his <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> testimony that the underlying files no longer exist; a public statement that he ran a wholesale redaction of his messages in early 2025; three productions about the same witness that disagree with each other, one carrying a different username; and the fact that he produced the attachments she sent <em>him</em> and none that he sent <em>her</em>.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.263.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 263, opens the filing as a PDF">263</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272, opens the filing as a PDF">272</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=238" target="_blank" rel="noopener" aria-label="Deposition transcript, page 237, opens ECF No. 305-1 as a PDF">237:3&ndash;6</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Rule 37(e)(2), which allows an <a class="term" href="#t-adverse-inference" data-term="t-adverse-inference" title="Adverse inference: A sanction where the jury is told it may assume the destroyed evidence would have hurt the side that destroyed it.">adverse inference</a> or judgment where a party acted with intent to deprive.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The timing is close to indefensible. The court noted in October 2025 that no spoliation motion was on file. The motion deadline passed in March 2026. She filed in May. This is a judge who has denied such motions as untimely in his own prior opinions.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>This is a discovery dispute that was never brought, arriving as a <a class="term" href="#t-sanctions" data-term="t-sanctions" title="Sanctions: A penalty for misconduct in the litigation itself. They can run from a fine to losing the case outright.">sanctions</a> motion after the deadline for both. Rule 37(e)(2) requires bad faith, not untidiness, and the two links she calls missing were produced to her eight months before she filed.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The production history; his testimony that he preserved and produced everything in his possession; the court's own observation, early in the case, that someone removing intimate material after being sued is not necessarily spoliating; and her own request that he take the material down, the one <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a> he put in at the October hearing.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272, opens the filing as a PDF">272</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272-1, opens the filing as a PDF">272-1</a> &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=367" target="_blank" rel="noopener" aria-label="Deposition transcript, page 366, opens ECF No. 305-1 as a PDF">366:12&ndash;367:6</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=370" target="_blank" rel="noopener" aria-label="Deposition transcript, page 369, opens ECF No. 305-1 as a PDF">369:21&ndash;370:7</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>Skanska and Tesoriero hold that intent to deprive means bad faith, and that negligence is not enough. A line of decisions from this district denying spoliation motions filed after the discovery cutoff.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The substance is where he is most exposed anywhere in the case. He generated no hash values, produced 2,400 pages as a flat PDF with no metadata, publicly described artificially reconstructing a log, refused a cost-shared neutral forensic examination and then argued she never conducted one, and he conceded the sworn log is incomplete. On hash values his answer at deposition was that they would be meaningless when the chain of custody starts with him.</p><p class="dp-cite">Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=298" target="_blank" rel="noopener" aria-label="Deposition transcript, page 297, opens ECF No. 305-1 as a PDF">297:16&ndash;299:10</a></p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Is the motion timely?</p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">Discovery closed December 2025. The motion deadline was March 2026. She filed in May 2026.</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">The intent evidence came from his April 2026 deposition, which the court itself had stayed. She filed eighteen days later.</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">If timely</p>
-                                    <p class="arm-t">The Rule 37(e) elements are reached and the merits below are decided.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">If untimely</p>
-                                    <p class="arm-t">Denied without reaching the merits at all. <b>This is the live risk for the plaintiff.</b></p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Was there a duty to preserve, was information lost, and was it lost with intent to deprive?</p>
-                        </li>
-                        <li class="cn cn-p">
-                            <span class="cn-k">Plaintiff</span>
-                            <p class="cn-t">Duty attached by the January 2025 letter at the latest. He testified the files no longer exist. He swore to a complete log that his own opposition concedes is not complete.</p>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">Inadvertent. The links were produced. Removal from public view was at her own request.</p>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">If intent is found, sanctions run from an adverse-inference instruction up to <b>judgment on liability</b>, which would end the merits of the case in her favour.</p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q7">
-                    <h3 class="row-q"><span class="row-n">7</span>Should a federal court hear this at all?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Plaintiff</p><p>Yes. The November 2023 transmission and the continuing accessibility of the file both land after the statute took effect, and either is enough.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>No. The only established transmission predates the statute by nearly six months. Without the federal count, the state-law claims should be dismissed with it.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Warned in October 2025 that <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a> may be absent. Still undecided, and stayed since September 2026 until the spoliation ruling.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                    <div class="dw-body">
-                    <div class="dp-grid">
-                    <div class="dp dp-p">
-                        <p class="dp-tag">Plaintiff</p>
-                        <div class="dp-block"><h4>The argument</h4><p>She accepts the <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a>. She needs one qualifying disclosure after 1 October 2022 and she has pleaded two independent routes to one. She also argues that a motion resting on the defendant's own documents cannot succeed while those documents are contested, and one of them he now concedes is incomplete.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The Abbymc <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> and the timing gap; the continuing-accessibility opinion; the unrebutted expert evidence, which the defendant never answered with an expert of his own.</p><p class="dp-cite">ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-2, opens the filing as a PDF">49-2</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 139-1, opens the filing as a PDF">139-1</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.249.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 249-1, opens the filing as a PDF">249-1</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>28 U.S.C. § 1331 and § 1367; Rule 56 and the principle that credibility and inferences belong to a jury.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Crawford-El says a plaintiff cannot substitute attacks on the other side's credibility for affirmative evidence of the disputed fact, and a good deal of her opposition does exactly that. Her brief does not engage the case.</p></div>
-                    </div>
-                    <div class="dp dp-d">
-                        <p class="dp-tag">Defendant</p>
-                        <div class="dp-block"><h4>The argument</h4><p>Federal courts are courts of limited jurisdiction and the burden never shifts. After ten months of <a class="term" href="#t-discovery" data-term="t-discovery" title="Discovery: The stage where each side must hand over relevant evidence to the other. It has a deadline, and missing it matters.">discovery</a> she has produced no document, no message, no link and no file evidencing a transmission after the effective date. Rule 56 does not require him to prove a negative; pointing to the absence is enough.</p></div>
-                        <div class="dp-block"><h4>Rests on</h4><p>The concession that the only proven transmission was April 2022; the plaintiff's own hearing testimony that she had never personally seen a record of any later transmission; the witness's failure to produce anything.</p><p class="dp-cite">ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 90, opens the filing as a PDF">90</a></p></div>
-                        <div class="dp-block"><h4>Authority</h4><p>OSI v. United States and McCormick v. Aderholt on the burden; Celotex on pointing to an absence of evidence; Crawford-El and Matsushita on what the side opposing the motion must produce.</p></div>
-                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The affirmative half of his showing rests on a declaration his own later filing concedes is incomplete. If the court discounts that document, he is left with the absence of evidence alone, part of which is attributable to deletions he admits making.</p></div>
-                    </div>
-                    </div>
-                    </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                    <div class="dw-body">
-                    <ol class="chain">
-                        <li class="cn cn-test">
-                            <span class="cn-k">Test</span>
-                            <p class="cn-t">Has the plaintiff shown, by a preponderance, one disclosure after 1 October 2022?</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">Route A: Dispute 3</p>
-                                    <p class="arm-t">The November 2023 transmission to the witness.</p>
-                                </div>
-                                <div class="arm arm-p">
-                                    <p class="arm-k">Route B: Dispute 4</p>
-                                    <p class="arm-t">Continuing accessibility until November 2024.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-d">
-                            <span class="cn-k">Defendant</span>
-                            <p class="cn-t">Route A rests on an untested declarant. Route B asks a court to read the statute more broadly than any court yet has.</p>
-                        </li>
-                        <li class="cn cn-fork">
-                            <div class="fork">
-                                <div class="arm arm-p">
-                                    <p class="arm-k">If either route holds</p>
-                                    <p class="arm-t">Federal jurisdiction survives. The case proceeds to trial on the merits.</p>
-                                </div>
-                                <div class="arm arm-d">
-                                    <p class="arm-k">If neither holds</p>
-                                    <p class="arm-t">No federal claim. The court declines supplemental jurisdiction and the state claims go with it.</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cn cn-out">
-                            <span class="cn-k">Where it lands</span>
-                            <p class="cn-t">Undecided. <b>Both the <a class="term" href="#t-motion-to-dismiss" data-term="t-motion-to-dismiss" title="Motion to dismiss: Argues the case cannot proceed even if everything alleged is true — usually because the court lacks power to hear it.">motion to dismiss</a> and the motion for <a class="term" href="#t-summary-judgment" data-term="t-summary-judgment" title="Summary judgment: Argues the facts are not genuinely in dispute, so the judge can decide without a trial. If facts are disputed, it fails.">summary judgment</a> turn on this single node.</b></p>
-                        </li>
-                    </ol>
-                    </div>
-                    </details>
-                </article>
-            </div>
-
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, TLDR Case Flow">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">01</span>
-                    </a>
-                    <a class="sect-nav-b sect-nav-next" href="#notes" aria-label="Next section: 03, Notes">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">03</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- ═══════════════════════════════════════════════
              Notes
              ═══════════════════════════════════════════════ -->
         <section class="band band-notes" id="notes" aria-labelledby="notes-h">
             <div class="wrap">
-                <p class="kicker">03 &middot; Notes</p>
+                <p class="kicker">Notes</p>
                 <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
 
                 <div class="notes-grid">
@@ -1282,13 +566,6 @@
 
                 <p class="notes-updated">Record reviewed through <span class="mono">7 October 2026</span>. Nothing filed
                     after that date is reflected here.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">02</span>
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -1414,7 +691,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261012a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
 </body>
 
 </html>

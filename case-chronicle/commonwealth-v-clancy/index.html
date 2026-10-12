@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -289,25 +289,29 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Two ways in
+             Four ways in
 
-             Two doorways, one for each way of reading the case, and
+             Four doorways, one for each way of reading the case, and
              each an ordinary link: the casing, the transom and the two
              leaves are all inside the anchor, with the words under
              them. The stylesheet draws the doorway. The only picture
              in this markup is the sign in the glass.
 
+             They stand in the order the views are listed in the bar
+             at the head of each view's own page, so a door moved here
+             is a tab moved there.
+
              A courtroom is locked until the court has sat in it. For a
              case with no day in court yet, put data-door-lock on the
-             second door-slot and the script hangs the padlock that is
-             waiting, hidden, beside that link; take the attribute off
+             Courtroom door's slot and the script hangs the padlock that
+             is waiting, hidden, beside that link; take the attribute off
              when the courtroom page gets its first hearing. The reader
              can break the lock, and it is back the next time the page
              is shown.
              ═══════════════════════════════════════════════ -->
-        <nav class="doors" aria-label="Two ways to see this case">
+        <nav class="doors" aria-label="Four ways to see this case">
             <div class="wrap">
-                <p class="doors-l">Two ways in</p>
+                <p class="doors-l">Four ways in</p>
                 <div class="doorway">
                     <div class="door-slot">
                         <a class="door" href="/case-chronicle/commonwealth-v-clancy/chronology/">
@@ -326,7 +330,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Chronological View</span>
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
                                 <span class="door-s">Every step of the case, in the order it happened.</span>
                                 <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -352,7 +356,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Courtroom View</span>
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
                                 <span class="door-s">The room from above, and who sat where.</span>
                                 <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -368,563 +372,65 @@
                             <span class="door-unlock-l">Unlock</span>
                         </button>
                     </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/commonwealth-v-clancy/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Case Flow <span class="door-t-v">View</span></span>
+                                <span class="door-s">The TLDR. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/commonwealth-v-clancy/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
-
-        <!-- ═══════════════════════════════════════════════
-             Case flow
-
-             The logic of the case as a map: what has to be answered,
-             in what order, and where each answer leads. Markup only.
-             chronicle.css draws every line from it, and says at the
-             head of its own block what each class is for.
-
-             Where the case stands is said in three places here, and
-             they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
-
-             Every card ships open. The script shuts them and shows the
-             controls, so with no JavaScript the whole map is written
-             out and nothing sits behind a dead button.
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
-            <div class="wrap">
-                <h2 class="kicker" id="tree-h">01 &middot; TLDR Case Flow</h2>
-
-                <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>No verdict. The jury could not agree, and a mistrial was declared on 4 September 2026.</p>
-                    <div class="cf-head">
-                        <ul class="cf-key" aria-hidden="true">
-                            <li class="cf-key-p">Commonwealth</li>
-                            <li class="cf-key-d">Defence</li>
-                            <li class="cf-key-done">Settled or decided</li>
-                            <li class="cf-key-open">Still open</li>
-                            <li class="cf-key-line">How far the case has got</li>
-                        </ul>
-                        <!-- Enhancement only, like the one over the ledger: every card
-                             opens on its own, and with no JavaScript none is shut. -->
-                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
-                            <span class="da-i" aria-hidden="true"></span>
-                            <span class="da-l">Open every card</span>
-                        </button>
-                    </div>
-                    <ol class="cf-flow">
-                        <li class="cf-node is-done">
-                            <article class="cf-card cf-c">
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Before anything else</p>
-                                </div></div>
-                                <h3 class="cf-h">Whose burden is it?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Whose burden is it?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">A <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is the job of proving something, so before anything else it matters whose job that is. Here it&rsquo;s entirely the Commonwealth&rsquo;s, which is what Massachusetts calls the prosecution. They have to prove two things, which are the two numbered cards below, and they have to prove both <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>, the highest standard the law has.</p>
-                                    <p class="cf-b">She doesn&rsquo;t have to prove anything, and that includes proving she was insane. The judge told the jury so in these words: &ldquo;The defendant has no burden to prove a lack of criminal responsibility.&rdquo; This is the part most arguments about the case get backwards. People assume it was on her to prove she was insane. It was on them to prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">it must prove both of these</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The Commonwealth must prove</p>
-                                </div></div>
-                                <h3 class="cf-h">The elements of murder</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-set">Not in dispute</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The elements of murder"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-element" data-term="t-element" title="Element: One of the separate things the prosecution has to prove for a particular crime. If one is missing, the charge fails.">Elements</a> are the separate pieces a crime is made of, and the prosecution has to prove every one of them. In most murder trials this is the whole fight. In this one it wasn&rsquo;t a fight at all. The defence didn&rsquo;t dispute what she did. They even offered to <a class="term" href="#t-stipulate" data-term="t-stipulate" title="Stipulate: To agree formally that something is true so it need not be proved. The other side does not have to accept the offer, and here it did not.">stipulate</a> to it, which means formally agreeing something is true so that nobody has to prove it.</p>
-                                    <p class="cf-b">The Commonwealth turned that offer down and put the evidence in front of the jury anyway. So this step is marked as not in dispute, and the real argument is all in the second thing they had to prove.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-here has-via">
-                            <p class="cf-via">and</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
-                                <p class="cf-here">The jury stopped here</p>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The Commonwealth must prove</p>
-                                </div></div>
-                                <h3 class="cf-h">That she was criminally responsible</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">No verdict</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: That she was criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">Criminal responsibility</a> is the legal name for what most people would call the insanity question. It asks if she can be held answerable for what she did, given the state of her mind that day. This is the only thing the two sides really fought over. The trial ran for about six weeks and nearly all of the evidence went to this.</p>
-                                    <p class="cf-b">The Commonwealth said she was severely depressed but not psychotic, and that she made a series of deliberate choices. The defence said she was in <a class="term" href="#t-postpartum-psychosis" data-term="t-postpartum-psychosis" title="Postpartum psychosis: A rare and serious illness arising after childbirth. It is a clinical term and carries no legal consequence by itself — the legal test is the one above.">postpartum psychosis</a>. To prove she was responsible, the Commonwealth had two ways of doing it, which are the two cards below. This is also as far as the jury got. They couldn&rsquo;t agree on it, and that&rsquo;s why it says no verdict.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 2">
-                            <p class="cf-grp">to carry it, at least one of these two</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Either</p>
-                                        </div></div>
-                                        <h3 class="cf-h">No mental disease or defect</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No mental disease or defect"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the first way the Commonwealth could prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>. They could show that at the time of the killings she had no <a class="term" href="#t-mental-disease" data-term="t-mental-disease" title="Mental disease or defect: A legal term, not a medical one. It need not match any formal diagnosis, and a jury decides whether there was one.">mental disease or defect</a> at all. That phrase is a legal one, not a medical one. It doesn&rsquo;t have to match any official diagnosis, and it&rsquo;s the jury that decides if she had one, not the doctors.</p>
-                                            <p class="cf-b">If the Commonwealth proved this, that was enough, and the card next to this one wouldn&rsquo;t matter.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="or">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Or</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Substantial capacity retained</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Substantial capacity retained"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the second way, in case the jury thought she did have a <a class="term" href="#t-mental-disease" data-term="t-mental-disease" title="Mental disease or defect: A legal term, not a medical one. It need not match any formal diagnosis, and a jury decides whether there was one.">mental disease or defect</a>. Having one doesn&rsquo;t make a person not responsible all by itself. The Commonwealth could still succeed by proving she kept what the law calls <a class="term" href="#t-substantial-capacity" data-term="t-substantial-capacity" title="Substantial capacity: The second limb. Even with a mental disease or defect, a person is responsible if she could both appreciate that what she was doing was wrong and conform her conduct to the law. Losing either is enough.">substantial capacity</a>, and that has two parts. One is that she could <a class="term" href="#t-appreciate" data-term="t-appreciate" title="Appreciate: To understand, rather than merely to know. Knowing an act is illegal is not the same as grasping what that means.">appreciate</a> that what she was doing was wrong. The other is that she was able to make herself follow the law.</p>
-                                            <p class="cf-b">They had to prove she kept both. If her illness took away either one, she isn&rsquo;t responsible. And &ldquo;appreciate&rdquo; is a stronger word than &ldquo;know&rdquo;. It means really understanding that something is wrong, not just being aware that it&rsquo;s illegal.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node">
-                            <article class="cf-card cf-c">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The question</p>
-                                </div></div>
-                                <h3 class="cf-h">Proved, beyond a reasonable doubt?</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Proved, beyond a reasonable doubt?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is the one question it all comes down to. Did the Commonwealth prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, in either of the two ways above, <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The criminal standard, and the highest one the law uses. It is not proof beyond all possible doubt.">beyond a reasonable doubt</a>? That doesn&rsquo;t mean beyond every possible doubt, but it&rsquo;s a long way past &ldquo;probably&rdquo;. And all twelve jurors have to agree on the answer, whichever answer it is.</p>
-                                    <p class="cf-b">Proved leads to one of the two endings below, and not proved leads to the other.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-split cf-join cf-dash" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">proved</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Yes</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Criminally responsible</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then the jury reaches the counts</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Four ways it can land</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If the jury had found she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, they still wouldn&rsquo;t have been done. That finding only opens the door to the actual charges, which were three <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. This case went to the jury on three of them, and a jury answers for each one separately.">counts</a> of first-degree murder. On those the jury would have had four options, which were first-degree murder, second-degree murder, manslaughter, or not guilty.</p>
-                                                <p class="cf-b">This is the only point where the evidence about what she did, and how, would really start to matter, because that&rsquo;s what separates one of those options from the next.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">not proved</p>
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">No</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Not criminally responsible</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not criminally responsible"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-then">
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-k">Then the verdict is</p>
-                                            </div></div>
-                                            <h4 class="cf-h">Not guilty by reason of insanity</h4>
-                                            <div class="cf-x"><div class="cf-x-in">
-                                                <p class="cf-b">If the Commonwealth didn&rsquo;t prove she was <a class="term" href="#t-criminal-responsibility" data-term="t-criminal-responsibility" title="Criminal responsibility: Whether the defendant can be held answerable at all. In Massachusetts the Commonwealth must prove she was responsible, beyond a reasonable doubt. The defendant proves nothing.">criminally responsible</a>, the verdict is <a class="term" href="#t-ngi" data-term="t-ngi" title="Not guilty by reason of lack of criminal responsibility: Often shortened to NGI. It is not an acquittal in effect: it ordinarily leads to a petition to commit, and commitment is reviewed at intervals and renewable without limit.">not guilty by reason of insanity</a>. A lot of people hear that as walking free, and it isn&rsquo;t. What generally happens next is that the district attorney asks the court to <a class="term" href="#t-commitment" data-term="t-commitment" title="Commitment: A court order holding a person in a hospital for treatment, not as a punishment. It is reviewed at intervals and can be renewed.">commit</a> her, which means ordering her held in a mental health facility or at Bridgewater State Hospital.</p>
-                                                <p class="cf-b">A commitment gets reviewed every so often, but it can be renewed again and again with no limit, for as long as she is still ill and still dangerous. The judge told the jury it could last for the rest of her life.</p>
-                                            </div></div>
-                                        </div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node has-via cf-dash">
-                            <p class="cf-via">never reached</p>
-                            <article class="cf-card cf-aside">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">What actually happened</p>
-                                </div></div>
-                                <h3 class="cf-h">Neither. The jury never answered the question</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Neither. The jury never answered the question"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">This is what actually happened, and it&rsquo;s neither of the two endings above. The jury deliberated for thirty-eight hours over seven days and sent the judge three notes. They ended up split eleven to one. A verdict has to be unanimous, so eleven to one counts for exactly as much as no agreement at all. That&rsquo;s called a <a class="term" href="#t-hung-jury" data-term="t-hung-jury" title="Hung jury: A jury that cannot reach the required unanimity. Eleven to one is not a verdict, and is worth no more than nothing to one.">hung jury</a>.</p>
-                                    <p class="cf-b">On 4 September 2026 the judge declared a <a class="term" href="#t-mistrial" data-term="t-mistrial" title="Mistrial: A trial ended without a verdict. It decides nothing: the charges stay live and the case can, in principle, be tried again.">mistrial</a>, which is a trial that ends without a verdict. A mistrial decides nothing. She wasn&rsquo;t found guilty and she wasn&rsquo;t found not guilty. The charges are still there and the case can be tried again in front of a new jury. The defence has asked the court to rule that a second trial isn&rsquo;t allowed, and that&rsquo;s due to be argued on 2 November 2026.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                    </ol>
-                </div>
-
-                <p class="tree-caption">The burden runs the opposite way to the intuition: the Commonwealth had to prove she <em>was</em> responsible, not the defence that she was not. Nothing on this diagram asks whether she killed her children, because by the time the jury was empanelled nobody was arguing about it.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">02</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════
-             Side by side
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
-            <div class="wrap">
-                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
-
-                <div class="ledger-head">
-                    <div class="ledger-key" aria-hidden="true">
-                        <span class="lk lk-p">Commonwealth of Massachusetts</span>
-                        <span class="lk lk-d">Defendant: Lindsay M. Clancy</span>
-                    </div>
-                    <!-- Enhancement only. Every drawer opens on its own without
-                         this button, and without any JavaScript at all. -->
-                    <button type="button" class="depth-all" id="depth-all" hidden
-                        aria-controls="ledger" aria-expanded="false">
-                        <span class="da-i" aria-hidden="true"></span>
-                        <span class="da-l">Open every layer</span>
-                    </button>
-                </div>
-
-                <div class="ledger" id="ledger">
-                <article class="row" id="q1">
-                    <h3 class="row-q"><span class="row-n">1</span>Was she psychotic on 24 January?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>No. Depressed, severely and genuinely &mdash; but depression is not psychosis. There was no mania and no hypomania, so no bipolar diagnosis, and a commanding voice heard once and never before is not how psychosis presents.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>Yes. Bipolar disorder with postpartum psychosis, in a woman five months into a collapse nobody treating her had correctly identified. On the day itself she was frankly psychotic and acting on it.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Not resolved. This is the question the jury could not answer.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>A major depressive episode explains everything in the record without requiring psychosis. The bipolar diagnosis was constructed after the fact, by experts retained for the defence, out of material the treating clinicians had already seen and read differently.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Three forensic experts called in rebuttal; the absence of any contemporaneous clinical note recording psychotic symptoms; the singularity of the reported voice.</p><p class="dp-cite">Tr. Days <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-18" target="_blank" rel="noopener" aria-label="Trial transcript, day 18, opens on Rev">18</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-19" target="_blank" rel="noopener" aria-label="Trial transcript, day 19, opens on Rev">19</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-20" target="_blank" rel="noopener" aria-label="Trial transcript, day 20, opens on Rev">20</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-21" target="_blank" rel="noopener" aria-label="Trial transcript, day 21, opens on Rev">21</a></p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>None needed. This is a pure question of fact for the jury.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Postpartum psychosis is known to be episodic, to fluctuate, and to be concealed by those experiencing it &mdash; which makes its absence from a clinical note weaker evidence than it first appears.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The illness was there and was missed. Her own notebooks track the deterioration in real time, and the handwriting degrades with it. What the clinicians did not see is a fact about the clinicians.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Two expert witnesses, one of them among the more experienced forensic psychiatrists in the field; the notebooks; the testimony of her family; the sheer implausibility of the act as a rational one.</p><p class="dp-cite">Tr. Days <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-15" target="_blank" rel="noopener" aria-label="Trial transcript, day 15, opens on Rev">15</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-16" target="_blank" rel="noopener" aria-label="Trial transcript, day 16, opens on Rev">16</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-17" target="_blank" rel="noopener" aria-label="Trial transcript, day 17, opens on Rev">17</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-18" target="_blank" rel="noopener" aria-label="Trial transcript, day 18, opens on Rev">18</a></p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>None needed, and none available &mdash; the legal test does not require a recognised diagnosis at all.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Both defence experts were retained and examined her long after the event. Neither saw her on or near 24 January; the people who did, did not describe what the experts concluded.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Did she have a mental disease or defect on 24 January? The Commonwealth must prove she did not.</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Commonwealth</span><p class="cn-t">Nobody treating her recorded psychosis, and she denied homicidal thoughts the day before.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Commonwealth</p><p class="arm-t">The contemporaneous record is the best evidence of her state, and it is silent.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Defence</p><p class="arm-t">A record kept by people who were not looking for psychosis is silent either way.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">The act itself is evidence. No account of it as a rational choice survives contact with the facts.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Nowhere. Eleven jurors reportedly accepted the defence account and one did not, which under the law is the same as none of them accepting it.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q2">
-                    <h3 class="row-q"><span class="row-n">2</span>Does the planning show she knew what she was doing?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>Yes. She chose the place, the method and the moment, and she sent her husband out of the house to create the moment. Those are decisions, made in sequence, by someone tracking what she was doing.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>No. Sequencing is not sanity. Psychosis does not remove the ability to act in order; it removes the ability to understand what the order is for. A delusion can be executed methodically and still be a delusion.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Not resolved. Put to the jury as a question of fact.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Every step narrows the alternatives deliberately. The basement rather than anywhere else. Exercise bands rather than anything to hand. A takeaway order and a prescription that put the one other adult in the house on the road for an hour.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The phone records and call timings; the scene; the sequence of that afternoon reconstructed minute by minute in the warrant affidavits and again at trial.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>The instruction permits the jury to consider conduct before and after the act in deciding capacity.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It proves organisation, which nobody disputes. The legal test is not organisation but appreciation and control, and the Commonwealth has to reach those separately.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The same facts read the other way. A woman intending to die that afternoon, convinced her children could not survive without her, would do exactly these things in exactly this order. The planning is evidence of the delusion&rsquo;s content, not of its absence.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Expert evidence on how postpartum psychosis presents; the fact that she made no attempt to escape, conceal or explain; the near-fatal injuries she inflicted on herself within minutes.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.mass.gov/doc/9200-lack-of-criminal-responsibility/download" target="_blank" rel="noopener" aria-label="Massachusetts Model Jury Instruction 9.200, opens on mass.gov">Mass. Model Jury Instr. 9.200</a> &mdash; &ldquo;appreciate&rdquo; means to understand, not merely to know.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It is unfalsifiable in the shape it is usually put. If order is consistent with psychosis and disorder is too, the argument stops doing work and the jury is left with the experts.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Did she retain substantial capacity to appreciate wrongfulness and to conform her conduct?</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Commonwealth</span><p class="cn-t">She made a sequence of choices that only make sense if she understood what she was doing.</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">Understanding the mechanics is knowing. The instruction requires appreciating, which is more.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Commonwealth</p><p class="arm-t">Removing the only witness who could stop her shows she knew it was wrong.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Defence</p><p class="arm-t">Or shows only that she knew he would stop her, which is not the same thing.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Unresolved, and this is the gap the closing arguments were really fought over.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q3">
-                    <h3 class="row-q"><span class="row-n">3</span>What do the treating clinicians&rsquo; records establish?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>That the professionals who actually saw her in the months and days beforehand saw no psychosis, and recorded none. She denied homicidal thoughts repeatedly, including at a virtual appointment the day before.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>That she was misdiagnosed, medicated on a moving target, and treated by people who never spoke to one another. The records show the failure of her care, not the absence of her illness.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Not resolved. The same evidence now underpins civil suits in Norfolk County.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Clinical records made at the time, by people with no stake in the outcome, beat expert reconstruction made years later by people retained to reach a conclusion.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The testimony of her psychiatrist across two days and her nurse practitioner across a third &mdash; the single largest block of evidence in the trial.</p><p class="dp-cite">Tr. Days <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-9" target="_blank" rel="noopener" aria-label="Trial transcript, day 9, opens on Rev">9</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-10" target="_blank" rel="noopener" aria-label="Trial transcript, day 10, opens on Rev">10</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-11" target="_blank" rel="noopener" aria-label="Trial transcript, day 11, opens on Rev">11</a></p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Ordinary weight-of-evidence reasoning; no legal rule is in play.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Both witnesses testified they relied on Clancy to tell them how her other treatment was going, and one did not know the other was still treating her. That damages the records as a record of anything but what she chose to report.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>A patient reporting her own symptoms to two prescribers who are not talking to each other is not being monitored. The notes are a record of an uncoordinated treatment, and cannot bear the weight the Commonwealth puts on their silence.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Admissions drawn out on cross: reliance on the patient for updates, no request for complete records, no contact between prescribers.</p><p class="dp-cite">Tr. Days <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-9" target="_blank" rel="noopener" aria-label="Trial transcript, day 9, opens on Rev">9</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-10" target="_blank" rel="noopener" aria-label="Trial transcript, day 10, opens on Rev">10</a>, <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-11" target="_blank" rel="noopener" aria-label="Trial transcript, day 11, opens on Rev">11</a></p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>None. It is an attack on weight, not admissibility.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It cuts both ways. If she concealed symptoms from her clinicians, she was capable of judging what to conceal &mdash; which is a point about capacity, and the Commonwealth made it.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">How much does the clinical silence prove?</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Commonwealth</span><p class="cn-t">Trained professionals saw her and found nothing to record.</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">They were not looking, were not coordinating, and were relying on her to tell them.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Commonwealth</p><p class="arm-t">Concealment implies judgement, and judgement implies capacity.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Defence</p><p class="arm-t">Concealment of shame is a symptom, not a demonstration of insight.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Unresolved here, and being litigated again in the civil courts on the opposite assumption.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q4">
-                    <h3 class="row-q"><span class="row-n">4</span>Was the suicide attempt real?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>Argued both ways at different points. That the cuts to her neck and wrists were superficial and not bleeding, and that she may have slid rather than jumped &mdash; and elsewhere, that the attempt was sincere and she killed the children first because she would not leave them behind.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>Unambiguously real. She went out of a second-storey window and broke her back. She is paralysed. The suicide was the plan, and the children died because the delusion made them part of it.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Not resolved.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The injuries she inflicted with the knife were not consistent with a serious attempt, and the fall is open to an account other than a jump.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The observations of first responders and the emergency clinicians who treated her; the physical evidence at the window.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>None. Pure fact.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The two positions are in tension. A prosecution that argues the attempt was staged, and also that it was sincere and motivated the killings, gives the jury a choice of theories rather than one. It was the sharpest criticism made of the Commonwealth&rsquo;s presentation.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Nothing about the outcome is equivocal. She sustained spinal injuries that ended her ability to walk, within minutes of the deaths, in a house she knew her husband was about to return to.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Her injuries; the timing; the absence of any attempt to leave, conceal or account for what had happened.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>None.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>A genuine suicide attempt is consistent with despair as well as with psychosis, and despair is not a defence. The attempt does not by itself reach the legal test.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Does the suicide attempt tell the jury anything about capacity?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">It establishes that she was not acting to benefit herself, which removes the ordinary motive analysis.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Commonwealth</p><p class="arm-t">Staged, it is consciousness of guilt.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Defence</p><p class="arm-t">Real, and it is the one part of the plan that went as intended.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Unresolved &mdash; and the Commonwealth having argued both branches at different moments made it harder, not easier, to resolve.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q5">
-                    <h3 class="row-q"><span class="row-n">5</span>Was the investigation sound enough to rely on?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>Eleven warrants, a scene processed thoroughly, DNA from the bands, and more than eighty witnesses. Whatever the defence says about individual gaps, the facts it complains about were never the facts in dispute.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>Investigators settled on a conclusion early and stopped testing it. The affidavits asserted things they never substantiated, a key device sat unexamined for two years, and the gaps run in one direction.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Declined to instruct the jury that it could acquit on the basis of a faulty investigation.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The defence concedes the conduct. An attack on the investigation of a set of facts nobody contests cannot bear on the only question the jury has to answer.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The scope of the forensic work; the concession itself, offered in writing in April 2026.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>The judge&rsquo;s refusal of the faulty-investigation instruction.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Credibility is not compartmentalised. A jury told the affidavits asserted something six times that the Commonwealth&rsquo;s own examiner could not find may discount other things it is told.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The clearest instance is the assertion that she was &ldquo;researching ways to kill.&rdquo; It appears in six warrant applications in identical words, each time as the reason to search one more device. Nothing in 299 pages supports it.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The affidavits themselves, and the cross-examination of the Commonwealth&rsquo;s forensic examiner, who agreed there were no such searches and had encountered none.</p><p class="dp-cite"><a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf" target="_blank" rel="noopener" aria-label="Search warrant affidavits, opens the PDF">Search warrant affidavits</a> &para;&para;40, 42, repeated at pp. <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=105" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 105, opens the PDF">105</a>, <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=139" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 139, opens the PDF">139</a>, <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=173" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 173, opens the PDF">173</a>, <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=208" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 208, opens the PDF">208</a>, <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=236" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 236, opens the PDF">236</a>, <a class="cite-doc" href="https://htv-prod-media.s3.amazonaws.com/files/clancy-search-warrant-applications-6538020282ac9.pdf#page=264" target="_blank" rel="noopener" aria-label="Search warrant affidavits, page 264, opens the PDF">264</a>; Tr. <a class="cite-doc" href="https://www.rev.com/transcripts/ma-v-lindsay-clancy-day-13" target="_blank" rel="noopener" aria-label="Trial transcript, day 13, opens on Rev">Day 13</a></p></div>
-                            <div class="dp-block"><h4>Authority</h4><p>Advanced again in September 2026 as part of the Rule 25 motion, which was denied on 1 October.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>A warrant affidavit is not evidence and was never put to the jury as evidence. The point is real but it is aimed at a document the jury was not asked to believe.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Can the quality of the investigation reach a case where the conduct is conceded?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">An investigation that asserts what it cannot support should not be trusted on what it can.</p></li>
-                            <li class="cn cn-p"><span class="cn-k">Commonwealth</span><p class="cn-t">The disputed question is clinical, and no amount of police work was ever going to settle it.</p></li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">The instruction was refused, so it reached the jury as argument only. It came back before the judge as a sufficiency point in September 2026 and failed there too.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-
-                <article class="row" id="q6">
-                    <h3 class="row-q"><span class="row-n">6</span>Did the Commonwealth carry a burden it may not have known it had?</h3>
-
-                    <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Commonwealth</p><p>Yes. The evidence of deliberate, sequenced choices, combined with an unbroken clinical record showing no psychosis, proves beyond a reasonable doubt that she appreciated what she was doing and could have done otherwise.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defence</p><p>No, and it is not close. On a question this contested, with qualified experts on both sides, a jury cannot be satisfied beyond a reasonable doubt of a proposition about someone else&rsquo;s mind. That is what the Rule 25 motion says.</p></div>
-                    </div>
-
-                    <p class="row-court"><span class="rc-mark">Court</span>Denied on 1 October 2026. The evidence was enough to go to a jury, and the question of her mind was the jury&rsquo;s to answer.</p>
-
-                    <details class="drawer">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
-                        <div class="dw-body">
-                        <div class="dp-grid">
-                        <div class="dp dp-p">
-                            <p class="dp-tag">Commonwealth</p>
-                            <div class="dp-block"><h4>The argument</h4><p>Sufficiency is a low bar. The question is not whether the jury agreed but whether a rational juror could have convicted on the evidence, and eleven jurors reaching the opposite view does not answer it.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>Three rebuttal experts; the treating records; the conduct on the day.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.mass.gov/rules-of-criminal-procedure/criminal-procedure-rule-25-motion-required-for-finding-of-not-guilty" target="_blank" rel="noopener" aria-label="Massachusetts Rule of Criminal Procedure 25, opens on mass.gov">Mass. R. Crim. P. 25</a>, and the ordinary standard for a required finding. The judge applied it on 1 October 2026 and found the evidence sufficient.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Nothing legally. Practically, a hung jury after thirty-eight hours is an awkward platform from which to argue the case was clear.</p></div>
-                        </div>
-                        <div class="dp dp-d">
-                            <p class="dp-tag">Defence</p>
-                            <div class="dp-block"><h4>The argument</h4><p>The Commonwealth had to disprove a mental disease or defect, or prove capacity retained on both limbs. It did neither to the standard required, and the physical evidence it leaned on &mdash; the bands, the DNA, the fingerprint work &mdash; does not speak to her mind at all.</p></div>
-                            <div class="dp-block"><h4>Rests on</h4><p>The Rule 25 motion argued on 29 September 2026.</p></div>
-                            <div class="dp-block"><h4>Authority</h4><p><a class="cite-doc" href="https://www.mass.gov/rules-of-criminal-procedure/criminal-procedure-rule-25-motion-required-for-finding-of-not-guilty" target="_blank" rel="noopener" aria-label="Massachusetts Rule of Criminal Procedure 25, opens on mass.gov">Mass. R. Crim. P. 25</a>; <a class="cite-doc" href="https://www.mass.gov/doc/9200-lack-of-criminal-responsibility/download" target="_blank" rel="noopener" aria-label="Massachusetts Model Jury Instruction 9.200, opens on mass.gov">Mass. Model Jury Instr. 9.200</a>.</p></div>
-                            <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Rule 25 asks whether a rational juror <em>could</em> convict, not whether this jury did. One juror who would have is awkward for the motion, and the Commonwealth will say so.</p></div>
-                        </div>
-                        </div>
-                        </div>
-                    </details>
-
-                    <details class="drawer drawer-chain">
-                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
-                        <div class="dw-body">
-                        <ol class="chain">
-                            <li class="cn cn-test"><span class="cn-k">Test</span><p class="cn-t">Could a rational juror have found criminal responsibility proved beyond a reasonable doubt?</p></li>
-                            <li class="cn cn-d"><span class="cn-k">Defence</span><p class="cn-t">No. Qualified experts divided, and division at that level is reasonable doubt by definition.</p></li>
-                            <li class="cn cn-fork">
-                                <div class="fork">
-                                    <div class="arm arm-p"><p class="arm-k">Commonwealth</p><p class="arm-t">Expert disagreement is ordinary and juries resolve it every day.</p></div>
-                                    <div class="arm arm-d"><p class="arm-k">Defence</p><p class="arm-t">Not when the burden of disproof sits on the side with the weaker experts.</p></div>
-                                </div>
-                            </li>
-                            <li class="cn cn-out"><span class="cn-k">Where it lands</span><p class="cn-t">Decided against the defence on 1 October 2026. The case can be tried again unless the double jeopardy motion succeeds on 2 November. There is no retrial date, and the defence says it cannot try the case again before June 2027.</p></li>
-                        </ol>
-                        </div>
-                    </details>
-                </article>
-                </div>
-
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, TLDR Case Flow">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">01</span>
-                    </a>
-                    <a class="sect-nav-b sect-nav-next" href="#notes" aria-label="Next section: 03, Notes">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">03</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- ═══════════════════════════════════════════════
              Notes
              ═══════════════════════════════════════════════ -->
         <section class="band band-notes" id="notes" aria-labelledby="notes-h">
             <div class="wrap">
-                <p class="kicker">03 &middot; Notes</p>
+                <p class="kicker">Notes</p>
                 <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
 
                 <div class="notes-grid">
@@ -1003,13 +509,6 @@
                 <p class="notes-updated">This case is live and this page will go out of date. Record reviewed
                     through <span class="mono">8 October 2026</span>, a week after the Rule&nbsp;25 motion was denied. The next hearing is
                     <span class="mono">2 November 2026</span>.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">02</span>
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -1134,7 +633,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261012a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
 </body>
 
 </html>

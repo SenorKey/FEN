@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- This page deliberately does not load /assets/css/styles.css. The shared
+         shell pins the body to 100vh with overflow hidden for the golden-ratio
+         layout; this is a long-form scrolling document. The nav, skip link and
+         design tokens are ported into chronicle.css so the page still reads
+         as part of the site. Same precedent as /preside-by-side/.
+
+         chronicle.css and chronicle.js are shared by every case in the
+         Chronicle. Nothing in either names a case; what is specific to this
+         one lives in this file. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
+
+    <!-- IBM Plex Sans takes the body and JetBrains Mono the docket citations,
+         dates and labels, in one request. The display face is Fraunces, which
+         the stylesheet self-hosts from /assets/fonts: the CDN build ships
+         without the SOFT and WONK axes, and those are the two doing the work
+         at display size. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Doe v. Bonnell in short: what has to be decided, in what order, and where each answer leads, built from the public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/doe-v-bonnell/flow/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/doe-v-bonnell/flow/">
+    <meta property="og:title" content="Doe v. Bonnell, in short — Case Chronicle">
+    <meta property="og:description"
+        content="Doe v. Bonnell in short: what has to be decided, in what order, and where each answer leads, built from the public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Doe v. Bonnell, in short — Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="doe-v-bonnell">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Exhibit wash
+
+         Recreations of the screenshot exhibits each side filed, running
+         down the outer edges of the page behind the argument. Left is
+         the plaintiff's evidence, right is the defendant's — the same
+         teal/violet rule the rest of the page follows.
+
+         Text, not images: the originals are 1-bit scans that would be
+         unreadable at this size and unsearchable at any size. Every
+         card is transcribed from the PDF named in its cite. Explicit
+         passages are elided the same way they are elsewhere on the
+         page — the record's language, not the record's pornography.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>&#10005;&#10005;&#10005;&#10005;</b> <time>11/3/23, 10:41 AM</time></p>
+                    <p class="ex-t">btw destiny sends me sex tapes all the time and he thinks idk the girls in
+                        them but <mark>I have videos of him &mdash;&mdash; cheiry and pxie like lmfao he just sent me
+                            another one haven&rsquo;t opened it let&rsquo;s see who he&rsquo;s &mdash;&mdash; this
+                            time</mark></p>
+                    <p class="ex-t ex-t-2">he should be more careful basically lmaooo</p>
+                    <figcaption class="ex-cite">DE 86-1</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-sms">
+                    <p class="ex-meta">Text Message &middot; RCS &middot; Friday 1:39 PM</p>
+                    <p class="ex-bub">Steven Bonnell has abused his position of power and community to gain favor
+                        and harass people in the past. I find his actions deplorable and terrifying. I will never
+                        feel comfortable being a witness in this case against Steven unless my identity is
+                        protected. I fear for my family, friends, and my current and future careers. Without
+                        protection, I am almost certain I will receive harassment and doxxing from his community.
+                    </p>
+                    <figcaption class="ex-cite">DE 84-4</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-x">
+                    <p class="ex-h"><b>Destiny | Steven Bonnell II</b> <span>@TheOmniLiberal</span></p>
+                    <p class="ex-t">If you really want to show your nuts, why not attack places like Kiwifarms
+                        WHERE THE CONTENT IS LITERALLY STILL BEING HOSTED AND BLASTED TO THE WORLD? Oh, because
+                        that&rsquo;s a scarier party to go after, eh.</p>
+                    <p class="ex-t ex-t-2">Talk about cowards.</p>
+                    <p class="ex-meta">11:59 AM &middot; Feb 9, 2025 &middot; 1.1M Views</p>
+                    <figcaption class="ex-cite">DE 52-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>SoloTinyLeaks</b> <time>Dec 4, 2024</time></p>
+                    <p class="ex-t">Below I&rsquo;ve attached the Google drive links sent to Rose, all of which are
+                        dead now for obvious reasons.</p>
+                    <p class="ex-l"><time>27/04/2023 5:17 pm</time> <span class="ex-u">drive.google.com/file/d/1SuF-yeNJEC&hellip;</span></p>
+                    <p class="ex-l"><time>06/04/2023 6:32 pm</time> <span class="ex-u">drive.google.com/file/d/1NrAbRv&hellip;</span></p>
+                    <p class="ex-l"><time>10/04/2022 1:04 am</time> <span class="ex-u">drive.google.com/open?id=13Q77VRf&hellip;</span> does this work?</p>
+                    <p class="ex-l"><time>04/04/2022 2:35 am</time> <span class="ex-u">drive.google.com/open?id=1Aaf_aSEBOB&hellip;</span></p>
+                    <figcaption class="ex-cite">DE 52-1</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-sms">
+                    <p class="ex-bub">It&rsquo;s just I don&rsquo;t have money for a lawyer or anything. Once he
+                        knows my name or something I&rsquo;m afraid he&rsquo;s going to harass me or get others to
+                        do so.</p>
+                    <p class="ex-meta">Jan 22, 2025, 2:15 PM</p>
+                    <figcaption class="ex-cite">DE 84-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>2/26/20, 11:20 PM</time></p>
+                    <p class="ex-t">Don&rsquo;t worry I totally trust you and you&rsquo;ve been very clear with how
+                        seriously you take consent and I also feel that you&rsquo;ve been very honest with me so I
+                        trust you and your words</p>
+                    <figcaption class="ex-cite">DE 50-2</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Steven Bonnell II</b> <time>11/29/2024</time></p>
+                    <p class="ex-t">Ughhhh there shouldn&rsquo;t be no, I&rsquo;m so sorry there&rsquo;s literally
+                        no excuse, I&rsquo;d had phone convos and stuff with this person they were fairly close to
+                        me, it&rsquo;s worthless to say it at this point but I&rsquo;m super sorry, there&rsquo;s
+                        literally no excuse.</p>
+                    <figcaption class="ex-cite">Am. Compl. &para;&thinsp;20</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>4/9/2022 8:28 PM</time></p>
+                    <p class="ex-t">ooooo</p>
+                    <p class="ex-t ex-t-2">there was a girl once, she was young&hellip; do you want that vid?</p>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 8:33 PM</time></p>
+                    <p class="ex-t">Id love it omg</p>
+                    <figcaption class="ex-cite">DE 42-4, p.&thinsp;1 &middot; his side</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>10/04/2022 1:28 am</time></p>
+                    <p class="ex-t">ooooo</p>
+                    <p class="ex-t ex-t-2">there was a girl once, she was young&hellip; do you want that vid?</p>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>10/04/2022 1:33 am</time></p>
+                    <p class="ex-t">Id love it omg</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>10/04/2022 1:36 am</time></p>
+                    <p class="ex-att">&#9654; 0:00</p>
+                    <figcaption class="ex-cite">DE 42-4, p.&thinsp;2 &middot; her side</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>14/04/2022</time></p>
+                    <p class="ex-t">Just streaming</p>
+                    <p class="ex-note">14 cannot be a month.</p>
+                    <figcaption class="ex-cite">DE 132-3</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-x">
+                    <p class="ex-h"><b>Pxie</b> <span>@pxielovee</span></p>
+                    <p class="ex-t">Steven is a multi-millionaire and I want him to lose so much money as a result
+                        of this that every time he thinks of the word &ldquo;nude&rdquo; he cringes at his mistake.</p>
+                    <p class="ex-t ex-t-2">My goal here is not public humiliation of Steven, or even all the money in
+                        the world, it&rsquo;s him receiving such a financial hit/penalty that he will permanently
+                        learn his lesson.</p>
+                    <p class="ex-meta">9:08 AM &middot; 1/20/25 &middot; 6K Views</p>
+                    <figcaption class="ex-cite">DE 42-10</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-rd">
+                    <p class="ex-h"><b>Rose</b> <time>4/9/2022 7:23 PM</time></p>
+                    <span class="ex-bar ex-b4"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 7:25 PM</time></p>
+                    <span class="ex-bar ex-b1"></span>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 7:26 PM</time></p>
+                    <span class="ex-bar ex-b3"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 7:46 PM</time></p>
+                    <span class="ex-bar ex-b2"></span>
+                    <p class="ex-h ex-h-2"><b>Rose</b> <time>4/9/2022 8:04 PM</time></p>
+                    <span class="ex-bar ex-b2"></span>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>4/9/2022 8:06 PM</time></p>
+                    <span class="ex-bar ex-b4"></span>
+                    <figcaption class="ex-cite">DE 132-3, Ex.&thinsp;B</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>1/3/25, 10:37 PM</time></p>
+                    <p class="ex-t">I have never ever sent videos of other people to steven ever.</p>
+                    <figcaption class="ex-cite">DE 50-1</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Destiny</b> <time>12/5/24, 1:23 AM</time></p>
+                    <p class="ex-t">holy &mdash;&mdash; I cannot find a DMCA/email/contact or anything off of this</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>12/5/24, 1:42 AM</time></p>
+                    <p class="ex-t">Okay I emailed the registrar, &ldquo;namesake&rdquo;, so it should be removed
+                        once they respond</p>
+                    <figcaption class="ex-cite">DE 51-3</figcaption>
+                </figure>
+
+                <figure class="ex-c">
+                    <p class="ex-h"><b>Pxie</b> <time>3/19/2020 5:12 AM</time></p>
+                    <p class="ex-t">Would you wanna make some videos together?</p>
+                    <p class="ex-h ex-h-2"><b>Destiny</b> <time>3/19/2020 5:13 AM</time></p>
+                    <p class="ex-t">If you want to yeah for sure</p>
+                    <figcaption class="ex-cite">DE 42-3</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/doe-v-bonnell/">&larr;&nbsp; Doe v. Bonnell</a></p>
+                <p class="eyebrow">United States District Court &middot; Southern District of Florida &middot; No.
+                    1:25-cv-20757-JB</p>
+                <h1 class="masthead-title">Doe <em>v.</em> Bonnell</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/doe-v-bonnell/flow/">
+                        <span class="view-t">Case Flow View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Case flow
+
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on everything the case has been through, and
+             is-here with its flag on the card it is waiting at.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
+            <div class="wrap">
+                <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
+
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Waiting on the spoliation ruling. Everything under it is stayed until then.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Plaintiff</li>
+                            <li class="cf-key-d">Defendant</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has got</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger in the Side
+                             by Side View: every card opens on its own, and with no
+                             JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow">
+                        <li class="cf-node is-here">
+                            <article class="cf-card cf-aside">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Decided first, and apart from the rest</p>
+                                </div></div>
+                                <h3 class="cf-h">The spoliation motion</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The spoliation motion"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b"><a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">Spoliation</a> means destroying or losing evidence you were supposed to keep. The plaintiff says the defendant did that. She says he deleted his side of conversations after he was told to preserve them, and that a log he swore listed everything he sent one witness is missing two links. So she filed a <a class="term" href="#t-motion" data-term="t-motion" title="Motion: A formal request that the court do something. The other side files an opposition; the moving side may then file a reply.">motion</a>, which is a formal request to the judge, asking for him to be penalised for it. He says nothing was actually lost, and that she filed it too late.</p>
+                                    <p class="cf-b">The judge is deciding this first, and everything below it is on hold until he does. If he sides with her, the penalty could be small, like the jury being told it can assume the missing evidence was bad for him. Or it could be as big as the judge ruling that he is legally responsible without a trial on it, and then the question below never has to be answered at all. If he sides with the defendant, or throws the motion out for being late, the case just moves down to that question.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-node has-via">
+                            <p class="cf-via">if that does not end it</p>
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">The only question</p>
+                                </div></div>
+                                <h3 class="cf-h">Did he disclose the video after 1&nbsp;October 2022?</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-open">Stayed until that ruling</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he disclose the video after 1 October 2022?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This is the question the whole case comes down to. The federal law she is suing under took effect on 1 October 2022, and it can&rsquo;t be used for anything that happened before that. Both sides now agree he sent the video to someone in April 2022, which is about six months too early. So she has to show that he disclosed it again at some point after that date. Disclose is the law&rsquo;s own word, and it covers sending something, publishing it, or making it accessible.</p>
+                                    <p class="cf-b">If she can&rsquo;t show that, there is no federal claim, and a federal court has no <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, meaning no power to hear the case at all. She has two different ways of trying to show it, and those are the two routes below. Right now this question is <a class="term" href="#t-stay" data-term="t-stay" title="Stay: A pause ordered by the court. Whatever is stayed sits on hold until something else is decided first.">stayed</a>, which means the judge has put it on hold until the <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion above is decided.</p>
+                                    <p class="cf-who"><span class="cf-l">Who must prove it</span>She does. The <a class="term" href="#t-burden" data-term="t-burden" title="Burden: Which side has to prove a thing. If they do not, they lose that point, even if the other side proves nothing either.">burden</a> is on the plaintiff, and she has to meet it by a <a class="term" href="#t-preponderance" data-term="t-preponderance" title="Preponderance of the evidence: More likely than not. It is the usual standard of proof in a civil case, and a lower bar than the criminal one.">preponderance of the evidence</a>, which just means more likely than not.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 3">
+                            <p class="cf-grp">either route is enough</p>
+                            <ol class="cf-col">
+                                <li class="cf-node">
+                                    <article class="cf-card cf-p">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Route A</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The November 2023 transmission</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The November 2023 transmission"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is her first way of getting past that date. She says he sent the video a second time in November 2023, to a witness who goes by &ldquo;Abbymc&rdquo; online. That would be thirteen months after the law took effect, so if it happened, it counts. He says it never happened, and points to his own saved logs of what he sent her, where the video doesn&rsquo;t show up.</p>
+                                            <p class="cf-b">What she has is two <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declarations</a> from Abbymc, which are sworn written statements, saying she received it. She also has a message Abbymc sent a friend that same morning. Whether that&rsquo;s enough is the test in the card below.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                                <li class="cf-node">
+                                    <article class="cf-card cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Test</p>
+                                        </div></div>
+                                        <h3 class="cf-h">Could a jury credit an untested declaration?</h3>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Could a jury credit an untested declaration?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is the test Route A has to pass. To credit a statement just means to believe it. A <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> does count as evidence, but Abbymc herself has never been questioned by either side. She never sat for a <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a>, which is sworn questioning outside of court. She handed over nothing when she was sent a <a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">subpoena</a>, which is a court order to produce documents or testify. And a few days after signing her first declaration she told the defendant she didn&rsquo;t want to be involved anymore.</p>
+                                            <p class="cf-b">So the judge has to decide if a reasonable jury could still believe her on paper alone. If it could, the two sides have a real disagreement about a fact, and only a trial can settle that. If it couldn&rsquo;t, Route A is closed.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col" data-op="or">
+                                <li class="cf-node">
+                                    <article class="cf-card cf-p">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Route B</p>
+                                        </div></div>
+                                        <h3 class="cf-h">Continuing accessibility</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Continuing accessibility"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is her second way, and it doesn&rsquo;t need a second send at all. The law doesn&rsquo;t only cover sending or publishing a video. It also covers making it accessible. The copy he sent in April 2022 stayed reachable until he deleted it in November 2024, and he has admitted that under oath.</p>
+                                            <p class="cf-b">So her argument is that even though the sending happened too early, leaving it reachable went on for about two years after the law took effect, and that this counts as a disclosure all by itself.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                                <li class="cf-node">
+                                    <article class="cf-card cf-c">
+                                        <span class="cf-pin" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Test</p>
+                                        </div></div>
+                                        <h3 class="cf-h">Does &#8220;make accessible&#8221; reach a private link?</h3>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does “make accessible” reach a private link?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is the test Route B has to pass, and it&rsquo;s about what the words of the law mean, not about what happened. He never posted the video anywhere public himself. He sent it to one person privately, and even her own expert agreed the link was basically impossible to guess. The defendant says that isn&rsquo;t making something accessible in any real sense, and that she is stretching one message from April 2022 into something that lasts for years so that a newer law can reach it. She says the law says &ldquo;make accessible&rdquo;, not &ldquo;publish&rdquo;, so it doesn&rsquo;t have to be public.</p>
+                                            <p class="cf-b">No court has applied this law to a private link like this before, so whichever way the judge goes, it will be a first. If she wins this one, the federal court keeps the case even if Route A fails.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                        <li class="cf-two cf-two-split cf-ragged" style="--cf-rows: 2">
+                            <ol class="cf-col cf-arm-p">
+                                <li class="cf-node has-via">
+                                    <p class="cf-via">if yes on either</p>
+                                    <article class="cf-card cf-out cf-p">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Outcome</p>
+                                        </div></div>
+                                        <h3 class="cf-h">Federal jurisdiction survives</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Federal jurisdiction survives"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-then">
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-k">Then</p>
+                                            </div></div>
+                                            <h4 class="cf-h">Trial on the merits</h4>
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-b">If either route works, she has a disclosure after the date, and the federal court has <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. A federal court needs a federal claim, which is why one date decides so much here.">jurisdiction</a>, which is the power to hear the case at all. What comes next is a trial on the <a class="term" href="#t-merits" data-term="t-merits" title="Merits: What the case is actually about, meaning what happened and who is in the right. A ruling that a court cannot hear a case says nothing about the merits.">merits</a>. That means a trial about what actually happened and who is in the right, instead of about whether this court can hear it.</p>
+                                                <p class="cf-b">She would go into that trial in a strong position on the main issue, which is consent. He admits he sent the video, and he has testified that he never asked her. He says permission was implied by their earlier exchanges, but the law asks for consent that was actually given.</p>
+                                            </div></div>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ol>
+                            <ol class="cf-col cf-arm-d">
+                                <li class="cf-node has-via">
+                                    <p class="cf-via">if neither test passes</p>
+                                    <article class="cf-card cf-d">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Neither route</p>
+                                        </div></div>
+                                        <h3 class="cf-h">The April 2022 transmission only</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The April 2022 transmission only"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If neither route passes its test, the only sharing anyone has proven is the one from April 2022. That&rsquo;s about six months before the law took effect. She used to argue it happened in October 2022, but in May 2026 she agreed that the real date was 9 April 2022.</p>
+                                            <p class="cf-b">A law normally doesn&rsquo;t apply <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactively</a>, meaning to things that happened before it existed, so that one send can&rsquo;t support a federal claim. That leads to the ending below.</p>
+                                        </div></div>
+                                    </article>
+                                </li>
+                                <li class="cf-node">
+                                    <article class="cf-card cf-out cf-d">
+                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Outcome</p>
+                                        </div></div>
+                                        <h3 class="cf-h">No federal claim</h3>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No federal claim"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-then">
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-k">Then</p>
+                                            </div></div>
+                                            <h4 class="cf-h">Case ends here</h4>
+                                            <div class="cf-x"><div class="cf-x-in">
+                                                <p class="cf-b">With no disclosure after the date, there&rsquo;s nothing left under the federal law, and a federal court can only keep a case that has a federal claim in it. She also has claims under state law, but those are only in this court because they came attached to the federal one. So when the federal claim goes, the state ones are dismissed along with it, and the case is over in this court.</p>
+                                                <p class="cf-b">That wouldn&rsquo;t be a ruling that he did nothing wrong. It would be a ruling that this court isn&rsquo;t allowed to decide it.</p>
+                                            </div></div>
+                                        </div>
+                                    </article>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/doe-v-bonnell/" aria-label="Back to the case page for Doe v. Bonnell">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Doe v. Bonnell II, No. 1:25-cv-20757-JB (S.D. Fla.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-answer">Answer</dt><dd>The defendant&rsquo;s formal response to the complaint, admitting
+                        or denying each allegation.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                    <div><dt id="t-errata">Errata</dt><dd>A formal correction a witness files to their own sworn testimony
+                        after reading it back.</dd></div>
+                    <div><dt id="t-under-seal">Under seal</dt><dd>Filed with the court but kept off the public record. Both
+                        sides and the judge can read it; nobody else can.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-protective-order">Protective order</dt><dd>An order limiting what either side may do with the
+                        material it receives in discovery.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, so its citation opens the docket entry instead.</dd></div>
+                    <div><dt id="t-stay">Stay</dt><dd>A pause ordered by the court. Whatever is stayed
+                        sits on hold until something else is decided first.</dd></div>
+                    <div><dt id="t-merits">Merits</dt><dd>What the case is actually about, meaning what
+                        happened and who is in the right. A ruling that a court cannot hear a case says
+                        nothing about the merits.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Argues the case cannot proceed even if everything
+                        alleged is true &mdash; usually because the court lacks power to hear it.</dd></div>
+                    <div><dt id="t-summary-judgment">Summary judgment</dt><dd>Argues the facts are not genuinely in dispute, so the
+                        judge can decide without a trial. If facts <em>are</em> disputed, it fails.</dd></div>
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-sanctions">Sanctions</dt><dd>A penalty for misconduct in the litigation itself. They can
+                        run from a fine to losing the case outright.</dd></div>
+                    <div><dt id="t-adverse-inference">Adverse inference</dt><dd>A sanction where the jury is told it may assume the
+                        destroyed evidence would have hurt the side that destroyed it.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all.
+                        A federal court needs a federal claim, which is why one date decides so much
+                        here.</dd></div>
+                    <div><dt id="t-burden">Burden</dt><dd>Which side has to prove a thing. If they do not, they lose that
+                        point, even if the other side proves nothing either.</dd></div>
+                    <div><dt id="t-preponderance">Preponderance of the evidence</dt><dd>More likely than
+                        not. It is the usual standard of proof in a civil case, and a lower bar than the
+                        criminal one.</dd></div>
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone said outside court to prove it was true.
+                        Generally not allowed, with many exceptions.</dd></div>
+                    <div><dt id="t-authentication">Authentication</dt><dd>Showing a document or screenshot is genuinely what its
+                        proponent says it is. The bar is low, but it is not nothing.</dd></div>
+                    <div><dt id="t-probative">Probative</dt><dd>Actually tending to prove something. Evidence can be
+                        admissible and still carry very little weight.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
+</body>
+
+</html>

@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261012b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,25 +157,29 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Two ways in
+             Four ways in
 
-             Two doorways, one for each way of reading the case, and
+             Four doorways, one for each way of reading the case, and
              each an ordinary link: the casing, the transom and the two
              leaves are all inside the anchor, with the words under
              them. The stylesheet draws the doorway. The only picture
              in this markup is the sign in the glass.
 
+             They stand in the order the views are listed in the bar
+             at the head of each view's own page, so a door moved here
+             is a tab moved there.
+
              A courtroom is locked until the court has sat in it. For a
              case with no day in court yet, put data-door-lock on the
-             second door-slot and the script hangs the padlock that is
-             waiting, hidden, beside that link; take the attribute off
+             Courtroom door's slot and the script hangs the padlock that
+             is waiting, hidden, beside that link; take the attribute off
              when the courtroom page gets its first hearing. The reader
              can break the lock, and it is back the next time the page
              is shown.
              ═══════════════════════════════════════════════ -->
-        <nav class="doors" aria-label="Two ways to see this case">
+        <nav class="doors" aria-label="Four ways to see this case">
             <div class="wrap">
-                <p class="doors-l">Two ways in</p>
+                <p class="doors-l">Four ways in</p>
                 <div class="doorway">
                     <div class="door-slot">
                         <a class="door" href="/case-chronicle/people-v-mangione/chronology/">
@@ -194,7 +198,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Chronological View</span>
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
                                 <span class="door-s">Every step of the case, in the order it happened.</span>
                                 <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -220,7 +224,7 @@
                                 <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
                             </span>
                             <span class="door-plate">
-                                <span class="door-t">Courtroom View</span>
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
                                 <span class="door-s">The room from above, and who sat where.</span>
                                 <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
                             </span>
@@ -236,298 +240,65 @@
                             <span class="door-unlock-l">Unlock</span>
                         </button>
                     </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/people-v-mangione/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Case Flow <span class="door-t-v">View</span></span>
+                                <span class="door-s">The TLDR. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/people-v-mangione/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Held</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
-
-        <!-- ═══════════════════════════════════════════════
-             Case flow
-
-             The logic of the case as a map: what has to be answered,
-             in what order, and where each answer leads. Markup only.
-             chronicle.css draws every line from it, and says at the
-             head of its own block what each class is for.
-
-             This one is the statutory chain and nothing else: CPL
-             40.20, three questions, two outcomes. The constitutional
-             claim is deliberately not on it. It does not branch, it
-             just fails, and drawing a path that goes nowhere would
-             give it a weight the law does not. It is in the caption
-             instead. Count eleven gets a card because it is a real
-             third outcome that sits outside the chain.
-
-             Where the case stands is said in three places here, and
-             they are kept in step by hand: the line at the top,
-             is-done on everything the case has been through, and
-             is-here with its flag on the card it is waiting at.
-
-             Every card ships open. The script shuts them and shows the
-             controls, so with no JavaScript the whole map is written
-             out and nothing sits behind a dead button.
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
-            <div class="wrap">
-                <h2 class="kicker" id="tree-h">01 &middot; TLDR Case Flow</h2>
-
-                <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Waiting on the third question. The court has not ruled on the motion.</p>
-                    <div class="cf-head">
-                        <ul class="cf-key" aria-hidden="true">
-                            <li class="cf-key-p">Prosecution</li>
-                            <li class="cf-key-d">Defence</li>
-                            <li class="cf-key-done">Settled or decided</li>
-                            <li class="cf-key-open">Still open</li>
-                            <li class="cf-key-line">How far the case has got</li>
-                        </ul>
-                        <!-- Enhancement only, like the one over the ledger: every card
-                             opens on its own, and with no JavaScript none is shut. -->
-                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
-                            <span class="da-i" aria-hidden="true"></span>
-                            <span class="da-l">Open every card</span>
-                        </button>
-                    </div>
-                    <ol class="cf-flow">
-                        <li class="cf-two cf-two-in cf-join is-done" style="--cf-rows: 2">
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What has already concluded</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The federal conviction</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The federal conviction"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">He was charged over the same killing in more than one court. Two of them matter here, the federal government&rsquo;s case and the State of New York&rsquo;s. This card is the federal case, and it&rsquo;s finished. On 14 August 2026 he pleaded guilty in federal court to two <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a> of stalking, each one for stalking that ended in a death. A count is one charged offence.</p>
-                                            <p class="cf-b">A guilty plea is a conviction, the same as if a jury had found him guilty, and that conviction is what everything below hangs on. He is due to be sentenced on 18 December 2026, and each count carries up to life in prison.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col is-done">
-                                <li class="cf-node is-done">
-                                    <article class="cf-card cf-p">
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">What New York still holds</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Counts three through ten</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Counts three through ten"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This card is the New York case, and it&rsquo;s the one in question. The <a class="term" href="#t-indictment" data-term="t-indictment" title="Indictment: The document a grand jury returns to start a felony prosecution. It lists the charges and nothing else; it is not evidence of anything.">indictment</a>, which is the document that lists the charges, started out with eleven <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">counts</a>. A judge threw out the first two, the terrorism ones, in September 2025. Counts three through ten are what&rsquo;s left from the day of the shooting. That&rsquo;s one count of second-degree murder and seven weapons counts.</p>
-                                            <p class="cf-b">Every one of them is dated on or about 4 December 2024, the same morning the federal case was about. That shared date is why the defence has asked the court to dismiss all eight.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node is-done">
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>1</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 1</p>
-                                </div></div>
-                                <h3 class="cf-h">Is there a previous prosecution?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-done">Yes, since 14 Aug 2026</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is there a previous prosecution?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">Double jeopardy</a> is the rule that you can&rsquo;t be prosecuted twice for the same thing, and New York has its own version written into state law. That law only does anything once there&rsquo;s an earlier prosecution that has actually ended in something, like a conviction. So the first question is if there is one.</p>
-                                    <p class="cf-b">The defence tried this same argument in May 2025 and lost, because back then the federal case was still going and nothing had ended. The guilty plea on 14 August 2026 changed that. A guilty plea is a conviction, so now there is an earlier prosecution, and the answer is yes.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-done has-via">
-                            <p class="cf-via">yes</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>2</b></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 2</p>
-                                </div></div>
-                                <h3 class="cf-h">Was it the same act, or the same criminal transaction?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-set">Not in dispute</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was it the same act, or the same criminal transaction?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">The second question is if both cases are about the same thing. Under the US Constitution this wouldn&rsquo;t even be asked. The federal government and a state count as two separate governments, or <a class="term" href="#t-dual-sovereignty" data-term="t-dual-sovereignty" title="Dual sovereignty: The doctrine that a state and the federal government are separate sovereigns, so a prosecution by each for the same conduct is not the same offence under the Fifth Amendment.">sovereigns</a>, and the Constitution lets each one prosecute the same conduct. New York&rsquo;s own law is stricter. It counts a federal prosecution too, as long as both cases come out of the same act or the same <a class="term" href="#t-criminal-transaction" data-term="t-criminal-transaction" title="Criminal transaction: Conduct closely connected enough in time and purpose to count as one episode. New York’s double jeopardy statute works on transactions, not just on single acts — which is why the date on a count matters.">criminal transaction</a>, which basically means one connected episode.</p>
-                                    <p class="cf-b">That stricter state law is the only reason this fight exists. And the answer here isn&rsquo;t really in dispute. Both cases are about one defendant, one victim, one street and one morning.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-node is-here has-via">
-                            <p class="cf-via">yes</p>
-                            <article class="cf-card cf-c cf-q">
-                                <span class="cf-pin cf-pin-n" aria-hidden="true"><b>3</b></span>
-                                <p class="cf-here">The case is here</p>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Question 3</p>
-                                </div></div>
-                                <h3 class="cf-h">Does an exception in CPL 40.20(2) apply?</h3>
-                                <p class="cf-stamp"><span class="cf-st cf-st-open">The only one in dispute</span></p>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does an exception in CPL 40.20(2) apply?"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b"><a class="term" href="#t-cpl-40-20" data-term="t-cpl-40-20" title="CPL 40.20: The section of New York’s Criminal Procedure Law that holds the state’s double jeopardy rule. Its second part bars a second prosecution over the same act or criminal transaction, and then lists the exceptions.">CPL 40.20</a> is the section of New York&rsquo;s Criminal Procedure Law that holds the <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> rule, and part (2) of it comes with a list of exceptions. If one of them applies, the second prosecution is allowed even though questions 1 and 2 were both a yes. So this is where the prosecution gets its chance to keep the case, and it&rsquo;s the only question of the three that&rsquo;s really being fought over.</p>
-                                    <p class="cf-b">The exception that matters here has two parts, shown in the two cards below, and the prosecution needs both of them. This is where the case is sitting right now. The judge hasn&rsquo;t ruled on it.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                        <li class="cf-two cf-two-ways cf-join" style="--cf-rows: 2">
-                            <p class="cf-grp">both are needed</p>
-                            <ol class="cf-col">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">First limb</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Each offence contains an element the other lacks</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Each offence contains an element the other lacks"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the first part of the exception. An <a class="term" href="#t-element" data-term="t-element" title="Element: One of the separate things a prosecutor has to prove for a particular crime. If one is missing, the charge fails.">element</a> is one of the things a prosecutor has to prove for a particular crime. This part asks if each of the two crimes needs something proven that the other one doesn&rsquo;t, and it has to work in both directions.</p>
-                                            <p class="cf-b">Second-degree murder needs proof that he meant to cause a death, and federal stalking plainly has no such requirement. So this part isn&rsquo;t where the fight is. The fight is in the card next to it.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col" data-op="and">
-                                <li class="cf-node">
-                                    <article class="cf-card cf-c">
-                                        <span class="cf-pin" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Second limb</p>
-                                        </div></div>
-                                        <h3 class="cf-h">The two statutes are designed to prevent very different kinds of harm</h3>
-                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The two statutes are designed to prevent very different kinds of harm"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">This is the second part, and it&rsquo;s where the real fight is. It isn&rsquo;t enough for the two crimes to be built differently on paper. The two laws also have to be aimed at very different kinds of harm. So the prosecution has to show that the federal stalking law and New York&rsquo;s murder law exist to protect against different things, even though in this case both were charged over the same death.</p>
-                                            <p class="cf-b">There&rsquo;s a twist in it too. The strongest support for the prosecution&rsquo;s side comes from the federal case itself, where the judge ruled in January 2026 that stalking isn&rsquo;t a <a class="term" href="#t-crime-of-violence" data-term="t-crime-of-violence" title="Crime of violence: For these statutes, a felony that has as an element the use, attempted use, or threatened use of physical force against the person or property of another.">crime of violence</a>. That was a ruling the defence asked for, and it&rsquo;s what took the death penalty off the table.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-two cf-two-split cf-join cf-dash" style="--cf-rows: 2">
-                            <ol class="cf-col cf-arm-p">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">an exception applies</p>
-                                    <article class="cf-card cf-out cf-p">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then the state case survives</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Tried on counts three through ten</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Tried on counts three through ten"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">If the judge finds the exception applies, <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> doesn&rsquo;t block the New York case and it goes ahead. He would be tried in front of a jury on the murder <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">count</a> and the seven weapons counts, even though he has already pleaded guilty in federal court over the same morning.</p>
-                                            <p class="cf-b">There&rsquo;s no date for that trial right now. It was supposed to start on 8 September 2026, but that date came and went while this <a class="term" href="#t-motion" data-term="t-motion" title="Motion: A formal request that the court do something. The other side files an opposition or response; the moving side may then reply.">motion</a> was waiting to be decided, and no new one has been set.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                            <ol class="cf-col cf-arm-d">
-                                <li class="cf-node has-via">
-                                    <p class="cf-via">none applies</p>
-                                    <article class="cf-card cf-out cf-d">
-                                        <span class="cf-pin cf-pin-o" aria-hidden="true"></span>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-k">Then the state case is over</p>
-                                        </div></div>
-                                        <h3 class="cf-h">Counts three through ten dismissed</h3>
-                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Counts three through ten dismissed"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                        <div class="cf-x"><div class="cf-x-in">
-                                            <p class="cf-b">If no exception applies, New York&rsquo;s <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> law stops the state from prosecuting him over that morning a second time. The murder <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">count</a> is dismissed and all seven weapons counts go with it.</p>
-                                            <p class="cf-b">That wouldn&rsquo;t mean nothing happens to him. He would still be sentenced in the federal case in December, where each of the two counts he pleaded guilty to carries up to life. It would mean New York never puts him on trial for the killing at all.</p>
-                                        </div></div>
-                                    </article>
-                                </li>
-                            </ol>
-                        </li>
-                        <li class="cf-node has-via cf-dash">
-                            <p class="cf-via">either way</p>
-                            <article class="cf-card cf-aside">
-                                <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">Outside the motion, either way</p>
-                                </div></div>
-                                <h3 class="cf-h">Count eleven survives both branches</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Count eleven survives both branches"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-b">There&rsquo;s one charge this whole fight doesn&rsquo;t touch. <a class="term" href="#t-count" data-term="t-count" title="Count: One charged offence. An indictment with eleven counts charges eleven separate offences, and a jury answers for each one separately.">Count</a> eleven is for having a forged New Jersey driver&rsquo;s licence, and the <a class="term" href="#t-indictment" data-term="t-indictment" title="Indictment: The document a grand jury returns to start a felony prosecution. It lists the charges and nothing else; it is not evidence of anything.">indictment</a> dates it to 24 November 2024, which is ten days before the killing. A different day and a different act means it isn&rsquo;t part of the same <a class="term" href="#t-criminal-transaction" data-term="t-criminal-transaction" title="Criminal transaction: Conduct closely connected enough in time and purpose to count as one episode. New York’s double jeopardy statute works on transactions, not just on single acts — which is why the date on a count matters.">criminal transaction</a> the federal case covered, so <a class="term" href="#t-double-jeopardy" data-term="t-double-jeopardy" title="Double jeopardy: The bar on being prosecuted twice for the same offence. New York’s statutory version is broader than the Fifth Amendment’s and reaches across sovereigns.">double jeopardy</a> has nothing to say about it. The defence didn&rsquo;t even ask for it to be dismissed.</p>
-                                    <p class="cf-b">So whichever way the judge rules above, this one count stays. If the defence wins everything it asked for, a fake driver&rsquo;s licence is all that would be left of the New York case.</p>
-                                </div></div>
-                            </article>
-                        </li>
-                    </ol>
-                </div>
-
-                <p class="tree-caption">The Fifth Amendment is not on this diagram, and that is the point of it. The constitutional claim does not branch &mdash; under dual sovereignty it simply fails, because two sovereigns prosecuting the same conduct are not prosecuting the same offence. Everything here runs on a New York statute that chose to be broader than the Constitution. And note what the third question asks of the People: that federal stalking and intentional murder be aimed at very different kinds of harm. The strongest authority for that proposition is the January ruling that stalking is not a crime of violence &mdash; the ruling that took the death penalty off the table.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-next" href="#side-by-side" aria-label="Next section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">02</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════
-             Side by side — held
-
-             The ledger on the other case pages sets each side's
-             position as that side actually argued it, in its own
-             filing. Here only one side has filed. The People's
-             response to the double jeopardy motion is due 9 October
-             2026 and does not exist yet, and writing their half of
-             this section out of a press statement and a guess at
-             their best argument would be exactly the thing the
-             section is built to avoid.
-
-             So it stays empty and says why. The section number is
-             kept so the page's spine and the next/previous chain
-             still read 01-02-03.
-             ═══════════════════════════════════════════════ -->
-        <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
-            <div class="wrap">
-                <h2 class="kicker" id="sbs-h">02 &middot; Side by Side Case Argumentation</h2>
-
-                <div class="pending">
-                    <p class="pending-l">Held &mdash; one side has not filed</p>
-                    <p class="pending-t">The defence motion was filed on 14 August 2026. The People&rsquo;s response is
-                        due on <strong>9 October 2026</strong>, and the defence reply on 30 October. As of the date at
-                        the foot of this page, the only thing in the public record from the District Attorney&rsquo;s
-                        office is a statement that it will litigate the motion and that it &ldquo;remains committed to
-                        seeking justice for Mr. Thompson and his family.&rdquo;</p>
-                    <p class="pending-t">That is a position and not an argument, and this section is for arguments. The
-                        rule on these pages is that each side is quoted from its own papers; filling the People&rsquo;s
-                        column with the strongest case a reader could construct for them would break that rule in the
-                        one place it matters most, since the strength of their position is the thing actually in
-                        dispute.</p>
-                    <p class="pending-t">It goes in once the response is filed. The six questions are already obvious
-                        from the diagram above: whether the plea is a previous prosecution, whether the transaction is
-                        the same, whether each offence has an element the other lacks, whether the two statutes are
-                        aimed at different harms, what the January ruling on crimes of violence does to that question,
-                        and what is left of the indictment either way.</p>
-                </div>
-
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#tree" aria-label="Previous section: 01, TLDR Case Flow">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">01</span>
-                    </a>
-                    <a class="sect-nav-b sect-nav-next" href="#notes" aria-label="Next section: 03, Notes">
-                        <span class="sect-nav-l">Next</span>
-                        <span class="sect-nav-t">03</span>
-                        <span class="sect-nav-a" aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <!-- ═══════════════════════════════════════════════
              Notes
              ═══════════════════════════════════════════════ -->
         <section class="band band-notes" id="notes" aria-labelledby="notes-h">
             <div class="wrap">
-                <p class="kicker">03 &middot; Notes</p>
+                <p class="kicker">Notes</p>
                 <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
 
                 <div class="notes-grid">
@@ -539,7 +310,7 @@
                     </div>
                     <div class="note">
                         <h3>What is not here yet</h3>
-                        <p>The People have not responded to the double jeopardy motion. Until 9 October there is no document setting out why New York says it may still try him, which is why section 02 is empty and why nothing on this page states that argument.</p>
+                        <p>The People have not responded to the double jeopardy motion. Until 9 October there is no document setting out why New York says it may still try him, which is why the Side by Side View is empty and why nothing on these pages states that argument.</p>
                         <p>New York County Supreme Court has no public docket of the kind PACER provides, so the state record here is not a complete list of filings in the way the federal one is. Where a state filing is described, it is because a copy or a reliable account of it is public &mdash; not because the docket was read end to end. Assume the state side is less complete than the federal side, because it is.</p>
                         <p>The Pennsylvania case is noted once and then dropped. It has never been tried and nothing in it bears on the question this page is about.</p>
                     </div>
@@ -607,13 +378,6 @@
                 </div>
 
                 <p class="notes-updated">Record reviewed through <span class="mono">1 October 2026</span>. Both cases are live: the federal one awaits sentence on 18 December, and the state one awaits a decision that has not been briefed. This page will be wrong in some particular within weeks, which is the condition of writing about a case while it is still happening.</p>
-                <div class="sect-nav">
-                    <a class="sect-nav-b sect-nav-prev" href="#side-by-side" aria-label="Previous section: 02, Side by Side Case Argumentation">
-                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
-                        <span class="sect-nav-l">Previous</span>
-                        <span class="sect-nav-t">02</span>
-                    </a>
-                </div>
             </div>
         </section>
 
@@ -739,7 +503,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261012a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261012b" defer></script>
 </body>
 
 </html>
