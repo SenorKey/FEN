@@ -4948,20 +4948,24 @@ span.cr-cite { margin: 0; white-space: normal; }
    Open by default. With no JavaScript the detail is simply present and
    the toggle never appears, so nothing sits behind a dead control.
    The height animates with grid-template-rows 0fr -> 1fr, which gets a
-   real transition to auto height without measuring anything in script. */
+   real transition to auto height without measuring anything in script.
+
+   Shut, the layer is hidden as well as collapsed, like a side's card
+   and a card in the flow. Collapsed alone, every link in it is still a
+   stop for the keyboard that nobody can see. */
 
 .tl-x { display: grid; grid-template-rows: 1fr; }
 .tl-x-in { overflow: hidden; min-height: 0; }
 
 .tl.js-collapse .tl-x { grid-template-rows: 0fr; }
-.tl.js-collapse .tl-x-in { opacity: 0; }
+.tl.js-collapse .tl-x-in { opacity: 0; visibility: hidden; }
 .tl.js-collapse .tl-c.is-open .tl-x { grid-template-rows: 1fr; }
-.tl.js-collapse .tl-c.is-open .tl-x-in { opacity: 1; }
+.tl.js-collapse .tl-c.is-open .tl-x-in { opacity: 1; visibility: visible; }
 
-/* Armed a frame after the collapse, so the initial close does not animate. */
+/* Armed after the collapse, so the initial close does not animate. */
 .tl.js-anim .tl-x { transition: grid-template-rows 0.36s cubic-bezier(0.4, 0, 0.2, 1); }
-.tl.js-anim .tl-x-in { transition: opacity 0.16s ease; }
-.tl.js-anim .tl-c.is-open .tl-x-in { transition: opacity 0.3s ease 0.12s; }
+.tl.js-anim .tl-x-in { transition: opacity 0.16s ease, visibility 0s linear 0.36s; }
+.tl.js-anim .tl-c.is-open .tl-x-in { transition: opacity 0.3s ease 0.12s, visibility 0s; }
 
 .tl-x-t {
   margin-top: 15px;
