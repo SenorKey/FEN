@@ -27,7 +27,6 @@
    stock. */
 :root {
   --paper: #15100a;
-  --bg: var(--paper);
   --bg-band: #1a130c;
   --bg-deep: #0e0a07;
 
@@ -130,8 +129,6 @@ body::after {
   pointer-events: none;
   background: radial-gradient(ellipse 78% 92% at 58% 52%, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0.62) 100%);
 }
-
-.rs-room .masthead { border-bottom-color: var(--rule); }
 
 /* The way out sits over the title rather than beside it, and a little
    closer to it than a case's does. */
@@ -309,8 +306,6 @@ body::after {
      volumes, so neither the shade nor the wash has an edge: the lantern
      can hang close to the first, and on a narrow window the plate
      stands just above the second. */
-  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 78%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 48px);
-  -webkit-mask-composite: source-in;
   mask-image: linear-gradient(90deg, #000 0, #000 78%, rgba(0, 0, 0, 0) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0) 0, #000 48px);
   mask-composite: intersect;
   background:
@@ -428,10 +423,6 @@ body::after {
 
 .bk-old .sp::before,
 .bk-old .sp::after { content: none; }
-
-.bk-old .sp-head,
-.bk-old .sp-name,
-.bk-old .sp-vol { z-index: 2; }
 
 /* Four layers, from the bottom: the leather, the bands raised in it,
    the drawing of what has happened to it, and then the light. The
@@ -555,12 +546,11 @@ body::after {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+@supports (background-clip: text) {
   .bk-old .sp-name {
     color: transparent;
     text-shadow: none;
     background-image: linear-gradient(180deg, #dcbd76 0, #b39457 17%, #e3c688 30%, #a88a52 46%, #d8b86f 59%, #bb9b5b 77%, #e0c27f 100%);
-    -webkit-background-clip: text;
     background-clip: text;
     /* A shadow under clipped letters would be painted over them, so it
        is thrown by the finished line instead. */
@@ -669,11 +659,9 @@ body::after {
   .rs-stacks .shelf-rail::after { left: -10px; right: -10px; }
 }
 
-/* The narrowest phones: one more step down, or the fifth volume is off
-   the end of the board. */
+/* The narrowest phones, where chronicle.css takes the rail one more
+   step down: the lettering across a spine closes up to stay on it. */
 @media (max-width: 350px) {
-  .rs-stacks .shelf-rail { --bk-scale: 0.52; }
-  /* And the lettering across a spine closes up to stay on it. */
   .bk-bands .sp-name { font-size: 8.5px; letter-spacing: 0.05em; }
 }
 

@@ -159,6 +159,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -470,16 +471,83 @@ body::after {
 
 /* A case the court has finished with. Hollow rather than filled: the
    same mark, spent. */
-.pip-closed {
-  background: transparent;
-  box-shadow: inset 0 0 0 1.5px var(--faint);
-}
+.pip-closed { box-shadow: inset 0 0 0 1.5px var(--faint); }
 
 /* Nothing written here yet. No ring — it is not a state of the case, it
    is a state of this page. */
-.pip-soon {
-  background: var(--rule);
-  box-shadow: none;
+.pip-soon { background: var(--rule); }
+
+/* ═══════════════════════════════════════════════
+   Opening and shutting
+
+   A side's card, a card in the flow, a card in the chronology and a
+   drawer in the ledger all open for more, and two buttons open a whole
+   section at once. All six wear one mark, a + that becomes a −, and
+   two of them share a button. Both are set here, ahead of every
+   section that uses them, and a section restates only what it changes.
+   ═══════════════════════════════════════════════ */
+
+/* ── the mark ──
+   Two bars in a square. The upright one turns away when the thing it
+   stands on is open. --mark is its ink: the court's, unless a section
+   says otherwise. */
+.party-more-i,
+.tl-more-i,
+.cf-more-i,
+.da-i,
+.dw-i {
+  position: relative;
+  flex: none;
+  width: 9px;
+  height: 9px;
+}
+
+:is(.party-more-i, .tl-more-i, .cf-more-i, .da-i, .dw-i)::before,
+:is(.party-more-i, .tl-more-i, .cf-more-i, .da-i, .dw-i)::after {
+  content: '';
+  position: absolute;
+  background: var(--mark, var(--court));
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+:is(.party-more-i, .tl-more-i, .cf-more-i, .da-i, .dw-i)::before { inset: 3.5px 0; }
+:is(.party-more-i, .tl-more-i, .cf-more-i, .da-i, .dw-i)::after { inset: 0 3.5px; }
+
+.party.is-open .party-more-i::after,
+.tl-c.is-open .tl-more-i::after,
+.cf-card.is-open .cf-more-i::after,
+.depth-all.is-open .da-i::after,
+.drawer[open] > summary .dw-i::after { transform: scaleY(0); opacity: 0; }
+
+/* ── the button ──
+   "More", with the mark ahead of it. One button for a side's card and
+   for a card in the chronology, so a reader who has met one knows the
+   other. */
+.party-more,
+.tl-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid var(--tl-edge);
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: color 0.18s, background-color 0.18s, border-color 0.18s;
+}
+
+.party-more:hover,
+.tl-more:hover {
+  border-color: rgba(23, 20, 15, 0.34);
+  background: rgba(23, 20, 15, 0.045);
+  color: var(--ink);
 }
 
 /* ═══════════════════════════════════════════════
@@ -603,48 +671,9 @@ body::after {
   color: var(--muted);
 }
 
-/* The chronology's own "More", so a reader who has met one knows the
-   other. Its mark takes the side's ink. */
-.party-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 13px;
-  padding: 6px 12px 6px 10px;
-  border: 1px solid var(--tl-edge);
-  border-radius: 2px;
-  background: none;
-  cursor: pointer;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  transition: color 0.18s, background-color 0.18s, border-color 0.18s;
-}
-
-.party-more:hover {
-  border-color: rgba(23, 20, 15, 0.34);
-  background: rgba(23, 20, 15, 0.045);
-  color: var(--ink);
-}
-
-/* A + that becomes a − when the card opens */
-.party-more-i { position: relative; width: 9px; height: 9px; flex: 0 0 9px; }
-
-.party-more-i::before,
-.party-more-i::after {
-  content: '';
-  position: absolute;
-  background: var(--party);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
-}
-
-.party-more-i::before { inset: 3.5px 0; height: 2px; }
-.party-more-i::after { inset: 0 3.5px; width: 2px; }
-
-.party.is-open .party-more-i::after { transform: scaleY(0); opacity: 0; }
+/* The control is the chronology's own "More" (see "Opening and
+   shutting"). Its mark takes the side's ink. */
+.party-more-i { --mark: var(--party); }
 
 /* Shut, the rest is hidden as well as collapsed, which takes it and
    its links out of the way of a keyboard and a screen reader. */
@@ -968,8 +997,6 @@ body::after {
   min-height: 236px;
 }
 
-.plate-rest { max-width: 44em; }
-
 .plate-rest,
 .bk-plate {
   transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1116,8 +1143,8 @@ body::after {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -15px;
-  height: 15px;
+  bottom: calc(var(--board) * -1);
+  height: var(--board);
   background: linear-gradient(180deg, #c9bda4 0, #ab9c80 42%, #8e7f66 100%);
   box-shadow: 0 14px 26px rgba(23, 20, 15, 0.24),
               inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -1263,10 +1290,7 @@ body::after {
   box-shadow: 0 0 0 3px rgba(239, 233, 220, 0.2);
 }
 
-.sp .pip-closed {
-  background: transparent;
-  box-shadow: inset 0 0 0 1.5px var(--stamp-dim);
-}
+.sp .pip-closed { box-shadow: inset 0 0 0 1.5px var(--stamp-dim); }
 
 /* Off the shelf far enough to see it move, not far enough to leave the
    board. */
@@ -2402,15 +2426,6 @@ body::after {
   color: var(--faint);
 }
 
-/* An entry arrived at by its own address, from the courtroom view or
-   from a link somebody sent. Held, not flashed: the reader may have
-   come a long way down the page to find it. */
-.tl-ev { scroll-margin-top: 112px; }
-/* Two classes deep on purpose: a card under the pointer changes its own
-   shadow further down the sheet, and this has to beat it. The last
-   shadow is the one every card casts. */
-.tl .tl-ev:target .tl-c { box-shadow: 0 0 0 2px var(--court), 0 0 0 7px rgba(111, 74, 46, 0.16), var(--tl-lift); }
-
 @media (max-width: 620px) {
   .masthead-view { padding-top: 56px; }
   .masthead-view .masthead-title { margin-bottom: 30px; }
@@ -2702,7 +2717,6 @@ body::after {
   width: 26px;
   height: 26px;
   margin: -13px 0 0 -13px;
-  padding: 0;
   border: 2px solid var(--paper);
   border-radius: 50%;
   background: rgba(23, 20, 15, 0.6);
@@ -2746,9 +2760,9 @@ body::after {
   box-shadow: none;
 }
 
-.cr-node.is-case[data-side="p"] { background: var(--paper); border-color: var(--p); }
-.cr-node.is-case[data-side="d"] { background: var(--paper); border-color: var(--d); }
-.cr-node.is-case[data-side="court"] { background: var(--paper); border-color: var(--court); }
+.cr-node.is-case[data-side="p"] { border-color: var(--p); }
+.cr-node.is-case[data-side="d"] { border-color: var(--d); }
+.cr-node.is-case[data-side="court"] { border-color: var(--court); }
 
 .cr-node.is-remote {
   border: 2px solid rgba(23, 20, 15, 0.6);
@@ -2867,7 +2881,6 @@ body::after {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  font-style: normal;
 }
 
 .cr-k-in { background: rgba(23, 20, 15, 0.6); }
@@ -3132,9 +3145,9 @@ span.cr-cite { margin: 0; white-space: normal; }
   height: 10px;
 }
 
-.cr-who[data-status="case"][data-side="p"]::before { background: none; border-color: var(--p); }
-.cr-who[data-status="case"][data-side="d"]::before { background: none; border-color: var(--d); }
-.cr-who[data-status="case"][data-side="court"]::before { background: none; border-color: var(--court); }
+.cr-who[data-status="case"][data-side="p"]::before { border-color: var(--p); }
+.cr-who[data-status="case"][data-side="d"]::before { border-color: var(--d); }
+.cr-who[data-status="case"][data-side="court"]::before { border-color: var(--court); }
 
 .cr-who[data-status="remote"]::before { box-shadow: 0 0 0 2px var(--bg-band), 0 0 0 3.5px rgba(23, 20, 15, 0.5); width: 6px; height: 6px; left: 2px; top: 21px; }
 
@@ -3269,9 +3282,11 @@ span.cr-cite { margin: 0; white-space: normal; }
   --tl-c-tint: color-mix(in oklab, var(--court) 12%, var(--tl-card));
 }
 
-/* Set as a <p> under a section title everywhere but the hub, where it is
-   the section's only heading and carries the h2 itself. Stated here so
-   the two render identically rather than one arriving bold. */
+/* A <p> over a section's title where the section has one. Where it has
+   none, which is the hub's shelf, the case flow, the side by side and
+   the chronology, it is the section's only heading and is the h2
+   itself. Stated here so the two render identically rather than one
+   arriving bold. */
 .kicker {
   font-weight: 400;
   font-family: var(--mono);
@@ -3314,8 +3329,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  margin-top: 56px;
-  padding-bottom: 12px;
 }
 
 .lk {
@@ -3422,7 +3435,7 @@ span.cr-cite { margin: 0; white-space: normal; }
   padding-bottom: 12px;
 }
 
-.ledger-head .ledger-key { flex: 1; margin-top: 0; padding-bottom: 0; }
+.ledger-head .ledger-key { flex: 1; }
 
 .depth-all {
   display: flex;
@@ -3449,20 +3462,13 @@ span.cr-cite { margin: 0; white-space: normal; }
   color: var(--ink);
 }
 
-.da-i { position: relative; width: 9px; height: 9px; flex: 0 0 9px; }
-
+/* The mark on this button and on each drawer is the shared one (see
+   "Opening and shutting"), in the court's ink. These two turn a little
+   quicker than the cards' do. */
 .da-i::before,
-.da-i::after {
-  content: '';
-  position: absolute;
-  background: var(--court);
-  transition: transform 0.22s ease, opacity 0.22s ease;
-}
-
-.da-i::before { inset: 3.5px 0; height: 2px; }
-.da-i::after { inset: 0 3.5px; width: 2px; }
-
-.depth-all.is-open .da-i::after { transform: scaleY(0); opacity: 0; }
+.da-i::after,
+.dw-i::before,
+.dw-i::after { transition: transform 0.22s ease, opacity 0.22s ease; }
 
 /* ── Drawers — depth 2 and 3 ── */
 
@@ -3481,6 +3487,7 @@ span.cr-cite { margin: 0; white-space: normal; }
   background: rgba(255, 252, 245, 0.5);
   transition: background 0.18s, border-color 0.18s;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 .drawer > summary::-webkit-details-marker { display: none; }
@@ -3491,26 +3498,10 @@ span.cr-cite { margin: 0; white-space: normal; }
   border-color: rgba(23, 20, 15, 0.2);
 }
 
-/* A + that becomes a − when the drawer opens */
-.dw-i {
-  position: relative;
-  width: 10px;
-  height: 10px;
-  flex: 0 0 10px;
-}
-
-.dw-i::before,
-.dw-i::after {
-  content: '';
-  position: absolute;
-  background: var(--court);
-  transition: transform 0.22s ease, opacity 0.22s ease;
-}
-
-.dw-i::before { inset: 4px 0; height: 2px; }
-.dw-i::after { inset: 0 4px; width: 2px; }
-
-.drawer[open] > summary .dw-i::after { transform: scaleY(0); opacity: 0; }
+/* A drawer's mark is a pixel larger than the rest. */
+.dw-i { width: 10px; height: 10px; }
+.dw-i::before { inset: 4px 0; }
+.dw-i::after { inset: 0 4px; }
 
 .dw-l {
   font-family: var(--mono);
@@ -3560,14 +3551,13 @@ span.cr-cite { margin: 0; white-space: normal; }
 .dp-block:last-child { margin-bottom: 0; }
 
 /* What a side's case rests on, in docket numbers. Set below the prose it
-   belongs to and in the same faint mono as the chronology's citations, so
-   the two read as one apparatus rather than two. */
+   belongs to, in the mono every citation here is set in. Its size and
+   ink are the paragraph's: it is a <p> in a dp-block, and the rule for
+   those, just below, outranks this one. */
 .dp-cite {
   margin-top: 7px;
   font-family: var(--mono);
-  font-size: 0.58rem;
   letter-spacing: 0.1em;
-  color: var(--faint);
 }
 
 .dp-block h4 {
@@ -4287,21 +4277,8 @@ span.cr-cite { margin: 0; white-space: normal; }
 
 .cf-more:hover { border-color: rgba(23, 20, 15, 0.34); background: rgba(23, 20, 15, 0.045); }
 
-/* A + that becomes a − when the card opens */
-.cf-more-i { position: relative; width: 9px; height: 9px; }
-
-.cf-more-i::before,
-.cf-more-i::after {
-  content: '';
-  position: absolute;
-  background: currentColor;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
-}
-
-.cf-more-i::before { inset: 3.5px 0; height: 2px; }
-.cf-more-i::after { inset: 0 3.5px; width: 2px; }
-
-.cf-card.is-open .cf-more-i::after { transform: scaleY(0); opacity: 0; }
+/* The shared mark (see "Opening and shutting"), in the button's own ink. */
+.cf-more-i { --mark: currentColor; }
 
 .cf.js-collapse .cf-x { display: grid; grid-template-rows: 0fr; }
 .cf.js-collapse .cf-x-in { overflow: hidden; min-height: 0; opacity: 0; visibility: hidden; }
@@ -4799,11 +4776,15 @@ span.cr-cite { margin: 0; white-space: normal; }
 
 /* ── an event ── */
 
+/* The margin is for an entry arrived at by its own address, from the
+   courtroom view or from a link somebody sent: it lands clear of the
+   nav and the bar. */
 .tl-ev {
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--tl-gutter) minmax(0, 1fr);
   position: relative;
   padding: 12px 0;
+  scroll-margin-top: 112px;
 }
 
 /* The mark an event leaves on the rail: a ring in its side's ink. It
@@ -4887,6 +4868,12 @@ span.cr-cite { margin: 0; white-space: normal; }
 .tl-d :focus-visible { outline-color: var(--d); }
 .tl-court :focus-visible,
 .tl-n :focus-visible { outline-color: var(--court); }
+
+/* The entry the address names is ringed. Held, not flashed: the reader
+   may have come a long way down the page to find it. Two classes deep
+   on purpose, so it beats the shadow a card takes under the pointer.
+   The last shadow is the one every card casts. */
+.tl .tl-ev:target .tl-c { box-shadow: 0 0 0 2px var(--court), 0 0 0 7px rgba(111, 74, 46, 0.16), var(--tl-lift); }
 
 .tl-date {
   display: flex;
@@ -5064,32 +5051,10 @@ span.cr-cite { margin: 0; white-space: normal; }
   color: var(--tl-card);
 }
 
-/* ── the toggle ── */
-
-.tl-more {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 13px;
-  padding: 6px 12px 6px 10px;
-  border: 1px solid var(--tl-edge);
-  border-radius: 2px;
-  background: none;
-  cursor: pointer;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  transition: color 0.18s, background-color 0.18s, border-color 0.18s;
-}
-
-.tl-more:hover {
-  border-color: rgba(23, 20, 15, 0.34);
-  background: rgba(23, 20, 15, 0.045);
-  color: var(--ink);
-}
+/* ── the toggle ──
+   The button and its mark are the shared ones, set under "Opening and
+   shutting". What is the chronology's own is the count beside the word
+   and the ink of the mark. */
 
 /* How many documents are behind the button. The script counts them
    and writes this, so a reader knows the sources are there before
@@ -5102,25 +5067,11 @@ span.cr-cite { margin: 0; white-space: normal; }
   color: var(--muted);
 }
 
-.tl-more-i { position: relative; width: 9px; height: 9px; flex: 0 0 9px; }
-
-.tl-more-i::before,
-.tl-more-i::after {
-  content: '';
-  position: absolute;
-  background: var(--muted);
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
-}
-
-.tl-more-i::before { inset: 3.5px 0; height: 2px; }
-.tl-more-i::after { inset: 0 3.5px; width: 2px; }
-
-.tl-c.is-open .tl-more-i::after { transform: scaleY(0); opacity: 0; }
-
 /* the mark takes the colour of whoever the card belongs to */
-.tl-p .tl-more-i::before, .tl-p .tl-more-i::after { background: var(--p); }
-.tl-d .tl-more-i::before, .tl-d .tl-more-i::after { background: var(--d); }
-.tl-court .tl-more-i::before, .tl-court .tl-more-i::after { background: var(--court); }
+.tl-more-i { --mark: var(--muted); }
+.tl-p .tl-more-i { --mark: var(--p); }
+.tl-d .tl-more-i { --mark: var(--d); }
+.tl-court .tl-more-i { --mark: var(--court); }
 
 /* ── closing note ── */
 
@@ -5642,13 +5593,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 
   /* Fullest against the outer edge, well under half by the time it
      meets the text column, gone entirely under the argument itself. */
-  -webkit-mask-image: linear-gradient(to right,
-      #000 0,
-      rgba(0, 0, 0, 0.42) var(--ex-edge),
-      transparent calc(var(--ex-edge) + var(--ex-fade)),
-      transparent calc(100% - var(--ex-edge) - var(--ex-fade)),
-      rgba(0, 0, 0, 0.42) calc(100% - var(--ex-edge)),
-      #000 100%);
   mask-image: linear-gradient(to right,
       #000 0,
       rgba(0, 0, 0, 0.42) var(--ex-edge),
@@ -5666,7 +5610,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   overflow: hidden;
 
   /* Cards enter and leave rather than being guillotined by the viewport. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent);
   mask-image: linear-gradient(to bottom, transparent, #000 13%, #000 87%, transparent);
 }
 
@@ -5680,7 +5623,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   top: 0;
   width: 100%;
   padding: 0 26px;
-  transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
@@ -6095,7 +6037,7 @@ span.cr-cite { margin: 0; white-space: normal; }
 
 .fix-kind label:hover { border-color: var(--court); color: var(--ink); }
 
-.fix-kind input { accent-color: var(--court); margin: 0; }
+.fix-kind input { accent-color: var(--court); }
 
 .fix-kind label:has(input:checked) {
   border-color: var(--court);
@@ -6415,16 +6357,11 @@ span.cr-cite { margin: 0; white-space: normal; }
 }
 
 @media (max-width: 900px) {
-  :root { --gut: 24px; }
-
-  /* Shorter nav at this width. */
-  .band { scroll-margin-top: 40px; }
-
-  :root { --ctl-gap: 8px; }
+  :root { --gut: 24px; --ctl-gap: 8px; }
 
   /* No room for three controls on one line at this width, so Terms takes
      the row above the navigation pair rather than shortening either. */
-  .gloss { bottom: 74px; left: var(--gut); }
+  .gloss { bottom: 74px; }
   .gloss-b { padding: 10px 12px; font-size: 0.66rem; }
   .gloss-b-l { display: none; }
   .gloss-p { width: calc(100vw - 2 * var(--gut)); max-height: 58vh; padding: 20px 20px 22px; }
@@ -6461,16 +6398,14 @@ span.cr-cite { margin: 0; white-space: normal; }
 
   .site-nav { padding: 0 16px; gap: 14px; height: 40px; }
   .site-nav a, .nav-dropdown-toggle { font-size: 0.7rem; white-space: nowrap; }
-  .nav-dropdown-menu { position: fixed; top: 40px; left: 0; width: 100%; min-width: unset; }
+  .nav-dropdown-menu { position: fixed; top: 40px; width: 100%; min-width: unset; }
 
   .masthead { padding: 72px 0 56px; }
-  .band { padding: 68px 0; }
+  /* The nav is shorter at this width, so a band lands under less of it. */
+  .band { padding: 68px 0; scroll-margin-top: 40px; }
 
   .docket-meta { gap: 24px 0; margin-top: 40px; }
   .docket-meta > div { padding-right: 24px; margin-right: 24px; }
-
-  .agreed-item { grid-template-columns: 34px 1fr; gap: 8px 16px; }
-  .agreed-item p { grid-column: 2; }
 
   /* Ledger stacks: question, plaintiff, defendant, court. Reading order
      is preserved, and the two sides keep their coloured rules so the
@@ -6580,12 +6515,10 @@ span.cr-cite { margin: 0; white-space: normal; }
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
   }
-}
 
-/* The parallax is the whole point of the wash, so without it the layer
-   is just clutter in the margin. The script leaves the strips alone at
-   this setting; this drops them back to a lower, quieter presence. */
-@media (prefers-reduced-motion: reduce) {
+  /* The parallax is the whole point of the wash, so without it the layer
+     is just clutter in the margin. The script leaves the strips alone at
+     this setting; this drops them back to a lower, quieter presence. */
   .exhibits { --ex-peak: 0.2; }
 }
 
