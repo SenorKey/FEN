@@ -762,9 +762,12 @@ body::after {
   .party-more-i::after { transition: none !important; }
 }
 
+/* On paper a card is open, and nothing on it is a control. */
 @media print {
   .party { box-shadow: none; break-inside: avoid; }
   .party-more { display: none; }
+  .party.js-collapse .party-x { grid-template-rows: 1fr; }
+  .party.js-collapse .party-x-in { opacity: 1; visibility: visible; }
 }
 
 /* ── A section that has not been written yet ──
@@ -3727,6 +3730,15 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cn-out .cn-t { color: var(--ink); font-size: 0.96rem; font-weight: 300; }
 .cn-out .cn-t b { font-weight: 600; }
 
+/* On paper every drawer is open and nothing is a control. A shut
+   <details> hides its contents through the box the browser wraps them
+   in; a browser that does not know that box prints it as it was left. */
+@media print {
+  .depth-all,
+  .dw-i { display: none; }
+  .drawer::details-content { content-visibility: visible; }
+}
+
 /* ═══════════════════════════════════════════════
    Case flow
 
@@ -5515,10 +5527,14 @@ span.cr-cite { margin: 0; white-space: normal; }
   }
 }
 
+/* On paper every card is open and nothing is a control, as in the flow. */
 @media print {
   .tl-key { position: static; }
   .tl::after { display: none; }
   .tl-c, .tl-mark-in, .tl-end-in { box-shadow: none; }
+  .tl-more { display: none; }
+  .tl.js-collapse .tl-x { grid-template-rows: 1fr; }
+  .tl.js-collapse .tl-x-in { opacity: 1; visibility: visible; }
 }
 
 /* ═══════════════════════════════════════════════
