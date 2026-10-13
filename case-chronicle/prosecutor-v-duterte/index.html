@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Not for search engines yet. The shelf on the hub does not link
+         here and the sitemap does not list it. Take this line out, here
+         and on the four views behind the doors, in the same edit that
+         does those two things. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="Prosecutor v. Duterte: a former president of the Philippines, charged at the International Criminal Court with crimes against humanity over killings in Davao City and in his war on drugs. A reading of both sides from the court's public record, No. ICC-01/21-01/25.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/">
+    <meta property="og:title" content="Prosecutor v. Duterte &mdash; Case Chronicle">
+    <meta property="og:description"
+        content="Three counts of crimes against humanity, confirmed for trial. He challenged the court's power, his detention and his own fitness, and lost all three. The trial opens November 30, 2026, and nothing has been proved.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Prosecutor v. Duterte &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="prosecutor-v-duterte">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Hearing wash
+
+         Each side's own lawyers, run down their own side of the page
+         behind the argument. Same rule as the other washes on this site:
+         what is on the left was said in court by counsel for the
+         prosecution, and what is on the right by counsel for the defence.
+         Nothing here is testimony. No witness has been heard in this case
+         yet, so there is no sworn evidence to set in either column; that
+         starts when the trial does, and the wash can take it then.
+
+         Both columns open on the same speech. The prosecution read one
+         passage of it to the judges and the defence, the same morning,
+         read another from further on. That pair is the case in small, and
+         it is why the two cards sit level at the head of the page. A
+         passage read into the record is indented the way the transcript
+         indents it.
+
+         This recreates the court's own transcripts, which number every
+         page and line, so the cite gives the transcript number and then
+         page:line where the passage starts. An ellipsis marks words left
+         out. Spelling is the court reporter's: British, and a slip or two
+         ("course attitude") left as it stands.
+
+         The lawyers quoted for the defence at the 2025 and February 2026
+         hearings no longer act for him. The last card is his present
+         counsel.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In reference to this photo, Mr Duterte, this is what he said:</dd>
+                    <dd class="ex-read">&hellip; if you don&rsquo;t want to die, or get hurt, don&rsquo;t rely on the priests, including human rights advocates. They won&rsquo;t be able to prevent deaths. So, don&rsquo;t do it. And then there you are, sprawled on the ground, and you&rsquo;re portrayed in a broadsheet like Mother Mary cradling the dead cadaver of Jesus Christ. That&rsquo;s how they are, creating dramas here.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:21</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte is charged with 49 incidents of murder and attempted murder of 78 victims, including children. &hellip; Thus, the charged incidents are merely a fraction of the overall criminality that resulted from Mr Duterte&rsquo;s so-called War on Drugs.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 9:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte authorised murders and personally selected some of the targets. During the mayoral period when he was mayor, his clearance was required for the DDS to carry out the killings. Essentially, members of the DDS needed Mr Duterte&rsquo;s green light to murder.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 11:7</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>And this is what he said, I quote:</dd>
+                    <dd class="ex-read">If I become the president, I will order the military and the police to hunt down the drug lords, the big ones, and kill them.</dd>
+                    <dd>That&rsquo;s what he said.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 10:15</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; he successfully suspended police anti-illegal drug operations on two occasions, following public outcries in response to particularly notorious killings. On both occasions the number of reported killings dropped significantly during the suspension, showcasing his control. So when he asked people to act, they act. When he asked them to refrain, they do so.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 13:5</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>The victims of extrajudicial killings charged in this case were brutally murdered, some after having been abducted and mistreated. Unlike Mr Duterte, who is represented by his counsel here today, they were deprived of any form of due process.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:9</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it&rsquo;s not unique to this case in war crimes trials, crimes against humanity trials where the very top leadership are the persons on trial and when they&rsquo;re committing their crimes, they don&rsquo;t put it in writing often, &ldquo;Let&rsquo;s go out and commit a crime&rdquo;.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 21:12</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; throughout his speeches Mr Duterte and some of his co-perpetrators &hellip; referred to shoot to kill in self-defence and that they sprinkled in these reference to due process and legality. The evidence shows, as I said, that was only to build a veneer of legality, to create an impression of legality and to give his lawyers something to say when this day came.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 24:13</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>But if we look further on in the very same speech, something which maybe the Deputy Prosecutor didn&rsquo;t do, this is what he had to say:</dd>
+                    <dd class="ex-read">To our police officers and other officials, do your job and you will have the unwavering support of the Office of the President. I will be with you all the way. Abuse your authority, and there will be hell to pay, for you will have become worse than criminality itself.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 36:24</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Medialdea</b> <time>Mar 14, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>Two days ago, the whole world has witnessed the degrading fashion which a former president of a sovereign country was bundled into a private aircraft and summarily transported to The Hague. To us lawyers, this would be called an extrajudicial rendition. To the less legally inclined, it is a pure and simple kidnapping.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-002, 7:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In any event, we are not gathered here today to judge a man on the basis of his course attitude or his vulgar language. &hellip; cases are decided on the basis of evidence, not supposition, not rumour, not spicy gossip, and certainly not on the basis of political rhetoric and bluster.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 35:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it is not enough to state that since the former president made those extremely inflammatory statements and deaths occurred that he must, as a matter of course, be criminally responsible for those fatalities.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 37:22</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>They brought this case and they need to prove it. Rodrigo Duterte need not convince the world of anything, and that is to his fortunate advantage given his current medical condition. He stands behind his legacy resolutely and he maintains his innocence absolutely.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 38:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Layered hearsay, conjecture, over-reliance on accomplice evidence with offers of virtual immunity at the ICC, contradicting statements between participants in a crime, absolute lack of any linkage whatsoever to Mr Rodrigo Duterte, and a total lack of support for an alleged crime both in a documentary and forensic record.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 46:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>If Rodrigo Duterte is to be faulted for anything, it is for his inappropriate choice of language. But he murdered no one. Out of that huge database of evidence on which the Prosecution relies, I repeat that there is absolutely nothing to directly link Rodrigo Duterte to the 78 deaths alleged.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 51:6</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Haynes</b> <time>May 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Our real concern is what the parameters of this trial are. &hellip; if the suggestion is that we are, in effect, in a sort of public enquiry here which spans 300,000 square kilometres and a nation of 120 million people over seven and a half years, then &mdash; then this trial really is going to get out of hand and our investigations will be impossible.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-009, 27:25</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-case" id="top">
+            <div class="mh">
+                <div class="mh-main">
+                    <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
+                    <p class="eyebrow">International Criminal Court &middot; Trial Chamber III &middot; No.
+                        ICC&#8209;01/21&#8209;01/25</p>
+                    <h1 class="masthead-title">Prosecutor <em>v.</em> Duterte</h1>
+                    <p class="masthead-lede">A former president of the Philippines, charged at the International
+                        Criminal Court with three counts of crimes against humanity. The prosecution says he and the
+                        people around him had a plan to kill people accused of drug crimes and other crimes, first
+                        through a death squad in Davao City and then through police and others across the country.
+                        His defense has said there was no such plan and that nothing ties him to the deaths. He has
+                        been held in The Hague since March 2025, and judges have refused to end the case, to release
+                        him, or to find him unfit for trial. The trial is set to open on
+                        <strong>November 30, 2026</strong>, and nothing has been proved yet.</p>
+
+                    <dl class="docket-meta">
+                        <div>
+                            <dt>Arrested</dt>
+                            <dd>Mar 11, 2025</dd>
+                        </div>
+                        <div>
+                            <dt>Before</dt>
+                            <dd>Korner, Paek, Guillou</dd>
+                        </div>
+                        <div>
+                            <dt>Trial opens</dt>
+                            <dd>Nov 30, 2026</dd>
+                        </div>
+                        <div>
+                            <dt>Status</dt>
+                            <dd><span class="pip pip-open"></span>Undecided</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- The two sides. A card each: who they are, and what
+                     they were known for before the case. The side that
+                     filed is first, and the wide layout sets it to the
+                     left of the title and the other to the right.
+
+                     A card shows the name and one line, and opens for
+                     the rest. The rest ships open and the control ships
+                     hidden; the script shuts one and shows the other, so
+                     with no JavaScript both cards are written out.
+
+                     "Defendant" is the Chronicle's word, kept so the
+                     right-hand card reads the same on every case. This
+                     court's own word for him is "the accused", and the
+                     card says so. -->
+                <div class="mh-side mh-side-p">
+                    <article class="party party-p" aria-labelledby="party-p-h">
+                        <p class="party-role">Prosecution <span>The side bringing the charges</span></p>
+                        <h2 class="party-name" id="party-p-h">The Prosecutor</h2>
+                        <p class="party-what">The court&rsquo;s own prosecution office</p>
+                        <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                            <span class="party-more-i" aria-hidden="true"></span>
+                            <span class="party-more-l">More</span>
+                        </button>
+                        <div class="party-x" id="party-p-x"><div class="party-x-in">
+                            <p class="party-b">At this court a case is brought in the name of <a class="term" href="#t-prosecutor" data-term="t-prosecutor" title="The Prosecutor: The head of the court’s Office of the Prosecutor, which investigates and brings cases on its own authority. Every case here is titled in the Prosecutor’s name.">the Prosecutor</a>, the same way a criminal case in the US is brought in the name of the People or the State. The Prosecutor&rsquo;s office is part of the court but it works on its own, so it isn&rsquo;t acting for any country here, and that includes the Philippines. The person running this case is the deputy prosecutor, Mame Mandiaye Niang. The chief prosecutor, Karim Khan, isn&rsquo;t on it. Appeals judges took him off in October 2025, because before he got the job he had worked for victims of these same killings and they said that could look like bias. The ruling was about how it could look, and it didn&rsquo;t find that he was biased.</p>
+                            <p class="party-src">ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/g9hgy2wz/pdf/#page=18" target="_blank" rel="noopener" aria-label="Record 286-Red, the decision disqualifying the Prosecutor, opens the document at page 18">286-Red</a>, p.&nbsp;18</p>
+                        </div></div>
+                    </article>
+                </div>
+
+                <div class="mh-side mh-side-d">
+                    <article class="party party-d" aria-labelledby="party-d-h">
+                        <p class="party-role">Defendant <span>The person charged</span></p>
+                        <h2 class="party-name" id="party-d-h">Rodrigo Roa Duterte</h2>
+                        <p class="party-what">President of the Philippines, 2016&ndash;2022</p>
+                        <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                            <span class="party-more-i" aria-hidden="true"></span>
+                            <span class="party-more-l">More</span>
+                        </button>
+                        <div class="party-x" id="party-d-x"><div class="party-x-in">
+                            <p class="party-b">He was born in 1945 and grew up in Davao, on the southern island of Mindanao. He trained as a lawyer and spent nine years as a prosecutor for the city before he went into politics there in 1986. He was mayor of Davao City for more than 22 years in all, and the tough-on-crime name he made there is what he ran on for president in 2016. He won, served the one six-year term a president gets, and left office in 2022. In May 2025, two months after his arrest, Davao elected him mayor again. One of his sons has been doing the job in his place, and his daughter Sara is the country&rsquo;s vice president. The court calls him <a class="term" href="#t-accused" data-term="t-accused" title="Accused: What this court calls the person on trial once the charges are confirmed. Before that the word is suspect.">the accused</a>.</p>
+                            <p class="party-src">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=33" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 33">417-Red</a> &para;&para;&nbsp;78&ndash;79 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/p4awiavu/pdf/#page=15" target="_blank" rel="noopener" aria-label="Record 282-Red, the decision on interim release, opens the document at page 15">282-Red</a> &para;&nbsp;51 &middot; Background: <a class="cite-doc" href="https://www.britannica.com/topic/Rodrigo-Duterte" target="_blank" rel="noopener" aria-label="Britannica, Rodrigo Duterte, opens in a new tab">Britannica</a> &middot; Reporting: <a class="cite-doc" href="https://www.gmanetwork.com/regionaltv/news/108898/baste-duterte-now-acting-mayor-of-davao-city/story" target="_blank" rel="noopener" aria-label="GMA News on the 2025 Davao election and the acting mayor, opens in a new tab">GMA News, Jul 1, 2025</a></p>
+                        </div></div>
+                    </article>
+                </div>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Four ways in
+
+             Four doorways, one for each way of reading the case, and
+             each an ordinary link: the casing, the transom and the two
+             leaves are all inside the anchor, with the words under
+             them. The stylesheet draws the doorway. The only picture
+             in this markup is the sign in the glass.
+
+             They stand in the order the views are listed in the bar
+             at the head of each view's own page, so a door moved here
+             is a tab moved there.
+
+             A courtroom is locked until the court has sat in it. For a
+             case with no day in court yet, put data-door-lock on the
+             Courtroom door's slot and the script hangs the padlock that
+             is waiting, hidden, beside that link; take the attribute off
+             when the courtroom page gets its first hearing. The reader
+             can break the lock, and it is back the next time the page
+             is shown. This case has had its days in court, the first on
+             March 14, 2025, so its door is not locked.
+             ═══════════════════════════════════════════════ -->
+        <nav class="doors" aria-label="Four ways to see this case">
+            <div class="wrap">
+                <p class="doors-l">Four ways in</p>
+                <div class="doorway">
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/prosecutor-v-duterte/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">TLDR <span class="door-t-v">View</span></span>
+                                <span class="door-s">A TLDR case flow. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/prosecutor-v-duterte/chronology/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <path d="M60 6v6M60 20v18M60 46v18M60 72v6"/>
+                                            <circle cx="60" cy="16" r="4"/><path d="M52 16H22M22 11h22M22 21h16"/>
+                                            <circle cx="60" cy="42" r="4" class="door-fill"/><path d="M68 42h30M76 37h22M82 47h16"/>
+                                            <circle cx="60" cy="68" r="4"/><path d="M52 68H22M22 63h22M22 73h16"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
+                                <span class="door-s">Every step of the case, in the order it happened.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/prosecutor-v-duterte/courtroom/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="104" height="72"/>
+                                            <rect x="42" y="12" width="36" height="9"/><circle cx="60" cy="16.5" r="2.4" class="door-fill"/>
+                                            <rect x="14" y="24" width="9" height="26"/>
+                                            <rect x="34" y="36" width="22" height="7"/><rect x="64" y="36" width="22" height="7"/>
+                                            <circle cx="45" cy="48" r="2.4" class="door-fill"/><circle cx="75" cy="48" r="2.4" class="door-fill"/>
+                                            <path d="M8 56h46M66 56h46"/>
+                                            <path d="M18 63h34M18 70h34M68 63h34M68 70h34"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
+                                <span class="door-s">The room from above, and who sat where.</span>
+                                <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                        <button class="door-unlock" type="button" hidden>
+                            <svg class="door-lock" viewBox="0 0 40 50" aria-hidden="true">
+                                <g class="door-lock-s"><path d="M11 25V15a9 9 0 0 1 18 0v10"/><path d="M11 25V15a9 9 0 0 1 18 0v10"/></g>
+                                <rect class="door-lock-b" x="4.5" y="22" width="31" height="24.5" rx="3.6"/>
+                                <path class="door-lock-d" d="M5 37h30v6a3.6 3.6 0 0 1-3.6 3.5H8.6A3.6 3.6 0 0 1 5 43z"/>
+                                <path class="door-lock-h" d="M8.5 25.4h23"/>
+                                <path class="door-lock-k" d="M20 28.6a3 3 0 0 1 1.7 5.5l.9 5.4h-5.2l.9-5.4a3 3 0 0 1 1.7-5.5z"/>
+                            </svg>
+                            <span class="door-unlock-l">Unlock</span>
+                        </button>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/prosecutor-v-duterte/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════════
+             Notes
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Built from the court&rsquo;s own public record of the case, which held 554 documents on
+                            October 12, 2026. These pages rest on the decisions, the charges, each side&rsquo;s main
+                            filings and the <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing. Cited by page and line, so 9:14 means page 9, line 14.">transcripts</a> of ten hearings, and not on a reading of every annex. Every
+                            characterization here comes from a filing, a transcript or a signed decision, and each
+                            side is quoted from its own filings and its own lawyers.</p>
+                        <p>Every <a class="term" href="#t-record-number" data-term="t-record-number" title="Record number: How a filing is cited. ICC-01/21-01/25-417 is the 417th document in this case, shortened here to Record 417. “Red” on the end means it is the public version with parts blacked out.">record number</a> in a citation opens that document in the ICC Legal Tools Database, an open
+                            online library that carries the court&rsquo;s public records. Citations to a page open the
+                            document at that page.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is blacked out</h3>
+                        <p>A great deal. Most filings exist twice, a confidential version and a public one with parts
+                            <a class="term" href="#t-redacted" data-term="t-redacted" title="Redacted: Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.">redacted</a>, and these pages can only read the public one. In the charges that takes out the
+                            names of all but five of the 78 people and the dates and places of most of the 49
+                            <a class="term" href="#t-incident" data-term="t-incident" title="Incident: One of the specific killings or attempted killings the prosecution lists as an example under a count.">incidents</a>. Nearly every witness is only a number, like P-0002. The medical findings about him
+                            are blacked out, and so is the country he asked to be released to.</p>
+                        <p>His lawyer at the time told the judges the redactions were &ldquo;so sweeping that virtually nothing
+                            intelligible remains of the 49 incidents&rdquo; for the public to read. The presiding
+                            judge answered that the defense sees all of it, and that &ldquo;it just is not available
+                            to the public.&rdquo;</p>
+                        <p class="note-src">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=10" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 10">178-Red2</a> &para;&para;&nbsp;27&ndash;77 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=44" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 44">T-007</a>, 44:17&ndash;20, <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=52" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 52">52:5&ndash;7</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>Names and numbers</h3>
+                        <p>Victims are named here only where the public charges name them, which is five people. The
+                            charges also name eight officials the prosecution says shared the plan with him. None of
+                            the eight is on trial in this case, and the judges wrote that what they said about those
+                            eight is not a finding about anyone&rsquo;s guilt but his.</p>
+                        <p>The charges covered 78 people, and in October 2026 the trial judges let in seven more
+                            incidents. The prosecution calls that a fraction. The Philippine government&rsquo;s own
+                            count of people killed in police anti-drug operations from July 2016 to February 2019 was
+                            5,281, and the estimates the court cited when it opened the investigation ran from 12,000
+                            to 30,000. A wider number is used on these pages only with whose number it is.</p>
+                        <p class="note-src">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=35" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 35">417-Red</a> &para;&nbsp;85 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 519-Red, the October 2026 decision on the scope of the charges, opens the document at page 16">519-Red</a> &para;&nbsp;47 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=14" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 14">12</a> &para;&para;&nbsp;39, <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=23" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 23">67</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Judges have said twice that there is
+                            enough here to go on, once to order his arrest and once at the <a class="term" href="#t-confirmation" data-term="t-confirmation" title="Confirmation of charges: The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.">confirmation of charges</a>,
+                            and both times the test was lower than proof. A conviction takes proof <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">beyond reasonable
+                            doubt</a>. No witness has testified yet, and his lawyer told the court in February 2026 that he
+                            maintains his innocence.</p>
+                        <p>The two sides have formally agreed on four facts so far: when and where he was born, his
+                            nationality, what the initials PRRD stand for, and what a barangay is. Everything else is
+                            in dispute. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=38" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 38">T-004</a>, 38:17 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/elwta0ez/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 259-Red, the joint submission on agreed facts, opens the document at page 3">259-Red</a> &para;&nbsp;3</p>
+                    </div>
+                </div>
+
+
+                <!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Record reviewed through <span class="mono">October 12, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">The Prosecutor v. Rodrigo Roa Duterte, No. ICC-01/21-01/25 (Int&rsquo;l Crim. Ct.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. Terms are the ones this page actually
+             uses; nothing here is decoration. The four views each carry
+             their own, and theirs will be longer. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icc">International Criminal Court</dt><dd>A permanent court in The Hague, in the
+                        Netherlands, that tries individual people for genocide, war crimes, crimes against humanity
+                        and aggression. It is not part of the United Nations, and it only has power where its treaty
+                        gives it power.</dd></div>
+                    <div><dt id="t-prosecutor">The Prosecutor</dt><dd>The head of the court&rsquo;s Office of the
+                        Prosecutor, which investigates and brings cases on its own authority. Every case here is
+                        titled in the Prosecutor&rsquo;s name.</dd></div>
+                    <div><dt id="t-chamber">Chamber</dt><dd>A panel of judges. A Pre-Trial Chamber of three handles a
+                        case up to the decision to send it to trial, a Trial Chamber of three hears the trial, and
+                        the Appeals Chamber of five hears appeals. There is no jury.</dd></div>
+                    <div><dt id="t-accused">Accused</dt><dd>What this court calls the person on trial once the
+                        charges are confirmed. Before that the word is <em>suspect</em>.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-record-number">Record number</dt><dd>How a filing is cited. ICC-01/21-01/25-417 is
+                        the 417th document in this case, shortened here to Record 417. &ldquo;Red&rdquo; on the end
+                        means it is the public version with parts blacked out.</dd></div>
+                    <div><dt id="t-redacted">Redacted</dt><dd>Blacked out. Most filings here exist in a confidential
+                        version and a public one with names, dates or places removed, usually to protect witnesses
+                        and victims.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by
+                        page and line, so 9:14 means page 9, line 14.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-crimes-against-humanity">Crimes against humanity</dt><dd>Certain acts, murder
+                        among them, when they are part of a widespread or systematic attack on a civilian
+                        population, carried out under a government&rsquo;s or an organization&rsquo;s policy.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charge. This case has three.</dd></div>
+                    <div><dt id="t-incident">Incident</dt><dd>One of the specific killings or attempted killings the
+                        prosecution lists as an example under a count.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-confirmation">Confirmation of charges</dt><dd>The stage where three judges decide
+                        whether the prosecution has enough to justify a trial. It is a filter, and it is not a
+                        verdict.</dd></div>
+                    <div><dt id="t-standards">Standards of proof</dt><dd>How sure the judges have to be.
+                        <em>Reasonable grounds to believe</em> is enough for an arrest warrant. <em>Substantial
+                        grounds to believe</em> is enough to send a case to trial. A conviction takes proof
+                        <em>beyond reasonable doubt</em>.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013b" defer></script>
+</body>
+
+</html>

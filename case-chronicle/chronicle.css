@@ -3717,6 +3717,26 @@ span.cr-cite { margin: 0; white-space: normal; }
   margin-right: 14px;
 }
 
+/* A third voice under a question: someone who is in the case and is
+   neither side, like the lawyers for the victims at the ICC. Set like
+   the court's line and in nobody's ink, with the court's line closed
+   up under it so the two read as one group. */
+.row-third { border-left-color: rgba(23, 20, 15, 0.26); }
+.row-third .rc-mark { color: var(--muted); }
+.row-third + .row-court { margin-top: 10px; }
+
+/* Where the lines above come from, for a page that cites a ruling by
+   its paragraph. Set like the source line on a note. */
+.row-src {
+  margin-top: 10px;
+  padding-left: 20px;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  color: var(--faint);
+}
+
 /* ── Ledger head: column key + the global depth control ── */
 
 .ledger-head {
@@ -5753,6 +5773,20 @@ span.cr-cite { margin: 0; white-space: normal; }
 }
 
 .note p { font-size: 0.91rem; color: var(--muted); font-weight: 300; }
+
+/* A note that gives a figure or quotes someone names its documents on a
+   line of its own under the prose, set like the source line on a party
+   card. Two classes, because .note p above would otherwise win on size
+   and colour. */
+.note .note-src {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  color: var(--faint);
+}
 
 .notes-updated {
   margin-top: 52px;

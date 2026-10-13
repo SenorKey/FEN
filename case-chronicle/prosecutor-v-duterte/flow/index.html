@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="Prosecutor v. Duterte as a TLDR case flow: what has to be decided, in what order, and where each answer leads, built from the court’s public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/flow/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/flow/">
+    <meta property="og:title" content="Prosecutor v. Duterte, the TLDR — Case Chronicle">
+    <meta property="og:description"
+        content="Prosecutor v. Duterte as a TLDR case flow: what has to be decided, in what order, and where each answer leads, built from the court’s public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Prosecutor v. Duterte, the TLDR &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="prosecutor-v-duterte">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Hearing wash
+
+         Each side's own lawyers, run down their own side of the page
+         behind the argument. Same rule as the other washes on this site:
+         what is on the left was said in court by counsel for the
+         prosecution, and what is on the right by counsel for the defence.
+         Nothing here is testimony. No witness has been heard in this case
+         yet, so there is no sworn evidence to set in either column; that
+         starts when the trial does, and the wash can take it then.
+
+         Both columns open on the same speech. The prosecution read one
+         passage of it to the judges and the defence, the same morning,
+         read another from further on. That pair is the case in small, and
+         it is why the two cards sit level at the head of the page. A
+         passage read into the record is indented the way the transcript
+         indents it.
+
+         This recreates the court's own transcripts, which number every
+         page and line, so the cite gives the transcript number and then
+         page:line where the passage starts. An ellipsis marks words left
+         out. Spelling is the court reporter's: British, and a slip or two
+         ("course attitude") left as it stands.
+
+         The lawyers quoted for the defence at the 2025 and February 2026
+         hearings no longer act for him. The last card is his present
+         counsel.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In reference to this photo, Mr Duterte, this is what he said:</dd>
+                    <dd class="ex-read">&hellip; if you don&rsquo;t want to die, or get hurt, don&rsquo;t rely on the priests, including human rights advocates. They won&rsquo;t be able to prevent deaths. So, don&rsquo;t do it. And then there you are, sprawled on the ground, and you&rsquo;re portrayed in a broadsheet like Mother Mary cradling the dead cadaver of Jesus Christ. That&rsquo;s how they are, creating dramas here.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:21</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte is charged with 49 incidents of murder and attempted murder of 78 victims, including children. &hellip; Thus, the charged incidents are merely a fraction of the overall criminality that resulted from Mr Duterte&rsquo;s so-called War on Drugs.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 9:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte authorised murders and personally selected some of the targets. During the mayoral period when he was mayor, his clearance was required for the DDS to carry out the killings. Essentially, members of the DDS needed Mr Duterte&rsquo;s green light to murder.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 11:7</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>And this is what he said, I quote:</dd>
+                    <dd class="ex-read">If I become the president, I will order the military and the police to hunt down the drug lords, the big ones, and kill them.</dd>
+                    <dd>That&rsquo;s what he said.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 10:15</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; he successfully suspended police anti-illegal drug operations on two occasions, following public outcries in response to particularly notorious killings. On both occasions the number of reported killings dropped significantly during the suspension, showcasing his control. So when he asked people to act, they act. When he asked them to refrain, they do so.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 13:5</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>The victims of extrajudicial killings charged in this case were brutally murdered, some after having been abducted and mistreated. Unlike Mr Duterte, who is represented by his counsel here today, they were deprived of any form of due process.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:9</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it&rsquo;s not unique to this case in war crimes trials, crimes against humanity trials where the very top leadership are the persons on trial and when they&rsquo;re committing their crimes, they don&rsquo;t put it in writing often, &ldquo;Let&rsquo;s go out and commit a crime&rdquo;.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 21:12</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; throughout his speeches Mr Duterte and some of his co-perpetrators &hellip; referred to shoot to kill in self-defence and that they sprinkled in these reference to due process and legality. The evidence shows, as I said, that was only to build a veneer of legality, to create an impression of legality and to give his lawyers something to say when this day came.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 24:13</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>But if we look further on in the very same speech, something which maybe the Deputy Prosecutor didn&rsquo;t do, this is what he had to say:</dd>
+                    <dd class="ex-read">To our police officers and other officials, do your job and you will have the unwavering support of the Office of the President. I will be with you all the way. Abuse your authority, and there will be hell to pay, for you will have become worse than criminality itself.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 36:24</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Medialdea</b> <time>Mar 14, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>Two days ago, the whole world has witnessed the degrading fashion which a former president of a sovereign country was bundled into a private aircraft and summarily transported to The Hague. To us lawyers, this would be called an extrajudicial rendition. To the less legally inclined, it is a pure and simple kidnapping.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-002, 7:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In any event, we are not gathered here today to judge a man on the basis of his course attitude or his vulgar language. &hellip; cases are decided on the basis of evidence, not supposition, not rumour, not spicy gossip, and certainly not on the basis of political rhetoric and bluster.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 35:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it is not enough to state that since the former president made those extremely inflammatory statements and deaths occurred that he must, as a matter of course, be criminally responsible for those fatalities.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 37:22</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>They brought this case and they need to prove it. Rodrigo Duterte need not convince the world of anything, and that is to his fortunate advantage given his current medical condition. He stands behind his legacy resolutely and he maintains his innocence absolutely.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 38:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Layered hearsay, conjecture, over-reliance on accomplice evidence with offers of virtual immunity at the ICC, contradicting statements between participants in a crime, absolute lack of any linkage whatsoever to Mr Rodrigo Duterte, and a total lack of support for an alleged crime both in a documentary and forensic record.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 46:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>If Rodrigo Duterte is to be faulted for anything, it is for his inappropriate choice of language. But he murdered no one. Out of that huge database of evidence on which the Prosecution relies, I repeat that there is absolutely nothing to directly link Rodrigo Duterte to the 78 deaths alleged.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 51:6</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Haynes</b> <time>May 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Our real concern is what the parameters of this trial are. &hellip; if the suggestion is that we are, in effect, in a sort of public enquiry here which spans 300,000 square kilometres and a nation of 120 million people over seven and a half years, then &mdash; then this trial really is going to get out of hand and our investigations will be impossible.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-009, 27:25</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/prosecutor-v-duterte/">&larr;&nbsp; Prosecutor v. Duterte</a></p>
+                <p class="eyebrow">International Criminal Court &middot; Trial Chamber III &middot; No.
+                    ICC&#8209;01/21&#8209;01/25</p>
+                <h1 class="masthead-title">Prosecutor <em>v.</em> Duterte</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" aria-current="page" href="/case-chronicle/prosecutor-v-duterte/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Case flow
+
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
+
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at. When the trial opens nothing moves. When
+             there is a judgment, the last two steps and the ways
+             taken out of them are what change.
+
+             The three counts are tried together and decided apart, so
+             the last two questions are each asked once for every
+             count. They are drawn once, and the cards say so.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
+            <div class="wrap">
+                <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
+
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Waiting for the trial, which opens on November 30, 2026. The three questions that could have stopped it earlier have all been answered against him.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Prosecution</li>
+                            <li class="cf-key-d">Defense</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has gotten</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger in the Side
+                             by Side View: every card opens on its own, and with no
+                             JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The Philippines left the court in 2019</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Had to be settled before anything else</p>
+                                </div></div>
+                                <h3 class="cf-h">Can this court hear the case at all?</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; final since Apr 22, 2026</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Can this court hear the case at all?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This is a question about <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. Here that depends on dates, because the Philippines left the court in 2019.">jurisdiction</a>, which just means the court&rsquo;s power to hear a case. The court only has power where a country has joined its treaty. The Philippines joined in 2011 and then left, and the leaving took effect on March 17, 2019. The judges didn&rsquo;t approve an <a class="term" href="#t-investigation" data-term="t-investigation" title="Investigation: The formal stage of gathering evidence. When the Prosecutor starts one on their own, three judges have to authorize it first.">investigation</a> until 2021, which is more than two years after that. So his lawyers said the court had no power left by the time it acted, and that everything done since should be undone.</p>
+                                    <p class="cf-b">It came down to one sentence in the treaty, which says that leaving doesn&rsquo;t stop the court from carrying on with any matter it was already considering. The prosecutor&rsquo;s office had started a <a class="term" href="#t-preliminary-examination" data-term="t-preliminary-examination" title="Preliminary examination: The Prosecutor’s first look at a set of events, to decide whether to ask for a full investigation. No judge is involved yet.">preliminary examination</a>, which is basically a first look, in February 2018. That was before the country left. The judges said that first look counts, so the court kept its power over what happened while the Philippines was still a member.</p>
+                                    <p class="cf-b">The <a class="term" href="#t-appeal" data-term="t-appeal" title="Appeal: Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give leave, meaning permission.">appeals</a> judges agreed in April 2026, four to one. That makes this a yes, and it can&rsquo;t be argued again.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">No power over the case</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No power over the case"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The case ends and he goes home</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the judges had gone the other way, the court would have had no power to try him, and nothing else on this page would matter. His lawyers asked for exactly that, along with his immediate release.</p>
+                                            <p class="cf-b">It wouldn&rsquo;t have been a finding that he did nothing. It would have been a finding that this court isn&rsquo;t the one that gets to decide. One of the five appeals judges would have ruled this way. He wrote that a year was enough time for the prosecutor to get an investigation approved before the country was out.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">His health</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Asked twice, and it can be asked again</p>
+                                </div></div>
+                                <h3 class="cf-h">Is he fit to stand trial?</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; last decided Sept 28, 2026</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is he fit to stand trial?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b"><a class="term" href="#t-fitness" data-term="t-fitness" title="Fitness to stand trial: Whether a person is able to understand the proceedings, follow the evidence and instruct their lawyers. It is a legal question that doctors inform and judges decide.">Fitness</a> is about whether he can actually take part in his own trial. It doesn&rsquo;t mean healthy. It means he can understand what he&rsquo;s charged with, follow what is said in court, and tell his lawyers what he wants them to do. He was 80 when his lawyers raised it in 2025. They said his memory and thinking had declined so much that the case should be put off with no end date.</p>
+                                    <p class="cf-b">The judges had three independent doctors examine him, and then had the same three do it again before trial. Both times the doctors said he could do those things, and both times the judges agreed, first in January 2026 and then in September 2026. He is physically frail, so the court is making adjustments, like hearing support, a nurse at the breaks, and shorter days if he needs them.</p>
+                                    <p class="cf-b">This one isn&rsquo;t closed for good the way the first question is. If his health really changes, his lawyers can ask again.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Not fit</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not fit"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The trial is put on hold</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the judges found he couldn&rsquo;t follow the trial or instruct his lawyers, the trial would be adjourned, which means postponed. That isn&rsquo;t an acquittal and it doesn&rsquo;t end the case.</p>
+                                            <p class="cf-b">The court would look at it again every few months, and if he got better the trial would go ahead. If he never did, there would be no verdict either way. This is what his lawyers asked for in August 2025.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The hearing of February 2026</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">A filter, and not a verdict</p>
+                                </div></div>
+                                <h3 class="cf-h">Is there enough to send it to trial?</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; all three counts, Apr 23, 2026</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is there enough to send it to trial?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">Before anyone goes on trial at this court, three judges have to check that the prosecution has enough to justify one. That step is the <a class="term" href="#t-confirmation" data-term="t-confirmation" title="Confirmation of charges: The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.">confirmation of charges</a>. The prosecution doesn&rsquo;t have to prove the case at this point. It only has to show <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">substantial grounds to believe</a> he committed the crimes, which is a lot lower than what a conviction takes. No witnesses came in for this one. The judges read the written evidence and heard four days of argument.</p>
+                                    <p class="cf-b">His lawyers argued that the evidence was <a class="term" href="#t-hearsay" data-term="t-hearsay" title="Hearsay: Repeating what someone else said to prove it was true. This court can admit it, and decides how much weight it deserves.">hearsay</a> from admitted killers, that his speeches were bluster, and that nothing tied him to any of the deaths. The judges said those are arguments about who to believe, and that sorting that out is what a trial is for.</p>
+                                    <p class="cf-b">On April 23, 2026, all three judges confirmed all three <a class="term" href="#t-count" data-term="t-count" title="Count: One charge. This case has three.">counts</a>. That&rsquo;s the reason there is a trial. It isn&rsquo;t a finding that he did it.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Charges not confirmed</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Charges not confirmed"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">No trial on them</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the judges had found the evidence too thin, they would have declined to confirm the charges, or some of them, and there would be no trial on those. His lawyers asked for all of them to be thrown out and for him to be sent back to his family.</p>
+                                            <p class="cf-b">That still wouldn&rsquo;t be the same as being found not guilty. The prosecution could come back later with more evidence and ask again.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The trial &middot; opens November 30, 2026</p>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">What has to be proved first</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Were crimes against humanity committed?</h3>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Not yet heard</span></p>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Were crimes against humanity committed?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b">From here on the test is the hard one. The prosecution has to prove everything <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">beyond reasonable doubt</a>, and he doesn&rsquo;t have to prove anything. Three judges decide, and there is no jury. They&rsquo;re supposed to try for a verdict all three agree on, and if they can&rsquo;t get there, two out of three is enough.</p>
+                                        <p class="cf-b">There are three <a class="term" href="#t-count" data-term="t-count" title="Count: One charge. This case has three.">counts</a>, and each one gets its own answer. One is about killings in Davao City while he was mayor. One is about people on a list of high-value targets. One is about police operations in neighborhoods. For any of them, the first thing to prove is that a <a class="term" href="#t-crimes-against-humanity" data-term="t-crimes-against-humanity" title="Crimes against humanity: Certain acts, murder among them, when they are part of a widespread or systematic attack on a civilian population, carried out under a government’s or an organization’s policy.">crime against humanity</a> happened at all.</p>
+                                        <p class="cf-b">That takes two things, and they&rsquo;re the two cards inside this one. A no on either means not guilty on that count, and the judges never get to the question of him.</p>
+                                        <p class="cf-who"><span class="cf-l">Who must prove it</span>The prosecution, all of it. That&rsquo;s the <a class="term" href="#t-burden" data-term="t-burden" title="Burden of proof: Which side has to prove a thing. In a criminal trial it is the prosecution, and the accused does not have to prove anything.">burden of proof</a>, and it stays on the prosecution from the first witness to the last.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">Both are needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The killings</p>
+                                        <h4 class="cf-h">Were these people murdered?</h4>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Were these people murdered?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is about the specific deaths. There are 56 <a class="term" href="#t-incident" data-term="t-incident" title="Incident: One of the specific killings or attempted killings the prosecution lists as an example under a count.">incidents</a> now, because in October 2026 the trial judges let in seven more than the 49 that were confirmed. Neither side says these people didn&rsquo;t die. The fight is over how.</p>
+                                            <p class="cf-b">For a lot of them there is a police report saying officers went to make an arrest or a <a class="term" href="#t-buy-bust" data-term="t-buy-bust" title="Buy-bust: A police sting in which an officer poses as a drug buyer and the seller is arrested in the act.">buy-bust</a>, the person pulled a gun, and the police shot back. The word for that in the Philippines is <a class="term" href="#t-nanlaban" data-term="t-nanlaban" title="Nanlaban: Tagalog for “fought back.” It is what Philippine police reports say of a suspect who was shot after resisting arrest.">nanlaban</a>, which means fought back. If that&rsquo;s what happened, it isn&rsquo;t murder.</p>
+                                            <p class="cf-b">The prosecution says the reports were written to cover the killings and that guns and drugs were planted, and it has former police officers and gunmen who say so. The defense says those witnesses are admitted killers, and that the reports are the only records made at the time and nothing shows they&rsquo;re fake. Some of the deaths aren&rsquo;t police operations at all, like the Davao killings and the two men shot inside a jail. Each incident gets looked at separately.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">The wider attack</p>
+                                        <h4 class="cf-h">Were they part of an attack on civilians, carried out as policy?</h4>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Were they part of an attack on civilians, carried out as policy?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">A murder by itself isn&rsquo;t something this court handles. What makes it a crime against humanity is that it was part of a <a class="term" href="#t-attack" data-term="t-attack" title="Widespread or systematic attack: What turns a murder into a crime against humanity. Widespread is about scale. Systematic is about being organized and following a pattern. Either is enough, and the attack has to be aimed at civilians.">widespread or systematic attack</a> on civilians, and that the attack carried out the <a class="term" href="#t-policy" data-term="t-policy" title="Policy: The attack has to carry out the policy of a government or an organization. It does not have to be written down, and it can be shown by what was done and said.">policy</a> of a government or an organization. So the prosecution has to prove there was a campaign to kill people accused of drug crimes and other crimes, that it was big enough or organized enough to count, and that it was policy and not just something that happened.</p>
+                                            <p class="cf-b">A lot of this comes down to one word. The police order that started the national campaign talked about <a class="term" href="#t-neutralize" data-term="t-neutralize" title="“Neutralize”: The word in the Philippine police order that began the national anti-drug campaign in 2016. The prosecution says it meant kill. The defense says it meant arrest or subdue. The court’s records spell it “neutralise.”">neutralizing</a> drug suspects. The prosecution says everyone involved understood that to mean kill, and that there were cash rewards for killings. The defense says it means arrest or subdue, that the word was in police manuals before he was president, and that his speeches kept telling police to shoot only in self-defense.</p>
+                                            <p class="cf-b">The defense also says that where a killing was unlawful, it was individual officers acting for their own reasons, and that isn&rsquo;t a policy.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Not guilty on that count</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not guilty on that count"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The other counts carry on</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The three counts are separate, so this isn&rsquo;t all or nothing. If the judges aren&rsquo;t sure the Davao killings were part of an organized attack, for example, count one fails and counts two and three carry on.</p>
+                                            <p class="cf-b">A count that fails here never reaches the question of what he did or what he knew.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">His part in it</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Where the defense has put most of its weight</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Is he responsible for them?</h3>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Not yet heard</span></p>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is he responsible for them?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-b">This is the question the defense has fought hardest. He isn&rsquo;t accused of pulling a trigger. He&rsquo;s accused of being the person at the top, as mayor and then as president. So even if the judges find the killings were murder and part of an attack, the prosecution still has to tie them to him. It also has to prove what was in his head, meaning that he meant for the killings to happen and knew about the wider attack.</p>
+                                        <p class="cf-b">The charges give three different ways he could be responsible, and they&rsquo;re the three cards inside this one. The prosecution only needs one of them to hold up for a count.</p>
+                                        <p class="cf-b">His lawyer at the February 2026 hearing said there is &ldquo;absolutely nothing to directly link&rdquo; him to the deaths. The lawyers who argued that have since been replaced, and the new team hasn&rsquo;t set out its case yet. Its first written statement is due on October 30, 2026.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on any one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Route one &middot; With and through others</p>
+                                        <h4 class="cf-h">Was there a plan to kill, and did he control the people who did it?</h4>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was there a plan to kill, and did he control the people who did it?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is the main one, and the law&rsquo;s name for it is <a class="term" href="#t-co-perpetration" data-term="t-co-perpetration" title="Indirect co-perpetration: Committing a crime together with others and through other people. The person need not have been at the scene. The prosecution has to show a common plan, an essential part in it, and control over the people who did the killing.">indirect co-perpetration</a>. The prosecution has to show three things. One, that he and others had a <a class="term" href="#t-common-plan" data-term="t-common-plan" title="Common plan: An agreement between two or more people that, if carried out, will lead to crimes. It is the core of the first way the prosecution says he is responsible.">common plan</a> that was going to lead to killings. Two, that his part in it was essential, so the plan wouldn&rsquo;t have worked without him. Three, that he and the others controlled the people who did the actual killing, so that when the word came down it got done.</p>
+                                            <p class="cf-b">The prosecution says the plan started in Davao with the <a class="term" href="#t-dds" data-term="t-dds" title="Davao Death Squad: What the charges call a group of police officers and hired gunmen said to have killed people accused of crime in Davao City. The prosecution says he created and ran it. His lawyers have called it a fiction.">Davao Death Squad</a>, and went national when he became president and put people from Davao in charge of the police and other agencies. It points out that the two times he pulled the police off the campaign, the killings dropped, and says that shows control.</p>
+                                            <p class="cf-b">The defense says there was no plan and that the squad is a fiction. It says only about one in twenty of the people on the target list ended up marked &ldquo;neutralized,&rdquo; and that a plan to kill wouldn&rsquo;t look like that.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Route two &middot; Ordering or inducing</p>
+                                        <h4 class="cf-h">Did he order the killings, or push people into them?</h4>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he order the killings, or push people into them?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This route doesn&rsquo;t need a shared plan. It asks if he used his authority to tell people to kill, or said things that prompted them to. <a class="term" href="#t-ordering" data-term="t-ordering" title="Ordering or inducing: Telling someone to commit a crime from a position of authority, or prompting them to commit it.">Ordering</a> doesn&rsquo;t have to be in writing, and the judges who confirmed the charges said so. The prosecution leans on his public speeches here, like the promises to protect police who killed, and on the lists of names he read out, some of them people who were killed afterward.</p>
+                                            <p class="cf-b">The defense says nobody has produced an order from him, and that not one of the prosecution&rsquo;s inside witnesses heard him give one. The prosecution answers that one witness heard the order for a Davao killing come from him over the phone.</p>
+                                            <p class="cf-b">The defense also says his speeches were rough talk meant to scare criminals, and that a politician saying violent things isn&rsquo;t the same as a killing being his doing.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Route three &middot; Aiding and abetting</p>
+                                        <h4 class="cf-h">Did he help or encourage them, on purpose?</h4>
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he help or encourage them, on purpose?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is the fallback, and it asks the least of the three. <a class="term" href="#t-aiding" data-term="t-aiding" title="Aiding and abetting: Helping or encouraging a crime that someone else commits, in order to make it easier.">Aiding and abetting</a> means helping or encouraging a crime that somebody else commits, in order to make it easier. Here that could be the promises of protection and pardons, the rewards, or the people he appointed. He wouldn&rsquo;t have to be the one in charge for this to apply.</p>
+                                            <p class="cf-b">It still needs proof that he meant to help with killings, and not just with policing. The defense&rsquo;s answer is the same as on the other two routes. It says what he backed was lawful police work and that he kept saying so in public.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Guilty on that count</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Guilty on that count"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">A sentence, and then an appeal</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">A conviction on any count leads to a separate sentencing stage. This court can give up to 30 years, or life in the most extreme cases, and it has no death penalty. The time he has already spent in detention would count toward the sentence.</p>
+                                            <p class="cf-b">After that the judges can order <a class="term" href="#t-reparations" data-term="t-reparations" title="Reparations: What a convicted person can be ordered to provide to victims, such as compensation. It is decided only after a conviction.">reparations</a> for victims. He could <a class="term" href="#t-appeal" data-term="t-appeal" title="Appeal: Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give leave, meaning permission.">appeal</a> both the conviction and the sentence to the five appeals judges.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Not guilty on that count</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not guilty on that count"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Released, if it is every count</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If none of the three routes is proved for a count, he is acquitted on it. If that happens on all three counts, he is released. The prosecution can appeal an acquittal at this court, which isn&rsquo;t how it works in the US.</p>
+                                            <p class="cf-b">An acquittal would mean the prosecution didn&rsquo;t prove its case to the standard a criminal court needs. It wouldn&rsquo;t be a ruling on everything that happened in the Philippines in those years.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/prosecutor-v-duterte/" aria-label="Back to the case page for Prosecutor v. Duterte">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">The Prosecutor v. Rodrigo Roa Duterte, No. ICC-01/21-01/25 (Int&rsquo;l Crim. Ct.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same list is on each of this
+             case's four views. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which has no jury and gives victims a voice of their own.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icc">International Criminal Court</dt><dd>A permanent court in The Hague, in the Netherlands, that tries individual people for genocide, war crimes, crimes against humanity and aggression. It is not part of the United Nations, and it only has power where its treaty gives it power.</dd></div>
+                    <div><dt id="t-rome-statute">Rome Statute</dt><dd>The treaty that set up the court and says what it can do. A country that ratifies it becomes a <em>State Party</em>, and the court can then try crimes committed on its soil or by its nationals.</dd></div>
+                    <div><dt id="t-withdrawal">Withdrawal</dt><dd>A country leaving the treaty. It takes effect one year after the country gives notice, and the treaty says leaving does not stop the court from carrying on with a matter it was already considering.</dd></div>
+                    <div><dt id="t-prosecutor">The Prosecutor</dt><dd>The head of the court&rsquo;s Office of the Prosecutor, which investigates and brings cases on its own authority. Every case here is titled in the Prosecutor&rsquo;s name.</dd></div>
+                    <div><dt id="t-chamber">Chamber</dt><dd>A panel of judges. A Pre-Trial Chamber of three handles a case up to the decision to send it to trial, a Trial Chamber of three hears the trial, and the Appeals Chamber of five hears appeals. There is no jury.</dd></div>
+                    <div><dt id="t-registry">Registry</dt><dd>The court&rsquo;s administration. It runs the courtroom, the detention center, the records, and the support given to witnesses and victims. It takes no side.</dd></div>
+                    <div><dt id="t-accused">Accused</dt><dd>What this court calls the person on trial once the charges are confirmed. Before that the word is <em>suspect</em>.</dd></div>
+                    <div><dt id="t-victims-lawyers">Victims&rsquo; lawyers</dt><dd>At this court people harmed by the charged crimes can apply to take part. They do not bring the case and are not a side, but lawyers appointed for them can file papers and speak in court on what affects them. The court&rsquo;s term is <em>common legal representatives</em>.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-record-number">Record number</dt><dd>How a filing is cited. ICC-01/21-01/25-417 is the 417th document in this case, shortened here to Record 417. &ldquo;Red&rdquo; on the end means it is the public version with parts blacked out.</dd></div>
+                    <div><dt id="t-redacted">Redacted</dt><dd>Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by page and line, so 9:14 means page 9, line 14.</dd></div>
+                    <div><dt id="t-filing">Filing</dt><dd>Any document a side or the court puts on the record. A side&rsquo;s request is answered by a <em>response</em>, and sometimes that is answered by a <em>reply</em>.</dd></div>
+                    <div><dt id="t-trial-brief">Trial brief</dt><dd>A written outline, filed before trial, of the case a side means to prove and the evidence it will use.</dd></div>
+                    <div><dt id="t-disclosure">Disclosure</dt><dd>The prosecution handing its evidence to the defense before trial, including anything that might help the defense.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-crimes-against-humanity">Crimes against humanity</dt><dd>Certain acts, murder among them, when they are part of a widespread or systematic attack on a civilian population, carried out under a government&rsquo;s or an organization&rsquo;s policy.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charge. This case has three.</dd></div>
+                    <div><dt id="t-incident">Incident</dt><dd>One of the specific killings or attempted killings the prosecution lists as an example under a count.</dd></div>
+                    <div><dt id="t-attack">Widespread or systematic attack</dt><dd>What turns a murder into a crime against humanity. <em>Widespread</em> is about scale. <em>Systematic</em> is about being organized and following a pattern. Either is enough, and the attack has to be aimed at civilians.</dd></div>
+                    <div><dt id="t-policy">Policy</dt><dd>The attack has to carry out the policy of a government or an organization. It does not have to be written down, and it can be shown by what was done and said.</dd></div>
+                    <div><dt id="t-common-plan">Common plan</dt><dd>An agreement between two or more people that, if carried out, will lead to crimes. It is the core of the first way the prosecution says he is responsible.</dd></div>
+                    <div><dt id="t-co-perpetration">Indirect co-perpetration</dt><dd>Committing a crime together with others and through other people. The person need not have been at the scene. The prosecution has to show a common plan, an essential part in it, and control over the people who did the killing.</dd></div>
+                    <div><dt id="t-ordering">Ordering or inducing</dt><dd>Telling someone to commit a crime from a position of authority, or prompting them to commit it.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Helping or encouraging a crime that someone else commits, in order to make it easier.</dd></div>
+                    <div><dt id="t-neutralize">&ldquo;Neutralize&rdquo;</dt><dd>The word in the Philippine police order that began the national anti-drug campaign in 2016. The prosecution says it meant kill. The defense says it meant arrest or subdue. The court&rsquo;s records spell it &ldquo;neutralise.&rdquo;</dd></div>
+                    <div><dt id="t-dds">Davao Death Squad</dt><dd>What the charges call a group of police officers and hired gunmen said to have killed people accused of crime in Davao City. The prosecution says he created and ran it. His lawyers have called it a fiction.</dd></div>
+                    <div><dt id="t-barangay">Barangay</dt><dd>The smallest unit of local government in the Philippines, about the size of a village or a neighborhood.</dd></div>
+                    <div><dt id="t-buy-bust">Buy-bust</dt><dd>A police sting in which an officer poses as a drug buyer and the seller is arrested in the act.</dd></div>
+                    <div><dt id="t-nanlaban">Nanlaban</dt><dd>Tagalog for &ldquo;fought back.&rdquo; It is what Philippine police reports say of a suspect who was shot after resisting arrest.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all. Here that depends on dates, because the Philippines left the court in 2019.</dd></div>
+                    <div><dt id="t-preliminary-examination">Preliminary examination</dt><dd>The Prosecutor&rsquo;s first look at a set of events, to decide whether to ask for a full investigation. No judge is involved yet.</dd></div>
+                    <div><dt id="t-investigation">Investigation</dt><dd>The formal stage of gathering evidence. When the Prosecutor starts one on their own, three judges have to authorize it first.</dd></div>
+                    <div><dt id="t-deferral">Deferral</dt><dd>The court is meant to step in only when a country is not genuinely investigating or prosecuting the crimes itself. A country can ask the Prosecutor to stand back in favor of its own investigation.</dd></div>
+                    <div><dt id="t-warrant">Arrest warrant</dt><dd>A court order to arrest someone. Judges issue one when there are reasonable grounds to believe the person committed a crime and an arrest appears necessary.</dd></div>
+                    <div><dt id="t-surrender">Surrender</dt><dd>A country handing an arrested person over to the court. The court has no police of its own.</dd></div>
+                    <div><dt id="t-first-appearance">First appearance</dt><dd>A short hearing soon after someone arrives. The judges check who the person is, that they know the charges and their rights, and set a date for the next stage.</dd></div>
+                    <div><dt id="t-interim-release">Interim release</dt><dd>Being let out of detention while the case goes on, with or without conditions. It is refused if there is a risk the person would flee, interfere with the case, or keep committing crimes.</dd></div>
+                    <div><dt id="t-fitness">Fitness to stand trial</dt><dd>Whether a person is able to understand the proceedings, follow the evidence and instruct their lawyers. It is a legal question that doctors inform and judges decide.</dd></div>
+                    <div><dt id="t-waiver">Waiver</dt><dd>Giving up a right in writing. He has waived his right to be present at most hearings so far. He cannot do that for the trial as a whole.</dd></div>
+                    <div><dt id="t-disqualification">Disqualification</dt><dd>Removing a judge, prosecutor or lawyer from a case because their impartiality could reasonably be doubted.</dd></div>
+                    <div><dt id="t-confirmation">Confirmation of charges</dt><dd>The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.</dd></div>
+                    <div><dt id="t-status-conference">Status conference</dt><dd>A hearing about scheduling and logistics. No evidence is heard.</dd></div>
+                    <div><dt id="t-appeal">Appeal</dt><dd>Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give <em>leave</em>, meaning permission.</dd></div>
+                    <div><dt id="t-dissent">Dissent</dt><dd>A judge&rsquo;s written disagreement with the majority. It changes nothing in the result.</dd></div>
+                    <div><dt id="t-struck">Struck</dt><dd>Removed from the record or from the case, so that it cannot be relied on.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Proof</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-standards">Standards of proof</dt><dd>How sure the judges have to be. <em>Reasonable grounds to believe</em> is enough for an arrest warrant. <em>Substantial grounds to believe</em> is enough to send a case to trial. A conviction takes proof <em>beyond reasonable doubt</em>.</dd></div>
+                    <div><dt id="t-burden">Burden of proof</dt><dd>Which side has to prove a thing. In a criminal trial it is the prosecution, and the accused does not have to prove anything.</dd></div>
+                    <div><dt id="t-insider-witness">Insider witness</dt><dd>A witness who was part of the group or operation being described, such as a former police officer or gunman.</dd></div>
+                    <div><dt id="t-limited-use">Limited-use assurance</dt><dd>A written promise from the prosecution that what a witness says in an interview will not be used against that witness at this court. It is not immunity, and it is off if the witness lies.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone else said to prove it was true. This court can admit it, and decides how much weight it deserves.</dd></div>
+                    <div><dt id="t-corroboration">Corroboration</dt><dd>Other evidence that backs up what a witness says.</dd></div>
+                    <div><dt id="t-recorded-testimony">Prior recorded testimony</dt><dd>A witness&rsquo;s earlier statement or interview, admitted in place of some or all of their testimony in court. The court&rsquo;s rules call it Rule 68.</dd></div>
+                    <div><dt id="t-reparations">Reparations</dt><dd>What a convicted person can be ordered to provide to victims, such as compensation. It is decided only after a conviction.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013b" defer></script>
+</body>
+
+</html>

@@ -832,7 +832,9 @@
       names.d = text(key.querySelector('.tk-d'));
       names.court = text(key.querySelector('.tk-c'));
     }
-    names.n = 'Off the docket';
+    /* A page can name the fourth lane itself. Where the court gives a
+       voice to someone who is neither side, "off the docket" is wrong. */
+    names.n = root.dataset.neither || 'Off the docket';
 
     for (const li of doc.querySelectorAll('.tl > li.tl-ev')) {
       const date = li.querySelector('.tl-date');

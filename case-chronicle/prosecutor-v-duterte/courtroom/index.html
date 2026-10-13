@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- A preview of a view that is still being built. Out of the index until it is finished. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="Prosecutor v. Duterte as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/courtroom/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/courtroom/">
+    <meta property="og:title" content="Prosecutor v. Duterte, the courtroom — Case Chronicle">
+    <meta property="og:description"
+        content="Prosecutor v. Duterte as a courtroom seen from above: who is in the case at each step, seat by seat. A preview of a view still being built.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Prosecutor v. Duterte, the courtroom &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="prosecutor-v-duterte">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/prosecutor-v-duterte/">&larr;&nbsp; Prosecutor v. Duterte</a></p>
+                <p class="eyebrow">International Criminal Court &middot; Trial Chamber III &middot; No.
+                    ICC&#8209;01/21&#8209;01/25</p>
+                <h1 class="masthead-title">Prosecutor <em>v.</em> Duterte</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/prosecutor-v-duterte/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The courtroom, from above
+
+             A preview. The other cases share one plan, and this one
+             is drawn for this court: three judges on the bench and
+             five on an appeal, the Registry's desk in front of them,
+             the witness in the middle of the room, and no jury box.
+             Where the jury box stands on the other plans is a bench
+             for the victims' lawyers, who are in the case and are
+             neither side. It is a diagram of who is in the room and
+             not a survey of Courtroom 1.
+
+             The list of people underneath is plain markup and is the
+             whole of this page's data: who, in which seat, and
+             between which entries of the chronology. The script reads
+             that list, reads the chronology page for the moments, and
+             seats people accordingly. With no script the plan is
+             drawn empty and the list is simply a list.
+
+             Left is the side that filed, as everywhere else here.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-room" id="courtroom" aria-labelledby="cr-h">
+            <div class="wrap">
+                <p class="kicker">Courtroom View &middot; Preview</p>
+                <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
+                <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, who was only on a screen, and which parts of it stood empty.</p>
+
+                <div class="cr" data-chronology="/case-chronicle/prosecutor-v-duterte/chronology/" data-opens="ev-the-prosecutor-asks-to-investigate" data-neither="Neither side">
+
+                    <!-- The bar of moments. Empty here and hidden: it is built
+                         from the chronology, which only the script can fetch. -->
+                    <div class="ct" hidden>
+                        <button class="ct-step ct-prev" type="button" aria-label="Previous event">
+                            <span class="ct-step-a" aria-hidden="true">&larr;</span>
+                            <span class="ct-step-l">Previous</span>
+                        </button>
+                        <div class="ct-track" role="slider" tabindex="0" aria-label="Moment in the case"
+                            aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+                            <div class="ct-ticks"></div>
+                            <div class="ct-line"></div>
+                        </div>
+                        <button class="ct-step ct-next" type="button" aria-label="Next event">
+                            <span class="ct-step-l">Next</span>
+                            <span class="ct-step-a" aria-hidden="true">&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="cr-cols">
+                        <div class="cr-fig">
+                            <div class="cr-plan">
+                            <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true">
+                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
+                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+
+                            <!-- The bench, with the Registry's desk in front of it. -->
+                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-desk" x="254" y="88" width="300" height="30"/>
+                            <rect class="cr-box" x="342" y="158" width="124" height="56"/>
+
+                            <!-- The witness, in the middle of the room and facing the bench. -->
+                            <rect class="cr-box" x="362" y="258" width="84" height="64"/>
+
+                            <!-- No jury box. The victims' lawyers have this side. -->
+                            <rect class="cr-box" x="36" y="262" width="116" height="176"/>
+
+                            <rect class="cr-area" data-area="p" x="199" y="392" width="200" height="186"/>
+                            <rect class="cr-area" data-area="d" x="409" y="392" width="200" height="186"/>
+                            <rect class="cr-desk" x="209" y="404" width="180" height="30"/>
+                            <rect class="cr-desk" x="419" y="404" width="180" height="30"/>
+
+                            <!-- Glass, not a rail: the public sits behind it. -->
+                            <path class="cr-bar" d="M16 596H744"/>
+
+                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+
+                            <!-- The parts of the room, for the script to measure. Never drawn. -->
+                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-zone" data-zone="r" x="342" y="158" width="124" height="56"/>
+                            <rect class="cr-zone" data-zone="stand" x="362" y="258" width="84" height="64"/>
+                            <rect class="cr-zone" data-zone="v" x="36" y="262" width="116" height="176"/>
+                            <rect class="cr-zone" data-zone="p" x="199" y="392" width="200" height="186"/>
+                            <rect class="cr-zone" data-zone="d" x="409" y="392" width="200" height="186"/>
+                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+
+                            <circle class="cr-seat cr-seat-bench" data-seat="judge-a" cx="284" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-l" cx="344" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge" cx="404" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-r" cx="464" cy="62" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="judge-e" cx="524" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="r1" cx="378" cy="186" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="r2" cx="430" cy="186" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="404" cy="290" r="13"/>
+                            <circle class="cr-seat" data-seat="v1" cx="66" cy="300" r="13"/>
+                            <circle class="cr-seat" data-seat="v2" cx="122" cy="300" r="13"/>
+                            <circle class="cr-seat" data-seat="v3" cx="66" cy="352" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="v4" cx="122" cy="352" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="v5" cx="66" cy="404" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="v6" cx="122" cy="404" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="221" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="273" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="325" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="377" cy="452" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p5" cx="221" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p6" cx="273" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p7" cx="325" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p8" cx="377" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p9" cx="221" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p10" cx="273" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p11" cx="325" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p12" cx="377" cy="556" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="431" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="483" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="535" cy="452" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="587" cy="452" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d5" cx="431" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d6" cx="483" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d7" cx="535" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d8" cx="587" cy="504" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d9" cx="431" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d10" cx="483" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d11" cx="535" cy="556" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d12" cx="587" cy="556" r="13"/>
+                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                        </svg>
+                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
+                        <span class="cr-lab" style="left:53.16%;top:25.68%">Registry</span>
+                        <span class="cr-lab" style="left:53.16%;top:37.95%">Witness</span>
+                        <span class="cr-lab" style="left:12.37%;top:28.41%">Victims</span>
+                        <span class="cr-lab" style="left:39.34%;top:43.18%">Prosecution</span>
+                        <span class="cr-lab" style="left:66.97%;top:43.18%">Defense</span>
+                        <span class="cr-lab" style="left:92.63%;top:66.14%">Glass</span>
+                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            </div>
+
+                            <!-- What the marks mean. Hidden until the script has
+                                 drawn any, since without it there are none. -->
+                            <ul class="cr-key" hidden>
+                                <li><span class="cr-k cr-k-in"></span>In the room</li>
+                                <li><span class="cr-k cr-k-remote"></span>By video</li>
+                                <li><span class="cr-k cr-k-case"></span>In the case, not recorded in the room</li>
+                                <li><span class="cr-k cr-k-q">?</span>About this part of the room</li>
+                            </ul>
+                        </div>
+
+                        <div class="cr-side">
+                            <div class="cm" hidden>
+                                <p class="cm-meta"><span class="cm-n"></span><span class="cm-date"></span><span class="cm-who"></span></p>
+                                <h3 class="cm-h"></h3>
+                                <p class="cm-b"></p>
+                                <p class="cm-room"></p>
+                                <a class="cm-link" href="/case-chronicle/prosecutor-v-duterte/chronology/">Read this entry in the Chronological View <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+
+                            <div class="cr-list">
+                                <h3 class="cr-cast-h">In the room</h3>
+                                <ul class="cr-cast">
+                                <li class="cr-who" id="cr-p1" data-seat="judge" data-side="court" data-from="ev-the-prosecutor-asks-for-a-warrant" data-gone="ev-trial-judges-are-named" data-not="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments">
+                                    <p class="cr-role">Presiding judge, Pre-Trial Chamber I</p>
+                                    <p class="cr-name">Motoc, J.</p>
+                                    <p class="cr-note">Iulia Antoanella Motoc. Presided from the arrest warrant to the decision confirming the charges, and ran the first appearance and the four-day hearing in February 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:21 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 3">T-004</a>, 3:18&ndash;20</p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge-l" data-side="court" data-from="ev-the-prosecutor-asks-for-a-warrant" data-gone="ev-trial-judges-are-named" data-not="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments">
+                                    <p class="cr-role">Judge, Pre-Trial Chamber I</p>
+                                    <p class="cr-name">Alapini-Gansou, J.</p>
+                                    <p class="cr-note">Reine Ad&eacute;la&iuml;de Sophie Alapini-Gansou. One of the three judges who issued the warrant and confirmed the charges.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:21 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 3">T-004</a>, 3:18&ndash;20</p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="judge-r" data-side="court" data-from="ev-the-prosecutor-asks-for-a-warrant" data-gone="ev-trial-judges-are-named" data-not="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments">
+                                    <p class="cr-role">Judge, Pre-Trial Chamber I</p>
+                                    <p class="cr-name">Flores Liera, J.</p>
+                                    <p class="cr-note">Mar&iacute;a del Socorro Flores Liera. Dissented when the hearing on the charges was postponed in September 2025, and joined the unanimous decision confirming them.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:21 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/xdxzu0ae/pdf/" target="_blank" rel="noopener" aria-label="Record 267-OPI-Red, the dissenting opinion on the postponement, opens the document">267-OPI-Red</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="judge" data-side="court" data-from="ev-trial-judges-are-named" data-in="ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Presiding judge, Trial Chamber III</p>
+                                    <p class="cr-name">Korner, J.</p>
+                                    <p class="cr-note">Joanna Korner, elected to preside on April 29, 2026. She and the two judges beside her will hear the trial and decide the verdict.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/1rsbycxi/pdf/" target="_blank" rel="noopener" aria-label="Record 421, the notice of the presiding judge’s election, opens the document">421</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="judge-l" data-side="court" data-from="ev-trial-judges-are-named" data-in="ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Judge, Trial Chamber III</p>
+                                    <p class="cr-name">Paek, J.</p>
+                                    <p class="cr-note">Keebong Paek. Named to the trial chamber on April 24, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/0lk7jyv4/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 420, the decision forming Trial Chamber III, opens the document at page 4">420</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:1&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="judge-r" data-side="court" data-from="ev-trial-judges-are-named" data-in="ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Judge, Trial Chamber III</p>
+                                    <p class="cr-name">Guillou, J.</p>
+                                    <p class="cr-note">Nicolas Guillou. Named to the trial chamber on April 24, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/0lk7jyv4/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 420, the decision forming Trial Chamber III, opens the document at page 4">420</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:1&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="judge" data-side="court" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Presiding judge, Appeals Chamber</p>
+                                    <p class="cr-name">Perrin de Brichambaut, J.</p>
+                                    <p class="cr-note">Marc Perrin de Brichambaut presided over the Philippine government&rsquo;s appeal and read the summary. He was one of the two judges who dissented.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:16&ndash;20 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/u05ekm5e/pdf/" target="_blank" rel="noopener" aria-label="Record 77-OPI, the 2023 dissenting opinion, opens the document">77-OPI</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="judge-a" data-side="court" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Hofma&#324;ski, J.</p>
+                                    <p class="cr-note">Piotr Hofma&#324;ski. In the majority of three.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:19</p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="judge-l" data-side="court" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Ib&aacute;&ntilde;ez Carranza, J.</p>
+                                    <p class="cr-note">Luz del Carmen Ib&aacute;&ntilde;ez Carranza. In the majority of three in 2023. She presided over both of his own appeals later.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:19</p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="judge-r" data-side="court" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Bossa, J.</p>
+                                    <p class="cr-note">Solomy Balungi Bossa. In the majority of three.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:20</p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="judge-e" data-side="court" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Lordkipanidze, J.</p>
+                                    <p class="cr-note">Gocha Lordkipanidze. Dissented in 2023, saying the court could not use its power after the Philippines had left.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:20 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/u05ekm5e/pdf/" target="_blank" rel="noopener" aria-label="Record 77-OPI, the 2023 dissenting opinion, opens the document">77-OPI</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="judge" data-side="court" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">Presiding judge, Appeals Chamber</p>
+                                    <p class="cr-name">Ib&aacute;&ntilde;ez Carranza, J.</p>
+                                    <p class="cr-note">Luz del Carmen Ib&aacute;&ntilde;ez Carranza presided over both of his appeals, on release and on the court&rsquo;s power, and read both summaries.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:20&ndash;25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 1">T-008</a>, 1:20&ndash;24</p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="judge-l" data-side="court" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Lordkipanidze, J.</p>
+                                    <p class="cr-note">Gocha Lordkipanidze. Sat to the presiding judge&rsquo;s right on November 28, 2025. On April 22, 2026, he was the one judge who disagreed in part.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:24 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/zo94mr1a/pdf/" target="_blank" rel="noopener" aria-label="Record 415-OPI, the partly dissenting opinion on jurisdiction, opens the document">415-OPI</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="judge-r" data-side="court" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Damdin, J.</p>
+                                    <p class="cr-note">Erdenebalsuren Damdin. Sat to the presiding judge&rsquo;s left on November 28, 2025.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:24 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 1">T-008</a>, 1:23</p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="judge-a" data-side="court" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="ev-appeals-judges-uphold-the-courts-power" data-away="ev-appeal-on-release-dismissed">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Akane, J.</p>
+                                    <p class="cr-note">Tomoko Akane. One of the five judges on both appeals. The presiding judge said she was away on mission when the first judgment was read.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 1">T-008</a>, 1:22</p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="judge-e" data-side="court" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power" data-in="ev-appeals-judges-uphold-the-courts-power" data-away="ev-appeal-on-release-dismissed">
+                                    <p class="cr-role">Appeals judge</p>
+                                    <p class="cr-name">Bossa, J.</p>
+                                    <p class="cr-note">Solomy Balungi Bossa. One of the five judges on both appeals, and also away on mission on November 28, 2025.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 1">T-008</a>, 1:22</p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="r1" data-side="n" data-at="ev-the-philippines-loses-its-appeal ev-first-appearance-by-video ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">The Registry</p>
+                                    <p class="cr-name">The court officer</p>
+                                    <p class="cr-note">Calls the case at the start of every hearing and says whether the session is open or closed. The transcripts record the officer speaking and do not give a name.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=5" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 5">T-004</a>, 5:16 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:15&ndash;18</p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="r2" data-side="n" data-at="ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">For the Registry</p>
+                                    <p class="cr-name">Marc Dubuisson</p>
+                                    <p class="cr-note">Director of the Division of Judicial Services, there for the Registrar with six colleagues, among them the heads of the language, victims and cooperation sections, to answer the trial judges&rsquo; questions about running the trial.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:19&ndash;3:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p19" data-seat="r2" data-side="n" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">For the Registry</p>
+                                    <p class="cr-name">Soraya Brikci</p>
+                                    <p class="cr-note">Of the Registry section that handles victims&rsquo; applications, with her colleague Alexandra David.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:22&ndash;23</p>
+                                </li>
+                                <li class="cr-who" id="cr-p20" data-seat="p1" data-side="p" data-at="ev-the-prosecutor-asks-to-investigate">
+                                    <p class="cr-role">The Prosecutor until June 2021</p>
+                                    <p class="cr-name">Fatou Bensouda</p>
+                                    <p class="cr-note">Opened the first look at the killings in February 2018 and asked the judges for a full investigation in May 2021, near the end of her term.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/3sgmzfsf/pdf/" target="_blank" rel="noopener" aria-label="Record 7-Red, the request to open an investigation, opens the document">7-Red</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 3">309</a> &para; 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p21" data-seat="p1" data-side="p" data-from="ev-the-prosecutor-asks-to-restart" data-gone="ev-the-chief-prosecutor-is-disqualified" data-in="ev-first-appearance-by-video">
+                                    <p class="cr-role">The Prosecutor</p>
+                                    <p class="cr-name">Karim Khan</p>
+                                    <p class="cr-note">Asked to restart the investigation in 2022 and for the arrest warrant in 2025, and appeared in person at the first hearing. Appeals judges took him off the case in October 2025 over work he had done for victims before he held the office.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:7&ndash;11 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/g9hgy2wz/pdf/#page=18" target="_blank" rel="noopener" aria-label="Record 286-Red, the decision disqualifying the Prosecutor, opens the document at page 18">286-Red</a> p. 18</p>
+                                </li>
+                                <li class="cr-who" id="cr-p22" data-seat="p2" data-side="p" data-from="ev-first-appearance-by-video" data-in="ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments">
+                                    <p class="cr-role">Deputy Prosecutor</p>
+                                    <p class="cr-name">Mame Mandiaye Niang</p>
+                                    <p class="cr-note">Has led the case since the chief prosecutor was removed. Made the opening statement on February 23, 2026. He was away for part of the second day and back for the third.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 1">T-006</a>, 1:25&ndash;2:2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p23" data-seat="p3" data-side="p" data-from="ev-appeal-on-release-dismissed" data-in="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Senior trial lawyer</p>
+                                    <p class="cr-name">Julian Nicholls</p>
+                                    <p class="cr-note">Began the prosecution&rsquo;s presentation on February 23, 2026, and made its closing argument on the 27th. He has spoken for the prosecution at both status conferences on the record.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:7&ndash;9</p>
+                                </li>
+                                <li class="cr-who" id="cr-p24" data-seat="p4" data-side="p" data-at="ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">Trial lawyer</p>
+                                    <p class="cr-name">Edward Jeremy</p>
+                                    <p class="cr-note">At the first appearance and every hearing on the record since. Presented counts two and three on February 24, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:8 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 2">T-005</a>, 2:19 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p25" data-seat="p5" data-side="p" data-at="ev-the-philippines-loses-its-appeal ev-first-appearance-by-video ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">Trial lawyer</p>
+                                    <p class="cr-name">Robynne Croft</p>
+                                    <p class="cr-note">On the prosecution&rsquo;s team since at least the 2023 appeal. Presented the wider attack and the ways he is said to be responsible on February 24, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:11 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=18" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 18">T-005</a>, 18:6 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p26" data-seat="p6" data-side="p" data-at="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-trial-date-set ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">Case manager</p>
+                                    <p class="cr-name">James Miriti</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team on each day of the February 2026 hearing and at both status conferences on the record.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p27" data-seat="p7" data-side="p" data-at="ev-the-confirmation-hearing-opens ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">Trial lawyer</p>
+                                    <p class="cr-name">Maria Berdennikova</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team on February 23 and May 27, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p28" data-seat="p8" data-side="p" data-at="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">Associate trial lawyer</p>
+                                    <p class="cr-name">Hannah Allen</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team on November 28, 2025, and on February 23 and May 27, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:14&ndash;16 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p29" data-seat="p9" data-side="p" data-at="ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments" data-in="*">
+                                    <p class="cr-role">Associate trial lawyer</p>
+                                    <p class="cr-name">Eun Gyo Jeong</p>
+                                    <p class="cr-note">Joined the team in the room on February 24, 2026. The prosecution told the judges its team was unchanged on the two days after, apart from one addition.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 2">T-005</a>, 2:2 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 1">T-007</a>, 1:23&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p30" data-seat="p10" data-side="p" data-at="ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">Associate trial lawyer</p>
+                                    <p class="cr-name">Sylvie Wakchom</p>
+                                    <p class="cr-note">Joined the team in the room on February 24, 2026, and was at the second status conference.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 2">T-005</a>, 2:3 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p31" data-seat="p11" data-side="p" data-at="ev-the-defenses-case ev-closing-arguments" data-in="*">
+                                    <p class="cr-role">Associate trial lawyer</p>
+                                    <p class="cr-name">Hai Do Duc</p>
+                                    <p class="cr-note">Named as the one addition to the team on February 26, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 1">T-006</a>, 1:25&ndash;2:2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p32" data-seat="p6" data-side="p" data-at="ev-first-appearance-by-video" data-in="*">
+                                    <p class="cr-role">International cooperation adviser</p>
+                                    <p class="cr-name">Chantal Daniels</p>
+                                    <p class="cr-note">Introduced by the Prosecutor at the first appearance.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:7&ndash;11</p>
+                                </li>
+                                <li class="cr-who" id="cr-p33" data-seat="p7" data-side="p" data-at="ev-first-appearance-by-video" data-in="*">
+                                    <p class="cr-role">Case manager</p>
+                                    <p class="cr-name">Grace Goh</p>
+                                    <p class="cr-note">Introduced by the Prosecutor at the first appearance.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:7&ndash;11</p>
+                                </li>
+                                <li class="cr-who" id="cr-p34" data-seat="p2" data-side="p" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Senior trial lawyer</p>
+                                    <p class="cr-name">Anton Steynberg</p>
+                                    <p class="cr-note">Led for the prosecution when the judgment on the Philippine government&rsquo;s appeal was read.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:8&ndash;12</p>
+                                </li>
+                                <li class="cr-who" id="cr-p35" data-seat="p3" data-side="p" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Trial lawyer</p>
+                                    <p class="cr-name">Colin Black</p>
+                                    <p class="cr-note">With the prosecution on July 18, 2023.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:9</p>
+                                </li>
+                                <li class="cr-who" id="cr-p36" data-seat="p4" data-side="p" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">Associate trial lawyer</p>
+                                    <p class="cr-name">Inbal Djalovski</p>
+                                    <p class="cr-note">With the prosecution on July 18, 2023.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:10</p>
+                                </li>
+                                <li class="cr-who" id="cr-p37" data-seat="p4" data-side="p" data-at="ev-appeal-on-release-dismissed" data-in="*">
+                                    <p class="cr-role">Senior appeals counsel</p>
+                                    <p class="cr-name">Helen Brady</p>
+                                    <p class="cr-note">Spoke for the prosecution when the judgment on release was read.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:12&ndash;16</p>
+                                </li>
+                                <li class="cr-who" id="cr-p38" data-seat="p5" data-side="p" data-at="ev-appeal-on-release-dismissed" data-in="*">
+                                    <p class="cr-role">Appeals counsel</p>
+                                    <p class="cr-name">Matteo Costi</p>
+                                    <p class="cr-note">With the prosecution on November 28, 2025.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:14</p>
+                                </li>
+                                <li class="cr-who" id="cr-p39" data-seat="p5" data-side="p" data-at="ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">Appeals counsel</p>
+                                    <p class="cr-name">Meritxell Regu&eacute; Blasi</p>
+                                    <p class="cr-note">Spoke for the prosecution when the judgment on the court&rsquo;s power was read.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 2">T-008</a>, 2:9&ndash;11</p>
+                                </li>
+                                <li class="cr-who" id="cr-p40" data-seat="p6" data-side="p" data-at="ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">Appeals counsel</p>
+                                    <p class="cr-name">Matthew Cross</p>
+                                    <p class="cr-note">With the prosecution on April 22, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 2">T-008</a>, 2:10</p>
+                                </li>
+                                <li class="cr-who" id="cr-p41" data-seat="p9" data-side="p" data-at="ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">For the prosecution</p>
+                                    <p class="cr-name">Erasmus Lovell-Jones</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team at the first status conference.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p42" data-seat="p10" data-side="p" data-at="ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">For the prosecution</p>
+                                    <p class="cr-name">Emma Norton</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team at the first status conference.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;25</p>
+                                </li>
+                                <li class="cr-who" id="cr-p43" data-seat="p7" data-side="p" data-at="ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">For the prosecution</p>
+                                    <p class="cr-name">Zinzana Zjajo</p>
+                                    <p class="cr-note">Named on the prosecution&rsquo;s team at the second status conference.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p44" data-seat="d1" data-side="d" data-from="ev-arrested-in-manila" data-in="ev-he-comes-to-court-in-person" data-remote="ev-first-appearance-by-video" data-away="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">The accused</p>
+                                    <p class="cr-name">Rodrigo Roa Duterte</p>
+                                    <p class="cr-note">Held at the court&rsquo;s detention center since March 12, 2025. He was on a screen at the first hearing and gave up his right to attend every hearing after it, until reporting places him in the courtroom on September 16, 2026. He cannot give up that right for the trial as a whole.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:12&ndash;15 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/lev4mewo/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 387, the decision accepting his waiver, opens the document at page 4">387</a> &para; 6 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:6&ndash;9 &middot; Reporting: <a class="cite-doc" href="https://verafiles.org/articles/duterte-attends-status-conference-icc-in-the-hague" target="_blank" rel="noopener" aria-label="VERA Files report on the September 16, 2026 status conference, opens in a new tab">VERA Files, Sept 16, 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p45" data-seat="d2" data-side="d" data-at="ev-first-appearance-by-video" data-in="*">
+                                    <p class="cr-role">Counsel at the first appearance</p>
+                                    <p class="cr-name">Salvador Medialdea</p>
+                                    <p class="cr-note">His former executive secretary, and the only lawyer with him on March 14, 2025. He told the judges the transfer to The Hague was &ldquo;a pure and simple kidnapping.&rdquo;</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:19&ndash;20, <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=7" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 7">7:8&ndash;12</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p46" data-seat="d2" data-side="d" data-from="ev-the-defense-says-the-court-has-no-power" data-gone="ev-a-new-defense-team" data-in="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power">
+                                    <p class="cr-role">Lead counsel until May 2026</p>
+                                    <p class="cr-name">Nicholas Kaufman</p>
+                                    <p class="cr-note">Appointed on March 18, 2025. Brought the challenges on the court&rsquo;s power, release and fitness, and argued the defense&rsquo;s whole case at the February 2026 hearing. He left the case on May 11, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/lwgm6zlb/pdf/" target="_blank" rel="noopener" aria-label="Record 92-Red, the notice of his lawyer’s appointment, opens the document">92-Red</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:20&ndash;25 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/potxzebk/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 435, the decision on the lead counsel’s withdrawal, opens the document at page 3">435</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p47" data-seat="d3" data-side="d" data-from="ev-the-defense-says-the-court-has-no-power" data-gone="ev-a-new-defense-team" data-in="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power">
+                                    <p class="cr-role">Associate counsel until May 2026</p>
+                                    <p class="cr-name">Dov Jacobs</p>
+                                    <p class="cr-note">Appointed on April 7, 2025. Sat to lead counsel&rsquo;s left at the February 2026 hearing. He left the case on May 8, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/u6na2644/pdf/" target="_blank" rel="noopener" aria-label="Record 106, opens the document">106</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:22 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/pxn8ne5k/pdf/" target="_blank" rel="noopener" aria-label="Record 430, the decision on the associate counsel’s withdrawal, opens the document">430</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p48" data-seat="d2" data-side="d" data-from="ev-a-new-defense-team" data-in="ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Lead counsel</p>
+                                    <p class="cr-name">Peter Haynes KC</p>
+                                    <p class="cr-note">Appointed on May 15, 2026. He has spoken for the defense at every hearing on the record since.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/a63fgxub/pdf/" target="_blank" rel="noopener" aria-label="Record 441, the notice of the new lead counsel’s appointment, opens the document">441</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:2&ndash;4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p49" data-seat="d3" data-side="d" data-from="ev-a-new-defense-team" data-in="ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">Associate counsel</p>
+                                    <p class="cr-name">Kate Gibson</p>
+                                    <p class="cr-note">Appointed on May 18, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/pinh2cae/pdf/" target="_blank" rel="noopener" aria-label="Record 443, the notice of the new associate counsel’s appointment, opens the document">443</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:2 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p50" data-seat="d4" data-side="d" data-at="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Havneet Sethi</p>
+                                    <p class="cr-note">On the defense team under both lead counsel. Sat to Kaufman&rsquo;s right in February 2026 and was with Haynes on June 23, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:22 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p51" data-seat="d5" data-side="d" data-at="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Alexandre Desevedavy</p>
+                                    <p class="cr-note">On the defense team under both lead counsel.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:4 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:2&ndash;3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p52" data-seat="d6" data-side="d" data-at="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Sandrine De Sena</p>
+                                    <p class="cr-note">On the defense team under both lead counsel.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p53" data-seat="d7" data-side="d" data-at="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Davide Rancati</p>
+                                    <p class="cr-note">On Kaufman&rsquo;s team at the February 2026 hearing and when the judgment on the court&rsquo;s power was read.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:23 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 2">T-008</a>, 2:4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p54" data-seat="d8" data-side="d" data-at="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Nicholas Rossouw</p>
+                                    <p class="cr-note">On Kaufman&rsquo;s team at the February 2026 hearing and on April 22, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 2">T-008</a>, 2:6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p55" data-seat="d9" data-side="d" data-at="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Kailin Chen</p>
+                                    <p class="cr-note">On Kaufman&rsquo;s team at the February 2026 hearing and on April 22, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 2">T-004</a>, 2:25 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 2">T-008</a>, 2:5</p>
+                                </li>
+                                <li class="cr-who" id="cr-p56" data-seat="d10" data-side="d" data-at="ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">For the defense</p>
+                                    <p class="cr-name">Ms. Daniel</p>
+                                    <p class="cr-note">Named by lead counsel only as Ms Daniel, among the three who assisted him on June 23, 2026.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p57" data-seat="d12" data-side="d" data-at="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments" data-in="*">
+                                    <p class="cr-role">Attending in support</p>
+                                    <p class="cr-name">Six lawyers from the Philippines</p>
+                                    <p class="cr-note">Salvador Medialdea, Martin Delgra, Silvestre Bello, Alfredo Lim, Caesar Dulay and Salvador Panelo. Kaufman introduced them on the first day as attorneys &ldquo;attending and supporting us,&rdquo; and said the defense was the same on each day after.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 3">T-004</a>, 3:1&ndash;5 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 2">T-007</a>, 2:8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p58" data-seat="d2" data-side="n" data-from="ev-the-philippines-asks-the-court-to-step-back" data-gone="ev-he-tells-the-senate-he-had-a-death-squad" data-in="ev-the-philippines-loses-its-appeal">
+                                    <p class="cr-role">A country, objecting</p>
+                                    <p class="cr-name">The Republic of the Philippines</p>
+                                    <p class="cr-note">The government asked the court to stand back in 2021 and appealed when it would not. On July 18, 2023, it was represented by its ambassador, Eduardo Malaya, with Sarah Bafadhel, Jarie Osias, Marisar Cabatingan and Sarah Cruz. There was no accused yet, so it is drawn at the table the defense later used.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:24&ndash;2:5 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bfros4hw/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 14, the notice of the Philippines’ deferral request, opens the document at page 3">14</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p59" data-seat="v1" data-side="n" data-from="ev-the-defense-says-he-is-not-fit" data-in="ev-appeal-on-release-dismissed ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set ev-second-status-conference">
+                                    <p class="cr-role">For the victims</p>
+                                    <p class="cr-name">Paolina Massidda</p>
+                                    <p class="cr-note">Principal counsel of the court&rsquo;s own Office of Public Counsel for Victims, and one of the three lawyers appointed for the 539 victims taking part. She has been at every hearing on the record since November 2025.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:19&ndash;23 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 3">T-004</a>, 3:11&ndash;15 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:13</p>
+                                </li>
+                                <li class="cr-who" id="cr-p60" data-seat="v2" data-side="n" data-from="ev-539-victims-are-let-into-the-case" data-in="ev-the-confirmation-hearing-opens ev-the-defenses-case ev-closing-arguments ev-appeals-judges-uphold-the-courts-power ev-trial-date-set">
+                                    <p class="cr-role">For the victims</p>
+                                    <p class="cr-name">Joel Butuyan</p>
+                                    <p class="cr-note">One of the three lawyers appointed for the victims. Made their opening statement on February 23, 2026, and spoke at the detention hearing on the 27th. On February 24 the team said one member could not attend and did not say who.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=17" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 17">T-004</a>, 17:23 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 2">T-005</a>, 2:7&ndash;9 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=57" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 57">T-007</a>, 57:1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p61" data-seat="v3" data-side="n" data-from="ev-539-victims-are-let-into-the-case" data-in="ev-the-confirmation-hearing-opens ev-the-prosecutions-case ev-the-defenses-case ev-closing-arguments">
+                                    <p class="cr-role">For the victims</p>
+                                    <p class="cr-name">Gilbert Andres</p>
+                                    <p class="cr-note">One of the three lawyers appointed for the victims. Spoke on February 24, 2026, and made their closing statement on the 27th.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=55" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 55">T-005</a>, 55:13 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=30" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 30">T-007</a>, 30:3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p62" data-seat="v4" data-side="n" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">Legal officer for the victims&rsquo; team</p>
+                                    <p class="cr-name">Orchlon Narantsetseg</p>
+                                    <p class="cr-note">Of the Office of Public Counsel for Victims.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:20 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:14</p>
+                                </li>
+                                <li class="cr-who" id="cr-p63" data-seat="v5" data-side="n" data-at="ev-appeal-on-release-dismissed ev-appeals-judges-uphold-the-courts-power ev-trial-date-set ev-second-status-conference" data-in="*">
+                                    <p class="cr-role">Legal officer for the victims&rsquo; team</p>
+                                    <p class="cr-name">Anne Grabowski</p>
+                                    <p class="cr-note">Of the Office of Public Counsel for Victims.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">T-003</a>, 2:21 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:13</p>
+                                </li>
+                                <li class="cr-who" id="cr-p64" data-seat="v6" data-side="n" data-at="ev-the-philippines-loses-its-appeal ev-trial-date-set" data-in="*">
+                                    <p class="cr-role">Legal officer for the victims&rsquo; team</p>
+                                    <p class="cr-name">Ludovica Vetruccio</p>
+                                    <p class="cr-note">Of the Office of Public Counsel for Victims. In the room in 2023 and again at the first status conference.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:16&ndash;17 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 2">T-009</a>, 2:14</p>
+                                </li>
+                                <li class="cr-who" id="cr-p65" data-seat="v1" data-side="n" data-at="ev-the-philippines-loses-its-appeal" data-in="*">
+                                    <p class="cr-role">For victims, on the appeal</p>
+                                    <p class="cr-name">Sarah Pellet</p>
+                                    <p class="cr-note">Of the Office of Public Counsel for Victims, which put victims&rsquo; views to the appeals judges in 2023, before there was a case against any one person.</p>
+                                    <p class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 2">T-001</a>, 2:16&ndash;17</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="v" data-at="ev-first-appearance-by-video">
+                                    <p class="cr-role">Where a jury would be</p>
+                                    <p class="cr-name">Empty: no victims in the case yet</p>
+                                    <p class="cr-note">Three judges decide the verdict at this court, so the room has no jury box. This side of the room is where the lawyers for the victims sit. On this date nobody had been let into the case as a victim. The first were let in on January 26, 2026.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/x6poprdg/pdf/" target="_blank" rel="noopener" aria-label="Record 358, the first decision on victims’ participation, opens the document">358</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="v" data-at="ev-he-comes-to-court-in-person">
+                                    <p class="cr-role">Where a jury would be</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Three judges decide the verdict at this court, so the room has no jury box. This side of the room is where the lawyers for the victims sit. The transcript of this hearing is not public yet, so nobody is marked here. The victims&rsquo; lawyers were at every other hearing from November 2025 on.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="v" data-always>
+                                    <p class="cr-role">Where a jury would be</p>
+                                    <p class="cr-name">No jury at this court</p>
+                                    <p class="cr-note">Three judges decide the verdict at this court, so the room has no jury box. This side of the room is where the lawyers for the victims sit. People harmed by the charged crimes can apply to take part, and 539 have been let in. Their lawyers file papers and speak in court. They are not a side, and they do not bring the charges.</p>
+                                    <p class="cr-cite">ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a> &middot; <a class="cite-doc" href="https://asp.icc-cpi.int/sites/asp/files/NR/rdonlyres/B650C0CC-E97D-4F02-BC8C-1FAACC4F1C87/279567/Courtroom_layout_1215_January_2009En2.pdf" target="_blank" rel="noopener" aria-label="An ICC public information diagram of who sits where in a courtroom, opens as a PDF">ICC courtroom diagram, 2009</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="bench" data-gone="ev-the-prosecutor-asks-for-a-warrant" data-when="paper away">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Three judges, on paper</p>
+                                    <p class="cr-note">The steps of the investigation stage were decided in writing by Pre-Trial Chamber I, which had a different line-up then from the three judges who later issued the warrant. Nobody sat in a courtroom for them.</p>
+                                    <p class="cr-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/udnhqjst/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 83, the arrest warrant, opens the document at page 3">83</a> &para; 2</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="bench" data-at="ev-he-comes-to-court-in-person">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Trial Chamber III held this conference. Its transcript is not public yet, so the three judges are drawn as in the case and not marked in the room.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="r" data-at="ev-he-comes-to-court-in-person">
+                                    <p class="cr-role">The Registry</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">A court officer sits here at every hearing. The transcript of this one is not public yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="r" data-when="paper away">
+                                    <p class="cr-role">The Registry</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">The court&rsquo;s own staff sit in front of the judges. A court officer calls the case and keeps the record, and interpreters work from booths this plan does not draw. Nothing was heard on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="p" data-at="ev-he-comes-to-court-in-person">
+                                    <p class="cr-role">The prosecution table</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The transcript of this hearing is not public yet, so the prosecution&rsquo;s lawyers are drawn as in the case and not marked in the room.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The witness seat</p>
+                                    <p class="cr-name">Empty: no witness yet</p>
+                                    <p class="cr-note">Nobody has testified in this case. Every hearing so far has been lawyers speaking to judges. Witnesses begin when the trial does, on November 30, 2026. At this court a witness sits in the middle of the room and faces the judges, and some here are expected to testify by video link from the Philippines.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://asp.icc-cpi.int/sites/asp/files/NR/rdonlyres/B650C0CC-E97D-4F02-BC8C-1FAACC4F1C87/279567/Courtroom_layout_1215_January_2009En2.pdf" target="_blank" rel="noopener" aria-label="An ICC public information diagram of who sits where in a courtroom, opens as a PDF">ICC courtroom diagram, 2009</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=15" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 15">509-Red</a> &para; 41</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="stand" data-when="paper away">
+                                    <p class="cr-role">The witness seat</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where a witness sits to testify, in the middle of the room and facing the judges. It has not been used in this case yet.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://asp.icc-cpi.int/sites/asp/files/NR/rdonlyres/B650C0CC-E97D-4F02-BC8C-1FAACC4F1C87/279567/Courtroom_layout_1215_January_2009En2.pdf" target="_blank" rel="noopener" aria-label="An ICC public information diagram of who sits where in a courtroom, opens as a PDF">ICC courtroom diagram, 2009</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="gallery" data-when="court" data-always>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The transcripts list the lawyers and say nothing about who watched, so the benches are drawn empty. At this court the public sits behind glass. The hearings were open, apart from stretches held in closed session, and the judges opened several by welcoming people following from outside the courtroom.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://asp.icc-cpi.int/sites/asp/files/NR/rdonlyres/B650C0CC-E97D-4F02-BC8C-1FAACC4F1C87/279567/Courtroom_layout_1215_January_2009En2.pdf" target="_blank" rel="noopener" aria-label="An ICC public information diagram of who sits where in a courtroom, opens as a PDF">ICC courtroom diagram, 2009</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 1">T-006</a>, 1:13&ndash;15, <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=24" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 24">24:17&ndash;19</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="gallery" data-when="paper away">
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Nothing was heard in court on this date, so there was nothing to watch. These benches are where the public and the press sit when there is.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judges sit, raised above the rest of the room. There are three for a hearing or a trial and five for an appeal. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="r" data-before>
+                                    <p class="cr-role">The Registry</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the court&rsquo;s own staff sit, in front of the judges. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="stand" data-before>
+                                    <p class="cr-role">The witness seat</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where a witness sits to testify, in the middle of the room and facing the judges. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="v" data-before>
+                                    <p class="cr-role">Where a jury would be</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Three judges decide the verdict at this court, so the room has no jury box. This side of the room is where the lawyers for the victims sit. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a17" data-zone="p" data-before>
+                                    <p class="cr-role">The prosecution table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that brings the case sits with its lawyers. It is always drawn on the left here. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a18" data-zone="d" data-before>
+                                    <p class="cr-role">The defense table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the person charged sits with his lawyers. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a19" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public gallery</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Seats for the public and the press, behind glass at this court. On this date nothing about these events had reached a judge.</p>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The days something happened in a room. With the script
+                         each one is shown under its own moment; without it this
+                         is the list. -->
+                    <div class="cr-days">
+                        <h3 class="cr-cast-h">Days in court</h3>
+                        <ol class="cr-sits">
+                            <li data-at="ev-the-philippines-loses-its-appeal" data-kind="court"><span class="cr-sit-d">Jul 18, 2023</span> <span class="cr-sit-t">The Appeals Chamber reads out its judgment on the Philippine government&rsquo;s appeal. Courtroom 1, from 10 a.m. There was no accused yet.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a>, 1:1&ndash;2:24</span></li>
+                            <li data-at="ev-first-appearance-by-video" data-kind="court"><span class="cr-sit-d">Mar 14, 2025</span> <span class="cr-sit-t">First appearance before Pre-Trial Chamber I. Courtroom 1, 2:35 to 3 p.m. He took part by video from the detention center.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 2">T-002</a>, 2:7&ndash;25</span></li>
+                            <li data-at="ev-appeal-on-release-dismissed" data-kind="court"><span class="cr-sit-d">Nov 28, 2025</span> <span class="cr-sit-t">The Appeals Chamber reads out its judgment on release. Three of its five judges were on the bench, and two were away.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:22&ndash;2:23</span></li>
+                            <li data-at="ev-the-confirmation-hearing-opens" data-kind="court"><span class="cr-sit-d">Feb 23, 2026</span> <span class="cr-sit-t">Day one of the hearing on the charges before Pre-Trial Chamber I. The charges were read and each side opened.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 1">T-004</a>, 1:25&ndash;3:15</span></li>
+                            <li data-at="ev-the-prosecutions-case" data-kind="court"><span class="cr-sit-d">Feb 24, 2026</span> <span class="cr-sit-t">Day two. The prosecution finished its presentation and the victims&rsquo; lawyers made theirs.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 1">T-005</a>, 1:22&ndash;2:13</span></li>
+                            <li data-at="ev-the-defenses-case" data-kind="court"><span class="cr-sit-d">Feb 26, 2026</span> <span class="cr-sit-t">Day three. The defense&rsquo;s presentation, part of it in closed session.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 1">T-006</a>, 1:22&ndash;2:11</span></li>
+                            <li data-at="ev-closing-arguments" data-kind="court"><span class="cr-sit-d">Feb 27, 2026</span> <span class="cr-sit-t">Day four. Closing arguments, and then the yearly hearing on his detention.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 1">T-007</a>, 1:21&ndash;2:8, <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=55" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 55">55:13</a></span></li>
+                            <li data-at="ev-appeals-judges-uphold-the-courts-power" data-kind="court"><span class="cr-sit-d">Apr 22, 2026</span> <span class="cr-sit-t">The Appeals Chamber reads out its judgment on the court&rsquo;s power over the case. Courtroom 1, from 11 a.m.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 1">T-008</a>, 1:22&ndash;2:17</span></li>
+                            <li data-at="ev-trial-date-set" data-kind="court"><span class="cr-sit-d">May 27, 2026</span> <span class="cr-sit-t">First status conference before Trial Chamber III, from 9:31 a.m. to 2:17 p.m. The trial date was set.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 1">T-009</a>, 1:21&ndash;3:3</span></li>
+                            <li data-at="ev-second-status-conference" data-kind="court"><span class="cr-sit-d">Jun 23, 2026</span> <span class="cr-sit-t">Second status conference. A short one, with nobody there from the Registry&rsquo;s management.</span> <span class="cr-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 2">T-010</a>, 2:3&ndash;14, <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 3">3:15</a></span></li>
+                            <li data-at="ev-he-comes-to-court-in-person" data-kind="court"><span class="cr-sit-d">Sept 16, 2026</span> <span class="cr-sit-t">Third status conference. Its transcript is not public yet, so only he is marked in the room, from reporting that day.</span> <span class="cr-cite">Reporting: <a class="cite-doc" href="https://verafiles.org/articles/duterte-attends-status-conference-icc-in-the-hague" target="_blank" rel="noopener" aria-label="VERA Files report on the September 16, 2026 status conference, opens in a new tab">VERA Files, Sept 16, 2026</a></span></li>
+                            <li data-at="ev-he-tells-the-senate-he-had-a-death-squad" data-kind="away"><span class="cr-sit-d">Oct 2024</span> <span class="cr-sit-t">An inquiry committee of the Philippine Senate. It was not a hearing of this court and nobody from the case was in this room.</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/prosecutor-v-duterte/" aria-label="Back to the case page for Prosecutor v. Duterte">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">The Prosecutor v. Rodrigo Roa Duterte, No. ICC-01/21-01/25 (Int&rsquo;l Crim. Ct.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same list is on each of this
+             case's four views. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which has no jury and gives victims a voice of their own.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icc">International Criminal Court</dt><dd>A permanent court in The Hague, in the Netherlands, that tries individual people for genocide, war crimes, crimes against humanity and aggression. It is not part of the United Nations, and it only has power where its treaty gives it power.</dd></div>
+                    <div><dt id="t-rome-statute">Rome Statute</dt><dd>The treaty that set up the court and says what it can do. A country that ratifies it becomes a <em>State Party</em>, and the court can then try crimes committed on its soil or by its nationals.</dd></div>
+                    <div><dt id="t-withdrawal">Withdrawal</dt><dd>A country leaving the treaty. It takes effect one year after the country gives notice, and the treaty says leaving does not stop the court from carrying on with a matter it was already considering.</dd></div>
+                    <div><dt id="t-prosecutor">The Prosecutor</dt><dd>The head of the court&rsquo;s Office of the Prosecutor, which investigates and brings cases on its own authority. Every case here is titled in the Prosecutor&rsquo;s name.</dd></div>
+                    <div><dt id="t-chamber">Chamber</dt><dd>A panel of judges. A Pre-Trial Chamber of three handles a case up to the decision to send it to trial, a Trial Chamber of three hears the trial, and the Appeals Chamber of five hears appeals. There is no jury.</dd></div>
+                    <div><dt id="t-registry">Registry</dt><dd>The court&rsquo;s administration. It runs the courtroom, the detention center, the records, and the support given to witnesses and victims. It takes no side.</dd></div>
+                    <div><dt id="t-accused">Accused</dt><dd>What this court calls the person on trial once the charges are confirmed. Before that the word is <em>suspect</em>.</dd></div>
+                    <div><dt id="t-victims-lawyers">Victims&rsquo; lawyers</dt><dd>At this court people harmed by the charged crimes can apply to take part. They do not bring the case and are not a side, but lawyers appointed for them can file papers and speak in court on what affects them. The court&rsquo;s term is <em>common legal representatives</em>.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-record-number">Record number</dt><dd>How a filing is cited. ICC-01/21-01/25-417 is the 417th document in this case, shortened here to Record 417. &ldquo;Red&rdquo; on the end means it is the public version with parts blacked out.</dd></div>
+                    <div><dt id="t-redacted">Redacted</dt><dd>Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by page and line, so 9:14 means page 9, line 14.</dd></div>
+                    <div><dt id="t-filing">Filing</dt><dd>Any document a side or the court puts on the record. A side&rsquo;s request is answered by a <em>response</em>, and sometimes that is answered by a <em>reply</em>.</dd></div>
+                    <div><dt id="t-trial-brief">Trial brief</dt><dd>A written outline, filed before trial, of the case a side means to prove and the evidence it will use.</dd></div>
+                    <div><dt id="t-disclosure">Disclosure</dt><dd>The prosecution handing its evidence to the defense before trial, including anything that might help the defense.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-crimes-against-humanity">Crimes against humanity</dt><dd>Certain acts, murder among them, when they are part of a widespread or systematic attack on a civilian population, carried out under a government&rsquo;s or an organization&rsquo;s policy.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charge. This case has three.</dd></div>
+                    <div><dt id="t-incident">Incident</dt><dd>One of the specific killings or attempted killings the prosecution lists as an example under a count.</dd></div>
+                    <div><dt id="t-attack">Widespread or systematic attack</dt><dd>What turns a murder into a crime against humanity. <em>Widespread</em> is about scale. <em>Systematic</em> is about being organized and following a pattern. Either is enough, and the attack has to be aimed at civilians.</dd></div>
+                    <div><dt id="t-policy">Policy</dt><dd>The attack has to carry out the policy of a government or an organization. It does not have to be written down, and it can be shown by what was done and said.</dd></div>
+                    <div><dt id="t-common-plan">Common plan</dt><dd>An agreement between two or more people that, if carried out, will lead to crimes. It is the core of the first way the prosecution says he is responsible.</dd></div>
+                    <div><dt id="t-co-perpetration">Indirect co-perpetration</dt><dd>Committing a crime together with others and through other people. The person need not have been at the scene. The prosecution has to show a common plan, an essential part in it, and control over the people who did the killing.</dd></div>
+                    <div><dt id="t-ordering">Ordering or inducing</dt><dd>Telling someone to commit a crime from a position of authority, or prompting them to commit it.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Helping or encouraging a crime that someone else commits, in order to make it easier.</dd></div>
+                    <div><dt id="t-neutralize">&ldquo;Neutralize&rdquo;</dt><dd>The word in the Philippine police order that began the national anti-drug campaign in 2016. The prosecution says it meant kill. The defense says it meant arrest or subdue. The court&rsquo;s records spell it &ldquo;neutralise.&rdquo;</dd></div>
+                    <div><dt id="t-dds">Davao Death Squad</dt><dd>What the charges call a group of police officers and hired gunmen said to have killed people accused of crime in Davao City. The prosecution says he created and ran it. His lawyers have called it a fiction.</dd></div>
+                    <div><dt id="t-barangay">Barangay</dt><dd>The smallest unit of local government in the Philippines, about the size of a village or a neighborhood.</dd></div>
+                    <div><dt id="t-buy-bust">Buy-bust</dt><dd>A police sting in which an officer poses as a drug buyer and the seller is arrested in the act.</dd></div>
+                    <div><dt id="t-nanlaban">Nanlaban</dt><dd>Tagalog for &ldquo;fought back.&rdquo; It is what Philippine police reports say of a suspect who was shot after resisting arrest.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all. Here that depends on dates, because the Philippines left the court in 2019.</dd></div>
+                    <div><dt id="t-preliminary-examination">Preliminary examination</dt><dd>The Prosecutor&rsquo;s first look at a set of events, to decide whether to ask for a full investigation. No judge is involved yet.</dd></div>
+                    <div><dt id="t-investigation">Investigation</dt><dd>The formal stage of gathering evidence. When the Prosecutor starts one on their own, three judges have to authorize it first.</dd></div>
+                    <div><dt id="t-deferral">Deferral</dt><dd>The court is meant to step in only when a country is not genuinely investigating or prosecuting the crimes itself. A country can ask the Prosecutor to stand back in favor of its own investigation.</dd></div>
+                    <div><dt id="t-warrant">Arrest warrant</dt><dd>A court order to arrest someone. Judges issue one when there are reasonable grounds to believe the person committed a crime and an arrest appears necessary.</dd></div>
+                    <div><dt id="t-surrender">Surrender</dt><dd>A country handing an arrested person over to the court. The court has no police of its own.</dd></div>
+                    <div><dt id="t-first-appearance">First appearance</dt><dd>A short hearing soon after someone arrives. The judges check who the person is, that they know the charges and their rights, and set a date for the next stage.</dd></div>
+                    <div><dt id="t-interim-release">Interim release</dt><dd>Being let out of detention while the case goes on, with or without conditions. It is refused if there is a risk the person would flee, interfere with the case, or keep committing crimes.</dd></div>
+                    <div><dt id="t-fitness">Fitness to stand trial</dt><dd>Whether a person is able to understand the proceedings, follow the evidence and instruct their lawyers. It is a legal question that doctors inform and judges decide.</dd></div>
+                    <div><dt id="t-waiver">Waiver</dt><dd>Giving up a right in writing. He has waived his right to be present at most hearings so far. He cannot do that for the trial as a whole.</dd></div>
+                    <div><dt id="t-disqualification">Disqualification</dt><dd>Removing a judge, prosecutor or lawyer from a case because their impartiality could reasonably be doubted.</dd></div>
+                    <div><dt id="t-confirmation">Confirmation of charges</dt><dd>The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.</dd></div>
+                    <div><dt id="t-status-conference">Status conference</dt><dd>A hearing about scheduling and logistics. No evidence is heard.</dd></div>
+                    <div><dt id="t-appeal">Appeal</dt><dd>Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give <em>leave</em>, meaning permission.</dd></div>
+                    <div><dt id="t-dissent">Dissent</dt><dd>A judge&rsquo;s written disagreement with the majority. It changes nothing in the result.</dd></div>
+                    <div><dt id="t-struck">Struck</dt><dd>Removed from the record or from the case, so that it cannot be relied on.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Proof</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-standards">Standards of proof</dt><dd>How sure the judges have to be. <em>Reasonable grounds to believe</em> is enough for an arrest warrant. <em>Substantial grounds to believe</em> is enough to send a case to trial. A conviction takes proof <em>beyond reasonable doubt</em>.</dd></div>
+                    <div><dt id="t-burden">Burden of proof</dt><dd>Which side has to prove a thing. In a criminal trial it is the prosecution, and the accused does not have to prove anything.</dd></div>
+                    <div><dt id="t-insider-witness">Insider witness</dt><dd>A witness who was part of the group or operation being described, such as a former police officer or gunman.</dd></div>
+                    <div><dt id="t-limited-use">Limited-use assurance</dt><dd>A written promise from the prosecution that what a witness says in an interview will not be used against that witness at this court. It is not immunity, and it is off if the witness lies.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone else said to prove it was true. This court can admit it, and decides how much weight it deserves.</dd></div>
+                    <div><dt id="t-corroboration">Corroboration</dt><dd>Other evidence that backs up what a witness says.</dd></div>
+                    <div><dt id="t-recorded-testimony">Prior recorded testimony</dt><dd>A witness&rsquo;s earlier statement or interview, admitted in place of some or all of their testimony in court. The court&rsquo;s rules call it Rule 68.</dd></div>
+                    <div><dt id="t-reparations">Reparations</dt><dd>What a convicted person can be ordered to provide to victims, such as compensation. It is decided only after a conviction.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013b" defer></script>
+</body>
+
+</html>

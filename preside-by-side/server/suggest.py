@@ -124,6 +124,7 @@ CHRONICLE_CASES = {
     'depp-v-heard': 'Depp v. Heard',
     'commonwealth-v-clancy': 'Commonwealth v. Clancy',
     'people-v-mangione': 'People v. Mangione',
+    'prosecutor-v-duterte': 'Prosecutor v. Duterte',
 }
 
 # What /suggest/doe means. The Chronicle's first page shipped on that route

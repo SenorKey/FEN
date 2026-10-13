@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="Prosecutor v. Duterte, step by step: the killings the charges are about, the Philippines leaving the court, the arrest, and every ruling up to the trial date, built from the court’s public record.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/chronology/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/prosecutor-v-duterte/chronology/">
+    <meta property="og:title" content="Prosecutor v. Duterte, in order — Case Chronicle">
+    <meta property="og:description"
+        content="Prosecutor v. Duterte, step by step: the killings the charges are about, the Philippines leaving the court, the arrest, and every ruling up to the trial date, built from the court’s public record.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Prosecutor v. Duterte, in order &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="prosecutor-v-duterte">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- ═══════════════════════════════════════════════
+         Hearing wash
+
+         Each side's own lawyers, run down their own side of the page
+         behind the argument. Same rule as the other washes on this site:
+         what is on the left was said in court by counsel for the
+         prosecution, and what is on the right by counsel for the defence.
+         Nothing here is testimony. No witness has been heard in this case
+         yet, so there is no sworn evidence to set in either column; that
+         starts when the trial does, and the wash can take it then.
+
+         Both columns open on the same speech. The prosecution read one
+         passage of it to the judges and the defence, the same morning,
+         read another from further on. That pair is the case in small, and
+         it is why the two cards sit level at the head of the page. A
+         passage read into the record is indented the way the transcript
+         indents it.
+
+         This recreates the court's own transcripts, which number every
+         page and line, so the cite gives the transcript number and then
+         page:line where the passage starts. An ellipsis marks words left
+         out. Spelling is the court reporter's: British, and a slip or two
+         ("course attitude") left as it stands.
+
+         The lawyers quoted for the defence at the 2025 and February 2026
+         hearings no longer act for him. The last card is his present
+         counsel.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In reference to this photo, Mr Duterte, this is what he said:</dd>
+                    <dd class="ex-read">&hellip; if you don&rsquo;t want to die, or get hurt, don&rsquo;t rely on the priests, including human rights advocates. They won&rsquo;t be able to prevent deaths. So, don&rsquo;t do it. And then there you are, sprawled on the ground, and you&rsquo;re portrayed in a broadsheet like Mother Mary cradling the dead cadaver of Jesus Christ. That&rsquo;s how they are, creating dramas here.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:21</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte is charged with 49 incidents of murder and attempted murder of 78 victims, including children. &hellip; Thus, the charged incidents are merely a fraction of the overall criminality that resulted from Mr Duterte&rsquo;s so-called War on Drugs.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 9:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Mr Duterte authorised murders and personally selected some of the targets. During the mayoral period when he was mayor, his clearance was required for the DDS to carry out the killings. Essentially, members of the DDS needed Mr Duterte&rsquo;s green light to murder.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 11:7</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>And this is what he said, I quote:</dd>
+                    <dd class="ex-read">If I become the president, I will order the military and the police to hunt down the drug lords, the big ones, and kill them.</dd>
+                    <dd>That&rsquo;s what he said.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 10:15</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; he successfully suspended police anti-illegal drug operations on two occasions, following public outcries in response to particularly notorious killings. On both occasions the number of reported killings dropped significantly during the suspension, showcasing his control. So when he asked people to act, they act. When he asked them to refrain, they do so.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 13:5</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Niang</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>The victims of extrajudicial killings charged in this case were brutally murdered, some after having been abducted and mistreated. Unlike Mr Duterte, who is represented by his counsel here today, they were deprived of any form of due process.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 15:9</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it&rsquo;s not unique to this case in war crimes trials, crimes against humanity trials where the very top leadership are the persons on trial and when they&rsquo;re committing their crimes, they don&rsquo;t put it in writing often, &ldquo;Let&rsquo;s go out and commit a crime&rdquo;.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 21:12</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nicholls</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; throughout his speeches Mr Duterte and some of his co-perpetrators &hellip; referred to shoot to kill in self-defence and that they sprinkled in these reference to due process and legality. The evidence shows, as I said, that was only to build a veneer of legality, to create an impression of legality and to give his lawyers something to say when this day came.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 24:13</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>But if we look further on in the very same speech, something which maybe the Deputy Prosecutor didn&rsquo;t do, this is what he had to say:</dd>
+                    <dd class="ex-read">To our police officers and other officials, do your job and you will have the unwavering support of the Office of the President. I will be with you all the way. Abuse your authority, and there will be hell to pay, for you will have become worse than criminality itself.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 36:24</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Medialdea</b> <time>Mar 14, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>Two days ago, the whole world has witnessed the degrading fashion which a former president of a sovereign country was bundled into a private aircraft and summarily transported to The Hague. To us lawyers, this would be called an extrajudicial rendition. To the less legally inclined, it is a pure and simple kidnapping.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-002, 7:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>In any event, we are not gathered here today to judge a man on the basis of his course attitude or his vulgar language. &hellip; cases are decided on the basis of evidence, not supposition, not rumour, not spicy gossip, and certainly not on the basis of political rhetoric and bluster.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 35:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it is not enough to state that since the former president made those extremely inflammatory statements and deaths occurred that he must, as a matter of course, be criminally responsible for those fatalities.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 37:22</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 23, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>They brought this case and they need to prove it. Rodrigo Duterte need not convince the world of anything, and that is to his fortunate advantage given his current medical condition. He stands behind his legacy resolutely and he maintains his innocence absolutely.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-004, 38:14</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Layered hearsay, conjecture, over-reliance on accomplice evidence with offers of virtual immunity at the ICC, contradicting statements between participants in a crime, absolute lack of any linkage whatsoever to Mr Rodrigo Duterte, and a total lack of support for an alleged crime both in a documentary and forensic record.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 46:8</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Kaufman</b> <time>Feb 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>If Rodrigo Duterte is to be faulted for anything, it is for his inappropriate choice of language. But he murdered no one. Out of that huge database of evidence on which the Prosecution relies, I repeat that there is absolutely nothing to directly link Rodrigo Duterte to the 78 deaths alleged.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-007, 51:6</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Haynes</b> <time>May 27, 2026</time></p>
+                    <dl class="ex-qa">
+                    <dd>Our real concern is what the parameters of this trial are. &hellip; if the suggestion is that we are, in effect, in a sort of public enquiry here which spans 300,000 square kilometres and a nation of 120 million people over seven and a half years, then &mdash; then this trial really is going to get out of hand and our investigations will be impossible.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. T-009, 27:25</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             Who is on each side of it is said at the head of the rail.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-plain" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/prosecutor-v-duterte/">&larr;&nbsp; Prosecutor v. Duterte</a></p>
+                <p class="eyebrow">International Criminal Court &middot; Trial Chamber III &middot; No.
+                    ICC&#8209;01/21&#8209;01/25</p>
+                <h1 class="masthead-title">Prosecutor <em>v.</em> Duterte</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/prosecutor-v-duterte/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/prosecutor-v-duterte/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
+
+                <!-- The key names this case's two sides. The colours are fixed
+                     by the stylesheet and mean the same thing on every page:
+                     the moving side, the answering side, the court.
+
+                     On a wide screen it is also the bar that stays put over the
+                     chronology, with a side's name over each column, which is
+                     what the two wrappers are for. The empty span is where the
+                     script writes which part of the case is passing underneath;
+                     with no script it stays empty.
+
+                     "Neither" here is wider than on the other cases. It takes
+                     in what happened outside any court, the Philippine
+                     government when it was arguing with the court in its own
+                     name, and the victims' lawyers, who are in the case and
+                     are not a side. -->
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk-l">
+                        <span class="tk-here"></span>
+                        <span class="tk tk-p">Prosecution</span>
+                    </span>
+                    <span class="tk tk-c">Court</span>
+                    <span class="tk-r">
+                        <span class="tk tk-d">Defense</span>
+                        <span class="tk tk-n">Neither side</span>
+                    </span>
+                </div>
+
+                    <!-- The two names are what a phone prints on each card. There the
+                         rail moves to the edge and every card hangs off the same side
+                         of it, so the card has to say in words whose move it was. -->
+                    <ol class="tl" style="--p-name: 'Prosecution'; --d-name: 'Defense';">
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">Before the court</p>
+                                <p class="tl-phase-n">What the charges are about. The court can try only what happened while the Philippines was a member, and these are those years.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n tl-first" id="ev-the-treaty-takes-effect">
+                            <!-- The two sides stand either side of the first entry: the
+                                 same two cards the case page has, shut to a name and a
+                                 line until opened. On a wide window each keeps to its
+                                 corner of the page, level with this entry. The entry
+                                 they stand beside has to be one that straddles the
+                                 rail, the court's or neither side's, or a card in a
+                                 side's column would run under one of them. -->
+                            <article class="party party-p" aria-labelledby="party-p-h">
+                                <p class="party-role">Prosecution <span>The side bringing the charges</span></p>
+                                <h2 class="party-name" id="party-p-h">The Prosecutor</h2>
+                                <p class="party-what">The court&rsquo;s own prosecution office</p>
+                                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                                    <span class="party-more-i" aria-hidden="true"></span>
+                                    <span class="party-more-l">More</span>
+                                </button>
+                                <div class="party-x" id="party-p-x"><div class="party-x-in">
+                                <p class="party-b">At this court a case is brought in the name of <a class="term" href="#t-prosecutor" data-term="t-prosecutor" title="The Prosecutor: The head of the court’s Office of the Prosecutor, which investigates and brings cases on its own authority. Every case here is titled in the Prosecutor’s name.">the Prosecutor</a>, the same way a criminal case in the US is brought in the name of the People or the State. The Prosecutor&rsquo;s office is part of the court but it works on its own, so it isn&rsquo;t acting for any country here, and that includes the Philippines. The person running this case is the deputy prosecutor, Mame Mandiaye Niang. The chief prosecutor, Karim Khan, isn&rsquo;t on it. Appeals judges took him off in October 2025, because before he got the job he had worked for victims of these same killings and they said that could look like bias. The ruling was about how it could look, and it didn&rsquo;t find that he was biased.</p>
+                                <p class="party-src">ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/g9hgy2wz/pdf/#page=18" target="_blank" rel="noopener" aria-label="Record 286-Red, the decision disqualifying the Prosecutor, opens the document at page 18">286-Red</a>, p.&nbsp;18</p>
+                                </div></div>
+                            </article>
+                            <article class="party party-d" aria-labelledby="party-d-h">
+                                <p class="party-role">Defendant <span>The person charged</span></p>
+                                <h2 class="party-name" id="party-d-h">Rodrigo Roa Duterte</h2>
+                                <p class="party-what">President of the Philippines, 2016&ndash;2022</p>
+                                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                                    <span class="party-more-i" aria-hidden="true"></span>
+                                    <span class="party-more-l">More</span>
+                                </button>
+                                <div class="party-x" id="party-d-x"><div class="party-x-in">
+                                <p class="party-b">He was born in 1945 and grew up in Davao, on the southern island of Mindanao. He trained as a lawyer and spent nine years as a prosecutor for the city before he went into politics there in 1986. He was mayor of Davao City for more than 22 years in all, and the tough-on-crime name he made there is what he ran on for president in 2016. He won, served the one six-year term a president gets, and left office in 2022. In May 2025, two months after his arrest, Davao elected him mayor again. One of his sons has been doing the job in his place, and his daughter Sara is the country&rsquo;s vice president. The court calls him <a class="term" href="#t-accused" data-term="t-accused" title="Accused: What this court calls the person on trial once the charges are confirmed. Before that the word is suspect.">the accused</a>.</p>
+                                <p class="party-src">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=33" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 33">417-Red</a> &para;&para;&nbsp;78&ndash;79 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/p4awiavu/pdf/#page=15" target="_blank" rel="noopener" aria-label="Record 282-Red, the decision on interim release, opens the document at page 15">282-Red</a> &para;&nbsp;51 &middot; Background: <a class="cite-doc" href="https://www.britannica.com/topic/Rodrigo-Duterte" target="_blank" rel="noopener" aria-label="Britannica, Rodrigo Duterte, opens in a new tab">Britannica</a> &middot; Reporting: <a class="cite-doc" href="https://www.gmanetwork.com/regionaltv/news/108898/baste-duterte-now-acting-mayor-of-davao-city/story" target="_blank" rel="noopener" aria-label="GMA News on the 2025 Davao election and the acting mayor, opens in a new tab">GMA News, Jul 1, 2025</a></p>
+                                </div></div>
+                            </article>
+                            <div class="tl-c">
+                                <p class="tl-date">Nov 1, 2011</p>
+                                <h3 class="tl-h">The court&rsquo;s treaty takes effect for the Philippines</h3>
+                                <p class="tl-b">The country had ratified it two months earlier. From this day the court can try crimes committed on its soil, and the charges start on this date.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-1" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-1">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The treaty is the <a class="term" href="#t-rome-statute" data-term="t-rome-statute" title="Rome Statute: The treaty that set up the court and says what it can do. A country that ratifies it becomes a State Party, and the court can then try crimes committed on its soil or by its nationals.">Rome Statute</a>. The Philippines ratified it on August 30, 2011, and it came into force for the country on November 1. He was vice mayor of Davao City at the time, with his daughter as mayor, and had been the mayor himself for most of the years since 1988.</p>
+                                        <p class="tl-x-t">The prosecution says a death squad had been working in the city since the late 1980s. The court can&rsquo;t reach anything from before this date, so the charges begin here.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 3">309</a> &para; 1 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=33" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 33">417-Red</a> &para; 78 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 3">178-Red2</a> &para; 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-killings-in-davao-city">
+                            <div class="tl-c">
+                                <p class="tl-date">2013 &ndash; Jun 2016</p>
+                                <h3 class="tl-h">Killings in Davao City</h3>
+                                <p class="tl-b">The first <a class="term" href="#t-count" data-term="t-count" title="Count: One charge. This case has three.">count</a> is about nine <a class="term" href="#t-incident" data-term="t-incident" title="Incident: One of the specific killings or attempted killings the prosecution lists as an example under a count.">incidents</a> in these years, in which 19 people were killed. The prosecution says the <a class="term" href="#t-dds" data-term="t-dds" title="Davao Death Squad: What the charges call a group of police officers and hired gunmen said to have killed people accused of crime in Davao City. The prosecution says he created and ran it. His lawyers have called it a fiction.">Davao Death Squad</a> did it and that he ran it.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-2" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-2">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Only one of the nine has a date and place the public can read: December 4, 2013, in or around the Agdao Public Market. The names are <a class="term" href="#t-redacted" data-term="t-redacted" title="Redacted: Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.">blacked out</a>. The prosecution says the people killed were accused of selling drugs or of theft, and that the squad needed his &ldquo;green light&rdquo; before it killed anyone.</p>
+                                        <p class="tl-x-t">His lawyer at the 2026 hearing called the squad &ldquo;that fictitious construct.&rdquo; The judges who confirmed the charges found <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">substantial grounds to believe</a> that he recruited police officers and hired gunmen into it in the late 1980s. That is a lower test than proof.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=10" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 10">178-Red2</a> &para; 25, <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=11" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 11">p. 11</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=11" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 11">T-004</a>, 11:7&ndash;10, <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=39" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 39">39:7</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=35" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 35">417-Red</a> &para; 87</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-he-becomes-president">
+                            <div class="tl-c">
+                                <p class="tl-date">Jun 30, 2016</p>
+                                <h3 class="tl-h">He becomes president</h3>
+                                <p class="tl-b">The next day the national police open an anti-drug campaign called Project Double Barrel. The prosecution says this is when the plan from Davao went national.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-3" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-3">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">In the campaign he had said that if he won he would order the police and the military to hunt down drug lords &ldquo;and kill them,&rdquo; a line the prosecution read to the judges. The police order that set up Double Barrel spoke of <a class="term" href="#t-neutralize" data-term="t-neutralize" title="“Neutralize”: The word in the Philippine police order that began the national anti-drug campaign in 2016. The prosecution says it meant kill. The defense says it meant arrest or subdue. The court’s records spell it “neutralise.”">&ldquo;neutralizing&rdquo;</a> drug suspects.</p>
+                                        <p class="tl-x-t">What that word meant is one of the main fights in the case. The prosecution says it meant kill. The defense says it meant arrest or subdue, and that it was ordinary police vocabulary from before his time.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=36" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 36">417-Red</a> &para;&para; 88, <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=23" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 23">54</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=10" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 10">T-004</a>, 10:15 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=25" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 25">T-006</a>, 25:2&ndash;16, <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=26" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 26">26:16&ndash;21</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-killings-in-counts-two-and-three">
+                            <div class="tl-c">
+                                <p class="tl-date">Jul 2016 &ndash; Sept 2018</p>
+                                <h3 class="tl-h">The killings in counts two and three</h3>
+                                <p class="tl-b">Forty incidents and 59 people, across the country. Count two is about people on a list of &ldquo;high-value targets.&rdquo; Count three is about police operations in neighborhoods.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-4" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-4">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Five of the 59 are named in the public charges. Rolando Espinosa Sr. and Raul Yap were shot in a jail in Leyte on or about November 5, 2016. Reynaldo Parojinog Sr., the mayor of Ozamiz City, was killed with others early on July 30, 2017. Benjamin Visda was killed in Manila in October 2016. Kian Loyd delos Santos, who was 17, was killed in Caloocan City on or about August 16, 2017.</p>
+                                        <p class="tl-x-t">The police reports on many of these deaths say the person fired first. The prosecution says those reports were falsified and that guns were planted. The defense says they are the only records made at the time and that nothing shows they are false.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=12" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 12">178-Red2</a> pp. 12&ndash;14 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=11" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 11">T-007</a>, 11:1&ndash;15 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=20" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 20">T-007</a>, 20:15&ndash;22</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-prosecutor-opens-a-first-look">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 8, 2018</p>
+                                <h3 class="tl-h">The Prosecutor opens a first look</h3>
+                                <p class="tl-b">Fatou Bensouda, the chief prosecutor at the time, announces a <a class="term" href="#t-preliminary-examination" data-term="t-preliminary-examination" title="Preliminary examination: The Prosecutor’s first look at a set of events, to decide whether to ask for a full investigation. No judge is involved yet.">preliminary examination</a> of the killings. It isn&rsquo;t an investigation yet.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-5" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-5">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A preliminary examination is the prosecutor&rsquo;s office checking whether there is enough to ask for a real investigation. No judge is involved at this point.</p>
+                                        <p class="tl-x-t">Seven years later the whole question of whether the court can hear this case comes down to whether this step counted as the court already &ldquo;considering&rdquo; the matter.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 3">309</a> &para; 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-philippines-gives-notice">
+                            <div class="tl-c">
+                                <p class="tl-date">Mar 17, 2018</p>
+                                <h3 class="tl-h">The Philippines gives notice that it is leaving</h3>
+                                <p class="tl-b">Five weeks after the first look is announced. Under the treaty a <a class="term" href="#t-withdrawal" data-term="t-withdrawal" title="Withdrawal: A country leaving the treaty. It takes effect one year after the country gives notice, and the treaty says leaving does not stop the court from carrying on with a matter it was already considering.">withdrawal</a> takes one year to count.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-6" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-6">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">He was president when the notice was given. The prosecution later told the judges he pulled the country out when he thought he might be prosecuted. His lawyers say it is the prosecution that has to answer for not opening an investigation inside that year.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 3">309</a> &para;&para; 3, <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=11" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 11">36</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=25" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 25">T-007</a>, 25:19&ndash;22</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-mark">
+                            <div class="tl-mark-in">
+                                <p class="tl-mark-d">Mar 17, 2019</p>
+                                <p class="tl-mark-t">The withdrawal takes effect</p>
+                                <p class="tl-mark-b">The Philippines is out of the court from this day, so the charges stop on March 16. Everything he is charged with happened above this line. Whether the court could still open a case about it from below the line is what his lawyers argued all the way to the appeals judges.</p>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">The investigation</p>
+                                <p class="tl-phase-n">Asked for two years after the country left, paused when its government objected, and restarted.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-prosecutor-asks-to-investigate">
+                            <div class="tl-c">
+                                <p class="tl-date">May 24, 2021</p>
+                                <h3 class="tl-h">The Prosecutor asks to open an investigation</h3>
+                                <p class="tl-b">Three years after the first look began, and two years after the Philippines left.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-7" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-7">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">When a prosecutor starts an <a class="term" href="#t-investigation" data-term="t-investigation" title="Investigation: The formal stage of gathering evidence. When the Prosecutor starts one on their own, three judges have to authorize it first.">investigation</a> on their own, three judges have to approve it first. The request covered killings from November 1, 2011, to March 16, 2019, in Davao and then across the country. It was made public on June 14, 2021.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/3sgmzfsf/pdf/" target="_blank" rel="noopener" aria-label="Record 7-Red, the request to open an investigation, opens the document">7-Red</a> &middot; ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-investigation-authorized">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 15, 2021<span class="chip chip-g">Granted</span></p>
+                                <h3 class="tl-h">Investigation authorized</h3>
+                                <p class="tl-b">Three judges find a reasonable basis to investigate the &ldquo;war on drugs&rdquo; killings and the earlier ones in Davao.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-8" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-8">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The decision said the court kept its power over crimes committed while the country was a member, even though it had since left. It gave the government&rsquo;s own count of people killed in police anti-drug operations as 5,281 by February 2019, and cited estimates of 12,000 to 30,000 in all.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=41" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 41">12</a> p. 41, &para;&para; <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=13" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 13">39</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=23" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 23">67</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/2wvjmqxo/pdf/#page=38" target="_blank" rel="noopener" aria-label="Record 12, the decision authorizing the investigation, opens the document at page 38">111</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-the-philippines-asks-the-court-to-step-back">
+                            <div class="tl-c">
+                                <p class="tl-date">Nov 10, 2021</p>
+                                <h3 class="tl-h">The Philippines asks the court to step back</h3>
+                                <p class="tl-b">The government says it is looking into the killings itself. The Prosecutor pauses his work.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-9" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-9">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court is meant to step in only when a country isn&rsquo;t genuinely investigating or prosecuting the crimes itself. A country can ask for a <a class="term" href="#t-deferral" data-term="t-deferral" title="Deferral: The court is meant to step in only when a country is not genuinely investigating or prosecuting the crimes itself. A country can ask the Prosecutor to stand back in favor of its own investigation.">deferral</a>, which means the Prosecutor stands back in favor of its own investigation. The Prosecutor told the judges on November 18 that he had temporarily suspended his work while he looked at the request.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bfros4hw/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 14, the notice of the Philippines’ deferral request, opens the document at page 3">14</a> &para;&para; 1&ndash;3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-prosecutor-asks-to-restart">
+                            <div class="tl-c">
+                                <p class="tl-date">Jun 24, 2022</p>
+                                <h3 class="tl-h">The Prosecutor asks to restart</h3>
+                                <p class="tl-b">Karim Khan, now the chief prosecutor, tells the judges the deferral isn&rsquo;t warranted.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-10" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-10">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">His term as president ended six days later, on June 30, 2022. The Philippine government filed its objections that September.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ugcar6u8/pdf/" target="_blank" rel="noopener" aria-label="Record 46, the request to resume the investigation, opens the document">46</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=33" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 33">417-Red</a> &para; 79 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/1cjc2smn/pdf/" target="_blank" rel="noopener" aria-label="Record 51, opens the document">51</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-investigation-restarts">
+                            <div class="tl-c">
+                                <p class="tl-date">Jan 26, 2023<span class="chip chip-g">Granted</span></p>
+                                <h3 class="tl-h">Investigation restarts</h3>
+                                <p class="tl-b">The judges are not satisfied that the Philippines is carrying out real investigations that cover the same ground.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-11" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-11">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">In their words, they were &ldquo;not satisfied that the Philippines is undertaking relevant investigations, or is making a real or genuine effort to carry out such investigations.&rdquo; The government appealed a week later.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/wjb9315z/pdf/#page=41" target="_blank" rel="noopener" aria-label="Record 56-Red, the decision letting the investigation resume, opens the document at page 41">56-Red</a> pp. 41&ndash;42</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-the-philippines-loses-its-appeal">
+                            <div class="tl-c">
+                                <p class="tl-date">Jul 18, 2023<span class="chip chip-d">Dismissed</span></p>
+                                <h3 class="tl-h">The Philippines loses its appeal, 3 to 2</h3>
+                                <p class="tl-b">Five <a class="term" href="#t-appeal" data-term="t-appeal" title="Appeal: Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give leave, meaning permission.">appeals</a> judges let the investigation go on. Two of them would have ended it because the country had already left.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-12" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-12">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The government argued, among other things, that the court had no power over the Philippines once the withdrawal took effect. The majority said that point had not been properly raised and did not decide it.</p>
+                                        <p class="tl-x-t">Judges Perrin de Brichambaut and Lordkipanidze <a class="term" href="#t-dissent" data-term="t-dissent" title="Dissent: A judge’s written disagreement with the majority. It changes nothing in the result.">dissented</a>. They would have found that the court &ldquo;cannot exercise its jurisdiction,&rdquo; because the investigation was only asked for after the withdrawal. His own lawyers made the same argument two years later.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/yr54u31s/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 77, the 2023 appeal judgment, opens the document at page 4">77</a> p. 4, <a class="cite-doc" href="https://www.legal-tools.org/doc/yr54u31s/pdf/#page=19" target="_blank" rel="noopener" aria-label="Record 77, the 2023 appeal judgment, opens the document at page 19">&para; 60</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/u05ekm5e/pdf/" target="_blank" rel="noopener" aria-label="Record 77-OPI, the 2023 dissenting opinion, opens the document">77-OPI</a> &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/a03jgt8k/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-001, July 18, 2023, opens the transcript at page 1">T-001</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-he-tells-the-senate-he-had-a-death-squad">
+                            <div class="tl-c">
+                                <p class="tl-date">Oct 2024</p>
+                                <h3 class="tl-h">He tells the Senate he had a death squad</h3>
+                                <p class="tl-b">At an inquiry committee of the Philippine Senate. The prosecution says he said it under oath, three times.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-13" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-13">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The judges who later confirmed the charges wrote that the evidence about the squad was &ldquo;consistent with Mr Duterte&rsquo;s admission in October 2024, before an inquiry committee of the Senate of the Philippines, that he had an organised death squad in Davao City.&rdquo;</p>
+                                        <p class="tl-x-t">The prosecution played the hearings in court. His lawyer&rsquo;s answer to the things he has said in public was that they were &ldquo;hyperbole, bluster and rhetoric.&rdquo;</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=35" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 35">417-Red</a> &para; 87 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=26" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 26">T-007</a>, 26:7&ndash;9 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=34" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 34">T-004</a>, 34:18</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">Arrest</p>
+                                <p class="tl-phase-n">From a secret warrant to a courtroom in The Hague in seven days.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-prosecutor-asks-for-a-warrant">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 10, 2025</p>
+                                <h3 class="tl-h">The Prosecutor asks for an arrest warrant</h3>
+                                <p class="tl-b">For murder, torture and rape as <a class="term" href="#t-crimes-against-humanity" data-term="t-crimes-against-humanity" title="Crimes against humanity: Certain acts, murder among them, when they are part of a widespread or systematic attack on a civilian population, carried out under a government’s or an organization’s policy.">crimes against humanity</a>. Filed in secret.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-14" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-14">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The application set out five counts covering 45 acts of murder, four of torture and three of rape. A <a class="term" href="#t-redacted" data-term="t-redacted" title="Redacted: Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.">redacted</a> copy was made public on March 13, 2025, the day before he first appeared in court.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/tm1w41ci/pdf/#page=22" target="_blank" rel="noopener" aria-label="Record 80-Red, the application for an arrest warrant, opens the document at page 22">80-Red</a> p. 22 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/tthl8mj4/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 90, the decision convening the first appearance, opens the document at page 3">90</a> &para; 4</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-warrant-issued-for-murder-only">
+                            <div class="tl-c">
+                                <p class="tl-date">Mar 7, 2025<span class="chip chip-p">Granted in part</span></p>
+                                <h3 class="tl-h">Warrant issued, for murder only</h3>
+                                <p class="tl-b">Three judges find <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">reasonable grounds to believe</a> he is responsible for at least 43 killings. They leave out torture and rape.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-15" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-15">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The judges said the material was enough on the torture and the rape themselves, but that the link between those acts and the wider attack was &ldquo;insufficiently shown.&rdquo; The <a class="term" href="#t-warrant" data-term="t-warrant" title="Arrest warrant: A court order to arrest someone. Judges issue one when there are reasonable grounds to believe the person committed a crime and an arrest appears necessary.">warrant</a> covered at least 19 people killed by the Davao Death Squad and at least 24 killed by or under the supervision of police.</p>
+                                        <p class="tl-x-t">They found an arrest was needed because he &ldquo;appears to continue to wield considerable power.&rdquo; The warrant was issued as secret and made public on March 11.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/udnhqjst/pdf/#page=6" target="_blank" rel="noopener" aria-label="Record 83, the arrest warrant, opens the document at page 6">83</a> &para;&para; 12, <a class="cite-doc" href="https://www.legal-tools.org/doc/udnhqjst/pdf/#page=7" target="_blank" rel="noopener" aria-label="Record 83, the arrest warrant, opens the document at page 7">14</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/udnhqjst/pdf/#page=13" target="_blank" rel="noopener" aria-label="Record 83, the arrest warrant, opens the document at page 13">26</a> &middot; ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n is-key" id="ev-arrested-in-manila">
+                            <div class="tl-c">
+                                <p class="tl-date">Mar 11, 2025</p>
+                                <h3 class="tl-h">Arrested in Manila</h3>
+                                <p class="tl-b">Philippine authorities arrest him on the court&rsquo;s warrant. He is flown to the Netherlands and handed to the court on March 12.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-16" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-16">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The court has no police of its own, so it depends on countries to make arrests and to <a class="term" href="#t-surrender" data-term="t-surrender" title="Surrender: A country handing an arrested person over to the court. The court has no police of its own.">surrender</a> the person. Here it was the Philippine government, under the president who followed him.</p>
+                                        <p class="tl-x-t">His lawyer told the judges three days later that the plane had waited more than five hours in the United Arab Emirates on the way, and called the whole transfer &ldquo;a pure and simple kidnapping.&rdquo;</p>
+                                        <p class="tl-cite">ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/tthl8mj4/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 90, the decision convening the first appearance, opens the document at page 3">90</a> &para; 6 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=7" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 7">T-002</a>, 7:8&ndash;23</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-first-appearance-by-video">
+                            <div class="tl-c">
+                                <p class="tl-date">Mar 14, 2025</p>
+                                <h3 class="tl-h">First appearance, by video</h3>
+                                <p class="tl-b">He appears on a screen from the detention center, gives his name and date of birth, and hears the charge read. The judges set the next hearing for September 23.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-17" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-17">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It took 25 minutes. The presiding judge said the hearing was &ldquo;neither the start of the trial, nor is it a confirmation of charges hearing.&rdquo; He attended by video because the court&rsquo;s doctors advised against bringing him in after the journey.</p>
+                                        <p class="tl-x-t">The lawyer in the room for him was Salvador Medialdea, who had been his executive secretary. He asked for a week&rsquo;s delay and was refused. Four days later Nicholas Kaufman took over as lead counsel.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=4" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 4">T-002</a>, 4:3&ndash;6, <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=9" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 9">9:1&ndash;5</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/bmab6oag/pdf/#page=10" target="_blank" rel="noopener" aria-label="Transcript T-002, March 14, 2025, opens the transcript at page 10">10:8&ndash;11</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/lwgm6zlb/pdf/" target="_blank" rel="noopener" aria-label="Record 92-Red, the notice of his lawyer’s appointment, opens the document">92-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">Three ways to stop it</p>
+                                <p class="tl-phase-n">Through 2025 his lawyers ask the judges to end the case, to release him, and to find him unfit for trial. The charges are filed in the middle of it.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d is-key" id="ev-the-defense-says-the-court-has-no-power">
+                            <div class="tl-c">
+                                <p class="tl-date">May 1, 2025</p>
+                                <h3 class="tl-h">The defense says the court has no power here</h3>
+                                <p class="tl-b">The Philippines had left by the time judges opened the investigation in 2021, so there was nothing for the court to act on.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-18" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-18">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">This is a challenge to <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: Whether this court has the power to hear this case at all. Here that depends on dates, because the Philippines left the court in 2019.">jurisdiction</a>, and it is about timing. The treaty says a country leaving doesn&rsquo;t stop the court from carrying on with &ldquo;any matter which was already under consideration by the Court&rdquo; before the withdrawal took effect. The defense says a prosecutor&rsquo;s first look is too informal to count, and that &ldquo;the Court&rdquo; means the judges, who were not asked for anything until 2021.</p>
+                                        <p class="tl-x-t">It asked for every step in the case to be undone. The prosecution answered that a preliminary examination is exactly such a matter. The <a class="term" href="#t-victims-lawyers" data-term="t-victims-lawyers" title="Victims’ lawyers: At this court people harmed by the charged crimes can apply to take part. They do not bring the case and are not a side, but lawyers appointed for them can file papers and speak in court on what affects them. The court’s term is common legal representatives.">victims&rsquo; lawyers</a> called the treaty&rsquo;s wording &ldquo;crystal clear.&rdquo;</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bxum3u7d/pdf/#page=37" target="_blank" rel="noopener" aria-label="Record 121, the defense challenge to jurisdiction, opens the document at page 37">121</a> &para;&para; 116&ndash;117 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/8qsa6j2o/pdf/" target="_blank" rel="noopener" aria-label="Record 146-Red-Corr, the prosecution response on jurisdiction, opens the document">146-Red-Corr</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/helixch4/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 145, the victims’ observations on jurisdiction, opens the document at page 3">145</a> &para; 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-n" id="ev-davao-city-elects-him-mayor">
+                            <div class="tl-c">
+                                <p class="tl-date">May 12, 2025</p>
+                                <h3 class="tl-h">Davao City elects him mayor</h3>
+                                <p class="tl-b">While he is held in The Hague. One of his sons, elected vice mayor, does the job in his place.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-19" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-19">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The judges later counted the result against him when he asked to be released. They wrote that the &ldquo;continued support in the Philippines to Mr Duterte is further demonstrated by his election as mayor of Davao City in May 2025.&rdquo;</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/p4awiavu/pdf/#page=15" target="_blank" rel="noopener" aria-label="Record 282-Red, the decision on interim release, opens the document at page 15">282-Red</a> &para; 51 &middot; Reporting: <a class="cite-doc" href="https://www.gmanetwork.com/regionaltv/news/108898/baste-duterte-now-acting-mayor-of-davao-city/story" target="_blank" rel="noopener" aria-label="GMA News on the 2025 Davao election and the acting mayor, opens in a new tab">GMA News, Jul 1, 2025</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-he-asks-to-be-released">
+                            <div class="tl-c">
+                                <p class="tl-date">Jun 12, 2025</p>
+                                <h3 class="tl-h">He asks to be released while he waits</h3>
+                                <p class="tl-b">To a country whose name is blacked out, &ldquo;under any conditions.&rdquo; His lawyers say a man of 80 in poor health is not going to run.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-20" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-20">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The request for <a class="term" href="#t-interim-release" data-term="t-interim-release" title="Interim release: Being let out of detention while the case goes on, with or without conditions. It is refused if there is a risk the person would flee, interfere with the case, or keep committing crimes.">interim release</a> offered a list of conditions and made a humanitarian case. The prosecution opposed it. It said he &ldquo;does not accept the legitimacy of the legal proceedings against him&rdquo; and has the reach to get at witnesses.</p>
+                                        <p class="tl-x-t">In July the defense asked the judges to hold off ruling while it gathered medical evidence, and two of the three agreed. It filed a renewed request with medical reports on August 18.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bz77u0ij/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 150-Red, the request for interim release, opens the document at page 16">150-Red</a> p. 16 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/1gegoy82/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 159-Red, the prosecution response on interim release, opens the document at page 4">159-Red</a> p. 4 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/il4dw5zl/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 209, the decision pausing the release request, opens the document at page 3">209</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/k1pattxz/pdf/" target="_blank" rel="noopener" aria-label="Record 231-Red, the renewed request for interim release, opens the document">231-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p is-key" id="ev-the-charges-are-filed">
+                            <div class="tl-c">
+                                <p class="tl-date">Jul 4, 2025</p>
+                                <h3 class="tl-h">The charges are filed</h3>
+                                <p class="tl-b">Three counts of crimes against humanity. Forty-nine incidents and 78 people, which the prosecution calls a sample of something much larger.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-21" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-21">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Count one is the murder of 19 people in or around Davao City by the Davao Death Squad. Count two is the murder of 14 &ldquo;high-value targets&rdquo; in 2016 and 2017. Count three is the murder of 43 people and the attempted murder of two more in <a class="term" href="#t-barangay" data-term="t-barangay" title="Barangay: The smallest unit of local government in the Philippines, about the size of a village or a neighborhood.">barangay</a> police operations through 2018.</p>
+                                        <p class="tl-x-t">The document says he is responsible in any of three ways: by committing the crimes with and through other people under a <a class="term" href="#t-common-plan" data-term="t-common-plan" title="Common plan: An agreement between two or more people that, if carried out, will lead to crimes. It is the core of the first way the prosecution says he is responsible.">common plan</a>, by <a class="term" href="#t-ordering" data-term="t-ordering" title="Ordering or inducing: Telling someone to commit a crime from a position of authority, or prompting them to commit it.">ordering or inducing</a> them, or by <a class="term" href="#t-aiding" data-term="t-aiding" title="Aiding and abetting: Helping or encouraging a crime that someone else commits, in order to make it easier.">aiding</a> them. It names eight officials as sharing the plan. The public first saw a blacked-out copy on September 22, 2025.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 3">178-Red2</a> &para;&para; 4, <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=9" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 9">19</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=10" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 10">25</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/jelyd49w/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 178-Red2, the document containing the charges, opens the document at page 16">p. 16</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-the-defense-moves-against-the-chief-prosecutor">
+                            <div class="tl-c">
+                                <p class="tl-date">Aug 6, 2025</p>
+                                <h3 class="tl-h">The defense moves to take the chief prosecutor off the case</h3>
+                                <p class="tl-b">Before Karim Khan was the Prosecutor, he had worked for victims of the same killings.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-22" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-22">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The request was for his <a class="term" href="#t-disqualification" data-term="t-disqualification" title="Disqualification: Removing a judge, prosecutor or lawyer from a case because their impartiality could reasonably be doubted.">disqualification</a>. In 2018, in private practice and without a fee, he had worked on a submission to the Prosecutor of the day about the Philippine killings. The defense said a prosecutor who had acted for victims of these events could not now be the one bringing the case over them.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/y033y79h/pdf/" target="_blank" rel="noopener" aria-label="Record 226-Red2, the request to disqualify the Prosecutor, opens the document">226-Red2</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/g9hgy2wz/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 286-Red, the decision disqualifying the Prosecutor, opens the document at page 3">286-Red</a> p. 3</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d is-key" id="ev-the-defense-says-he-is-not-fit">
+                            <div class="tl-c">
+                                <p class="tl-date">Aug 18, 2025</p>
+                                <h3 class="tl-h">The defense says he is not fit to stand trial</h3>
+                                <p class="tl-b">It asks for the case to be put off with no end date, saying his memory and thinking have declined.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-23" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-23">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The filing opens: he &ldquo;is not fit to stand trial as a result of cognitive impairment in multiple domains.&rdquo; <a class="term" href="#t-fitness" data-term="t-fitness" title="Fitness to stand trial: Whether a person is able to understand the proceedings, follow the evidence and instruct their lawyers. It is a legal question that doctors inform and judges decide.">Fitness</a> means being able to understand the proceedings and to instruct your lawyers.</p>
+                                        <p class="tl-x-t">The prosecution and the victims&rsquo; lawyers both opposed an open-ended delay. The prosecution accepted a short one so that doctors could examine him.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/d3tz1fyx/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 230-Red, the request for an indefinite adjournment, opens the document at page 3">230-Red</a> &para; 1 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/segtlk48/pdf/" target="_blank" rel="noopener" aria-label="Record 253-Red, the prosecution response on the adjournment, opens the document">253-Red</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/jcqltrco/pdf/" target="_blank" rel="noopener" aria-label="Record 257-Red2, the victims’ response on the adjournment, opens the document">257-Red2</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-confirmation-hearing-postponed">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 8, 2025<span class="chip chip-p">Granted in part</span></p>
+                                <h3 class="tl-h">Confirmation hearing postponed</h3>
+                                <p class="tl-b">Two of three judges put off the September 23 hearing so that independent doctors can examine him.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-24" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-24">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Judge Flores Liera dissented. The court appointed a panel of three experts, in forensic psychiatry, neuropsychology and neurology. The defense twice asked for a proposed expert to be removed and lost both times. The panel&rsquo;s reports came in on December 5, 2025.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/tfza48r7/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 267, the decision postponing the confirmation hearing, opens the document at page 4">267</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/xdxzu0ae/pdf/" target="_blank" rel="noopener" aria-label="Record 267-OPI-Red, the dissenting opinion on the postponement, opens the document">267-OPI-Red</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/5fz6ymk9/pdf/" target="_blank" rel="noopener" aria-label="Record 268, the order for a medical examination, opens the document">268</a> &middot; Records <a class="cite-doc" href="https://www.legal-tools.org/doc/bn2mkufu/pdf/" target="_blank" rel="noopener" aria-label="Record 303-Red, a decision refusing to disqualify an expert, opens the document">303-Red</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/l7gvekjb/pdf/" target="_blank" rel="noopener" aria-label="Record 316-Red, a decision refusing to disqualify an expert, opens the document">316-Red</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/ztgzheol/pdf/" target="_blank" rel="noopener" aria-label="Record 327-Red, the transmission of the experts’ reports, opens the document">327-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-release-refused">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 26, 2025<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Release refused</h3>
+                                <p class="tl-b">The judges find all three risks the law asks about: that he would flee, that witnesses could be interfered with, and that the crimes could continue.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-25" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-25">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">On flight they pointed to the arrest having been called &ldquo;a pure and simple kidnapping&rdquo; on his behalf, to his political contacts, to his daughter being vice president, and to his election as mayor. They also wrote that &ldquo;the issue of fitness to stand trial is factually and legally distinct from the question of interim release.&rdquo;</p>
+                                        <p class="tl-x-t">Judges have looked at his detention again three times since, in January, May and September 2026, and kept him in custody each time.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/p4awiavu/pdf/#page=14" target="_blank" rel="noopener" aria-label="Record 282-Red, the decision on interim release, opens the document at page 14">282-Red</a> &para;&para; 50&ndash;53, <a class="cite-doc" href="https://www.legal-tools.org/doc/p4awiavu/pdf/#page=19" target="_blank" rel="noopener" aria-label="Record 282-Red, the decision on interim release, opens the document at page 19">64</a> &middot; Records <a class="cite-doc" href="https://www.legal-tools.org/doc/uaof4fyj/pdf/" target="_blank" rel="noopener" aria-label="Record 357-Red, the January 2026 detention review, opens the document">357-Red</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/mo691e8g/pdf/" target="_blank" rel="noopener" aria-label="Record 447, the May 2026 detention review, opens the document">447</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/3wb2303c/pdf/" target="_blank" rel="noopener" aria-label="Record 506, the September 2026 detention review, opens the document">506</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-the-chief-prosecutor-is-disqualified">
+                            <div class="tl-c">
+                                <p class="tl-date">Oct 2, 2025<span class="chip chip-g">Granted</span></p>
+                                <h3 class="tl-h">The chief prosecutor is taken off the case</h3>
+                                <p class="tl-b">Appeals judges say a reasonable observer could see an appearance of bias. They don&rsquo;t find that he was biased, and the case goes on under his deputy.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-26" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-26">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The judges called his earlier involvement &ldquo;significantly intense and multifaceted&rdquo; and noted that people connected to it are now prosecution witnesses. The test was whether &ldquo;a fair-minded and reasonable observer could conclude that there is a reasonable appearance of bias.&rdquo;</p>
+                                        <p class="tl-x-t">The decision is dated October 2 and was made public on October 15. Deputy Prosecutor Mame Mandiaye Niang has led the case since.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/g9hgy2wz/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 286-Red, the decision disqualifying the Prosecutor, opens the document at page 16">286-Red</a> pp. 16&ndash;18</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-the-court-says-it-has-power">
+                            <div class="tl-c">
+                                <p class="tl-date">Oct 23, 2025<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">The court says it has power over the case</h3>
+                                <p class="tl-b">The first look began in February 2018, before the withdrawal took effect, and the judges hold that this is enough.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-27" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-27">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">They agreed with the defense on one thing. Ordinarily a country has to be a member at the moment the court&rsquo;s power is used. What saves this case is the treaty&rsquo;s rule on leaving: &ldquo;any matter&rdquo; is broad, &ldquo;under consideration&rdquo; doesn&rsquo;t name a stage, and the matter here was &ldquo;the allegations of crimes committed in the Philippines.&rdquo;</p>
+                                        <p class="tl-x-t">So the court&rsquo;s rules go on applying to this case &ldquo;as if the Philippines were still a Party&rdquo; for crimes from before March 17, 2019. The defense appealed.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=28" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 28">309</a> &para;&para; 76&ndash;77, <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=29" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 29">80</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/4kajrkt2/pdf/#page=31" target="_blank" rel="noopener" aria-label="Record 309, the decision on jurisdiction, opens the document at page 31">84</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/wqg4r536/pdf/" target="_blank" rel="noopener" aria-label="Record 319, the defense appeal brief on jurisdiction, opens the document">319</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-appeal-on-release-dismissed">
+                            <div class="tl-c">
+                                <p class="tl-date">Nov 28, 2025<span class="chip chip-d">Dismissed</span></p>
+                                <h3 class="tl-h">Appeal on release dismissed</h3>
+                                <p class="tl-b">Five appeals judges, unanimous, read out in open court. He stays in the court&rsquo;s detention center.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-28" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-28">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Three of the five judges were on the bench for the reading and two were away. His lawyer told them he was absent with the court&rsquo;s leave &ldquo;but very much present in spirit.&rdquo;</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/2z3tn15n/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 326-Red, the appeal judgment on interim release, opens the document at page 3">326-Red</a> p. 3 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 1">T-003</a>, 1:22&ndash;25, <a class="cite-doc" href="https://www.legal-tools.org/doc/o4cmb2s4/pdf/#page=2" target="_blank" rel="noopener" aria-label="Transcript T-003, November 28, 2025, opens the transcript at page 2">2:7&ndash;9</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-found-fit-to-take-part">
+                            <div class="tl-c">
+                                <p class="tl-date">Jan 26, 2026<span class="chip chip-d">Denied</span></p>
+                                <h3 class="tl-h">Found fit to take part</h3>
+                                <p class="tl-b">With the three doctors&rsquo; reports in, the judges refuse the open-ended delay and set the hearing on the charges for February 23.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-29" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-29">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Fitness, they wrote, is a legal question that &ldquo;does not depend, in and of itself, on whether the suspect has particular medical conditions,&rdquo; and working through complicated evidence &ldquo;is the role of defence counsel.&rdquo; The defense itself did not dispute that he understands what a criminal case is and what he is charged with.</p>
+                                        <p class="tl-x-t">The medical findings are blacked out in the public version. The judges refused to question the experts in court, and on February 13 they refused <a class="term" href="#t-appeal" data-term="t-appeal" title="Appeal: Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give leave, meaning permission.">leave to appeal</a>.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ovyqskyf/pdf/#page=9" target="_blank" rel="noopener" aria-label="Record 356-Red, the decision on fitness before trial, opens the document at page 9">356-Red</a> &para;&para; 19&ndash;20, <a class="cite-doc" href="https://www.legal-tools.org/doc/ovyqskyf/pdf/#page=17" target="_blank" rel="noopener" aria-label="Record 356-Red, the decision on fitness before trial, opens the document at page 17">37</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/ovyqskyf/pdf/#page=25" target="_blank" rel="noopener" aria-label="Record 356-Red, the decision on fitness before trial, opens the document at page 25">p. 25</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/kcynfbmi/pdf/#page=11" target="_blank" rel="noopener" aria-label="Record 376, the decision refusing leave to appeal on fitness, opens the document at page 11">376</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">The charges are tested</p>
+                                <p class="tl-phase-n">February to April 2026. Four days in court, and then two rulings a day apart.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-539-victims-are-let-into-the-case">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 13, 2026</p>
+                                <h3 class="tl-h">539 victims are let into the case</h3>
+                                <p class="tl-b">They aren&rsquo;t a side and they don&rsquo;t bring the charges. One team of three lawyers speaks for all of them.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-30" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-30">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">At this court people harmed by the charged crimes can apply to take part, which lets their lawyers file papers and speak in court. The judges let victims in by two decisions, on January 26 and February 13, 2026, and the court&rsquo;s own count is 539.</p>
+                                        <p class="tl-x-t">Their lawyers are Joel Butuyan, Gilbert Andres and Paolina Massidda, the principal counsel of the court&rsquo;s own office for victims. The defense asked for the first two to be removed, and the judges refused.</p>
+                                        <p class="tl-cite">Records <a class="cite-doc" href="https://www.legal-tools.org/doc/x6poprdg/pdf/" target="_blank" rel="noopener" aria-label="Record 358, the first decision on victims’ participation, opens the document">358</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/jkmseibc/pdf/" target="_blank" rel="noopener" aria-label="Record 375, the second decision on victims’ participation, opens the document">375</a> &middot; ICC, <a class="cite-doc" href="https://www.icc-cpi.int/sites/default/files/2026-06/DuterteEng.pdf" target="_blank" rel="noopener" aria-label="ICC case information sheet, opens as a PDF">case information sheet</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/movifrzk/pdf/#page=9" target="_blank" rel="noopener" aria-label="Record 390-Red, the decision keeping the victims’ lawyers, opens the document at page 9">390-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-he-gives-up-his-right-to-attend">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 18, 2026</p>
+                                <h3 class="tl-h">He gives up his right to attend</h3>
+                                <p class="tl-b">A signed <a class="term" href="#t-waiver" data-term="t-waiver" title="Waiver: Giving up a right in writing. He has waived his right to be present at most hearings so far. He cannot do that for the trial as a whole.">waiver</a> for the hearing on the charges. The judges accept it two days later, over objections from the prosecution and the victims&rsquo; lawyers.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-31" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-31">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The judges found that he understood the right and what giving it up meant. The victims&rsquo; lawyer told the court the next week that his clients felt &ldquo;very deep disappointment&rdquo; at not seeing him hear the charges read. He also waived the detention hearing that followed.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/e905x0oo/pdf/" target="_blank" rel="noopener" aria-label="Record 383, the notice of his waiver, opens the document">383</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/lev4mewo/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 387, the decision accepting his waiver, opens the document at page 4">387</a> &para;&para; 5&ndash;6 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=18" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 18">T-004</a>, 18:1&ndash;5 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/azuu8vzi/pdf/" target="_blank" rel="noopener" aria-label="Record 395, the decision accepting his waiver of the detention hearing, opens the document">395</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-the-confirmation-hearing-opens">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 23, 2026</p>
+                                <h3 class="tl-h">The hearing on the charges opens</h3>
+                                <p class="tl-b">The charges are read out in his absence, and each side makes an opening statement.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-32" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-32">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A <a class="term" href="#t-confirmation" data-term="t-confirmation" title="Confirmation of charges: The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.">confirmation hearing</a> is where judges decide if there is enough for a trial. Deputy Prosecutor Niang said the 49 incidents were &ldquo;merely a fraction&rdquo; of the killing. Joel Butuyan spoke for the victims.</p>
+                                        <p class="tl-x-t">Nicholas Kaufman, for the defense, called the charges &ldquo;grievously misplaced and politically motivated&rdquo; and said his client &ldquo;maintains his innocence absolutely.&rdquo; The prosecution then began on count one.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=9" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 9">T-004</a>, 9:14&ndash;19, <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=38" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 38">38:14&ndash;17</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/sz7iye4c/pdf/#page=41" target="_blank" rel="noopener" aria-label="Transcript T-004, February 23, 2026, opens the transcript at page 41">41:19&ndash;20</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-prosecutions-case">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 24, 2026</p>
+                                <h3 class="tl-h">The prosecution lays out its case</h3>
+                                <p class="tl-b">Counts two and three, the wider attack on civilians, and how it says he is responsible. The victims&rsquo; lawyers follow.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-33" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-33">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">It showed a list of targets on which the two men shot in the Leyte jail are marked &ldquo;neutralised&rdquo; on the day they died. It showed a map built on an outside group&rsquo;s count of at least 5,823 anti-drug killings while he was president.</p>
+                                        <p class="tl-x-t">It said police reports were &ldquo;repeatedly falsified&rdquo; to pass the operations off as self-defense. Paolina Massidda and Gilbert Andres then spoke for the victims.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=9" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 9">T-005</a>, 9:18&ndash;10:10, <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=12" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 12">12:17&ndash;22</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=21" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 21">21:8&ndash;16</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/tzu1girr/pdf/#page=34" target="_blank" rel="noopener" aria-label="Transcript T-005, February 24, 2026, opens the transcript at page 34">34:24</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-the-defenses-case">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 26, 2026</p>
+                                <h3 class="tl-h">The defense answers</h3>
+                                <p class="tl-b">A full day. No plan to kill, no order from him, and witnesses who can&rsquo;t be believed.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-34" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-34">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Kaufman said &ldquo;neutralise&rdquo; in the police order means lawful restraint, and that the Philippine Supreme Court has never read it as kill. He said the prosecution&rsquo;s main witnesses are &ldquo;self-confessed murderers&rdquo; who talked in return for what amounts to immunity.</p>
+                                        <p class="tl-x-t">He also said that of 4,817 names on the target list, 248 were marked neutralized, which he put at a 5 percent chance and not a certainty. Part of the day was held in closed session.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=25" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 25">T-006</a>, 25:9&ndash;26:15, <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=43" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 43">43:1&ndash;8</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/p0e45i3u/pdf/#page=46" target="_blank" rel="noopener" aria-label="Transcript T-006, February 26, 2026, opens the transcript at page 46">46:9&ndash;18</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-closing-arguments">
+                            <div class="tl-c">
+                                <p class="tl-date">Feb 27, 2026</p>
+                                <h3 class="tl-h">Closing arguments, and a detention hearing</h3>
+                                <p class="tl-b">Each side sums up. The judges then hold the yearly hearing on whether he stays in custody.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-35" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-35">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Julian Nicholls, for the prosecution, said the defense&rsquo;s attack on the evidence &ldquo;sounded like a closing argument after a trial,&rdquo; and that deciding which witness to believe is what a trial is for. Kaufman said &ldquo;he murdered no one.&rdquo;</p>
+                                        <p class="tl-x-t">Gilbert Andres closed for the victims. The hearing on the charges ended at 2:38 p.m. and the detention hearing took about twenty minutes after it.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=20" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 20">T-007</a>, 20:10&ndash;14, <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=51" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 51">51:6&ndash;9</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/6fnhta9a/pdf/#page=55" target="_blank" rel="noopener" aria-label="Transcript T-007, February 27, 2026, opens the transcript at page 55">55:13</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-appeals-judges-uphold-the-courts-power">
+                            <div class="tl-c">
+                                <p class="tl-date">Apr 22, 2026<span class="chip chip-d">Dismissed</span></p>
+                                <h3 class="tl-h">Appeals judges uphold the court&rsquo;s power, 4 to 1</h3>
+                                <p class="tl-b">A preliminary examination &ldquo;qualifies as a &lsquo;matter under consideration.&rsquo;&rdquo; One judge disagrees in part.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-36" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-36">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Judge Lordkipanidze wrote that a matter is under consideration only once judges have authorized an investigation, and that one year &ldquo;is sufficient for the Prosecutor&rdquo; to get that far. He would have ruled for the defense on that point. He had said the same in 2023.</p>
+                                        <p class="tl-x-t">This was the last way to end the case on this question before trial.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/dyh2kaum/pdf/#page=5" target="_blank" rel="noopener" aria-label="Record 415, the appeal judgment on jurisdiction, opens the document at page 5">415</a> pp. 5&ndash;6 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/zo94mr1a/pdf/#page=2" target="_blank" rel="noopener" aria-label="Record 415-OPI, the partly dissenting opinion on jurisdiction, opens the document at page 2">415-OPI</a> pp. 2&ndash;3 &middot; Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/97mnjm5m/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-008, April 22, 2026, opens the transcript at page 3">T-008</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-all-three-counts-confirmed">
+                            <div class="tl-c">
+                                <p class="tl-date">Apr 23, 2026<span class="chip chip-g">Confirmed</span></p>
+                                <h3 class="tl-h">All three counts confirmed</h3>
+                                <p class="tl-b">Unanimous. Three judges find <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">substantial grounds to believe</a> the charges and send him to trial.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-37" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-37">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The decision confirmed every count on all three ways of being responsible. On the self-defense language in his speeches, it said the same speeches &ldquo;included explicit instructions to carry out unlawful killings.&rdquo; On the disputed word, it said there is enough evidence that &ldquo;&lsquo;neutralise&rsquo; meant &lsquo;to kill&rsquo; in the context of the present case.&rdquo;</p>
+                                        <p class="tl-x-t">It also said whether the witnesses can be believed &ldquo;can only be properly addressed at trial,&rdquo; and that the 49 incidents are examples to which more can be added with fair notice. The defense asked for leave to appeal and was refused on May 21.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=49" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 49">417-Red</a> pp. 49&ndash;50, &para;&para; <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=12" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 12">24</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=13" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 13">28</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/ievlpzr7/pdf/#page=22" target="_blank" rel="noopener" aria-label="Record 417-Red, the decision confirming the charges, opens the document at page 22">53&ndash;54</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/q2oalb7v/pdf/#page=12" target="_blank" rel="noopener" aria-label="Record 445, the decision refusing leave to appeal the confirmation, opens the document at page 12">445</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-phase">
+                            <div class="tl-phase-in">
+                                <p class="tl-phase-l">Toward trial</p>
+                                <p class="tl-phase-n">New judges, new defense lawyers, and seven months to get ready.</p>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-trial-judges-are-named">
+                            <div class="tl-c">
+                                <p class="tl-date">Apr 24, 2026</p>
+                                <h3 class="tl-h">Trial judges are named</h3>
+                                <p class="tl-b">The court forms Trial <a class="term" href="#t-chamber" data-term="t-chamber" title="Chamber: A panel of judges. A Pre-Trial Chamber of three handles a case up to the decision to send it to trial, a Trial Chamber of three hears the trial, and the Appeals Chamber of five hears appeals. There is no jury.">Chamber</a> III: Judges Joanna Korner, Keebong Paek and Nicolas Guillou. Korner is elected to preside on April 29.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-38" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-38">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The three judges who confirmed the charges step away at this point. A different three hear the trial and decide the verdict. There is no jury at this court.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/0lk7jyv4/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 420, the decision forming Trial Chamber III, opens the document at page 4">420</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/1rsbycxi/pdf/" target="_blank" rel="noopener" aria-label="Record 421, the notice of the presiding judge’s election, opens the document">421</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-a-new-defense-team">
+                            <div class="tl-c">
+                                <p class="tl-date">May 15, 2026</p>
+                                <h3 class="tl-h">A new defense team</h3>
+                                <p class="tl-b">Both of his lawyers leave within a week. Peter Haynes KC takes over as lead counsel, with Kate Gibson.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-39" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-39">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The filings say the change was his own wish, to reorganize his team for the trial. Dov Jacobs asked to withdraw on May 7 and Nicholas Kaufman on May 8, and the judges allowed both.</p>
+                                        <p class="tl-x-t">Nearly everything the defense had said in court up to this point was said by the team that left.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/25z26ocd/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 429, the associate counsel’s request to withdraw, opens the document at page 3">429</a> &para; 2 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/potxzebk/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 435, the decision on the lead counsel’s withdrawal, opens the document at page 3">435</a> &para;&para; 3&ndash;4 &middot; Records <a class="cite-doc" href="https://www.legal-tools.org/doc/a63fgxub/pdf/" target="_blank" rel="noopener" aria-label="Record 441, the notice of the new lead counsel’s appointment, opens the document">441</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/pinh2cae/pdf/" target="_blank" rel="noopener" aria-label="Record 443, the notice of the new associate counsel’s appointment, opens the document">443</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-trial-date-set">
+                            <div class="tl-c">
+                                <p class="tl-date">May 27, 2026</p>
+                                <h3 class="tl-h">Trial date set for November 30</h3>
+                                <p class="tl-b">The first <a class="term" href="#t-status-conference" data-term="t-status-conference" title="Status conference: A hearing about scheduling and logistics. No evidence is heard.">status conference</a> before the trial judges. The prosecution gets until August 31 to file its trial brief and add incidents.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-40" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-40">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Judge Korner said the trial &ldquo;will run on a daily basis until the judicial recess or thereabouts.&rdquo; Haynes said his worry was &ldquo;what the parameters of this trial are.&rdquo; The victims&rsquo; lawyer said her clients &ldquo;would like this trial to start tomorrow.&rdquo;</p>
+                                        <p class="tl-x-t">Two days earlier the defense had asked for a new medical examination. The judges sent him back to the same three experts.</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=46" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 46">T-009</a>, 46:12&ndash;15, <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=27" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 27">27:25</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/57uercbf/pdf/#page=7" target="_blank" rel="noopener" aria-label="Transcript T-009, May 27, 2026, opens the transcript at page 7">7:24</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/odt2tsra/pdf/" target="_blank" rel="noopener" aria-label="Record 450-Red, the defense request for a medical examination, opens the document">450-Red</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/e3xx19ud/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 462-Red, the decision appointing the experts again, opens the document at page 16">462-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-second-status-conference">
+                            <div class="tl-c">
+                                <p class="tl-date">Jun 23, 2026</p>
+                                <h3 class="tl-h">Second status conference</h3>
+                                <p class="tl-b">A short one. The judge says only one of the victims&rsquo; three lawyers will question any witness.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-41" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-41">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The prosecution asked for one more week to answer the medical reports and got it. Judge Korner told Haynes his client had been excused only because the hearing was short. Haynes answered that his client was &ldquo;fully aware that you&rsquo;ll expect to see him sooner rather than later.&rdquo;</p>
+                                        <p class="tl-cite">Tr. <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=1" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 1">T-010</a>, 1:19&ndash;25, <a class="cite-doc" href="https://www.legal-tools.org/doc/604t7e5c/pdf/#page=3" target="_blank" rel="noopener" aria-label="Transcript T-010, June 23, 2026, opens the transcript at page 3">3:1&ndash;5</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-p" id="ev-the-trial-brief-and-eight-more-incidents">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 4, 2026</p>
+                                <h3 class="tl-h">The trial brief, and eight more incidents</h3>
+                                <p class="tl-b">A 143-page outline of what the prosecution says it will prove. With it come eight incidents that were not in the confirmed charges.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-42" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-42">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">A <a class="term" href="#t-trial-brief" data-term="t-trial-brief" title="Trial brief: A written outline, filed before trial, of the case a side means to prove and the evidence it will use.">trial brief</a> sets out a side&rsquo;s case before the evidence starts. This one says the evidence &ldquo;will prove beyond reasonable doubt&rdquo; that he is responsible on all three counts. The eight new incidents were announced on August 31, six under count three and two under count two.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/c4q5kqaa/pdf/#page=6" target="_blank" rel="noopener" aria-label="Record 490-Red, the prosecution’s trial brief, opens the document at page 6">490-Red</a> &para; 1 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 519-Red, the decision on the defense motions on the charges, opens the document at page 16">519-Red</a> &para; 47</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-the-defense-challenges-the-charges">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 11, 2026</p>
+                                <h3 class="tl-h">The defense challenges the shape of the charges</h3>
+                                <p class="tl-b">Two motions. The charges are too open-ended to defend against, and the eight new incidents amount to changing them without a judge&rsquo;s say.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-43" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-43">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The first, filed August 31, asked the trial judges to send the charges back to be redrawn with &ldquo;an exhaustive list&rdquo; of acts. The second said adding incidents three months before trial was amending the charges &ldquo;with no judicial oversight.&rdquo; The prosecution and the victims&rsquo; lawyers opposed both.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/4g7xw50k/pdf/#page=11" target="_blank" rel="noopener" aria-label="Record 487, the defense motion on the form of the charges, opens the document at page 11">487</a> &para; 21 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/t67uy6gi/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 502-Red, the defense motion on the eight added incidents, opens the document at page 3">502-Red</a> &para;&para; 1&ndash;3 &middot; Records <a class="cite-doc" href="https://www.legal-tools.org/doc/nyqhv476/pdf/" target="_blank" rel="noopener" aria-label="Record 499, the prosecution response on the form of the charges, opens the document">499</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/7xbouhb8/pdf/" target="_blank" rel="noopener" aria-label="Record 504-Corr-Red, the prosecution response on the eight added incidents, opens the document">504-Corr-Red</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/y0tv76kf/pdf/" target="_blank" rel="noopener" aria-label="Record 498, the victims’ response on the form of the charges, opens the document">498</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-he-comes-to-court-in-person">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 16, 2026</p>
+                                <h3 class="tl-h">He comes to court in person</h3>
+                                <p class="tl-b">The third status conference, and by the reporting of the day the first time he has sat in the courtroom. Its transcript isn&rsquo;t public yet.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-44" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-44">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Later filings cite the session for the hearing equipment tried out for him there and for the talk about how long the court should sit each day. The fight over the prosecution&rsquo;s <a class="term" href="#t-disclosure" data-term="t-disclosure" title="Disclosure: The prosecution handing its evidence to the defense before trial, including anything that might help the defense.">disclosure</a> was argued too.</p>
+                                        <p class="tl-x-t">The same day the judges reviewed his detention and kept him in custody. They wrote that with a trial date set, the prospect of &ldquo;a lengthy prison sentence&rdquo; had grown.</p>
+                                        <p class="tl-cite">Reporting: <a class="cite-doc" href="https://verafiles.org/articles/duterte-attends-status-conference-icc-in-the-hague" target="_blank" rel="noopener" aria-label="VERA Files report on the September 16, 2026 status conference, opens in a new tab">VERA Files, Sept 16, 2026</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=14" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 14">509-Red</a> &para;&para; 39, 41 &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/3wb2303c/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 506, the September 2026 detention review, opens the document at page 4">506</a> &para; 8</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-d" id="ev-the-defense-says-the-evidence-is-unusable">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 25, 2026</p>
+                                <h3 class="tl-h">The defense says the evidence came in a state it can&rsquo;t use</h3>
+                                <p class="tl-b">62,130 items, most of them handed over since June. It asks for the prosecution&rsquo;s file to be cut to about 10,000.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-45" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-45">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The motion says fewer than 5,000 of the items contain the word &ldquo;Duterte&rdquo; even once, and complains of loose single pages, unreadable scans and missing translations.</p>
+                                        <p class="tl-x-t">The prosecution answered that most of the volume is one set of police records of the deaths, that counting a search word &ldquo;is in no way indicative of the relevance of evidence,&rdquo; and that a cap would be arbitrary. The defense replied on October 9. No ruling yet.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/f1wqyuu2/pdf/#page=3" target="_blank" rel="noopener" aria-label="Record 507-Red, the defense motion on disclosure, opens the document at page 3">507-Red</a> &para; 2, <a class="cite-doc" href="https://www.legal-tools.org/doc/f1wqyuu2/pdf/#page=5" target="_blank" rel="noopener" aria-label="Record 507-Red, the defense motion on disclosure, opens the document at page 5">&para; 10</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/2u6l3yje/pdf/#page=4" target="_blank" rel="noopener" aria-label="Record 510-Red, the prosecution response on disclosure, opens the document at page 4">510-Red</a> &para;&para; 2&ndash;3, <a class="cite-doc" href="https://www.legal-tools.org/doc/2u6l3yje/pdf/#page=9" target="_blank" rel="noopener" aria-label="Record 510-Red, the prosecution response on disclosure, opens the document at page 9">20</a> &middot; Record <a class="cite-doc" href="https://www.legal-tools.org/doc/zgz5efwg/pdf/" target="_blank" rel="noopener" aria-label="Record 516-Red, the defense reply on disclosure, opens the document">516-Red</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court is-key" id="ev-found-fit-to-stand-trial">
+                            <div class="tl-c">
+                                <p class="tl-date">Sept 28, 2026</p>
+                                <h3 class="tl-h">Found fit to stand trial</h3>
+                                <p class="tl-b">The same three doctors find no worsening. The judges say he can follow the trial and instruct his lawyers, with adjustments.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-46" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-46">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">The panel reported &ldquo;no new evidence that alters our joint opinion&rdquo; and that he &ldquo;remains physically frail.&rdquo; It had reservations about his test scores, which it said showed inconsistencies it could not explain medically. The defense said he &ldquo;suffers from significant memory impairment&rdquo; and asked to question the experts. That was refused.</p>
+                                        <p class="tl-x-t">He will get hearing support and a nurse at breaks, and sitting hours will be decided as the trial goes. The decision was made public on October 8.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=8" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 8">509-Red</a> &para;&para; 19&ndash;23, <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=10" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 10">25</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=14" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 14">38&ndash;41</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/s1vsncge/pdf/#page=17" target="_blank" rel="noopener" aria-label="Record 509-Red, the decision on fitness to stand trial, opens the document at page 17">p. 17</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-ev tl-court" id="ev-seven-new-incidents-in-one-out">
+                            <div class="tl-c">
+                                <p class="tl-date">Oct 9, 2026<span class="chip chip-p">Granted in part</span></p>
+                                <h3 class="tl-h">Seven new incidents in, one out</h3>
+                                <p class="tl-b">The trial judges refuse to send the charges back. They <a class="term" href="#t-struck" data-term="t-struck" title="Struck: Removed from the record or from the case, so that it cannot be relied on.">strike</a> the one new incident that falls outside the dates of its count.</p>
+                                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-47" hidden>
+                                    <span class="tl-more-i" aria-hidden="true"></span>
+                                    <span class="tl-more-l">More</span>
+                                </button>
+                                <div class="tl-x" id="tlx-47">
+                                    <div class="tl-x-in">
+                                        <p class="tl-x-t">Count two runs &ldquo;between around July 2016 and July 2017,&rdquo; and the judges said the prosecution &ldquo;cannot now be permitted to broaden the temporal scope&rdquo; it set for itself. So the trial covers 56 incidents.</p>
+                                        <p class="tl-x-t">Witnesses on the new ones are not to be called until the defense has had &ldquo;reasonable time to prepare.&rdquo; The prosecution was told to update its brief and lists by October 16.</p>
+                                        <p class="tl-cite">Record <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=13" target="_blank" rel="noopener" aria-label="Record 519-Red, the decision on the defense motions on the charges, opens the document at page 13">519-Red</a> &para;&para; 37, <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=16" target="_blank" rel="noopener" aria-label="Record 519-Red, the decision on the defense motions on the charges, opens the document at page 16">47</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=17" target="_blank" rel="noopener" aria-label="Record 519-Red, the decision on the defense motions on the charges, opens the document at page 17">50&ndash;52</a>, <a class="cite-doc" href="https://www.legal-tools.org/doc/bdf85p8v/pdf/#page=18" target="_blank" rel="noopener" aria-label="Record 519-Red, the decision on the defense motions on the charges, opens the document at page 18">p. 18</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="tl-end">
+                            <div class="tl-end-in">
+                                <p class="tl-end-d">Oct 12, 2026 &middot; the record ends</p>
+                                <h3 class="tl-end-h">Trial opens November 30, 2026</h3>
+                                <ul class="tl-open">
+                                    <li class="is-major"><span class="o-d">Sept 2026</span><span class="o-t">The defense&rsquo;s motion on the prosecution&rsquo;s <a class="term" href="#t-disclosure" data-term="t-disclosure" title="Disclosure: The prosecution handing its evidence to the defense before trial, including anything that might help the defense.">disclosure</a>, undecided</span></li>
+                                    <li><span class="o-d">Oct 16</span><span class="o-t">The prosecution&rsquo;s updated brief and lists are due</span></li>
+                                    <li class="is-major"><span class="o-d">Oct 30</span><span class="o-t">The defense&rsquo;s statement of what it disputes is due</span></li>
+                                    <li><span class="o-d">Nov 2</span><span class="o-t">A status conference is listed</span></li>
+                                    <li class="is-major"><span class="o-d">Nov 30</span><span class="o-t">Opening statements</span></li>
+                                </ul>
+                                <p class="tl-end-n">No witness has testified yet. The statement due on October 30 will be the first written account of the case his present lawyers mean to run. A trial here needs proof <a class="term" href="#t-standards" data-term="t-standards" title="Standards of proof: How sure the judges have to be. Reasonable grounds to believe is enough for an arrest warrant. Substantial grounds to believe is enough to send a case to trial. A conviction takes proof beyond reasonable doubt.">beyond reasonable doubt</a>, which is a higher test than either of the two the prosecution has passed so far.</p>
+                            </div>
+                        </li>
+                    </ol>
+
+                    <p class="tl-close">Read as a whole, he has lost every ruling that could have stopped the case before trial: on the court&rsquo;s power, on his detention, and on his fitness. What he has won is narrower. The chief prosecutor was removed, the hearing on the charges was delayed five months for medical exams, and one incident was struck. None of it goes to whether the charges are true. <em>That question has not been heard yet.</em></p>
+
+                <!-- Plain anchors, and sticky rather than fixed: the pill rides its own
+                     section and settles at the end of it. No script, so it degrades to an
+                     ordinary in-page jump. The smooth scroll and the reduced-motion
+                     opt-out are the ones already set on <html>. -->
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/prosecutor-v-duterte/" aria-label="Back to the case page for Prosecutor v. Duterte">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">The Prosecutor v. Rodrigo Roa Duterte, No. ICC-01/21-01/25 (Int&rsquo;l Crim. Ct.)</p>
+            </div>
+        </footer>
+
+        <!-- Ships hidden and is revealed by the script, so a reader without
+             JavaScript never sees a control that cannot do anything - the
+             same bargain as the other two enhancements on this page. It is
+             still a plain anchor underneath, so the smooth scroll and the
+             reduced-motion opt-out are the ones already set on <html>. -->
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same list is on each of this
+             case's four views. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which has no jury and gives victims a voice of their own.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icc">International Criminal Court</dt><dd>A permanent court in The Hague, in the Netherlands, that tries individual people for genocide, war crimes, crimes against humanity and aggression. It is not part of the United Nations, and it only has power where its treaty gives it power.</dd></div>
+                    <div><dt id="t-rome-statute">Rome Statute</dt><dd>The treaty that set up the court and says what it can do. A country that ratifies it becomes a <em>State Party</em>, and the court can then try crimes committed on its soil or by its nationals.</dd></div>
+                    <div><dt id="t-withdrawal">Withdrawal</dt><dd>A country leaving the treaty. It takes effect one year after the country gives notice, and the treaty says leaving does not stop the court from carrying on with a matter it was already considering.</dd></div>
+                    <div><dt id="t-prosecutor">The Prosecutor</dt><dd>The head of the court&rsquo;s Office of the Prosecutor, which investigates and brings cases on its own authority. Every case here is titled in the Prosecutor&rsquo;s name.</dd></div>
+                    <div><dt id="t-chamber">Chamber</dt><dd>A panel of judges. A Pre-Trial Chamber of three handles a case up to the decision to send it to trial, a Trial Chamber of three hears the trial, and the Appeals Chamber of five hears appeals. There is no jury.</dd></div>
+                    <div><dt id="t-registry">Registry</dt><dd>The court&rsquo;s administration. It runs the courtroom, the detention center, the records, and the support given to witnesses and victims. It takes no side.</dd></div>
+                    <div><dt id="t-accused">Accused</dt><dd>What this court calls the person on trial once the charges are confirmed. Before that the word is <em>suspect</em>.</dd></div>
+                    <div><dt id="t-victims-lawyers">Victims&rsquo; lawyers</dt><dd>At this court people harmed by the charged crimes can apply to take part. They do not bring the case and are not a side, but lawyers appointed for them can file papers and speak in court on what affects them. The court&rsquo;s term is <em>common legal representatives</em>.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-record-number">Record number</dt><dd>How a filing is cited. ICC-01/21-01/25-417 is the 417th document in this case, shortened here to Record 417. &ldquo;Red&rdquo; on the end means it is the public version with parts blacked out.</dd></div>
+                    <div><dt id="t-redacted">Redacted</dt><dd>Blacked out. Most filings here exist in a confidential version and a public one with names, dates or places removed, usually to protect witnesses and victims.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing. Cited by page and line, so 9:14 means page 9, line 14.</dd></div>
+                    <div><dt id="t-filing">Filing</dt><dd>Any document a side or the court puts on the record. A side&rsquo;s request is answered by a <em>response</em>, and sometimes that is answered by a <em>reply</em>.</dd></div>
+                    <div><dt id="t-trial-brief">Trial brief</dt><dd>A written outline, filed before trial, of the case a side means to prove and the evidence it will use.</dd></div>
+                    <div><dt id="t-disclosure">Disclosure</dt><dd>The prosecution handing its evidence to the defense before trial, including anything that might help the defense.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-crimes-against-humanity">Crimes against humanity</dt><dd>Certain acts, murder among them, when they are part of a widespread or systematic attack on a civilian population, carried out under a government&rsquo;s or an organization&rsquo;s policy.</dd></div>
+                    <div><dt id="t-count">Count</dt><dd>One charge. This case has three.</dd></div>
+                    <div><dt id="t-incident">Incident</dt><dd>One of the specific killings or attempted killings the prosecution lists as an example under a count.</dd></div>
+                    <div><dt id="t-attack">Widespread or systematic attack</dt><dd>What turns a murder into a crime against humanity. <em>Widespread</em> is about scale. <em>Systematic</em> is about being organized and following a pattern. Either is enough, and the attack has to be aimed at civilians.</dd></div>
+                    <div><dt id="t-policy">Policy</dt><dd>The attack has to carry out the policy of a government or an organization. It does not have to be written down, and it can be shown by what was done and said.</dd></div>
+                    <div><dt id="t-common-plan">Common plan</dt><dd>An agreement between two or more people that, if carried out, will lead to crimes. It is the core of the first way the prosecution says he is responsible.</dd></div>
+                    <div><dt id="t-co-perpetration">Indirect co-perpetration</dt><dd>Committing a crime together with others and through other people. The person need not have been at the scene. The prosecution has to show a common plan, an essential part in it, and control over the people who did the killing.</dd></div>
+                    <div><dt id="t-ordering">Ordering or inducing</dt><dd>Telling someone to commit a crime from a position of authority, or prompting them to commit it.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Helping or encouraging a crime that someone else commits, in order to make it easier.</dd></div>
+                    <div><dt id="t-neutralize">&ldquo;Neutralize&rdquo;</dt><dd>The word in the Philippine police order that began the national anti-drug campaign in 2016. The prosecution says it meant kill. The defense says it meant arrest or subdue. The court&rsquo;s records spell it &ldquo;neutralise.&rdquo;</dd></div>
+                    <div><dt id="t-dds">Davao Death Squad</dt><dd>What the charges call a group of police officers and hired gunmen said to have killed people accused of crime in Davao City. The prosecution says he created and ran it. His lawyers have called it a fiction.</dd></div>
+                    <div><dt id="t-barangay">Barangay</dt><dd>The smallest unit of local government in the Philippines, about the size of a village or a neighborhood.</dd></div>
+                    <div><dt id="t-buy-bust">Buy-bust</dt><dd>A police sting in which an officer poses as a drug buyer and the seller is arrested in the act.</dd></div>
+                    <div><dt id="t-nanlaban">Nanlaban</dt><dd>Tagalog for &ldquo;fought back.&rdquo; It is what Philippine police reports say of a suspect who was shot after resisting arrest.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>Whether this court has the power to hear this case at all. Here that depends on dates, because the Philippines left the court in 2019.</dd></div>
+                    <div><dt id="t-preliminary-examination">Preliminary examination</dt><dd>The Prosecutor&rsquo;s first look at a set of events, to decide whether to ask for a full investigation. No judge is involved yet.</dd></div>
+                    <div><dt id="t-investigation">Investigation</dt><dd>The formal stage of gathering evidence. When the Prosecutor starts one on their own, three judges have to authorize it first.</dd></div>
+                    <div><dt id="t-deferral">Deferral</dt><dd>The court is meant to step in only when a country is not genuinely investigating or prosecuting the crimes itself. A country can ask the Prosecutor to stand back in favor of its own investigation.</dd></div>
+                    <div><dt id="t-warrant">Arrest warrant</dt><dd>A court order to arrest someone. Judges issue one when there are reasonable grounds to believe the person committed a crime and an arrest appears necessary.</dd></div>
+                    <div><dt id="t-surrender">Surrender</dt><dd>A country handing an arrested person over to the court. The court has no police of its own.</dd></div>
+                    <div><dt id="t-first-appearance">First appearance</dt><dd>A short hearing soon after someone arrives. The judges check who the person is, that they know the charges and their rights, and set a date for the next stage.</dd></div>
+                    <div><dt id="t-interim-release">Interim release</dt><dd>Being let out of detention while the case goes on, with or without conditions. It is refused if there is a risk the person would flee, interfere with the case, or keep committing crimes.</dd></div>
+                    <div><dt id="t-fitness">Fitness to stand trial</dt><dd>Whether a person is able to understand the proceedings, follow the evidence and instruct their lawyers. It is a legal question that doctors inform and judges decide.</dd></div>
+                    <div><dt id="t-waiver">Waiver</dt><dd>Giving up a right in writing. He has waived his right to be present at most hearings so far. He cannot do that for the trial as a whole.</dd></div>
+                    <div><dt id="t-disqualification">Disqualification</dt><dd>Removing a judge, prosecutor or lawyer from a case because their impartiality could reasonably be doubted.</dd></div>
+                    <div><dt id="t-confirmation">Confirmation of charges</dt><dd>The stage where three judges decide whether the prosecution has enough to justify a trial. It is a filter, and it is not a verdict.</dd></div>
+                    <div><dt id="t-status-conference">Status conference</dt><dd>A hearing about scheduling and logistics. No evidence is heard.</dd></div>
+                    <div><dt id="t-appeal">Appeal</dt><dd>Asking the five appeals judges to overturn a decision. Some decisions can be appealed as of right. For others the judges who made the decision must first give <em>leave</em>, meaning permission.</dd></div>
+                    <div><dt id="t-dissent">Dissent</dt><dd>A judge&rsquo;s written disagreement with the majority. It changes nothing in the result.</dd></div>
+                    <div><dt id="t-struck">Struck</dt><dd>Removed from the record or from the case, so that it cannot be relied on.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Proof</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-standards">Standards of proof</dt><dd>How sure the judges have to be. <em>Reasonable grounds to believe</em> is enough for an arrest warrant. <em>Substantial grounds to believe</em> is enough to send a case to trial. A conviction takes proof <em>beyond reasonable doubt</em>.</dd></div>
+                    <div><dt id="t-burden">Burden of proof</dt><dd>Which side has to prove a thing. In a criminal trial it is the prosecution, and the accused does not have to prove anything.</dd></div>
+                    <div><dt id="t-insider-witness">Insider witness</dt><dd>A witness who was part of the group or operation being described, such as a former police officer or gunman.</dd></div>
+                    <div><dt id="t-limited-use">Limited-use assurance</dt><dd>A written promise from the prosecution that what a witness says in an interview will not be used against that witness at this court. It is not immunity, and it is off if the witness lies.</dd></div>
+                    <div><dt id="t-hearsay">Hearsay</dt><dd>Repeating what someone else said to prove it was true. This court can admit it, and decides how much weight it deserves.</dd></div>
+                    <div><dt id="t-corroboration">Corroboration</dt><dd>Other evidence that backs up what a witness says.</dd></div>
+                    <div><dt id="t-recorded-testimony">Prior recorded testimony</dt><dd>A witness&rsquo;s earlier statement or interview, admitted in place of some or all of their testimony in court. The court&rsquo;s rules call it Rule 68.</dd></div>
+                    <div><dt id="t-reparations">Reparations</dt><dd>What a convicted person can be ordered to provide to victims, such as compensation. It is decided only after a conviction.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013b" defer></script>
+</body>
+
+</html>
