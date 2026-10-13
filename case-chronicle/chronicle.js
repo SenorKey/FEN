@@ -745,8 +745,9 @@
    moment; everyone and everything else is on the plan.
 
    When the bar first comes into view the line moves by itself, to two
-   moments picked at random and then back to where it started, because
-   nothing about a line on a bar says it can be moved.
+   moments picked at random from the ones with somebody in the room and
+   then back to where it started, because nothing about a line on a bar
+   says it can be moved.
 
    If the chronology cannot be fetched the bar never appears, and the
    page stays what it is without a script: an empty plan and two lists. */
@@ -907,6 +908,15 @@
     if (at('data-remote', row).includes(i)) return 'remote';
     if (row.dataset.in === '*' || at('data-in', row).includes(i)) return 'in';
     return 'case';
+  }
+
+  /* Whether anybody is in the room at this moment, in person or on a
+     screen: whether the list beside the plan has a person on it. */
+  function peopled(i) {
+    return rows.some((row) => {
+      const st = present(row, i) ? status(row, i) : '';
+      return st === 'in' || st === 'remote';
+    });
   }
 
   function statusText(st, kind) {
@@ -1341,10 +1351,19 @@
 
   /* ── the first few seconds ──
      The line goes to two moments picked at random and then back to
-     where the room opens, which is where it stood to begin with. Each
-     stop is far enough from the one before, and the second far enough
-     from the start, that all three moves cross a good part of the bar:
-     a line that shifts by one tick has not been seen to move.
+     where the room opens, which is where it stood to begin with. Both
+     are moments with somebody in the room. Most of the bar is steps
+     taken on paper, and a line left to land anywhere mostly lands on
+     those, and shows the reader an empty room twice. Only a room that
+     nobody is recorded in at any other moment is toured the old way,
+     through any two moments at all.
+
+     Each stop is far enough from the one before, and the second far
+     enough from the start, that all three moves cross a good part of
+     the bar: a line that shifts by one tick has not been seen to move.
+     Far enough is a quarter of the bar. The days of a trial sit closer
+     together than that, so where nothing is a quarter away it is
+     halved, and halved again, until something is.
 
      It waits until the bar is on the screen, since a demonstration
      nobody is looking at is only the room changing behind their back.
@@ -1369,17 +1388,22 @@
     const last = moments.length - 1;
     if (last < 3 || still.matches) return;
 
-    const gap = Math.max(2, Math.round(last / 4));
-    const pick = (a, b) => {
-      const ok = [];
-      for (let i = 0; i <= last; i++) {
-        if (Math.abs(i - a) >= gap && (b === undefined || Math.abs(i - b) >= gap)) ok.push(i);
+    const every = moments.map((m, i) => i);
+    const full = every.filter((i) => i !== opens && peopled(i));
+    const pool = full.length ? full : every;
+
+    /* At its last halving the gap is one, which asks only that the
+       stop is not a moment the line is already coming from. A room
+       with a single sitting has no second stop, and is not given one. */
+    const pick = (...from) => {
+      for (let gap = Math.max(2, Math.round(last / 4)); gap; gap >>= 1) {
+        const ok = pool.filter((i) => from.every((a) => Math.abs(i - a) >= gap));
+        if (ok.length) return ok[Math.floor(Math.random() * ok.length)];
       }
-      if (!ok.length) return a < last / 2 ? last : 0;
-      return ok[Math.floor(Math.random() * ok.length)];
+      return -1;
     };
     const first = pick(opens);
-    const stops = [first, pick(first, opens), opens];
+    const stops = [first, pick(first, opens), opens].filter((i) => i >= 0);
 
     const hop = () => {
       show(stops.shift());
