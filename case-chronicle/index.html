@@ -105,21 +105,26 @@
             <div class="wrap">
                 <h2 class="kicker" id="cases-h">The cases</h2>
 
-                <!-- The shelf. Each volume carries its own plate, and every plate
-                     lands in the same box off the shelf: beside it where there
-                     is room, under it where there is not. Only the one being
-                     pointed at is lit, and the line in shelf-plate holds the
-                     box when none is.
+                <!-- The shelf. Ten volumes in two tiers of five: end to end on one
+                     board where there is room, one over the other where there
+                     is not.
 
-                     Nothing under the shelf says any of this again, so the
-                     plate is the only place a case is described. A finger
-                     cannot point, so chronicle.js gives it a first tap that
-                     picks the volume and a second that goes through, and
-                     bk-plate-go is the line that says so. To anything that
-                     reads the page rather than looks at it, a volume is its
-                     name, described by the two lines aria-describedby names;
-                     the plate itself stays hidden so the name stays short. -->
-                <div class="shelf">
+                     Each volume carries its own plate, and every plate lands in
+                     the one box: over the shelf where it is one board, between
+                     the boards where it is two. Only the one being pointed at
+                     is lit, and the line in shelf-plate holds the box when none
+                     is.
+
+                     Nothing else on the page describes a case, so the plate is
+                     the only place one is described. A finger cannot point, so
+                     chronicle.js gives it a first tap that picks the volume and
+                     a second that goes through, and bk-plate-go is the line
+                     that says so. To anything that reads the page rather than
+                     looks at it, a volume is its name, described by the two
+                     lines aria-describedby names; the plate itself stays hidden
+                     so the name stays short. chronicle.css, under "Ten
+                     volumes", has the rest. -->
+                <div class="shelf shelf-tiers">
 
                     <div class="shelf-plate">
                         <p class="plate-rest">Every case on the shelf gets the same treatment: a chronology, a
@@ -129,100 +134,198 @@
 
                     <div class="shelf-rail">
 
-                        <a class="bk" href="/case-chronicle/doe-v-bonnell/" aria-describedby="bk-doe-t bk-doe-s"
-                            style="--bind: var(--bind-1); --bk-w: 94px; --bk-h: 346px;">
-                            <span class="bk-plate" aria-hidden="true">
-                                <span class="bk-plate-court">S.D. Fla. &middot; No. 1:25-cv-20757-JB</span>
-                                <span class="bk-plate-n">Doe <em>v.</em> Bonnell</span>
-                                <span class="bk-plate-t" id="bk-doe-t">A civil suit over an intimate video, recorded with
-                                    consent and later shared. A third party put it online years afterward; in
-                                    court, almost all of it turns on one date.</span>
-                                <span class="bk-plate-s" id="bk-doe-s"><span class="pip pip-open"></span>Filed Feb 18, 2025
-                                    &middot; Undecided</span>
-                                <span class="bk-plate-go">Open the case &rarr;</span>
-                            </span>
-                            <span class="sp">
-                                <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
-                                <span class="sp-name">Doe <em>v.</em> Bonnell</span>
-                                <span class="sp-vol" aria-hidden="true">I</span>
-                            </span>
-                        </a>
+                        <!-- The first five: the upper board, where there are two. -->
+                        <div class="shelf-tier">
 
-                        <a class="bk" href="/case-chronicle/depp-v-heard/" aria-describedby="bk-depp-t bk-depp-s"
-                            style="--bind: var(--bind-2); --bk-w: 76px; --bk-h: 375px;">
-                            <span class="bk-plate" aria-hidden="true">
-                                <span class="bk-plate-court">Va. Cir. Ct., Fairfax Cty. &middot; No.
-                                    CL-2019-0002911</span>
-                                <span class="bk-plate-n">Depp <em>v.</em> Heard</span>
-                                <span class="bk-plate-t" id="bk-depp-t">Two defamation cases tried as one. Both sides
-                                    appealed; neither appeal was ever heard.</span>
-                                <span class="bk-plate-s" id="bk-depp-s"><span class="pip pip-closed"></span>Filed Mar 1, 2019
-                                    &middot; Settled</span>
-                                <span class="bk-plate-go">Open the case &rarr;</span>
-                            </span>
-                            <span class="sp">
-                                <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
-                                <span class="sp-name">Depp <em>v.</em> Heard</span>
-                                <span class="sp-vol" aria-hidden="true">II</span>
-                            </span>
-                        </a>
+                            <a class="bk" href="/case-chronicle/doe-v-bonnell/" aria-describedby="bk-doe-t bk-doe-s"
+                                style="--bind: var(--bind-1); --bk-w: 94px; --bk-h: 346px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">S.D. Fla. &middot; No. 1:25-cv-20757-JB</span>
+                                    <span class="bk-plate-n">Doe <em>v.</em> Bonnell</span>
+                                    <span class="bk-plate-t" id="bk-doe-t">A civil suit over an intimate video, recorded with
+                                        consent and later shared. A third party put it online years afterward; in
+                                        court, almost all of it turns on one date.</span>
+                                    <span class="bk-plate-s" id="bk-doe-s"><span class="pip pip-open"></span>Filed Feb 18, 2025
+                                        &middot; Undecided</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">Doe <em>v.</em> Bonnell</span>
+                                    <span class="sp-vol" aria-hidden="true">I</span>
+                                </span>
+                            </a>
 
-                        <a class="bk" href="/case-chronicle/commonwealth-v-clancy/" aria-describedby="bk-clancy-t bk-clancy-s"
-                            style="--bind: var(--bind-3); --bk-w: 108px; --bk-h: 354px;">
-                            <span class="bk-plate" aria-hidden="true">
-                                <span class="bk-plate-court">Mass. Super. Ct., Plymouth Cty. &middot; No.
-                                    2383CR00199</span>
-                                <span class="bk-plate-n">Commonwealth <em>v.</em> Clancy</span>
-                                <span class="bk-plate-t" id="bk-clancy-t">A prosecution in which the defense disputed almost
-                                    none of the facts and contested only criminal responsibility. A mistrial
-                                    decides nothing, and nothing was decided.</span>
-                                <span class="bk-plate-s" id="bk-clancy-s"><span class="pip pip-open"></span>Tried Jul 20, 2026
-                                    &middot; Mistrial</span>
-                                <span class="bk-plate-go">Open the case &rarr;</span>
-                            </span>
-                            <span class="sp">
-                                <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
-                                <span class="sp-name">Commonwealth <em>v.</em> Clancy</span>
-                                <span class="sp-vol" aria-hidden="true">III</span>
-                            </span>
-                        </a>
+                            <a class="bk" href="/case-chronicle/depp-v-heard/" aria-describedby="bk-depp-t bk-depp-s"
+                                style="--bind: var(--bind-2); --bk-w: 76px; --bk-h: 375px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Va. Cir. Ct., Fairfax Cty. &middot; No.
+                                        CL-2019-0002911</span>
+                                    <span class="bk-plate-n">Depp <em>v.</em> Heard</span>
+                                    <span class="bk-plate-t" id="bk-depp-t">Two defamation cases tried as one. Both sides
+                                        appealed; neither appeal was ever heard.</span>
+                                    <span class="bk-plate-s" id="bk-depp-s"><span class="pip pip-closed"></span>Filed Mar 1, 2019
+                                        &middot; Settled</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
+                                    <span class="sp-name">Depp <em>v.</em> Heard</span>
+                                    <span class="sp-vol" aria-hidden="true">II</span>
+                                </span>
+                            </a>
 
-                        <a class="bk" href="/case-chronicle/people-v-mangione/" aria-describedby="bk-mangione-t bk-mangione-s"
-                            style="--bind: var(--bind-4); --bk-w: 85px; --bk-h: 336px;">
-                            <span class="bk-plate" aria-hidden="true">
-                                <span class="bk-plate-court">N.Y. Sup. Ct., N.Y. Cty. &middot; No. 75657-24
-                                    &middot; and S.D.N.Y.</span>
-                                <span class="bk-plate-n">People <em>v.</em> Mangione</span>
-                                <span class="bk-plate-t" id="bk-mangione-t">He pleaded guilty in federal court, and the state
-                                    murder case stopped where it stood. Whether New York may still try him for
-                                    the same killing is now the only question left.</span>
-                                <span class="bk-plate-s" id="bk-mangione-s"><span class="pip pip-open"></span>Pleaded Aug 14, 2026
-                                    &middot; Undecided</span>
-                                <span class="bk-plate-go">Open the case &rarr;</span>
-                            </span>
-                            <span class="sp">
-                                <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
-                                <span class="sp-name">People <em>v.</em> Mangione</span>
-                                <span class="sp-vol" aria-hidden="true">IV</span>
-                            </span>
-                        </a>
+                            <a class="bk" href="/case-chronicle/commonwealth-v-clancy/" aria-describedby="bk-clancy-t bk-clancy-s"
+                                style="--bind: var(--bind-3); --bk-w: 108px; --bk-h: 354px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Mass. Super. Ct., Plymouth Cty. &middot; No.
+                                        2383CR00199</span>
+                                    <span class="bk-plate-n">Commonwealth <em>v.</em> Clancy</span>
+                                    <span class="bk-plate-t" id="bk-clancy-t">A prosecution in which the defense disputed almost
+                                        none of the facts and contested only criminal responsibility. A mistrial
+                                        decides nothing, and nothing was decided.</span>
+                                    <span class="bk-plate-s" id="bk-clancy-s"><span class="pip pip-open"></span>Tried Jul 20, 2026
+                                        &middot; Mistrial</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">Commonwealth <em>v.</em> Clancy</span>
+                                    <span class="sp-vol" aria-hidden="true">III</span>
+                                </span>
+                            </a>
 
-                        <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-chauvin-t bk-chauvin-s"
-                            style="--bind: var(--bind-plain); --bk-w: 80px; --bk-h: 318px;">
-                            <span class="bk-plate" aria-hidden="true">
-                                <span class="bk-plate-court">Hennepin Cty. Dist. Ct., Minn. &middot; and D.
-                                    Minn.</span>
-                                <span class="bk-plate-n">State <em>v.</em> Chauvin</span>
-                                <span class="bk-plate-t" id="bk-chauvin-t">Tried twice over the same nine minutes, once by a
-                                    state and once by the federal government, and convicted both times.</span>
-                                <span class="bk-plate-s" id="bk-chauvin-s"><span class="pip pip-soon"></span>Not started</span>
+                            <a class="bk" href="/case-chronicle/people-v-mangione/" aria-describedby="bk-mangione-t bk-mangione-s"
+                                style="--bind: var(--bind-4); --bk-w: 85px; --bk-h: 336px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">N.Y. Sup. Ct., N.Y. Cty. &middot; No. 75657-24
+                                        &middot; and S.D.N.Y.</span>
+                                    <span class="bk-plate-n">People <em>v.</em> Mangione</span>
+                                    <span class="bk-plate-t" id="bk-mangione-t">He pleaded guilty in federal court, and the state
+                                        murder case stopped where it stood. Whether New York may still try him for
+                                        the same killing is now the only question left.</span>
+                                    <span class="bk-plate-s" id="bk-mangione-s"><span class="pip pip-open"></span>Pleaded Aug 14, 2026
+                                        &middot; Undecided</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">People <em>v.</em> Mangione</span>
+                                    <span class="sp-vol" aria-hidden="true">IV</span>
+                                </span>
+                            </a>
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-chauvin-t bk-chauvin-s"
+                                style="--bind: var(--bind-plain); --bk-w: 80px; --bk-h: 318px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Hennepin Cty. Dist. Ct., Minn. &middot; and D.
+                                        Minn.</span>
+                                    <span class="bk-plate-n">State <em>v.</em> Chauvin</span>
+                                    <span class="bk-plate-t" id="bk-chauvin-t">Tried twice over the same nine minutes, once by a
+                                        state and once by the federal government, and convicted both times.</span>
+                                    <span class="bk-plate-s" id="bk-chauvin-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
+                                    <span class="sp-name">State <em>v.</em> Chauvin</span>
+                                    <span class="sp-vol" aria-hidden="true">V</span>
+                                </span>
                             </span>
-                            <span class="sp">
-                                <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
-                                <span class="sp-name">State <em>v.</em> Chauvin</span>
-                                <span class="sp-vol" aria-hidden="true">V</span>
+
+                        </div>
+
+                        <!-- The second five: the lower board, where there are two. None
+                             of them is written yet, so all five are in plain boards
+                             and none is a link. When one is, it becomes an a.bk with a
+                             binding of its own, where it stands. -->
+                        <div class="shelf-tier">
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-duterte-t bk-duterte-s"
+                                style="--bind: var(--bind-plain); --bk-w: 90px; --bk-h: 348px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Int&rsquo;l Crim. Ct. &middot; No. ICC-01/21-01/25</span>
+                                    <span class="bk-plate-n">Prosecutor <em>v.</em> Duterte</span>
+                                    <span class="bk-plate-t" id="bk-duterte-t">A former president of the Philippines, charged with
+                                        crimes against humanity over killings in his war on drugs. Judges confirmed
+                                        all three counts, and the trial is set to open on November 30, 2026.</span>
+                                    <span class="bk-plate-s" id="bk-duterte-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">Prosecutor <em>v.</em> Duterte</span>
+                                    <span class="sp-vol" aria-hidden="true">VI</span>
+                                </span>
                             </span>
-                        </span>
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-gaza-t bk-gaza-s"
+                                style="--bind: var(--bind-plain); --bk-w: 100px; --bk-h: 330px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Int&rsquo;l Ct. of Justice &middot; General List No. 192</span>
+                                    <span class="bk-plate-n">South Africa <em>v.</em> Israel</span>
+                                    <span class="bk-plate-t" id="bk-gaza-t">South Africa accuses Israel of genocide in Gaza, and
+                                        Israel denies it. The court has issued three emergency orders and has not
+                                        ruled on the accusation itself. That ruling is years away.</span>
+                                    <span class="bk-plate-s" id="bk-gaza-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">South Africa <em>v.</em> Israel</span>
+                                    <span class="sp-vol" aria-hidden="true">VII</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-combs-t bk-combs-s"
+                                style="--bind: var(--bind-plain); --bk-w: 82px; --bk-h: 362px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">S.D.N.Y. &middot; No. 1:24-cr-00542-AS</span>
+                                    <span class="bk-plate-n">United States <em>v.</em> Combs</span>
+                                    <span class="bk-plate-t" id="bk-combs-t">A jury cleared him of racketeering and sex trafficking
+                                        and convicted him on two lesser counts of transporting people for
+                                        prostitution. He was sentenced to fifty months and has appealed.</span>
+                                    <span class="bk-plate-s" id="bk-combs-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">United States <em>v.</em> Combs</span>
+                                    <span class="sp-vol" aria-hidden="true">VIII</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-google-t bk-google-s"
+                                style="--bind: var(--bind-plain); --bk-w: 94px; --bk-h: 340px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">D.D.C. &middot; No. 1:20-cv-03010-APM &middot; and E.D. Va.</span>
+                                    <span class="bk-plate-n">United States <em>v.</em> Google</span>
+                                    <span class="bk-plate-t" id="bk-google-t">The government sued Google twice, over search and over
+                                        advertising technology, and each judge found an illegal monopoly. Neither
+                                        ordered the company broken up. The search case is on appeal.</span>
+                                    <span class="bk-plate-s" id="bk-google-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-open"></span></span>
+                                    <span class="sp-name">United States <em>v.</em> Google</span>
+                                    <span class="sp-vol" aria-hidden="true">IX</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-tiktok-t bk-tiktok-s"
+                                style="--bind: var(--bind-plain); --bk-w: 77px; --bk-h: 322px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">U.S. Supreme Ct. &middot; No. 24-656</span>
+                                    <span class="bk-plate-n">TikTok <em>v.</em> Garland</span>
+                                    <span class="bk-plate-t" id="bk-tiktok-t">Congress told TikTok&rsquo;s parent company to sell the
+                                        app or see it shut out of the United States. The Supreme Court heard the
+                                        challenge and upheld the law within a week, two days before the deadline.</span>
+                                    <span class="bk-plate-s" id="bk-tiktok-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
+                                    <span class="sp-name">TikTok <em>v.</em> Garland</span>
+                                    <span class="sp-vol" aria-hidden="true">X</span>
+                                </span>
+                            </span>
+
+                        </div>
 
                     </div>
                 </div>
