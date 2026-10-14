@@ -619,7 +619,7 @@
     if (!locked) btn.hidden = true;
   }
 
-  if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Unlock the Courtroom View preview');
+  if (!btn.hasAttribute('aria-label')) btn.setAttribute('aria-label', 'Unlock the Courtroom View');
   lock();
 
   /* Trying the door rattles the lock, which is how a reader who has not

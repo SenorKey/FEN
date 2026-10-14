@@ -777,14 +777,8 @@ body::after {
 }
 
 /* masthead-plain is the chronology's masthead, which has nothing in its
-   corners: its two sides stand at the head of its rail instead. On a
-   wide window its title is set to the middle, over the rail and between
-   the two cards further down. */
-@media (min-width: 1200px) {
-  .masthead-plain .crumb,
-  .masthead-plain .eyebrow,
-  .masthead-plain .masthead-title { text-align: center; }
-}
+   corners: its two sides stand at the head of its rail instead. Its
+   title is ranged left, as every other view's is. */
 
 @media (prefers-reduced-motion: reduce) {
   .party-x,
