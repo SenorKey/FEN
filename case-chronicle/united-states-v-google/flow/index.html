@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Skeleton page. Under construction, like the case page this view
+         belongs to. Take this comment and the line under it out in the same
+         edit that takes them off the case page. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="United States v. Google as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/united-states-v-google/flow/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/united-states-v-google/flow/">
+    <meta property="og:title" content="United States v. Google, the TLDR &mdash; Case Chronicle">
+    <meta property="og:description"
+        content="United States v. Google as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>United States v. Google, the TLDR &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="united-states-v-google">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No transcript wash on this page yet. The wash runs each side's own
+         words down its own side of the page, and no transcript in this
+         case has been read for these pages. It goes in with the first one
+         that has. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/united-states-v-google/">&larr;&nbsp; United States v. Google</a></p>
+                <p class="eyebrow">D.D.C. &middot; No. 1:20&#8209;cv&#8209;03010&#8209;APM &nbsp;&middot;&nbsp; E.D. Va. &middot; No. 1:23&#8209;cv&#8209;00108&#8209;LMB</p>
+                <h1 class="masthead-title">United States <em>v.</em> Google</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" aria-current="page" href="/case-chronicle/united-states-v-google/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/united-states-v-google/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/united-states-v-google/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/united-states-v-google/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Case flow
+
+             Under construction: the frame of the map is in place, with
+             one starting card. The questions of the case replace it.
+
+             On a written case every card in the chain is a question,
+             and every way out of it is an answer, written on the line.
+             Where the case stands is said in three places and kept in
+             step by hand: the line at the top, is-done on every step
+             the case has been along, and is-here with its flag on the
+             step it is waiting at. chronicle.css says at the head of
+             its own block what each class is for.
+
+             Every card ships open. The script shuts them and shows the
+             controls, so with no JavaScript the whole map is written
+             out and nothing sits behind a dead button.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree" id="tree" aria-labelledby="tree-h">
+            <div class="wrap">
+                <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
+
+                <div class="cf">
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Under construction. The questions this case turns on have not been written yet.</p>
+                    <div class="cf-head">
+                        <ul class="cf-key" aria-hidden="true">
+                            <li class="cf-key-p">Plaintiff</li>
+                            <li class="cf-key-d">Defendant</li>
+                            <li class="cf-key-done">Settled or decided</li>
+                            <li class="cf-key-open">Still open</li>
+                            <li class="cf-key-line">How far the case has gotten</li>
+                        </ul>
+                        <!-- Enhancement only, like the one over the ledger in the Side
+                             by Side View: every card opens on its own, and with no
+                             JavaScript none is shut. -->
+                        <button type="button" class="depth-all cf-all" hidden aria-expanded="false">
+                            <span class="da-i" aria-hidden="true"></span>
+                            <span class="da-l">Open every card</span>
+                        </button>
+                    </div>
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">The starting card</p>
+                                </div></div>
+                                <h3 class="cf-h">Under construction</h3>
+                                <p class="cf-stamp"><span class="cf-st cf-st-open">Not written yet</span></p>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Under construction"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-b">This view will set out what has to be decided in the case, in what order, and where each answer leads. Each question will get a card like this one, and each card will open to explain the question in plain words.</p>
+                                </div></div>
+                            </article>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/united-states-v-google/" aria-label="Back to the case page for United States v. Google">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">United States v. Google LLC, No. 1:20-cv-03010 (D.D.C.) &middot; United States v. Google LLC, No. 1:23-cv-00108 (E.D. Va.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same short list is on all five
+             of this case's pages for now. It grows with the pages: a term
+             goes in when the text first uses it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013c" defer></script>
+</body>
+
+</html>

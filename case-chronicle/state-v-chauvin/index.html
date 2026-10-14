@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Skeleton page. Under construction, so not for search engines.
+         The shelf on the hub does not link here and the sitemap does not
+         list it. Take this comment and the line under it out, here and on
+         the four views behind the doors, when the case is written. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="State v. Chauvin: the Minneapolis police officer convicted in state and federal court over the death of George Floyd. This page is under construction.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/state-v-chauvin/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/state-v-chauvin/">
+    <meta property="og:title" content="State v. Chauvin &mdash; Case Chronicle">
+    <meta property="og:description"
+        content="State v. Chauvin: the Minneapolis police officer convicted in state and federal court over the death of George Floyd. This page is under construction.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>State v. Chauvin &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="state-v-chauvin">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No transcript wash on this page yet. The wash runs each side's own
+         words down its own side of the page, and no transcript in this
+         case has been read for these pages. It goes in with the first one
+         that has. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+
+             Under construction. The description is a temporary one,
+             from a quick look at the record, and the four facts under
+             it are the ones that look could stand behind.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-case" id="top">
+            <div class="mh">
+                <div class="mh-main">
+                    <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
+                    <p class="eyebrow">Hennepin Cty. Dist. Ct., Minn. &middot; No. 27&#8209;CR&#8209;20&#8209;12646 &nbsp;&middot;&nbsp; D. Minn. &middot; No. 0:21&#8209;cr&#8209;00108</p>
+                    <h1 class="masthead-title">State <em>v.</em> Chauvin</h1>
+                    <p class="masthead-lede">George Floyd died on May 25, 2020, after Minneapolis police officers held him face down on the street for about nine and a half minutes. One of them, Derek Chauvin, was tried in state court, and the jury found him guilty of murder and manslaughter. He was sentenced to 22 and a half years. He was also sentenced in federal court for violating Floyd&rsquo;s civil rights, and a state appeals court upheld the murder conviction in 2023.</p>
+
+                    <dl class="docket-meta">
+                        <div>
+                            <dt>State sentence</dt>
+                            <dd>Jun 25, 2021</dd>
+                        </div>
+                        <div>
+                            <dt>Federal sentence</dt>
+                            <dd>Jul 7, 2022</dd>
+                        </div>
+                        <div>
+                            <dt>State appeal</dt>
+                            <dd>Lost Apr 17, 2023</dd>
+                        </div>
+                        <div>
+                            <dt>Status</dt>
+                            <dd><span class="pip pip-closed"></span>Convicted</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- The two sides. A card each. The side that filed is
+                     first, and the wide layout sets it to the left of
+                     the title and the other to the right.
+
+                     On a written case a card opens for more: who they
+                     are, and what they were known for before the case.
+                     That part is not written here yet, so these are a
+                     name and one line. When it is, each card takes a
+                     button.party-more and a div.party-x as on the
+                     written cases, and chronicle.js does the rest. -->
+                <div class="mh-side mh-side-p">
+                    <article class="party party-p" aria-labelledby="party-p-h">
+                        <p class="party-role">Prosecution <span>The side bringing the charges</span></p>
+                        <h2 class="party-name" id="party-p-h">State of Minnesota</h2>
+                        <p class="party-what">Through the state Attorney General</p>
+                    </article>
+                </div>
+
+                <div class="mh-side mh-side-d">
+                    <article class="party party-d" aria-labelledby="party-d-h">
+                        <p class="party-role">Defendant <span>The person charged</span></p>
+                        <h2 class="party-name" id="party-d-h">Derek Chauvin</h2>
+                        <p class="party-what">Minneapolis police officer at the time</p>
+                    </article>
+                </div>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Four ways in
+
+             The same four doorways every case has, in the same order,
+             each a link to the view it will be. Every view holds one
+             starting card for now.
+
+             A courtroom is locked until the court has sat in it: put
+             data-door-lock on the Courtroom door's slot for a case with
+             no day in court yet. This case has had its days in court,
+             so its door is not locked.
+             ═══════════════════════════════════════════════ -->
+        <nav class="doors" aria-label="Four ways to see this case">
+            <div class="wrap">
+                <p class="doors-l">Four ways in</p>
+                <div class="doorway">
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/state-v-chauvin/flow/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="40" y="6" width="40" height="15"/><circle cx="60" cy="13.5" r="2.4" class="door-fill"/>
+                                            <path d="M60 21v8M27 29h66M27 29v6M93 29v6"/>
+                                            <rect x="8" y="35" width="38" height="15"/><rect x="74" y="35" width="38" height="15"/>
+                                            <path d="M27 50v13M93 50v13"/>
+                                            <rect x="8" y="63" width="38" height="15"/><rect x="74" y="63" width="38" height="15"/>
+                                            <path d="M15 70.5h24M81 70.5h24"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">TLDR <span class="door-t-v">View</span></span>
+                                <span class="door-s">A TLDR case flow. What has to be decided, and where each answer leads.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/state-v-chauvin/chronology/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <path d="M60 6v6M60 20v18M60 46v18M60 72v6"/>
+                                            <circle cx="60" cy="16" r="4"/><path d="M52 16H22M22 11h22M22 21h16"/>
+                                            <circle cx="60" cy="42" r="4" class="door-fill"/><path d="M68 42h30M76 37h22M82 47h16"/>
+                                            <circle cx="60" cy="68" r="4"/><path d="M52 68H22M22 63h22M22 73h16"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Chronological <span class="door-t-v">View</span></span>
+                                <span class="door-s">Every step of the case, in the order it happened.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/state-v-chauvin/courtroom/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="104" height="72"/>
+                                            <rect x="42" y="12" width="36" height="9"/><circle cx="60" cy="16.5" r="2.4" class="door-fill"/>
+                                            <rect x="14" y="24" width="9" height="26"/>
+                                            <rect x="34" y="36" width="22" height="7"/><rect x="64" y="36" width="22" height="7"/>
+                                            <circle cx="45" cy="48" r="2.4" class="door-fill"/><circle cx="75" cy="48" r="2.4" class="door-fill"/>
+                                            <path d="M8 56h46M66 56h46"/>
+                                            <path d="M18 63h34M18 70h34M68 63h34M68 70h34"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Courtroom <span class="door-t-v">View</span></span>
+                                <span class="door-s">The room from above, and who sat where.</span>
+                                <span class="door-go"><span class="door-go-l">Preview</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                        <button class="door-unlock" type="button" hidden>
+                            <svg class="door-lock" viewBox="0 0 40 50" aria-hidden="true">
+                                <g class="door-lock-s"><path d="M11 25V15a9 9 0 0 1 18 0v10"/><path d="M11 25V15a9 9 0 0 1 18 0v10"/></g>
+                                <rect class="door-lock-b" x="4.5" y="22" width="31" height="24.5" rx="3.6"/>
+                                <path class="door-lock-d" d="M5 37h30v6a3.6 3.6 0 0 1-3.6 3.5H8.6A3.6 3.6 0 0 1 5 43z"/>
+                                <path class="door-lock-h" d="M8.5 25.4h23"/>
+                                <path class="door-lock-k" d="M20 28.6a3 3 0 0 1 1.7 5.5l.9 5.4h-5.2l.9-5.4a3 3 0 0 1 1.7-5.5z"/>
+                            </svg>
+                            <span class="door-unlock-l">Unlock</span>
+                        </button>
+                    </div>
+                    <div class="door-slot">
+                        <a class="door" href="/case-chronicle/state-v-chauvin/side-by-side/">
+                            <span class="door-case" aria-hidden="true">
+                                <span class="door-pane">
+                                    <svg viewBox="0 0 242 128">
+                                        <path class="door-rule" d="M19 13h204a6 6 0 0 0 6 6v90a6 6 0 0 0-6 6H19a6 6 0 0 0-6-6V19a6 6 0 0 0 6-6z"/>
+                                        <g class="door-sign" transform="translate(47.8 12.8) scale(1.22)">
+                                            <rect x="8" y="6" width="47" height="72"/><rect x="65" y="6" width="47" height="72"/>
+                                            <circle cx="16" cy="15" r="2.4" class="door-fill"/><path d="M23 15h18"/>
+                                            <circle cx="73" cy="15" r="2.4" class="door-fill"/><path d="M80 15h18"/>
+                                            <path d="M15 28h33M15 36h26M15 44h33M15 52h20M15 60h33M15 68h24"/>
+                                            <path d="M72 28h33M72 36h22M72 44h33M72 52h28M72 60h33M72 68h18"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span class="door-way"><span class="door-leaf"></span><span class="door-leaf"></span></span>
+                            </span>
+                            <span class="door-plate">
+                                <span class="door-t">Side by Side <span class="door-t-v">View</span></span>
+                                <span class="door-s">Each side&rsquo;s argument on every question, next to the other&rsquo;s.</span>
+                                <span class="door-go"><span class="door-go-l">Enter</span> <span class="door-go-a" aria-hidden="true">&rarr;</span></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════════
+             Notes
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Under construction</h3>
+                        <p>Only the top of this page is written. Each of the four views behind the doors
+                            holds one starting card and nothing else yet.</p>
+                        <p>The description at the top is a temporary one. It comes from a quick look at
+                            the record, and it will be rewritten once the record has been read in full.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>The names, numbers and dates at the top come from the state appeals court&rsquo;s 2023 opinion, the Minnesota Attorney General&rsquo;s statement on the sentence, and the federal court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>. Nothing else has been read for these pages yet.</p>
+                        <p class="note-src">Opinion: <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="State v. Chauvin, the Minnesota Court of Appeals opinion of April 17, 2023, opens as a PDF">State v. Chauvin, No. A21-1228 (Minn. Ct. App. Apr. 17, 2023)</a> &middot; <a class="cite-doc" href="https://www.ag.state.mn.us/Office/Communications/2021/06/25_Chauvin.asp" target="_blank" rel="noopener" aria-label="Minnesota Attorney General, statement on the sentence, June 25, 2021, opens in a new tab">Minn. Att&rsquo;y Gen., Jun 25, 2021</a> &middot; Federal docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">No. 0:21-cr-00108</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
+                            reach, these pages say so and stop.</p>
+                    </div>
+                </div>
+
+
+                <!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">The lines at the top were checked on <span class="mono">October 13, 2026</span>.
+                    Nothing after that date is reflected here.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">State v. Chauvin, No. 27-CR-20-12646 (Hennepin Cty. Dist. Ct., Minn.) &middot; United States v. Chauvin, No. 0:21-cr-00108 (D. Minn.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same short list is on all five
+             of this case's pages for now. It grows with the pages: a term
+             goes in when the text first uses it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013c" defer></script>
+</body>
+
+</html>

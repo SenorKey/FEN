@@ -837,7 +837,10 @@
        voice to someone who is neither side, "off the docket" is wrong. */
     names.n = root.dataset.neither || 'Off the docket';
 
-    for (const li of doc.querySelectorAll('.tl > li.tl-ev')) {
+    /* A card that only holds a place, on a case nobody has written yet,
+       is not a moment of that case. With nothing else on the rail the
+       bar never appears, and the room stays a plan and two lists. */
+    for (const li of doc.querySelectorAll('.tl > li.tl-ev:not(.tl-stub)')) {
       const date = li.querySelector('.tl-date');
       const body = li.querySelector('.tl-b');
       const chip = date?.querySelector('.chip');

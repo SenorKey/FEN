@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Skeleton page. Under construction, like the case page this view
+         belongs to. Take this comment and the line under it out in the same
+         edit that takes them off the case page. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="United States v. Google as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/united-states-v-google/courtroom/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/united-states-v-google/courtroom/">
+    <meta property="og:title" content="United States v. Google, the courtroom &mdash; Case Chronicle">
+    <meta property="og:description"
+        content="United States v. Google as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>United States v. Google, the courtroom &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="united-states-v-google">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No transcript wash on this page yet. The wash runs each side's own
+         words down its own side of the page, and no transcript in this
+         case has been read for these pages. It goes in with the first one
+         that has. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/united-states-v-google/">&larr;&nbsp; United States v. Google</a></p>
+                <p class="eyebrow">D.D.C. &middot; No. 1:20&#8209;cv&#8209;03010&#8209;APM &nbsp;&middot;&nbsp; E.D. Va. &middot; No. 1:23&#8209;cv&#8209;00108&#8209;LMB</p>
+                <h1 class="masthead-title">United States <em>v.</em> Google</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/united-states-v-google/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/united-states-v-google/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/united-states-v-google/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/united-states-v-google/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The courtroom, from above
+
+             Under construction: the stock plan is drawn and nobody is
+             seated in it. The list under "In the room" is this page's
+             data, and it holds one note for now. The chronology has no
+             moment yet, only its starting card, so the script leaves
+             the bar hidden and the page is the plan and the two lists.
+
+             On a written case that list has one row a person: who, in
+             which seat, and between which entries of the chronology.
+             The script reads the list, reads the chronology page for
+             the moments, and seats people accordingly. The days the
+             court sat go in ol.cr-sits, each with the id of its entry
+             in data-at and data-kind="court". With no script the plan
+             is drawn empty and the list is simply a list.
+
+             Left is the side that filed, as everywhere else here.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-room" id="courtroom" aria-labelledby="cr-h">
+            <div class="wrap">
+                <p class="kicker">Courtroom View &middot; Preview</p>
+                <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
+                <!-- The lede a written case carries here: "The same case as the
+                     Chronological View, drawn as the room it happened in. Move
+                     the line along the bar, or step with Previous and Next, and
+                     the room changes with the moment: who was in it, who was
+                     only on a screen, and which parts of it stood empty." -->
+                <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
+                    The room is empty for now. Once the case is written, a bar of its moments goes over the plan,
+                    and moving along it shows who was in the room at each one.</p>
+
+                <div class="cr" data-chronology="/case-chronicle/united-states-v-google/chronology/" data-opens="ev-under-construction">
+
+                    <!-- The bar of moments. Empty here and hidden: it is built
+                         from the chronology, which only the script can fetch. -->
+                    <div class="ct" hidden>
+                        <button class="ct-step ct-prev" type="button" aria-label="Previous event">
+                            <span class="ct-step-a" aria-hidden="true">&larr;</span>
+                            <span class="ct-step-l">Previous</span>
+                        </button>
+                        <div class="ct-track" role="slider" tabindex="0" aria-label="Moment in the case"
+                            aria-valuemin="1" aria-valuemax="1" aria-valuenow="1">
+                            <div class="ct-ticks"></div>
+                            <div class="ct-line"></div>
+                        </div>
+                        <button class="ct-step ct-next" type="button" aria-label="Next event">
+                            <span class="ct-step-l">Next</span>
+                            <span class="ct-step-a" aria-hidden="true">&rarr;</span>
+                        </button>
+                    </div>
+
+                    <div class="cr-cols">
+                        <div class="cr-fig">
+                            <div class="cr-plan">
+                            <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true">
+                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
+                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+
+                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
+                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+
+                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
+                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+
+                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
+                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+
+                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
+                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+
+                            <!-- The parts of the room, for the script to measure. Never drawn. -->
+                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
+                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
+                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
+                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
+                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+
+                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
+                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
+                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
+                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                        </svg>
+                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
+                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
+                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
+                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
+                        <span class="cr-lab" style="left:39.34%;top:45%">Plaintiff</span>
+                        <span class="cr-lab" style="left:66.97%;top:45%">Defendant</span>
+                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
+                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            </div>
+                            <!-- What the marks mean. Hidden until the script has
+                                 drawn any, since without it there are none. -->
+                            <ul class="cr-key" hidden>
+                                <li><span class="cr-k cr-k-in"></span>In the room</li>
+                                <li><span class="cr-k cr-k-remote"></span>By video</li>
+                                <li><span class="cr-k cr-k-case"></span>In the case, not recorded in the room</li>
+                                <li><span class="cr-k cr-k-q">?</span>About this part of the room</li>
+                            </ul>
+                        </div>
+
+                        <div class="cr-side">
+                            <div class="cm" hidden>
+                                <p class="cm-meta"><span class="cm-n"></span><span class="cm-date"></span><span class="cm-who"></span></p>
+                                <h3 class="cm-h"></h3>
+                                <p class="cm-b"></p>
+                                <p class="cm-room"></p>
+                                <a class="cm-link" href="/case-chronicle/united-states-v-google/chronology/">Read this entry in the Chronological View <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+
+                            <div class="cr-list">
+                                <h3 class="cr-cast-h">In the room</h3>
+                                <ul class="cr-cast">
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="bench" data-always>
+                                    <p class="cr-role">The room</p>
+                                    <p class="cr-name">Under construction</p>
+                                    <p class="cr-note">Nobody is seated yet. The hearings in this case have not been read for this page, so the room is drawn empty. The plan drawn here is the Chronicle&rsquo;s stock courtroom. Both suits were tried to a judge with no jury, so the jury box will come out when the plan is redrawn.</p>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The days something happened in a room. With the script
+                         each one is shown under its own moment; without it this
+                         is the list. The line here has no data-at, so the
+                         script passes over it. -->
+                    <div class="cr-days">
+                        <h3 class="cr-cast-h">Days in court</h3>
+                        <ol class="cr-sits">
+                            <li><span class="cr-sit-t">None listed yet.</span></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/united-states-v-google/" aria-label="Back to the case page for United States v. Google">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">United States v. Google LLC, No. 1:20-cv-03010 (D.D.C.) &middot; United States v. Google LLC, No. 1:23-cv-00108 (E.D. Va.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same short list is on all five
+             of this case's pages for now. It grows with the pages: a term
+             goes in when the text first uses it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013c" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Standalone, for the reason given at the top of chronicle.css. Both
+         shared files are shared by every case in the Chronicle; nothing in
+         either names a case, and everything specific to this one is here. -->
+    <!-- The display face is discovered only once chronicle.css has been
+         fetched and parsed, which is two round trips after this line. The
+         masthead title is the first thing on every page here and is set in
+         it, so it is asked for now instead. Roman only: the italic sets
+         far fewer words, and preloading both would have them competing. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261013b">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Skeleton page. Under construction, like the case page this view
+         belongs to. Take this comment and the line under it out in the same
+         edit that takes them off the case page. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="TikTok v. Garland, step by step, in the order it happened. This view is under construction.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/tiktok-v-garland/chronology/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/tiktok-v-garland/chronology/">
+    <meta property="og:title" content="TikTok v. Garland, in order &mdash; Case Chronicle">
+    <meta property="og:description"
+        content="TikTok v. Garland, step by step, in the order it happened. This view is under construction.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>TikTok v. Garland, in order &mdash; Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case is the whole of what the corrections form needs to know. The
+     service checks the slug against its own allowlist before it believes
+     it, so adding a case here without adding it there gets a 400, not a
+     mislabelled correction. -->
+<body data-case="tiktok-v-garland">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- No transcript wash on this page yet. The wash runs each side's own
+         words down its own side of the page, and no transcript in this
+         case has been read for these pages. It goes in with the first one
+         that has. -->
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead, cut down
+
+             This page is one view of a case that has its own page, so
+             the masthead only has to say which case and offer the way
+             back. The four views sit side by side underneath as parts
+             of one bar, in the order of the doors on the case page.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-view masthead-plain" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/tiktok-v-garland/">&larr;&nbsp; TikTok v. Garland</a></p>
+                <p class="eyebrow">U.S. Supreme Court &middot; No. 24&#8209;656</p>
+                <h1 class="masthead-title">TikTok <em>v.</em> Garland</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/tiktok-v-garland/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" aria-current="page" href="/case-chronicle/tiktok-v-garland/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/tiktok-v-garland/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                        <span class="view-tag">Preview</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/tiktok-v-garland/side-by-side/">
+                        <span class="view-t">Side by Side View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+
+             Under construction: the rail, the key and the two sides'
+             cards are in place, and one starting card stands on the
+             rail. The cards of the case replace it. It is marked
+             tl-stub, which tells the Courtroom View that it is not a
+             moment of the case; no real entry takes that class.
+
+             What a card is made of is on any written case's page. The
+             ones that matter before the first is written: every entry
+             is a li.tl-ev with an id of ev-<title-slug>, because the
+             Courtroom View seats people by those ids. Its lane is one
+             of tl-p, tl-d, tl-court or tl-n. The first entry also
+             takes tl-first and holds the two sides' cards, so it has
+             to be one that straddles the rail, tl-court or tl-n.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
+
+                <!-- The key names this case's two sides. The colours are fixed
+                     by the stylesheet and mean the same thing on every page:
+                     the moving side, the answering side, the court.
+
+                     On a wide screen it is also the bar that stays put over the
+                     chronology, with a side's name over each column, which is
+                     what the two wrappers are for. The empty span is where the
+                     script writes which part of the case is passing underneath;
+                     with no script it stays empty. -->
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk-l">
+                        <span class="tk-here"></span>
+                        <span class="tk tk-p">Petitioners</span>
+                    </span>
+                    <span class="tk tk-c">Court</span>
+                    <span class="tk-r">
+                        <span class="tk tk-d">Respondent</span>
+                        <span class="tk tk-n">Neither side</span>
+                    </span>
+                </div>
+
+                    <!-- The two names are what a phone prints on each card. There the
+                         rail moves to the edge and every card hangs off the same side
+                         of it, so the card has to say in words whose move it was. -->
+                    <ol class="tl" style="--p-name: 'Petitioners'; --d-name: 'Respondent';">
+                        <li class="tl-ev tl-n tl-first tl-stub" id="ev-under-construction">
+                            <!-- The two sides stand either side of the first entry: the
+                                 same two cards the case page has. -->
+                            <article class="party party-p" aria-labelledby="party-p-h">
+                                <p class="party-role">Petitioners <span>The side that asked the court to step in</span></p>
+                                <h2 class="party-name" id="party-p-h">TikTok Inc. and ByteDance Ltd.</h2>
+                                <p class="party-what">The app&rsquo;s US company and its Chinese parent</p>
+                            </article>
+                            <article class="party party-d" aria-labelledby="party-d-h">
+                                <p class="party-role">Respondent <span>The side answering</span></p>
+                                <h2 class="party-name" id="party-d-h">Merrick B. Garland</h2>
+                                <p class="party-what">Attorney General, sued in that role</p>
+                            </article>
+                            <div class="tl-c">
+                                <p class="tl-date">Not written yet</p>
+                                <h3 class="tl-h">Under construction</h3>
+                                <p class="tl-b">This is where the case will be laid out one step at a time, in the order it happened. Each step will name the filing or ruling it comes from.</p>
+                            </div>
+                        </li>
+                    </ol>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/tiktok-v-garland/" aria-label="Back to the case page for TikTok v. Garland">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">TikTok Inc. v. Garland, No. 24-656 (U.S.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. The same short list is on all five
+             of this case's pages for now. It grows with the pages: a term
+             goes in when the text first uses it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261013c" defer></script>
+</body>
+
+</html>
