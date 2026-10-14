@@ -4572,12 +4572,12 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cf-q .cf-part .cf-h { font-size: 1.08rem; }
 
 /* ── the fold ──
-   A card is shut to its text, and its stamp where it has one. It opens
-   for the rest: the line that says what it is, above the text, and the
-   explanation below. The rest ships open, as the chronology's extra
-   layer does, so a reader with no JavaScript has the whole map written
-   out and no dead button. The script shuts the cards and shows the
-   control, which sits in the bottom corner.
+   A card is shut to its text. It opens for the rest: the line that
+   says what it is, above the text, and below it how the question
+   stands and the explanation. The rest ships open, as the chronology's
+   extra layer does, so a reader with no JavaScript has the whole map
+   written out and no dead button. The script shuts the cards and shows
+   the control, which sits in the bottom corner.
 
    Shut, the rest is hidden as well as collapsed, which takes it out of
    a screen reader's way.
@@ -4714,9 +4714,9 @@ span.cr-cite { margin: 0; white-space: normal; }
 /* ── how a question stands ──
    The chronology's stamp, and its rule that how much ink says how
    settled: decided is solid, not in dispute is half-toned, open is an
-   outline, and here a dashed one. It stands under the card's text and
-   is not folded away, so the state of a question can be read off a
-   shut card. */
+   outline, and here a dashed one. It heads the explanation, inside the
+   fold, so a shut card asks its question without giving the answer
+   away. */
 
 .cf-stamp { display: flex; justify-content: center; margin-top: 9px; }
 

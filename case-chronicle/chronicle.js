@@ -56,10 +56,11 @@
 /* ── case flow: every card shut to its text ──
    The map is there to be taken in at a glance, so each card is shut to
    its text and opens for the rest, the line over it that says what it
-   is and the explanation under it: from its own control, or from a
-   press anywhere on the card that is not on a link or a button and is
-   not the end of a text selection. One more control opens or shuts them
-   all, and is the ledger's button under another label.
+   is and, under it, how it stands and the explanation: from its own
+   control, or from a press anywhere on the card that is not on a link
+   or a button and is not the end of a text selection. One more control
+   opens or shuts them all, and is the ledger's button under another
+   label.
 
    A card with nothing under its text has no control of its own. It
    still has its line to show, so it follows the control that opens
