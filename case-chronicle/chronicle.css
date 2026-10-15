@@ -129,7 +129,7 @@
      volumes on the hub are bound in cloth instead: the stock itself,
      driven down towards the ink. They tell one case from another on a
      shelf and they mean nothing else, which is why they are numbered
-     rather than named — the sixth case takes --bind-5 and costs no CSS.
+     rather than named, and the next case written takes the next one.
 
      Plain boards for a volume nobody has written yet. */
   --bind-1: #574531;
@@ -137,6 +137,7 @@
   --bind-3: #6d5a42;
   --bind-4: #4a3c2c;
   --bind-5: #5f4a33;
+  --bind-6: #3f3427;
   --bind-plain: #b9ab91;
 
   /* Lettering pressed into cloth, in the stock's own colour. */
