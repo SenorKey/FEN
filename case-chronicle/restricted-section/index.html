@@ -17,7 +17,7 @@
          shelf, and then this room's, which turns the light down on all
          three. -->
     <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261014a">
-    <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261013a">
+    <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261014a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,11 +144,13 @@
                  at the top of the page. Leave both off and the volume
                  is only old.
 
-                 None of these is a link yet. Nothing has been written
-                 behind any of them, and the plate says so. The rail is
-                 a list of five to anything that reads the page instead
-                 of looking at it, since there are no rows under this
-                 shelf to say the same thing again.
+                 Volume I, Israel and Palestine, is written and is a
+                 link (since 2026-10-14). The other four are not, and the
+                 plate says so. The rail is a list of five to anything
+                 that reads the page instead of looking at it, since
+                 there are no rows under this shelf to say the same thing
+                 again; a written volume's link sits inside its list
+                 item, a span.rs-li that takes up no room of its own.
                  ═══════════════════════════════════════════════ -->
             <section class="band rs-stacks" id="stacks" aria-labelledby="stacks-h">
                 <div class="wrap">
@@ -202,18 +204,25 @@
                     <div class="shelf">
 
                         <div class="shelf-plate">
-                            <p class="plate-rest">None of these has been written yet. Each one will follow a single
+                            <p class="plate-rest">Only the first of these has been written. Each one follows a single
                                 conflict the way a case&rsquo;s chronology follows a case, with every significant
                                 event in the order it happened, from the start up to today.</p>
                         </div>
 
                         <div class="shelf-rail" role="list">
 
-                            <span class="bk bk-old" role="listitem" style="--bind: #4b3524; --bk-w: 92px; --bk-h: 356px;">
+                            <!-- Written, so a link. The list item is a box of no size of
+                                 its own (rs-li), so the volume stands on the rail exactly
+                                 where it did, and the link inside it keeps its own role. -->
+                            <span class="rs-li" role="listitem">
+                            <a class="bk bk-old" href="/case-chronicle/restricted-section/israel-palestine/"
+                                aria-describedby="bk-ip-t bk-ip-s" style="--bind: #4b3524; --bk-w: 92px; --bk-h: 356px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Volume I</span>
-                                    <span class="bk-plate-t">Israel and Palestine</span>
-                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                    <span class="bk-plate-t" id="bk-ip-t">Israel and Palestine</span>
+                                    <span class="bk-plate-s" id="bk-ip-s"><span class="pip pip-open"></span>1881 to today
+                                        &middot; Reviewed through Oct 14, 2026</span>
+                                    <span class="bk-plate-go">Open the volume &rarr;</span>
                                 </span>
                                 <span class="sp">
                                     <span class="sp-skin" aria-hidden="true"
@@ -231,6 +240,7 @@
                                     <span class="sp-name">Israel <em>&amp;</em> Palestine</span>
                                     <span class="sp-vol" aria-hidden="true">I</span>
                                 </span>
+                            </a>
                             </span>
 
                             <span class="bk bk-old" role="listitem" style="--bind: #2c231b; --bk-w: 86px; --bk-h: 340px;">

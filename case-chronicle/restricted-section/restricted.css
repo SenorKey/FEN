@@ -681,3 +681,8 @@ body::after {
   .rs-stacks .shelf-rail { display: none; }
   .rs-stacks .shelf-plate { min-height: 0; margin: 0; padding: 0; }
 }
+
+/* ── a written volume ──
+   Its link sits inside the rail's list item, which has no box of its
+   own, so the volume is laid out on the rail as the unwritten ones are. */
+.rs-li { display: contents; }

@@ -1,0 +1,318 @@
+/* ═══════════════════════════════════════════════
+   A volume of the Restricted Section
+
+   A volume is a conflict's history set in the Chronological View's own
+   markup, so chronicle.css draws nearly all of it. This sheet adds only
+   what a history needs and a case does not:
+
+     .vol-ip            the volume's two inks, set on <body>
+     .masthead-vol      a masthead with a lede and a row of periods,
+                        since there is no case page above it
+     li.tl-before       background, above where the history starts: a
+                        list of its own (ol.tl-pro) inside the rail, its
+                        phase and its cards (tl-pre) on a dotted line
+     li.tl-start        where the history starts: the first entry, with
+                        the two sides' cards beside it, and the mark the
+                        solid line runs down from
+     p.tl-era           a period's name, over the first phase in it
+     p.tl-x-f           an event folded into another card's drawer
+     .chip-q            "Disputed", on a card whose facts or meaning
+                        the two sides argue about
+
+   Nothing here names a conflict except the inks, and the next volume
+   restates those and nothing else.
+   ═══════════════════════════════════════════════ */
+
+/* ── the inks ──
+   A case's two inks mean the side that brought it and the side
+   answering. Here nobody brought anything, so a history has its own
+   pair: an ochre and a violet, chosen to stay apart from each other and
+   from the court's sepia for the three common kinds of colour
+   blindness, and to read as no flag. Every colour a side needs in the
+   chronology is mixed from these by chronicle.css. */
+.vol-ip {
+  --p: #9a5a12;
+  --p-dim: #85531c;
+  --p-wash: rgba(154, 90, 18, 0.085);
+  --p-edge: rgba(154, 90, 18, 0.4);
+
+  --d: #5b4791;
+  --d-dim: #594d82;
+  --d-wash: rgba(91, 71, 145, 0.085);
+  --d-edge: rgba(91, 71, 145, 0.4);
+}
+
+/* ── the masthead ──
+   The chronology's masthead with what a case page's would have said
+   about the case: a lede and a strip of facts. Under them, the periods
+   the rail runs through, each a jump to where it starts. */
+.masthead-vol { padding: 96px 0 0; border-bottom: 0; }
+
+.masthead-vol .eyebrow { margin-bottom: 20px; }
+
+.masthead-vol .masthead-title {
+  font-size: clamp(2.8rem, 8vw, 5.6rem);
+  margin-bottom: 34px;
+}
+
+.masthead-vol .docket-meta { margin-top: 44px; }
+
+.vol-eras {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: 56px;
+  border: 1px solid var(--rule);
+  border-bottom: 0;
+}
+
+.vol-eras a {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px 14px 13px;
+  text-decoration: none;
+  background: rgba(23, 20, 15, 0.035);
+  box-shadow: inset 0 -1px 0 var(--rule);
+  transition: background-color 0.2s;
+}
+
+.vol-eras a + a { border-left: 1px solid var(--rule); }
+
+.vol-eras a:hover,
+.vol-eras a:focus-visible { background: var(--bg-band); }
+
+.vol-eras a:focus-visible { outline-offset: -4px; }
+
+.vol-era-y {
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.vol-era-t {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .vol-eras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .vol-eras a:nth-child(3n + 1) { border-left: 0; }
+  .vol-eras a:nth-child(n + 4) { border-top: 1px solid var(--rule); }
+}
+
+@media (max-width: 620px) {
+  .masthead-vol { padding-top: 56px; }
+  .masthead-vol .docket-meta { margin-top: 32px; }
+  .vol-eras { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; }
+  .vol-eras a:nth-child(n) { border-left: 1px solid var(--rule); border-top: 0; }
+  .vol-eras a:nth-child(odd) { border-left: 0; }
+  .vol-eras a:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  .vol-era-t { font-size: 0.74rem; }
+}
+
+@media print {
+  .vol-eras { display: none; }
+}
+
+/* A period's name, over the first phase in it: the plate's mono in the
+   court's ink, the years and then the name. */
+.tl-era {
+  margin-bottom: 14px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tl-c-ink);
+}
+
+.tl-era span { color: var(--muted); }
+
+.tl-era span::before { content: '\00b7'; margin: 0 0.7em; color: var(--faint); }
+
+/* Arrived at from the row of periods, a phase lands clear of the nav
+   and the bar, as an entry does. */
+.tl-phase { scroll-margin-top: 92px; }
+
+/* ── before the start ──
+   The background sits above where the history starts, on the same rail
+   and in the same order of time, but it is not part of the story the
+   rail tells. So it covers the rail's line and the ink that runs down
+   it, which both start at the top of the list and so are only seen from
+   the start entry down, and it draws a line of its own: dotted, fading
+   in from nothing at the top, the way the solid line does.
+
+   The cover is the band's own colour, and above the exhibit wash for
+   the reason the cards are (see "Chronology" in chronicle.css). */
+.tl-before {
+  position: relative;
+  z-index: 3;
+  padding-top: 22px;
+  background: var(--bg-band);
+}
+
+/* The rail's own top padding moves inside the cover, or the solid line
+   would show in it, above the background. */
+.tl:has(> .tl-before) { padding-top: 0; }
+
+.tl-pro {
+  list-style: none;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.tl-pro::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  margin-left: -1px;
+  border-left: 2px dotted var(--tl-n-line);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 140px);
+  mask-image: linear-gradient(180deg, transparent, #000 140px);
+}
+
+/* Its phase is the rail's first, and keeps the band's colour round it
+   as the first one always does. Its name is quieter than a phase of the
+   history's own. */
+.tl-pro .tl-phase-l { color: var(--muted); }
+
+/* A background card is the same card on the same stock, with nothing
+   raised: no shadow, a little narrower, and its mark is never inked,
+   because nothing above the start is part of what has been read. */
+.tl-pre .tl-c { box-shadow: none; }
+.tl-pre .tl-h { font-size: 1.06rem; }
+.tl-pre .tl-b { font-size: 0.92rem; color: var(--ink-2); }
+.tl-pre .tl-date { color: var(--faint); }
+
+.tl-ev.tl-pre::before {
+  border-style: dotted;
+  animation: none !important;
+}
+
+@media (hover: hover) {
+  .tl-pre .tl-c:hover { box-shadow: var(--tl-lift); }
+}
+
+@media (min-width: 901px) {
+  .tl-pre .tl-c { max-width: 440px; }
+}
+
+/* ── the start ──
+   The first entry of the history proper. Its mark is the one the solid
+   line runs down from: larger than any other, the ink of the rail
+   inside a ring of the band, so the dotted line above ends on it and
+   the solid one leaves from under it. The collar is wide enough to hide
+   the few pixels of the solid line that would otherwise show above it,
+   in the row's own padding. */
+.tl-start .tl-c { border-top: 3px solid var(--ink); }
+
+.tl-start .tl-date { color: var(--ink); }
+
+@media (min-width: 901px) {
+  .tl-ev.tl-start::before {
+    width: 23px;
+    height: 23px;
+    margin-left: -11.5px;
+    top: calc(12px + 1.5px - 11.5px);
+    border: 4px solid var(--ink);
+    background: var(--ink);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 4px var(--bg-band), 0 0 0 5px var(--bg-band);
+    animation: none !important;
+  }
+
+  /* The card's own top edge is 3px of ink, and the mark sits on it. */
+  .tl-start .tl-c { padding-top: 26px; }
+}
+
+/* ── an event folded into a card ──
+   Smaller events ride in the drawer of the card they belong with, each
+   with its date and a name of its own, and each followed by its own
+   sources, so it is clear which link backs which. */
+.tl-x-f .tl-x-d {
+  margin-right: 0.55em;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.tl-x-f .tl-x-h { font-weight: 600; color: var(--ink); }
+
+/* A link from one card to another is in the copy, not a citation. */
+.tl-xref {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s, color 0.15s;
+}
+
+.tl-xref:hover,
+.tl-xref:focus-visible { color: var(--ink); text-decoration-color: var(--court); }
+
+/* ── disputed ──
+   A stamp in the corner of the date, like a ruling's, but not in any
+   ink of its own: it does not say who is right, only that the drawer
+   carries more than one account. */
+.chip-q {
+  border-style: dashed;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── the end card ──
+   Its sources, under the closing lines, as on a card. */
+.tl-end-in .tl-cite { margin-top: 18px; }
+
+/* ── narrow ──
+   One column, the rail at the left edge. The background's line moves
+   with it; the start entry's card comes first in its row, ahead of the
+   two sides' cards, so its mark is where the solid line begins, and a
+   strip of the band's colour hides the solid line between the top of
+   the row and the mark, carrying the dotted one down to it instead. */
+@media (max-width: 900px) {
+  .tl-pro::before { left: 8px; margin-left: -1px; }
+
+  .tl-start { row-gap: 12px; }
+
+  .tl-start > .tl-c::before {
+    width: 17px;
+    height: 17px;
+    left: -33.5px;
+    top: 15px;
+    border: 3px solid var(--ink);
+    background: var(--ink);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 3px var(--bg-band), 0 0 0 4px var(--bg-band);
+    animation: none !important;
+  }
+
+  .tl-start::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0;
+    width: 6px;
+    height: 30px;
+    z-index: 3;
+    background: var(--bg-band);
+    background-image: radial-gradient(circle, var(--tl-n-line) 1px, transparent 1.4px);
+    background-size: 6px 6px;
+    background-position: 0 1px;
+    background-repeat: repeat-y;
+  }
+}
+
+@media print {
+  .tl-before { background: none; }
+}
