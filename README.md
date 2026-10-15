@@ -59,9 +59,6 @@ Live at [frontendneeded.com](https://frontendneeded.com)
   meta and add the URL to `sitemap.xml` on the commit that fills it in
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
-- `/claude-usage/` — Live Claude Code session-window dial (`noindex,nofollow`); reads a
-  gitignored `state.json` synced up from the laptop. Sync tooling lives outside this repo
-  at `~/.claude/usage-dashboard/` — it names LAN hosts and paths, so it stays off GitHub
 - `/gallimaufry/` — Returns 404 via `.htaccess`
 
 Plus a custom `/404.html` for unmatched routes.

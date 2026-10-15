@@ -3,6 +3,5 @@ Allow: /
 Disallow: /gallimaufry/
 Disallow: /etc/
 Disallow: /diet/
-Disallow: /claude-usage/
 
 Sitemap: https://frontendneeded.com/sitemap.xml
