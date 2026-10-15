@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="South Africa v. Israel as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="South Africa v. Israel as a TLDR case flow: what the court has to decide, in what order, and where each answer leads, built from the court’s public record.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/south-africa-v-israel/flow/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/south-africa-v-israel/flow/">
-    <meta property="og:title" content="South Africa v. Israel, the TLDR &mdash; Case Chronicle">
+    <meta property="og:title" content="South Africa v. Israel, the TLDR — Case Chronicle">
     <meta property="og:description"
-        content="South Africa v. Israel as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="South Africa v. Israel as a TLDR case flow: what the court has to decide, in what order, and where each answer leads, built from the court’s public record.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,142 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="south-africa-v-israel">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
+    <!-- ═══════════════════════════════════════════════
+         Hearing wash
+
+         Each side's own lawyers, run down their own side of the page
+         behind the argument. What is on the left was said to the court
+         by South Africa's delegation, and what is on the right by
+         Israel's. Nothing here is evidence: this court heard no
+         witnesses at these hearings, only argument.
+
+         Both columns open on the same question, the one the case turns
+         on. South Africa's lawyer said Israel's leaders had spelled out
+         an intent to destroy; Israel's, the next morning, that nothing
+         beyond "random assertions" showed one. That pair is the case in
+         small, which is why the two cards sit level at the head of the
+         page.
+
+         This recreates the court's own verbatim records of the four
+         hearings, cited by record number and page. An ellipsis marks
+         words left out. Spelling is the court's: British, and kept.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Ngcukaitobi</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; there is an extraordinary feature in this case: that Israel&rsquo;s political leaders, military commanders and persons holding official positions have systematically and in explicit terms declared their genocidal intent; and these statements are then repeated by soldiers on the ground in Gaza as they engage in the destruction of Palestinians and the physical infrastructure of Gaza.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;33</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Hassim</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Every day there is mounting irreparable loss of life, property, dignity and humanity for the Palestinian people. Our newsfeeds show graphic images of suffering that has become unbearable to watch. Nothing will stop this suffering, except an order from this Court.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;30</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Lamola</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>That said, no armed attack on a State&rsquo;s territory no matter how serious &mdash; even an attack involving atrocity crimes &mdash; can provide any justification for, or defence to, breaches of the Convention, whether as a matter of law or morality.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;19</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Dugard</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The people of South Africa and of Israel both have a history of suffering. Both States have become parties to the Genocide Convention in the determination to end suffering.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;42</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Ngcukaitobi</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Any suggestion that Israeli officials did not mean what they said, or were not fully understood &hellip; to mean what they said, should be rejected by this Court. The evidence of genocidal intent is not only chilling, it is also overwhelming and incontrovertible.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;42</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>N&iacute; Ghr&aacute;laigh</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; despite the horror of the genocide against the Palestinian people being livestreamed from Gaza to our mobile phones, computers and television screens &mdash; the first genocide in history where its victims are broadcasting their own destruction in real time in the desperate &mdash; so far vain &mdash; hope that the world might do something.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;71</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Madonsela</b> <time>May 16, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>South Africa had hoped &mdash; when we last appeared before this Court &mdash; to halt this genocidal process &ndash;&ndash; to preserve Palestine and its people. Instead, Israel&rsquo;s genocide has continued apace and has just reached a new and horrific stage.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/27, p.&nbsp;12</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Shaw</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>As far as the acts are concerned in this case, there is little beyond random assertions to demonstrate that Israel has or has had the specific intent to destroy, in whole or in part, the Palestinian people, as such.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;31</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The civilian suffering in this war, like in all wars, is tragic. It is heartbreaking. The harsh realities of the current hostilities are made especially agonizing for civilians given Hamas&rsquo; reprehensible strategy of seeking to maximize civilian harm to both Israelis and Palestinians, even as Israel seeks to minimize it.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;12</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; if there have been acts that may be characterized as genocidal, then they have been perpetrated against Israel.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;15</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Shaw</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Not every conflict is genocidal. The crime of genocide in international law, and under the Genocide Convention and international law, is a uniquely malicious manifestation. It stands alone amongst the violations of international law as the epitome and zenith of evil.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;24</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The Applicant has regrettably put before the Court a profoundly distorted factual and legal picture. The entirety of its case hinges on a deliberately curated, decontextualized and manipulative description of the reality of current hostilities.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;13</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Raguan</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Israel&rsquo;s efforts to mitigate the ravages of this war on civilians are the very opposite of intent to destroy them. Under these circumstances, far from being the only inference that could reasonably be drawn from Israel&rsquo;s pattern of conduct, intent to commit genocide is not even a plausible inference.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;49</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Noam</b> <time>May 17, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>As Israel has previously stated before this Court, when dealing with the law, facts matter, truth should matter. Words must retain their meaning. Calling something a genocide, again and again, does not make it genocide. Repeating a lie does not make it true.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/28, p.&nbsp;8</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -118,16 +241,22 @@
         <!-- ═══════════════════════════════════════════════
              Case flow
 
-             Under construction: the frame of the map is in place, with
-             one starting card. The questions of the case replace it.
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
 
-             On a written case every card in the chain is a question,
-             and every way out of it is an answer, written on the line.
-             Where the case stands is said in three places and kept in
-             step by hand: the line at the top, is-done on every step
-             the case has been along, and is-here with its flag on the
-             step it is waiting at. chronicle.css says at the head of
-             its own block what each class is for.
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at. Nothing moves until the judgment, which will
+             answer the last three questions at once.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -138,7 +267,7 @@
                 <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
 
                 <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Under construction. The questions this case turns on have not been written yet.</p>
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Written arguments. South Africa answers Israel&rsquo;s defense by November 22, 2027, and Israel answers that by May 22, 2029. Hearings and a single judgment come after that, and the judgment answers every question below the first.</p>
                     <div class="cf-head">
                         <ul class="cf-key" aria-hidden="true">
                             <li class="cf-key-p">South Africa</li>
@@ -156,19 +285,216 @@
                         </button>
                     </div>
                     <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Right after South Africa filed &middot; 2024</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Only about what happens while the case goes on</p>
+                                </div></div>
+                                <h3 class="cf-h">Should the court order Israel to do anything before the case is decided?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Should the court order Israel to do anything before the case is decided?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">Yes, three times &middot; Jan, Mar and May 2024</span></p>
+                                    <p class="cf-b">A genocide case at this court takes years, so South Africa asked the judges for <a class="term" href="#t-provisional-measures" data-term="t-provisional-measures" title="Provisional measures: Emergency orders the court can give while a case goes on, to stop harm that couldn’t be undone before the final ruling. They’re binding, but the court has no way of its own to enforce them.">emergency orders</a> right away, while the main question waits. The most it asked for was that Israel stop its military operations in Gaza. The test for these orders is a lot lower than proof. The court only asks if the rights South Africa wants protected are <a class="term" href="#t-plausible" data-term="t-plausible" title="Plausible: The test for emergency orders. The court asks if the rights a country wants protected plausibly exist and could be at risk. It isn’t a finding that the accusation is true.">plausible</a>, and if they&rsquo;re at risk of harm that couldn&rsquo;t be undone before the end of the case.</p>
+                                    <p class="cf-b">The court said yes three times in 2024. In January it ordered Israel to prevent genocide, let aid in, punish public calls for genocide and keep evidence. In March, with famine setting in, it ordered aid in at scale. In May it ordered Israel to halt its offensive in Rafah, in words the judges themselves read in different ways. It never ordered a general ceasefire.</p>
+                                    <p class="cf-b">None of that decides the case. The orders are binding, but the court has no police of its own. South Africa told the court in August 2026 that Israel isn&rsquo;t complying, and Israel says it has kept to its obligations. Either way, the case carries on to the questions below.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-d is-done cf-dash">
+                                <p class="cf-ans">Either way</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Israel&rsquo;s objections &middot; March 2026</p>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Decided in the same judgment as everything else</p>
+                                </div></div>
+                                <h3 class="cf-h">Can the court hear the case at all?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Can the court hear the case at all?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                    <p class="cf-b">This one is about <a class="term" href="#t-jurisdiction" data-term="t-jurisdiction" title="Jurisdiction: The court’s power to hear a case at all. Here it comes only from Article IX of the Genocide Convention.">jurisdiction</a>, which just means the court&rsquo;s power to hear a case. This court can only take a case the countries involved have agreed to send it. Here the only agreement is <a class="term" href="#t-article-ix" data-term="t-article-ix" title="Article IX: The clause of the Genocide Convention that lets one member take another to this court over a dispute about the treaty. It’s the only reason this court has the case.">Article IX</a> of the <a class="term" href="#t-genocide-convention" data-term="t-genocide-convention" title="Genocide Convention: The 1948 treaty that defines genocide and makes the countries that join it promise to prevent it and punish it. Israel joined in 1950 and South Africa in 1998.">Genocide Convention</a>, which both countries joined without holding that clause back. It covers disputes about the treaty, so the court only has power over this case if it really is a dispute about genocide.</p>
+                                    <p class="cf-b">In January 2024 Israel argued there wasn&rsquo;t a real <a class="term" href="#t-dispute" data-term="t-dispute" title="Dispute: A real disagreement between the two countries about the treaty. It has to exist when the case is filed. Israel argued in 2024 that there wasn’t one yet.">dispute</a> yet when South Africa filed, because South Africa never took up its offer to talk. It also said nothing it had done could fall under the treaty. The court found enough to give its emergency orders, but it said that was only a <a class="term" href="#t-prima-facie" data-term="t-prima-facie" title="Prima facie: At first sight. Before giving emergency orders the court only has to see, at first sight, that it may have power over the case.">prima facie</a> look and not its final answer.</p>
+                                    <p class="cf-b">Israel raised objections again in its answer of March 2026, on the court&rsquo;s power and on whether the case should be heard at all. What they say isn&rsquo;t public yet. Because Israel put them in its main answer instead of filing them early, the court will rule on them in its final judgment, along with everything else.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">No power over the case</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No power over the case"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The case ends without an answer</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the court decides it doesn&rsquo;t have power here, the case is over and the court never says whether genocide happened. That wouldn&rsquo;t clear Israel of anything. It would mean this court isn&rsquo;t the one that gets to decide.</p>
+                                            <p class="cf-b">The emergency orders from 2024 would end with that judgment too. This is the outcome Israel asked for in January 2024, when it asked the court to remove the case from its list.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
                         <li class="cf-step">
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin" aria-hidden="true"></span>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The starting card</p>
-                                </div></div>
-                                <h3 class="cf-h">Under construction</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Under construction"><span class="cf-more-i" aria-hidden="true"></span></button>
-                                <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Not written yet</span></p>
-                                    <p class="cf-b">This view will set out what has to be decided in the case, in what order, and where each answer leads. Each question will get a card like this one, and each card will open to explain the question in plain words.</p>
-                                </div></div>
+                                <p class="cf-ban">What the whole case comes down to</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The main question</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Did Israel commit genocide in Gaza?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did Israel commit genocide in Gaza?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <p class="cf-b">This is the question people mean when they talk about the case. This court judges countries and not people, so the question is whether Israel as a state is responsible for <a class="term" href="#t-genocide" data-term="t-genocide" title="Genocide: Under the treaty, any of five acts done with intent to destroy, in whole or in part, a national, ethnic, racial or religious group as such: killing its members, seriously harming them, imposing conditions of life meant to destroy it, preventing births, or taking its children.">genocide</a>, through what its army and its officials did. That&rsquo;s called <a class="term" href="#t-state-responsibility" data-term="t-state-responsibility" title="State responsibility: This court judges countries, not people. It can find a state responsible for breaking the treaty. Putting individuals on trial is for criminal courts.">state responsibility</a>, and it&rsquo;s a different thing from putting a person on trial.</p>
+                                        <p class="cf-b">The court has said in earlier cases that an accusation this serious has to be proved by evidence that is &ldquo;fully conclusive.&rdquo; Under the treaty genocide takes two things, and they&rsquo;re the two cards inside this one. Both are needed. South Africa says both are there. Israel says neither is.</p>
+                                        <p class="cf-who"><span class="cf-l">Who must prove it</span>South Africa. At this court the country that makes an accusation has to prove it.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">Both are needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part one &middot; The acts</p>
+                                        <h4 class="cf-h">Were acts on the treaty&rsquo;s list done to Palestinians in Gaza?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Were acts on the treaty’s list done to Palestinians in Gaza?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                            <p class="cf-b">The treaty lists five acts, and the ones at the center of this case are killing members of the group, seriously harming them, and putting them in conditions of life meant to destroy them. South Africa adds measures to prevent births. These are the <a class="term" href="#t-article-ii" data-term="t-article-ii" title="The listed acts: The five acts in Article II of the treaty. On their own they aren’t genocide. They become genocide when an intent to destroy the group is behind them.">listed acts</a>, and on their own they aren&rsquo;t genocide yet.</p>
+                                            <p class="cf-b">South Africa says the killing, the siege, the destruction of hospitals and homes, and the hunger all fit the list. Israel says the deaths and damage come from a war against Hamas fought in crowded cities where Hamas hides among civilians, and that harm to civilians in a war isn&rsquo;t one of these acts. It says the right rules for that are the <a class="term" href="#t-ihl" data-term="t-ihl" title="Law of war: The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn’t about those rules.">law of war</a>, which this case isn&rsquo;t about.</p>
+                                            <p class="cf-b">The court has described the deaths, the displacement and the famine in its orders. It hasn&rsquo;t decided this question.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part two &middot; The intent</p>
+                                        <h4 class="cf-h">Were they done to destroy Palestinians in Gaza as a group?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Were they done to destroy Palestinians in Gaza as a group?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                            <p class="cf-b">This is where most of the case will be fought. Even if the acts happened, they&rsquo;re only genocide if they were done with <a class="term" href="#t-specific-intent" data-term="t-specific-intent" title="Specific intent: The intent to destroy the group as such, also called dolus specialis. It has to be there on top of the intent to do the act itself, and it’s what sets genocide apart from other crimes.">intent to destroy</a> the group, in whole or in part, because of who they are. The court said in 2024 that Palestinians in Gaza are a <a class="term" href="#t-substantial-part" data-term="t-substantial-part" title="Substantial part: The part of the group targeted has to be big enough to matter to the group as a whole. The court said in 2024 that Palestinians in Gaza, over 2 million people, are.">substantial part</a> of the Palestinian people, so that piece of the test is met, at least at first sight.</p>
+                                            <p class="cf-b">South Africa points to what Israeli leaders said, like a &ldquo;complete siege&rdquo; with &ldquo;no food&rdquo; and &ldquo;human animals,&rdquo; and to the pattern of what happened on the ground. Israel says those were random quotes that go against its actual policy, and that warning civilians to leave and letting aid in are the opposite of an intent to destroy.</p>
+                                            <p class="cf-b">When there&rsquo;s no written plan, the court has only accepted intent before when it was the <a class="term" href="#t-only-inference" data-term="t-only-inference" title="Only reasonable inference: The court’s test from its earlier genocide cases. Where no plan is proved, intent can be read from a pattern of conduct only if it’s the only conclusion that could reasonably be drawn from it.">only reasonable inference</a> from what was done. That test is strict, and it&rsquo;s being argued over in this case. The United States asked the court to keep it. Namibia argued that intent can be read from the sheer scale of what was done.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
                             </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Israel is responsible for genocide</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Israel is responsible for genocide"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The court says what Israel owes</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The court would declare that Israel broke the treaty and is responsible for genocide. It can order Israel to stop, to punish the people responsible, and to make up for the harm, which the law calls reparation.</p>
+                                            <p class="cf-b">What it can&rsquo;t do is enforce that itself. If Israel didn&rsquo;t comply, South Africa could go to the UN Security Council, where any of the five permanent members can block action. The <a class="term" href="#t-judgment" data-term="t-judgment" title="Judgment: The court’s final decision. It’s binding on the two countries and there is no appeal.">judgment</a> would still be final, and there is no appeal from it.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d">
+                                <p class="cf-ans">If no</p>
+                            </div>
+                        </li>
+                        <li class="cf-step">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Even if the answer above is no</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The treaty&rsquo;s other duties</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Did Israel break any of the treaty&rsquo;s other duties?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did Israel break any of the treaty’s other duties?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                        <p class="cf-b">The treaty doesn&rsquo;t only forbid committing genocide. It also makes every member prevent it and punish it, and punish people who publicly call for it. So a country can lose on these even if the court finds it didn&rsquo;t commit genocide itself.</p>
+                                        <p class="cf-b">That has happened at this court before. In 2007 it found that Serbia hadn&rsquo;t committed the genocide at Srebrenica, but that it broke the treaty by failing to prevent it. The two cards inside this one are the duties South Africa says Israel failed in, and either one is enough.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Duty one &middot; To prevent</p>
+                                        <h4 class="cf-h">Did it fail to prevent genocide?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did it fail to prevent genocide?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                            <p class="cf-b">Every member has a <a class="term" href="#t-duty-to-prevent" data-term="t-duty-to-prevent" title="Duty to prevent: Each member has to do what it reasonably can to stop a genocide once it knows, or should know, of a serious risk of one. It’s only broken if a genocide actually happens.">duty to prevent</a> genocide from the moment it knows, or should know, that there&rsquo;s a serious risk of one. South Africa says Israel knew at the latest when the court gave its first order in January 2024, and did too little after that.</p>
+                                            <p class="cf-b">There&rsquo;s a catch the court set in the Serbia case. A country only breaks this duty if a genocide actually happens. So this route only works if the court finds a genocide took place, even if not at the hands of people whose acts count as Israel&rsquo;s own.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Duty two &middot; To punish incitement</p>
+                                        <h4 class="cf-h">Did it fail to punish public calls for genocide?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did it fail to punish public calls for genocide?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Disputed</span></p>
+                                            <p class="cf-b"><a class="term" href="#t-incitement" data-term="t-incitement" title="Direct and public incitement: Openly urging people to commit genocide. It breaks the treaty on its own, whether or not a genocide follows.">Direct and public incitement</a> means openly urging people to commit genocide. Unlike the others it breaks the treaty on its own, even if no genocide follows. The court ordered Israel in January 2024 to prevent and punish it, by sixteen votes to one, and Israel&rsquo;s own judge voted for that order.</p>
+                                            <p class="cf-b">South Africa says Israeli officials made statements like that and nobody was punished. Israel told the court in January 2024 that its attorney general had warned that calls to harm civilians may be a crime, and that several cases were being looked at. Whether anyone has been charged since isn&rsquo;t in the court&rsquo;s public record.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Israel broke the treaty</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Israel broke the treaty"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">A finding short of genocide</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The court would find Israel responsible for failing in that duty, without finding that it committed genocide. That&rsquo;s where Serbia ended up in 2007.</p>
+                                            <p class="cf-b">The court can order Israel to put it right, and the same limits on enforcement apply as on the question above.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Israel didn&rsquo;t break the treaty</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Israel didn’t break the treaty"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The case ends in Israel&rsquo;s favor</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The court would find that Israel didn&rsquo;t break the Genocide Convention, and its emergency orders from 2024 would end with that judgment.</p>
+                                            <p class="cf-b">That still wouldn&rsquo;t be a ruling that the war was lawful. Whether Israel broke the <a class="term" href="#t-ihl" data-term="t-ihl" title="Law of war: The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn’t about those rules.">law of war</a> is a separate question that this case can&rsquo;t answer.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
                         </li>
                     </ol>
                 </div>
@@ -193,9 +519,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -203,12 +528,61 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which judges countries and not people, and to the treaty the case is about.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icj">International Court of Justice</dt><dd>The United Nations&rsquo; own court, in The Hague. It settles disputes between countries, not cases against people. It has 15 judges elected by the UN for nine years at a time, and it&rsquo;s sometimes called the World Court.</dd></div>
+                    <div><dt id="t-genocide-convention">Genocide Convention</dt><dd>The 1948 treaty that defines genocide and makes the countries that join it promise to prevent it and punish it. Israel joined in 1950 and South Africa in 1998.</dd></div>
+                    <div><dt id="t-article-ix">Article IX</dt><dd>The clause of the Genocide Convention that lets one member take another to this court over a dispute about the treaty. It&rsquo;s the only reason this court has the case.</dd></div>
+                    <div><dt id="t-judge-ad-hoc">Judge ad hoc</dt><dd>A judge a country picks for one case when no judge of its nationality is on the court. They sit and vote with the other judges.</dd></div>
+                    <div><dt id="t-president">President of the court</dt><dd>The judge the others elect to run the court and chair its hearings, for three years at a time.</dd></div>
+                    <div><dt id="t-registrar">Registrar</dt><dd>The head of the court&rsquo;s staff. Keeps the record, sits with the judges at hearings, and reads out the French text of a ruling.</dd></div>
+                    <div><dt id="t-agent">Agent</dt><dd>The official who speaks for a country in a case at this court, usually a diplomat or a government lawyer. A country can have co-agents who share the job.</dd></div>
+                    <div><dt id="t-intervention">Intervention</dt><dd>Another country asking to take part. Any member of the treaty can come in to argue how the treaty should be read, and is then bound by how the court reads it. It doesn&rsquo;t become a party to the case.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
                     <div><dt id="t-general-list">General List</dt><dd>The court&rsquo;s numbered list of its cases. This one is No. 192.</dd></div>
+                    <div><dt id="t-application">Application</dt><dd>The document that starts a case at this court. South Africa&rsquo;s runs to 84 pages.</dd></div>
+                    <div><dt id="t-memorial">Memorial</dt><dd>The full written case of the country that sued, with its evidence. South Africa filed its in October 2024.</dd></div>
+                    <div><dt id="t-counter-memorial">Counter-memorial</dt><dd>The full written answer of the country being sued. Israel filed its in March 2026.</dd></div>
+                    <div><dt id="t-reply-rejoinder">Reply and rejoinder</dt><dd>A second round of writing. The country that sued answers the counter-memorial, and the other side answers that.</dd></div>
+                    <div><dt id="t-confidential">Confidential pleadings</dt><dd>The court&rsquo;s rules keep the written arguments out of public view until the court decides to publish them, usually when the hearings on them open.</dd></div>
+                    <div><dt id="t-verbatim-record">Verbatim record</dt><dd>The court&rsquo;s word-for-word record of a hearing, numbered like CR 2024/1. Cited here by page.</dd></div>
+                    <div><dt id="t-order">Order</dt><dd>A written decision of the court on one step in a case. It isn&rsquo;t the final judgment.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-provisional-measures">Provisional measures</dt><dd>Emergency orders the court can give while a case goes on, to stop harm that couldn&rsquo;t be undone before the final ruling. They&rsquo;re binding, but the court has no way of its own to enforce them.</dd></div>
+                    <div><dt id="t-plausible">Plausible</dt><dd>The test for emergency orders. The court asks if the rights a country wants protected plausibly exist and could be at risk. It isn&rsquo;t a finding that the accusation is true.</dd></div>
+                    <div><dt id="t-prima-facie">Prima facie</dt><dd>At first sight. Before giving emergency orders the court only has to see, at first sight, that it may have power over the case.</dd></div>
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>The court&rsquo;s power to hear a case at all. Here it comes only from Article IX of the Genocide Convention.</dd></div>
+                    <div><dt id="t-dispute">Dispute</dt><dd>A real disagreement between the two countries about the treaty. It has to exist when the case is filed. Israel argued in 2024 that there wasn&rsquo;t one yet.</dd></div>
+                    <div><dt id="t-admissibility">Admissibility</dt><dd>Whether a case the court has power over is still one it should hear, for example because of how it was brought.</dd></div>
+                    <div><dt id="t-preliminary-objections">Preliminary objections</dt><dd>A challenge to jurisdiction or admissibility filed early and decided on its own, before the main case. Israel didn&rsquo;t file one. It put its objections in its counter-memorial instead, so they&rsquo;re decided with everything else.</dd></div>
+                    <div><dt id="t-standing">Standing</dt><dd>The right to bring a case. Every member of the Genocide Convention has a stake in it being kept, so any member can sue another without having been harmed itself.</dd></div>
+                    <div><dt id="t-merits">Merits</dt><dd>The main question in a case, as opposed to steps along the way. Here, whether Israel broke the Genocide Convention.</dd></div>
+                    <div><dt id="t-judgment">Judgment</dt><dd>The court&rsquo;s final decision. It&rsquo;s binding on the two countries and there is no appeal.</dd></div>
+                    <div><dt id="t-opinion">Opinions and declarations</dt><dd>What a judge writes alongside a decision to explain a vote or add a point. A dissent explains a vote against. None of them changes the result.</dd></div>
+                    <div><dt id="t-monitoring-committee">Monitoring committee</dt><dd>Three judges the court set up in 2023 to follow whether its emergency orders are being carried out and suggest to the court what it could do.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the treaty says</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-genocide">Genocide</dt><dd>Under the treaty, any of five acts done with intent to destroy, in whole or in part, a national, ethnic, racial or religious group as such: killing its members, seriously harming them, imposing conditions of life meant to destroy it, preventing births, or taking its children.</dd></div>
+                    <div><dt id="t-article-ii">The listed acts</dt><dd>The five acts in Article II of the treaty. On their own they aren&rsquo;t genocide. They become genocide when an intent to destroy the group is behind them.</dd></div>
+                    <div><dt id="t-specific-intent">Specific intent</dt><dd>The intent to destroy the group as such, also called dolus specialis. It has to be there on top of the intent to do the act itself, and it&rsquo;s what sets genocide apart from other crimes.</dd></div>
+                    <div><dt id="t-only-inference">Only reasonable inference</dt><dd>The court&rsquo;s test from its earlier genocide cases. Where no plan is proved, intent can be read from a pattern of conduct only if it&rsquo;s the only conclusion that could reasonably be drawn from it.</dd></div>
+                    <div><dt id="t-substantial-part">Substantial part</dt><dd>The part of the group targeted has to be big enough to matter to the group as a whole. The court said in 2024 that Palestinians in Gaza, over 2 million people, are.</dd></div>
+                    <div><dt id="t-incitement">Direct and public incitement</dt><dd>Openly urging people to commit genocide. It breaks the treaty on its own, whether or not a genocide follows.</dd></div>
+                    <div><dt id="t-duty-to-prevent">Duty to prevent</dt><dd>Each member has to do what it reasonably can to stop a genocide once it knows, or should know, of a serious risk of one. It&rsquo;s only broken if a genocide actually happens.</dd></div>
+                    <div><dt id="t-state-responsibility">State responsibility</dt><dd>This court judges countries, not people. It can find a state responsible for breaking the treaty. Putting individuals on trial is for criminal courts.</dd></div>
+                    <div><dt id="t-ihl">Law of war</dt><dd>The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn&rsquo;t about those rules.</dd></div>
+                    <div><dt id="t-self-defense">Self-defense</dt><dd>A country&rsquo;s right to use force when it&rsquo;s attacked. Israel says its war in Gaza is self-defense. South Africa says self-defense can never excuse genocide.</dd></div>
+                    <div><dt id="t-famine">Famine</dt><dd>The worst level on the hunger scale UN agencies and aid groups use, called the IPC. It means extreme lack of food, acute malnutrition and deaths from it, each past a set line.</dd></div>
                 </dl>
             </div>
         </details>

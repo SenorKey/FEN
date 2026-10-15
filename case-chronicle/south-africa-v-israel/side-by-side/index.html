@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="South Africa v. Israel, question by question: what each side says, and what the court has decided. This view is under construction.">
+        content="South Africa v. Israel, question by question: what South Africa says, what Israel says, and what the court has decided so far, built from the court’s public record.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/south-africa-v-israel/side-by-side/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/south-africa-v-israel/side-by-side/">
-    <meta property="og:title" content="South Africa v. Israel, side by side &mdash; Case Chronicle">
+    <meta property="og:title" content="South Africa v. Israel, side by side — Case Chronicle">
     <meta property="og:description"
-        content="South Africa v. Israel, question by question: what each side says, and what the court has decided. This view is under construction.">
+        content="South Africa v. Israel, question by question: what South Africa says, what Israel says, and what the court has decided so far, built from the court’s public record.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,142 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="south-africa-v-israel">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
+    <!-- ═══════════════════════════════════════════════
+         Hearing wash
+
+         Each side's own lawyers, run down their own side of the page
+         behind the argument. What is on the left was said to the court
+         by South Africa's delegation, and what is on the right by
+         Israel's. Nothing here is evidence: this court heard no
+         witnesses at these hearings, only argument.
+
+         Both columns open on the same question, the one the case turns
+         on. South Africa's lawyer said Israel's leaders had spelled out
+         an intent to destroy; Israel's, the next morning, that nothing
+         beyond "random assertions" showed one. That pair is the case in
+         small, which is why the two cards sit level at the head of the
+         page.
+
+         This recreates the court's own verbatim records of the four
+         hearings, cited by record number and page. An ellipsis marks
+         words left out. Spelling is the court's: British, and kept.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Ngcukaitobi</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; there is an extraordinary feature in this case: that Israel&rsquo;s political leaders, military commanders and persons holding official positions have systematically and in explicit terms declared their genocidal intent; and these statements are then repeated by soldiers on the ground in Gaza as they engage in the destruction of Palestinians and the physical infrastructure of Gaza.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;33</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Hassim</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Every day there is mounting irreparable loss of life, property, dignity and humanity for the Palestinian people. Our newsfeeds show graphic images of suffering that has become unbearable to watch. Nothing will stop this suffering, except an order from this Court.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;30</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Lamola</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>That said, no armed attack on a State&rsquo;s territory no matter how serious &mdash; even an attack involving atrocity crimes &mdash; can provide any justification for, or defence to, breaches of the Convention, whether as a matter of law or morality.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;19</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Dugard</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The people of South Africa and of Israel both have a history of suffering. Both States have become parties to the Genocide Convention in the determination to end suffering.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;42</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Ngcukaitobi</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Any suggestion that Israeli officials did not mean what they said, or were not fully understood &hellip; to mean what they said, should be rejected by this Court. The evidence of genocidal intent is not only chilling, it is also overwhelming and incontrovertible.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;42</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>N&iacute; Ghr&aacute;laigh</b> <time>Jan 11, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; despite the horror of the genocide against the Palestinian people being livestreamed from Gaza to our mobile phones, computers and television screens &mdash; the first genocide in history where its victims are broadcasting their own destruction in real time in the desperate &mdash; so far vain &mdash; hope that the world might do something.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/1, p.&nbsp;71</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Madonsela</b> <time>May 16, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>South Africa had hoped &mdash; when we last appeared before this Court &mdash; to halt this genocidal process &ndash;&ndash; to preserve Palestine and its people. Instead, Israel&rsquo;s genocide has continued apace and has just reached a new and horrific stage.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/27, p.&nbsp;12</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Shaw</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>As far as the acts are concerned in this case, there is little beyond random assertions to demonstrate that Israel has or has had the specific intent to destroy, in whole or in part, the Palestinian people, as such.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;31</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The civilian suffering in this war, like in all wars, is tragic. It is heartbreaking. The harsh realities of the current hostilities are made especially agonizing for civilians given Hamas&rsquo; reprehensible strategy of seeking to maximize civilian harm to both Israelis and Palestinians, even as Israel seeks to minimize it.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;12</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; if there have been acts that may be characterized as genocidal, then they have been perpetrated against Israel.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;15</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Shaw</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Not every conflict is genocidal. The crime of genocide in international law, and under the Genocide Convention and international law, is a uniquely malicious manifestation. It stands alone amongst the violations of international law as the epitome and zenith of evil.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;24</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Becker</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>The Applicant has regrettably put before the Court a profoundly distorted factual and legal picture. The entirety of its case hinges on a deliberately curated, decontextualized and manipulative description of the reality of current hostilities.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;13</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Raguan</b> <time>Jan 12, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>Israel&rsquo;s efforts to mitigate the ravages of this war on civilians are the very opposite of intent to destroy them. Under these circumstances, far from being the only inference that could reasonably be drawn from Israel&rsquo;s pattern of conduct, intent to commit genocide is not even a plausible inference.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/2, p.&nbsp;49</figcaption>
+                </figure>
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Noam</b> <time>May 17, 2024</time></p>
+                    <dl class="ex-qa">
+                    <dd>As Israel has previously stated before this Court, when dealing with the law, facts matter, truth should matter. Words must retain their meaning. Calling something a genocide, again and again, does not make it genocide. Repeating a lie does not make it true.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">CR 2024/28, p.&nbsp;8</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -116,16 +239,20 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Side by side
+             The ledger — side by side
 
-             Under construction: the ledger's head is in place, with one
-             starting row. The questions of the case replace it.
+             One thing is particular to this case. The full written
+             arguments, South Africa's memorial of October 2024 and
+             Israel's counter-memorial of March 2026, are confidential
+             under the court's rules until it publishes them. So each
+             side here speaks in what it said at the four hearings of
+             2024 and in the written requests and answers the court has
+             published, and, where a row says so, in its government's
+             public statements since. When the pleadings are published,
+             every row should be read against them again.
 
-             On a written case each row sets each side's position as
-             that side actually argued it, in its own filing, with the
-             court's line under the two. A row then takes two drawers,
-             details.drawer for the detail and details.drawer-chain for
-             the logic chain, as on Doe v. Bonnell's page.
+             A line under each question says where the two summaries at
+             its head come from.
              ═══════════════════════════════════════════════ -->
         <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
             <div class="wrap">
@@ -147,14 +274,543 @@
 
                 <div class="ledger" id="ledger">
                 <article class="row" id="q1">
-                    <h3 class="row-q"><span class="row-n">1</span>Under construction</h3>
+                    <h3 class="row-q"><span class="row-n">1</span>Did Israel intend to destroy Palestinians in Gaza as a group?</h3>
 
                     <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Applicant</p><p>Not written yet. This column will give this side&rsquo;s answer to each question, taken from its own filings.</p></div>
-                        <div class="side side-d"><p class="side-tag">Respondent</p><p>Not written yet. This column will give this side&rsquo;s answer to each question, taken from its own filings.</p></div>
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>Yes. Israel&rsquo;s leaders said so &ldquo;in explicit terms,&rdquo; soldiers repeated it on the ground, and the pattern of what was done fits it. The evidence is &ldquo;overwhelming and incontrovertible.&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>No. The quotes are &ldquo;random assertions&rdquo; that go against government policy. Israel&rsquo;s aim is to defeat Hamas and free the hostages, and its warnings to civilians and its aid efforts are &ldquo;the very opposite of intent to destroy.&rdquo;</p></div>
                     </div>
 
-                    <p class="row-court"><span class="rc-mark">Court</span>Not written yet. This line will say what the court has decided on the question, if it has.</p>
+                    <p class="row-court"><span class="rc-mark">Court</span>Not decided. In January 2024 the court quoted three statements by Israeli officials and found the rights South Africa wanted protected <a class="term" href="#t-plausible" data-term="t-plausible" title="Plausible: The test for emergency orders. The court asks if the rights a country wants protected plausibly exist and could be at risk. It isn’t a finding that the accusation is true.">plausible</a>. Judge Nolte, who voted with the majority, wrote that he did not find it plausible that the military operation itself was being carried out with genocidal intent.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=33" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 33">CR 2024/1</a> p. 33 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=31" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 31">CR 2024/2</a> p. 31, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=49" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 49">p. 49</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=19" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 19">Order of Jan 26, 2024</a> &para;&para; 52, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=20" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 20">54</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of January 2024, opens the document at page 4">Nolte declaration</a> &para; 15</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Israel&rsquo;s <a class="term" href="#t-specific-intent" data-term="t-specific-intent" title="Specific intent: The intent to destroy the group as such, also called dolus specialis. It has to be there on top of the intent to do the act itself, and it’s what sets genocide apart from other crimes.">intent to destroy</a> shows in three places at once: in what its leaders and commanders said, in soldiers repeating those words as they fought, and in a pattern of conduct, from the siege to the destruction of hospitals, that points the same way. An intent to destroy Hamas doesn&rsquo;t rule out an intent to destroy the group.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Statements the court itself quoted, among them the defense minister&rsquo;s &ldquo;complete siege&rdquo; with &ldquo;no electricity, no food, no fuel&rdquo; and his &ldquo;we are fighting human animals,&rdquo; the president&rsquo;s &ldquo;an entire nation out there that is responsible,&rdquo; and the prime minister&rsquo;s reference to Amalek. Videos of soldiers repeating such words. The scale of the killing and destruction.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=33" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 33">CR 2024/1</a> pp. 33&ndash;35, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=42" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 42">42</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=15" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 15">Order of Jan 26, 2024</a> &para; 38</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s order in The Gambia v. Myanmar (2020), where it said intent doesn&rsquo;t have to be proved to get emergency orders. For the final ruling, the court&rsquo;s cases on reading intent from a pattern of conduct.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>For a final ruling the court has only accepted intent read from conduct when it was the <a class="term" href="#t-only-inference" data-term="t-only-inference" title="Only reasonable inference: The court’s test from its earlier genocide cases. Where no plan is proved, intent can be read from a pattern of conduct only if it’s the only conclusion that could reasonably be drawn from it.">only reasonable inference</a>. Israel points to other explanations for the same conduct, and some of the statements can be read as being about Hamas, as Judge Nolte noted.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>There&rsquo;s no intent to destroy anyone. Israel&rsquo;s intention is to defend itself, end the threat and rescue the hostages. What counts as the state&rsquo;s intent is what its decision-makers decided, and the decisions of the war cabinet and the security cabinet stress avoiding harm to civilians and letting aid in. Quotes from people outside those bodies, or taken out of context, aren&rsquo;t policy.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Excerpts from cabinet decisions Israel gave the court. The attorney general&rsquo;s public warning that calls to harm civilians may be a crime. Evacuation warnings, pauses in fighting and aid deliveries, which it says no one bent on destruction would make.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=31" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 31">CR 2024/2</a> pp. 31&ndash;32, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=49" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 49">49</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=74" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 74">74</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s genocide cases against Serbia (2007) and Croatia (2015), which set the strict test for intent. The United States argued in 2026 that the court should keep it.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court quoted the president and two ministers anyway, and Judge Nolte wrote that the statements were &ldquo;at least highly ambiguous&rdquo; in their &ldquo;dehumanizing and indiscriminate language.&rdquo; The cabinet decisions Israel showed the court aren&rsquo;t public.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of January 2024, opens the document at page 4">Nolte declaration</a> &para; 15 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260312-int-02-00-en.pdf#page=9" target="_blank" rel="noopener" aria-label="The United States’ declaration of intervention, opens the document at page 9">United States</a> &para; 20</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Without a written plan, is an intent to destroy the group the only reasonable conclusion from what was said and done?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">Leaders said it outright, soldiers echoed it, and the conduct matches.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The words</p>
+                                    <p class="arm-t">The court quoted the defense minister, the president and a minister on Gaza as a whole.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The words</p>
+                                    <p class="arm-t">Those are random quotes. The war cabinet&rsquo;s decisions are the policy, and they protect civilians.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Warnings to leave, aid and pauses are the opposite of intent, so it isn&rsquo;t the only conclusion.</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">Wanting to destroy Hamas doesn&rsquo;t rule out wanting to destroy the group as well.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Rights found plausible in 2024, on a low test. <b>Nothing has been decided.</b> The judgment turns on this.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q2">
+                    <h3 class="row-q"><span class="row-n">2</span>Are the deaths and destruction acts the treaty lists?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>Yes. Mass killing, serious harm, displacement into conditions that can&rsquo;t sustain life, and the attack on Gaza&rsquo;s health system are each acts on the treaty&rsquo;s list.</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>No. This is a war in crowded cities against an enemy that hides among civilians. The treaty &ldquo;was not designed to address the brutal impact of intensive hostilities on the civilian population.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Not decided. The court described the deaths, the &ldquo;massive destruction of homes&rdquo; and the displacement of most of the population, and said at least some of what South Africa alleged &ldquo;appear to be capable of falling within&rdquo; the treaty.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=23" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 23">CR 2024/1</a> pp. 23&ndash;25 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=13" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 13">CR 2024/2</a> p. 13 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 14">Order of Jan 26, 2024</a> &para;&para; 30, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=17" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 17">46</a></p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Israel has done four of the five <a class="term" href="#t-article-ii" data-term="t-article-ii" title="The listed acts: The five acts in Article II of the treaty. On their own they aren’t genocide. They become genocide when an intent to destroy the group is behind them.">listed acts</a>: killing Palestinians in Gaza in large numbers, causing serious bodily and mental harm, inflicting conditions of life calculated to destroy them, and preventing births. Ordering more than a million people to move to places without shelter, food or water is itself one of those conditions.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The UN&rsquo;s casualty figures, which the court used. The first evacuation order of October 13, 2023, covering over a million people. Damage to hospitals and the blocking of medical supplies.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=23" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 23">CR 2024/1</a> pp. 23, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=25" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 25">25&ndash;30</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Article II of the <a class="term" href="#t-genocide-convention" data-term="t-genocide-convention" title="Genocide Convention: The 1948 treaty that defines genocide and makes the countries that join it promise to prevent it and punish it. Israel joined in 1950 and South Africa in 1998.">Genocide Convention</a>, which lists the acts.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Acts like these happen in many wars, and the treaty only reaches them when the intent is there too. So this question can&rsquo;t be won on its own. The casualty figures come from Gaza&rsquo;s health authorities, and the court said they &ldquo;cannot be independently verified.&rdquo;</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Civilian deaths in urban warfare can be the tragic and unintended result of lawful attacks on military targets, and the place to judge them is the <a class="term" href="#t-ihl" data-term="t-ihl" title="Law of war: The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn’t about those rules.">law of war</a>, not the genocide treaty. Hamas fights from homes, hospitals and UN buildings, and the harm that follows is its responsibility as much as anyone&rsquo;s.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Video and accounts of the October 7 attack. Evidence of Hamas fighting from civilian sites and tunnels. Israel&rsquo;s description of its warnings and its targeting rules.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=13" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 13">CR 2024/2</a> pp. 13&ndash;20, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=24" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 24">24</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s 1999 orders in the Kosovo cases, which said that using force can&rsquo;t in itself be genocide.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court didn&rsquo;t accept that the law of war pushes the treaty aside, and found that some of the alleged acts could fall under it. Israel&rsquo;s answer here is mostly about why things happened, which is the intent question, more than about whether they happened.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 14">Order of Jan 26, 2024</a> &para; 30</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Were Palestinians in Gaza killed, seriously harmed or put in conditions of life meant to destroy them?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">The numbers, the evacuation orders and the hospitals show all three.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">How to judge it</p>
+                                    <p class="arm-t">These are the treaty&rsquo;s acts, whatever else they also are.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">How to judge it</p>
+                                    <p class="arm-t">This is war, and the law of war is the yardstick.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Hamas&rsquo;s way of fighting is why so many civilians are harmed.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">At least some acts &ldquo;appear to be capable of falling within&rdquo; the treaty. <b>A first look, not a finding.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q3">
+                    <h3 class="row-q"><span class="row-n">3</span>Is Israel responsible for the hunger in Gaza?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>Yes. &ldquo;Palestinian children are starving to death as a direct result of the deliberate acts and omissions of Israel,&rdquo; including blocking aid and moving to cut off UNRWA.</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>No. Israel rejects that &ldquo;in the strongest terms.&rdquo; It says it is getting aid in by land, sea and air, that Hamas steals aid, and that the problems are &ldquo;inherent to any theatre of active hostilities.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Not decided as to blame. The court said in March 2024 that &ldquo;famine is setting in&rdquo; and unanimously ordered Israel to let aid in at scale. It quoted the UN human rights chief, who put the hunger down to Israel&rsquo;s restrictions, without making that finding itself.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240306-wri-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="South Africa’s request of March 6, 2024, opens the document at page 3">South Africa, Mar 6, 2024</a> &para; 8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=8" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 8">Order of Mar 28, 2024</a> &para;&para; 17, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=9" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 9">21</a>, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=11" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 11">33&ndash;34</a>, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 14">51</a></p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Hunger in Gaza isn&rsquo;t a side effect. It comes from a siege announced two days into the war, from limits on what aid gets in, from attacks on people waiting for food, and from Israel&rsquo;s campaign against the UN agency that most of Gaza depends on. Inflicting that on purpose is one of the treaty&rsquo;s listed acts.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The UN hunger monitor&rsquo;s warnings of famine. The deaths of children from malnutrition reported in early 2024. Its claim that Israel used aid as a &ldquo;bargaining chip in negotiations.&rdquo;</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240306-wri-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="South Africa’s request of March 6, 2024, opens the document at page 3">South Africa, Mar 6, 2024</a> &para;&para; 8&ndash;11 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=25" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 25">CR 2024/1</a> pp. 25&ndash;30</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Article II(c) of the treaty, on conditions of life calculated to destroy a group.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court&rsquo;s orders are about getting aid in, and the court didn&rsquo;t say who caused the hunger. Israel points to Hamas taking aid and to the difficulty of delivering in a war, and those questions of fact are still open.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Israel has worked to get food, water, fuel and medicine into Gaza through crossings, a maritime route, a floating pier and air drops, and with UN agencies. The hunger, where it exists, is a result of the war Hamas started, of fighting in a densely populated place, and of Hamas taking aid for its fighters.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Numbers of trucks and crossings, figures on bakeries and water lines reopened, and footage Israel says shows Hamas commandeering aid trucks.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=47" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 47">CR 2024/2</a> p. 47 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=10" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 10">Order of Mar 28, 2024</a> &para; 29 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=22" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 22">Order of Jan 26, 2024</a> &para; 64</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The <a class="term" href="#t-ihl" data-term="t-ihl" title="Law of war: The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn’t about those rules.">law of war</a>, which governs aid in wartime, and Israel&rsquo;s position that it goes beyond what that law asks.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court found the situation got worse after its January order, and ordered more land crossings in March and the Rafah crossing kept open in May. In August 2025 the UN-backed hunger monitor confirmed famine in Gaza City, which Israel rejects.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=8" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 8">Order of Mar 28, 2024</a> &para; 18 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=15" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 15">Order of May 24, 2024</a> &para; 52 &middot; <a class="cite-doc" href="https://www.un.org/unispal/document/monthly-bulletin-august2025/" target="_blank" rel="noopener" aria-label="The UN’s August 2025 bulletin on the question of Palestine, which reports the famine finding, opens in a new tab">UN monthly bulletin, Aug 2025</a></p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Were Palestinians in Gaza deliberately put in conditions meant to destroy them, by starvation among other things?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">The siege and the limits on aid were deliberate, and children died of hunger.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Aid is going in, Hamas steals it, and war makes delivery hard.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">Who caused it</p>
+                                    <p class="arm-t">Israel controls every way in. The cause is its restrictions.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">Who caused it</p>
+                                    <p class="arm-t">The war and Hamas are the cause. Israel is easing the way.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Famine &ldquo;setting in&rdquo; and aid &ldquo;at scale&rdquo; ordered, unanimously. <b>Who is to blame is undecided.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q4">
+                    <h3 class="row-q"><span class="row-n">4</span>Does October 7 and the right to self-defense change anything?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>No. South Africa condemns the attack, but &ldquo;no armed attack on a State&rsquo;s territory no matter how serious&rdquo; can justify or excuse breaking the genocide treaty.</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>Yes, as the context. Israel was attacked and has a right and a duty to defend its citizens and free the hostages. Stopping its operations would &ldquo;deny Israel its ability&rdquo; to do that and leave Hamas &ldquo;free to continue.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Mostly left for later. The court called for the hostages&rsquo; release in all three orders and never ordered Israel to stop its operations everywhere. Judge Tladi wrote that South Africa is plainly right that <a class="term" href="#t-self-defense" data-term="t-self-defense" title="Self-defense: A country’s right to use force when it’s attacked. Israel says its war in Gaza is self-defense. South Africa says self-defense can never excuse genocide.">self-defense</a> can&rsquo;t justify genocide, and that Israel never answered the charge of a grossly disproportionate response.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=19" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 19">CR 2024/1</a> pp. 19&ndash;20 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=16" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 16">CR 2024/2</a> p. 16 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=13" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 13">Order of May 24, 2024</a> &para; 42 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=26" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 26">Order of Jan 26, 2024</a> &para; 85 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-04-en.pdf#page=3" target="_blank" rel="noopener" aria-label="Judge Tladi’s declaration of May 2024, opens the document at page 3">Tladi declaration</a> &para;&para; 14&ndash;15</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Three things. Self-defense can never be a defense to genocide. Israel&rsquo;s response is out of all proportion to the attack. And a country can&rsquo;t claim self-defense against territory it occupies, which South Africa says Gaza is.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>South Africa&rsquo;s own condemnation of the attack, repeated to Israel in December 2023. The court&rsquo;s 2004 opinion on the wall in the West Bank, and the UN&rsquo;s position that Gaza remains occupied.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=19" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 19">CR 2024/1</a> p. 19 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=80" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 80">CR 2024/1</a> p. 80</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The 2004 advisory opinion on the wall, on self-defense and occupied territory.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Whether Gaza was occupied on October 7, 2023 is disputed, and Judge Tladi said that point is best left to the merits. The first point is true but only matters once genocide is proved.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The case erases the attack that started the war and Hamas&rsquo;s responsibility for it. Israel has a right to defend itself, recognized by many states, and an order to stop would reward Hamas for fighting from among civilians. &ldquo;If there have been acts that may be characterized as genocidal, then they have been perpetrated against Israel.&rdquo;</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Evidence of the October 7 attack and the hostages&rsquo; treatment. The number of hostages still held. Statements by other countries backing Israel&rsquo;s right to defend itself.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=14" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 14">CR 2024/2</a> pp. 14&ndash;16 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=30" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 30">CR 2024/28</a> p. 30</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Article 51 of the UN Charter, the right of self-defense.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Self-defense doesn&rsquo;t answer the accusation, because both sides accept it can&rsquo;t justify genocide. Judge Tladi said Israel&rsquo;s security argument offered &ldquo;a false choice between two extremes.&rdquo;</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Tladi’s declaration of May 2024, opens the document at page 4">Tladi declaration</a> &para; 16</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Can the attack of October 7 and the right of self-defense affect whether the treaty was broken?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">No attack, however terrible, can justify genocide.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Agreed in principle. But the case hides who started the war and why Israel fights.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">What follows</p>
+                                    <p class="arm-t">The response is disproportionate, and Gaza is occupied.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">What follows</p>
+                                    <p class="arm-t">Stopping would leave Hamas free and the hostages held.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Hostages&rsquo; release called for, no general halt ordered. <b>Self-defense is no defense to genocide, and both sides accept that.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q5">
+                    <h3 class="row-q"><span class="row-n">5</span>Should the Rafah offensive have stopped?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>Yes. Rafah was the &ldquo;last refuge&rdquo; for 1.5 million people, and the offensive was &ldquo;deliberately inflicting on Palestinians conditions of life&rdquo; meant to destroy them. Israel should withdraw from all of Gaza.</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>No. These were &ldquo;specific, limited and localized operations prefaced with evacuation efforts,&rdquo; against &ldquo;a military stronghold for Hamas,&rdquo; with a humanitarian area set aside and expanded for those who left.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Partly. The court wasn&rsquo;t convinced Israel had kept civilians safe and ordered it to &ldquo;immediately halt&rdquo; the offensive, but only in so far as it &ldquo;may inflict&rdquo; conditions of life that could destroy the group. Judges read that limit in different ways.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240510-wri-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="South Africa’s request of May 10, 2024, opens the document at page 3">South Africa, May 10, 2024</a> &para; 11 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=11" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 11">CR 2024/28</a> p. 11 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 14">Order of May 24, 2024</a> &para;&para; 46, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=16" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 16">57</a></p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The offensive on Rafah was a new and worse stage. Israel took both crossings, cut off aid and pushed hundreds of thousands toward Al-Mawasi, an area without shelter, water or sanitation, and there was nowhere safe left. The only measure that would work was a full stop and a withdrawal.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>UN reports that about 800,000 people fled Rafah in under two weeks, that one of the last hospitals there stopped working, and that the World Food Programme lost access to its warehouse.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240510-wri-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="South Africa’s request of May 10, 2024, opens the document at page 3">South Africa, May 10, 2024</a> &para;&para; 10&ndash;11 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=12" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 12">CR 2024/27</a> p. 12, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=42" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 42">42</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 14">Order of May 24, 2024</a> &para; 45</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s power to change its own emergency orders when the situation changes.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court didn&rsquo;t order a withdrawal from Gaza, and the measure it gave has a condition attached that Israel says its operations met.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The operations were limited, step by step, and preceded by warnings to specific areas. Israel opened a new crossing, supported a floating pier, and set up and enlarged a humanitarian area with field hospitals and tents. Hostages were held and Hamas battalions were in Rafah, and stopping would have left both untouched.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Israel&rsquo;s written answer to Judge Nolte&rsquo;s question, describing the humanitarian area, routes and supplies, including 40,000 tents bought and 7,000 delivered.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240518-oth-01-00-en.pdf" target="_blank" rel="noopener" aria-label="Israel’s written answer to Judge Nolte, opens the document">Israel&rsquo;s answer, May 18, 2024</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=11" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 11">CR 2024/28</a> p. 11 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=13" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 13">Order of May 24, 2024</a> &para;&para; 40&ndash;41</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Its right of self-defense, and the condition written into the court&rsquo;s own measure.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court said Israel &ldquo;has not provided sufficient information&rdquo; on the safety of people leaving, or on water, food and shelter for 800,000 in Al-Mawasi. Israel argued in May with no outside counsel, after being refused a week&rsquo;s delay.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 14">Order of May 24, 2024</a> &para; 46 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=8" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 8">CR 2024/28</a> pp. 8&ndash;9</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Did the Rafah offensive create a new risk of conditions of life that could destroy the group?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">The last refuge was attacked, the crossings closed and 800,000 people pushed out.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Limited operations, warnings in advance, and an enlarged humanitarian area.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">What the order means</p>
+                                    <p class="arm-t">Halt the offensive.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">What the order means</p>
+                                    <p class="arm-t">Halt only what may inflict those conditions, which we don&rsquo;t.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Ordered 13 to 2 to halt, with a condition. <b>The judges themselves read the condition differently.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q6">
+                    <h3 class="row-q"><span class="row-n">6</span>Has Israel done enough about public calls for genocide?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>No. Officials and soldiers made genocidal statements and nobody was punished, which South Africa says &ldquo;constitutes in itself a grave violation&rdquo; of the treaty.</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>Yes. Its attorney general announced that any call for intentional harm to civilians &ldquo;may amount to a criminal offence, including the offence of incitement,&rdquo; and that several cases were being examined.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Ordered in January 2024, sixteen votes to one, that Israel prevent and punish <a class="term" href="#t-incitement" data-term="t-incitement" title="Direct and public incitement: Openly urging people to commit genocide. It breaks the treaty on its own, whether or not a genocide follows.">direct and public incitement</a>. The court said the attorney general&rsquo;s steps were &ldquo;to be encouraged&rdquo; but not enough to remove the risk.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=15" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 15">Order of Jan 26, 2024</a> &para;&para; 38, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=24" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 24">73</a>, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=26" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 26">86</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=74" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 74">CR 2024/2</a> p. 74</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Senior officials spoke about Gaza in dehumanizing terms, the words spread to soldiers, and the government neither condemned nor punished them. The treaty makes incitement a breach in its own right, so this holds even if the court doesn&rsquo;t find a genocide.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Statements by the president, ministers and commanders, and videos of soldiers repeating them, shown at the January hearing.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=33" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 33">CR 2024/1</a> pp. 33&ndash;41</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Articles III(c) and IV of the treaty, which require punishing incitement, including by officials.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Whether a statement is &ldquo;direct&rdquo; incitement, and not just ugly language, is a legal question the court hasn&rsquo;t answered, and some statements can be read as being about Hamas.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Statements that go beyond what Israeli law allows are against its policy and are being looked at by its law enforcement. Some, like a remark by a minister outside the war cabinet, were rejected by the prime minister and other ministers right away.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The attorney general&rsquo;s public statement, given to the court in January 2024. Statements disowning the minister&rsquo;s remark.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=32" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 32">CR 2024/2</a> p. 32, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=74" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 74">74</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Israel&rsquo;s own criminal law and its independent attorney general.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Nothing in the court&rsquo;s public record shows anyone charged. Israel&rsquo;s own judge voted for the incitement measure &ldquo;in the hope&rdquo; it would &ldquo;discourage damaging rhetoric.&rdquo; Judge Nolte wrote in May 2024 that he was concerned by reports of continuing statements.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-05-en.pdf#page=9" target="_blank" rel="noopener" aria-label="Judge Barak’s separate opinion of January 2024, opens the document at page 9">Barak opinion</a> &para; 44 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-02-en.pdf#page=6" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of May 2024, opens the document at page 6">Nolte declaration</a> &para;&para; 22&ndash;24</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Did Israel take the measures in its power to prevent and punish public calls for genocide?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">The statements were made and went unpunished.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">The attorney general warned they may be crimes, and cases are being examined.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Ordered to prevent and punish, 16 to 1, with Israel&rsquo;s judge voting for it. <b>Whether it has is undecided.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q7">
+                    <h3 class="row-q"><span class="row-n">7</span>Has Israel obeyed the court&rsquo;s orders?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>No. South Africa says Israel committed &ldquo;ongoing manifest violations&rdquo; from the start, and told the court in August 2026 that &ldquo;Israel has not complied with the Orders.&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>Yes. Israel says it &ldquo;has engaged fully and sincerely,&rdquo; filed detailed reports on what it did, and that the measures in place were &ldquo;entirely sufficient.&rdquo; After the Rafah order its national security adviser said, &ldquo;We did not commit genocide and we will not commit genocide.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Not decided. Each later order says it is &ldquo;without prejudice to any findings concerning the Respondent&rsquo;s compliance.&rdquo; Three judges monitor compliance in private.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240306-wri-01-00-en.pdf#page=1" target="_blank" rel="noopener" aria-label="South Africa’s request of March 6, 2024, opens the document at page 1">South Africa, Mar 6, 2024</a> p. 1 &middot; <a class="cite-doc" href="https://dirco.gov.za/south-africa-submits-dossier-to-the-icj-on-israels-non-compliance-with-provisional-measures-orders/" target="_blank" rel="noopener" aria-label="South Africa’s Department of International Relations and Cooperation, statement of August 28, 2026, opens in a new tab">DIRCO, Aug 28, 2026</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=21" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 21">CR 2024/28</a> p. 21 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=13" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 13">Order of May 24, 2024</a> &para;&para; 39, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=16" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 16">55</a> &middot; <a class="cite-doc" href="https://www.timesofisrael.com/idf-presses-ahead-with-rafah-offensive-after-world-courts-ambiguous-halt-order/" target="_blank" rel="noopener" aria-label="Times of Israel report of May 25, 2024, opens in a new tab">Reporting: Times of Israel, May 25, 2024</a></p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The death toll kept rising after each order, famine set in after the first, Rafah was attacked after the court said the January measures covered it, and investigators and journalists were kept out. Since the October 2025 ceasefire, South Africa says, a child has been killed on average every day.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Its requests of March and May 2024, its dossiers to the UN Security Council in 2024 and 2025, and a dossier to the court&rsquo;s <a class="term" href="#t-monitoring-committee" data-term="t-monitoring-committee" title="Monitoring committee: Three judges the court set up in 2023 to follow whether its emergency orders are being carried out and suggest to the court what it could do.">monitoring committee</a> in August 2026, which isn&rsquo;t public.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240306-wri-01-00-en.pdf#page=1" target="_blank" rel="noopener" aria-label="South Africa’s request of March 6, 2024, opens the document at page 1">South Africa, Mar 6, 2024</a> p. 1 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240510-wri-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="South Africa’s request of May 10, 2024, opens the document at page 3">South Africa, May 10, 2024</a> &para; 11</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s rule that its emergency orders are binding.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court hasn&rsquo;t made any finding on compliance, and South Africa&rsquo;s dossier and Israel&rsquo;s reports are both confidential.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Israel has taken its obligations seriously and reported to the court in February and April 2024. Its officials read the Rafah order as conditional, allowing operations that don&rsquo;t risk destroying the population, so they said it didn&rsquo;t stop what Israel was doing there.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Its compliance reports of February 26 and April 29, 2024, which aren&rsquo;t public, and its description of aid and evacuation efforts.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=21" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 21">CR 2024/28</a> p. 21 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=13" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 13">Order of May 24, 2024</a> &para; 39 &middot; <a class="cite-doc" href="https://www.timesofisrael.com/idf-presses-ahead-with-rafah-offensive-after-world-courts-ambiguous-halt-order/" target="_blank" rel="noopener" aria-label="Times of Israel report of May 25, 2024, opens in a new tab">Reporting: Times of Israel, May 25, 2024</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The wording of the orders themselves, which mostly restate duties Israel says it already had.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court found in March and May 2024 that the situation had kept getting worse, and Israel hasn&rsquo;t answered South Africa&rsquo;s 2026 dossier in public.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240328-ord-01-00-en.pdf#page=8" target="_blank" rel="noopener" aria-label="The order of March 28, 2024, opens the document at page 8">Order of Mar 28, 2024</a> &para; 18 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=10" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 10">Order of May 24, 2024</a> &para; 28</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Has Israel carried out the measures the court ordered in January, March and May 2024?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">Things got worse after every order, and Rafah was attacked anyway.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">Israel reported fully, and the orders allow what it did.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">The court has left compliance for later. <b>Its monitoring committee works in private.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q8">
+                    <h3 class="row-q"><span class="row-n">8</span>Can the court hear this case at all?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">South Africa</p><p>Yes. Both countries accepted <a class="term" href="#t-article-ix" data-term="t-article-ix" title="Article IX: The clause of the Genocide Convention that lets one member take another to this court over a dispute about the treaty. It’s the only reason this court has the case.">Article IX</a> with no reservation, and South Africa told Israel at the UN and in writing that it was breaking the treaty. &ldquo;What more evidence could be required to establish a dispute?&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Israel</p><p>No. South Africa &ldquo;did not give Israel a reasonable opportunity&rdquo; to respond and ignored its offer to meet, so there was no real <a class="term" href="#t-dispute" data-term="t-dispute" title="Dispute: A real disagreement between the two countries about the treaty. It has to exist when the case is filed. Israel argued in 2024 that there wasn’t one yet.">dispute</a>. In March 2026 Israel objected to the court&rsquo;s power and to the case being heard at all.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Yes for now, not finally. The court found <a class="term" href="#t-prima-facie" data-term="t-prima-facie" title="Prima facie: At first sight. Before giving emergency orders the court only has to see, at first sight, that it may have power over the case.">prima facie</a> that it has power, refused to remove the case from its list, and said none of that &ldquo;prejudges the question of the jurisdiction of the Court to deal with the merits.&rdquo;</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=46" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 46">CR 2024/1</a> p. 46 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=28" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 28">CR 2024/2</a> p. 28 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=14" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 14">Order of Jan 26, 2024</a> &para;&para; 31&ndash;32, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=26" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 26">84</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 3">Order of May 21, 2026</a> p. 3</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">South Africa</p>
+                        <div class="dp-block"><h4>The argument</h4><p>A dispute existed well before December 29, 2023. South Africa had accused Israel at the Security Council and the General Assembly, sent a formal note, and referred the situation to the International Criminal Court. The treaty doesn&rsquo;t require talks first, and insisting on them &ldquo;would simply be a licence to commit genocide.&rdquo;</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>South Africa&rsquo;s statement to the General Assembly of December 12, 2023, its note of December 21, and Israel&rsquo;s foreign ministry calling the accusation &ldquo;morally repugnant.&rdquo;</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=42" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 42">CR 2024/1</a> pp. 42&ndash;47</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s past rulings that a dispute is a matter of substance, judged objectively, and that every member of the treaty has <a class="term" href="#t-standing" data-term="t-standing" title="Standing: The right to bring a case. Every member of the Genocide Convention has a stake in it being kept, so any member can sue another without having been harmed itself.">standing</a> to enforce it.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Israel&rsquo;s 2026 objections are confidential, so South Africa&rsquo;s answer to them isn&rsquo;t known yet. It is due with its reply on November 22, 2027.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Israel</p>
+                        <div class="dp-block"><h4>The argument</h4><p>South Africa didn&rsquo;t give Israel a real chance to engage before filing, and its notes looked like an effort to manufacture a dispute at the last moment. Israel says the court &ldquo;lacks jurisdiction&rdquo; and that South Africa&rsquo;s allegations should be dismissed &ldquo;in their entirety.&rdquo;</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Israel&rsquo;s note of December 27, 2023 proposing a meeting. Its counter-memorial of March 2026, which isn&rsquo;t public.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=25" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 25">CR 2024/2</a> pp. 25&ndash;28 &middot; <a class="cite-doc" href="https://www.globalsecurity.org/military/library/news/2026/03/mil-260314-israel-mfa01.htm" target="_blank" rel="noopener" aria-label="Israel’s Ministry of Foreign Affairs statement of March 14, 2026, as republished by GlobalSecurity.org, opens in a new tab">Israel MFA, Mar 14, 2026</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The court&rsquo;s case law requiring the two sides&rsquo; views to be &ldquo;positively opposed&rdquo; before a case is filed.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The court has already found, at first sight, that the two countries held &ldquo;clearly opposite views.&rdquo; What Israel argues in 2026 can&rsquo;t be judged until its answer is public.</p><p class="dp-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=13" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 13">Order of Jan 26, 2024</a> &para; 28</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Was there a real dispute about the genocide treaty when South Africa filed, and is the case one the court should hear?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">South Africa</span>
+                            <p class="cn-t">Accusations at the UN, a formal note and Israel&rsquo;s own denial show a dispute.</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Israel</span>
+                            <p class="cn-t">No chance to respond, and the offer to meet was ignored.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">Talks first?</p>
+                                    <p class="arm-t">The treaty doesn&rsquo;t require them.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">Talks first?</p>
+                                    <p class="arm-t">Not talks, but a reasonable chance to answer.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">Power found at first sight in 2024. <b>Israel&rsquo;s 2026 objections will be decided with the rest.</b></p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
                 </article>
                 </div>
 
@@ -170,7 +826,7 @@
 
         <footer class="page-foot">
             <div class="wrap">
-                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p><a href="/">frontendneeded.com</a></p>
                 <p class="foot-cite">Application of the Convention on the Prevention and Punishment of the Crime of Genocide in the Gaza Strip (South Africa v. Israel), General List No. 192 (I.C.J.)</p>
             </div>
         </footer>
@@ -178,9 +834,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -188,12 +843,61 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which judges countries and not people, and to the treaty the case is about.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icj">International Court of Justice</dt><dd>The United Nations&rsquo; own court, in The Hague. It settles disputes between countries, not cases against people. It has 15 judges elected by the UN for nine years at a time, and it&rsquo;s sometimes called the World Court.</dd></div>
+                    <div><dt id="t-genocide-convention">Genocide Convention</dt><dd>The 1948 treaty that defines genocide and makes the countries that join it promise to prevent it and punish it. Israel joined in 1950 and South Africa in 1998.</dd></div>
+                    <div><dt id="t-article-ix">Article IX</dt><dd>The clause of the Genocide Convention that lets one member take another to this court over a dispute about the treaty. It&rsquo;s the only reason this court has the case.</dd></div>
+                    <div><dt id="t-judge-ad-hoc">Judge ad hoc</dt><dd>A judge a country picks for one case when no judge of its nationality is on the court. They sit and vote with the other judges.</dd></div>
+                    <div><dt id="t-president">President of the court</dt><dd>The judge the others elect to run the court and chair its hearings, for three years at a time.</dd></div>
+                    <div><dt id="t-registrar">Registrar</dt><dd>The head of the court&rsquo;s staff. Keeps the record, sits with the judges at hearings, and reads out the French text of a ruling.</dd></div>
+                    <div><dt id="t-agent">Agent</dt><dd>The official who speaks for a country in a case at this court, usually a diplomat or a government lawyer. A country can have co-agents who share the job.</dd></div>
+                    <div><dt id="t-intervention">Intervention</dt><dd>Another country asking to take part. Any member of the treaty can come in to argue how the treaty should be read, and is then bound by how the court reads it. It doesn&rsquo;t become a party to the case.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
                     <div><dt id="t-general-list">General List</dt><dd>The court&rsquo;s numbered list of its cases. This one is No. 192.</dd></div>
+                    <div><dt id="t-application">Application</dt><dd>The document that starts a case at this court. South Africa&rsquo;s runs to 84 pages.</dd></div>
+                    <div><dt id="t-memorial">Memorial</dt><dd>The full written case of the country that sued, with its evidence. South Africa filed its in October 2024.</dd></div>
+                    <div><dt id="t-counter-memorial">Counter-memorial</dt><dd>The full written answer of the country being sued. Israel filed its in March 2026.</dd></div>
+                    <div><dt id="t-reply-rejoinder">Reply and rejoinder</dt><dd>A second round of writing. The country that sued answers the counter-memorial, and the other side answers that.</dd></div>
+                    <div><dt id="t-confidential">Confidential pleadings</dt><dd>The court&rsquo;s rules keep the written arguments out of public view until the court decides to publish them, usually when the hearings on them open.</dd></div>
+                    <div><dt id="t-verbatim-record">Verbatim record</dt><dd>The court&rsquo;s word-for-word record of a hearing, numbered like CR 2024/1. Cited here by page.</dd></div>
+                    <div><dt id="t-order">Order</dt><dd>A written decision of the court on one step in a case. It isn&rsquo;t the final judgment.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-provisional-measures">Provisional measures</dt><dd>Emergency orders the court can give while a case goes on, to stop harm that couldn&rsquo;t be undone before the final ruling. They&rsquo;re binding, but the court has no way of its own to enforce them.</dd></div>
+                    <div><dt id="t-plausible">Plausible</dt><dd>The test for emergency orders. The court asks if the rights a country wants protected plausibly exist and could be at risk. It isn&rsquo;t a finding that the accusation is true.</dd></div>
+                    <div><dt id="t-prima-facie">Prima facie</dt><dd>At first sight. Before giving emergency orders the court only has to see, at first sight, that it may have power over the case.</dd></div>
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>The court&rsquo;s power to hear a case at all. Here it comes only from Article IX of the Genocide Convention.</dd></div>
+                    <div><dt id="t-dispute">Dispute</dt><dd>A real disagreement between the two countries about the treaty. It has to exist when the case is filed. Israel argued in 2024 that there wasn&rsquo;t one yet.</dd></div>
+                    <div><dt id="t-admissibility">Admissibility</dt><dd>Whether a case the court has power over is still one it should hear, for example because of how it was brought.</dd></div>
+                    <div><dt id="t-preliminary-objections">Preliminary objections</dt><dd>A challenge to jurisdiction or admissibility filed early and decided on its own, before the main case. Israel didn&rsquo;t file one. It put its objections in its counter-memorial instead, so they&rsquo;re decided with everything else.</dd></div>
+                    <div><dt id="t-standing">Standing</dt><dd>The right to bring a case. Every member of the Genocide Convention has a stake in it being kept, so any member can sue another without having been harmed itself.</dd></div>
+                    <div><dt id="t-merits">Merits</dt><dd>The main question in a case, as opposed to steps along the way. Here, whether Israel broke the Genocide Convention.</dd></div>
+                    <div><dt id="t-judgment">Judgment</dt><dd>The court&rsquo;s final decision. It&rsquo;s binding on the two countries and there is no appeal.</dd></div>
+                    <div><dt id="t-opinion">Opinions and declarations</dt><dd>What a judge writes alongside a decision to explain a vote or add a point. A dissent explains a vote against. None of them changes the result.</dd></div>
+                    <div><dt id="t-monitoring-committee">Monitoring committee</dt><dd>Three judges the court set up in 2023 to follow whether its emergency orders are being carried out and suggest to the court what it could do.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the treaty says</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-genocide">Genocide</dt><dd>Under the treaty, any of five acts done with intent to destroy, in whole or in part, a national, ethnic, racial or religious group as such: killing its members, seriously harming them, imposing conditions of life meant to destroy it, preventing births, or taking its children.</dd></div>
+                    <div><dt id="t-article-ii">The listed acts</dt><dd>The five acts in Article II of the treaty. On their own they aren&rsquo;t genocide. They become genocide when an intent to destroy the group is behind them.</dd></div>
+                    <div><dt id="t-specific-intent">Specific intent</dt><dd>The intent to destroy the group as such, also called dolus specialis. It has to be there on top of the intent to do the act itself, and it&rsquo;s what sets genocide apart from other crimes.</dd></div>
+                    <div><dt id="t-only-inference">Only reasonable inference</dt><dd>The court&rsquo;s test from its earlier genocide cases. Where no plan is proved, intent can be read from a pattern of conduct only if it&rsquo;s the only conclusion that could reasonably be drawn from it.</dd></div>
+                    <div><dt id="t-substantial-part">Substantial part</dt><dd>The part of the group targeted has to be big enough to matter to the group as a whole. The court said in 2024 that Palestinians in Gaza, over 2 million people, are.</dd></div>
+                    <div><dt id="t-incitement">Direct and public incitement</dt><dd>Openly urging people to commit genocide. It breaks the treaty on its own, whether or not a genocide follows.</dd></div>
+                    <div><dt id="t-duty-to-prevent">Duty to prevent</dt><dd>Each member has to do what it reasonably can to stop a genocide once it knows, or should know, of a serious risk of one. It&rsquo;s only broken if a genocide actually happens.</dd></div>
+                    <div><dt id="t-state-responsibility">State responsibility</dt><dd>This court judges countries, not people. It can find a state responsible for breaking the treaty. Putting individuals on trial is for criminal courts.</dd></div>
+                    <div><dt id="t-ihl">Law of war</dt><dd>The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn&rsquo;t about those rules.</dd></div>
+                    <div><dt id="t-self-defense">Self-defense</dt><dd>A country&rsquo;s right to use force when it&rsquo;s attacked. Israel says its war in Gaza is self-defense. South Africa says self-defense can never excuse genocide.</dd></div>
+                    <div><dt id="t-famine">Famine</dt><dd>The worst level on the hunger scale UN agencies and aid groups use, called the IPC. It means extreme lack of food, acute malnutrition and deaths from it, each past a set line.</dd></div>
                 </dl>
             </div>
         </details>

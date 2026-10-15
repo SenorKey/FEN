@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Out of the index, like the courtroom of every case. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="South Africa v. Israel as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="South Africa v. Israel as a courtroom seen from above: the judges and the two delegations at each of the case’s six public sittings, seat by seat.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/south-africa-v-israel/courtroom/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/south-africa-v-israel/courtroom/">
-    <meta property="og:title" content="South Africa v. Israel, the courtroom &mdash; Case Chronicle">
+    <meta property="og:title" content="South Africa v. Israel, the courtroom — Case Chronicle">
     <meta property="og:description"
-        content="South Africa v. Israel as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="South Africa v. Israel as a courtroom seen from above: the judges and the two delegations at each of the case’s six public sittings, seat by seat.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,8 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="south-africa-v-israel">
     <a href="#main-content" class="skip-link">Skip to content</a>
-
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -118,19 +107,19 @@
         <!-- ═══════════════════════════════════════════════
              The courtroom, from above
 
-             Under construction: the stock plan is drawn and nobody is
-             seated in it. The list under "In the room" is this page's
-             data, and it holds one note for now. The chronology has no
-             moment yet, only its starting card, so the script leaves
-             the bar hidden and the page is the plan and the two lists.
+             Drawn for this court and not the shared plan: the Great
+             Hall of Justice at the Peace Palace, with up to seventeen
+             judges on one bench, the Registrar at its end, a lectern
+             facing it, the two delegations, and the public at the
+             back. No jury, no accused, no witness box. It is a diagram
+             of who is in the room and not a survey of the hall.
 
-             On a written case that list has one row a person: who, in
-             which seat, and between which entries of the chronology.
-             The script reads the list, reads the chronology page for
-             the moments, and seats people accordingly. The days the
-             court sat go in ol.cr-sits, each with the id of its entry
-             in data-at and data-kind="court". With no script the plan
-             is drawn empty and the list is simply a list.
+             The list of people underneath is plain markup and is the
+             whole of this page's data: who, in which seat, and
+             between which entries of the chronology. The script reads
+             that list, reads the chronology page for the moments, and
+             seats people accordingly. With no script the plan is
+             drawn empty and the list is simply a list.
 
              Left is the side that filed, as everywhere else here.
              ═══════════════════════════════════════════════ -->
@@ -138,16 +127,11 @@
             <div class="wrap">
                 <p class="kicker">Courtroom View</p>
                 <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
-                <!-- The lede a written case carries here: "The same case as the
-                     Chronological View, drawn as the room it happened in. Move
-                     the line along the bar, or step with Previous and Next, and
-                     the room changes with the moment: who was in it, who was
-                     only on a screen, and which parts of it stood empty." -->
                 <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
-                    The room is empty for now. Once the case is written, a bar of its moments goes over the plan,
-                    and moving along it shows who was in the room at each one.</p>
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, and which parts of it stood empty.</p>
 
-                <div class="cr" data-chronology="/case-chronicle/south-africa-v-israel/chronology/" data-opens="ev-under-construction">
+                <div class="cr" data-chronology="/case-chronicle/south-africa-v-israel/chronology/" data-opens="ev-south-africa-takes-israel-to-the-world-court" data-neither="Neither side">
 
                     <!-- The bar of moments. Empty here and hidden: it is built
                          from the chronology, which only the script can fetch. -->
@@ -171,117 +155,144 @@
                         <div class="cr-fig">
                             <div class="cr-plan">
                             <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true">
-                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
-                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+                            <path class="cr-wall" d="M350 864H16V16h728v848H410"/>
+                            <path class="cr-door" d="M350 864v-14M410 864v-14"/>
 
-                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
-                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+                            <!-- The bench: one long table, the judges behind it. -->
+                            <rect class="cr-area" data-area="court" x="30" y="28" width="700" height="104"/>
+                            <rect class="cr-desk" x="40" y="112" width="680" height="16"/>
 
-                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
-                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
-                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+                            <!-- The Registrar, at the end of the bench. -->
+                            <rect class="cr-box" x="642" y="148" width="76" height="52"/>
 
-                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
-                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+                            <!-- The lectern, facing the bench. No witness box at this court. -->
+                            <rect class="cr-box" x="346" y="168" width="68" height="44"/>
 
-                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+                            <rect class="cr-area" data-area="p" x="40" y="262" width="320" height="300"/>
+                            <rect class="cr-area" data-area="d" x="400" y="262" width="320" height="300"/>
+                            <rect class="cr-desk" x="50" y="274" width="300" height="20"/>
+                            <rect class="cr-desk" x="410" y="274" width="300" height="20"/>
+
+                            <!-- A rail, not glass: the public sits at the back of the hall. -->
+                            <path class="cr-bar" d="M16 596H744"/>
+
+                            <rect class="cr-pew" x="60" y="634" width="280" height="24"/><rect class="cr-pew" x="420" y="634" width="280" height="24"/>
+                            <rect class="cr-pew" x="60" y="692" width="280" height="24"/><rect class="cr-pew" x="420" y="692" width="280" height="24"/>
+                            <rect class="cr-pew" x="60" y="750" width="280" height="24"/><rect class="cr-pew" x="420" y="750" width="280" height="24"/>
+                            <rect class="cr-pew" x="60" y="808" width="280" height="24"/><rect class="cr-pew" x="420" y="808" width="280" height="24"/>
 
                             <!-- The parts of the room, for the script to measure. Never drawn. -->
-                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
-                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
+                            <rect class="cr-zone" data-zone="bench" x="30" y="28" width="700" height="104"/>
+                            <rect class="cr-zone" data-zone="r" x="642" y="148" width="76" height="52"/>
+                            <rect class="cr-zone" data-zone="stand" x="346" y="168" width="68" height="44"/>
+                            <rect class="cr-zone" data-zone="p" x="40" y="262" width="320" height="300"/>
+                            <rect class="cr-zone" data-zone="d" x="400" y="262" width="320" height="300"/>
                             <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
 
-                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
-                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
-                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
-                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                            <circle class="cr-seat" data-seat="judge-0" cx="380" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-1" cx="340" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-2" cx="420" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-3" cx="300" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-4" cx="460" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-5" cx="260" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-6" cx="500" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-7" cx="220" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-8" cx="540" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-9" cx="180" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-10" cx="580" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-11" cx="140" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-12" cx="620" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-13" cx="100" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-14" cx="660" cy="92" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-15" cx="60" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-16" cx="700" cy="52" r="13"/>
+                            <circle class="cr-seat" data-seat="r1" cx="680" cy="174" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="80" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="140" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="200" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="260" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="p5" cx="320" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="p6" cx="80" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="p7" cx="140" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="p8" cx="200" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="p9" cx="260" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="p10" cx="320" cy="376" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p11" cx="80" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p12" cx="140" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p13" cx="200" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p14" cx="260" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p15" cx="320" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p16" cx="80" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p17" cx="140" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p18" cx="200" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p19" cx="260" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="p20" cx="320" cy="492" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="440" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="500" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="560" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="620" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="d5" cx="680" cy="318" r="13"/>
+                            <circle class="cr-seat" data-seat="d6" cx="440" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="d7" cx="500" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="d8" cx="560" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="d9" cx="620" cy="376" r="13"/>
+                            <circle class="cr-seat" data-seat="d10" cx="680" cy="376" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d11" cx="440" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d12" cx="500" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d13" cx="560" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d14" cx="620" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d15" cx="680" cy="434" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d16" cx="440" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d17" cx="500" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d18" cx="560" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d19" cx="620" cy="492" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="d20" cx="680" cy="492" r="13"/>
+                            <circle class="cr-pub" data-pub="1" cx="88" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="2" cx="132" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="3" cx="177" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="4" cx="222" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="5" cx="267" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="6" cx="312" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="7" cx="448" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="8" cx="492" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="9" cx="537" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="10" cx="582" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="11" cx="627" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="12" cx="672" cy="704" r="8"/>
+                            <circle class="cr-pub" data-pub="13" cx="88" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="14" cx="132" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="15" cx="177" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="16" cx="222" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="17" cx="267" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="18" cx="312" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="19" cx="448" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="20" cx="492" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="21" cx="537" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="22" cx="582" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="23" cx="627" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="24" cx="672" cy="762" r="8"/>
+                            <circle class="cr-pub" data-pub="25" cx="88" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="26" cx="132" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="27" cx="177" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="28" cx="222" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="29" cx="267" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="30" cx="312" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="31" cx="448" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="32" cx="492" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="33" cx="537" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="34" cx="582" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="35" cx="627" cy="820" r="8"/>
+                            <circle class="cr-pub" data-pub="36" cx="672" cy="820" r="8"/>
                         </svg>
-                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
-                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
-                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
-                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
-                        <span class="cr-lab" style="left:39.34%;top:45%">South Africa</span>
-                        <span class="cr-lab" style="left:66.97%;top:45%">Israel</span>
-                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
-                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            <span class="cr-lab" style="left:50%;top:16.59%">Bench</span>
+                        <span class="cr-lab" style="left:89.47%;top:24.32%">Registrar</span>
+                        <span class="cr-lab" style="left:50%;top:25.68%">Lectern</span>
+                        <span class="cr-lab" style="left:26.32%;top:28.41%">South Africa</span>
+                        <span class="cr-lab" style="left:73.68%;top:28.41%">Israel</span>
+                        <span class="cr-lab" style="left:92.63%;top:66.14%">Rail</span>
+                        <span class="cr-lab" style="left:26.32%;top:70.23%">Public</span>
                             </div>
+
                             <!-- What the marks mean. Hidden until the script has
                                  drawn any, since without it there are none. -->
                             <ul class="cr-key" hidden>
@@ -304,10 +315,597 @@
                             <div class="cr-list">
                                 <h3 class="cr-cast-h">In the room</h3>
                                 <ul class="cr-cast">
-                                <li class="cr-who cr-about" id="cr-a1" data-zone="bench" data-always>
-                                    <p class="cr-role">The room</p>
-                                    <p class="cr-name">Under construction</p>
-                                    <p class="cr-note">Nobody is seated yet. The hearings in this case have not been read for this page, so the room is drawn empty. The plan drawn here is the Chronicle&rsquo;s stock courtroom. This court has no jury and a much longer bench, so the plan will be redrawn for it.</p>
+                                <li class="cr-who" id="cr-p1" data-seat="judge-0" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">President of the court</p>
+                                    <p class="cr-name">Joan E. Donoghue</p>
+                                    <p class="cr-note">United States. President of the court until February 5, 2024. She presided at both January hearings and read the first order. Later, on the BBC, she said the court &ldquo;didn&rsquo;t decide that the claim of genocide was plausible.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.bbc.co.uk/programmes/m001yplc" target="_blank" rel="noopener" aria-label="BBC HARDtalk interview with Joan Donoghue, broadcast April 25, 2024, opens in a new tab">BBC HARDtalk, Apr 25, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge-1" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Vice-president</p>
+                                    <p class="cr-name">Kirill Gevorgian</p>
+                                    <p class="cr-note">Russia. Vice-president until February 5, 2024, when his term ended.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="judge-2" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Peter Tomka</p>
+                                    <p class="cr-note">Slovakia. A former president of the court, on it since 2003. He didn&rsquo;t sit for the May 2024 hearings or the Rafah order, &ldquo;for reasons made known&rdquo; to the president.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="judge-3" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Ronny Abraham</p>
+                                    <p class="cr-note">France. A former president of the court. Voted with the majority on every measure.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="judge-4" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Mohamed Bennouna</p>
+                                    <p class="cr-note">Morocco. His term ended on February 5, 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="judge-5" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Abdulqawi Ahmed Yusuf</p>
+                                    <p class="cr-note">Somalia. A former president of the court. Added a declaration to the March 2024 order. He resigned from the court in September 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="judge-6" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Xue Hanqin</p>
+                                    <p class="cr-note">China. A former vice-president. In January 2024 she wrote a declaration on why South Africa has standing to bring the case.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-01-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Xue’s declaration of January 2024, opens the document at page 1">Xue declaration</a> &para; 4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="judge-7" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Julia Sebutinde</p>
+                                    <p class="cr-note">Uganda. The only judge to vote against all six measures in January 2024. She wrote that the conflict is &ldquo;essentially and historically a political one.&rdquo; Vice-president of the court since February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-02-enc.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Sebutinde’s dissent of January 2024, opens the document at page 1">Sebutinde dissent</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="judge-8" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Dalveer Bhandari</p>
+                                    <p class="cr-note">India. Wrote a declaration in January 2024 on how low the test for emergency orders is.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-03-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Bhandari’s declaration of January 2024, opens the document at page 1">Bhandari declaration</a> &para; 7</p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="judge-9" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Patrick Robinson</p>
+                                    <p class="cr-note">Jamaica. His term ended on February 5, 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="judge-10" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Nawaf Salam</p>
+                                    <p class="cr-note">Lebanon. President of the court from February 2024 to January 2025, when he resigned to become Lebanon&rsquo;s prime minister. He presided at the May hearings and read the Rafah order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="judge-11" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Yuji Iwasawa</p>
+                                    <p class="cr-note">Japan. President of the court since March 3, 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="judge-12" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Georg Nolte</p>
+                                    <p class="cr-note">Germany. Voted for the measures but wrote in January 2024 that he didn&rsquo;t find it plausible the military operation itself was being carried out with genocidal intent. He put the only question from the bench, about the evacuation zones, in May 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of January 2024, opens the document at page 4">Nolte declaration</a> &para; 15 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=30" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 30">CR 2024/28</a> p. 30</p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="judge-13" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Hilary Charlesworth</p>
+                                    <p class="cr-note">Australia. Added a declaration to the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="judge-14" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Leonardo Nemer Caldeira Brant</p>
+                                    <p class="cr-note">Brazil. Joined the joint declaration of four judges on the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="judge-15" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge ad hoc</p>
+                                    <p class="cr-name">Aharon Barak</p>
+                                    <p class="cr-note">Judge ad hoc chosen by Israel. A former president of Israel&rsquo;s Supreme Court who survived the Kaunas ghetto as a child. Voted for the measures on aid and incitement in January 2024 and against the rest. He resigned in June 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-05-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Barak’s separate opinion of January 2024, opens the document at page 1">Barak opinion</a> &para;&para; 4, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-05-en.pdf#page=9" target="_blank" rel="noopener" aria-label="Judge Barak’s separate opinion of January 2024, opens the document at page 9">44</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="judge-16" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire">
+                                    <p class="cr-role">Judge ad hoc</p>
+                                    <p class="cr-name">Dikgang Moseneke</p>
+                                    <p class="cr-note">Judge ad hoc chosen by South Africa. A former deputy chief justice of South Africa. He stopped sitting when Judge Tladi, a South African, joined the court.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=12" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 12">CR 2024/1</a> p. 12 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=5" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 5">Order of May 24, 2024</a> &para; 6 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 26, 2024, opens the document at page 3">Order of Jan 26, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="judge-0" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">President of the court</p>
+                                    <p class="cr-name">Nawaf Salam</p>
+                                    <p class="cr-note">Lebanon. President of the court from February 2024 to January 2025, when he resigned to become Lebanon&rsquo;s prime minister. He presided at the May hearings and read the Rafah order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p19" data-seat="judge-1" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Vice-president</p>
+                                    <p class="cr-name">Julia Sebutinde</p>
+                                    <p class="cr-note">Uganda. The only judge to vote against all six measures in January 2024. She wrote that the conflict is &ldquo;essentially and historically a political one.&rdquo; Vice-president of the court since February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-02-enc.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Sebutinde’s dissent of January 2024, opens the document at page 1">Sebutinde dissent</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p20" data-seat="judge-2" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-away="ev-south-africa-a-new-and-horrific-stage ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Peter Tomka</p>
+                                    <p class="cr-note">Slovakia. A former president of the court, on it since 2003. He didn&rsquo;t sit for the May 2024 hearings or the Rafah order, &ldquo;for reasons made known&rdquo; to the president. The record of May 17 lists him as present all the same, so this page doesn&rsquo;t mark him either way for that day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=8" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 8">CR 2024/27</a> p. 8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 2">CR 2024/28</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p21" data-seat="judge-3" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Ronny Abraham</p>
+                                    <p class="cr-note">France. A former president of the court. Voted with the majority on every measure.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p22" data-seat="judge-4" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Abdulqawi Ahmed Yusuf</p>
+                                    <p class="cr-note">Somalia. A former president of the court. Added a declaration to the March 2024 order. He resigned from the court in September 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p23" data-seat="judge-5" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Xue Hanqin</p>
+                                    <p class="cr-note">China. A former vice-president. In January 2024 she wrote a declaration on why South Africa has standing to bring the case.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-01-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Xue’s declaration of January 2024, opens the document at page 1">Xue declaration</a> &para; 4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p24" data-seat="judge-6" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Dalveer Bhandari</p>
+                                    <p class="cr-note">India. Wrote a declaration in January 2024 on how low the test for emergency orders is.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-03-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Bhandari’s declaration of January 2024, opens the document at page 1">Bhandari declaration</a> &para; 7</p>
+                                </li>
+                                <li class="cr-who" id="cr-p25" data-seat="judge-7" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Yuji Iwasawa</p>
+                                    <p class="cr-note">Japan. President of the court since March 3, 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p26" data-seat="judge-8" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Georg Nolte</p>
+                                    <p class="cr-note">Germany. Voted for the measures but wrote in January 2024 that he didn&rsquo;t find it plausible the military operation itself was being carried out with genocidal intent. He put the only question from the bench, about the evacuation zones, in May 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of January 2024, opens the document at page 4">Nolte declaration</a> &para; 15 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=30" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 30">CR 2024/28</a> p. 30</p>
+                                </li>
+                                <li class="cr-who" id="cr-p27" data-seat="judge-9" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Hilary Charlesworth</p>
+                                    <p class="cr-note">Australia. Added a declaration to the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p28" data-seat="judge-10" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Leonardo Nemer Caldeira Brant</p>
+                                    <p class="cr-note">Brazil. Joined the joint declaration of four judges on the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p29" data-seat="judge-11" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Juan Manuel G&oacute;mez Robledo</p>
+                                    <p class="cr-note">Mexico. Joined the court in February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p30" data-seat="judge-12" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Sarah H. Cleveland</p>
+                                    <p class="cr-note">United States. Joined the court in February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p31" data-seat="judge-13" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Bogdan Aurescu</p>
+                                    <p class="cr-note">Romania. Joined the court in February 2024. Voted for the Rafah order but called its wording &ldquo;somehow unclear.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-03-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Aurescu’s declaration of May 2024, opens the document at page 1">Aurescu declaration</a> &para; 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p32" data-seat="judge-14" data-side="court" data-from="ev-a-new-bench" data-gone="ev-the-courts-president-changes" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Dire Tladi</p>
+                                    <p class="cr-note">South Africa. Joined the court in February 2024, so South Africa&rsquo;s own judge ad hoc stopped sitting. He wrote in May 2024 that self-defense can&rsquo;t justify genocide.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=5" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 5">Order of May 24, 2024</a> &para; 6 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-04-en.pdf#page=3" target="_blank" rel="noopener" aria-label="Judge Tladi’s declaration of May 2024, opens the document at page 3">Tladi declaration</a> &para; 15</p>
+                                </li>
+                                <li class="cr-who" id="cr-p33" data-seat="judge-15" data-side="court" data-from="ev-a-new-bench" data-gone="ev-a-new-judge-for-israel" data-in="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Judge ad hoc</p>
+                                    <p class="cr-name">Aharon Barak</p>
+                                    <p class="cr-note">Judge ad hoc chosen by Israel. A former president of Israel&rsquo;s Supreme Court who survived the Kaunas ghetto as a child. Voted for the measures on aid and incitement in January 2024 and against the rest. He resigned in June 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-05-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Barak’s separate opinion of January 2024, opens the document at page 1">Barak opinion</a> &para;&para; 4, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-05-en.pdf#page=9" target="_blank" rel="noopener" aria-label="Judge Barak’s separate opinion of January 2024, opens the document at page 9">44</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p34" data-seat="judge-15" data-side="court" data-from="ev-a-new-judge-for-israel" data-gone="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge ad hoc</p>
+                                    <p class="cr-name">Ron Shapira</p>
+                                    <p class="cr-note">Judge ad hoc chosen by Israel in July 2024, in Judge Barak&rsquo;s place. A law professor and the rector of a college near Tel Aviv. No hearing has been held since he joined.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p35" data-seat="judge-0" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">President of the court</p>
+                                    <p class="cr-name">Yuji Iwasawa</p>
+                                    <p class="cr-note">Japan. President of the court since March 3, 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p36" data-seat="judge-1" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Vice-president</p>
+                                    <p class="cr-name">Julia Sebutinde</p>
+                                    <p class="cr-note">Uganda. The only judge to vote against all six measures in January 2024. She wrote that the conflict is &ldquo;essentially and historically a political one.&rdquo; Vice-president of the court since February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-02-enc.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Sebutinde’s dissent of January 2024, opens the document at page 1">Sebutinde dissent</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p37" data-seat="judge-2" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Peter Tomka</p>
+                                    <p class="cr-note">Slovakia. A former president of the court, on it since 2003. He didn&rsquo;t sit for the May 2024 hearings or the Rafah order, &ldquo;for reasons made known&rdquo; to the president.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p38" data-seat="judge-3" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Ronny Abraham</p>
+                                    <p class="cr-note">France. A former president of the court. Voted with the majority on every measure.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p39" data-seat="judge-4" data-side="court" data-from="ev-the-courts-president-changes" data-gone="ev-a-ceasefire-in-gaza">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Abdulqawi Ahmed Yusuf</p>
+                                    <p class="cr-note">Somalia. A former president of the court. Added a declaration to the March 2024 order. He resigned from the court in September 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p40" data-seat="judge-5" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Xue Hanqin</p>
+                                    <p class="cr-note">China. A former vice-president. In January 2024 she wrote a declaration on why South Africa has standing to bring the case.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-01-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Xue’s declaration of January 2024, opens the document at page 1">Xue declaration</a> &para; 4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p41" data-seat="judge-6" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Dalveer Bhandari</p>
+                                    <p class="cr-note">India. Wrote a declaration in January 2024 on how low the test for emergency orders is.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-03-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Bhandari’s declaration of January 2024, opens the document at page 1">Bhandari declaration</a> &para; 7</p>
+                                </li>
+                                <li class="cr-who" id="cr-p42" data-seat="judge-7" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Georg Nolte</p>
+                                    <p class="cr-note">Germany. Voted for the measures but wrote in January 2024 that he didn&rsquo;t find it plausible the military operation itself was being carried out with genocidal intent. He put the only question from the bench, about the evacuation zones, in May 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240126-ord-01-04-en.pdf#page=4" target="_blank" rel="noopener" aria-label="Judge Nolte’s declaration of January 2024, opens the document at page 4">Nolte declaration</a> &para; 15 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=30" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 30">CR 2024/28</a> p. 30</p>
+                                </li>
+                                <li class="cr-who" id="cr-p43" data-seat="judge-8" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Hilary Charlesworth</p>
+                                    <p class="cr-note">Australia. Added a declaration to the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p44" data-seat="judge-9" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Leonardo Nemer Caldeira Brant</p>
+                                    <p class="cr-note">Brazil. Joined the joint declaration of four judges on the March 2024 order.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p45" data-seat="judge-10" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Juan Manuel G&oacute;mez Robledo</p>
+                                    <p class="cr-note">Mexico. Joined the court in February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p46" data-seat="judge-11" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Sarah H. Cleveland</p>
+                                    <p class="cr-note">United States. Joined the court in February 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p47" data-seat="judge-12" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Bogdan Aurescu</p>
+                                    <p class="cr-note">Romania. Joined the court in February 2024. Voted for the Rafah order but called its wording &ldquo;somehow unclear.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-03-en.pdf#page=1" target="_blank" rel="noopener" aria-label="Judge Aurescu’s declaration of May 2024, opens the document at page 1">Aurescu declaration</a> &para; 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p48" data-seat="judge-13" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Dire Tladi</p>
+                                    <p class="cr-note">South Africa. Joined the court in February 2024, so South Africa&rsquo;s own judge ad hoc stopped sitting. He wrote in May 2024 that self-defense can&rsquo;t justify genocide.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=5" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 5">Order of May 24, 2024</a> &para; 6 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-04-en.pdf#page=3" target="_blank" rel="noopener" aria-label="Judge Tladi’s declaration of May 2024, opens the document at page 3">Tladi declaration</a> &para; 15</p>
+                                </li>
+                                <li class="cr-who" id="cr-p49" data-seat="judge-14" data-side="court" data-from="ev-famine-confirmed-in-gaza-city">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Mahmoud Daifallah Hmoud</p>
+                                    <p class="cr-note">Jordan. Took Judge Salam&rsquo;s seat in May 2025.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p50" data-seat="judge-15" data-side="court" data-from="ev-israel-files-its-answer-and-objects-to-the-courts-power">
+                                    <p class="cr-role">Judge</p>
+                                    <p class="cr-name">Phoebe Okowa</p>
+                                    <p class="cr-note">Kenya. Elected in November 2025 to the seat Judge Yusuf left.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p51" data-seat="judge-16" data-side="court" data-from="ev-the-courts-president-changes">
+                                    <p class="cr-role">Judge ad hoc</p>
+                                    <p class="cr-name">Ron Shapira</p>
+                                    <p class="cr-note">Judge ad hoc chosen by Israel in July 2024, in Judge Barak&rsquo;s place. A law professor and the rector of a college near Tel Aviv. No hearing has been held since he joined.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20260521-ord-01-00-en.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of May 21, 2026, opens the document at page 2">Order of May 21, 2026</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p52" data-seat="r1" data-side="court" data-from="ev-south-africa-takes-israel-to-the-world-court" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Registrar</p>
+                                    <p class="cr-name">Philippe Gautier</p>
+                                    <p class="cr-note">The head of the court&rsquo;s staff, who sits with the judges and keeps the record. He read the operative part of each order aloud in French after the president read it in English.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 2">CR 2024/1</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=2" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 2">CR 2024/27</a> p. 2 &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/204102" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of May 24, 2024, opens in a new tab">ICJ photographs, May 24, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p53" data-seat="p1" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations ev-the-rafah-order">
+                                    <p class="cr-role">Agent</p>
+                                    <p class="cr-name">Vusimuzi Madonsela</p>
+                                    <p class="cr-note">South Africa&rsquo;s ambassador to the Netherlands, its agent in the case, and the first and last to speak at both of its hearings. The court&rsquo;s photographs of both readings show him.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6 &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/204102" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of May 24, 2024, opens in a new tab">ICJ photographs, May 24, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p54" data-seat="p2" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Co-agent</p>
+                                    <p class="cr-name">Cornelius Scholtz</p>
+                                    <p class="cr-note">Legal counsellor at South Africa&rsquo;s embassy in The Hague.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p55" data-seat="p3" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Minister of Justice</p>
+                                    <p class="cr-name">Ronald Lamola</p>
+                                    <p class="cr-note">Made South Africa&rsquo;s opening statement on January 11, 2024. Not in the delegation in May.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=18" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 18">CR 2024/1</a> pp. 18&ndash;20</p>
+                                </li>
+                                <li class="cr-who" id="cr-p56" data-seat="p4" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">John Dugard</p>
+                                    <p class="cr-note">Emeritus professor at Leiden and the University of the Witwatersrand. Argued the court&rsquo;s power over the case at both hearings.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=42" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 42">CR 2024/1</a> p. 42 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=16" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 16">CR 2024/27</a> p. 16</p>
+                                </li>
+                                <li class="cr-who" id="cr-p57" data-seat="p5" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Vaughan Lowe</p>
+                                    <p class="cr-note">Emeritus Chichele Professor of Public International Law at Oxford. Spoke on the measures South Africa wanted, and on self-defense.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=73" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 73">CR 2024/1</a> p. 73 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=13" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 13">CR 2024/27</a> p. 13</p>
+                                </li>
+                                <li class="cr-who" id="cr-p58" data-seat="p6" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Max du Plessis</p>
+                                    <p class="cr-note">Spoke on the rights South Africa wanted protected.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=48" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 48">CR 2024/1</a> p. 48 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=21" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 21">CR 2024/27</a> p. 21</p>
+                                </li>
+                                <li class="cr-who" id="cr-p59" data-seat="p7" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Tembeka Ngcukaitobi</p>
+                                    <p class="cr-note">Argued intent: that Israel&rsquo;s leaders &ldquo;in explicit terms declared their genocidal intent.&rdquo; In May he called Rafah &ldquo;the last stand.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=33" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 33">CR 2024/1</a> p. 33 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=42" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 42">CR 2024/27</a> p. 42</p>
+                                </li>
+                                <li class="cr-who" id="cr-p60" data-seat="p8" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Adila Hassim</p>
+                                    <p class="cr-note">Argued the acts: the killing, the harm and the conditions of life in Gaza.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=21" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 21">CR 2024/1</a> p. 21 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=32" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 32">CR 2024/27</a> p. 32</p>
+                                </li>
+                                <li class="cr-who" id="cr-p61" data-seat="p9" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Blinne N&iacute; Ghr&aacute;laigh</p>
+                                    <p class="cr-note">Irish barrister. Argued urgency, and said Gaza was &ldquo;the first genocide in history where its victims are broadcasting their own destruction in real time.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=56" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 56">CR 2024/1</a> pp. 56, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=71" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 71">71</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p62" data-seat="p10" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">For the presidency</p>
+                                    <p class="cr-name">Nokukhanya Jele</p>
+                                    <p class="cr-note">Special adviser to South Africa&rsquo;s president, listed among the national officials at all four hearings.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p63" data-seat="p11" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">For the foreign ministry</p>
+                                    <p class="cr-name">Zane Dangor</p>
+                                    <p class="cr-note">Director-general of South Africa&rsquo;s Department of International Relations and Cooperation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p64" data-seat="p12" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">For the presidency</p>
+                                    <p class="cr-name">Phindile Baleni</p>
+                                    <p class="cr-note">Director-general in the presidency. In the January delegation only.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p65" data-seat="p13" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">For the justice ministry</p>
+                                    <p class="cr-name">Doctor Mashabane</p>
+                                    <p class="cr-note">Director-general of the justice department. In the January delegation only.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p66" data-seat="p14" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">State of Palestine</p>
+                                    <p class="cr-name">Ammar Hijazi</p>
+                                    <p class="cr-note">Palestine&rsquo;s assistant foreign minister for multilateral affairs, sitting as a member of South Africa&rsquo;s delegation. Palestine later asked to join the case itself.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p67" data-seat="p15" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">State of Palestine</p>
+                                    <p class="cr-name">Omar Awadallah</p>
+                                    <p class="cr-note">Palestine&rsquo;s assistant foreign minister for the UN, sitting as a member of South Africa&rsquo;s delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p68" data-seat="p16" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Palestinian Centre for Human Rights</p>
+                                    <p class="cr-name">Raji Sourani</p>
+                                    <p class="cr-note">Its director, from Gaza, sitting as a member of South Africa&rsquo;s delegation at all four hearings.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p69" data-seat="p17" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Al-Mezan</p>
+                                    <p class="cr-name">Issam Younis</p>
+                                    <p class="cr-note">Director of the Gaza rights group Al-Mezan, sitting as a member of South Africa&rsquo;s delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 4">CR 2024/27</a> pp. 4&ndash;6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p70" data-seat="p18" data-side="p" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-a-new-bench" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Al-Haq</p>
+                                    <p class="cr-name">Shawan Jabarin</p>
+                                    <p class="cr-note">General director of the Palestinian rights group Al-Haq, in the January delegation. The record spells his name Jabreen.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 4">CR 2024/1</a> pp. 4&ndash;8</p>
+                                </li>
+                                <li class="cr-who" id="cr-p71" data-seat="d1" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-the-court-orders-six-measures-and-no-ceasefire ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Co-agent</p>
+                                    <p class="cr-name">Gilad Noam</p>
+                                    <p class="cr-note">Deputy attorney general for international law. Closed Israel&rsquo;s case in January and led it alone with Tamar Kaplan Tourgeman in May. The court&rsquo;s photographs of the January reading show him.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=8" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 8">CR 2024/28</a> p. 8 &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p72" data-seat="d2" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Co-agent</p>
+                                    <p class="cr-name">Tal Becker</p>
+                                    <p class="cr-note">Legal adviser to Israel&rsquo;s foreign ministry. Opened Israel&rsquo;s case in January 2024: &ldquo;if there have been acts that may be characterized as genocidal, then they have been perpetrated against Israel.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=12" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 12">CR 2024/2</a> pp. 12&ndash;15</p>
+                                </li>
+                                <li class="cr-who" id="cr-p73" data-seat="d3" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Co-agent</p>
+                                    <p class="cr-name">Tamar Kaplan Tourgeman</p>
+                                    <p class="cr-note">A senior lawyer in Israel&rsquo;s foreign ministry. Argued the second half of Israel&rsquo;s case on Rafah in May.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=21" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 21">CR 2024/28</a> p. 21</p>
+                                </li>
+                                <li class="cr-who" id="cr-p74" data-seat="d4" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Malcolm Shaw</p>
+                                    <p class="cr-note">British international lawyer, emeritus professor at Leicester. Argued in January that there was &ldquo;little beyond random assertions&rdquo; to show intent.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=22" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 22">CR 2024/2</a> p. 22, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=31" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 31">31</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p75" data-seat="d5" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Christopher Staker</p>
+                                    <p class="cr-note">British barrister. Took South Africa&rsquo;s nine requested measures one at a time in January.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=55" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 55">CR 2024/2</a> p. 55</p>
+                                </li>
+                                <li class="cr-who" id="cr-p76" data-seat="d6" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Galit Raguan</p>
+                                    <p class="cr-note">Of the justice ministry&rsquo;s international justice division. Set out Israel&rsquo;s aid and civilian-protection efforts.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=40" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 40">CR 2024/2</a> p. 40</p>
+                                </li>
+                                <li class="cr-who" id="cr-p77" data-seat="d7" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Omri Sender</p>
+                                    <p class="cr-note">Tel Aviv lawyer. Argued in January that there was no urgency.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=49" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 49">CR 2024/2</a> p. 49</p>
+                                </li>
+                                <li class="cr-who" id="cr-p78" data-seat="d8" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations">
+                                    <p class="cr-role">Deputy agent</p>
+                                    <p class="cr-name">Avigail Frisch Ben Avraham</p>
+                                    <p class="cr-note">Legal adviser at Israel&rsquo;s embassy in The Hague, at all four hearings.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=6" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 6">CR 2024/27</a> p. 6</p>
+                                </li>
+                                <li class="cr-who" id="cr-p79" data-seat="d9" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Ambassador</p>
+                                    <p class="cr-name">Modi Ephraim</p>
+                                    <p class="cr-note">Israel&rsquo;s ambassador to the Netherlands, in the January delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10</p>
+                                </li>
+                                <li class="cr-who" id="cr-p80" data-seat="d10" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Counsel</p>
+                                    <p class="cr-name">Eyal Benvenisti</p>
+                                    <p class="cr-note">Whewell Professor of International Law at Cambridge, in the January delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10</p>
+                                </li>
+                                <li class="cr-who" id="cr-p81" data-seat="d11" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">National Security Council</p>
+                                    <p class="cr-name">Daniel Geron</p>
+                                    <p class="cr-note">From the prime minister&rsquo;s office, in the January delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10</p>
+                                </li>
+                                <li class="cr-who" id="cr-p82" data-seat="d12" data-side="d" data-from="ev-south-africa-takes-israel-to-the-world-court" data-gone="ev-palestine-asks-to-join" data-in="ev-south-africa-makes-its-case ev-israel-answers">
+                                    <p class="cr-role">Foreign ministry</p>
+                                    <p class="cr-name">Amit Heumann</p>
+                                    <p class="cr-note">Head of the foreign ministry&rsquo;s international law department, in the January delegation.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=4" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 4">CR 2024/2</a> pp. 4&ndash;10</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="d" data-at="ev-south-africa-a-new-and-horrific-stage ev-israel-limited-and-localized-operations" data-always>
+                                    <p class="cr-role">Israel&rsquo;s table</p>
+                                    <p class="cr-name">Three government lawyers</p>
+                                    <p class="cr-note">Israel was notified of the hearing on a Monday for the Thursday, asked for it to be moved a week, and was refused. Its co-agent told the court that its lead counsel was &ldquo;shipborne this week&rdquo; and that Israel &ldquo;is not represented today by its chosen team of counsel and advocates.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=8" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 8">CR 2024/28</a> pp. 8&ndash;9 &middot; <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=7" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 7">Order of May 24, 2024</a> &para; 15</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="d" data-at="ev-the-rafah-order">
+                                    <p class="cr-role">Israel&rsquo;s table</p>
+                                    <p class="cr-name">Not named</p>
+                                    <p class="cr-note">The court&rsquo;s photographs of this sitting show members of Israel&rsquo;s delegation, but don&rsquo;t name them, and there is no transcript to hand that lists them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/node/204102" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of May 24, 2024, opens in a new tab">ICJ photographs, May 24, 2024</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="p" data-at="ev-the-court-orders-six-measures-and-no-ceasefire ev-the-rafah-order" data-always>
+                                    <p class="cr-role">South Africa&rsquo;s table</p>
+                                    <p class="cr-name">Only the agent is named</p>
+                                    <p class="cr-note">There is no transcript to hand for this reading. The court&rsquo;s photographs name South Africa&rsquo;s agent and show the rest of its delegation without naming them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/204102" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of May 24, 2024, opens in a new tab">ICJ photographs, May 24, 2024</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="d" data-at="ev-the-court-orders-six-measures-and-no-ceasefire" data-always>
+                                    <p class="cr-role">Israel&rsquo;s table</p>
+                                    <p class="cr-name">Only the co-agent is named</p>
+                                    <p class="cr-note">The court&rsquo;s photographs of this reading name Israel&rsquo;s co-agent, Gilad Noam, and show the rest of its delegation without naming them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="bench" data-when="court" data-always>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">In order of precedence</p>
+                                    <p class="cr-note">Judges are drawn in the court&rsquo;s order of precedence: the president in the middle, the vice-president beside, the others by seniority alternating outward, and the judges ad hoc at the end. That is the rule, not a chart of where each judge sat on the day. There is no jury at this court. The judges decide everything, by majority.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=12" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 12">CR 2024/1</a> p. 12</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="bench" data-when="paper">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Deciding on paper</p>
+                                    <p class="cr-note">The judges are in the case, but they took this step in writing, or it happened outside the court. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="r" data-when="paper">
+                                    <p class="cr-role">The Registrar</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the Registrar sits at a public sitting, beside the bench. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">For the lawyers</p>
+                                    <p class="cr-note">Where each side&rsquo;s lawyers stand to speak, facing the bench. No witness has testified in this case: the 2024 hearings were argument only, and the court decided on documents and argument.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="stand" data-when="paper">
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the lawyers speak at a hearing. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="p" data-when="paper">
+                                    <p class="cr-role">South Africa&rsquo;s table</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where South Africa&rsquo;s delegation sits at a hearing. Nothing was heard in court on this date. Since May 2024 the case has gone on in writing, and nobody has argued it in court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="d" data-when="paper">
+                                    <p class="cr-role">Israel&rsquo;s table</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where Israel&rsquo;s delegation sits at a hearing. Nothing was heard in court on this date. Since May 2024 the case has gone on in writing, and nobody has argued it in court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="gallery" data-when="court" data-always>
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The verbatim records list the bench and the two delegations and say nothing about who watched, so these seats are drawn empty. The hearings were public and were also streamed by the court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="gallery" data-when="paper">
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Seats for the public, the press and diplomats at a public sitting. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judges sit, along one long bench. Fifteen judges sit on every case here, joined by a judge ad hoc for a country that has none of its own. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="r" data-before>
+                                    <p class="cr-role">The Registrar</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the head of the court&rsquo;s staff sits at a public sitting. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="stand" data-before>
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the lawyers stand to speak. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a17" data-zone="p" data-before>
+                                    <p class="cr-role">South Africa&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the country that brings the case sits. It is always drawn on the left here. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a18" data-zone="d" data-before>
+                                    <p class="cr-role">Israel&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the country answering the case sits. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a19" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Seats for the public and the press. On this date there was no case yet.</p>
                                 </li>
                                 </ul>
                             </div>
@@ -316,12 +914,16 @@
 
                     <!-- The days something happened in a room. With the script
                          each one is shown under its own moment; without it this
-                         is the list. The line here has no data-at, so the
-                         script passes over it. -->
+                         is the list. -->
                     <div class="cr-days">
                         <h3 class="cr-cast-h">Days in court</h3>
                         <ol class="cr-sits">
-                            <li><span class="cr-sit-t">None listed yet.</span></li>
+                            <li data-at="ev-south-africa-makes-its-case" data-kind="court"><span class="cr-sit-d">Jan 11, 2024</span> <span class="cr-sit-t">South Africa&rsquo;s day. A public sitting at the Peace Palace from 10 a.m., President Donoghue presiding. The two judges ad hoc were sworn in first.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=1" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 1">CR 2024/1</a> pp. 1&ndash;2, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240111-ora-01-00-bi.pdf#page=12" target="_blank" rel="noopener" aria-label="Transcript CR 2024/1, January 11, 2024, opens the transcript at page 12">12&ndash;13</a></span></li>
+                            <li data-at="ev-israel-answers" data-kind="court"><span class="cr-sit-d">Jan 12, 2024</span> <span class="cr-sit-t">Israel&rsquo;s day, from 10 a.m.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240112-ora-01-00-bi.pdf#page=1" target="_blank" rel="noopener" aria-label="Transcript CR 2024/2, January 12, 2024, opens the transcript at page 1">CR 2024/2</a> pp. 1&ndash;2</span></li>
+                            <li data-at="ev-the-court-orders-six-measures-and-no-ceasefire" data-kind="court"><span class="cr-sit-d">Jan 26, 2024</span> <span class="cr-sit-t">The first order read out at a public sitting at 1 p.m., the operative part by President Donoghue in English and by the Registrar in French.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240124-pre-01-00-en.pdf" target="_blank" rel="noopener" aria-label="Press release 2024/4, opens the document">Press release 2024/4</a> &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/203430" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of January 26, 2024, opens in a new tab">ICJ photographs, Jan 26, 2024</a></span></li>
+                            <li data-at="ev-south-africa-a-new-and-horrific-stage" data-kind="court"><span class="cr-sit-d">May 16, 2024</span> <span class="cr-sit-t">South Africa&rsquo;s day on Rafah, an afternoon sitting from 3 p.m., President Salam presiding. Judge Tomka was unable to sit.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=1" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 1">CR 2024/27</a> pp. 1&ndash;2, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240516-ora-01-00-bi.pdf#page=8" target="_blank" rel="noopener" aria-label="Transcript CR 2024/27, May 16, 2024, opens the transcript at page 8">8</a></span></li>
+                            <li data-at="ev-israel-limited-and-localized-operations" data-kind="court"><span class="cr-sit-d">May 17, 2024</span> <span class="cr-sit-t">Israel&rsquo;s day on Rafah, from 10 a.m. Judge Nolte put a question to Israel at the end.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=1" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 1">CR 2024/28</a> pp. 1&ndash;2, <a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240517-ora-01-00-bi.pdf#page=30" target="_blank" rel="noopener" aria-label="Transcript CR 2024/28, May 17, 2024, opens the transcript at page 30">30</a></span></li>
+                            <li data-at="ev-the-rafah-order" data-kind="court"><span class="cr-sit-d">May 24, 2024</span> <span class="cr-sit-t">The Rafah order read out at a public sitting at 3 p.m., by President Salam and then in French by the Registrar.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.icj-cij.org/sites/default/files/case-related/192/192-20240524-ord-01-00-en.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of May 24, 2024, opens the document at page 3">Order of May 24, 2024</a> p. 3 &middot; <a class="cite-doc" href="https://www.icj-cij.org/node/204102" target="_blank" rel="noopener" aria-label="The court’s photographs and video of the sitting of May 24, 2024, opens in a new tab">ICJ photographs, May 24, 2024</a></span></li>
                         </ol>
                     </div>
                 </div>
@@ -346,9 +948,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -356,12 +957,61 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the court uses them. A few are special to this court, which judges countries and not people, and to the treaty the case is about.</p>
+
+                <p class="gloss-s">The court</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-icj">International Court of Justice</dt><dd>The United Nations&rsquo; own court, in The Hague. It settles disputes between countries, not cases against people. It has 15 judges elected by the UN for nine years at a time, and it&rsquo;s sometimes called the World Court.</dd></div>
+                    <div><dt id="t-genocide-convention">Genocide Convention</dt><dd>The 1948 treaty that defines genocide and makes the countries that join it promise to prevent it and punish it. Israel joined in 1950 and South Africa in 1998.</dd></div>
+                    <div><dt id="t-article-ix">Article IX</dt><dd>The clause of the Genocide Convention that lets one member take another to this court over a dispute about the treaty. It&rsquo;s the only reason this court has the case.</dd></div>
+                    <div><dt id="t-judge-ad-hoc">Judge ad hoc</dt><dd>A judge a country picks for one case when no judge of its nationality is on the court. They sit and vote with the other judges.</dd></div>
+                    <div><dt id="t-president">President of the court</dt><dd>The judge the others elect to run the court and chair its hearings, for three years at a time.</dd></div>
+                    <div><dt id="t-registrar">Registrar</dt><dd>The head of the court&rsquo;s staff. Keeps the record, sits with the judges at hearings, and reads out the French text of a ruling.</dd></div>
+                    <div><dt id="t-agent">Agent</dt><dd>The official who speaks for a country in a case at this court, usually a diplomat or a government lawyer. A country can have co-agents who share the job.</dd></div>
+                    <div><dt id="t-intervention">Intervention</dt><dd>Another country asking to take part. Any member of the treaty can come in to argue how the treaty should be read, and is then bound by how the court reads it. It doesn&rsquo;t become a party to the case.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
                     <div><dt id="t-general-list">General List</dt><dd>The court&rsquo;s numbered list of its cases. This one is No. 192.</dd></div>
+                    <div><dt id="t-application">Application</dt><dd>The document that starts a case at this court. South Africa&rsquo;s runs to 84 pages.</dd></div>
+                    <div><dt id="t-memorial">Memorial</dt><dd>The full written case of the country that sued, with its evidence. South Africa filed its in October 2024.</dd></div>
+                    <div><dt id="t-counter-memorial">Counter-memorial</dt><dd>The full written answer of the country being sued. Israel filed its in March 2026.</dd></div>
+                    <div><dt id="t-reply-rejoinder">Reply and rejoinder</dt><dd>A second round of writing. The country that sued answers the counter-memorial, and the other side answers that.</dd></div>
+                    <div><dt id="t-confidential">Confidential pleadings</dt><dd>The court&rsquo;s rules keep the written arguments out of public view until the court decides to publish them, usually when the hearings on them open.</dd></div>
+                    <div><dt id="t-verbatim-record">Verbatim record</dt><dd>The court&rsquo;s word-for-word record of a hearing, numbered like CR 2024/1. Cited here by page.</dd></div>
+                    <div><dt id="t-order">Order</dt><dd>A written decision of the court on one step in a case. It isn&rsquo;t the final judgment.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-provisional-measures">Provisional measures</dt><dd>Emergency orders the court can give while a case goes on, to stop harm that couldn&rsquo;t be undone before the final ruling. They&rsquo;re binding, but the court has no way of its own to enforce them.</dd></div>
+                    <div><dt id="t-plausible">Plausible</dt><dd>The test for emergency orders. The court asks if the rights a country wants protected plausibly exist and could be at risk. It isn&rsquo;t a finding that the accusation is true.</dd></div>
+                    <div><dt id="t-prima-facie">Prima facie</dt><dd>At first sight. Before giving emergency orders the court only has to see, at first sight, that it may have power over the case.</dd></div>
+                    <div><dt id="t-jurisdiction">Jurisdiction</dt><dd>The court&rsquo;s power to hear a case at all. Here it comes only from Article IX of the Genocide Convention.</dd></div>
+                    <div><dt id="t-dispute">Dispute</dt><dd>A real disagreement between the two countries about the treaty. It has to exist when the case is filed. Israel argued in 2024 that there wasn&rsquo;t one yet.</dd></div>
+                    <div><dt id="t-admissibility">Admissibility</dt><dd>Whether a case the court has power over is still one it should hear, for example because of how it was brought.</dd></div>
+                    <div><dt id="t-preliminary-objections">Preliminary objections</dt><dd>A challenge to jurisdiction or admissibility filed early and decided on its own, before the main case. Israel didn&rsquo;t file one. It put its objections in its counter-memorial instead, so they&rsquo;re decided with everything else.</dd></div>
+                    <div><dt id="t-standing">Standing</dt><dd>The right to bring a case. Every member of the Genocide Convention has a stake in it being kept, so any member can sue another without having been harmed itself.</dd></div>
+                    <div><dt id="t-merits">Merits</dt><dd>The main question in a case, as opposed to steps along the way. Here, whether Israel broke the Genocide Convention.</dd></div>
+                    <div><dt id="t-judgment">Judgment</dt><dd>The court&rsquo;s final decision. It&rsquo;s binding on the two countries and there is no appeal.</dd></div>
+                    <div><dt id="t-opinion">Opinions and declarations</dt><dd>What a judge writes alongside a decision to explain a vote or add a point. A dissent explains a vote against. None of them changes the result.</dd></div>
+                    <div><dt id="t-monitoring-committee">Monitoring committee</dt><dd>Three judges the court set up in 2023 to follow whether its emergency orders are being carried out and suggest to the court what it could do.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the treaty says</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-genocide">Genocide</dt><dd>Under the treaty, any of five acts done with intent to destroy, in whole or in part, a national, ethnic, racial or religious group as such: killing its members, seriously harming them, imposing conditions of life meant to destroy it, preventing births, or taking its children.</dd></div>
+                    <div><dt id="t-article-ii">The listed acts</dt><dd>The five acts in Article II of the treaty. On their own they aren&rsquo;t genocide. They become genocide when an intent to destroy the group is behind them.</dd></div>
+                    <div><dt id="t-specific-intent">Specific intent</dt><dd>The intent to destroy the group as such, also called dolus specialis. It has to be there on top of the intent to do the act itself, and it&rsquo;s what sets genocide apart from other crimes.</dd></div>
+                    <div><dt id="t-only-inference">Only reasonable inference</dt><dd>The court&rsquo;s test from its earlier genocide cases. Where no plan is proved, intent can be read from a pattern of conduct only if it&rsquo;s the only conclusion that could reasonably be drawn from it.</dd></div>
+                    <div><dt id="t-substantial-part">Substantial part</dt><dd>The part of the group targeted has to be big enough to matter to the group as a whole. The court said in 2024 that Palestinians in Gaza, over 2 million people, are.</dd></div>
+                    <div><dt id="t-incitement">Direct and public incitement</dt><dd>Openly urging people to commit genocide. It breaks the treaty on its own, whether or not a genocide follows.</dd></div>
+                    <div><dt id="t-duty-to-prevent">Duty to prevent</dt><dd>Each member has to do what it reasonably can to stop a genocide once it knows, or should know, of a serious risk of one. It&rsquo;s only broken if a genocide actually happens.</dd></div>
+                    <div><dt id="t-state-responsibility">State responsibility</dt><dd>This court judges countries, not people. It can find a state responsible for breaking the treaty. Putting individuals on trial is for criminal courts.</dd></div>
+                    <div><dt id="t-ihl">Law of war</dt><dd>The rules for fighting a war, also called international humanitarian law. They allow some harm to civilians but forbid targeting them or causing harm out of proportion to the military aim. This case isn&rsquo;t about those rules.</dd></div>
+                    <div><dt id="t-self-defense">Self-defense</dt><dd>A country&rsquo;s right to use force when it&rsquo;s attacked. Israel says its war in Gaza is self-defense. South Africa says self-defense can never excuse genocide.</dd></div>
+                    <div><dt id="t-famine">Famine</dt><dd>The worst level on the hunger scale UN agencies and aid groups use, called the IPC. It means extreme lack of food, acute malnutrition and deaths from it, each past a set line.</dd></div>
                 </dl>
             </div>
         </details>
