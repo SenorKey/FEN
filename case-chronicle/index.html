@@ -123,7 +123,14 @@
                      looks at it, a volume is its name, described by the two
                      lines aria-describedby names; the plate itself stays hidden
                      so the name stays short. chronicle.css, under "Ten
-                     volumes", has the rest. -->
+                     volumes", has the rest.
+
+                     A volume is as thick as its case is long to read: --bk-w
+                     follows the words on the case's five pages, 76px to 108px,
+                     and a new volume gets a --bk-h at random, once, from the
+                     range the first ten stand in. ~/fen-chronicle-shelf/shelf.py
+                     writes both; run it again when a case grows. An unbound
+                     volume names its folder in data-case. -->
                 <div class="shelf shelf-tiers">
 
                     <div class="shelf-plate">
@@ -138,7 +145,7 @@
                         <div class="shelf-tier">
 
                             <a class="bk" href="/case-chronicle/doe-v-bonnell/" aria-describedby="bk-doe-t bk-doe-s"
-                                style="--bind: var(--bind-1); --bk-w: 94px; --bk-h: 346px;">
+                                style="--bind: var(--bind-1); --bk-w: 92px; --bk-h: 346px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">S.D. Fla. &middot; No. 1:25-cv-20757-JB</span>
                                     <span class="bk-plate-n">Doe <em>v.</em> Bonnell</span>
@@ -157,7 +164,7 @@
                             </a>
 
                             <a class="bk" href="/case-chronicle/depp-v-heard/" aria-describedby="bk-depp-t bk-depp-s"
-                                style="--bind: var(--bind-2); --bk-w: 76px; --bk-h: 375px;">
+                                style="--bind: var(--bind-2); --bk-w: 88px; --bk-h: 375px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Va. Cir. Ct., Fairfax Cty. &middot; No.
                                         CL-2019-0002911</span>
@@ -176,7 +183,7 @@
                             </a>
 
                             <a class="bk" href="/case-chronicle/commonwealth-v-clancy/" aria-describedby="bk-clancy-t bk-clancy-s"
-                                style="--bind: var(--bind-3); --bk-w: 108px; --bk-h: 354px;">
+                                style="--bind: var(--bind-3); --bk-w: 90px; --bk-h: 354px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Mass. Super. Ct., Plymouth Cty. &middot; No.
                                         2383CR00199</span>
@@ -196,7 +203,7 @@
                             </a>
 
                             <a class="bk" href="/case-chronicle/people-v-mangione/" aria-describedby="bk-mangione-t bk-mangione-s"
-                                style="--bind: var(--bind-4); --bk-w: 85px; --bk-h: 336px;">
+                                style="--bind: var(--bind-4); --bk-w: 88px; --bk-h: 336px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">N.Y. Sup. Ct., N.Y. Cty. &middot; No. 75657-24
                                         &middot; and S.D.N.Y.</span>
@@ -215,8 +222,8 @@
                                 </span>
                             </a>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-chauvin-t bk-chauvin-s"
-                                style="--bind: var(--bind-plain); --bk-w: 80px; --bk-h: 318px;">
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-chauvin-t bk-chauvin-s" data-case="state-v-chauvin"
+                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 318px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Hennepin Cty. Dist. Ct., Minn. &middot; and D.
                                         Minn.</span>
@@ -242,7 +249,7 @@
                         <div class="shelf-tier">
 
                             <a class="bk" href="/case-chronicle/prosecutor-v-duterte/" aria-describedby="bk-duterte-t bk-duterte-s"
-                                style="--bind: var(--bind-5); --bk-w: 90px; --bk-h: 348px;">
+                                style="--bind: var(--bind-5); --bk-w: 103px; --bk-h: 348px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Int&rsquo;l Crim. Ct. &middot; No. ICC-01/21-01/25</span>
                                     <span class="bk-plate-n">Prosecutor <em>v.</em> Duterte</span>
@@ -261,7 +268,7 @@
                             </a>
 
                             <a class="bk" href="/case-chronicle/south-africa-v-israel/" aria-describedby="bk-gaza-t bk-gaza-s"
-                                style="--bind: var(--bind-6); --bk-w: 100px; --bk-h: 330px;">
+                                style="--bind: var(--bind-6); --bk-w: 99px; --bk-h: 330px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Int&rsquo;l Ct. of Justice &middot; General List No. 192</span>
                                     <span class="bk-plate-n">South Africa <em>v.</em> Israel</span>
@@ -279,8 +286,8 @@
                                 </span>
                             </a>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-combs-t bk-combs-s"
-                                style="--bind: var(--bind-plain); --bk-w: 82px; --bk-h: 362px;">
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-combs-t bk-combs-s" data-case="united-states-v-combs"
+                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 362px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">S.D.N.Y. &middot; No. 1:24-cr-00542-AS</span>
                                     <span class="bk-plate-n">United States <em>v.</em> Combs</span>
@@ -296,8 +303,8 @@
                                 </span>
                             </span>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-google-t bk-google-s"
-                                style="--bind: var(--bind-plain); --bk-w: 94px; --bk-h: 340px;">
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-google-t bk-google-s" data-case="united-states-v-google"
+                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 340px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">D.D.C. &middot; No. 1:20-cv-03010-APM &middot; and E.D. Va.</span>
                                     <span class="bk-plate-n">United States <em>v.</em> Google</span>
@@ -313,8 +320,8 @@
                                 </span>
                             </span>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-tiktok-t bk-tiktok-s"
-                                style="--bind: var(--bind-plain); --bk-w: 77px; --bk-h: 322px;">
+                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-tiktok-t bk-tiktok-s" data-case="tiktok-v-garland"
+                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 322px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">U.S. Supreme Ct. &middot; No. 24-656</span>
                                     <span class="bk-plate-n">TikTok <em>v.</em> Garland</span>
