@@ -119,6 +119,118 @@
   .vol-eras { display: none; }
 }
 
+/* ── the periods, kept to hand ──
+   Once the row of periods has gone up under the nav, volume.js puts a
+   copy of it, the years alone, just under the nav, so any period
+   is one tap away from anywhere down the page. The period passing under
+   it is marked. It slides out from behind the nav, and back in when the
+   row it copies comes back into view. On a wide screen the bar over the
+   rail moves down to sit under it, and a jump lands clear of all three.
+   The bar can only stick once the row is gone, so the page is set for
+   the strip (vol-jump-on) as soon as the strip is built. */
+.vol { --vol-jump: 44px; }
+
+/* A dark band, so it reads as a row of buttons and not as more of the
+   nav: the years in the masthead row's own figures, light on ink, with
+   a hairline between each. The ink is the court's sepia taken most of
+   the way to the page's ink, a step lighter than the ink itself. */
+.vol-jump {
+  position: fixed;
+  top: 44px;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  height: var(--vol-jump);
+  background: color-mix(in srgb, var(--court) 45%, var(--ink));
+  box-shadow: 0 6px 14px -8px rgba(23, 20, 15, 0.55);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s 0.25s;
+}
+
+.vol-jump.is-on {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.25s ease, visibility 0s;
+}
+
+.vol-jump .wrap {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr));
+  height: 100%;
+  border-left: 1px solid rgba(239, 233, 220, 0.18);
+}
+
+.vol-jump a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid rgba(239, 233, 220, 0.18);
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 36, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.12rem;
+  font-weight: 600;
+  font-variant-numeric: lining-nums;
+  line-height: 1;
+  color: rgba(239, 233, 220, 0.84);
+  text-decoration: none;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.vol-jump a:hover,
+.vol-jump a:focus-visible { color: var(--paper); background: rgba(239, 233, 220, 0.12); }
+
+.vol-jump a:focus-visible { outline: 2px solid var(--paper); outline-offset: -5px; }
+
+/* The period passing under the bar: a tab pulled out, the page's own
+   paper with the year in ink over a rule in the court's. */
+.vol-jump a[aria-current] { color: var(--ink); background: var(--paper); }
+
+.vol-jump a[aria-current]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--court);
+}
+
+@media (max-width: 620px) {
+  .vol-jump a { font-size: 0.98rem; }
+}
+
+/* The period's name is for a screen reader; the year is enough to see. */
+.vol-jump-t {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 901px) {
+  .vol-jump-on .tl-key { top: calc(44px + var(--vol-jump)); }
+  .vol-jump-on .tl-phase { scroll-margin-top: calc(92px + var(--vol-jump)); }
+  .vol-jump-on .tl-ev { scroll-margin-top: calc(112px + var(--vol-jump)); }
+}
+
+@media (max-width: 900px) {
+  .vol-jump { top: 40px; }
+  .vol-jump-on .tl-ev { scroll-margin-top: calc(84px + var(--vol-jump)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vol-jump,
+  .vol-jump.is-on { transition: none; }
+}
+
+@media print {
+  .vol-jump { display: none; }
+}
+
 /* A period's name, over the first phase in it: the plate's mono in the
    court's ink, the years and then the name. */
 .tl-era {
