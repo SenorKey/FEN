@@ -352,17 +352,20 @@
      the viewport when the page has run out. Measure one pass of the
      cards, then lay down as many copies as the page is long enough to
      need. The layer is fixed, so none of this can feed back into the
-     document height it is measuring. */
+     document height it is measuring.
+
+     The pass is measured every time, from however many copies are down:
+     the cards rewrap when the window changes width and when the mono
+     face arrives, so a height taken once goes stale, and a strip laid
+     down by it can run out before the page does. */
   function fill(col) {
-    if (col.seed === undefined) {
-      col.seed = col.strip.innerHTML;
-      col.unit = col.strip.offsetHeight;
-    }
-    if (!col.unit) return;
+    col.seed ??= col.strip.innerHTML;
+    const unit = col.strip.offsetHeight / (col.copies || 1);
+    if (!unit) return;
 
     const run = document.documentElement.scrollHeight - window.innerHeight;
     const need = run * col.rate + window.innerHeight + 240;
-    const copies = Math.max(1, Math.ceil(need / col.unit));
+    const copies = Math.max(1, Math.ceil(need / unit));
     if (copies === col.copies) return;
 
     col.strip.innerHTML = col.seed.repeat(copies);
@@ -1580,8 +1583,11 @@
       form.reset();
       source.classList.remove('is-invalid');
     } catch (err) {
-      say(err?.message ? `Could not send — ${err.message}`
-                       : 'Could not send — try again in a moment.', 'error');
+      /* A request that never reached the service fails with a TypeError
+         in the browser's own words ("Failed to fetch", "Load failed"),
+         which say nothing to a reader. Only the service's are passed on. */
+      say(err instanceof TypeError ? 'Could not send — try again in a moment.'
+                                   : `Could not send — ${err.message}`, 'error');
       last = 0;
     } finally {
       send.disabled = false;
