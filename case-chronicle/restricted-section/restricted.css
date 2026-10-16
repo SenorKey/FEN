@@ -348,7 +348,7 @@ body::after {
   max-width: 46em;
 }
 
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   /* The reserve is out of flow here and the rail follows the kicker
      directly, so the air it needs has to be put back. */
   .rs-stacks .shelf { margin-top: 44px; }
@@ -369,11 +369,11 @@ body::after {
   }
 }
 
-@media (max-width: 860px) {
+@media (width <= 860px) {
   .rs-stacks .shelf-plate { min-height: 200px; }
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
   .rs-stacks .shelf-plate { min-height: 232px; }
 }
 
@@ -641,19 +641,19 @@ body::after {
 /* Under this the plate is above the rail and not beside it, so the
    lantern moves out to the right-hand end and the words stop short of
    it. */
-@media (max-width: 1023px) {
+@media (width < 1024px) {
   :root { --lx: 85%; --cord: 34px; --lamp-w: 96px; }
 
   .rs-stacks .plate-rest { max-width: 68%; }
   .rs-stacks .bk-plate { max-width: 68%; }
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .rs-stacks { --pad-top: 56px; padding-bottom: 124px; }
   .rs-room .masthead.masthead-hub { padding: 32px 0 34px; }
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
   :root { --lx: 86%; --cord: 22px; --lamp-w: 64px; }
   .rs-stacks .plate-rest { max-width: 72%; }
   .rs-stacks .shelf-rail::after { left: -10px; right: -10px; }
@@ -661,7 +661,7 @@ body::after {
 
 /* The narrowest phones, where chronicle.css takes the rail one more
    step down: the lettering across a spine closes up to stay on it. */
-@media (max-width: 350px) {
+@media (width <= 350px) {
   .bk-bands .sp-name { font-size: 8.5px; letter-spacing: 0.05em; }
 }
 

@@ -99,13 +99,13 @@
   color: var(--muted);
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .vol-eras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .vol-eras a:nth-child(3n + 1) { border-left: 0; }
   .vol-eras a:nth-child(n + 4) { border-top: 1px solid var(--rule); }
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
   .masthead-vol { padding-top: 56px; }
   .masthead-vol .docket-meta { margin-top: 32px; }
   .vol-eras { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; }
@@ -197,7 +197,7 @@
   background: var(--court);
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
   .vol-jump a { font-size: 0.98rem; }
 }
 
@@ -211,13 +211,13 @@
   white-space: nowrap;
 }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
   .vol-jump-on .tl-key { top: calc(44px + var(--vol-jump)); }
   .vol-jump-on .tl-phase { scroll-margin-top: calc(92px + var(--vol-jump)); }
   .vol-jump-on .tl-ev { scroll-margin-top: calc(112px + var(--vol-jump)); }
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .vol-jump { top: 40px; }
   .vol-jump-on .tl-ev { scroll-margin-top: calc(84px + var(--vol-jump)); }
 }
@@ -311,7 +311,7 @@
   .tl-pre .tl-c:hover { box-shadow: var(--tl-lift); }
 }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
   .tl-pre .tl-c { max-width: 440px; }
 }
 
@@ -326,7 +326,7 @@
 
 .tl-start .tl-date { color: var(--ink); }
 
-@media (min-width: 901px) {
+@media (width > 900px) {
   .tl-ev.tl-start::before {
     width: 23px;
     height: 23px;
@@ -392,7 +392,7 @@
    two sides' cards, so its mark is where the solid line begins, and a
    strip of the band's colour hides the solid line between the top of
    the row and the mark, carrying the dotted one down to it instead. */
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .tl-pro::before { left: 8px; margin-left: -1px; }
 
   .tl-start { row-gap: 12px; }
