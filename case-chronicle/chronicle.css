@@ -2631,7 +2631,10 @@ body::after {
    band below it.
    ═══════════════════════════════════════════════ */
 
-.masthead-view {
+/* Two classes, as on the hub's masthead: the narrow-window padding
+   every masthead is given at the foot of this file would otherwise win,
+   and stand the bar of views off the band it is meant to open on to. */
+.masthead.masthead-view {
   padding: 84px 0 0;
   border-bottom: 0;
 }
@@ -2712,7 +2715,7 @@ body::after {
    from wherever it happens to be: every part is a box here, and the
    one in the court's ink along its top is the one. */
 @media (width <= 620px) {
-  .masthead-view { padding-top: 56px; }
+  .masthead.masthead-view { padding-top: 56px; }
   .masthead-view .masthead-title { margin-bottom: 30px; }
   .views { grid-template-columns: 1fr 1fr; }
   .view:nth-child(odd) { border-left: 0; }
