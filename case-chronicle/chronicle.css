@@ -168,7 +168,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   line-height: 1.66;
-  font-size: 16.5px;
+  /* 16.5px at the browser's default size, and in rem like nearly every
+     other size here, so a reader who has set a larger default gets
+     larger body text along with everything else. */
+  font-size: 1.03125rem;
   text-rendering: optimizeLegibility;
 }
 
@@ -421,7 +424,6 @@ body::after {
   line-height: 1.56;
   color: var(--ink-2);
   max-width: 40em;
-  font-weight: 300;
 }
 
 .docket-meta {
@@ -1067,7 +1069,6 @@ body::after {
   display: block;
   margin-top: 11px;
   font-size: clamp(1rem, 1.5vw, 1.1rem);
-  font-weight: 300;
   line-height: 1.66;
   color: var(--ink-2);
 }
@@ -1714,7 +1715,6 @@ body::after {
   isolation: isolate;
   display: grid;
   grid-template-columns: repeat(var(--door-n), var(--dw));
-  grid-auto-rows: auto;
   justify-content: center;
   column-gap: var(--door-gap);
 }
@@ -2999,6 +2999,14 @@ body::after {
   pointer-events: none;
 }
 
+/* A person's side, in the ink every mark of theirs is drawn in: their
+   circle on the plan and the dot by their row in the list. Anyone on
+   no side has none, and each mark falls back to ink at about half
+   strength. */
+.cr [data-side="p"] { --side-ink: var(--p); }
+.cr [data-side="d"] { --side-ink: var(--d); }
+.cr [data-side="court"] { --side-ink: var(--court); }
+
 /* ── a person ──
    A real button over the seat, so it takes focus and a finger as well
    as a pointer. The ring of stock around it is what separates two
@@ -3010,7 +3018,7 @@ body::after {
   margin: -13px 0 0 -13px;
   border: 2px solid var(--paper);
   border-radius: 50%;
-  background: rgba(23, 20, 15, 0.6);
+  background: var(--side-ink, rgba(23, 20, 15, 0.6));
   box-shadow: 0 1px 4px rgba(23, 20, 15, 0.35);
   cursor: help;
   /* Above the part of the room they are in, by rule and not by the
@@ -3023,10 +3031,6 @@ body::after {
 @keyframes node-in {
   from { opacity: 0; transform: scale(0.4); }
 }
-
-.cr-node[data-side="p"] { background: var(--p); }
-.cr-node[data-side="d"] { background: var(--d); }
-.cr-node[data-side="court"] { background: var(--court); }
 
 .cr-node:hover,
 .cr-node:focus-visible,
@@ -3047,22 +3051,14 @@ body::after {
    on, so the room keeps its shape when it is nearly all hollow. */
 .cr-node.is-case {
   background: var(--paper);
-  border: 2px dashed rgba(23, 20, 15, 0.5);
+  border: 2px dashed var(--side-ink, rgba(23, 20, 15, 0.5));
   box-shadow: none;
 }
 
-.cr-node.is-case[data-side="p"] { border-color: var(--p); }
-.cr-node.is-case[data-side="d"] { border-color: var(--d); }
-.cr-node.is-case[data-side="court"] { border-color: var(--court); }
-
 .cr-node.is-remote {
-  border: 2px solid rgba(23, 20, 15, 0.6);
-  background: radial-gradient(circle, rgba(23, 20, 15, 0.6) 0 34%, var(--paper) 38%);
+  border: 2px solid var(--side-ink, rgba(23, 20, 15, 0.6));
+  background: radial-gradient(circle, var(--side-ink, rgba(23, 20, 15, 0.6)) 0 34%, var(--paper) 38%);
 }
-
-.cr-node.is-remote[data-side="p"] { border-color: var(--p); background: radial-gradient(circle, var(--p) 0 34%, var(--paper) 38%); }
-.cr-node.is-remote[data-side="d"] { border-color: var(--d); background: radial-gradient(circle, var(--d) 0 34%, var(--paper) 38%); }
-.cr-node.is-remote[data-side="court"] { border-color: var(--court); background: radial-gradient(circle, var(--court) 0 34%, var(--paper) 38%); }
 
 /* The jury is many circles and one thing to point at: the node is a
    frame around its seats, and the circles are drawn underneath it. */
@@ -3076,8 +3072,8 @@ body::after {
   box-shadow: none;
 }
 
-.cr-node-group[data-side="p"] { background: transparent; border-color: var(--p); }
-.cr-node-group[data-side="d"] { background: transparent; border-color: var(--d); }
+.cr-node-group[data-side="p"] { border-color: var(--p); }
+.cr-node-group[data-side="d"] { border-color: var(--d); }
 
 .cr-node-group:hover,
 .cr-node-group:focus-visible,
@@ -3420,25 +3416,18 @@ span.cr-cite { margin: 0; white-space: normal; }
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: rgba(23, 20, 15, 0.6);
+  background: var(--side-ink, rgba(23, 20, 15, 0.6));
 }
 
-.cr-who[data-side="p"]::before { background: var(--p); }
-.cr-who[data-side="d"]::before { background: var(--d); }
-.cr-who[data-side="court"]::before { background: var(--court); }
 .cr-who[data-side="alt"]::before { background: none; box-shadow: inset 0 0 0 1.5px rgba(23, 20, 15, 0.6); }
 
 /* The list wears the same three marks as the plan. */
 .cr-who[data-status="case"]::before {
   background: none;
-  border: 1.5px dashed rgba(23, 20, 15, 0.5);
+  border: 1.5px dashed var(--side-ink, rgba(23, 20, 15, 0.5));
   width: 10px;
   height: 10px;
 }
-
-.cr-who[data-status="case"][data-side="p"]::before { border-color: var(--p); }
-.cr-who[data-status="case"][data-side="d"]::before { border-color: var(--d); }
-.cr-who[data-status="case"][data-side="court"]::before { border-color: var(--court); }
 
 .cr-who[data-status="remote"]::before { box-shadow: 0 0 0 2px var(--bg-band), 0 0 0 3.5px rgba(23, 20, 15, 0.5); width: 6px; height: 6px; left: 2px; top: 21px; }
 
@@ -3604,7 +3593,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   font-size: clamp(1rem, 1.5vw, 1.1rem);
   color: var(--muted);
   max-width: 44em;
-  font-weight: 300;
   line-height: 1.66;
 }
 
@@ -3691,7 +3679,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 .side p:not(.side-tag) {
   font-size: 0.96rem;
   color: var(--ink-2);
-  font-weight: 300;
   line-height: 1.62;
 }
 
@@ -3703,7 +3690,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   border-left: 2px solid rgba(111, 74, 46, 0.5);
   font-size: 0.9rem;
   color: var(--muted);
-  font-weight: 300;
 }
 
 .rc-mark {
@@ -3825,7 +3811,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 .dw-n {
   font-size: 0.83rem;
   color: var(--faint);
-  font-weight: 300;
 }
 
 .dw-body { padding: 30px 0 6px; }
@@ -3884,7 +3869,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 .dp-block p {
   font-size: 0.9rem;
   color: var(--ink-2);
-  font-weight: 300;
   line-height: 1.66;
 }
 
@@ -3958,7 +3942,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cn-t {
   font-size: 0.93rem;
   color: var(--ink-2);
-  font-weight: 300;
   line-height: 1.6;
   max-width: 46em;
 }
@@ -3966,7 +3949,7 @@ span.cr-cite { margin: 0; white-space: normal; }
 .cn-t b { font-weight: 500; color: var(--ink); }
 .cn-t em { font-style: italic; color: var(--ink); }
 
-.cn-test .cn-t { color: var(--ink); font-weight: 400; }
+.cn-test .cn-t { color: var(--ink); }
 
 /* branch */
 .cn-fork::before {
@@ -4005,7 +3988,6 @@ span.cr-cite { margin: 0; white-space: normal; }
 .arm-t {
   font-size: 0.88rem;
   color: var(--ink-2);
-  font-weight: 300;
   line-height: 1.58;
 }
 
@@ -4028,7 +4010,7 @@ span.cr-cite { margin: 0; white-space: normal; }
 }
 
 .cn-out .cn-k { color: var(--court); }
-.cn-out .cn-t { color: var(--ink); font-size: 0.96rem; font-weight: 300; }
+.cn-out .cn-t { color: var(--ink); font-size: 0.96rem; }
 .cn-out .cn-t b { font-weight: 600; }
 
 /* On paper every drawer is open and nothing is a control. A shut
@@ -4911,7 +4893,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   margin-top: 26px;
   font-size: 0.88rem;
   color: var(--muted);
-  font-weight: 300;
   max-width: 48em;
 }
 
@@ -5770,7 +5751,7 @@ span.cr-cite { margin: 0; white-space: normal; }
   margin-bottom: 12px;
 }
 
-.note p { font-size: 0.91rem; color: var(--muted); font-weight: 300; }
+.note p { font-size: 0.91rem; color: var(--muted); }
 
 /* A note that gives a figure or quotes someone names its documents on a
    line of its own under the prose, set like the source line on a party
@@ -5780,7 +5761,6 @@ span.cr-cite { margin: 0; white-space: normal; }
   margin-top: 12px;
   font-family: var(--mono);
   font-size: 0.63rem;
-  font-weight: 400;
   letter-spacing: 0.02em;
   line-height: 1.75;
   color: var(--faint);
@@ -6033,20 +6013,22 @@ span.cr-cite { margin: 0; white-space: normal; }
    Q and the A have to line up with each other or the form is gone. */
 
 .ex-depo .ex-qa {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: start;
   margin: 2px 0 0;
   text-align: left;
 }
 
 .ex-depo .ex-qa dt {
-  float: left;
-  width: 16px;
-  clear: left;
+  grid-column: 1;
   font-weight: 600;
   opacity: 0.75;
 }
 
 .ex-depo .ex-qa dd {
-  margin: 0 0 6px 16px;
+  grid-column: 2;
+  margin: 0 0 6px;
   color: var(--ink-2);
 }
 
@@ -6059,7 +6041,7 @@ span.cr-cite { margin: 0; white-space: normal; }
    exhibit is quoted into the record. Indented the way the transcript
    indents it. */
 .ex-depo .ex-qa dd.ex-read {
-  margin-left: 30px;
+  margin-left: 14px;
   padding-left: 8px;
   border-left: 1px solid var(--rule-soft);
   font-style: italic;

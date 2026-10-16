@@ -285,7 +285,6 @@
   bottom: 0;
   margin-left: -1px;
   border-left: 2px dotted var(--tl-n-line);
-  -webkit-mask-image: linear-gradient(180deg, transparent, #000 140px);
   mask-image: linear-gradient(180deg, transparent, #000 140px);
 }
 
@@ -393,9 +392,7 @@
    strip of the band's colour hides the solid line between the top of
    the row and the mark, carrying the dotted one down to it instead. */
 @media (width <= 900px) {
-  .tl-pro::before { left: 8px; margin-left: -1px; }
-
-  .tl-start { row-gap: 12px; }
+  .tl-pro::before { left: 8px; }
 
   .tl-start > .tl-c::before {
     width: 17px;
