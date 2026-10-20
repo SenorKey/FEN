@@ -125,6 +125,11 @@ CHRONICLE_CASES = {
     'commonwealth-v-clancy': 'Commonwealth v. Clancy',
     'people-v-mangione': 'People v. Mangione',
     'prosecutor-v-duterte': 'Prosecutor v. Duterte',
+    'state-v-chauvin': 'State v. Chauvin',
+    'south-africa-v-israel': 'South Africa v. Israel',
+    'united-states-v-combs': 'United States v. Combs',
+    'united-states-v-google': 'United States v. Google',
+    'tiktok-v-garland': 'TikTok v. Garland',
     'israel-palestine': 'Israel and Palestine (Restricted Section, Volume I)',
 }
 
