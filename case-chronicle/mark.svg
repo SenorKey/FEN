@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.5 48" width="82.5" height="48">
+  <!-- The Chronicle's mark: two Cs, the second a clock. It sits in the
+       middle of the bar on every page here and goes back to the hub.
+
+       Each C is a ring 23 across the outside and 17 inside, the inside
+       pushed 2.6 to the right, so the weight is on the left and thins
+       toward the ends the way the title lettering does. The mouth is 50
+       degrees either side of three o'clock and the ends are cut square
+       on the radius. The second C sits 34.5 to the right, in the mouth
+       of the first.
+
+       The first is the ink, the second a brown darker than the court's
+       sepia, which is the court's alone. The rest of the second ring
+       and the two hands are the ink thinned to a third: the gray closes
+       the C into a dial. Hands at twelve and four, as on the hub's clock.
+
+       mark-night.svg is the same drawing for the Restricted Section,
+       where the bar is dark. -->
+  <path fill="#17140f" d="M38.78 41.62A23 23 0 1 1 38.78 6.38L35.93 9.79A17 17 0 1 0 35.93 38.21Z"/>
+  <path fill="rgba(23,20,15,0.34)" d="M72.34 5.63A23 23 0 0 1 72.34 42.37L69.6 38.72A17 17 0 0 0 69.6 9.28Z"/>
+  <path fill="none" stroke="rgba(23,20,15,0.34)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M59.8 12.8V24L66.73 28"/>
+  <path fill="#4b2f1e" d="M73.28 41.62A23 23 0 1 1 73.28 6.38L70.43 9.79A17 17 0 1 0 70.43 38.21Z"/>
+</svg>

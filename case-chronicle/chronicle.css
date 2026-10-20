@@ -255,6 +255,35 @@ body::after {
 .site-nav .nav-home { color: var(--court); margin-right: 8px; }
 .site-nav .nav-home:hover { color: var(--ink); }
 
+/* The Chronicle's mark, and the way back to the hub from every page
+   here. The shared shell has nothing in the middle of the bar, so it
+   is set in the dead middle of it, whatever stands either side. The
+   drawing is mark.svg; the Restricted Section's pages point at
+   mark-night.svg instead, since their bar is dark. In the markup it
+   comes just before Hire Me, which is where a keyboard reaches it. */
+.site-nav .nav-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  height: 27px;
+  transition: opacity 0.2s;
+}
+
+.site-nav .nav-mark img { display: block; height: 100%; width: auto; }
+
+.site-nav .nav-mark:hover { opacity: 0.74; }
+
+/* On a phone the links run into the middle of the bar, so the mark
+   goes back into the row and takes the middle of what is left between
+   NFL and Hire Me. At 320 wide that is still 21px clear either side.
+   It is a little shorter from 900 down, with the bar; see the foot of
+   this file. */
+@media (width <= 620px) {
+  .site-nav .nav-mark { position: static; translate: none; margin-inline: auto; }
+  .site-nav .nav-mark + a[href="/hire-me"] { margin-left: 0; }
+}
+
 .nav-dropdown { position: relative; display: flex; align-items: center; height: 100%; }
 
 .nav-dropdown-toggle {
@@ -6640,6 +6669,8 @@ span.cr-cite { margin: 0; white-space: normal; }
 
   .site-nav { padding: 0 16px; gap: 14px; height: 40px; }
   .site-nav a, .nav-dropdown-toggle { font-size: 0.7rem; white-space: nowrap; }
+
+  .site-nav .nav-mark { height: 24px; }
   .nav-dropdown-menu { position: fixed; top: 40px; width: 100%; min-width: unset; }
 
   .masthead { padding: 72px 0 56px; }
