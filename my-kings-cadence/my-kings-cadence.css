@@ -273,6 +273,45 @@ button {
     color: #ffffff;
 }
 
+/* The project's mark, in the middle of the bar, as every project's is
+   (/assets/css/styles.css, "The project's mark", which this page does
+   not load). This one is drawn: the masthead's crown, the same five
+   ticks, in the same gold. It brightens to the wordmark's gold on
+   hover. */
+.site-nav .nav-mark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    height: 22px;
+    color: var(--gold);
+    transition: color 0.2s;
+}
+
+.site-nav .nav-mark svg {
+    display: block;
+    height: 100%;
+    width: auto;
+}
+
+.site-nav .nav-mark:hover,
+.site-nav .nav-mark:focus-visible {
+    color: var(--gold-hi);
+}
+
+@media (max-width: 620px) {
+    .site-nav .nav-mark {
+        position: static;
+        translate: none;
+        margin-inline: auto;
+        height: 20px;
+    }
+
+    .site-nav .nav-mark + a[href="/hire-me"] {
+        margin-left: 0;
+    }
+}
+
 .nav-dropdown {
     position: relative;
     display: flex;

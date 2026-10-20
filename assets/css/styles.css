@@ -309,6 +309,97 @@ p.body-text+h3.sub {
   color: #ffffff;
 }
 
+/* ── The project's mark ──
+   A project's pages carry its mark in the middle of the bar, as the way
+   back to that project's front page; no other page carries one. Until a
+   project has a drawn mark, its mark is its initials in a thin pill, in
+   the project's own accent and display face: --mark-ink and --mark-font,
+   one line a project at the foot of this block, found by where the mark
+   goes. In the markup it comes just before Hire Me.
+
+   The bar is only a positioned box here on pages that carry a mark, and
+   at no specificity, so any page or width that pins the bar (sticky on
+   a phone) still does. The Case Chronicle has its own copy of this bar
+   and a drawn mark, in chronicle.css; so does My King's Cadence (the
+   masthead's crown), in my-kings-cadence.css. Projects on this sheet
+   with a drawn mark use nav-mark-drawn, below. */
+:where(.site-nav:has(> .nav-mark)) { position: relative; }
+
+.site-nav .nav-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 11px;
+  border: 1.5px solid var(--mark-ink, #ffffff);
+  border-radius: 13px;
+  color: var(--mark-ink, #ffffff);
+  font-family: var(--mark-font, 'Bricolage Grotesque', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.site-nav .nav-mark:hover,
+.site-nav .nav-mark:focus-visible {
+  color: var(--mark-ink, #ffffff);
+  background: color-mix(in srgb, var(--mark-ink, #ffffff) 16%, transparent);
+}
+
+/* On a phone the links run into the middle of the bar, so the mark goes
+   back into the row and takes the middle of what is left before Hire Me. */
+@media (max-width: 620px) {
+  .site-nav .nav-mark {
+    position: static;
+    translate: none;
+    margin-inline: auto;
+    height: 24px;
+    padding: 0 9px;
+  }
+
+  .site-nav .nav-mark + a[href="/hire-me"] { margin-left: 0; }
+}
+
+/* A project with a drawn mark has the drawing and no pill: an img in a
+   nav-mark-drawn link, which carries its name in aria-label. Match
+   Analysis has one, its ball, and Preside by Side its flag, which is
+   26 tall so each of its thirteen stripes is two whole pixels. */
+.site-nav .nav-mark-drawn {
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  transition: opacity 0.2s;
+}
+
+.site-nav .nav-mark-drawn img { display: block; height: 100%; width: auto; }
+
+.site-nav .nav-mark-drawn:hover,
+.site-nav .nav-mark-drawn:focus-visible { background: none; opacity: 0.78; }
+
+.site-nav .nav-mark-drawn[href="/preside-by-side-ad"] { height: 26px; }
+
+@media (max-width: 620px) {
+  .site-nav .nav-mark-drawn { height: 22px; padding: 0; }
+  .site-nav .nav-mark-drawn[href="/preside-by-side-ad"] { height: 19.5px; }
+}
+
+/* Each project's ink and face, taken from its own stylesheet. Incisor
+   Trading has none: its page is built on its own branch. */
+.nav-mark[href="/tarella-notes"]      { --mark-ink: #c0687a; --mark-font: 'Playfair Display', Georgia, serif; }
+.nav-mark[href="/wfpc"]               { --mark-ink: #e2b12a; --mark-font: 'JetBrains Mono', ui-monospace, monospace; }
+.nav-mark[href="/fresh-pull"]         { --mark-ink: #4ecb66; }
+.nav-mark[href="/diet"]               { --mark-ink: #c27a4f; }
+.nav-mark[href="/trtbench"]           { --mark-ink: #76b900; --mark-font: 'JetBrains Mono', ui-monospace, monospace; }
+.nav-mark[href="/hire-me/"]           { --mark-ink: #ffffff; }
+
 /* ── Nav dropdown ── */
 
 .nav-dropdown {
