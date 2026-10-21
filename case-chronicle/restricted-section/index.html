@@ -17,7 +17,7 @@
          shelf, and then this room's, which turns the light down on all
          three. -->
     <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261020a">
-    <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261014a">
+    <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261021b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,8 +120,9 @@
                  The hub's shelf in an older room. The markup is the
                  same rail of volumes and the same box for a plate, so
                  chronicle.css still draws the rail and lights the
-                 plates. restricted.css keeps the plate on the board,
-                 where the hub's stood until it moved to the wall, and
+                 plates. restricted.css sets the plate over the rail,
+                 as the hub's is, splits the row onto two boards (the
+                 two div.rs-tier) where eight will not stand on one, and
                  says what is different about a volume that carries
                  bk-old:
 
@@ -146,8 +147,8 @@
                  is only old.
 
                  Volume I, Israel and Palestine, is written and is a
-                 link (since 2026-10-14). The other four are not, and the
-                 plate says so. The rail is a list of five to anything
+                 link (since 2026-10-14). The other seven are not, and the
+                 plate says so. The rail is a list of eight to anything
                  that reads the page instead of looking at it, since
                  there are no rows under this shelf to say the same thing
                  again; a written volume's link sits inside its list
@@ -211,6 +212,11 @@
                         </div>
 
                         <div class="shelf-rail" role="list">
+
+                            <!-- Two runs of volumes. One board on a wide window, where
+                                 the runs have no box of their own; a board each where
+                                 eight will not stand in one row. -->
+                            <div class="rs-tier" role="none">
 
                             <!-- Written, so a link. The list item is a box of no size of
                                  its own (rs-li), so the volume stands on the rail exactly
@@ -311,7 +317,7 @@
                                 </span>
                             </span>
 
-                            <span class="bk bk-old bk-lean" role="listitem" style="--bind: #3e3224; --bk-w: 58px; --bk-h: 306px;">
+                            <span class="bk bk-old" role="listitem" style="--bind: #3e3224; --bk-w: 58px; --bk-h: 306px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Volume V</span>
                                     <span class="bk-plate-t">The Democratic Republic of the Congo</span>
@@ -331,6 +337,80 @@
                                     <span class="sp-name">D.R. Congo</span>
                                 </span>
                             </span>
+
+                            </div>
+
+                            <div class="rs-tier" role="none">
+
+                            <span class="bk bk-old" role="listitem" style="--bind: #6e4a2b; --bk-w: 80px; --bk-h: 350px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume VI</span>
+                                    <span class="bk-plate-t">The wars of Justinian</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 80 350" preserveAspectRatio="none">
+                                            <path class="w-bare" d="M0 0h80v42l-9-5-11 6-8-5-10 4-8-6-9 5-8-8-9 6-8-5z" filter="url(#rs-fray)"/>
+                                            <path class="w-cord" d="M0 12h80M0 27h80"/>
+                                            <path class="w-thread" d="M5 2v28M13 2v29M21 2v27M29 2v30M37 2v30M45 2v32M53 2v32M61 2v32M69 2v31M76 2v32"/>
+                                            <path class="w-edge" d="M0 34l8 5 9-6 8 8 9-5 8 6 10-4 8 5 11-6 9 5"/>
+                                            <path class="w-flap" d="M44 41l8-4 7 6-2 10-9 4z"/>
+                                            <path class="w-scuff" d="M10 280l8 13M14 274l7 12M8 289l5 9"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Justinian&rsquo;s Wars</span>
+                                    <span class="sp-vol" aria-hidden="true">VI</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old bk-bands" role="listitem" style="--bind: #33291e; --bk-w: 104px; --bk-h: 364px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume VII</span>
+                                    <span class="bk-plate-t">Vietnam</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 104 364" preserveAspectRatio="none">
+                                            <path class="w-crack" d="M72 70l-2 22 3 24-3 26 2 30"/>
+                                            <path class="w-lift" d="M73.2 70l-2 22 3 24-3 26 2 30"/>
+                                            <path class="w-crack" d="M24 236l2 26-3 28 2 32"/>
+                                            <path class="w-lift" d="M25.2 236l2 26-3 28 2 32"/>
+                                            <path class="w-soil" d="M8 300c10-4 22 2 34-3s20 5 30 0 18 2 28-2v30c-30 4-62 4-92 2z"/>
+                                            <path class="w-scuff" d="M84 40l9 15M88 35l8 14M80 48l6 10"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Vietnam</span>
+                                    <span class="sp-vol" aria-hidden="true">VII</span>
+                                </span>
+                            </span>
+
+                            <span class="bk bk-old bk-lean" role="listitem" style="--bind: #574029; --bk-w: 62px; --bk-h: 328px;">
+                                <span class="bk-plate" aria-hidden="true">
+                                    <span class="bk-plate-court">Volume VIII</span>
+                                    <span class="bk-plate-t">The Three Kingdoms</span>
+                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                </span>
+                                <span class="sp">
+                                    <span class="sp-skin" aria-hidden="true">
+                                        <svg class="sp-wear" viewBox="0 0 62 328" preserveAspectRatio="none">
+                                            <path class="w-stain" d="M0 0h62v56c-11 7-20 0-31 6s-20-1-31 5z"/>
+                                            <path class="w-tide" d="M0 67c11-6 20 1 31-5s20-1 31-6"/>
+                                            <path class="w-tide w-tide-2" d="M0 82c12-5 19 0 31-6s21 0 31-7"/>
+                                            <path class="w-crack" d="M40 120l-1.4 14 2 16-1.6 13"/>
+                                            <path class="w-scuff" d="M8 210l7 12M12 204l6 11"/>
+                                        </svg>
+                                    </span>
+                                    <span class="sp-head" aria-hidden="true"></span>
+                                    <span class="sp-name">Three<br>Kingdoms</span>
+                                    <span class="sp-vol" aria-hidden="true">VIII</span>
+                                </span>
+                            </span>
+
+                            </div>
 
                         </div>
                     </div>

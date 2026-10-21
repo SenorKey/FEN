@@ -46,7 +46,7 @@
   /* The lantern: how far along the column it hangs, how long its cord
      is and how wide it is drawn. Everything that is lit takes its
      bearings from these three. */
-  --lx: 63%;
+  --lx: 85%;
   --cord: 64px;
   --lamp-w: 116px;
 }
@@ -265,7 +265,8 @@ body::after {
    front edge, most of all under the lantern, and split a third of the
    way along where something heavy came down on it once. The bracket is
    one drawing, used at both ends. */
-.rs-stacks .shelf-rail::after {
+.rs-stacks .shelf-rail::after,
+.rs-stacks .rs-tier:first-child::after {
   --rs-bracket: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 50'%3E%3Cpath d='M4 0h8v40q0 6-4 9l-3-2q1-3 1-7zM12 2h24l2 5H12zM14 9l19 0L13 36z' fill='%23110d09'/%3E%3Cpath d='M12.8 7.4h23.6' stroke='%23e9a548' stroke-opacity='.4' stroke-width='.8'/%3E%3Cpath d='M32 9L13.4 34.6' stroke='%23e9a548' stroke-opacity='.22' stroke-width='.8'/%3E%3Ccircle cx='8' cy='12' r='1.3' fill='%23302720'/%3E%3Ccircle cx='8' cy='32' r='1.3' fill='%23302720'/%3E%3C/svg%3E");
 
   left: -18px;
@@ -315,13 +316,12 @@ body::after {
 }
 
 /* ── where the plate stands ──
-   The hub has taken its plate off the board and set it on the wall
-   beside the shelf. This one stays where the lantern is: on the board
-   past the last volume, and above the rail when the window is too
-   narrow for that. So the shelf is one column again, the board runs
-   the width of the room, and every entry is set from the board upwards
-   so that its last line stands the same distance over it. These are
-   the rules the hub's shelf had until it moved. */
+   Over the rail, at every width, as the hub's is. It stood on the
+   board past the last volume while there were five; eight run on
+   under the lantern, so there is no board left beside them. The shelf
+   is one column, the board runs the width of the room, and every entry
+   is set from the board upwards so that its last line stands the same
+   distance over it, stopping short of the lantern at the right. */
 .rs-stacks .shelf {
   display: block;
   margin-top: 12px;
@@ -348,27 +348,6 @@ body::after {
   max-width: 46em;
 }
 
-@media (width >= 1024px) {
-  /* The reserve is out of flow here and the rail follows the kicker
-     directly, so the air it needs has to be put back. */
-  .rs-stacks .shelf { margin-top: 44px; }
-
-  .rs-stacks .shelf-plate {
-    position: absolute;
-    left: 56%;
-    right: 0;
-    bottom: 0;
-    min-height: 0;
-    padding-bottom: 0;
-  }
-
-  .rs-stacks .bk-plate {
-    left: 56%;
-    bottom: 0;
-    max-width: none;
-  }
-}
-
 @media (width <= 860px) {
   .rs-stacks .shelf-plate { min-height: 200px; }
 }
@@ -387,7 +366,8 @@ body::after {
 
 /* The plate keeps to the left of the lantern while it stands over the
    rail, and comes out in display type: there is only a name to say. */
-.rs-stacks .plate-rest { max-width: 30em; }
+.rs-stacks .plate-rest { max-width: min(30em, 68%); }
+.rs-stacks .bk-plate { max-width: min(46em, 68%); }
 
 .rs-stacks .bk-plate-t {
   margin-top: 8px;
@@ -546,6 +526,10 @@ body::after {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
 }
 
+/* Set in two lines where the name is too long for one on a slim
+   spine, and the two closed up so they both fit across it. */
+.bk-old .sp-name:has(br) { line-height: 1.12; }
+
 @supports (background-clip: text) {
   .bk-old .sp-name {
     color: transparent;
@@ -636,16 +620,50 @@ body::after {
   rotate: -11deg;
 }
 
+/* ── two boards ──
+   The row is two runs of volumes, I to V and VI on. On one board they
+   are a single row and the runs have no box of their own. Where the
+   row is wider than the room, each run stands on its own board, the
+   second hung under the first, and the rail's own board is the lower
+   one: the upper is drawn by the first run, from the same picture. */
+.rs-tier { display: contents; }
+
+@media (width <= 680px) {
+  .rs-stacks .shelf-rail {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 112px;
+    padding: 0;
+  }
+
+  /* The rail's inset moves onto each run, so both boards line up. */
+  .rs-tier {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    padding-left: 14px;
+  }
+
+  /* The same board, but not the same split in it. */
+  .rs-stacks .rs-tier:first-child::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    background-position: top, left 71% top, top left, top, left 9% top 25px, right 9% top 25px, left top 26px;
+  }
+}
+
+@media (width <= 620px) {
+  .rs-tier { gap: 5px; padding-left: 8px; }
+}
+
 /* ── narrower ── */
 
-/* Under this the plate is above the rail and not beside it, so the
-   lantern moves out to the right-hand end and the words stop short of
-   it. */
+/* A shorter cord and a smaller lamp, so it still hangs clear of the
+   words over the rail. */
 @media (width < 1024px) {
-  :root { --lx: 85%; --cord: 34px; --lamp-w: 96px; }
-
-  .rs-stacks .plate-rest { max-width: 68%; }
-  .rs-stacks .bk-plate { max-width: 68%; }
+  :root { --cord: 34px; --lamp-w: 96px; }
 }
 
 @media (width <= 900px) {
