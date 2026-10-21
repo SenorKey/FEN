@@ -337,6 +337,99 @@
             </div>
         </section>
 
+        <!-- ═══════════════════════════════════════════════
+             Notes
+
+             The case page's notes, copied whole with the
+             corrections form, so a correction can be sent from
+             any of the four views. It still files against the
+             case, from data-case on <body>. Change the notes on
+             the case page and its four views together.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Under construction</h3>
+                        <p>Only the top of the case page is written. Each of the four views behind its doors
+                            holds one starting card and nothing else yet.</p>
+                        <p>The description at the top of the case page is a temporary one. It comes from a
+                            quick look at the record, and it will be rewritten once the record has been read
+                            in full.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>The names, numbers and dates at the top of the case page come from the two courts&rsquo; <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">dockets</a>. Nothing else has been read for these pages yet.</p>
+                        <p class="note-src">Search docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/18552824/united-states-of-america-v-google-llc/" target="_blank" rel="noopener" aria-label="United States v. Google, the search case docket, opens on CourtListener">No. 1:20-cv-03010</a> &middot; Ad tech docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/66753787/united-states-v-google-llc/" target="_blank" rel="noopener" aria-label="United States v. Google, the ad tech case docket, opens on CourtListener">No. 1:23-cv-00108</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
+                            reach, these pages say so and stop.</p>
+                    </div>
+                </div>
+
+
+                <!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">The lines at the top of the case page were checked on
+                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+            </div>
+        </section>
+
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/">frontendneeded.com</a></p>

@@ -654,6 +654,100 @@
             </div>
         </section>
 
+        <!-- ═══════════════════════════════════════════════
+             Notes
+
+             The case page's notes, copied whole with the
+             corrections form, so a correction can be sent from
+             any of the four views. It still files against the
+             case, from data-case on <body>. Change the notes on
+             the case page and its four views together.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>The federal case is built from its own docket, No.&nbsp;1:25&#8209;cr&#8209;00176&nbsp;(MMG), read in full through the archive of PACER filings. Every federal citation on this page is an <span class="mono">ECF No.</span> and can be pulled from that docket. The two January opinions are quoted from the filed text.</p>
+                        <p>The state indictment is quoted from the signed copy published by the District Attorney&rsquo;s office, and the August 17 scheduling order from the copy filed in Part&nbsp;32 &mdash; both in full, both short.</p>
+                        <p>The two state decisions that matter most &mdash; the September 2025 omnibus decision and the May 2026 suppression decision &mdash; are summarized here from contemporaneous reporting of them, with one quoted passage from the first. That is a weaker chain than the rest of the page and is marked as such below.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is not here yet</h3>
+                        <p>The People have not responded to the double jeopardy motion. Until October 9 there is no document setting out why New York says it may still try him, which is why the Side by Side View is empty and why nothing on these pages states that argument.</p>
+                        <p>New York County Supreme Court has no public docket of the kind PACER provides, so the state record here is not a complete list of filings in the way the federal one is. Where a state filing is described, it is because a copy or a reliable account of it is public &mdash; not because the docket was read end to end. Assume the state side is less complete than the federal side, because it is.</p>
+                        <p>The Pennsylvania case is noted once and then dropped. It has never been tried and nothing in it bears on the question this page is about.</p>
+                    </div>
+                    <div class="note">
+                        <h3>The victim, and the inference</h3>
+                        <p>Brian Thompson was fifty, and had a wife and two sons. The case is interesting for reasons of statutory construction, and a page organized around statutory construction can quietly turn a killing into a puzzle. He is named here every time the record names him, and the one thing nobody in any of these courtrooms has disputed since August 14, 2026, is how he died.</p>
+                        <p>One reading on this page is an inference rather than a fact: that the open plea was entered to trigger the state double jeopardy bar. Neither side has said so on the record. It is marked as an inference where it appears, and it is the only place this page reasons about motive.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. He has been convicted of two federal stalking offenses by his own plea and has not been tried for murder by anybody. The state counts are allegations and remain allegations, and the question of whether they can be tried at all is undecided by the only person who gets to decide it. Where the record does not reach, this page says so and stops.</p>
+                    </div>
+                </div>
+
+                <!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Record reviewed through <span class="mono">October 1, 2026</span>. Both cases are live: the federal one awaits sentence on December 18, and the state one awaits a decision that has not been briefed. This page will be wrong in some particular within weeks, which is the condition of writing about a case while it is still happening.</p>
+            </div>
+        </section>
+
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>

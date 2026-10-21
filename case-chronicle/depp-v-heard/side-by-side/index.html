@@ -594,6 +594,98 @@
             </div>
         </section>
 
+        <!-- ═══════════════════════════════════════════════
+             Notes
+
+             The case page's notes, copied whole with the
+             corrections form, so a correction can be sent from
+             any of the four views. It still files against the
+             case, from data-case on <body>. Change the notes on
+             the case page and its four views together.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Built from the Fairfax County Circuit Court record: the complaint and counterclaim, the court&rsquo;s published letter opinions, the pre&#8209;trial orders and the verdict form.</p>
+                        <p>Two depositions are quoted: hers from the 2016 California divorce, a copy stamped as a filed exhibit, and his from Fairfax in November 2020. Both are cited by page and line.</p>
+                        <p>Trial testimony comes from pool&#8209;feed transcripts, which warn on every front page that they are professionally transcribed but <em>not</em> official; they are cited by date for that reason. What they record was still broadcast from open court &mdash; the one part of this record with no provenance problem.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is sealed</h3>
+                        <p>Some exhibits were admitted under seal, and some were unsealed only after trial, in batches. Which is which needs establishing before anything here relies on it.</p>
+                        <p>Neither deposition was unsealed by order, and his is marked <em>confidential pursuant to protective order</em> &mdash; much of it was later played in open court, but the copy does not say which parts. They reached the public by being bought from the court clerk, much of that crowdfunded by one side&rsquo;s supporters: a weaker chain than the docket archive the other cases here are built from, and worth knowing before trusting any of it.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names</h3>
+                        <p>Both parties are public figures who litigated in public and testified under their own names, so no pseudonyms are needed. The testimony includes detailed accounts of violence on both sides; this page will cite and summarize them rather than reproduce them.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. A jury verdict is what a jury found on the questions put to it, which is narrower than what this case is popularly taken to have settled. Where the record does not reach, this page says so and stops.</p>
+                    </div>
+                </div>
+
+<!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Record reviewed through <span class="mono">September 28, 2026</span>. The case ended on December 19, 2022, and nothing has been filed in it since, so this page is complete as to the docket &mdash; which is not the same as complete.</p>
+            </div>
+        </section>
+
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>

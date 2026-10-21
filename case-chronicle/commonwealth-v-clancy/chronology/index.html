@@ -828,6 +828,99 @@
             </div>
         </section>
 
+        <!-- ═══════════════════════════════════════════════
+             Notes
+
+             The case page's notes, copied whole with the
+             corrections form, so a correction can be sent from
+             any of the four views. It still files against the
+             case, from data-case on <body>. Change the notes on
+             the case page and its four views together.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Built from the 299 pages of search warrant affidavits unsealed in October 2023, the emergency petition to the Supreme Judicial Court of September 4, 2026, the Massachusetts model jury instruction on criminal responsibility, and transcripts of the televised trial.</p>
+                        <p>A caution about those transcripts. They are transcripts of the broadcast, not of the court reporter, so they carry no page and line numbers &mdash; citations here are to the trial day, which is why they look unlike the citations on the other pages in this series. They also misspell names, including the judge&rsquo;s. Every name on this page has been checked against something other than the transcript.</p>
+                        <p>Dates and rulings outside those documents come from the district attorney&rsquo;s press releases and from news reporting. Every citation with a public copy links to it, and anything taken from coverage is marked as reporting. The court&rsquo;s own orders in this case are not published online, so a ruling is cited to the coverage of it.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is sealed</h3>
+                        <p>Sealed throughout: the defendant&rsquo;s medical and psychiatric records beyond what was put in evidence, and material concerning the surviving family. Parts of the expert litigation were heard in camera. Since September 14, 2026, the juror list has been impounded indefinitely, after the identity of the holdout juror was circulated online.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names</h3>
+                        <p>Three children died, ages five, three and eight months. They are named in the public record; they are named here once, in the entry for the day it happened, and are not used as illustration anywhere else on the page. The clinical and forensic detail in the medical testimony is cited and summarized, not reproduced. That is a deliberate limit and it costs the page something: readers who want that detail will have to go to the record for it.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict &mdash; here least of all. A mistrial decides nothing. It leaves the charges live, the defendant presumed innocent of them, and every contested question exactly where it stood before the trial began. This page does not supply the answer the jury declined to give. The volume of opinion outside the courtroom did not supply it either, and neither does the reporting of an eleven-to-one split: under the law an eleven-to-one split is not a verdict, and a juror who will not join eleven others has done nothing wrong by refusing.</p>
+                    </div>
+                </div>
+
+<!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">This case is live and this page will go out of date. Record reviewed
+                    through <span class="mono">October 8, 2026</span>, a week after the Rule&nbsp;25 motion was denied. The next hearing is
+                    <span class="mono">November 2, 2026</span>.</p>
+            </div>
+        </section>
+
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
