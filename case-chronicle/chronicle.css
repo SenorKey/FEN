@@ -6420,6 +6420,32 @@ span.cr-cite { margin: 0; white-space: normal; }
   background-color: rgba(111, 74, 46, 0.08);
 }
 
+/* A ruling's stamp is a term as well: what "denied" or "stricken" means
+   on that card, in the help cursor, the title and the glossary. It is
+   the whole stamp that answers, and it keeps its own inks. Left to
+   .term it would take the line's colour, and a solid stamp would turn
+   on a hover to the very ink it is filled with. No dotted rule: the box
+   already marks the word as a thing apart. A hover takes each stamp one
+   step deeper in the court's ink. */
+.chip.term { color: var(--tl-c-ink); text-decoration: none; transition: color 0.15s, background-color 0.15s, border-color 0.15s; }
+.chip-g.term { color: var(--tl-card); }
+
+.chip.term:hover,
+.chip.term:focus-visible {
+  color: var(--court);
+  background-color: color-mix(in oklab, var(--court) 12%, transparent);
+}
+
+.chip-p.term:hover,
+.chip-p.term:focus-visible { background-color: color-mix(in oklab, var(--court) 40%, transparent); }
+
+.chip-g.term:hover,
+.chip-g.term:focus-visible {
+  color: var(--tl-card);
+  border-color: color-mix(in oklab, var(--court) 78%, var(--ink));
+  background-color: color-mix(in oklab, var(--court) 78%, var(--ink));
+}
+
 /* Where the reader lands. The panel opens in a corner the eye has just
    left, so the entry has to call it back: the row flares as lit paper
    with a lamp-coloured halo, well past anything else on the page, and
