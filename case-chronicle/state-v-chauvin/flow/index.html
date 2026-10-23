@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261021a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="State v. Chauvin as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="State v. Chauvin as a TLDR case flow: what each court had to decide, in what order, and where each answer led, for the state murder case and the federal civil rights case.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/state-v-chauvin/flow/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/state-v-chauvin/flow/">
-    <meta property="og:title" content="State v. Chauvin, the TLDR &mdash; Case Chronicle">
+    <meta property="og:title" content="State v. Chauvin, the TLDR — Case Chronicle">
     <meta property="og:description"
-        content="State v. Chauvin as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="State v. Chauvin as a TLDR case flow: what each court had to decide, in what order, and where each answer led, for the state murder case and the federal civil rights case.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,162 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="state-v-chauvin">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
+    <!-- ═══════════════════════════════════════════════
+         Transcript wash
+
+         Each side's own words, run down its own side of the page
+         behind the argument: the State's lawyers on the left, the
+         defense on the right. All of it is argument except one
+         answer, the defense's use-of-force expert's, which is
+         testimony.
+
+         Both columns open on the same thing, the number the trial
+         turned on. The State's first lawyer told the jury the most
+         important numbers it would hear were 9:29. The defense's,
+         twenty minutes later, said the evidence was "far greater
+         than nine minutes and 29 seconds." That pair is the case in
+         small, which is why the two cards sit level at the head of
+         the page.
+
+         The court reporter's transcript of the trial was never
+         posted, so this recreates transcripts of the court's own
+         broadcast, cited by the broadcast's clock, and two lines
+         that only NPR's broadcast transcript of closing day has. An
+         ellipsis marks words left out.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You will learn what happened in that nine minutes and 29 seconds, the most important numbers you will hear in this trial are 9:29, what happened in those nine minutes and 29 seconds when Mr. Derek Chauvin was applying this excessive force to the body of Mr. George Floyd.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Opening, 03:00</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You will hear it and you&rsquo;ll see at the same time, while he&rsquo;s crying out, Mr. Chauvin never moves. The knee remains on his neck. Sunglasses remain undisturbed on his head and it just goes on.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Opening, 05:21</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>There&rsquo;s no superhuman strength because there&rsquo;s no such thing as a superhuman. Those exist in comic books, and 38th and Chicago is a very real place. Not super humans, only humans. Just a human, just a man, lying on the pavement being pressed upon, desperately crying out.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 05:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>The defendant is on trial, not for being a police officer, it&rsquo;s not the state versus the police. He&rsquo;s not on trial for who he was. He&rsquo;s on trial for what he did.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 17:26</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>Use your common sense. Use your common sense. Believe your eyes. What you saw, you saw.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 37:55</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You were told, for example, that Mr. Floyd died because his heart was too big. &hellip; And the truth of the matter is that the reason George Floyd is dead is because Mr. Chauvin&rsquo;s heart was too small.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">NPR, Apr 19, 2021</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>This wasn&rsquo;t policing. This was murder. The Defendant is guilty of all three counts. All of them. And there&rsquo;s no excuse.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 1:42:51</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>But the evidence is far greater than nine minutes and 29 seconds. &hellip; So this case is clearly more than about nine minutes and 29 seconds.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 01:55</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>Common sense tells you that there are always two sides to a story. Common sense tells us that we need to examine the totality of the circumstances to determine the meaning of evidence and how it can be applied to the questions of reasonableness of actions and reactions.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 01:03</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>And you will learn that Derek Chauvin did exactly what he had been trained to do over the course of his 19 year career. The use of force is not attractive, but it is a necessary component of policing.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 17:23</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Brodd</b> <time>Apr 13, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>And can you just briefly overview your opinions in this particular case?</dd>
+                    <dt>A</dt><dd>I felt that Derek Chauvin was justified, was acting with objective reasonableness, following Minneapolis Police Department policy, and current standards of law enforcement in his interactions with Mr. Floyd.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Brodd, 00:19</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>The standard is, what were the facts that were known to this officer at the precise moment he used force?</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense closing, 18:22</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>A reasonable police officer would in fact take into consideration the previous 16 minutes and 59 seconds. &hellip; Because human behavior is unpredictable. Human behavior is unpredictable, and nobody knows it better than a police officer.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense closing, 54:53</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>If a person has drugs in their system and that drug causes an overdose in the context of the police restraint, it&rsquo;s not the natural consequence of the restraint. It&rsquo;s the natural consequence of the deceased&rsquo;s actions.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">NPR, Apr 19, 2021</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -119,16 +262,25 @@
         <!-- ═══════════════════════════════════════════════
              Case flow
 
-             Under construction: the frame of the map is in place, with
-             one starting card. The questions of the case replace it.
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
 
-             On a written case every card in the chain is a question,
-             and every way out of it is an answer, written on the line.
-             Where the case stands is said in three places and kept in
-             step by hand: the line at the top, is-done on every step
-             the case has been along, and is-here with its flag on the
-             step it is waiting at. chronicle.css says at the head of
-             its own block what each class is for.
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
+             Two prosecutions, so two chains, each its own ol.cf-flow:
+             the state case, then under div.cf-chain the federal one.
+             Neither case decides anything in the other.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step each chain is
+             waiting at.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -139,7 +291,7 @@
                 <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
 
                 <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Under construction. The questions this case turns on have not been written yet.</p>
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Both convictions stand, and three challenges are open. In the state courts, his appeal of the May 2026 denial and a third petition filed in August 2026. In federal court, his motion to undo his guilty plea, on hold since January 2025 while Floyd&rsquo;s tissue is tested.</p>
                     <div class="cf-head">
                         <ul class="cf-key" aria-hidden="true">
                             <li class="cf-key-p">Prosecution</li>
@@ -156,20 +308,375 @@
                             <span class="da-l">Open every card</span>
                         </button>
                     </div>
+                    <div class="cf-chain">
+                        <h3 class="cf-chain-h">The state case</h3>
+                        <p class="cf-chain-n">State of Minnesota v. Chauvin, in Hennepin County, for murder.</p>
+                    </div>
                     <ol class="cf-flow cf-sides">
-                        <li class="cf-step">
+                        <li class="cf-step is-done">
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The jury decides &middot; April 2021</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Three charges, one evening</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Did the State prove he committed a crime?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did the State prove he committed a crime?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; guilty on all three, Apr 20, 2021</span></p>
+                                        <p class="cf-b">This is the trial. The State charged him with three crimes for the same nine and a half minutes, and to convict on any of them the jury had to be sure of every piece <a class="term" href="#t-reasonable-doubt" data-term="t-reasonable-doubt" title="Beyond a reasonable doubt: The level of proof needed to convict. It means proof that leaves the jury firmly convinced, not proof beyond every possible doubt.">beyond a reasonable doubt</a>. Twelve people had to agree, which is what <a class="term" href="#t-unanimous" data-term="t-unanimous" title="Unanimous: All twelve jurors agreeing. A verdict in a criminal case has to be.">unanimous</a> means, and they had to look at each charge separately.</p>
+                                        <p class="cf-b">Two of the pieces are the same for all three charges, so they sit first inside this card. The third is what makes each charge different. All three are needed, so a no on any one of them for a charge means not guilty on that charge.</p>
+                                        <p class="cf-who"><span class="cf-l">Who must prove it</span>The State. He didn&rsquo;t have to prove anything, and he didn&rsquo;t testify.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">All three are needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part one &middot; The cause</p>
+                                        <h4 class="cf-h">Did his actions cause George Floyd&rsquo;s death?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did his actions cause George Floyd’s death?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; the jury found it</span></p>
+                                            <p class="cf-b">This was the biggest fight in the trial. The jury was told his actions didn&rsquo;t have to be the only cause, just a <a class="term" href="#t-substantial-cause" data-term="t-substantial-cause" title="Substantial causal factor: The test for causing a death. His acts didn’t have to be the only cause, only a substantial one. Other causes don’t excuse him unless one of them alone caused the death.">substantial causal factor</a>. So heart disease or drugs playing a part wouldn&rsquo;t clear him, unless one of them alone caused the death, which the law calls a <a class="term" href="#t-superseding-cause" data-term="t-superseding-cause" title="Superseding cause: Something that comes afterward and breaks the chain, so that it alone causes the death. It’s the one way another cause can clear a defendant.">superseding cause</a>.</p>
+                                            <p class="cf-b">The State&rsquo;s doctors said Floyd died of a lack of oxygen from being held face down with a knee on his neck. The defense&rsquo;s medical examiner said his heart gave out, with drugs and other things adding to it. The jury went with the State.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part two &middot; The force</p>
+                                        <h4 class="cf-h">Was his force more than a reasonable officer would use?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was his force more than a reasonable officer would use?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; the jury found it</span></p>
+                                            <p class="cf-b">Police are allowed to use force to arrest someone, so the jury was told no crime is committed if an officer uses reasonable force making a lawful arrest. That&rsquo;s the <a class="term" href="#t-authorized-force" data-term="t-authorized-force" title="Authorized use of force: The defense the jury was told about. No crime is committed if a police officer uses reasonable force to make a lawful arrest, and the State had to prove his force wasn’t that.">authorized use of force</a>, and the State had to prove his wasn&rsquo;t.</p>
+                                            <p class="cf-b">It&rsquo;s judged the way a <a class="term" href="#t-reasonable-officer" data-term="t-reasonable-officer" title="Reasonable officer: How force is judged. The question is what a reasonable officer in the same situation would have done at the moment the force was used, not what the officer meant or what hindsight shows.">reasonable officer</a> would see it at that moment, not with hindsight. The State said any force had to end once Floyd was handcuffed, face down and not resisting. The defense said you have to count the whole struggle before that and the angry crowd.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part three &middot; The charge</p>
+                                        <h4 class="cf-h">Does what he did fit each of the three crimes?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does what he did fit each of the three crimes?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; on all three</span></p>
+                                            <p class="cf-b">Each charge needs something more, and none of them needs an intent to kill. <a class="term" href="#t-felony-murder" data-term="t-felony-murder" title="Second-degree unintentional murder: Causing a death, without meaning to, while committing a felony. Here the felony was third-degree assault. This is the one count he was convicted and sentenced on.">Second-degree unintentional murder</a> means he caused the death while committing a felony, here <a class="term" href="#t-assault-3" data-term="t-assault-3" title="Third-degree assault: Intentionally using unlawful force on someone, without their consent, that causes substantial bodily harm. He only had to mean to use the force, not to cause that much harm.">third-degree assault</a>, which means meaning to use the force and the force causing serious harm. <a class="term" href="#t-third-degree-murder" data-term="t-third-degree-murder" title="Third-degree murder: Causing a death by an act “eminently dangerous” to others, done with “a depraved mind,” without meaning to kill. Also called depraved-mind murder.">Third-degree murder</a> means an act &ldquo;eminently dangerous&rdquo; to others with no regard for life. <a class="term" href="#t-manslaughter-2" data-term="t-manslaughter-2" title="Second-degree manslaughter: Causing a death by culpable negligence, which means consciously taking a chance of causing death or great harm that an ordinary careful person would see.">Second-degree manslaughter</a> means consciously taking a big risk that an ordinary careful person would see.</p>
+                                            <p class="cf-b">The jury said guilty on all three.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Not guilty</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Not guilty"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">He walks out of court</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the jury had a reasonable doubt about the cause or the force, that&rsquo;s not guilty on every charge, and the State can&rsquo;t appeal an acquittal. A doubt about one charge&rsquo;s own piece would only clear him of that charge.</p>
+                                            <p class="cf-b">That isn&rsquo;t what happened. The jury agreed on all three by early afternoon on its second day.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The judge decides &middot; June 2021</p>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The starting card</p>
+                                    <p class="cf-k">Only one conviction, the most serious</p>
                                 </div></div>
-                                <h3 class="cf-h">Under construction</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Under construction"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <h3 class="cf-h">Should his sentence go past the guidelines?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Should his sentence go past the guidelines?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Not written yet</span></p>
-                                    <p class="cf-b">This view will set out what has to be decided in the case, in what order, and where each answer leads. Each question will get a card like this one, and each card will open to explain the question in plain words.</p>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; 270 months, Jun 25, 2021</span></p>
+                                    <p class="cf-b">Guilty on three charges doesn&rsquo;t mean three sentences. Minnesota only lets the court convict on the most serious one for the same act, so he was convicted of second-degree murder, and the other two verdicts were never entered. The state&rsquo;s <a class="term" href="#t-guidelines" data-term="t-guidelines" title="Sentencing guidelines: Minnesota’s chart of how long a sentence should be for each crime, set by a state commission. A judge has to stay inside its range unless there are substantial and compelling reasons not to.">sentencing guidelines</a> say that for him, with no record, the sentence should be 150 months, between 128 and 180.</p>
+                                    <p class="cf-b">To go higher the judge needs an <a class="term" href="#t-aggravating" data-term="t-aggravating" title="Aggravating factor: A fact that makes a crime worse than the usual one of its kind, like particular cruelty. It has to be proved before a judge can go past the guidelines.">aggravating factor</a>, something that makes this crime worse than the usual one. He gave up his right to have a jury decide those facts, which a ruling called <a class="term" href="#t-blakely" data-term="t-blakely" title="Blakely: A 2004 U.S. Supreme Court ruling that a jury has to find the facts behind a longer sentence, unless the defendant gives that up. He gave it up, so the judge decided them.">Blakely</a> gives him, so the judge did, and found four. He leaned on two, the particular cruelty and the abuse of his authority as an officer, and gave him 270 months, which is 22 and a half years. That&rsquo;s an <a class="term" href="#t-departure" data-term="t-departure" title="Upward departure: A sentence longer than the guidelines’ range. His was 270 months against a top of 180.">upward departure</a>. Either way, the case would go on to an appeal.</p>
+                                    <p class="cf-who"><span class="cf-l">What each side asked</span>The State asked for 30 years. He asked for probation.</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-d is-done cf-dash">
+                                <p class="cf-ans">Either way</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">His appeal &middot; 2022 to 2023</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Twelve claims, decided together</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Was his trial unfair?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was his trial unfair?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; affirmed Apr 17, 2023</span></p>
+                                        <p class="cf-b">After a conviction comes the <a class="term" href="#t-direct-appeal" data-term="t-direct-appeal" title="Direct appeal: The first appeal after a conviction, which looks only at what happened at trial. His was decided in 2023.">direct appeal</a>, where a higher court looks for mistakes in the trial. It doesn&rsquo;t hear new evidence or decide again whether he did it. His lawyer gave the <a class="term" href="#t-court-of-appeals" data-term="t-court-of-appeals" title="Minnesota Court of Appeals: The state court that hears appeals from trial courts. Three of its judges decide each case.">Court of Appeals</a> twelve reasons, and these are the three that mattered most.</p>
+                                        <p class="cf-b">Any one of them could have gotten him a new trial, so a yes on any one was enough. The court said no to all twelve, the sentence included. The Minnesota Supreme Court and the U.S. Supreme Court both refused to take the case after that, which ended it.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on any one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim one &middot; The publicity</p>
+                                        <h4 class="cf-h">Should the trial have been moved, delayed or the jury locked away?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Should the trial have been moved, delayed or the jury locked away?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; the jury was shown to be fair</span></p>
+                                            <p class="cf-b">He said nobody in Minneapolis could judge him fairly, after the riots, the city&rsquo;s $27 million settlement in the middle of jury selection, the courthouse wrapped in razor wire and soldiers, and a congresswoman telling protesters to get more confrontational.</p>
+                                            <p class="cf-b">The court said publicity this big was going to follow the case anywhere, and what counts is whether the judge did enough to get a fair jury anyway. It said he did, with questionnaires, jurors questioned one at a time, extra strikes for the defense and jurors removed for cause.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim two &middot; A juror</p>
+                                        <h4 class="cf-h">Did a juror hide views that should have kept him off?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did a juror hide views that should have kept him off?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; his answers were true</span></p>
+                                            <p class="cf-b">After the verdict, Juror 52 told a radio interviewer he&rsquo;d been pulled over by Minneapolis police &ldquo;probably about 50 times,&rdquo; and it came out that he&rsquo;d gone to a march in Washington in August 2020 where Floyd&rsquo;s family spoke. Chauvin said he hid that in jury selection and asked for a <a class="term" href="#t-schwartz" data-term="t-schwartz" title="Schwartz hearing: A hearing in Minnesota where a judge questions jurors about possible misconduct after a trial. He asked for one and was refused.">hearing</a> to question him.</p>
+                                            <p class="cf-b">The court said his answers on the questionnaire were true as written, and Chauvin had three strikes left he could have used.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim three &middot; The law</p>
+                                        <h4 class="cf-h">Is it wrong to convict an officer of felony murder for force in an arrest?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is it wrong to convict an officer of felony murder for force in an arrest?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; he can be convicted</span></p>
+                                            <p class="cf-b">This one was about the law itself. Felony murder here rests on assault, and he said officers have to use force to arrest people, so the charge basically turns every officer into a criminal whenever someone dies.</p>
+                                            <p class="cf-b">The court said no. Officers are only allowed reasonable force, so force that&rsquo;s unreasonable can be an assault like anyone else&rsquo;s. That ruling is now the law in Minnesota.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">A new trial</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: A new trial"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Maybe somewhere else</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The conviction would be thrown out and the State could try him again, maybe in another county. Not every mistake gets that. A court has to think it could have changed the result.</p>
+                                            <p class="cf-b">None of the claims got that far.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If no</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">His petitions &middot; 2024 to now</p>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">After the appeal is over</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Is there a reason to reopen the case now?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is there a reason to reopen the case now?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                        <p class="cf-b">Once the appeals are done, a <a class="term" href="#t-post-conviction" data-term="t-post-conviction" title="Post-conviction petition: A way to challenge a state conviction after the appeal is over, usually with something that wasn’t in the trial record. It goes back to the trial court first.">post-conviction petition</a> is the last way back into a state court. It usually needs something the trial record didn&rsquo;t have. And under the <a class="term" href="#t-knaffla" data-term="t-knaffla" title="Knaffla rule: Minnesota’s rule that a petition after the appeal can’t raise what was raised, or could have been raised, on appeal, with narrow exceptions.">Knaffla rule</a>, it can&rsquo;t just argue again what was argued on appeal, or could have been.</p>
+                                        <p class="cf-b">He&rsquo;s filed three since 2024 with his new lawyer, Gregory Joseph. The first was dismissed in 2025. The other two are open, and they argue different things, so they&rsquo;re the two cards inside this one. A yes on either would reopen the case.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Petition two &middot; On appeal now</p>
+                                        <h4 class="cf-h">Did the trial rest on wrong testimony or wrong instructions?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did the trial rest on wrong testimony or wrong instructions?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-set">No &middot; denied May 1, 2026 &middot; appealed</span></p>
+                                            <p class="cf-b">This one says the State&rsquo;s doctors drew their conclusions from video instead of medical findings, that the police chief and two trainers misdescribed what the department taught, backed by statements from 57 officers, and that the jury instructions were flawed.</p>
+                                            <p class="cf-b">Judge Paul Scoggin said none of it warranted relief, and that most of it was or could have been argued on appeal. Chauvin appealed in June 2026, and the <a class="term" href="#t-court-of-appeals" data-term="t-court-of-appeals" title="Minnesota Court of Appeals: The state court that hears appeals from trial courts. Three of its judges decide each case.">Court of Appeals</a> hasn&rsquo;t ruled.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Petition three &middot; Filed August 2026</p>
+                                        <h4 class="cf-h">Was he charged the wrong way from the start?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was he charged the wrong way from the start?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">This one isn&rsquo;t about the evidence. It says the governor had no right to hand the case to the Attorney General, and that charging him without a <a class="term" href="#t-grand-jury" data-term="t-grand-jury" title="Grand jury: A group of citizens who hear the prosecutor’s evidence in private and decide whether to charge someone. Minnesota only requires one for crimes that carry life in prison, like first-degree murder, so this case started with a complaint instead.">grand jury</a> let prosecutors decide on their own what a grand jury should have. He calls that a <a class="term" href="#t-structural-error" data-term="t-structural-error" title="Structural error: A mistake in how a case was run that’s so basic a court doesn’t ask whether it changed the result. His lawyer says the way he was charged is one.">structural error</a>, so basic that the whole case would have to go.</p>
+                                            <p class="cf-b">He&rsquo;s asked the Court of Appeals to pause his other appeal so the trial court can hear this one first. No ruling had been reported by October 22, 2026.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The conviction stands</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The conviction stands"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">He keeps serving his sentence</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If every petition fails, the conviction and the 270 months stay as they are, and the State never has to try him again.</p>
+                                            <p class="cf-b">He&rsquo;s serving the state sentence at the same time as the federal one, in federal prison.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Reopened</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Reopened"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">A new trial, or the charges thrown out</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The second petition asks for a new trial or at least a hearing. The third asks for much more, that the conviction be vacated and the charges dismissed.</p>
+                                            <p class="cf-b">Even then his federal conviction, which he pleaded guilty to, wouldn&rsquo;t be touched by anything a state court does.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                        </li>
+                    </ol>
+                    <div class="cf-chain">
+                        <h3 class="cf-chain-h">The federal case</h3>
+                        <p class="cf-chain-n">United States v. Chauvin, in federal court, for violating Floyd&rsquo;s civil rights. A separate prosecution with its own ending.</p>
+                    </div>
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">United States v. Chauvin &middot; St. Paul</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Decided by his own plea</p>
+                                </div></div>
+                                <h3 class="cf-h">Did he violate George Floyd&rsquo;s constitutional rights?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did he violate George Floyd’s constitutional rights?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; his plea, Dec 15, 2021</span></p>
+                                    <p class="cf-b">This is a different crime in a different court. The federal law makes it a crime for someone using the power of a government job, <a class="term" href="#t-color-of-law" data-term="t-color-of-law" title="Under color of law: Acting with the power of a government job, like a police officer on duty. The federal civil rights law makes it a crime to use that power to take away someone’s constitutional rights.">under color of law</a>, to take away a person&rsquo;s rights, here the right to be free from unreasonable force by police. It doesn&rsquo;t matter that the state already convicted him, because the state and the federal government are <a class="term" href="#t-dual-sovereignty" data-term="t-dual-sovereignty" title="Two prosecutions: A state and the federal government count as separate governments, so each can prosecute the same act under its own laws. That isn’t double jeopardy.">separate governments</a> with their own laws.</p>
+                                    <p class="cf-b">There was no jury question here, because he answered it himself. He pleaded guilty, and admitted his force &ldquo;became objectively unreasonable and excessive&rdquo; once the officers decided not to tie Floyd&rsquo;s legs. He also pleaded guilty over the 2017 arrest of a 14-year-old. The judge gave him 21 years, <a class="term" href="#t-concurrent" data-term="t-concurrent" title="Concurrent: Served at the same time. His state and federal sentences run together, not one after the other.">running at the same time</a> as the state sentence.</p>
+                                    <p class="cf-who"><span class="cf-l">His plea deal</span>Gave up most appeals and most later challenges, except a claim that his lawyer failed him.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">Yes, by his plea</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">His motion &middot; Since November 2023</p>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The one challenge his deal allowed</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Should his guilty plea be undone?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Should his guilty plea be undone?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                        <p class="cf-b">He says his lawyer, Eric Nelson, never told him that a pathologist had written to Nelson and the judge during the state trial with a theory that a rare tumor found at the autopsy, a <a class="term" href="#t-paraganglioma" data-term="t-paraganglioma" title="Paraganglioma: A rare tumor that can release adrenaline. One was found at the autopsy and called incidental, meaning the medical examiner didn’t think it played a part.">paraganglioma</a>, caused Floyd&rsquo;s death. If he&rsquo;d known, he says, he wouldn&rsquo;t have pleaded guilty.</p>
+                                        <p class="cf-b">That&rsquo;s a claim of <a class="term" href="#t-ineffective" data-term="t-ineffective" title="Ineffective assistance: A lawyer’s work falling so far short that it denied the client a fair process. It’s the one kind of claim his plea deal let him bring later.">ineffective assistance</a>, and to win it he needs both cards inside this one. The judge let his experts examine Floyd&rsquo;s heart tissue in December 2024 and put the hearing on hold for the testing in January 2025. Nothing public has happened since.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">Both are needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part one &middot; His lawyer</p>
+                                        <h4 class="cf-h">Did his lawyer fall short by not telling him?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did his lawyer fall short by not telling him?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">The question isn&rsquo;t whether the tumor theory is right. It&rsquo;s whether a reasonable lawyer would have told his client about it before he pleaded.</p>
+                                            <p class="cf-b">The government says it wouldn&rsquo;t have mattered anyway, because the autopsy findings came out at the state trial and the jury wasn&rsquo;t persuaded by the same kind of argument.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part two &middot; The plea</p>
+                                        <h4 class="cf-h">Would he have gone to trial if he&rsquo;d known?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Would he have gone to trial if he’d known?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">He also has to show a real chance he&rsquo;d have turned the deal down and gone to trial. He says he would have.</p>
+                                            <p class="cf-b">At his plea hearing he told the judge he understood what he was giving up, and in his plea agreement he admitted that his actions kept Floyd from getting enough oxygen to live.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The plea stands</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The plea stands"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">21 years, at the same time as the state sentence</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">The federal conviction and sentence stay as they are, and his deal leaves him almost nothing else to bring.</p>
+                                            <p class="cf-b">His state conviction is a separate question, for the state courts.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The plea is undone</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The plea is undone"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Back to the start of the federal case</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">Undoing the plea wouldn&rsquo;t clear him. It would put the federal charges back where they were before he pleaded, with a trial or a new deal ahead.</p>
+                                            <p class="cf-b">It wouldn&rsquo;t touch the state murder conviction either.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
                         </li>
                     </ol>
                 </div>
@@ -200,22 +707,28 @@
 
                 <div class="notes-grid">
                     <div class="note">
-                        <h3>Under construction</h3>
-                        <p>Only the top of the case page is written. Each of the four views behind its doors
-                            holds one starting card and nothing else yet.</p>
-                        <p>The description at the top of the case page is a temporary one. It comes from a
-                            quick look at the record, and it will be rewritten once the record has been read
-                            in full.</p>
+                        <h3>Source</h3>
+                        <p>Built from the record the trial court posts for this case: the <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.">complaints</a>, the judge&rsquo;s orders, the jury instructions, the verdict forms, the sentencing order, and the briefs on appeal. Then the Court of Appeals&rsquo; 2023 opinion, the U.S. Supreme Court&rsquo;s docket, and the federal case&rsquo;s filings, read through the archive of federal court records on CourtListener. Each side is described in its own words in court or in its own filings.</p>
+                        <p>The trial itself was never posted as a court reporter&rsquo;s transcript, so words spoken in the courtroom are quoted from <a class="term" href="#t-transcript" data-term="t-transcript" title="Broadcast transcript: A word-for-word record. The court reporter’s transcript of this trial was never posted, so these pages quote transcripts typed from the court’s own video feed and cite them by its clock.">transcripts of the broadcast</a> and cited by its clock. The court&rsquo;s website sometimes refuses a request it takes for a robot, and a browser gets through.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/media/stateofminnesotavderekchauvin" target="_blank" rel="noopener" aria-label="The Minnesota Judicial Branch’s page for State v. Derek Chauvin, opens in a new tab">Minnesota Judicial Branch, case page</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">Federal docket</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document">Ct. App. opinion</a></p>
                     </div>
                     <div class="note">
-                        <h3>Source</h3>
-                        <p>The names, numbers and dates at the top of the case page come from the state appeals court&rsquo;s 2023 opinion, the Minnesota Attorney General&rsquo;s statement on the sentence, and the federal court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>. Nothing else has been read for these pages yet.</p>
-                        <p class="note-src">Opinion: <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="State v. Chauvin, the Minnesota Court of Appeals opinion of April 17, 2023, opens as a PDF">State v. Chauvin, No. A21-1228 (Minn. Ct. App. Apr. 17, 2023)</a> &middot; <a class="cite-doc" href="https://www.ag.state.mn.us/Office/Communications/2021/06/25_Chauvin.asp" target="_blank" rel="noopener" aria-label="Minnesota Attorney General, statement on the sentence, June 25, 2021, opens in a new tab">Minn. Att&rsquo;y Gen., Jun 25, 2021</a> &middot; Federal docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">No. 0:21-cr-00108</a></p>
+                        <h3>What isn&rsquo;t public</h3>
+                        <p>His petitions since 2024, the State&rsquo;s answers to them, and the trial court&rsquo;s orders on them aren&rsquo;t on the court&rsquo;s case page. The parts of these pages about them rest on news reports, and each one is cited. Neither are the trial exhibits. The results of the tissue testing in the federal case haven&rsquo;t been made public.</p>
+                        <p>The jurors&rsquo; names were released by the court in November 2021. These pages don&rsquo;t use them. Jurors are known here by number, as they were in court.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27cr2012646_order_10-25-2021.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of October 25, 2021, on releasing the jurors’ names, opens the document at page 3">Order of Oct 25, 2021</a> p. 3 &middot; <a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>Names and numbers</h3>
+                        <p>There are five numbers for how long he was held down, and each one belongs to someone. The first complaint said his knee was on Floyd&rsquo;s neck for 8 minutes and 46 seconds. The judge&rsquo;s 2020 order said &ldquo;more than nine minutes and twenty seconds.&rdquo; At trial the State said 9 minutes and 29 seconds, and the appeals court used that. The judge&rsquo;s sentencing findings said &ldquo;more than nine minutes and forty seconds,&rdquo; and his federal plea says about ten minutes. These pages say whose number they use.</p>
+                        <p>People are named when they&rsquo;re a party, a lawyer, a judge, or a witness who testified in public. The young witnesses aren&rsquo;t named, except Darnella Frazier, whose video and testimony are public under her own name. The 14-year-old in the 2017 case isn&rsquo;t named, as the federal record doesn&rsquo;t name him.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/amendedcomplaint06032020.pdf#page=4" target="_blank" rel="noopener" aria-label="The amended complaint, filed June 3, 2020, opens the document at page 4">Amended complaint</a> p. 4 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=29" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 29">Order of Oct 21, 2020</a> p. 29 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=5" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 5">Ct. App. opinion</a> p. 5 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order05112021.pdf#page=4" target="_blank" rel="noopener" aria-label="The judge’s findings on the sentencing factors, May 11, 2021, opens the document at page 4">Findings of May 11, 2021</a> p. 4 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=3" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 3">Plea agreement</a> p. 3</p>
                     </div>
                     <div class="note">
                         <h3>What this is not</h3>
-                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
-                            reach, these pages say so and stop.</p>
+                        <p>Not legal advice, not a finding, and not a verdict. He stands convicted of second-degree murder in state court and of violating Floyd&rsquo;s civil rights in federal court. What he argues in his petitions is reported here as his argument, and the courts haven&rsquo;t accepted any of it so far.</p>
+                        <p>The other three officers were tried, or pleaded, in cases of their own. These pages mention them only where they&rsquo;re part of his. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.pbs.org/newshour/nation/3-former-officers-convicted-of-rights-violations-in-george-floyd-killing" target="_blank" rel="noopener" aria-label="Associated Press report of February 24, 2022, as carried by PBS NewsHour, opens in a new tab">AP, Feb 24, 2022</a></p>
                     </div>
                 </div>
 
@@ -272,8 +785,8 @@
                         address and your browser string, to make abuse traceable and for nothing else.</p>
                 </div>
 
-                <p class="notes-updated">The lines at the top of the case page were checked on
-                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+                <p class="notes-updated">Record reviewed through <span class="mono">October 22, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
             </div>
         </section>
 
@@ -287,9 +800,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -297,12 +809,109 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the courts use them. Two courts convicted him, a state court and a federal one, and a few words belong to only one of them.</p>
+
+                <p class="gloss-s">The courts</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-district-court">Hennepin County District Court</dt><dd>The state trial court for Minneapolis and the county around it. Judge Peter Cahill tried the case there. A different judge, Paul Scoggin, has heard his petitions since.</dd></div>
+                    <div><dt id="t-court-of-appeals">Minnesota Court of Appeals</dt><dd>The state court that hears appeals from trial courts. Three of its judges decide each case.</dd></div>
+                    <div><dt id="t-supreme-court-mn">Minnesota Supreme Court</dt><dd>The state&rsquo;s highest court. It chooses which appeals to hear, and it turned down his.</dd></div>
+                    <div><dt id="t-federal-court">Federal court</dt><dd>The United States&rsquo; own courts, separate from the state&rsquo;s. The federal case was in the U.S. District Court in St. Paul, before Judge Paul Magnuson.</dd></div>
+                    <div><dt id="t-attorney-general">Attorney General</dt><dd>Minnesota&rsquo;s chief lawyer, elected statewide. Keith Ellison&rsquo;s office took over the prosecution from the county prosecutor in May 2020.</dd></div>
+                    <div><dt id="t-dual-sovereignty">Two prosecutions</dt><dd>A state and the federal government count as separate governments, so each can prosecute the same act under its own laws. That isn&rsquo;t double jeopardy.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A group of citizens who hear the prosecutor&rsquo;s evidence in private and decide whether to charge someone. Minnesota only requires one for crimes that carry life in prison, like first-degree murder, so this case started with a complaint instead.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>A charge brought by a grand jury. The federal case started with one.</dd></div>
+                    <div><dt id="t-information">Information</dt><dd>A charge a prosecutor files without a grand jury. In federal court that takes the defendant&rsquo;s consent, which he gave for the 2017 count.</dd></div>
                     <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-plea-agreement">Plea agreement</dt><dd>A written deal between a defendant and the prosecutors. He pleads guilty to some charges, and they agree on others to drop and on a range of sentence.</dd></div>
+                    <div><dt id="t-transcript">Broadcast transcript</dt><dd>A word-for-word record. The court reporter&rsquo;s transcript of this trial was never posted, so these pages quote transcripts typed from the court&rsquo;s own video feed and cite them by its clock.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-felony-murder">Second-degree unintentional murder</dt><dd>Causing a death, without meaning to, while committing a felony. Here the felony was third-degree assault. This is the one count he was convicted and sentenced on.</dd></div>
+                    <div><dt id="t-assault-3">Third-degree assault</dt><dd>Intentionally using unlawful force on someone, without their consent, that causes substantial bodily harm. He only had to mean to use the force, not to cause that much harm.</dd></div>
+                    <div><dt id="t-third-degree-murder">Third-degree murder</dt><dd>Causing a death by an act &ldquo;eminently dangerous&rdquo; to others, done with &ldquo;a depraved mind,&rdquo; without meaning to kill. Also called depraved-mind murder.</dd></div>
+                    <div><dt id="t-manslaughter-2">Second-degree manslaughter</dt><dd>Causing a death by culpable negligence, which means consciously taking a chance of causing death or great harm that an ordinary careful person would see.</dd></div>
+                    <div><dt id="t-lesser-offense">Lesser offense</dt><dd>A crime contained in a more serious one. Minnesota law allows only one conviction for the same act, so the other two guilty verdicts were never entered as convictions.</dd></div>
+                    <div><dt id="t-color-of-law">Under color of law</dt><dd>Acting with the power of a government job, like a police officer on duty. The federal civil rights law makes it a crime to use that power to take away someone&rsquo;s constitutional rights.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Intentionally helping someone else commit a crime. The other three officers were charged that way.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-probable-cause">Probable cause</dt><dd>Enough evidence to make it reasonable to believe a person committed the crime. It&rsquo;s the bar a charge has to clear to go to trial, and it&rsquo;s a lot lower than proof.</dd></div>
+                    <div><dt id="t-venue">Venue</dt><dd>Where a trial is held. A defendant can ask to move it if publicity would make a fair jury impossible where the crime happened.</dd></div>
+                    <div><dt id="t-continuance">Continuance</dt><dd>Putting a trial or a hearing off to a later date.</dd></div>
+                    <div><dt id="t-sever">Severance</dt><dd>Splitting one trial of several defendants into separate trials.</dd></div>
+                    <div><dt id="t-sequester">Sequester</dt><dd>Keeping jurors away from news and the public, sometimes in a hotel, so nothing outside the courtroom reaches them.</dd></div>
+                    <div><dt id="t-voir-dire">Jury selection</dt><dd>Questioning possible jurors one by one to find out if they can be fair. Also called voir dire.</dd></div>
+                    <div><dt id="t-peremptory">Peremptory strike</dt><dd>Removing a possible juror without giving a reason. Each side gets a set number. Here the judge raised his to 18 and the State&rsquo;s to 10.</dd></div>
+                    <div><dt id="t-for-cause">Excused for cause</dt><dd>Removing a possible juror for a specific reason they can&rsquo;t be fair, like having already made up their mind. There&rsquo;s no limit on these.</dd></div>
+                    <div><dt id="t-alternate">Alternate juror</dt><dd>A juror who hears the whole trial but only deliberates if one of the twelve has to leave.</dd></div>
+                    <div><dt id="t-anonymous-jury">Anonymous jury</dt><dd>Jurors known in court only by number, their names kept from the public until the judge releases them.</dd></div>
+                    <div><dt id="t-spreigl">Earlier incident</dt><dd>Evidence of something that happened before the case, which a jury may only use for a narrow purpose the judge sets. Minnesota calls it Spreigl evidence.</dd></div>
+                    <div><dt id="t-fifth-amendment">The Fifth</dt><dd>The right not to be a witness against yourself. A defendant who uses it doesn&rsquo;t testify, and the jury is told it can&rsquo;t hold that against him.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>Evidence or argument that answers the other side&rsquo;s. The State goes last because it has to prove the case.</dd></div>
+                    <div><dt id="t-reasonable-doubt">Beyond a reasonable doubt</dt><dd>The level of proof needed to convict. It means proof that leaves the jury firmly convinced, not proof beyond every possible doubt.</dd></div>
+                    <div><dt id="t-unanimous">Unanimous</dt><dd>All twelve jurors agreeing. A verdict in a criminal case has to be.</dd></div>
+                    <div><dt id="t-poll">Polling the jury</dt><dd>Asking each juror out loud, one at a time, if the verdict read is theirs.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the jury had to decide</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-substantial-cause">Substantial causal factor</dt><dd>The test for causing a death. His acts didn&rsquo;t have to be the only cause, only a substantial one. Other causes don&rsquo;t excuse him unless one of them alone caused the death.</dd></div>
+                    <div><dt id="t-superseding-cause">Superseding cause</dt><dd>Something that comes afterward and breaks the chain, so that it alone causes the death. It&rsquo;s the one way another cause can clear a defendant.</dd></div>
+                    <div><dt id="t-authorized-force">Authorized use of force</dt><dd>The defense the jury was told about. No crime is committed if a police officer uses reasonable force to make a lawful arrest, and the State had to prove his force wasn&rsquo;t that.</dd></div>
+                    <div><dt id="t-reasonable-officer">Reasonable officer</dt><dd>How force is judged. The question is what a reasonable officer in the same situation would have done at the moment the force was used, not what the officer meant or what hindsight shows.</dd></div>
+                    <div><dt id="t-prone">Prone restraint</dt><dd>Holding a person face down. Police training warns it can make it hard to breathe, and says to move the person onto their side once they&rsquo;re under control.</dd></div>
+                    <div><dt id="t-recovery-position">Recovery position</dt><dd>Rolling a person onto their side so they can breathe more easily. The Minneapolis police&rsquo;s own training said to do it.</dd></div>
+                    <div><dt id="t-hobble">Hobble</dt><dd>A strap that ties a person&rsquo;s legs together. The officers talked about using one and didn&rsquo;t.</dd></div>
+                    <div><dt id="t-mrt">Maximal restraint technique</dt><dd>The Minneapolis police method of strapping a struggling person&rsquo;s legs and moving them off their stomach. The defense said what the officers did began as one. The State said the knee was no part of it.</dd></div>
+                    <div><dt id="t-asphyxia">Asphyxia</dt><dd>Death from not getting enough oxygen. The State&rsquo;s doctors said the restraint caused it.</dd></div>
+                    <div><dt id="t-paraganglioma">Paraganglioma</dt><dd>A rare tumor that can release adrenaline. One was found at the autopsy and called incidental, meaning the medical examiner didn&rsquo;t think it played a part.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The sentence</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-guidelines">Sentencing guidelines</dt><dd>Minnesota&rsquo;s chart of how long a sentence should be for each crime, set by a state commission. A judge has to stay inside its range unless there are substantial and compelling reasons not to.</dd></div>
+                    <div><dt id="t-presumptive">Presumptive sentence</dt><dd>What the guidelines call for. For this crime and no past record it&rsquo;s 150 months, inside a range of 128 to 180.</dd></div>
+                    <div><dt id="t-aggravating">Aggravating factor</dt><dd>A fact that makes a crime worse than the usual one of its kind, like particular cruelty. It has to be proved before a judge can go past the guidelines.</dd></div>
+                    <div><dt id="t-blakely">Blakely</dt><dd>A 2004 U.S. Supreme Court ruling that a jury has to find the facts behind a longer sentence, unless the defendant gives that up. He gave it up, so the judge decided them.</dd></div>
+                    <div><dt id="t-departure">Upward departure</dt><dd>A sentence longer than the guidelines&rsquo; range. His was 270 months against a top of 180.</dd></div>
+                    <div><dt id="t-concurrent">Concurrent</dt><dd>Served at the same time. His state and federal sentences run together, not one after the other.</dd></div>
+                    <div><dt id="t-supervised-release">Supervised release</dt><dd>A period after a federal prison term when a person lives under conditions the court sets, checked by a probation officer.</dd></div>
+                </dl>
+
+                <p class="gloss-s">After the verdict</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-new-trial">Motion for a new trial</dt><dd>Asking the trial judge to throw out the verdict and start over because something went wrong. It comes before any appeal.</dd></div>
+                    <div><dt id="t-schwartz">Schwartz hearing</dt><dd>A hearing in Minnesota where a judge questions jurors about possible misconduct after a trial. He asked for one and was refused.</dd></div>
+                    <div><dt id="t-direct-appeal">Direct appeal</dt><dd>The first appeal after a conviction, which looks only at what happened at trial. His was decided in 2023.</dd></div>
+                    <div><dt id="t-review">Petition for review</dt><dd>Asking the Minnesota Supreme Court to hear a case after the Court of Appeals has ruled. It turns most of them down.</dd></div>
+                    <div><dt id="t-certiorari">Certiorari</dt><dd>Asking the U.S. Supreme Court to hear a case. It takes very few, and turning one down decides nothing about the case itself.</dd></div>
+                    <div><dt id="t-post-conviction">Post-conviction petition</dt><dd>A way to challenge a state conviction after the appeal is over, usually with something that wasn&rsquo;t in the trial record. It goes back to the trial court first.</dd></div>
+                    <div><dt id="t-knaffla">Knaffla rule</dt><dd>Minnesota&rsquo;s rule that a petition after the appeal can&rsquo;t raise what was raised, or could have been raised, on appeal, with narrow exceptions.</dd></div>
+                    <div><dt id="t-structural-error">Structural error</dt><dd>A mistake in how a case was run that&rsquo;s so basic a court doesn&rsquo;t ask whether it changed the result. His lawyer says the way he was charged is one.</dd></div>
+                    <div><dt id="t-motion-2255">Motion to vacate</dt><dd>The federal version of a post-conviction petition, under section 2255 of the federal code. His asks to undo his federal guilty plea.</dd></div>
+                    <div><dt id="t-ineffective">Ineffective assistance</dt><dd>A lawyer&rsquo;s work falling so far short that it denied the client a fair process. It&rsquo;s the one kind of claim his plea deal let him bring later.</dd></div>
+                    <div><dt id="t-stay">Stay</dt><dd>Pausing a case, or a ruling, until something else is decided.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The stamp on a ruling</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-granted">Granted</dt><dd>The court said yes to the request on this card, whichever side made it.</dd></div>
+                    <div><dt id="t-granted-in-part">Granted in part</dt><dd>The court gave some of what was asked for on this card and said no to the rest.</dd></div>
+                    <div><dt id="t-denied">Denied</dt><dd>The court said no to the request on this card.</dd></div>
+                    <div><dt id="t-reinstated">Reinstated</dt><dd>A charge that had been dismissed was put back, so the jury could decide it.</dd></div>
+                    <div><dt id="t-guilty">Guilty</dt><dd>The jury&rsquo;s verdict, or his own plea in court. It becomes a conviction once the court enters judgment on it.</dd></div>
+                    <div><dt id="t-affirmed">Affirmed</dt><dd>The court above agreed with the court below and left the conviction and the sentence as they were.</dd></div>
+                    <div><dt id="t-dismissed">Dismissed</dt><dd>Thrown out without a ruling on whether the claims in it were right.</dd></div>
                 </dl>
             </div>
         </details>
@@ -314,7 +923,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261021a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
 </body>
 
 </html>

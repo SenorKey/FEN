@@ -14,7 +14,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261021a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -223,27 +223,33 @@
                                 </span>
                             </a>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-chauvin-t bk-chauvin-s" data-case="state-v-chauvin"
-                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 318px;">
+                            <!-- Bound before it is written. The case page behind it is
+                                 still under construction and says so, and the volume
+                                 keeps the thinnest spine until shelf.py measures the
+                                 written pages. -->
+                            <a class="bk" href="/case-chronicle/state-v-chauvin/" aria-describedby="bk-chauvin-t bk-chauvin-s"
+                                style="--bind: var(--bind-7); --bk-w: 76px; --bk-h: 318px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Hennepin Cty. Dist. Ct., Minn. &middot; and D.
                                         Minn.</span>
                                     <span class="bk-plate-n">State <em>v.</em> Chauvin</span>
                                     <span class="bk-plate-t" id="bk-chauvin-t">Prosecuted twice over the same nine minutes, once by a
                                         state and once by the federal government, and convicted both times.</span>
-                                    <span class="bk-plate-s" id="bk-chauvin-s"><span class="pip pip-soon"></span>Not started</span>
+                                    <span class="bk-plate-s" id="bk-chauvin-s"><span class="pip pip-closed"></span>Charged May 29, 2020
+                                        &middot; Convicted</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
                                 </span>
                                 <span class="sp">
                                     <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
                                     <span class="sp-name">State <em>v.</em> Chauvin</span>
                                     <span class="sp-vol" aria-hidden="true">V</span>
                                 </span>
-                            </span>
+                            </a>
 
                         </div>
 
                         <!-- The second five: the lower board, where there are two. The
-                             first two are written, and bound like the four before
+                             first two are written, and bound like the volumes before
                              them. The other three are not written yet, so they are in
                              plain boards and none is a link. When one is, it becomes
                              an a.bk with a binding of its own, where it stands. -->
@@ -433,7 +439,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261021a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
 </body>
 
 </html>

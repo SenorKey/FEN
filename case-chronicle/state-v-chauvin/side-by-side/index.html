@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261021a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="State v. Chauvin, question by question: what each side says, and what the court has decided. This view is under construction.">
+        content="State v. Chauvin, question by question: what the prosecution says, what the defense says, and what the courts decided, from the trial, the appeal and the challenges since.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/state-v-chauvin/side-by-side/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/state-v-chauvin/side-by-side/">
-    <meta property="og:title" content="State v. Chauvin, side by side &mdash; Case Chronicle">
+    <meta property="og:title" content="State v. Chauvin, side by side — Case Chronicle">
     <meta property="og:description"
-        content="State v. Chauvin, question by question: what each side says, and what the court has decided. This view is under construction.">
+        content="State v. Chauvin, question by question: what the prosecution says, what the defense says, and what the courts decided, from the trial, the appeal and the challenges since.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,162 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="state-v-chauvin">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
+    <!-- ═══════════════════════════════════════════════
+         Transcript wash
+
+         Each side's own words, run down its own side of the page
+         behind the argument: the State's lawyers on the left, the
+         defense on the right. All of it is argument except one
+         answer, the defense's use-of-force expert's, which is
+         testimony.
+
+         Both columns open on the same thing, the number the trial
+         turned on. The State's first lawyer told the jury the most
+         important numbers it would hear were 9:29. The defense's,
+         twenty minutes later, said the evidence was "far greater
+         than nine minutes and 29 seconds." That pair is the case in
+         small, which is why the two cards sit level at the head of
+         the page.
+
+         The court reporter's transcript of the trial was never
+         posted, so this recreates transcripts of the court's own
+         broadcast, cited by the broadcast's clock, and two lines
+         that only NPR's broadcast transcript of closing day has. An
+         ellipsis marks words left out.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You will learn what happened in that nine minutes and 29 seconds, the most important numbers you will hear in this trial are 9:29, what happened in those nine minutes and 29 seconds when Mr. Derek Chauvin was applying this excessive force to the body of Mr. George Floyd.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Opening, 03:00</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You will hear it and you&rsquo;ll see at the same time, while he&rsquo;s crying out, Mr. Chauvin never moves. The knee remains on his neck. Sunglasses remain undisturbed on his head and it just goes on.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Opening, 05:21</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>There&rsquo;s no superhuman strength because there&rsquo;s no such thing as a superhuman. Those exist in comic books, and 38th and Chicago is a very real place. Not super humans, only humans. Just a human, just a man, lying on the pavement being pressed upon, desperately crying out.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 05:16</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>The defendant is on trial, not for being a police officer, it&rsquo;s not the state versus the police. He&rsquo;s not on trial for who he was. He&rsquo;s on trial for what he did.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 17:26</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>Use your common sense. Use your common sense. Believe your eyes. What you saw, you saw.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 37:55</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Blackwell</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>You were told, for example, that Mr. Floyd died because his heart was too big. &hellip; And the truth of the matter is that the reason George Floyd is dead is because Mr. Chauvin&rsquo;s heart was too small.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">NPR, Apr 19, 2021</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Schleicher</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>This wasn&rsquo;t policing. This was murder. The Defendant is guilty of all three counts. All of them. And there&rsquo;s no excuse.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Closing, 1:42:51</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>But the evidence is far greater than nine minutes and 29 seconds. &hellip; So this case is clearly more than about nine minutes and 29 seconds.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 01:55</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>Common sense tells you that there are always two sides to a story. Common sense tells us that we need to examine the totality of the circumstances to determine the meaning of evidence and how it can be applied to the questions of reasonableness of actions and reactions.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 01:03</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Mar 29, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>And you will learn that Derek Chauvin did exactly what he had been trained to do over the course of his 19 year career. The use of force is not attractive, but it is a necessary component of policing.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense opening, 17:23</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Brodd</b> <time>Apr 13, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>And can you just briefly overview your opinions in this particular case?</dd>
+                    <dt>A</dt><dd>I felt that Derek Chauvin was justified, was acting with objective reasonableness, following Minneapolis Police Department policy, and current standards of law enforcement in his interactions with Mr. Floyd.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Brodd, 00:19</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>The standard is, what were the facts that were known to this officer at the precise moment he used force?</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense closing, 18:22</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>A reasonable police officer would in fact take into consideration the previous 16 minutes and 59 seconds. &hellip; Because human behavior is unpredictable. Human behavior is unpredictable, and nobody knows it better than a police officer.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. Defense closing, 54:53</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Nelson</b> <time>Apr 19, 2021</time></p>
+                    <dl class="ex-qa">
+                    <dd>If a person has drugs in their system and that drug causes an overdose in the context of the police restraint, it&rsquo;s not the natural consequence of the restraint. It&rsquo;s the natural consequence of the deceased&rsquo;s actions.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">NPR, Apr 19, 2021</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -117,16 +260,20 @@
         </header>
 
         <!-- ═══════════════════════════════════════════════
-             Side by side
+             The ledger — side by side
 
-             Under construction: the ledger's head is in place, with one
-             starting row. The questions of the case replace it.
+             Each side speaks in what it said in court, in the
+             broadcast transcripts, and in its own filings: the trial
+             and the appeal for the state case, his motion and the
+             government's answer for the federal one. The State's
+             answers to his petitions of 2024 to 2026 are not public,
+             so the row on reopening the case gives the State's
+             positions on the same points from the trial and the
+             appeal, and says so. When those answers are public, that
+             row should be read against them again.
 
-             On a written case each row sets each side's position as
-             that side actually argued it, in its own filing, with the
-             court's line under the two. A row then takes two drawers,
-             details.drawer for the detail and details.drawer-chain for
-             the logic chain, as on Doe v. Bonnell's page.
+             A line under each question says where the two summaries at
+             its head come from.
              ═══════════════════════════════════════════════ -->
         <section class="band band-ledger" id="side-by-side" aria-labelledby="sbs-h">
             <div class="wrap">
@@ -135,7 +282,7 @@
                 <div class="ledger-head">
                     <div class="ledger-key" aria-hidden="true">
                         <span class="lk lk-p">Prosecution: State of Minnesota</span>
-                        <span class="lk lk-d">Defendant: Derek Chauvin</span>
+                        <span class="lk lk-d">Defendant: Derek M. Chauvin</span>
                     </div>
                     <!-- Enhancement only. Every drawer opens on its own without
                          this button, and without any JavaScript at all. -->
@@ -148,14 +295,633 @@
 
                 <div class="ledger" id="ledger">
                 <article class="row" id="q1">
-                    <h3 class="row-q"><span class="row-n">1</span>Under construction</h3>
+                    <h3 class="row-q"><span class="row-n">1</span>What killed George Floyd?</h3>
 
                     <div class="row-sum">
-                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>Not written yet. This column will give this side&rsquo;s answer to each question, taken from its own filings.</p></div>
-                        <div class="side side-d"><p class="side-tag">Defendant</p><p>Not written yet. This column will give this side&rsquo;s answer to each question, taken from its own filings.</p></div>
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>The restraint. Held face down with a knee on his neck, he couldn&rsquo;t get enough oxygen, and he died of it. &ldquo;Believe your eyes. What you saw, you saw.&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>His heart, under strain. Heart disease and an enlarged heart, with fentanyl and methamphetamine in his system, and the stress of the struggle. None of the &ldquo;telltale signs of asphyxiation&rdquo; were there.</p></div>
                     </div>
 
-                    <p class="row-court"><span class="rc-mark">Court</span>Not written yet. This line will say what the court has decided on the question, if it has.</p>
+                    <p class="row-court"><span class="rc-mark">Court</span>The jury found his actions caused the death. The medical examiner ruled it a homicide by &ldquo;cardiopulmonary arrest complicating law enforcement subdual, restraint, and neck compression,&rdquo; with heart disease and drugs as other conditions.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing, 37:55</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-opening-statement-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense opening statement, March 29, 2021, opens on Rev">Tr. Defense opening, 20:39</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-opening-statement-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense opening statement, March 29, 2021, opens on Rev">22:01</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=5" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 5">Ct. App. opinion</a> p. 5</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Floyd died of a low level of oxygen. The prone position, the handcuffs, the knees on his neck and back and the hard street all squeezed the room he had to breathe. His death came on over minutes, not suddenly. Heart disease and drugs were there, but the law asks only whether the restraint was a <a class="term" href="#t-substantial-cause" data-term="t-substantial-cause" title="Substantial causal factor: The test for causing a death. His acts didn’t have to be the only cause, only a substantial one. Other causes don’t excuse him unless one of them alone caused the death.">substantial causal factor</a>, and it was.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Dr. Martin Tobin&rsquo;s frame-by-frame reading of the videos. Three more doctors who said the same, a forensic physician, a retired medical examiner and a cardiologist, and a toxicologist who said overdose victims rarely have the breakdown product of fentanyl that was in Floyd&rsquo;s blood. The medical examiner&rsquo;s ruling of homicide.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/pulmonologist-martin-tobin-testimony-derek-chauvin-trial-transcript-explains-floyds-low-oxygen-levels" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Dr. Martin Tobin’s testimony, April 8, 2021, opens on Rev">Tr. Tobin</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The jury instruction on causation, that other causes don&rsquo;t excuse him unless one alone caused the death.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The autopsy found no injury to the neck and nothing that pointed to strangulation, and the first complaint quoted the medical examiner saying so. The medical examiner himself didn&rsquo;t call it asphyxia. He said the restraint was more than Floyd&rsquo;s heart could take. The oxygen case was built mostly from video.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/complaint05292020.pdf#page=3" target="_blank" rel="noopener" aria-label="The first complaint, filed May 29, 2020, opens the document at page 3">Complaint, May 29, 2020</a> p. 3 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/juryinstructions04192021.pdf#page=4" target="_blank" rel="noopener" aria-label="The jury instructions of April 19, 2021, opens the document at page 4">Jury instructions</a> p. 4</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The medical examiner found none of the physical signs of <a class="term" href="#t-asphyxia" data-term="t-asphyxia" title="Asphyxia: Death from not getting enough oxygen. The State’s doctors said the restraint caused it.">asphyxia</a>. What he did find was severe heart disease, a heart far heavier than normal, fentanyl and methamphetamine, and a tumor that can release adrenaline. Those, under the stress of the arrest, explain a sudden fatal heart rhythm. If drugs caused the death during a restraint, it&rsquo;s &ldquo;the natural consequence of the deceased&rsquo;s actions,&rdquo; not of the restraint.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Dr. David Fowler, a former chief medical examiner of Maryland. The autopsy and the toxicology reports. Pills with Floyd&rsquo;s saliva on them found in the squad car.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/defense-closing-argument-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense closing argument, April 19, 2021, opens on Rev">Tr. Defense closing, 02:28:55</a> &middot; <a class="cite-doc" href="https://www.npr.org/transcripts/988837519" target="_blank" rel="noopener" aria-label="NPR, All Things Considered, April 19, 2021, broadcast transcript, opens in a new tab">NPR, Apr 19, 2021</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.1_1.pdf#page=12" target="_blank" rel="noopener" aria-label="The exhibits to his federal motion to vacate, with the autopsy report, opens the document at page 12">Autopsy report</a> pp. 12&ndash;24</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The same causation instruction, and the State&rsquo;s burden to prove cause beyond a reasonable doubt.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The medical examiner himself ruled it a homicide and said the restraint and the neck compression were &ldquo;just more than Mr. Floyd could take.&rdquo; Fowler didn&rsquo;t count a lack of oxygen at all, which put him against every doctor the State called.</p><p class="dp-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Were his actions a substantial cause of the death, whatever else contributed?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Five doctors say a lack of oxygen from the restraint killed him.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The autopsy</p>
+                                    <p class="arm-t">No neck injury is needed to stop someone breathing. The video shows it.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The autopsy</p>
+                                    <p class="arm-t">No signs of asphyxia were found, and his heart and the drugs were enough.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">An overdose during a restraint is the result of what Floyd took, not of the restraint.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">The jury found he caused the death. <b>Settled at trial</b>, and argued again in his petitions.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q2">
+                    <h3 class="row-q"><span class="row-n">2</span>Was it a drug overdose?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>No. Floyd was talking, crying out and breathing at a normal rate right up until he lost consciousness under the restraint, which isn&rsquo;t how a fentanyl overdose looks. He&rsquo;d used opioids for years, so he had a tolerance, and the fentanyl in his blood was partly broken down. &ldquo;That&rsquo;s not common sense. That&rsquo;s nonsense.&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>It was likely, at least in part. His blood held 11 nanograms of fentanyl per milliliter, a level that has killed people, along with methamphetamine. The medical examiner told prosecutors that if Floyd had been found dead at home with no other cause, calling it an overdose would have been &ldquo;acceptable.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>The jury found Chauvin&rsquo;s actions caused the death. The medical examiner ruled it a homicide, not an overdose, and listed the drugs only as other significant conditions. Before trial, the judge called the overdose theory &ldquo;speculation&rdquo; that couldn&rsquo;t defeat the charges at that stage.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing, 43:05</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/memorandum08282020.pdf#page=22" target="_blank" rel="noopener" aria-label="The defense memorandum of August 28, 2020, on its motion to dismiss, opens the document at page 22">Defense memorandum, Aug 28, 2020</a> p. 22 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=44" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 44">Order of Oct 21, 2020</a> pp. 44&ndash;47</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>A fentanyl overdose slows a person&rsquo;s breathing until they drift off, and Floyd did the opposite. Just before he lost consciousness he was breathing 22 times a minute, the top of the normal range, where fentanyl would be expected to cut the rate by about 40 percent. He wasn&rsquo;t snoring or nodding off. He was saying he couldn&rsquo;t breathe. The drugs were there, but they didn&rsquo;t kill him.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Dr. Martin Tobin&rsquo;s count of Floyd&rsquo;s breaths on the video. A toxicologist who said overdose victims rarely have norfentanyl, the breakdown product of fentanyl, in their blood, as Floyd did, and that his methamphetamine level was lower than in about 94 percent of the drugged-driving cases he compared it to. Dr. Bill Smock: &ldquo;That is not a fentanyl overdose. That is someone begging to breathe.&rdquo; A cardiologist who said Floyd didn&rsquo;t die of an overdose.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/pulmonologist-martin-tobin-testimony-derek-chauvin-trial-transcript-floyds-respiratory-rates" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Dr. Martin Tobin’s testimony on Floyd’s breathing rate, April 8, 2021, opens on Rev">Tr. Tobin, 00:33</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The causation instruction. Even if the drugs played a part, they clear him only if they alone caused the death.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The level, 11 nanograms per milliliter, is in the range that has killed people, and a passenger testified that Floyd fell asleep in the car before the police came, which the defense called a sign of fentanyl.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/memorandum08282020.pdf#page=22" target="_blank" rel="noopener" aria-label="The defense memorandum of August 28, 2020, on its motion to dismiss, opens the document at page 22">Defense memorandum, Aug 28, 2020</a> pp. 22&ndash;23 &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/witness-shawanda-hill-testimony-during-derek-chauvin-trial-transcript-was-in-george-floyds-car" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Shawanda Hill’s testimony, April 13, 2021, opens on Rev">Tr. Hill</a></p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Before trial the defense said Floyd &ldquo;most likely died from an opioid overdose,&rdquo; or from fentanyl and methamphetamine together with his heart disease. He&rsquo;d been addicted for years, and he fell asleep in his car minutes before the police came. At trial Nelson argued that if drugs caused a death during a restraint, it&rsquo;s &ldquo;the natural consequence of the deceased&rsquo;s actions,&rdquo; not of the restraint.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The toxicology: fentanyl at 11 nanograms per milliliter and methamphetamine at 19. The medical examiner&rsquo;s remarks to prosecutors. Pills found in Floyd&rsquo;s car and in the squad car, the remains of one with his saliva on it. A May 2019 arrest in which he put drugs in his mouth as police approached.</p><p class="dp-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.1_1.pdf#page=12" target="_blank" rel="noopener" aria-label="The exhibits to his federal motion to vacate, with the autopsy report, opens the document at page 12">Autopsy report</a> pp. 12&ndash;24 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/memorandum08282020.pdf#page=22" target="_blank" rel="noopener" aria-label="The defense memorandum of August 28, 2020, on its motion to dismiss, opens the document at page 22">Defense memorandum</a> pp. 22&ndash;23 &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-closing-argument-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense closing argument, April 19, 2021, opens on Rev">Tr. Defense closing, 2:28:55</a> &middot; <a class="cite-doc" href="https://www.npr.org/transcripts/988837519" target="_blank" rel="noopener" aria-label="NPR, All Things Considered, April 19, 2021, broadcast transcript, opens in a new tab">NPR, Apr 19, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order404b03242021.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of March 24, 2021, on the 2019 arrest, opens the document at page 3">Order of Mar 24, 2021</a> p. 3</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The rule on a <a class="term" href="#t-superseding-cause" data-term="t-superseding-cause" title="Superseding cause: Something that comes afterward and breaks the chain, so that it alone causes the death. It’s the one way another cause can clear a defendant.">superseding cause</a>: a defendant isn&rsquo;t guilty of a death that something else alone caused.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>No doctor at trial said Floyd died of an overdose, not even the defense&rsquo;s own. Dr. Fowler said his heart gave out, with the drugs as one of several factors. The medical examiner said in the same meeting that he was &ldquo;not saying&rdquo; fentanyl killed Floyd, and ruled it a homicide, and a review by the Armed Forces Medical Examiner agreed with him. A clip in which Floyd seemed to say &ldquo;I ate too many drugs&rdquo; turned out, played at length in court, to be &ldquo;I ain&rsquo;t do no drugs.&rdquo;</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=29" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 29">Order of Oct 21, 2020</a> pp. 29, <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=47" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 47">47</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Did the drugs alone cause the death, so that the restraint wasn&rsquo;t a substantial cause?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">Eleven nanograms of fentanyl has killed people, and he&rsquo;d taken drugs that day.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The breathing</p>
+                                    <p class="arm-t">A normal rate of 22 a minute, where fentanyl slows it.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The breathing</p>
+                                    <p class="arm-t">He nodded off in the car, a sign of fentanyl.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">A user with a tolerance, partly broken-down fentanyl, and no doctor who called it an overdose.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">The jury found the restraint caused the death. <b>Rejected at trial</b>, and never accepted by a court since.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q3">
+                    <h3 class="row-q"><span class="row-n">3</span>Was the force reasonable?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>No. Whatever force was needed to get control ended once Floyd was handcuffed, face down and not resisting. Keeping a knee on his neck after that, past his last words and past the point he had no pulse, wasn&rsquo;t policing.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>Yes. A reasonable officer would weigh &ldquo;the previous 16 minutes and 59 seconds,&rdquo; the struggle three officers couldn&rsquo;t win, and a growing, angry crowd. Holding him prone until the ambulance came was what officers are trained to do.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>The jury found the force wasn&rsquo;t authorized. In his federal plea he admitted it became &ldquo;objectively unreasonable and excessive&rdquo; no later than the moment the officers decided not to tie Floyd&rsquo;s legs.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing, 18:29</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-closing-argument-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense closing argument, April 19, 2021, opens on Rev">Tr. Defense closing, 54:53</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=4" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 4">Plea agreement</a> p. 4</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The department&rsquo;s own policy and training say force must stop when resistance stops, a person held prone must be rolled into the <a class="term" href="#t-recovery-position" data-term="t-recovery-position" title="Recovery position: Rolling a person onto their side so they can breathe more easily. The Minneapolis police’s own training said to do it.">recovery position</a>, and an officer must give aid. Chauvin did none of it. &ldquo;This was not an accident,&rdquo; and it wasn&rsquo;t the department&rsquo;s training either.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Chief Medaria Arradondo, the head of training, the department&rsquo;s use-of-force trainer and medical coordinator, and two outside experts, one of them a Los Angeles police sergeant.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/minneapolis-police-chief-medaria-arradondo-testimony-on-use-of-force-in-derek-chauvin-trial-transcript" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Chief Medaria Arradondo’s testimony, April 5, 2021, opens on Rev">Tr. Arradondo</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing, 19:47</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Minnesota&rsquo;s law allowing an officer only reasonable force to make an arrest. The U.S. Supreme Court&rsquo;s test in Graham v. Connor (1989), objective reasonableness in all the circumstances.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The department&rsquo;s use-of-force trainer agreed under cross-examination that in a training photo of prone handcuffing, the officer could keep his knee and shin where they were once the person was handcuffed, if circumstances called for it, though officers are warned to mind the neck.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/defense-questions-lt-johnny-mercil-on-neck-restraints-in-derek-chauvin-trial-testimony-transcript" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Lt. Johnny Mercil’s testimony, April 6, 2021, opens on Rev">Tr. Mercil, 02:08</a></p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The force has to be judged &ldquo;at the precise moment&rdquo; it was used, from what the officer knew then, not with the doctors&rsquo; hours of video review. Floyd had fought three officers, and the crowd drew the officers&rsquo; attention away from him. Kneeling across a person held prone to wait for paramedics is a trained way to control someone, part of what the department calls the <a class="term" href="#t-mrt" data-term="t-mrt" title="Maximal restraint technique: The Minneapolis police method of strapping a struggling person’s legs and moving them off their stomach. The defense said what the officers did began as one. The State said the knee was no part of it.">maximal restraint technique</a>, and his use-of-force expert said it wasn&rsquo;t force at all.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Barry Brodd, a retired police officer who taught use of force for 35 years. The body-camera video of the struggle at the squad car. Training images showing knees on the backs of people being handcuffed.</p><p class="dp-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/defense-use-of-force-witness-testimony-derek-chauvin-trial-transcript-chauvin-justified-in-interaction-with-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Barry Brodd’s testimony, April 13, 2021, opens on Rev">Tr. Brodd</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-closing-argument-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense closing argument, April 19, 2021, opens on Rev">Tr. Defense closing, 18:22</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-questions-lt-johnny-mercil-on-neck-restraints-in-derek-chauvin-trial-testimony-transcript" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Lt. Johnny Mercil’s testimony, April 6, 2021, opens on Rev">Tr. Mercil</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Graham v. Connor, and its warning against judging an officer &ldquo;with the 20/20 vision of hindsight.&rdquo; Minnesota&rsquo;s law letting an officer use &ldquo;all necessary and lawful means&rdquo; against someone resisting arrest.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>Seven officers and experts, the police chief among them, said the opposite. His own federal plea admits the force became unreasonable and excessive while it was still going on.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=33" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 33">Ct. App. opinion</a> pp. 33&ndash;36 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=4" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 4">Plea agreement</a> p. 4</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">What would a reasonable officer have done at that moment, knowing what he knew?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Once Floyd was handcuffed and still, any reasonable officer would have stopped.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The time</p>
+                                    <p class="arm-t">Nine minutes and 29 seconds, most of it after Floyd went quiet.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The time</p>
+                                    <p class="arm-t">Sixteen minutes and 59 seconds before that count too.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">The struggle and the crowd made it reasonable to hold him until help came.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">The jury said the force wasn&rsquo;t authorized, and <b>his own federal plea</b> says it became unreasonable.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q4">
+                    <h3 class="row-q"><span class="row-n">4</span>Can a police officer commit felony murder by using force in an arrest?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>Yes, when the force is unreasonable. The law only allows reasonable force, so force beyond that is an assault like anyone else&rsquo;s, and a death caused by it is murder. He &ldquo;says the quiet part out loud&rdquo; by arguing officers can never be convicted of assault.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>No. Officers are &ldquo;duty bound to &lsquo;assault&rsquo; suspects resisting arrest,&rdquo; so using assault as the felony turns murder into a crime of &ldquo;strict liability&rdquo; for police, with no need to prove any intent to harm.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Yes. The Court of Appeals held that an officer can be convicted of second-degree felony murder for a death caused by unreasonable force that amounts to third-degree assault. The decision is binding law in Minnesota.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-respondent.pdf#page=20" target="_blank" rel="noopener" aria-label="The State’s brief in the Court of Appeals, September 7, 2022, opens the document at page 20">State&rsquo;s appeal brief</a> p. 20 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=65" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 65">His appeal brief</a> p. 65 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=2" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 2">Ct. App. opinion</a> p. 2</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Felony murder here needs an assault, and an assault needs only the intent to use the force, not to cause the harm it causes. An officer who uses force the law allows commits no assault. An officer who uses force past what the law allows does, and the jury found he did.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The statute allowing officers reasonable force, and the jury&rsquo;s finding that his wasn&rsquo;t.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-respondent.pdf#page=20" target="_blank" rel="noopener" aria-label="The State’s brief in the Court of Appeals, September 7, 2022, opens the document at page 20">State&rsquo;s appeal brief</a> p. 20 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=26" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 26">Ct. App. opinion</a> pp. 26&ndash;27</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Minnesota&rsquo;s assault and felony-murder laws, and the Minnesota Supreme Court&rsquo;s ruling that assault of this kind is a general-intent crime.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>It means an officer can be convicted of murder without having meant to hurt anyone, which is the point the defense pressed.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Every arrest involves force an officer means to use, so every officer intends the physical act. If that&rsquo;s enough for assault, and assault is enough for murder, an officer whose arrest ends in a death can be convicted without the State proving he meant any injury. The legislature didn&rsquo;t mean that, and strict-liability crimes are disfavored.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The jury instruction that the State didn&rsquo;t have to prove he meant to cause substantial bodily harm.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=65" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 65">His appeal brief</a> pp. 65&ndash;66 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/juryinstructions04192021.pdf#page=5" target="_blank" rel="noopener" aria-label="The jury instructions of April 19, 2021, opens the document at page 5">Jury instructions</a> pp. 5&ndash;6</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Cases holding that crimes without a guilty mind are disfavored, and Graham v. Connor.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>His argument depends on officers being allowed whatever force they use. The law allows only reasonable force, and the court said that&rsquo;s what keeps the crime from being strict liability.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=26" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 26">Ct. App. opinion</a> pp. 26&ndash;27</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Is unreasonable force by an officer an assault that can carry a felony-murder charge?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">Officers must use force, so this makes them guilty without any intent.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The intent</p>
+                                    <p class="arm-t">Only the force has to be intended, as for anyone.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The intent</p>
+                                    <p class="arm-t">That turns murder into strict liability for police.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">The law allows reasonable force only. Past that, an officer is like anyone else.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t"><b>Decided.</b> An officer can be convicted when the force is unreasonable. It&rsquo;s now the law in Minnesota.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q5">
+                    <h3 class="row-q"><span class="row-n">5</span>Could he get a fair trial in Minneapolis?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>Yes. This case was going to draw enormous publicity wherever and whenever it was tried, and the court did everything it could to seat a fair jury. Every juror who served said they could decide on the evidence.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>No. The riots, the city&rsquo;s $27 million settlement during jury selection, a courthouse &ldquo;surrounded by barbed wire and soldiers,&rdquo; and a congresswoman&rsquo;s call to &ldquo;get more confrontational&rdquo; put jurors in fear of the result. The trial should have been moved, delayed or the jury locked away.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>No mistake. Denying those requests is fine when the judge takes enough steps and checks that the jurors can be fair, the Court of Appeals held, and Judge Cahill did.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-respondent.pdf#page=19" target="_blank" rel="noopener" aria-label="The State’s brief in the Court of Appeals, September 7, 2022, opens the document at page 19">State&rsquo;s appeal brief</a> pp. 19&ndash;20 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=57" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 57">His appeal brief</a> p. 57 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=14" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 14">Ct. App. opinion</a> pp. 14&ndash;20</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Moving the trial wouldn&rsquo;t have helped, because no corner of the state had escaped the publicity, and waiting wouldn&rsquo;t have either. What protects a defendant is the care taken in picking the jury, and here it was extraordinary.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>A long questionnaire sent months ahead. Jurors questioned one at a time. Extra strikes for the defense, 18 against 10. Jurors removed for cause the moment the settlement changed their view. The two seated jurors excused over it.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=16" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 16">Ct. App. opinion</a> pp. 16&ndash;17 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27-cr-20-12646_order-change-of-venue.pdf" target="_blank" rel="noopener" aria-label="The preliminary order on venue of November 4, 2020, opens the document">Venue order, Nov 4, 2020</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The U.S. Supreme Court in Skilling v. United States (2010), that &ldquo;prominence does not necessarily produce prejudice,&rdquo; and the Minnesota Supreme Court&rsquo;s State v. Blom (2004).</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The building was fortified, the city settled in the middle of selection, and one seated juror said her safety &ldquo;really depends on how the trial&rdquo; ends.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=58" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 58">His appeal brief</a> p. 58 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=8" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 8">Ct. App. opinion</a> p. 8</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>This is one of the rare cases where the atmosphere was so charged that prejudice should be presumed, without having to prove what any one juror thought. Jurors walked past soldiers and razor wire every day. A wrong verdict, as they&rsquo;d have understood it, would have had consequences for the Twin Cities.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The security around the courthouse, the National Guard, businesses boarded up, the settlement, officials calling the death a murder, and a leak about a failed plea deal before jury selection.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=57" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 57">His appeal brief</a> pp. 57&ndash;60 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=9" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 9">Ct. App. opinion</a> p. 9</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Sheppard v. Maxwell (1966), Rideau v. Louisiana (1963) and Irvin v. Dowd (1961), the U.S. Supreme Court&rsquo;s cases on trials overwhelmed by publicity.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>He finished jury selection with three strikes unused, which courts read as a sign a defendant accepted the jury, and every juror said they could be fair.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=17" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 17">Ct. App. opinion</a> p. 17</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Did the court do enough to make sure these jurors could set aside what they&rsquo;d heard?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">The atmosphere was so charged that prejudice should be presumed.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The jury</p>
+                                    <p class="arm-t">Questioned one by one, with extra strikes and removals.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The jury</p>
+                                    <p class="arm-t">Walked past soldiers every day, afraid of the result.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Moving or waiting wouldn&rsquo;t have helped. Careful selection did.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t"><b>Decided.</b> The court took enough steps, and the U.S. Supreme Court declined to look again.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q6">
+                    <h3 class="row-q"><span class="row-n">6</span>Did a juror hide views that should have kept him off the jury?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>No. Juror 52 answered the questionnaire truthfully. What he said in interviews afterward doesn&rsquo;t show he lied in jury selection.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>Yes. He didn&rsquo;t mention going to a march in Washington in August 2020 where Floyd&rsquo;s family spoke, and after the trial he said he&rsquo;d been pulled over by Minneapolis police &ldquo;probably about 50 times&rdquo; and saw a &ldquo;chance to make history.&rdquo; The court should at least have held a <a class="term" href="#t-schwartz" data-term="t-schwartz" title="Schwartz hearing: A hearing in Minnesota where a judge questions jurors about possible misconduct after a trial. He asked for one and was refused.">hearing</a>.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>No hearing was needed. The court found he answered truthfully, and that the other juror Chauvin named was an alternate who never deliberated.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=10" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 10">Ct. App. opinion</a> p. 10 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=20" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 20">20&ndash;23</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=60" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 60">His appeal brief</a> pp. 60&ndash;63</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The questionnaire asked specific questions, and his answers to them were accurate. A juror isn&rsquo;t dishonest for not volunteering things nobody asked about, and he said in selection that he could be fair.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>His questionnaire and his answers in jury selection.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=21" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 21">Ct. App. opinion</a> pp. 21&ndash;23</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The Minnesota rule that a hearing on juror misconduct needs a real showing of misconduct first.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>His words after the trial were never tested under oath, because no hearing was held.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>A juror who hid strong views about the Minneapolis police and took part in a protest about Floyd&rsquo;s death couldn&rsquo;t be impartial, and the only way to find out what he concealed was to question him under oath.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The juror&rsquo;s interviews after the verdict, and the march he hadn&rsquo;t mentioned.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=10" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 10">Ct. App. opinion</a> p. 10</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Schwartz v. Minneapolis Suburban Bus Co. (1960), which set up the hearing, and the right to an impartial jury.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>He didn&rsquo;t fully argue part of it in his brief, the court said, and he had three strikes left he could have used during selection.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=20" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 20">Ct. App. opinion</a> pp. 20&ndash;23</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Was there enough sign of misconduct to put the juror back under oath?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">His interviews show views he kept back in selection.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">His answers</p>
+                                    <p class="arm-t">True to what the questionnaire asked.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">His answers</p>
+                                    <p class="arm-t">Silent about the march and the 50 stops.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Nothing he said afterward shows a false answer.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t"><b>Decided.</b> No hearing, and the U.S. Supreme Court declined to take the question.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q7">
+                    <h3 class="row-q"><span class="row-n">7</span>Was 22 and a half years the right sentence?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>It should have been 30. He abused the trust of his badge, killed Floyd slowly and cruelly in front of children, and did it with three other officers.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>It should have been probation, or at least a shorter term. In his mind he was &ldquo;simply performing his lawful duty,&rdquo; relying in good faith on his training, and a police officer&rsquo;s authority had nothing to do with Floyd.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Judge Cahill found four aggravating factors and relied on two, the abuse of trust and the particular cruelty, for 270 months. The Court of Appeals upheld it on the cruelty alone.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_memorandum_2021-06-02_20210602150808.pdf" target="_blank" rel="noopener" aria-label="The State’s sentencing memorandum of June 2, 2021, opens the document">State&rsquo;s memorandum, Jun 2, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/memorandum06022021.pdf#page=11" target="_blank" rel="noopener" aria-label="The defense sentencing memorandum of June 2, 2021, opens the document at page 11">Defense memorandum</a> p. 11 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=4" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 4">Sentencing order</a> p. 4 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=48" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 48">Ct. App. opinion</a> p. 48</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>This was worse than a typical case of the crime in every way the guidelines count. Floyd begged for his life and was ignored, he was killed slowly, children watched, and an officer used the authority of his job to do it. That justifies doubling the top of the range, to 360 months.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The trial evidence and the judge&rsquo;s findings of four aggravating factors.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_memorandum_2021-06-02_20210602150808.pdf" target="_blank" rel="noopener" aria-label="The State’s sentencing memorandum of June 2, 2021, opens the document">State&rsquo;s memorandum, Jun 2, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order05112021.pdf#page=3" target="_blank" rel="noopener" aria-label="The judge’s findings on the sentencing factors, May 11, 2021, opens the document at page 3">Findings of May 11, 2021</a> pp. 3&ndash;5</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The Minnesota Sentencing Guidelines&rsquo; list of aggravating factors, which includes particular cruelty.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>No Minnesota case had applied &ldquo;abuse of a position of trust&rdquo; to a police officer, and the appeals court didn&rsquo;t rely on it.</p><p class="dp-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=48" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 48">Ct. App. opinion</a> p. 48</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>He had no criminal record, he was compliant on release, and he didn&rsquo;t set out to commit a crime. His error was made &ldquo;in good faith reliance&rdquo; on his experience and training. An abuse of authority over Floyd doesn&rsquo;t fit, because he didn&rsquo;t put the handcuffs on him.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>His record, his conduct out on bond, and the training evidence.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/memorandum06022021.pdf#page=11" target="_blank" rel="noopener" aria-label="The defense sentencing memorandum of June 2, 2021, opens the document at page 11">Defense memorandum</a> p. 11 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-appellant.pdf#page=67" target="_blank" rel="noopener" aria-label="His brief in the Court of Appeals, April 25, 2022, opens the document at page 67">His appeal brief</a> pp. 67&ndash;70</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The guidelines&rsquo; rule that a departure needs &ldquo;substantial and compelling&rdquo; reasons, which he said the court didn&rsquo;t have.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The judge found the cruelty proved beyond a reasonable doubt, and the average sentence in Minnesota for the same crime with an aggravating factor and no record was 278.2 months, longer than his.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=21" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 21">Sentencing order</a> p. 21 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=49" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 49">Ct. App. opinion</a> p. 49</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Was this crime significantly worse than the usual one of its kind?</p>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Cruel, slow, in front of children, and by an officer using his badge.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The factors</p>
+                                    <p class="arm-t">Four proved, two enough.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The factors</p>
+                                    <p class="arm-t">An officer&rsquo;s authority had nothing to do with Floyd.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">An error made in good faith deserves probation or less.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t"><b>270 months, upheld.</b> Cruelty alone carries it.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q8">
+                    <h3 class="row-q"><span class="row-n">8</span>Should the state case be reopened now?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>Its answers to the petitions aren&rsquo;t public. On the same points at trial and on appeal it said the medical experts were sound, the officers&rsquo; testimony about training was true, and the jury instructions were correct, and the courts agreed.</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>Yes. The State&rsquo;s doctors testified from video, not medical findings. The police chief and two trainers misdescribed the training, and 57 officers say so. And the whole case was <a class="term" href="#t-structural-error" data-term="t-structural-error" title="Structural error: A mistake in how a case was run that’s so basic a court doesn’t ask whether it changed the result. His lawyer says the way he was charged is one.">structurally flawed</a>, handed to the wrong prosecutor and charged without a grand jury.</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>The second petition was denied on May 1, 2026: &ldquo;None of the claims raised in this Petition for Post-Conviction Relief warrant relief.&rdquo; Its appeal and the third petition are undecided.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a> &middot; <a class="cite-doc" href="https://www.foxnews.com/us/former-cop-derek-chauvin-appeals-judges-rejection-bid-new-trial-george-floyd-murder-case" target="_blank" rel="noopener" aria-label="Fox News report of July 9, 2026, opens in a new tab">Fox News, Jul 9, 2026</a></p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>Its 2026 answers aren&rsquo;t public. At trial and on appeal it defended each point now raised: the doctors&rsquo; testimony, the officers&rsquo; account of the training, and the jury instructions, which the appeals court found had no plain error.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The trial record and the 2023 appeal.</p><p class="dp-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-respondent.pdf#page=19" target="_blank" rel="noopener" aria-label="The State’s brief in the Court of Appeals, September 7, 2022, opens the document at page 19">State&rsquo;s appeal brief</a> pp. 19&ndash;21 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=27" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 27">Ct. App. opinion</a> pp. 27&ndash;33</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The <a class="term" href="#t-knaffla" data-term="t-knaffla" title="Knaffla rule: Minnesota’s rule that a petition after the appeal can’t raise what was raised, or could have been raised, on appeal, with narrow exceptions.">Knaffla rule</a>, which keeps a petition from arguing again what was or could have been argued on appeal, and the judge applied it throughout.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The officers&rsquo; statements about what was really trained, and the experts he now offers, haven&rsquo;t been tested in a hearing.</p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>The trial was a product of its moment. A court &ldquo;removed from the hysteria of the day&rdquo; can now see that the doctors read video instead of doing medicine, that officials testified falsely about training and nobody corrected it, and that the Attorney General had no lawful power to prosecute at all, so the conviction can&rsquo;t stand.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Affidavits from 57 current and former officers, a judge&rsquo;s ruling in a separate defamation case that the department&rsquo;s materials showed similar techniques, and outside forensic experts.</p><p class="dp-cite"><a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The right to due process, and the rule that structural errors can&rsquo;t be waived. He calls the governor&rsquo;s order handing the case to the Attorney General &ldquo;illegitimate.&rdquo;</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The judge found most of the 2025 claims were or could have been raised on appeal. And Minnesota&rsquo;s rules require a grand jury only for crimes that carry life in prison, which second-degree murder doesn&rsquo;t.</p><p class="dp-cite"><a class="cite-doc" href="https://www.foxnews.com/us/former-cop-derek-chauvin-appeals-judges-rejection-bid-new-trial-george-floyd-murder-case" target="_blank" rel="noopener" aria-label="Fox News report of July 9, 2026, opens in a new tab">Fox News, Jul 9, 2026</a> &middot; <a class="cite-doc" href="https://www.revisor.mn.gov/court_rules/cr/id/17/" target="_blank" rel="noopener" aria-label="Minnesota Rule of Criminal Procedure 17.01, on when an indictment is required, opens in a new tab">Minn. R. Crim. P. 17.01</a></p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Is there something new, or so basic it wasn&rsquo;t waived, that undoes a final conviction?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">The experts, the training testimony and the charging were all wrong.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">What&rsquo;s new</p>
+                                    <p class="arm-t">Nothing. It was argued, or could have been, before.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">What&rsquo;s new</p>
+                                    <p class="arm-t">57 officers&rsquo; statements, and a flaw in the charge itself.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">Its answers aren&rsquo;t public. The judge applied Knaffla.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t">One petition denied and <b>on appeal</b>, one <b>pending</b>.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
+                </article>
+
+                <article class="row" id="q9">
+                    <h3 class="row-q"><span class="row-n">9</span>Should his federal guilty plea be undone?</h3>
+
+                    <div class="row-sum">
+                        <div class="side side-p"><p class="side-tag">Prosecution</p><p>No. He pleaded knowingly after a careful hearing, waived this kind of challenge, and admitted his actions kept Floyd from getting enough oxygen. The autopsy findings were aired at his state trial, and the same kind of testimony &ldquo;was not persuasive to the jury.&rdquo;</p></div>
+                        <div class="side side-d"><p class="side-tag">Defense</p><p>Yes. His lawyer never told him that a pathologist had concluded the tumor found at the autopsy, not Chauvin, caused Floyd&rsquo;s death. Had he known, he &ldquo;would not have pled guilty, and would have insisted on going to trial.&rdquo;</p></div>
+                    </div>
+
+                    <p class="row-court"><span class="rc-mark">Court</span>Undecided. The judge let his experts examine Floyd&rsquo;s heart tissue and fluids, finding they &ldquo;could support&rdquo; the pathologist&rsquo;s opinion, and has put the hearing off since January 2025 while the testing goes on.</p>
+                    <p class="row-src"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.553.0.pdf#page=7" target="_blank" rel="noopener" aria-label="The government’s response of January 12, 2024, opens the document at page 7">Government response</a> pp. 7, <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.553.0.pdf#page=11" target="_blank" rel="noopener" aria-label="The government’s response of January 12, 2024, opens the document at page 11">11</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.0_1.pdf#page=2" target="_blank" rel="noopener" aria-label="His federal motion to vacate of November 13, 2023, opens the document at page 2">Motion to vacate</a> p. 2 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.565.0_1.pdf#page=3" target="_blank" rel="noopener" aria-label="The federal order of December 2024 allowing the tissue to be examined, opens the document at page 3">Order, ECF 565</a> p. 3</p>
+
+                    <details class="drawer">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Detail</span><span class="dw-n">the argument, what it rests on, where it is weak</span></summary>
+                    <div class="dw-body">
+                    <div class="dp-grid">
+                    <div class="dp dp-p">
+                        <p class="dp-tag">Prosecution</p>
+                        <div class="dp-block"><h4>The argument</h4><p>His plea waived every later challenge except a claim that his lawyer failed him, and that claim fails. He told the judge under questioning that he understood what he was giving up. A lawyer isn&rsquo;t ineffective for not passing on a theory the jury in his state trial had already heard and rejected.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>The plea agreement, the plea hearing transcript, and the state trial record.</p><p class="dp-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.553.0.pdf#page=3" target="_blank" rel="noopener" aria-label="The government’s response of January 12, 2024, opens the document at page 3">Government response</a> pp. 3&ndash;4 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.319.0_14.pdf#page=22" target="_blank" rel="noopener" aria-label="The transcript of his federal guilty plea, December 15, 2021, opens the document at page 22">Plea transcript</a> p. 22</p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>The waiver in his plea agreement, and the U.S. Supreme Court&rsquo;s test for a lawyer&rsquo;s failure, Strickland v. Washington (1984).</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>The judge found good cause to let the testing go ahead over the government&rsquo;s objection, and reminded it that &ldquo;this matter is separate from Defendant&rsquo;s state prosecution.&rdquo;</p><p class="dp-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.565.0_1.pdf#page=3" target="_blank" rel="noopener" aria-label="The federal order of December 2024 allowing the tissue to be examined, opens the document at page 3">Order, ECF 565</a> p. 3 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.567.0.pdf" target="_blank" rel="noopener" aria-label="The federal order of December 18, 2024, denying reconsideration, opens the document">Order, ECF 567</a></p></div>
+                    </div>
+                    <div class="dp dp-d">
+                        <p class="dp-tag">Defense</p>
+                        <div class="dp-block"><h4>The argument</h4><p>A pathologist, Dr. William Schaetzel, wrote during the state trial that Floyd&rsquo;s tumor released a surge of adrenaline-like hormones that led to heart failure. His lawyer had that and kept it from him while advising him to take the deal. That&rsquo;s <a class="term" href="#t-ineffective" data-term="t-ineffective" title="Ineffective assistance: A lawyer’s work falling so far short that it denied the client a fair process. It’s the one kind of claim his plea deal let him bring later.">ineffective assistance</a>, and it made his plea unknowing.</p></div>
+                        <div class="dp-block"><h4>Rests on</h4><p>Dr. Schaetzel&rsquo;s email of April 2021, a second doctor&rsquo;s report, and the autopsy&rsquo;s description of the tumor.</p><p class="dp-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.0_1.pdf" target="_blank" rel="noopener" aria-label="His federal motion to vacate of November 13, 2023, opens the document">Motion to vacate, ECF 544</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.1_1.pdf#page=11" target="_blank" rel="noopener" aria-label="The exhibits to his federal motion to vacate, with the autopsy report, opens the document at page 11">Schaetzel email</a> p. 11 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.562.0.pdf" target="_blank" rel="noopener" aria-label="His reply of July 31, 2024, opens the document">Reply, ECF 562</a></p></div>
+                        <div class="dp-block"><h4>Authority</h4><p>Strickland v. Washington, and Hill v. Lockhart (1985), which applies it to guilty pleas.</p></div>
+                        <div class="dp-block dp-weak"><h4>Where it is weak</h4><p>He admitted in his plea agreement that his actions impaired Floyd&rsquo;s ability to get enough oxygen, and that his force became unreasonable. The medical examiner called the tumor incidental.</p><p class="dp-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=4" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 4">Plea agreement</a> pp. 4&ndash;6 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.544.1_1.pdf#page=24" target="_blank" rel="noopener" aria-label="The exhibits to his federal motion to vacate, with the autopsy report, opens the document at page 24">Autopsy report</a> p. 24</p></div>
+                    </div>
+                    </div>
+                    </div>
+                    </details>
+
+                    <details class="drawer drawer-chain">
+                        <summary><span class="dw-i" aria-hidden="true"></span><span class="dw-l">Logic chain</span><span class="dw-n">how the reasoning runs, and where it breaks</span></summary>
+                    <div class="dw-body">
+                    <ol class="chain">
+                        <li class="cn cn-test">
+                            <span class="cn-k">Test</span>
+                            <p class="cn-t">Did his lawyer fall short, and would he have gone to trial if he hadn&rsquo;t?</p>
+                        </li>
+                        <li class="cn cn-d">
+                            <span class="cn-k">Defense</span>
+                            <p class="cn-t">He&rsquo;d never have pleaded if he&rsquo;d known about the tumor theory.</p>
+                        </li>
+                        <li class="cn cn-fork">
+                            <div class="fork">
+                                <div class="arm arm-p">
+                                    <p class="arm-k">The theory</p>
+                                    <p class="arm-t">Already heard at the state trial, and rejected.</p>
+                                </div>
+                                <div class="arm arm-d">
+                                    <p class="arm-k">The theory</p>
+                                    <p class="arm-t">Never tested, until the tissue is examined.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="cn cn-p">
+                            <span class="cn-k">Prosecution</span>
+                            <p class="cn-t">He pleaded knowingly and admitted the facts.</p>
+                        </li>
+                        <li class="cn cn-out">
+                            <span class="cn-k">Where it lands</span>
+                            <p class="cn-t"><b>Undecided.</b> Testing allowed in December 2024, and nothing public since.</p>
+                        </li>
+                    </ol>
+                    </div>
+                    </details>
                 </article>
                 </div>
 
@@ -185,22 +951,28 @@
 
                 <div class="notes-grid">
                     <div class="note">
-                        <h3>Under construction</h3>
-                        <p>Only the top of the case page is written. Each of the four views behind its doors
-                            holds one starting card and nothing else yet.</p>
-                        <p>The description at the top of the case page is a temporary one. It comes from a
-                            quick look at the record, and it will be rewritten once the record has been read
-                            in full.</p>
+                        <h3>Source</h3>
+                        <p>Built from the record the trial court posts for this case: the <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.">complaints</a>, the judge&rsquo;s orders, the jury instructions, the verdict forms, the sentencing order, and the briefs on appeal. Then the Court of Appeals&rsquo; 2023 opinion, the U.S. Supreme Court&rsquo;s docket, and the federal case&rsquo;s filings, read through the archive of federal court records on CourtListener. Each side is described in its own words in court or in its own filings.</p>
+                        <p>The trial itself was never posted as a court reporter&rsquo;s transcript, so words spoken in the courtroom are quoted from <a class="term" href="#t-transcript" data-term="t-transcript" title="Broadcast transcript: A word-for-word record. The court reporter’s transcript of this trial was never posted, so these pages quote transcripts typed from the court’s own video feed and cite them by its clock.">transcripts of the broadcast</a> and cited by its clock. The court&rsquo;s website sometimes refuses a request it takes for a robot, and a browser gets through.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/media/stateofminnesotavderekchauvin" target="_blank" rel="noopener" aria-label="The Minnesota Judicial Branch’s page for State v. Derek Chauvin, opens in a new tab">Minnesota Judicial Branch, case page</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">Federal docket</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document">Ct. App. opinion</a></p>
                     </div>
                     <div class="note">
-                        <h3>Source</h3>
-                        <p>The names, numbers and dates at the top of the case page come from the state appeals court&rsquo;s 2023 opinion, the Minnesota Attorney General&rsquo;s statement on the sentence, and the federal court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>. Nothing else has been read for these pages yet.</p>
-                        <p class="note-src">Opinion: <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="State v. Chauvin, the Minnesota Court of Appeals opinion of April 17, 2023, opens as a PDF">State v. Chauvin, No. A21-1228 (Minn. Ct. App. Apr. 17, 2023)</a> &middot; <a class="cite-doc" href="https://www.ag.state.mn.us/Office/Communications/2021/06/25_Chauvin.asp" target="_blank" rel="noopener" aria-label="Minnesota Attorney General, statement on the sentence, June 25, 2021, opens in a new tab">Minn. Att&rsquo;y Gen., Jun 25, 2021</a> &middot; Federal docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">No. 0:21-cr-00108</a></p>
+                        <h3>What isn&rsquo;t public</h3>
+                        <p>His petitions since 2024, the State&rsquo;s answers to them, and the trial court&rsquo;s orders on them aren&rsquo;t on the court&rsquo;s case page. The parts of these pages about them rest on news reports, and each one is cited. Neither are the trial exhibits. The results of the tissue testing in the federal case haven&rsquo;t been made public.</p>
+                        <p>The jurors&rsquo; names were released by the court in November 2021. These pages don&rsquo;t use them. Jurors are known here by number, as they were in court.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27cr2012646_order_10-25-2021.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of October 25, 2021, on releasing the jurors’ names, opens the document at page 3">Order of Oct 25, 2021</a> p. 3 &middot; <a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>Names and numbers</h3>
+                        <p>There are five numbers for how long he was held down, and each one belongs to someone. The first complaint said his knee was on Floyd&rsquo;s neck for 8 minutes and 46 seconds. The judge&rsquo;s 2020 order said &ldquo;more than nine minutes and twenty seconds.&rdquo; At trial the State said 9 minutes and 29 seconds, and the appeals court used that. The judge&rsquo;s sentencing findings said &ldquo;more than nine minutes and forty seconds,&rdquo; and his federal plea says about ten minutes. These pages say whose number they use.</p>
+                        <p>People are named when they&rsquo;re a party, a lawyer, a judge, or a witness who testified in public. The young witnesses aren&rsquo;t named, except Darnella Frazier, whose video and testimony are public under her own name. The 14-year-old in the 2017 case isn&rsquo;t named, as the federal record doesn&rsquo;t name him.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/amendedcomplaint06032020.pdf#page=4" target="_blank" rel="noopener" aria-label="The amended complaint, filed June 3, 2020, opens the document at page 4">Amended complaint</a> p. 4 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=29" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 29">Order of Oct 21, 2020</a> p. 29 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=5" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 5">Ct. App. opinion</a> p. 5 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order05112021.pdf#page=4" target="_blank" rel="noopener" aria-label="The judge’s findings on the sentencing factors, May 11, 2021, opens the document at page 4">Findings of May 11, 2021</a> p. 4 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=3" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 3">Plea agreement</a> p. 3</p>
                     </div>
                     <div class="note">
                         <h3>What this is not</h3>
-                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
-                            reach, these pages say so and stop.</p>
+                        <p>Not legal advice, not a finding, and not a verdict. He stands convicted of second-degree murder in state court and of violating Floyd&rsquo;s civil rights in federal court. What he argues in his petitions is reported here as his argument, and the courts haven&rsquo;t accepted any of it so far.</p>
+                        <p>The other three officers were tried, or pleaded, in cases of their own. These pages mention them only where they&rsquo;re part of his. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.pbs.org/newshour/nation/3-former-officers-convicted-of-rights-violations-in-george-floyd-killing" target="_blank" rel="noopener" aria-label="Associated Press report of February 24, 2022, as carried by PBS NewsHour, opens in a new tab">AP, Feb 24, 2022</a></p>
                     </div>
                 </div>
 
@@ -257,14 +1029,14 @@
                         address and your browser string, to make abuse traceable and for nothing else.</p>
                 </div>
 
-                <p class="notes-updated">The lines at the top of the case page were checked on
-                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+                <p class="notes-updated">Record reviewed through <span class="mono">October 22, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
             </div>
         </section>
 
         <footer class="page-foot">
             <div class="wrap">
-                <p><a href="/case-chronicle/">Case Chronicle</a> &middot; <a href="/">frontendneeded.com</a></p>
+                <p><a href="/">frontendneeded.com</a></p>
                 <p class="foot-cite">State v. Chauvin, No. 27-CR-20-12646 (Hennepin Cty. Dist. Ct., Minn.) &middot; United States v. Chauvin, No. 0:21-cr-00108 (D. Minn.)</p>
             </div>
         </footer>
@@ -272,9 +1044,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -282,12 +1053,109 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the courts use them. Two courts convicted him, a state court and a federal one, and a few words belong to only one of them.</p>
+
+                <p class="gloss-s">The courts</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-district-court">Hennepin County District Court</dt><dd>The state trial court for Minneapolis and the county around it. Judge Peter Cahill tried the case there. A different judge, Paul Scoggin, has heard his petitions since.</dd></div>
+                    <div><dt id="t-court-of-appeals">Minnesota Court of Appeals</dt><dd>The state court that hears appeals from trial courts. Three of its judges decide each case.</dd></div>
+                    <div><dt id="t-supreme-court-mn">Minnesota Supreme Court</dt><dd>The state&rsquo;s highest court. It chooses which appeals to hear, and it turned down his.</dd></div>
+                    <div><dt id="t-federal-court">Federal court</dt><dd>The United States&rsquo; own courts, separate from the state&rsquo;s. The federal case was in the U.S. District Court in St. Paul, before Judge Paul Magnuson.</dd></div>
+                    <div><dt id="t-attorney-general">Attorney General</dt><dd>Minnesota&rsquo;s chief lawyer, elected statewide. Keith Ellison&rsquo;s office took over the prosecution from the county prosecutor in May 2020.</dd></div>
+                    <div><dt id="t-dual-sovereignty">Two prosecutions</dt><dd>A state and the federal government count as separate governments, so each can prosecute the same act under its own laws. That isn&rsquo;t double jeopardy.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A group of citizens who hear the prosecutor&rsquo;s evidence in private and decide whether to charge someone. Minnesota only requires one for crimes that carry life in prison, like first-degree murder, so this case started with a complaint instead.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>A charge brought by a grand jury. The federal case started with one.</dd></div>
+                    <div><dt id="t-information">Information</dt><dd>A charge a prosecutor files without a grand jury. In federal court that takes the defendant&rsquo;s consent, which he gave for the 2017 count.</dd></div>
                     <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-plea-agreement">Plea agreement</dt><dd>A written deal between a defendant and the prosecutors. He pleads guilty to some charges, and they agree on others to drop and on a range of sentence.</dd></div>
+                    <div><dt id="t-transcript">Broadcast transcript</dt><dd>A word-for-word record. The court reporter&rsquo;s transcript of this trial was never posted, so these pages quote transcripts typed from the court&rsquo;s own video feed and cite them by its clock.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-felony-murder">Second-degree unintentional murder</dt><dd>Causing a death, without meaning to, while committing a felony. Here the felony was third-degree assault. This is the one count he was convicted and sentenced on.</dd></div>
+                    <div><dt id="t-assault-3">Third-degree assault</dt><dd>Intentionally using unlawful force on someone, without their consent, that causes substantial bodily harm. He only had to mean to use the force, not to cause that much harm.</dd></div>
+                    <div><dt id="t-third-degree-murder">Third-degree murder</dt><dd>Causing a death by an act &ldquo;eminently dangerous&rdquo; to others, done with &ldquo;a depraved mind,&rdquo; without meaning to kill. Also called depraved-mind murder.</dd></div>
+                    <div><dt id="t-manslaughter-2">Second-degree manslaughter</dt><dd>Causing a death by culpable negligence, which means consciously taking a chance of causing death or great harm that an ordinary careful person would see.</dd></div>
+                    <div><dt id="t-lesser-offense">Lesser offense</dt><dd>A crime contained in a more serious one. Minnesota law allows only one conviction for the same act, so the other two guilty verdicts were never entered as convictions.</dd></div>
+                    <div><dt id="t-color-of-law">Under color of law</dt><dd>Acting with the power of a government job, like a police officer on duty. The federal civil rights law makes it a crime to use that power to take away someone&rsquo;s constitutional rights.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Intentionally helping someone else commit a crime. The other three officers were charged that way.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-probable-cause">Probable cause</dt><dd>Enough evidence to make it reasonable to believe a person committed the crime. It&rsquo;s the bar a charge has to clear to go to trial, and it&rsquo;s a lot lower than proof.</dd></div>
+                    <div><dt id="t-venue">Venue</dt><dd>Where a trial is held. A defendant can ask to move it if publicity would make a fair jury impossible where the crime happened.</dd></div>
+                    <div><dt id="t-continuance">Continuance</dt><dd>Putting a trial or a hearing off to a later date.</dd></div>
+                    <div><dt id="t-sever">Severance</dt><dd>Splitting one trial of several defendants into separate trials.</dd></div>
+                    <div><dt id="t-sequester">Sequester</dt><dd>Keeping jurors away from news and the public, sometimes in a hotel, so nothing outside the courtroom reaches them.</dd></div>
+                    <div><dt id="t-voir-dire">Jury selection</dt><dd>Questioning possible jurors one by one to find out if they can be fair. Also called voir dire.</dd></div>
+                    <div><dt id="t-peremptory">Peremptory strike</dt><dd>Removing a possible juror without giving a reason. Each side gets a set number. Here the judge raised his to 18 and the State&rsquo;s to 10.</dd></div>
+                    <div><dt id="t-for-cause">Excused for cause</dt><dd>Removing a possible juror for a specific reason they can&rsquo;t be fair, like having already made up their mind. There&rsquo;s no limit on these.</dd></div>
+                    <div><dt id="t-alternate">Alternate juror</dt><dd>A juror who hears the whole trial but only deliberates if one of the twelve has to leave.</dd></div>
+                    <div><dt id="t-anonymous-jury">Anonymous jury</dt><dd>Jurors known in court only by number, their names kept from the public until the judge releases them.</dd></div>
+                    <div><dt id="t-spreigl">Earlier incident</dt><dd>Evidence of something that happened before the case, which a jury may only use for a narrow purpose the judge sets. Minnesota calls it Spreigl evidence.</dd></div>
+                    <div><dt id="t-fifth-amendment">The Fifth</dt><dd>The right not to be a witness against yourself. A defendant who uses it doesn&rsquo;t testify, and the jury is told it can&rsquo;t hold that against him.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>Evidence or argument that answers the other side&rsquo;s. The State goes last because it has to prove the case.</dd></div>
+                    <div><dt id="t-reasonable-doubt">Beyond a reasonable doubt</dt><dd>The level of proof needed to convict. It means proof that leaves the jury firmly convinced, not proof beyond every possible doubt.</dd></div>
+                    <div><dt id="t-unanimous">Unanimous</dt><dd>All twelve jurors agreeing. A verdict in a criminal case has to be.</dd></div>
+                    <div><dt id="t-poll">Polling the jury</dt><dd>Asking each juror out loud, one at a time, if the verdict read is theirs.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the jury had to decide</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-substantial-cause">Substantial causal factor</dt><dd>The test for causing a death. His acts didn&rsquo;t have to be the only cause, only a substantial one. Other causes don&rsquo;t excuse him unless one of them alone caused the death.</dd></div>
+                    <div><dt id="t-superseding-cause">Superseding cause</dt><dd>Something that comes afterward and breaks the chain, so that it alone causes the death. It&rsquo;s the one way another cause can clear a defendant.</dd></div>
+                    <div><dt id="t-authorized-force">Authorized use of force</dt><dd>The defense the jury was told about. No crime is committed if a police officer uses reasonable force to make a lawful arrest, and the State had to prove his force wasn&rsquo;t that.</dd></div>
+                    <div><dt id="t-reasonable-officer">Reasonable officer</dt><dd>How force is judged. The question is what a reasonable officer in the same situation would have done at the moment the force was used, not what the officer meant or what hindsight shows.</dd></div>
+                    <div><dt id="t-prone">Prone restraint</dt><dd>Holding a person face down. Police training warns it can make it hard to breathe, and says to move the person onto their side once they&rsquo;re under control.</dd></div>
+                    <div><dt id="t-recovery-position">Recovery position</dt><dd>Rolling a person onto their side so they can breathe more easily. The Minneapolis police&rsquo;s own training said to do it.</dd></div>
+                    <div><dt id="t-hobble">Hobble</dt><dd>A strap that ties a person&rsquo;s legs together. The officers talked about using one and didn&rsquo;t.</dd></div>
+                    <div><dt id="t-mrt">Maximal restraint technique</dt><dd>The Minneapolis police method of strapping a struggling person&rsquo;s legs and moving them off their stomach. The defense said what the officers did began as one. The State said the knee was no part of it.</dd></div>
+                    <div><dt id="t-asphyxia">Asphyxia</dt><dd>Death from not getting enough oxygen. The State&rsquo;s doctors said the restraint caused it.</dd></div>
+                    <div><dt id="t-paraganglioma">Paraganglioma</dt><dd>A rare tumor that can release adrenaline. One was found at the autopsy and called incidental, meaning the medical examiner didn&rsquo;t think it played a part.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The sentence</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-guidelines">Sentencing guidelines</dt><dd>Minnesota&rsquo;s chart of how long a sentence should be for each crime, set by a state commission. A judge has to stay inside its range unless there are substantial and compelling reasons not to.</dd></div>
+                    <div><dt id="t-presumptive">Presumptive sentence</dt><dd>What the guidelines call for. For this crime and no past record it&rsquo;s 150 months, inside a range of 128 to 180.</dd></div>
+                    <div><dt id="t-aggravating">Aggravating factor</dt><dd>A fact that makes a crime worse than the usual one of its kind, like particular cruelty. It has to be proved before a judge can go past the guidelines.</dd></div>
+                    <div><dt id="t-blakely">Blakely</dt><dd>A 2004 U.S. Supreme Court ruling that a jury has to find the facts behind a longer sentence, unless the defendant gives that up. He gave it up, so the judge decided them.</dd></div>
+                    <div><dt id="t-departure">Upward departure</dt><dd>A sentence longer than the guidelines&rsquo; range. His was 270 months against a top of 180.</dd></div>
+                    <div><dt id="t-concurrent">Concurrent</dt><dd>Served at the same time. His state and federal sentences run together, not one after the other.</dd></div>
+                    <div><dt id="t-supervised-release">Supervised release</dt><dd>A period after a federal prison term when a person lives under conditions the court sets, checked by a probation officer.</dd></div>
+                </dl>
+
+                <p class="gloss-s">After the verdict</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-new-trial">Motion for a new trial</dt><dd>Asking the trial judge to throw out the verdict and start over because something went wrong. It comes before any appeal.</dd></div>
+                    <div><dt id="t-schwartz">Schwartz hearing</dt><dd>A hearing in Minnesota where a judge questions jurors about possible misconduct after a trial. He asked for one and was refused.</dd></div>
+                    <div><dt id="t-direct-appeal">Direct appeal</dt><dd>The first appeal after a conviction, which looks only at what happened at trial. His was decided in 2023.</dd></div>
+                    <div><dt id="t-review">Petition for review</dt><dd>Asking the Minnesota Supreme Court to hear a case after the Court of Appeals has ruled. It turns most of them down.</dd></div>
+                    <div><dt id="t-certiorari">Certiorari</dt><dd>Asking the U.S. Supreme Court to hear a case. It takes very few, and turning one down decides nothing about the case itself.</dd></div>
+                    <div><dt id="t-post-conviction">Post-conviction petition</dt><dd>A way to challenge a state conviction after the appeal is over, usually with something that wasn&rsquo;t in the trial record. It goes back to the trial court first.</dd></div>
+                    <div><dt id="t-knaffla">Knaffla rule</dt><dd>Minnesota&rsquo;s rule that a petition after the appeal can&rsquo;t raise what was raised, or could have been raised, on appeal, with narrow exceptions.</dd></div>
+                    <div><dt id="t-structural-error">Structural error</dt><dd>A mistake in how a case was run that&rsquo;s so basic a court doesn&rsquo;t ask whether it changed the result. His lawyer says the way he was charged is one.</dd></div>
+                    <div><dt id="t-motion-2255">Motion to vacate</dt><dd>The federal version of a post-conviction petition, under section 2255 of the federal code. His asks to undo his federal guilty plea.</dd></div>
+                    <div><dt id="t-ineffective">Ineffective assistance</dt><dd>A lawyer&rsquo;s work falling so far short that it denied the client a fair process. It&rsquo;s the one kind of claim his plea deal let him bring later.</dd></div>
+                    <div><dt id="t-stay">Stay</dt><dd>Pausing a case, or a ruling, until something else is decided.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The stamp on a ruling</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-granted">Granted</dt><dd>The court said yes to the request on this card, whichever side made it.</dd></div>
+                    <div><dt id="t-granted-in-part">Granted in part</dt><dd>The court gave some of what was asked for on this card and said no to the rest.</dd></div>
+                    <div><dt id="t-denied">Denied</dt><dd>The court said no to the request on this card.</dd></div>
+                    <div><dt id="t-reinstated">Reinstated</dt><dd>A charge that had been dismissed was put back, so the jury could decide it.</dd></div>
+                    <div><dt id="t-guilty">Guilty</dt><dd>The jury&rsquo;s verdict, or his own plea in court. It becomes a conviction once the court enters judgment on it.</dd></div>
+                    <div><dt id="t-affirmed">Affirmed</dt><dd>The court above agreed with the court below and left the conviction and the sentence as they were.</dd></div>
+                    <div><dt id="t-dismissed">Dismissed</dt><dd>Thrown out without a ruling on whether the claims in it were right.</dd></div>
                 </dl>
             </div>
         </details>
@@ -299,7 +1167,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261021a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
 </body>
 
 </html>

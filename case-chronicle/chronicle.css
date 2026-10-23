@@ -138,6 +138,7 @@
   --bind-4: #4a3c2c;
   --bind-5: #5f4a33;
   --bind-6: #3f3427;
+  --bind-7: #6c513d;
   --bind-plain: #b9ab91;
 
   /* Lettering pressed into cloth, in the stock's own colour. */
@@ -4923,6 +4924,40 @@ span.cr-cite { margin: 0; white-space: normal; }
   font-size: 0.88rem;
   color: var(--muted);
   max-width: 48em;
+}
+
+/* ── a second chain ──
+   Where one page holds two prosecutions that decide nothing in each
+   other (State v. Chauvin's state and federal cases), each runs down a
+   map of its own, an ol.cf-flow under a div.cf-chain that names it. The
+   head stands over the middle column, where the questions run, and a
+   later chain's head is ruled off from the end of the one before. */
+.cf-chain {
+  max-width: 34em;
+  margin: 0 auto 26px;
+  text-align: center;
+}
+
+.cf-flow + .cf-chain {
+  margin-top: 64px;
+  padding-top: 34px;
+  border-top: 1px solid var(--tl-c-line);
+}
+
+.cf-chain-h {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--court);
+}
+
+.cf-chain-n {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: var(--ink-2);
 }
 
 /* ═══════════════════════════════════════════════

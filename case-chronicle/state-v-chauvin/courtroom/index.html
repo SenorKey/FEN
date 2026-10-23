@@ -15,7 +15,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261021a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Out of the index, like the courtroom of every case. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="State v. Chauvin as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="State v. Chauvin as a courtroom seen from above: courtroom C-1856 in Minneapolis, the lawyers, the jury and the witnesses at each moment of the trial and the sentencing, seat by seat.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/state-v-chauvin/courtroom/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/state-v-chauvin/courtroom/">
-    <meta property="og:title" content="State v. Chauvin, the courtroom &mdash; Case Chronicle">
+    <meta property="og:title" content="State v. Chauvin, the courtroom — Case Chronicle">
     <meta property="og:description"
-        content="State v. Chauvin as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="State v. Chauvin as a courtroom seen from above: courtroom C-1856 in Minneapolis, the lawyers, the jury and the witnesses at each moment of the trial and the sentencing, seat by seat.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,8 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="state-v-chauvin">
     <a href="#main-content" class="skip-link">Skip to content</a>
-
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -119,19 +108,26 @@
         <!-- ═══════════════════════════════════════════════
              The courtroom, from above
 
-             Under construction: the stock plan is drawn and nobody is
-             seated in it. The list under "In the room" is this page's
-             data, and it holds one note for now. The chronology has no
-             moment yet, only its starting card, so the script leaves
-             the bar hidden and the page is the plan and the two lists.
+             Drawn for this case and not the shared plan: courtroom
+             C-1856 of the Hennepin County Government Center, the
+             largest in the building, as it was rebuilt for a trial
+             under distancing rules. The bench run along the head wall
+             with the witness stand and the clerk, the reporter in
+             front, one lectern, four counsel tables split by
+             plexiglass, fifteen separate juror desks where the public
+             benches had been, and six chairs by the doors. It is a
+             diagram of who is in the room and not a survey of it.
 
-             On a written case that list has one row a person: who, in
-             which seat, and between which entries of the chronology.
-             The script reads the list, reads the chronology page for
-             the moments, and seats people accordingly. The days the
-             court sat go in ol.cr-sits, each with the id of its entry
-             in data-at and data-kind="court". With no script the plan
-             is drawn empty and the list is simply a list.
+             Only this room is drawn. The federal plea and sentence and
+             the appeal argument happened in other courtrooms and are
+             listed as such.
+
+             The list of people underneath is plain markup and is the
+             whole of this page's data: who, in which seat, and
+             between which entries of the chronology. The script reads
+             that list, reads the chronology page for the moments, and
+             seats people accordingly. With no script the plan is
+             drawn empty and the list is simply a list.
 
              Left is the side that filed, as everywhere else here.
              ═══════════════════════════════════════════════ -->
@@ -139,16 +135,11 @@
             <div class="wrap">
                 <p class="kicker">Courtroom View</p>
                 <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
-                <!-- The lede a written case carries here: "The same case as the
-                     Chronological View, drawn as the room it happened in. Move
-                     the line along the bar, or step with Previous and Next, and
-                     the room changes with the moment: who was in it, who was
-                     only on a screen, and which parts of it stood empty." -->
                 <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
-                    The room is empty for now. Once the case is written, a bar of its moments goes over the plan,
-                    and moving along it shows who was in the room at each one.</p>
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, and which parts of it stood empty.</p>
 
-                <div class="cr" data-chronology="/case-chronicle/state-v-chauvin/chronology/" data-opens="ev-under-construction">
+                <div class="cr" data-chronology="/case-chronicle/state-v-chauvin/chronology/" data-opens="ev-charged-with-murder-and-manslaughter" data-neither="Neither side">
 
                     <!-- The bar of moments. Empty here and hidden: it is built
                          from the chronology, which only the script can fetch. -->
@@ -172,117 +163,113 @@
                         <div class="cr-fig">
                             <div class="cr-plan">
                             <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true">
-                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
-                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+                            <path class="cr-wall" d="M350 864H16V16h728v848H410"/>
+                            <path class="cr-door" d="M350 864v-14M410 864v-14"/>
 
-                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
-                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+                            <!-- The bench run along the head wall: the witness stand,
+                                 the judge, the clerk, each behind plexiglass. -->
+                            <rect class="cr-area" data-area="court" x="250" y="30" width="260" height="100"/>
+                            <rect class="cr-desk" x="270" y="96" width="220" height="22"/>
+                            <rect class="cr-box" x="150" y="48" width="90" height="84"/>
+                            <rect class="cr-box" x="520" y="48" width="90" height="84"/>
+                            <path class="cr-gate" d="M150 136H240M520 136H610"/>
 
-                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
-                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
-                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+                            <!-- The court reporter, below the bench. -->
+                            <rect class="cr-box" x="335" y="158" width="90" height="46"/>
 
-                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
-                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+                            <!-- The one lectern, with its shield. -->
+                            <rect class="cr-box" x="352" y="244" width="56" height="38"/>
+                            <path class="cr-gate" d="M352 238H408"/>
 
-                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+                            <!-- Four counsel tables, each split by plexiglass. -->
+                            <rect class="cr-area" data-area="p" x="40" y="216" width="210" height="196"/>
+                            <rect class="cr-area" data-area="d" x="510" y="216" width="210" height="196"/>
+                            <rect class="cr-desk" x="50" y="236" width="190" height="26"/>
+                            <rect class="cr-desk" x="50" y="330" width="190" height="26"/>
+                            <rect class="cr-desk" x="520" y="236" width="190" height="26"/>
+                            <rect class="cr-desk" x="520" y="330" width="190" height="26"/>
+                            <path class="cr-gate" d="M145 232v34M145 326v34M615 232v34M615 326v34"/>
+
+                            <!-- Fifteen juror desks where the public benches were. -->
+                            <rect class="cr-desk" x="137" y="457" width="46" height="12"/>
+                            <rect class="cr-desk" x="247" y="457" width="46" height="12"/>
+                            <rect class="cr-desk" x="357" y="457" width="46" height="12"/>
+                            <rect class="cr-desk" x="467" y="457" width="46" height="12"/>
+                            <rect class="cr-desk" x="577" y="457" width="46" height="12"/>
+                            <rect class="cr-desk" x="137" y="533" width="46" height="12"/>
+                            <rect class="cr-desk" x="247" y="533" width="46" height="12"/>
+                            <rect class="cr-desk" x="357" y="533" width="46" height="12"/>
+                            <rect class="cr-desk" x="467" y="533" width="46" height="12"/>
+                            <rect class="cr-desk" x="577" y="533" width="46" height="12"/>
+                            <rect class="cr-desk" x="137" y="609" width="46" height="12"/>
+                            <rect class="cr-desk" x="247" y="609" width="46" height="12"/>
+                            <rect class="cr-desk" x="357" y="609" width="46" height="12"/>
+                            <rect class="cr-desk" x="467" y="609" width="46" height="12"/>
+                            <rect class="cr-desk" x="577" y="609" width="46" height="12"/>
+
+                            <!-- The three fixed cameras. -->
+                            <rect class="cr-box" x="466" y="120" width="16" height="10"/>
+                            <rect class="cr-box" x="372" y="688" width="16" height="10"/>
+                            <rect class="cr-box" x="702" y="470" width="16" height="10"/>
 
                             <!-- The parts of the room, for the script to measure. Never drawn. -->
-                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
-                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
-                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+                            <rect class="cr-zone" data-zone="bench" x="250" y="30" width="260" height="100"/>
+                            <rect class="cr-zone" data-zone="stand" x="150" y="48" width="90" height="84"/>
+                            <rect class="cr-zone" data-zone="c" x="520" y="48" width="90" height="84"/>
+                            <rect class="cr-zone" data-zone="staff" x="335" y="158" width="90" height="46"/>
+                            <rect class="cr-zone" data-zone="l" x="352" y="244" width="56" height="38"/>
+                            <rect class="cr-zone" data-zone="p" x="40" y="216" width="210" height="196"/>
+                            <rect class="cr-zone" data-zone="d" x="510" y="216" width="210" height="196"/>
+                            <rect class="cr-zone" data-zone="jury" x="110" y="440" width="540" height="226"/>
+                            <rect class="cr-zone" data-zone="cam" x="696" y="462" width="28" height="26"/>
+                            <rect class="cr-zone" data-zone="gallery" x="40" y="794" width="680" height="56"/>
 
-                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
-                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
-                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
-                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                            <circle class="cr-seat" data-seat="judge" cx="380" cy="66" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="195" cy="90" r="13"/>
+                            <circle class="cr-seat" data-seat="c1" cx="565" cy="90" r="13"/>
+                            <circle class="cr-seat" data-seat="rep" cx="380" cy="181" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="97" cy="288" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="193" cy="288" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="97" cy="382" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="193" cy="382" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="567" cy="288" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="663" cy="288" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="567" cy="382" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="663" cy="382" r="13"/>
+                            <circle class="cr-seat cr-seat-bench" data-seat="h1" cx="470" cy="330" r="13"/>
+                            <circle class="cr-seat" data-seat="g1" cx="70" cy="822" r="13"/>
+                            <circle class="cr-seat" data-seat="g2" cx="150" cy="822" r="13"/>
+                            <circle class="cr-seat" data-seat="g3" cx="230" cy="822" r="13"/>
+                            <circle class="cr-seat" data-seat="g4" cx="530" cy="822" r="13"/>
+                            <circle class="cr-seat" data-seat="g5" cx="610" cy="822" r="13"/>
+                            <circle class="cr-seat" data-seat="g6" cx="690" cy="822" r="13"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="160" cy="488" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="270" cy="488" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="380" cy="488" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="490" cy="488" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="600" cy="488" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="160" cy="564" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="270" cy="564" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="380" cy="564" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="490" cy="564" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="600" cy="564" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="160" cy="640" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="270" cy="640" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="13" cx="380" cy="640" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="14" cx="490" cy="640" r="11"/>
+                            <circle class="cr-seat cr-seat-j" data-juror="15" cx="600" cy="640" r="11"/>
                         </svg>
-                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
-                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
-                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
-                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
-                        <span class="cr-lab" style="left:39.34%;top:45%">Prosecution</span>
-                        <span class="cr-lab" style="left:66.97%;top:45%">Defense</span>
-                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
-                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            <span class="cr-lab" style="left:50%;top:16.36%">Bench</span>
+                        <span class="cr-lab" style="left:25.66%;top:17.27%">Witness</span>
+                        <span class="cr-lab" style="left:74.34%;top:17.27%">Clerk</span>
+                        <span class="cr-lab" style="left:50%;top:24.77%">Reporter</span>
+                        <span class="cr-lab" style="left:50%;top:33.64%">Lectern</span>
+                        <span class="cr-lab" style="left:19.08%;top:23.41%">Prosecution</span>
+                        <span class="cr-lab" style="left:80.92%;top:23.41%">Defense</span>
+                        <span class="cr-lab" style="left:50%;top:49.09%">Jurors</span>
+                        <span class="cr-lab" style="left:19.74%;top:89.09%">Families, press</span>
                             </div>
+
                             <!-- What the marks mean. Hidden until the script has
                                  drawn any, since without it there are none. -->
                             <ul class="cr-key" hidden>
@@ -305,10 +292,366 @@
                             <div class="cr-list">
                                 <h3 class="cr-cast-h">In the room</h3>
                                 <ul class="cr-cast">
-                                <li class="cr-who cr-about" id="cr-a1" data-zone="bench" data-always>
-                                    <p class="cr-role">The room</p>
-                                    <p class="cr-name">Under construction</p>
-                                    <p class="cr-note">Nobody is seated yet. The hearings in this case have not been read for this page, so the room is drawn empty.</p>
+                                <li class="cr-who" id="cr-p1" data-seat="judge" data-side="court" data-from="ev-he-asks-the-court-to-dismiss" data-gone="ev-his-first-petition-in-state-court" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">The judge</p>
+                                    <p class="cr-name">Peter A. Cahill</p>
+                                    <p class="cr-note">A Hennepin County district judge. Presided over the pretrial motions, the trial, the verdict and the sentence, and ruled on the motions after it.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=2" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 2">Order of Oct 21, 2020</a> p. 2 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=2" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 2">Sentencing order</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge" data-side="court" data-from="ev-his-first-petition-in-state-court">
+                                    <p class="cr-role">The judge, since 2024</p>
+                                    <p class="cr-name">Paul Scoggin</p>
+                                    <p class="cr-note">Another Hennepin County judge. He dismissed the first petition in 2025 and denied the second in May 2026. No hearing on them has been held in this room.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://www.mprnews.org/story/2026/07/01/derek-chauvin-appeal-conviction-murder-george-floyd" target="_blank" rel="noopener" aria-label="MPR News report of July 1, 2026, opens in a new tab">MPR News, Jul 1, 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="c1" data-side="court" data-from="ev-jury-selection-begins" data-gone="ev-his-first-petition-in-state-court" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">Beside the bench</p>
+                                    <p class="cr-name">The court clerk</p>
+                                    <p class="cr-note">The judge&rsquo;s clerk. Not named in the sources used here.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="rep" data-side="court" data-from="ev-jury-selection-begins" data-gone="ev-his-first-petition-in-state-court" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">In front of the bench</p>
+                                    <p class="cr-name">The court reporter</p>
+                                    <p class="cr-note">Took down every word. The transcript was never posted, which is why these pages quote the broadcast.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="h1" data-side="court" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">Security</p>
+                                    <p class="cr-name">A sheriff&rsquo;s deputy</p>
+                                    <p class="cr-note">The sheriff&rsquo;s office ran the whole 18th floor. Its deputies walked the jurors in and out, and were the only people besides the judge and court staff allowed to speak to them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=1" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 1">Trial management order</a> pp. 1, <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=3" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 3">3</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="p1" data-side="p" data-from="ev-charged-with-murder-and-manslaughter" data-gone="ev-the-attorney-general-takes-over">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Mike Freeman</p>
+                                    <p class="cr-note">The Hennepin County Attorney. His office filed the first charges, and the case was his for two days.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/complaint05292020.pdf" target="_blank" rel="noopener" aria-label="The first complaint, filed May 29, 2020, opens the document">Complaint, May 29, 2020</a> &middot; <a class="cite-doc" href="https://www.cbsnews.com/minnesota/news/attorney-general-keith-ellison-to-take-over-george-floyd-case/" target="_blank" rel="noopener" aria-label="CBS Minnesota report of May 31, 2020, opens in a new tab">WCCO, May 31, 2020</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="p1" data-side="p" data-from="ev-the-attorney-general-takes-over" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Matthew Frank</p>
+                                    <p class="cr-note">An assistant attorney general, at the State&rsquo;s table through the trial, and at the sentencing.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=1" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 1">Sentencing order</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="p2" data-side="p" data-from="ev-jury-selection-begins" data-gone="ev-270-months" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Erin Eldridge</p>
+                                    <p class="cr-note">An assistant attorney general. She questioned the youngest witnesses, and the toxicologist.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="p2" data-side="p" data-at="ev-270-months" data-in="*">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Keith Ellison</p>
+                                    <p class="cr-note">The Attorney General. He appeared for the State at the sentencing.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=1" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 1">Sentencing order</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="p3" data-side="p" data-from="ev-jury-selection-begins" data-gone="ev-his-appeal-twelve-reasons" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Jerry Blackwell</p>
+                                    <p class="cr-note">An outside lawyer, working for free. He gave the opening, questioned Darnella Frazier, and had the last word in closing.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-opening-statement-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s opening statement, March 29, 2021, opens on Rev">Tr. Opening</a> &middot; <a class="cite-doc" href="https://www.npr.org/transcripts/988837519" target="_blank" rel="noopener" aria-label="NPR, All Things Considered, April 19, 2021, broadcast transcript, opens in a new tab">NPR, Apr 19, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="p3" data-side="p" data-from="ev-his-appeal-twelve-reasons">
+                                    <p class="cr-role">For the State, on appeal</p>
+                                    <p class="cr-name">Neal Katyal</p>
+                                    <p class="cr-note">A special assistant attorney general for the appeal, and one of the authors of the State&rsquo;s brief.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=1" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 1">Ct. App. opinion</a> p. 1 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/brief-respondent.pdf#page=1" target="_blank" rel="noopener" aria-label="The State’s brief in the Court of Appeals, September 7, 2022, opens the document at page 1">State&rsquo;s appeal brief</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="p4" data-side="p" data-from="ev-jury-selection-begins" data-gone="ev-his-appeal-twelve-reasons" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">For the State</p>
+                                    <p class="cr-name">Steve Schleicher</p>
+                                    <p class="cr-note">An outside lawyer, working for free, and a former federal prosecutor. He questioned prospective jurors and gave the State&rsquo;s closing.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="d1" data-side="d" data-from="ev-he-asks-the-court-to-dismiss" data-gone="ev-the-us-supreme-court-wont-hear-it" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">Counsel for the defense</p>
+                                    <p class="cr-name">Eric Nelson</p>
+                                    <p class="cr-note">A defense lawyer from Bloomington, the only lawyer who argued for Chauvin at trial. He also represented him in the federal case, and withdrew from it in September 2023.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=1" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 1">Sentencing order</a> p. 1 &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/?entry_gte=541&entry_lte=541" target="_blank" rel="noopener" aria-label="The federal docket, entry 541, opens on CourtListener">ECF 541</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="d2" data-side="d" data-from="ev-charged-with-murder-and-manslaughter" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts ev-270-months">
+                                    <p class="cr-role">The defendant</p>
+                                    <p class="cr-name">Derek Chauvin</p>
+                                    <p class="cr-note">Present every day, as the court&rsquo;s order required, with a headset to hear the sidebars. He didn&rsquo;t testify. At his sentencing he offered his condolences to Floyd&rsquo;s family.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=4" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 4">Trial management order</a> pp. 4&ndash;5 &middot; <a class="cite-doc" href="https://www.kut.org/crime-justice/2021-06-25/derek-chauvin-is-sentenced-to-22-1-2-years-over-george-floyds-murder" target="_blank" rel="noopener" aria-label="NPR report of June 25, 2021, as carried by KUT, opens in a new tab">NPR, Jun 25, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="d3" data-side="d" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">At the defense table</p>
+                                    <p class="cr-name">A legal assistant</p>
+                                    <p class="cr-note">Nelson&rsquo;s only help at the table, a legal assistant who is also a lawyer and didn&rsquo;t argue, the AP reported. The court allowed him up to two.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.tampabay.com/news/nation-world/2021/04/04/meet-the-many-prosecutors-in-the-derek-chauvin-case/" target="_blank" rel="noopener" aria-label="Associated Press report of April 4, 2021, on the two legal teams, as carried by the Tampa Bay Times, opens in a new tab">AP, Apr 4, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=4" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 4">Trial management order</a> p. 4</p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="d3" data-side="d" data-at="ev-270-months" data-in="*">
+                                    <p class="cr-role">Counsel for the defense</p>
+                                    <p class="cr-name">Amy Voss</p>
+                                    <p class="cr-note">Appeared with Nelson at the sentencing.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=1" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 1">Sentencing order</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="d3" data-side="d" data-from="ev-his-appeal-twelve-reasons" data-gone="ev-he-asks-to-undo-his-federal-plea">
+                                    <p class="cr-role">Counsel on appeal</p>
+                                    <p class="cr-name">William Mohrman</p>
+                                    <p class="cr-note">Took his appeal, and his petition to the U.S. Supreme Court.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=1" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 1">Ct. App. opinion</a> p. 1 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/DocketPDF/23/23-416/285187/20231016171536486_Petition.pdf#page=1" target="_blank" rel="noopener" aria-label="His petition to the U.S. Supreme Court, October 16, 2023, opens the document at page 1">Petition</a> p. 1</p>
+                                </li>
+                                <li class="cr-who" id="cr-p18" data-seat="d4" data-side="d" data-from="ev-a-second-petition">
+                                    <p class="cr-role">Counsel on the petitions</p>
+                                    <p class="cr-name">Gregory Joseph</p>
+                                    <p class="cr-note">His lawyer on the petitions of 2025 and 2026, and on the appeal now pending.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p19" data-seat="jury" data-side="n" data-at="ev-third-degree-murder-is-back" data-jury="1-5">
+                                    <p class="cr-role">The jury, being chosen</p>
+                                    <p class="cr-name">Five jurors seated</p>
+                                    <p class="cr-note">Five had been seated by March 10. Seated jurors weren&rsquo;t in the room while the rest were questioned, so the desks are drawn waiting.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03132021.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of March 13, 2021, on the days tried while the appeal was pending, opens the document at page 2">Order of Mar 13, 2021</a> p. 2 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=7" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 7">Ct. App. opinion</a> p. 7</p>
+                                </li>
+                                <li class="cr-who" id="cr-p20" data-seat="jury" data-side="n" data-at="ev-fifteen-jurors-seated" data-jury="1-15">
+                                    <p class="cr-role">The jury, chosen</p>
+                                    <p class="cr-name">Fifteen jurors</p>
+                                    <p class="cr-note">Twelve to deliberate, two alternates, and a fifteenth to be let go if the rest stayed. Two seated earlier had been excused over the city&rsquo;s settlement. The defense finished with three strikes left.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.npr.org/sections/trial-over-killing-of-george-floyd/2021/04/20/989149400/what-we-know-about-the-jurors-in-the-chauvin-trial" target="_blank" rel="noopener" aria-label="NPR and MPR News, what is known about the jurors, April 20, 2021, opens in a new tab">NPR, Apr 20, 2021</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=8" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 8">Ct. App. opinion</a> pp. 8, <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=17" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 17">17</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p21" data-seat="jury" data-side="n" data-from="ev-the-most-important-numbers-are-9-29" data-gone="ev-no-mistrial" data-jury="1-14" data-in="*">
+                                    <p class="cr-role">The jury</p>
+                                    <p class="cr-name">Fourteen jurors</p>
+                                    <p class="cr-note">Each at a desk of their own, six feet apart, known only by number and never shown on camera. Two were alternates, and they weren&rsquo;t told which until after the closing arguments.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.npr.org/sections/trial-over-killing-of-george-floyd/2021/04/20/989149400/what-we-know-about-the-jurors-in-the-chauvin-trial" target="_blank" rel="noopener" aria-label="NPR and MPR News, what is known about the jurors, April 20, 2021, opens in a new tab">NPR, Apr 20, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=3" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 3">Trial management order</a> p. 3 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27-cr-20-12646_order-regarding-audio-video-coverage.pdf#page=3" target="_blank" rel="noopener" aria-label="The order allowing cameras at the trial, November 4, 2020, opens the document at page 3">Camera order</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p22" data-seat="jury" data-side="n" data-from="ev-no-mistrial" data-gone="ev-federal-charges" data-jury="1-12" data-in="*">
+                                    <p class="cr-role">The jury</p>
+                                    <p class="cr-name">The twelve who decided</p>
+                                    <p class="cr-note">Jurors 2, 9, 19, 27, 44, 52, 55, 79, 85, 89, 91 and 92. Six white, four Black and two multiracial, seven women and five men. Juror 19 was the foreperson. Each said yes when the judge asked if the verdicts were theirs.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.npr.org/sections/trial-over-killing-of-george-floyd/2021/04/20/989149400/what-we-know-about-the-jurors-in-the-chauvin-trial" target="_blank" rel="noopener" aria-label="NPR and MPR News, what is known about the jurors, April 20, 2021, opens in a new tab">NPR, Apr 20, 2021</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/derek-chauvin-trial-verdict-transcript-guilty-in-death-of-george-floyd-all-three-charges" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the reading of the verdicts, April 20, 2021, opens on Rev">Tr. Verdict</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p23" data-seat="stand" data-side="p" data-at="ev-the-evidence-is-far-greater-than-9-29" data-in="*">
+                                    <p class="cr-role">On the stand, in turn</p>
+                                    <p class="cr-name">The first three witnesses</p>
+                                    <p class="cr-note">Jena Scurry, the 911 dispatcher who watched on a city camera, a store clerk who filmed, and Donald Williams, a mixed martial arts fighter who called the hold a &ldquo;blood choke.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/witness-donald-williams-testimony-in-derek-chauvin-trial-transcript-i-believe-i-witnessed-a-murder" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Donald Williams’s testimony, March 29 and 30, 2021, opens on Rev">Tr. Williams</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p24" data-seat="stand" data-side="p" data-at="ev-the-people-on-the-sidewalk" data-in="*">
+                                    <p class="cr-role">On the stand, in turn</p>
+                                    <p class="cr-name">Darnella Frazier, and others</p>
+                                    <p class="cr-note">The 17-year-old who filmed the video, then three other young witnesses, the off-duty firefighter Genevieve Hansen, and the clerk who took the $20 bill.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p25" data-seat="stand" data-side="p" data-at="ev-the-police-chief-that-should-have-stopped" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Chief Medaria Arradondo</p>
+                                    <p class="cr-note">Said the force should have stopped once Floyd stopped resisting. The department&rsquo;s former head of training testified the same day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/minneapolis-police-chief-medaria-arradondo-testimony-on-use-of-force-in-derek-chauvin-trial-transcript" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Chief Medaria Arradondo’s testimony, April 5, 2021, opens on Rev">Tr. Arradondo</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p26" data-seat="stand" data-side="p" data-at="ev-the-doctors-for-the-state" data-in="*">
+                                    <p class="cr-role">On the stand, in turn</p>
+                                    <p class="cr-name">Dr. Martin Tobin, and others</p>
+                                    <p class="cr-note">A pulmonologist, then a toxicologist, a forensic physician, a retired medical examiner, and the medical examiner who did the autopsy, Dr. Andrew Baker.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/pulmonologist-martin-tobin-testimony-derek-chauvin-trial-transcript-explains-floyds-low-oxygen-levels" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Dr. Martin Tobin’s testimony, April 8, 2021, opens on Rev">Tr. Tobin</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p27" data-seat="stand" data-side="p" data-at="ev-no-sequestered-jury-after-brooklyn-center" data-in="*">
+                                    <p class="cr-role">On the stand</p>
+                                    <p class="cr-name">Philonise Floyd</p>
+                                    <p class="cr-note">George Floyd&rsquo;s younger brother, the State&rsquo;s &ldquo;spark of life&rdquo; witness, telling the jury who his brother was. A cardiologist and a use-of-force expert testified the same day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p28" data-seat="stand" data-side="d" data-at="ev-the-defense-case" data-in="*">
+                                    <p class="cr-role">On the stand, for the defense</p>
+                                    <p class="cr-name">Barry Brodd, Dr. David Fowler</p>
+                                    <p class="cr-note">A use-of-force expert who said Chauvin was justified, and a retired medical examiner who said Floyd&rsquo;s heart gave out. Before them, two witnesses to a 2019 arrest of Floyd, and Shawanda Hill, who was in his car.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/defense-use-of-force-witness-testimony-derek-chauvin-trial-transcript-chauvin-justified-in-interaction-with-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Barry Brodd’s testimony, April 13, 2021, opens on Rev">Tr. Brodd</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/witness-shawanda-hill-testimony-during-derek-chauvin-trial-transcript-was-in-george-floyds-car" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of Shawanda Hill’s testimony, April 13, 2021, opens on Rev">Tr. Hill</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p29" data-seat="stand" data-side="p" data-at="ev-he-wont-testify" data-in="*">
+                                    <p class="cr-role">On the stand, in rebuttal</p>
+                                    <p class="cr-name">Dr. Martin Tobin, recalled</p>
+                                    <p class="cr-note">Called back briefly to answer a defense point about carbon monoxide.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://opb.org/article/2021/04/15/chauvin-wont-testify-at-murder-trial-in-floyds-death" target="_blank" rel="noopener" aria-label="Associated Press report of April 15, 2021, as carried by OPB, opens in a new tab">AP, Apr 15, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p30" data-seat="g1" data-side="n" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">The Floyd family&rsquo;s seat</p>
+                                    <p class="cr-name">A member of his family</p>
+                                    <p class="cr-note">One seat, in the back corner, taken in turns. His brother Philonise came on several days, his brother Rodney came from Houston, and a cousin, Shareeduh Tate, came for a day of jury selection. The rest of the family watched from another room.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=2" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 2">Trial management order</a> p. 2 &middot; <a class="cite-doc" href="https://www.mprnews.org/story/2021/04/06/floyds-family-takes-its-seat-in-exofficers-murder-trial" target="_blank" rel="noopener" aria-label="Associated Press report of April 6, 2021, as carried by MPR News, opens in a new tab">AP, Apr 6, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p31" data-seat="g1" data-side="n" data-at="ev-270-months" data-in="*">
+                                    <p class="cr-role">For the family</p>
+                                    <p class="cr-name">Terrence and Philonise Floyd</p>
+                                    <p class="cr-note">Two of his brothers spoke in court. Terrence asked Chauvin, &ldquo;Why? What were you thinking?&rdquo; His young daughter spoke in a video.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.kut.org/crime-justice/2021-06-25/derek-chauvin-is-sentenced-to-22-1-2-years-over-george-floyds-murder" target="_blank" rel="noopener" aria-label="NPR report of June 25, 2021, as carried by KUT, opens in a new tab">NPR, Jun 25, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p32" data-seat="g2" data-side="court" data-from="ev-jury-selection-begins" data-gone="ev-the-doctors-for-the-state" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped">
+                                    <p class="cr-role">The Chauvin family&rsquo;s seat</p>
+                                    <p class="cr-name">A bailiff</p>
+                                    <p class="cr-note">Nobody from his family took the seat they were allowed. Through the first week of testimony it was usually taken by a bailiff, the AP reported.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.mprnews.org/story/2021/04/06/floyds-family-takes-its-seat-in-exofficers-murder-trial" target="_blank" rel="noopener" aria-label="Associated Press report of April 6, 2021, as carried by MPR News, opens in a new tab">AP, Apr 6, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=2" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 2">Trial management order</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p33" data-seat="g2" data-side="d" data-at="ev-270-months" data-in="*">
+                                    <p class="cr-role">For him</p>
+                                    <p class="cr-name">Carolyn Pawlenty, his mother</p>
+                                    <p class="cr-note">Spoke for him at the sentencing. &ldquo;When you sentence my son, you will also be sentencing me.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.kut.org/crime-justice/2021-06-25/derek-chauvin-is-sentenced-to-22-1-2-years-over-george-floyds-murder" target="_blank" rel="noopener" aria-label="NPR report of June 25, 2021, as carried by KUT, opens in a new tab">NPR, Jun 25, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p34" data-seat="g3" data-side="n" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">The press pool</p>
+                                    <p class="cr-name">A pool reporter</p>
+                                    <p class="cr-note">One of two seats for the press, taken in turns. The two pool reporters wrote for everyone else, and could see what the cameras didn&rsquo;t, the jury and the families.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=1" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 1">Trial management order</a> pp. 1&ndash;2 &middot; <a class="cite-doc" href="https://www.mprnews.org/story/2021/04/06/floyds-family-takes-its-seat-in-exofficers-murder-trial" target="_blank" rel="noopener" aria-label="Associated Press report of April 6, 2021, as carried by MPR News, opens in a new tab">AP, Apr 6, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p35" data-seat="g4" data-side="n" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">The press pool</p>
+                                    <p class="cr-name">A second pool reporter</p>
+                                    <p class="cr-note">The other press seat. The rest of the press watched the feed from a building across the street.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=2" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 2">Trial management order</a> p. 2 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p36" data-seat="g5" data-side="n" data-from="ev-jury-selection-begins" data-gone="ev-federal-charges" data-in="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29 ev-the-people-on-the-sidewalk ev-the-police-chief-that-should-have-stopped ev-the-doctors-for-the-state ev-no-sequestered-jury-after-brooklyn-center ev-the-defense-case ev-he-wont-testify ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial ev-guilty-on-all-three-counts">
+                                    <p class="cr-role">The broadcast</p>
+                                    <p class="cr-name">A Court TV technician</p>
+                                    <p class="cr-note">Court TV produced the one feed every station used. Its technician in the room only kept in touch with the judge and the crew outside.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=2" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 2">Trial management order</a> p. 2 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27-cr-20-12646_order-regarding-audio-video-coverage.pdf#page=3" target="_blank" rel="noopener" aria-label="The order allowing cameras at the trial, November 4, 2020, opens the document at page 3">Camera order</a> p. 3</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="stand" data-at="ev-jury-selection-begins ev-third-degree-murder-is-back ev-fifteen-jurors-seated" data-always>
+                                    <p class="cr-role">Jury selection</p>
+                                    <p class="cr-name">One at a time</p>
+                                    <p class="cr-note">Each prospective juror was questioned alone, first by the judge and then by each side, with none of the others in the room. They had filled out a long questionnaire months before.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=7" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 7">Ct. App. opinion</a> p. 7</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="jury" data-at="ev-jury-selection-begins">
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">Nobody seated yet</p>
+                                    <p class="cr-note">Fifteen desks, six feet apart, set out where the public benches would have been. Selection starts today.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a> &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=3" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 3">Trial management order</a> p. 3</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="jury" data-at="ev-270-months" data-always>
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">No jury at a sentencing</p>
+                                    <p class="cr-note">The judge decided the sentence. Chauvin had given up his right to have a jury decide the facts behind a longer one.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=4" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 4">Sentencing order</a> p. 4</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="l" data-when="court" data-always>
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Where everyone spoke</p>
+                                    <p class="cr-note">Every opening, every question to a witness and every closing came from this one lectern, behind a plexiglass shield. Everyone else at the tables stayed seated and passed notes electronically. Sidebars with the judge were held over headsets, off the record.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=5" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 5">Trial management order</a> p. 5 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="cam" data-when="court" data-always>
+                                    <p class="cr-role">The cameras</p>
+                                    <p class="cr-name">Three, fixed</p>
+                                    <p class="cr-note">One at the back facing the witness stand, one on the wall behind the jurors, and one on or near the bench facing the lectern. No juror was ever shown, and no witness under 18 without written consent. The State didn&rsquo;t consent to the cameras. All four officers asked for them.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27-cr-20-12646_order-regarding-audio-video-coverage.pdf#page=2" target="_blank" rel="noopener" aria-label="The order allowing cameras at the trial, November 4, 2020, opens the document at page 2">Camera order</a> pp. 2&ndash;3 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="gallery" data-when="court" data-always>
+                                    <p class="cr-role">The row by the doors</p>
+                                    <p class="cr-name">No seats for the public</p>
+                                    <p class="cr-note">Six chairs: one for Floyd&rsquo;s family, one for Chauvin&rsquo;s, one for a print and one for a TV pool reporter, and one for a Court TV technician. There was no room for the public.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=1" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 1">Trial management order</a> pp. 1&ndash;2 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="p" data-when="court" data-always>
+                                    <p class="cr-role">The tables</p>
+                                    <p class="cr-name">Drawn by the page&rsquo;s rule</p>
+                                    <p class="cr-note">Four counsel tables, two chairs each, every table split down the middle by plexiglass. The State could have four lawyers or helpers in the room at a time. No source found says which tables were whose, so the prosecution is drawn on the left, as on every page here.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=4" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 4">Trial management order</a> p. 4 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="stand" data-when="court">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Beside the bench, behind plexiglass. Witnesses were sworn standing behind the chair, and weren&rsquo;t allowed to watch the trial before they testified, so only one was in the room at a time.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=4" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 4">Trial management order</a> p. 4 &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="stand" data-when="paper">
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where witnesses testified. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="bench" data-when="paper">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Deciding on paper</p>
+                                    <p class="cr-note">The judge is in the case, but this was decided in writing, or happened outside court. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="bench" data-when="away">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Another courtroom</p>
+                                    <p class="cr-note">This happened in a different court, in St. Paul. The room drawn here is the Hennepin County courtroom where the state case was tried.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="l" data-when="paper">
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the lawyers spoke. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="p" data-when="paper">
+                                    <p class="cr-role">The prosecution&rsquo;s tables</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where the State&rsquo;s lawyers sit. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="d" data-when="paper">
+                                    <p class="cr-role">The defense tables</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where he and his lawyers sit. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="jury" data-when="court">
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Fifteen desks, six feet apart.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="jury" data-when="paper">
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Fifteen desks, six feet apart, where the public benches would have been. Nothing was heard in court on this date.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-inside-courtroom-murder-trial-george-floyd-minneapolis-police-department/600021206/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s floor plan of the courtroom, March 9, 2021, opens in a new tab">Star Tribune, Mar 9, 2021</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a17" data-zone="jury" data-when="away">
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">There&rsquo;s no jury here. This happened in another court.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a18" data-zone="gallery" data-when="paper">
+                                    <p class="cr-role">The row by the doors</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Chairs for the families, the press pool and a Court TV technician. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a19" data-zone="c" data-when="paper">
+                                    <p class="cr-role">The clerk</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the court clerk sits, beside the bench. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a20" data-zone="staff" data-when="paper">
+                                    <p class="cr-role">The court reporter</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the court reporter sits, in front of the bench. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a21" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the judge sits. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a22" data-zone="stand" data-before>
+                                    <p class="cr-role">The witness stand</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where witnesses testify. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a23" data-zone="l" data-before>
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the lawyers speak. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a24" data-zone="p" data-before>
+                                    <p class="cr-role">The prosecution&rsquo;s tables</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side bringing the charges sits. It is always drawn on the left here. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a25" data-zone="d" data-before>
+                                    <p class="cr-role">The defense tables</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the person charged sits, with his lawyers. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a26" data-zone="jury" data-before>
+                                    <p class="cr-role">The jurors&rsquo; desks</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the jury sits. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a27" data-zone="gallery" data-before>
+                                    <p class="cr-role">The row by the doors</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Chairs for the families and the press. On this date there was no case yet.</p>
                                 </li>
                                 </ul>
                             </div>
@@ -317,12 +660,26 @@
 
                     <!-- The days something happened in a room. With the script
                          each one is shown under its own moment; without it this
-                         is the list. The line here has no data-at, so the
-                         script passes over it. -->
+                         is the list. -->
                     <div class="cr-days">
                         <h3 class="cr-cast-h">Days in court</h3>
                         <ol class="cr-sits">
-                            <li><span class="cr-sit-t">None listed yet.</span></li>
+                            <li data-at="ev-jury-selection-begins" data-kind="court"><span class="cr-sit-d">Mar 9, 2021</span> <span class="cr-sit-t">Jury selection opens in C-1856, the largest courtroom in the Hennepin County Government Center, on its 18th floor. Nobody is allowed on the floor without the sheriff&rsquo;s office&rsquo;s or the chief judge&rsquo;s approval.</span> <span class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order01112021.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of January 11, 2021, separating his trial from the others’, opens the document at page 3">Order of Jan 11, 2021</a> p. 3 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03012021.pdf#page=1" target="_blank" rel="noopener" aria-label="The trial management order of March 1, 2021, opens the document at page 1">Trial management order</a> p. 1</span></li>
+                            <li data-at="ev-third-degree-murder-is-back" data-kind="court"><span class="cr-sit-d">Mar 11, 2021</span> <span class="cr-sit-t">Argument on the record over third-degree murder, and the count restored at the end of it. Five jurors had been seated in the first two days.</span> <span class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order03132021.pdf#page=2" target="_blank" rel="noopener" aria-label="The order of March 13, 2021, on the days tried while the appeal was pending, opens the document at page 2">Order of Mar 13, 2021</a> p. 2</span></li>
+                            <li data-at="ev-fifteen-jurors-seated" data-kind="court"><span class="cr-sit-d">Mar 23, 2021</span> <span class="cr-sit-t">The last juror chosen, the fifteenth.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.npr.org/sections/trial-over-killing-of-george-floyd/2021/04/20/989149400/what-we-know-about-the-jurors-in-the-chauvin-trial" target="_blank" rel="noopener" aria-label="NPR and MPR News, what is known about the jurors, April 20, 2021, opens in a new tab">NPR, Apr 20, 2021</a></span></li>
+                            <li data-at="ev-the-most-important-numbers-are-9-29 ev-the-evidence-is-far-greater-than-9-29" data-kind="court"><span class="cr-sit-d">Mar 29, 2021</span> <span class="cr-sit-t">Opening statements, then the State&rsquo;s first three witnesses.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-opening-statement-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s opening statement, March 29, 2021, opens on Rev">Tr. Opening</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-opening-statement-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense opening statement, March 29, 2021, opens on Rev">Tr. Defense opening</a> &middot; <a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></span></li>
+                            <li data-at="ev-the-people-on-the-sidewalk" data-kind="court"><span class="cr-sit-d">Mar 30 &ndash; 31, 2021</span> <span class="cr-sit-t">The bystanders, the firefighter and the store clerk.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></span></li>
+                            <li data-at="ev-the-police-chief-that-should-have-stopped" data-kind="court"><span class="cr-sit-d">Apr 5, 2021</span> <span class="cr-sit-t">The police chief, and the head of training.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></span></li>
+                            <li data-at="ev-the-doctors-for-the-state" data-kind="court"><span class="cr-sit-d">Apr 8 &ndash; 9, 2021</span> <span class="cr-sit-t">The State&rsquo;s medical witnesses, and the medical examiner.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></span></li>
+                            <li data-at="ev-no-sequestered-jury-after-brooklyn-center" data-kind="court"><span class="cr-sit-d">Apr 12, 2021</span> <span class="cr-sit-t">A cardiologist, Floyd&rsquo;s brother Philonise, and a use-of-force expert. The motion to sequester the jury is argued and denied.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=9" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 9">Ct. App. opinion</a> p. 9</span></li>
+                            <li data-at="ev-the-defense-case" data-kind="court"><span class="cr-sit-d">Apr 13 &ndash; 14, 2021</span> <span class="cr-sit-t">The defense case.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.startribune.com/derek-chauvin-murder-trial-george-floyd-minneapolis-police-what-happened-recap/600046459/" target="_blank" rel="noopener" aria-label="The Minnesota Star Tribune’s day-by-day recap of the trial testimony, opens in a new tab">Star Tribune, day-by-day recap</a></span></li>
+                            <li data-at="ev-he-wont-testify" data-kind="court"><span class="cr-sit-d">Apr 15, 2021</span> <span class="cr-sit-t">He tells the judge he won&rsquo;t testify, the defense rests, and the State calls one witness in rebuttal.</span> <span class="cr-cite"><a class="cite-doc" href="https://opb.org/article/2021/04/15/chauvin-wont-testify-at-murder-trial-in-floyds-death" target="_blank" rel="noopener" aria-label="Associated Press report of April 15, 2021, as carried by OPB, opens in a new tab">AP, Apr 15, 2021</a></span></li>
+                            <li data-at="ev-this-wasnt-policing-this-was-murder ev-the-previous-16-minutes-and-59-seconds ev-no-mistrial" data-kind="court"><span class="cr-sit-d">Apr 19, 2021</span> <span class="cr-sit-t">The jury is instructed, both sides close, the mistrial motion is denied, and the jury goes out to deliberate.</span> <span class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/juryinstructions04192021.pdf" target="_blank" rel="noopener" aria-label="The jury instructions of April 19, 2021, opens the document">Jury instructions</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/prosecution-closing-argument-full-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the State’s closing argument, April 19, 2021, opens on Rev">Tr. Closing</a> &middot; <a class="cite-doc" href="https://www.rev.com/transcripts/defense-closing-argument-transcript-derek-chauvin-trial-for-murder-of-george-floyd" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the defense closing argument, April 19, 2021, opens on Rev">Tr. Defense closing</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=9" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 9">Ct. App. opinion</a> p. 9</span></li>
+                            <li data-at="ev-guilty-on-all-three-counts" data-kind="court"><span class="cr-sit-d">Apr 20, 2021</span> <span class="cr-sit-t">The verdicts are read, and each juror is asked if they&rsquo;re theirs.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.rev.com/transcripts/derek-chauvin-trial-verdict-transcript-guilty-in-death-of-george-floyd-all-three-charges" target="_blank" rel="noopener" aria-label="Rev’s transcript of the broadcast of the reading of the verdicts, April 20, 2021, opens on Rev">Tr. Verdict</a></span></li>
+                            <li data-at="ev-270-months" data-kind="court"><span class="cr-sit-d">Jun 25, 2021</span> <span class="cr-sit-t">The sentencing hearing, with statements from Floyd&rsquo;s family and from Chauvin and his mother.</span> <span class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/mcro_27-cr-20-12646_sentencing-order_2021-06-25_20210625145755.pdf#page=1" target="_blank" rel="noopener" aria-label="The sentencing order and memorandum of June 25, 2021, opens the document at page 1">Sentencing order</a> p. 1 &middot; <a class="cite-doc" href="https://www.kut.org/crime-justice/2021-06-25/derek-chauvin-is-sentenced-to-22-1-2-years-over-george-floyds-murder" target="_blank" rel="noopener" aria-label="NPR report of June 25, 2021, as carried by KUT, opens in a new tab">NPR, Jun 25, 2021</a></span></li>
+                            <li data-at="ev-at-this-time-guilty" data-kind="away"><span class="cr-sit-d">Dec 15, 2021</span> <span class="cr-sit-t">In federal court in St. Paul, Courtroom 7D, before Judge Paul Magnuson.</span> <span class="cr-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.319.0_14.pdf#page=1" target="_blank" rel="noopener" aria-label="The transcript of his federal guilty plea, December 15, 2021, opens the document at page 1">Plea transcript</a> p. 1 &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/?entry_gte=140&entry_lte=140" target="_blank" rel="noopener" aria-label="The federal docket, entry 140, opens on CourtListener">ECF 140</a></span></li>
+                            <li data-at="ev-21-years-in-federal-prison" data-kind="away"><span class="cr-sit-d">Jul 7, 2022</span> <span class="cr-sit-t">Sentenced in federal court in St. Paul, by Judge Magnuson.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/?entry_gte=390&entry_lte=390" target="_blank" rel="noopener" aria-label="The federal docket, entry 390, opens on CourtListener">ECF 390</a></span></li>
+                            <li data-at="ev-argued-in-the-court-of-appeals" data-kind="away"><span class="cr-sit-d">Jan 18, 2023</span> <span class="cr-sit-t">Argued in the Minnesota Court of Appeals at 9:30 a.m., and streamed live.</span> <span class="cr-cite"><a class="cite-doc" href="https://mncourts.gov/media/stateofminnesotavderekchauvin/attending-hearings" target="_blank" rel="noopener" aria-label="The Minnesota Judicial Branch’s notice of the Court of Appeals argument, opens in a new tab">Minnesota Judicial Branch</a></span></li>
                         </ol>
                     </div>
                 </div>
@@ -353,22 +710,28 @@
 
                 <div class="notes-grid">
                     <div class="note">
-                        <h3>Under construction</h3>
-                        <p>Only the top of the case page is written. Each of the four views behind its doors
-                            holds one starting card and nothing else yet.</p>
-                        <p>The description at the top of the case page is a temporary one. It comes from a
-                            quick look at the record, and it will be rewritten once the record has been read
-                            in full.</p>
+                        <h3>Source</h3>
+                        <p>Built from the record the trial court posts for this case: the <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.">complaints</a>, the judge&rsquo;s orders, the jury instructions, the verdict forms, the sentencing order, and the briefs on appeal. Then the Court of Appeals&rsquo; 2023 opinion, the U.S. Supreme Court&rsquo;s docket, and the federal case&rsquo;s filings, read through the archive of federal court records on CourtListener. Each side is described in its own words in court or in its own filings.</p>
+                        <p>The trial itself was never posted as a court reporter&rsquo;s transcript, so words spoken in the courtroom are quoted from <a class="term" href="#t-transcript" data-term="t-transcript" title="Broadcast transcript: A word-for-word record. The court reporter’s transcript of this trial was never posted, so these pages quote transcripts typed from the court’s own video feed and cite them by its clock.">transcripts of the broadcast</a> and cited by its clock. The court&rsquo;s website sometimes refuses a request it takes for a robot, and a browser gets through.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/media/stateofminnesotavderekchauvin" target="_blank" rel="noopener" aria-label="The Minnesota Judicial Branch’s page for State v. Derek Chauvin, opens in a new tab">Minnesota Judicial Branch, case page</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">Federal docket</a> &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document">Ct. App. opinion</a></p>
                     </div>
                     <div class="note">
-                        <h3>Source</h3>
-                        <p>The names, numbers and dates at the top of the case page come from the state appeals court&rsquo;s 2023 opinion, the Minnesota Attorney General&rsquo;s statement on the sentence, and the federal court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>. Nothing else has been read for these pages yet.</p>
-                        <p class="note-src">Opinion: <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf" target="_blank" rel="noopener" aria-label="State v. Chauvin, the Minnesota Court of Appeals opinion of April 17, 2023, opens as a PDF">State v. Chauvin, No. A21-1228 (Minn. Ct. App. Apr. 17, 2023)</a> &middot; <a class="cite-doc" href="https://www.ag.state.mn.us/Office/Communications/2021/06/25_Chauvin.asp" target="_blank" rel="noopener" aria-label="Minnesota Attorney General, statement on the sentence, June 25, 2021, opens in a new tab">Minn. Att&rsquo;y Gen., Jun 25, 2021</a> &middot; Federal docket: <a class="cite-doc" href="https://www.courtlistener.com/docket/59889267/united-states-v-chauvin/" target="_blank" rel="noopener" aria-label="United States v. Chauvin, the federal docket, opens on CourtListener">No. 0:21-cr-00108</a></p>
+                        <h3>What isn&rsquo;t public</h3>
+                        <p>His petitions since 2024, the State&rsquo;s answers to them, and the trial court&rsquo;s orders on them aren&rsquo;t on the court&rsquo;s case page. The parts of these pages about them rest on news reports, and each one is cited. Neither are the trial exhibits. The results of the tissue testing in the federal case haven&rsquo;t been made public.</p>
+                        <p>The jurors&rsquo; names were released by the court in November 2021. These pages don&rsquo;t use them. Jurors are known here by number, as they were in court.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/27cr2012646_order_10-25-2021.pdf#page=3" target="_blank" rel="noopener" aria-label="The order of October 25, 2021, on releasing the jurors’ names, opens the document at page 3">Order of Oct 25, 2021</a> p. 3 &middot; <a class="cite-doc" href="https://www.police1.com/legal/derek-chauvin-files-for-new-trial-alleging-faulty-medical-evaluation-jury-instructions" target="_blank" rel="noopener" aria-label="Minnesota Star Tribune report by Jeff Day, December 4, 2025, as republished by Police1, opens in a new tab">Star Tribune, Dec 4, 2025</a> &middot; <a class="cite-doc" href="https://mprnews.org/story/2026/08/18/derek-chauvin-again-seeks-to-overturn-state-conviction-in-george-floyd-murder" target="_blank" rel="noopener" aria-label="MPR News report of August 18, 2026, opens in a new tab">MPR News, Aug 18, 2026</a></p>
+                    </div>
+                    <div class="note">
+                        <h3>Names and numbers</h3>
+                        <p>There are five numbers for how long he was held down, and each one belongs to someone. The first complaint said his knee was on Floyd&rsquo;s neck for 8 minutes and 46 seconds. The judge&rsquo;s 2020 order said &ldquo;more than nine minutes and twenty seconds.&rdquo; At trial the State said 9 minutes and 29 seconds, and the appeals court used that. The judge&rsquo;s sentencing findings said &ldquo;more than nine minutes and forty seconds,&rdquo; and his federal plea says about ten minutes. These pages say whose number they use.</p>
+                        <p>People are named when they&rsquo;re a party, a lawyer, a judge, or a witness who testified in public. The young witnesses aren&rsquo;t named, except Darnella Frazier, whose video and testimony are public under her own name. The 14-year-old in the 2017 case isn&rsquo;t named, as the federal record doesn&rsquo;t name him.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/amendedcomplaint06032020.pdf#page=4" target="_blank" rel="noopener" aria-label="The amended complaint, filed June 3, 2020, opens the document at page 4">Amended complaint</a> p. 4 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order10212020.pdf#page=29" target="_blank" rel="noopener" aria-label="The order on probable cause of October 21, 2020, opens the document at page 29">Order of Oct 21, 2020</a> p. 29 &middot; <a class="cite-doc" href="https://mn.gov/law-library-stat/archive/ctappub/2023/OPa211228-041723.pdf#page=5" target="_blank" rel="noopener" aria-label="The Court of Appeals opinion of April 17, 2023, opens the document at page 5">Ct. App. opinion</a> p. 5 &middot; <a class="cite-doc" href="https://mncourts.gov/_media/migration/high-profile-cases/27-cr-20-12646/order05112021.pdf#page=4" target="_blank" rel="noopener" aria-label="The judge’s findings on the sentencing factors, May 11, 2021, opens the document at page 4">Findings of May 11, 2021</a> p. 4 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.mnd.194493/gov.uscourts.mnd.194493.142.0_59.pdf#page=3" target="_blank" rel="noopener" aria-label="His federal plea agreement of December 15, 2021, opens the document at page 3">Plea agreement</a> p. 3</p>
                     </div>
                     <div class="note">
                         <h3>What this is not</h3>
-                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
-                            reach, these pages say so and stop.</p>
+                        <p>Not legal advice, not a finding, and not a verdict. He stands convicted of second-degree murder in state court and of violating Floyd&rsquo;s civil rights in federal court. What he argues in his petitions is reported here as his argument, and the courts haven&rsquo;t accepted any of it so far.</p>
+                        <p>The other three officers were tried, or pleaded, in cases of their own. These pages mention them only where they&rsquo;re part of his. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.pbs.org/newshour/nation/3-former-officers-convicted-of-rights-violations-in-george-floyd-killing" target="_blank" rel="noopener" aria-label="Associated Press report of February 24, 2022, as carried by PBS NewsHour, opens in a new tab">AP, Feb 24, 2022</a></p>
                     </div>
                 </div>
 
@@ -425,8 +788,8 @@
                         address and your browser string, to make abuse traceable and for nothing else.</p>
                 </div>
 
-                <p class="notes-updated">The lines at the top of the case page were checked on
-                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+                <p class="notes-updated">Record reviewed through <span class="mono">October 22, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
             </div>
         </section>
 
@@ -440,9 +803,8 @@
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -450,12 +812,109 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the courts use them. Two courts convicted him, a state court and a federal one, and a few words belong to only one of them.</p>
+
+                <p class="gloss-s">The courts</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-district-court">Hennepin County District Court</dt><dd>The state trial court for Minneapolis and the county around it. Judge Peter Cahill tried the case there. A different judge, Paul Scoggin, has heard his petitions since.</dd></div>
+                    <div><dt id="t-court-of-appeals">Minnesota Court of Appeals</dt><dd>The state court that hears appeals from trial courts. Three of its judges decide each case.</dd></div>
+                    <div><dt id="t-supreme-court-mn">Minnesota Supreme Court</dt><dd>The state&rsquo;s highest court. It chooses which appeals to hear, and it turned down his.</dd></div>
+                    <div><dt id="t-federal-court">Federal court</dt><dd>The United States&rsquo; own courts, separate from the state&rsquo;s. The federal case was in the U.S. District Court in St. Paul, before Judge Paul Magnuson.</dd></div>
+                    <div><dt id="t-attorney-general">Attorney General</dt><dd>Minnesota&rsquo;s chief lawyer, elected statewide. Keith Ellison&rsquo;s office took over the prosecution from the county prosecutor in May 2020.</dd></div>
+                    <div><dt id="t-dual-sovereignty">Two prosecutions</dt><dd>A state and the federal government count as separate governments, so each can prosecute the same act under its own laws. That isn&rsquo;t double jeopardy.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a criminal case in Minnesota. It lists the charges and the facts the prosecutor says support them. An amended complaint replaces it.</dd></div>
+                    <div><dt id="t-grand-jury">Grand jury</dt><dd>A group of citizens who hear the prosecutor&rsquo;s evidence in private and decide whether to charge someone. Minnesota only requires one for crimes that carry life in prison, like first-degree murder, so this case started with a complaint instead.</dd></div>
+                    <div><dt id="t-indictment">Indictment</dt><dd>A charge brought by a grand jury. The federal case started with one.</dd></div>
+                    <div><dt id="t-information">Information</dt><dd>A charge a prosecutor files without a grand jury. In federal court that takes the defendant&rsquo;s consent, which he gave for the 2017 count.</dd></div>
                     <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-plea-agreement">Plea agreement</dt><dd>A written deal between a defendant and the prosecutors. He pleads guilty to some charges, and they agree on others to drop and on a range of sentence.</dd></div>
+                    <div><dt id="t-transcript">Broadcast transcript</dt><dd>A word-for-word record. The court reporter&rsquo;s transcript of this trial was never posted, so these pages quote transcripts typed from the court&rsquo;s own video feed and cite them by its clock.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The charges</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-felony-murder">Second-degree unintentional murder</dt><dd>Causing a death, without meaning to, while committing a felony. Here the felony was third-degree assault. This is the one count he was convicted and sentenced on.</dd></div>
+                    <div><dt id="t-assault-3">Third-degree assault</dt><dd>Intentionally using unlawful force on someone, without their consent, that causes substantial bodily harm. He only had to mean to use the force, not to cause that much harm.</dd></div>
+                    <div><dt id="t-third-degree-murder">Third-degree murder</dt><dd>Causing a death by an act &ldquo;eminently dangerous&rdquo; to others, done with &ldquo;a depraved mind,&rdquo; without meaning to kill. Also called depraved-mind murder.</dd></div>
+                    <div><dt id="t-manslaughter-2">Second-degree manslaughter</dt><dd>Causing a death by culpable negligence, which means consciously taking a chance of causing death or great harm that an ordinary careful person would see.</dd></div>
+                    <div><dt id="t-lesser-offense">Lesser offense</dt><dd>A crime contained in a more serious one. Minnesota law allows only one conviction for the same act, so the other two guilty verdicts were never entered as convictions.</dd></div>
+                    <div><dt id="t-color-of-law">Under color of law</dt><dd>Acting with the power of a government job, like a police officer on duty. The federal civil rights law makes it a crime to use that power to take away someone&rsquo;s constitutional rights.</dd></div>
+                    <div><dt id="t-aiding">Aiding and abetting</dt><dd>Intentionally helping someone else commit a crime. The other three officers were charged that way.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-probable-cause">Probable cause</dt><dd>Enough evidence to make it reasonable to believe a person committed the crime. It&rsquo;s the bar a charge has to clear to go to trial, and it&rsquo;s a lot lower than proof.</dd></div>
+                    <div><dt id="t-venue">Venue</dt><dd>Where a trial is held. A defendant can ask to move it if publicity would make a fair jury impossible where the crime happened.</dd></div>
+                    <div><dt id="t-continuance">Continuance</dt><dd>Putting a trial or a hearing off to a later date.</dd></div>
+                    <div><dt id="t-sever">Severance</dt><dd>Splitting one trial of several defendants into separate trials.</dd></div>
+                    <div><dt id="t-sequester">Sequester</dt><dd>Keeping jurors away from news and the public, sometimes in a hotel, so nothing outside the courtroom reaches them.</dd></div>
+                    <div><dt id="t-voir-dire">Jury selection</dt><dd>Questioning possible jurors one by one to find out if they can be fair. Also called voir dire.</dd></div>
+                    <div><dt id="t-peremptory">Peremptory strike</dt><dd>Removing a possible juror without giving a reason. Each side gets a set number. Here the judge raised his to 18 and the State&rsquo;s to 10.</dd></div>
+                    <div><dt id="t-for-cause">Excused for cause</dt><dd>Removing a possible juror for a specific reason they can&rsquo;t be fair, like having already made up their mind. There&rsquo;s no limit on these.</dd></div>
+                    <div><dt id="t-alternate">Alternate juror</dt><dd>A juror who hears the whole trial but only deliberates if one of the twelve has to leave.</dd></div>
+                    <div><dt id="t-anonymous-jury">Anonymous jury</dt><dd>Jurors known in court only by number, their names kept from the public until the judge releases them.</dd></div>
+                    <div><dt id="t-spreigl">Earlier incident</dt><dd>Evidence of something that happened before the case, which a jury may only use for a narrow purpose the judge sets. Minnesota calls it Spreigl evidence.</dd></div>
+                    <div><dt id="t-fifth-amendment">The Fifth</dt><dd>The right not to be a witness against yourself. A defendant who uses it doesn&rsquo;t testify, and the jury is told it can&rsquo;t hold that against him.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>Evidence or argument that answers the other side&rsquo;s. The State goes last because it has to prove the case.</dd></div>
+                    <div><dt id="t-reasonable-doubt">Beyond a reasonable doubt</dt><dd>The level of proof needed to convict. It means proof that leaves the jury firmly convinced, not proof beyond every possible doubt.</dd></div>
+                    <div><dt id="t-unanimous">Unanimous</dt><dd>All twelve jurors agreeing. A verdict in a criminal case has to be.</dd></div>
+                    <div><dt id="t-poll">Polling the jury</dt><dd>Asking each juror out loud, one at a time, if the verdict read is theirs.</dd></div>
+                </dl>
+
+                <p class="gloss-s">What the jury had to decide</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-substantial-cause">Substantial causal factor</dt><dd>The test for causing a death. His acts didn&rsquo;t have to be the only cause, only a substantial one. Other causes don&rsquo;t excuse him unless one of them alone caused the death.</dd></div>
+                    <div><dt id="t-superseding-cause">Superseding cause</dt><dd>Something that comes afterward and breaks the chain, so that it alone causes the death. It&rsquo;s the one way another cause can clear a defendant.</dd></div>
+                    <div><dt id="t-authorized-force">Authorized use of force</dt><dd>The defense the jury was told about. No crime is committed if a police officer uses reasonable force to make a lawful arrest, and the State had to prove his force wasn&rsquo;t that.</dd></div>
+                    <div><dt id="t-reasonable-officer">Reasonable officer</dt><dd>How force is judged. The question is what a reasonable officer in the same situation would have done at the moment the force was used, not what the officer meant or what hindsight shows.</dd></div>
+                    <div><dt id="t-prone">Prone restraint</dt><dd>Holding a person face down. Police training warns it can make it hard to breathe, and says to move the person onto their side once they&rsquo;re under control.</dd></div>
+                    <div><dt id="t-recovery-position">Recovery position</dt><dd>Rolling a person onto their side so they can breathe more easily. The Minneapolis police&rsquo;s own training said to do it.</dd></div>
+                    <div><dt id="t-hobble">Hobble</dt><dd>A strap that ties a person&rsquo;s legs together. The officers talked about using one and didn&rsquo;t.</dd></div>
+                    <div><dt id="t-mrt">Maximal restraint technique</dt><dd>The Minneapolis police method of strapping a struggling person&rsquo;s legs and moving them off their stomach. The defense said what the officers did began as one. The State said the knee was no part of it.</dd></div>
+                    <div><dt id="t-asphyxia">Asphyxia</dt><dd>Death from not getting enough oxygen. The State&rsquo;s doctors said the restraint caused it.</dd></div>
+                    <div><dt id="t-paraganglioma">Paraganglioma</dt><dd>A rare tumor that can release adrenaline. One was found at the autopsy and called incidental, meaning the medical examiner didn&rsquo;t think it played a part.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The sentence</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-guidelines">Sentencing guidelines</dt><dd>Minnesota&rsquo;s chart of how long a sentence should be for each crime, set by a state commission. A judge has to stay inside its range unless there are substantial and compelling reasons not to.</dd></div>
+                    <div><dt id="t-presumptive">Presumptive sentence</dt><dd>What the guidelines call for. For this crime and no past record it&rsquo;s 150 months, inside a range of 128 to 180.</dd></div>
+                    <div><dt id="t-aggravating">Aggravating factor</dt><dd>A fact that makes a crime worse than the usual one of its kind, like particular cruelty. It has to be proved before a judge can go past the guidelines.</dd></div>
+                    <div><dt id="t-blakely">Blakely</dt><dd>A 2004 U.S. Supreme Court ruling that a jury has to find the facts behind a longer sentence, unless the defendant gives that up. He gave it up, so the judge decided them.</dd></div>
+                    <div><dt id="t-departure">Upward departure</dt><dd>A sentence longer than the guidelines&rsquo; range. His was 270 months against a top of 180.</dd></div>
+                    <div><dt id="t-concurrent">Concurrent</dt><dd>Served at the same time. His state and federal sentences run together, not one after the other.</dd></div>
+                    <div><dt id="t-supervised-release">Supervised release</dt><dd>A period after a federal prison term when a person lives under conditions the court sets, checked by a probation officer.</dd></div>
+                </dl>
+
+                <p class="gloss-s">After the verdict</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-new-trial">Motion for a new trial</dt><dd>Asking the trial judge to throw out the verdict and start over because something went wrong. It comes before any appeal.</dd></div>
+                    <div><dt id="t-schwartz">Schwartz hearing</dt><dd>A hearing in Minnesota where a judge questions jurors about possible misconduct after a trial. He asked for one and was refused.</dd></div>
+                    <div><dt id="t-direct-appeal">Direct appeal</dt><dd>The first appeal after a conviction, which looks only at what happened at trial. His was decided in 2023.</dd></div>
+                    <div><dt id="t-review">Petition for review</dt><dd>Asking the Minnesota Supreme Court to hear a case after the Court of Appeals has ruled. It turns most of them down.</dd></div>
+                    <div><dt id="t-certiorari">Certiorari</dt><dd>Asking the U.S. Supreme Court to hear a case. It takes very few, and turning one down decides nothing about the case itself.</dd></div>
+                    <div><dt id="t-post-conviction">Post-conviction petition</dt><dd>A way to challenge a state conviction after the appeal is over, usually with something that wasn&rsquo;t in the trial record. It goes back to the trial court first.</dd></div>
+                    <div><dt id="t-knaffla">Knaffla rule</dt><dd>Minnesota&rsquo;s rule that a petition after the appeal can&rsquo;t raise what was raised, or could have been raised, on appeal, with narrow exceptions.</dd></div>
+                    <div><dt id="t-structural-error">Structural error</dt><dd>A mistake in how a case was run that&rsquo;s so basic a court doesn&rsquo;t ask whether it changed the result. His lawyer says the way he was charged is one.</dd></div>
+                    <div><dt id="t-motion-2255">Motion to vacate</dt><dd>The federal version of a post-conviction petition, under section 2255 of the federal code. His asks to undo his federal guilty plea.</dd></div>
+                    <div><dt id="t-ineffective">Ineffective assistance</dt><dd>A lawyer&rsquo;s work falling so far short that it denied the client a fair process. It&rsquo;s the one kind of claim his plea deal let him bring later.</dd></div>
+                    <div><dt id="t-stay">Stay</dt><dd>Pausing a case, or a ruling, until something else is decided.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The stamp on a ruling</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-granted">Granted</dt><dd>The court said yes to the request on this card, whichever side made it.</dd></div>
+                    <div><dt id="t-granted-in-part">Granted in part</dt><dd>The court gave some of what was asked for on this card and said no to the rest.</dd></div>
+                    <div><dt id="t-denied">Denied</dt><dd>The court said no to the request on this card.</dd></div>
+                    <div><dt id="t-reinstated">Reinstated</dt><dd>A charge that had been dismissed was put back, so the jury could decide it.</dd></div>
+                    <div><dt id="t-guilty">Guilty</dt><dd>The jury&rsquo;s verdict, or his own plea in court. It becomes a conviction once the court enters judgment on it.</dd></div>
+                    <div><dt id="t-affirmed">Affirmed</dt><dd>The court above agreed with the court below and left the conviction and the sentence as they were.</dd></div>
+                    <div><dt id="t-dismissed">Dismissed</dt><dd>Thrown out without a ruling on whether the claims in it were right.</dd></div>
                 </dl>
             </div>
         </details>
@@ -467,7 +926,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261021a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
 </body>
 
 </html>
