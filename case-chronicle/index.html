@@ -14,7 +14,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261023a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -250,9 +250,10 @@
 
                         <!-- The second five: the lower board, where there are two. The
                              first two are written, and bound like the volumes before
-                             them. The other three are not written yet, so they are in
-                             plain boards and none is a link. When one is, it becomes
-                             an a.bk with a binding of its own, where it stands. -->
+                             them, and the last is bound ahead of its writing. The two
+                             between are not written yet, so they are in plain boards
+                             and neither is a link. When one is, it becomes an a.bk
+                             with a binding of its own, where it stands. -->
                         <div class="shelf-tier">
 
                             <a class="bk" href="/case-chronicle/prosecutor-v-duterte/" aria-describedby="bk-duterte-t bk-duterte-s"
@@ -327,22 +328,28 @@
                                 </span>
                             </span>
 
-                            <span class="bk bk-unbound" tabindex="0" aria-describedby="bk-tiktok-t bk-tiktok-s" data-case="tiktok-v-garland"
-                                style="--bind: var(--bind-plain); --bk-w: 76px; --bk-h: 322px;">
+                            <!-- Bound before it is written. The case page behind it is
+                                 still under construction and says so, and the volume
+                                 keeps the thinnest spine until shelf.py measures the
+                                 written pages. -->
+                            <a class="bk" href="/case-chronicle/tiktok-v-garland/" aria-describedby="bk-tiktok-t bk-tiktok-s"
+                                style="--bind: var(--bind-8); --bk-w: 76px; --bk-h: 322px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">U.S. Supreme Ct. &middot; No. 24-656</span>
                                     <span class="bk-plate-n">TikTok <em>v.</em> Garland</span>
                                     <span class="bk-plate-t" id="bk-tiktok-t">Congress told TikTok&rsquo;s parent company to sell the
                                         app or see it shut out of the United States. The Supreme Court heard the
                                         challenge and upheld the law within a week, two days before the deadline.</span>
-                                    <span class="bk-plate-s" id="bk-tiktok-s"><span class="pip pip-soon"></span>Not started</span>
+                                    <span class="bk-plate-s" id="bk-tiktok-s"><span class="pip pip-closed"></span>Filed Dec 16, 2024
+                                        &middot; Law upheld</span>
+                                    <span class="bk-plate-go">Open the case &rarr;</span>
                                 </span>
                                 <span class="sp">
                                     <span class="sp-head" aria-hidden="true"><span class="pip pip-closed"></span></span>
                                     <span class="sp-name">TikTok <em>v.</em> Garland</span>
                                     <span class="sp-vol" aria-hidden="true">X</span>
                                 </span>
-                            </span>
+                            </a>
 
                         </div>
 
@@ -439,7 +446,7 @@
 
     </main>
 
-    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
+    <script src="/case-chronicle/chronicle.js?v=20261023a" defer></script>
 </body>
 
 </html>
