@@ -131,6 +131,7 @@ CHRONICLE_CASES = {
     'united-states-v-google': 'United States v. Google',
     'tiktok-v-garland': 'TikTok v. Garland',
     'israel-palestine': 'Israel and Palestine (Restricted Section, Volume I)',
+    'justinian': "Justinian's Wars (Restricted Section, Volume VI)",
 }
 
 # What /suggest/doe means. The Chronicle's first page shipped on that route
