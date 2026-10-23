@@ -5,7 +5,7 @@
    markup, so chronicle.css draws nearly all of it. This sheet adds only
    what a history needs and a case does not:
 
-     .vol-ip            the volume's two inks, set on <body>
+     .vol-ip, .vol-jw   a volume's two inks, set on <body>
      .masthead-vol      a masthead with a lede and a row of periods,
                         since there is no case page above it
      li.tl-before       background, above where the history starts: a
@@ -18,6 +18,8 @@
      p.tl-x-f           an event folded into another card's drawer
      .chip-q            "Disputed", on a card whose facts or meaning
                         the two sides argue about
+     .vol-tabs          a volume of more than one war: a tab for each,
+                        under the title, each its own page (Volume VI)
 
    Nothing here names a conflict except the inks, and the next volume
    restates those and nothing else.
@@ -40,6 +42,25 @@
   --d-dim: #594d82;
   --d-wash: rgba(91, 71, 145, 0.085);
   --d-edge: rgba(91, 71, 145, 0.4);
+}
+
+/* Volume VI, Justinian's Wars: a steel blue for the Empire on the left,
+   and a rust for whoever it fought on the right, the Goths, the Vandals
+   or Persia. Checked as Volume I's were, under simulated protan, deutan
+   and tritan vision: the nearest two of the pair and the court's sepia
+   stay further apart than Volume I's do (25.9 in CIELAB at worst,
+   against 19.8), and the dim shades read on the band as Volume I's do.
+   No purple, the emperors' color, which would read as taking a side. */
+.vol-jw {
+  --p: #2a5a92;
+  --p-dim: #3a5680;
+  --p-wash: rgba(42, 90, 146, 0.085);
+  --p-edge: rgba(42, 90, 146, 0.4);
+
+  --d: #ae4f12;
+  --d-dim: #8f4d22;
+  --d-wash: rgba(174, 79, 18, 0.085);
+  --d-edge: rgba(174, 79, 18, 0.4);
 }
 
 /* ── the masthead ──
@@ -115,8 +136,53 @@
   .vol-era-t { font-size: 0.74rem; }
 }
 
+/* A row that says how many periods it has (--n, on the row itself) is
+   that many across, down to a phone, where it goes two by two. Volume I's
+   row says nothing and keeps its six, three and two. */
+.vol-eras[style] { grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); }
+
+@media (620px < width <= 900px) {
+  .vol-eras[style] a:nth-child(n) { border-left: 1px solid var(--rule); border-top: 0; }
+  .vol-eras[style] a:first-child { border-left: 0; }
+}
+
+@media (width <= 620px) {
+  .vol-eras[style] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @media print {
   .vol-eras { display: none; }
+}
+
+/* ── a volume of several wars ──
+   Volume VI is three wars, each on a page of its own, so under the title
+   the three stand side by side as the views of a case do. Here they are
+   high in the masthead rather than at its foot, with the volume's lede,
+   facts and periods still to come, so the bar is a closed box, and the
+   war the reader is in keeps its rule along the bottom. The years ride
+   in the tag. A war not yet written is a plain box with no link. */
+.vol-tabs {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: -4px 0 38px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.vol-tabs .view { box-shadow: none; }
+.vol-tabs .view[aria-current] { box-shadow: inset 0 2px 0 var(--court); }
+
+.vol-tabs .view-off { color: var(--faint); cursor: default; }
+.vol-tabs .view-off:hover { color: var(--faint); background: rgba(23, 20, 15, 0.035); }
+
+@media (width <= 620px) {
+  .vol-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 30px; }
+  .vol-tabs .view:nth-child(n) { border-left: 1px solid var(--rule); border-top: 0; }
+  .vol-tabs .view:first-child { border-left: 0; }
+  .vol-tabs .view:nth-child(-n + 2):not([aria-current]) { box-shadow: none; }
+  .vol-tabs .view { padding: 11px 6px 10px; }
+}
+
+@media print {
+  .vol-tabs { display: none; }
 }
 
 /* ── the periods, kept to hand ──

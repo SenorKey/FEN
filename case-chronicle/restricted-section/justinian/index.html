@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Volume VI of the Restricted Section: Justinian's Wars, one page for
+         each of the three wars Procopius wrote about, in the order he wrote
+         them, under tabs. Each page is laid out in the Chronological View's
+         own markup, as Volume I is, so the Chronicle's shared files and the
+         shelf's volume.css and volume.js draw it.
+
+         Written by ~/fen-justinian-sources/build/build.py, which overwrites
+         this file whole. Edit the research or the copy there, or stop using
+         the script once this page has been edited by hand. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
+    <link rel="stylesheet" href="/case-chronicle/restricted-section/volume.css?v=20261021a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Out of search results and out of the sitemap, like the shelf it
+         stands on: the only way in the Chronicle offers is the locked door
+         at the foot of the hub. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="The war Justinian fought to take Italy back from the Ostrogoths, from the invasion of Sicily in 535 to the settlement of 554, one event at a time, with each source’s own account where they tell it differently.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/restricted-section/justinian/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/restricted-section/justinian/">
+    <meta property="og:title" content="Justinian’s Wars: the Gothic War, 535 to 554 &mdash; The Restricted Section">
+    <meta property="og:description"
+        content="The war Justinian fought to take Italy back from the Ostrogoths, from the invasion of Sicily in 535 to the settlement of 554, one event at a time, with each source’s own account where they tell it differently.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Justinian&rsquo;s Wars: the Gothic War, 535 to 554 &mdash; The Restricted Section</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case names the page to the corrections service, which keeps its
+     own list of what it will take corrections for: all three wars file
+     under the volume. vol-jw sets this volume's two inks (volume.css). -->
+<body data-case="justinian" class="vol vol-jw">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a class="nav-mark" href="/case-chronicle/" title="Case Chronicle home"><img src="/case-chronicle/mark.svg?v=20261020a" alt="Case Chronicle" width="46" height="27"></a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+
+             A volume has no case page above it, so this is the whole
+             of the way in: the shelf it came off, the title, the three
+             wars as tabs (each its own page, as a case's views are), what
+             this one covers, and a row of the periods it runs through,
+             each a jump to where that period starts on the rail.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-vol" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/restricted-section/">&larr;&nbsp; The Restricted Section</a></p>
+                <p class="eyebrow">Volume VI &middot; 527 to 565</p>
+                <h1 class="masthead-title">Justinian&rsquo;s Wars</h1>
+
+                <nav class="views vol-tabs" aria-label="The wars in this volume">
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/persian-war/">
+                        <span class="view-t">The Persian War</span>
+                        <span class="view-tag">527&ndash;562</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/vandal-war/">
+                        <span class="view-t">The Vandal War</span>
+                        <span class="view-tag">533&ndash;548</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/" aria-current="page">
+                        <span class="view-t">The Gothic War</span>
+                        <span class="view-tag">535&ndash;554</span>
+                    </a>
+                </nav>
+
+                <p class="masthead-lede">Justinian ruled the Eastern Roman Empire from 527 to 565, and spent most of those years at war. This volume follows the three wars his historian Procopius wrote about, one to a tab, in the order he wrote them. This is the longest of them: nearly twenty years of war for Italy, against the Ostrogoths who had ruled it since 493. What the Empire did is on the left, and what the Goths did is on the right. What anyone else did, or what both sides did together, is down the middle. A card&rsquo;s side says who acted, never who was right.</p>
+
+                <dl class="docket-meta">
+                    <div>
+                        <dt>Began</dt>
+                        <dd>535</dd>
+                    </div>
+                    <div>
+                        <dt>Ended</dt>
+                        <dd>554</dd>
+                    </div>
+                    <div>
+                        <dt>Events</dt>
+                        <dd>58, on 52 cards</dd>
+                    </div>
+                    <div>
+                        <dt>Chief witness</dt>
+                        <dd>Procopius, who saw much of it</dd>
+                    </div>
+                </dl>
+
+                <nav class="vol-eras" aria-label="Periods of this war" style="--n: 4;">
+                    <a href="#ph-sicily"><span class="vol-era-y">535</span> <span class="vol-era-t">Belisarius&rsquo;s war</span></a>
+                    <a href="#ph-three-kings"><span class="vol-era-y">540</span> <span class="vol-era-t">Totila&rsquo;s war</span></a>
+                    <a href="#ph-height"><span class="vol-era-y">549</span> <span class="vol-era-t">Narses</span></a>
+                    <a href="#ph-after"><span class="vol-era-y">554</span> <span class="vol-era-t">After the war</span></a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+
+             The rail starts where the war does, at the entry with the
+             two sides' cards beside it. What is above that is background,
+             in a list of its own (li.tl-before), drawn on a dotted line
+             that the solid one picks up from. See volume.css.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
+
+                <!-- The key names the columns, and on a wide screen it is the
+                     bar that stays over the rail. A column says who acted,
+                     never who was right. -->
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk-l">
+                        <span class="tk-here"></span>
+                        <span class="tk tk-p">The Empire</span>
+                    </span>
+                    <span class="tk tk-c">Both sides</span>
+                    <span class="tk-r">
+                        <span class="tk tk-d"><span class="tk-dn">The Goths</span></span>
+                        <span class="tk tk-n">Others</span>
+                    </span>
+                </div>
+
+                    <!-- The names a phone prints on each card. -->
+                    <ol class="tl" style="--p-name: 'The Empire'; --d-name: 'The Goths'; --c-name: 'Both sides';">
+        <li class="tl-before" id="before">
+            <!-- Background, above where the war starts. A list of its own inside
+                 the rail, which covers the rail's line and its ink and draws a
+                 dotted line instead: the solid line, and the ink, start at the
+                 first entry under it. -->
+            <ol class="tl-pro">
+                <li class="tl-ev tl-n tl-pre" id="ev-the-last-emperor-in-the-west-is-deposed">
+                    <div class="tl-c">
+                        <p class="tl-date">476</p>
+                        <h3 class="tl-h">The last emperor in the West is deposed</h3>
+                        <p class="tl-b">Odoacer, a general of the barbarian troops serving in Italy, deposes the boy emperor Romulus Augustulus. He rules Italy as its king, in name under the emperor in Constantinople.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-1" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-1">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">Historians later took 476 as the end of the Roman Empire in the West. For the people of Italy little changed at once. The <a class="term" href="#t-senate" data-term="t-senate" title="Senate: Rome’s ancient council of the great landowning families. It still met in Rome under the Gothic kings, and its members were the richest men in Italy.">Senate</a> still met in Rome, and Roman officials still ran the government and collected the taxes.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#1.2" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 1, sections 2 to 8, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.1.2&ndash;8</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/12*.html#p405" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 1, page 405, on LacusCurtius, opens in a new tab">Bury, vol. 1, p. 405</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Odoacer" target="_blank" rel="noopener" aria-label="Britannica, “Odoacer”, opens in a new tab">Britannica, &ldquo;Odoacer&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Romulus-Augustulus" target="_blank" rel="noopener" aria-label="Britannica, “Romulus Augustulus”, opens in a new tab">Britannica, &ldquo;Romulus Augustulus&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-theodoric-takes-italy">
+                    <div class="tl-c">
+                        <p class="tl-date">489&ndash;493</p>
+                        <h3 class="tl-h">Theodoric takes Italy</h3>
+                        <p class="tl-b">Emperor Zeno urges Theodoric, king of the Ostrogoths in the Balkans, to go and take Italy from Odoacer. After three years besieging him in Ravenna, Theodoric agrees to share power with him, then kills him at a feast.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-2" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-2">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">Zeno had reasons of his own. Theodoric&rsquo;s people had been fighting and bargaining inside the Empire for years, and sending them west took them away from Constantinople. Whether Zeno meant Theodoric to rule Italy for himself or for the emperor was argued over at the start of this war, and the Goths&rsquo; envoys made it the center of their case in 537.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#1.9" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 1, sections 9 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.1.9&ndash;25</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/12*.html#p422" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 1, page 422, on LacusCurtius, opens in a new tab">Bury, vol. 1, p. 422</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/12*.html#p426" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 1, page 426, on LacusCurtius, opens in a new tab">p. 426</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Theodoric-king-of-Italy" target="_blank" rel="noopener" aria-label="Britannica, “Theodoric”, opens in a new tab">Britannica, &ldquo;Theodoric&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-theodorics-italy">
+                    <div class="tl-c">
+                        <p class="tl-date">493&ndash;526</p>
+                        <h3 class="tl-h">Theodoric&rsquo;s Italy</h3>
+                        <p class="tl-b">Theodoric rules Italy for thirty-three years. The Goths are its army, and the Romans keep its government, its laws and its Senate. Even Procopius, who served the emperor, wrote that Theodoric was &ldquo;as truly an emperor as any.&rdquo;</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-3" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-3">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">The two peoples lived side by side with two churches. The Goths were <a class="term" href="#t-arian" data-term="t-arian" title="Arian: A kind of Christianity which held that the Son was created by the Father, and so was less than him. The Goths, the Vandals and the Lombards were Arians. The Empire and most Italians held the Catholic creed, which says the two are equal.">Arian</a> Christians, who held that the Son was created by the Father, and most Italians were <a class="term" href="#t-catholic" data-term="t-catholic" title="Catholic: Here, the creed of the councils of Nicaea and Chalcedon, held by the emperors and the popes, as against the Arians.">Catholics</a>, who held that the two are equal. Theodoric took the title of king, not emperor, and the emperor in Constantinople went on naming one of the year&rsquo;s two <a class="term" href="#t-consul" data-term="t-consul" title="Consul: An old Roman office that was by now an honor. It gave its name to the year, and Belisarius held it in 535. Justinian let it lapse after 541.">consuls</a> in Rome.</p>
+                                <p class="tl-x-t">Procopius&rsquo;s verdict, from the opening of his history of this war, is that &ldquo;in name Theoderic was a usurper, yet in fact he was as truly an emperor as any who have distinguished themselves in this office from the beginning.&rdquo;</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#1.26" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 1, sections 26 to 31, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.1.26&ndash;31</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/13B*.html#p453" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 1, page 453, on LacusCurtius, opens in a new tab">Bury, vol. 1, p. 453</a> &middot; <a class="cite-doc" href="https://www.britannica.com/topic/Ostrogoth" target="_blank" rel="noopener" aria-label="Britannica, “Ostrogoth”, opens in a new tab">Britannica, &ldquo;Ostrogoth&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/topic/Arianism" target="_blank" rel="noopener" aria-label="Britannica, “Arianism”, opens in a new tab">Britannica, &ldquo;Arianism&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-a-kings-last-years-of-suspicion">
+                    <div class="tl-c">
+                        <p class="tl-date">524&ndash;526</p>
+                        <h3 class="tl-h">A king&rsquo;s last years of suspicion</h3>
+                        <p class="tl-b">Late in his reign Theodoric has two leading senators, Boethius and his father-in-law Symmachus, put to death for treason, and <a class="term" href="#t-pope" data-term="t-pope" title="Pope: The bishop of Rome. In this war the popes were subjects first of the Gothic king and then of the emperor, and both sides tried to use them.">Pope</a> John I dies in his prison. Theodoric himself dies on August 30, 526.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-4" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-4">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">Boethius wrote <em>The Consolation of Philosophy</em> while he waited to die, and it became one of the most read books of the Middle Ages. Procopius tells a story of the king&rsquo;s remorse: served a fish&rsquo;s head at dinner, Theodoric saw the face of Symmachus and took to his bed.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#1.32" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 1, sections 32 to 39, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.1.32&ndash;39</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p153" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 153, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 153</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p157" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 157, on LacusCurtius, opens in a new tab">p. 157</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Anicius-Manlius-Severinus-Boethius" target="_blank" rel="noopener" aria-label="Britannica, “Boethius”, opens in a new tab">Britannica, &ldquo;Boethius&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-a-queen-rules-for-her-son">
+                    <div class="tl-c">
+                        <p class="tl-date">526&ndash;534</p>
+                        <h3 class="tl-h">A queen rules for her son</h3>
+                        <p class="tl-b">Theodoric&rsquo;s grandson Athalaric becomes king at eight, and his mother Amalasuntha rules for him. Educated in Latin and Greek, she keeps on good terms with Justinian, the <a class="term" href="#t-empire" data-term="t-empire" title="Eastern Roman Empire: The half of the Roman Empire ruled from Constantinople, which outlasted the western half by nearly a thousand years. Its people called themselves Romans.">Eastern Roman</a> emperor, and Gothic nobles turn against her for raising the boy like a Roman.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-5" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-5">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">In 533 she let Belisarius&rsquo;s fleet, on its way to attack the Vandals in Africa, buy horses and supplies in Gothic Sicily. It helped the Empire win Africa, and Justinian later pointed to it as a debt the Goths owed.</p>
+                                <p class="tl-x-t">Threatened by three Gothic nobles, she had them killed. In case it went wrong she sent a ship with her treasure, 400 <a class="term" href="#t-centenarium" data-term="t-centenarium" title="Centenarium: A hundred Roman pounds of gold, about 72 of today’s pounds. Large sums were counted in them.">centenaria</a> of gold, to wait at Epidamnus, across the Adriatic in the Empire, ready to take her to Justinian.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#2.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 2, sections 1 to 29, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.2.1&ndash;29</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/3D*.html#14.5" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 3, chapter 14, sections 5 to 6, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 3.14.5&ndash;6</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p159" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 159, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 159</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/452/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 452, a scan on the Internet Archive, opens in a new tab">Letters of Cassiodorus, p. 452</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Amalasuntha" target="_blank" rel="noopener" aria-label="Britannica, “Amalasuntha”, opens in a new tab">Britannica, &ldquo;Amalasuntha&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-belisarius-conquers-vandal-africa">
+                    <div class="tl-c">
+                        <p class="tl-date">533&ndash;534</p>
+                        <h3 class="tl-h">Belisarius conquers Vandal Africa</h3>
+                        <p class="tl-b">Justinian sends his general Belisarius with about 15,000 men against the Vandal kingdom in Africa. Belisarius takes Carthage in September 533, and the last Vandal king surrenders in March 534. The ease of it made Italy look easy too.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-6" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-6">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">The war has a tab of its own in this volume, the Vandal War.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/3C*.html#11.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 3, chapter 11, sections 1 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 3.11.1&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/17*.html#p124" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 124, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 124</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-a-cousin-shares-the-throne">
+                    <div class="tl-c">
+                        <p class="tl-date">534</p>
+                        <h3 class="tl-h">A cousin shares the throne</h3>
+                        <p class="tl-b">Athalaric dies young. Amalasuntha makes her cousin Theodahad, Theodoric&rsquo;s nephew and the richest landowner in Tuscany, king beside her, on his oath to leave the governing to her. Within months he has her arrested.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-7" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-7">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">Theodahad was a scholar of Plato, unpopular, and had been made to give back land he had taken from his neighbors. Amalasuntha thought he would be grateful. He sided instead with the families of the nobles she had killed, and had her shut up in a fortress on an island in Lake Bolsena.</p>
+                                <p class="tl-x-t">She and Theodahad had each been writing secretly to Justinian, and the emperor&rsquo;s envoy Peter was already on his way to Italy.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#4.4" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 4, sections 4 to 15, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.4.4&ndash;15</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/415/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 415, a scan on the Internet Archive, opens in a new tab">Letters of Cassiodorus, p. 415</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p163" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 163, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 163</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Theodahad" target="_blank" rel="noopener" aria-label="Britannica, “Theodahad”, opens in a new tab">Britannica, &ldquo;Theodahad&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </li>
+        <li class="tl-ev tl-n tl-first tl-start is-key" id="ev-where-this-war-starts">
+            <div class="tl-c">
+                <p class="tl-date">535 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Where this war starts</h3>
+                <p class="tl-b">Italy has been a <a class="term" href="#t-ostrogoths" data-term="t-ostrogoths" title="Ostrogoths: The eastern Goths, a Germanic people who came out of the Balkans under Theodoric and ruled Italy from 493 until this war. Their cousins the Visigoths, the western Goths, ruled Spain.">Gothic</a> kingdom for forty years. In the spring of 535 Amalasuntha is killed in her island prison, and the emperor&rsquo;s envoy warns Theodahad there will be &ldquo;war without truce.&rdquo; Justinian, fresh from his victory in Africa, goes to war.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-8" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-8">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The relatives of the nobles she had put to death went to the island and killed her, strangled in her bath, it was said. Procopius says the killing grieved &ldquo;all the Italians and the Goths as well.&rdquo; Theodahad told the envoy, Peter, that it had been done against his will, and went on honoring the killers.</p>
+                        <p class="tl-x-t">Procopius later told it differently. In his <em>Secret History</em>, a book he could not publish while Justinian and Theodora lived, he wrote that Theodora feared the queen would come to Constantinople and win the emperor&rsquo;s ear, and that she bribed Peter to persuade Theodahad to have her killed. The historian J. B. Bury thought that version explains what the official one leaves out. Others doubt it, because the <em>Secret History</em> blames the empress for nearly everything.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#4.25" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 4, sections 25 to 31, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.4.25&ndash;31</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#5.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 5, section 1, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.5.1</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Anecdota/16*.html" target="_blank" rel="noopener" aria-label="Procopius, The Secret History, chapter 16, sections 1 to 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Secret History 16.1&ndash;5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p164" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 164, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 164</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18A*.html#p165" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 165, on LacusCurtius, opens in a new tab">p. 165</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Justinian-I" target="_blank" rel="noopener" aria-label="Britannica, “Justinian I”, opens in a new tab">Britannica, &ldquo;Justinian I&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+                    <article class="party party-p" aria-labelledby="party-p-h">
+                <p class="party-role">Left column <span>What the Empire did</span></p>
+                <h2 class="party-name" id="party-p-h">The Eastern Roman Empire</h2>
+                <p class="party-what">Ruled from Constantinople by Justinian. Historians today call it the Byzantine Empire.</p>
+                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                    <span class="party-more-i" aria-hidden="true"></span>
+                    <span class="party-more-l">More</span>
+                </button>
+                <div class="party-x" id="party-p-x"><div class="party-x-in">
+                <p class="party-b">Its people called themselves Romans, and their state the Roman Empire. It was the eastern half of the old empire, which had outlasted the western half by nearly sixty years when this war began. <a class="term" href="#t-byzantine" data-term="t-byzantine" title="Byzantine: The name historians gave the Eastern Roman Empire long after it was gone, from Byzantium, the old Greek name of Constantinople. Nobody at the time called it that.">Byzantine</a> is a name historians gave it long afterward.</p>
+                <p class="party-b">The cards on this side are the acts of the emperor Justinian, of his generals, Belisarius and then Narses, and of his armies and officials. The armies were drawn from many peoples: Thracians and <a class="term" href="#t-isaurians" data-term="t-isaurians" title="Isaurians: Mountain people from southern Asia Minor, now Turkey, inside the Empire, who served in its armies.">Isaurians</a> from inside the Empire, and <a class="term" href="#t-huns" data-term="t-huns" title="Huns: Nomad horsemen from beyond the Black Sea. By Justinian’s day the name covered several such peoples, and many of them fought for the Empire as mounted archers.">Huns</a>, <a class="term" href="#t-heruls" data-term="t-heruls" title="Heruls: A Germanic people from the Danube, many of whom fought for the Empire for pay.">Heruls</a>, <a class="term" href="#t-lombards" data-term="t-lombards" title="Lombards: A Germanic people from the Danube. They sent soldiers to fight for Narses in 552, and in 568 came into Italy themselves and took most of it.">Lombards</a> and others who fought for pay.</p>
+                <p class="party-b">The Italians were Romans too, and lived under both armies. A card on this side names who acted. It never means every Roman.</p>
+                </div></div>
+            </article>
+            <article class="party party-d" aria-labelledby="party-d-h">
+                <p class="party-role">Right column <span>What the Goths did</span></p>
+                <h2 class="party-name" id="party-d-h">The Ostrogoths</h2>
+                <p class="party-what">The Gothic kingdom of Italy, ruled from Ravenna</p>
+                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                    <span class="party-more-i" aria-hidden="true"></span>
+                    <span class="party-more-l">More</span>
+                </button>
+                <div class="party-x" id="party-d-x"><div class="party-x-in">
+                <p class="party-b">The <a class="term" href="#t-ostrogoths" data-term="t-ostrogoths" title="Ostrogoths: The eastern Goths, a Germanic people who came out of the Balkans under Theodoric and ruled Italy from 493 until this war. Their cousins the Visigoths, the western Goths, ruled Spain.">Ostrogoths</a>, the eastern Goths, came to Italy under Theodoric in 489. By 535 they were its army and its ruling people, a small nation among the Italians they ruled, with a church of their own, the <a class="term" href="#t-arian" data-term="t-arian" title="Arian: A kind of Christianity which held that the Son was created by the Father, and so was less than him. The Goths, the Vandals and the Lombards were Arians. The Empire and most Italians held the Catholic creed, which says the two are equal.">Arian</a> one.</p>
+                <p class="party-b">The cards on this side are the acts of their kings, Theodahad, Vitiges, Ildibad, Eraric, Totila and Teias, and of their nobles and armies.</p>
+                <p class="party-b">No history written by a Goth survives. What the Goths said comes down through Roman writers: <a class="term" href="#t-procopius" data-term="t-procopius" title="Procopius: Procopius of Caesarea, Belisarius’s legal secretary from 527, who saw much of these wars himself and wrote their history in eight books, the Wars. He also wrote the Secret History and a book on Justinian’s buildings.">Procopius</a>, who served the Empire&rsquo;s general, and the letters a Roman, <a class="term" href="#t-cassiodorus" data-term="t-cassiodorus" title="Cassiodorus: A Roman senator who served the Gothic kings as a minister and wrote their official letters, which he collected as the Variae.">Cassiodorus</a>, wrote for the Gothic court. A card names who acted. It never means every Goth.</p>
+                </div></div>
+            </article>
+        </li>
+        <li class="tl-phase" id="ph-sicily">
+            <div class="tl-phase-in">
+                <p class="tl-era">535 to 540 <span>Belisarius&rsquo;s war</span></p>
+                <p class="tl-phase-l">Sicily, Naples and Rome</p>
+                <p class="tl-phase-n">535 to 536. The Empire takes Sicily in a few months, and Naples after a siege, while the Gothic king tries to bargain his kingdom away.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-belisarius-takes-sicily">
+            <div class="tl-c">
+                <p class="tl-date">Jun&ndash;Dec 535</p>
+                <h3 class="tl-h">Belisarius takes Sicily</h3>
+                <p class="tl-b">Belisarius sails with about 7,500 men, under orders to say he is bound for Carthage, and takes Sicily in months. On December 31, the last day of his year as <a class="term" href="#t-consul" data-term="t-consul" title="Consul: An old Roman office that was by now an honor. It gave its name to the year, and Belisarius held it in 535. Justinian let it lapse after 541.">consul</a>, he rides into Syracuse throwing gold coins to the crowd.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-9" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-9">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Justinian sent the army in two parts. Mundus, his general in the Balkans, marched into Dalmatia, the Gothic province across the Adriatic, and took its capital, Salona. Belisarius had 4,000 regular troops and allies, 3,000 <a class="term" href="#t-isaurians" data-term="t-isaurians" title="Isaurians: Mountain people from southern Asia Minor, now Turkey, inside the Empire, who served in its armies.">Isaurians</a> from the mountains of Asia Minor, 200 <a class="term" href="#t-huns" data-term="t-huns" title="Huns: Nomad horsemen from beyond the Black Sea. By Justinian’s day the name covered several such peoples, and many of them fought for the Empire as mounted archers.">Huns</a> and 300 Moors, besides his own guards.</p>
+                        <p class="tl-x-t">Bury notes how easily Sicily fell: there were few Goths on the island, and its people were ready to trade rule from Ravenna for rule from Constantinople.</p>
+                        <p class="tl-x-t">Only Palermo held out, its Gothic garrison trusting its walls. Belisarius sailed his fleet into the harbor, where the masts stood higher than the battlements, and hoisted the ships&rsquo; boats full of archers to the mastheads. Shot at from above, the Goths surrendered.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#5.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 5, sections 1 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.5.1&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p171" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 171, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 171</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Belisarius" target="_blank" rel="noopener" aria-label="Britannica, “Belisarius”, opens in a new tab">Britannica, &ldquo;Belisarius&rdquo;</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#5.12" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 5, sections 12 to 16, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.5.12&ndash;16</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">535</span> <b class="tl-x-h">Mundus takes Salona.</b> In the summer of 535, the emperor&rsquo;s general Mundus marches into Gothic Dalmatia and takes its capital, Salona, near modern Split.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#5.2" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 5, section 2, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.5.2</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#5.11" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 5, section 11, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.5.11</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-theodahad-offers-to-give-up-italy-then-backs-out">
+            <div class="tl-c">
+                <p class="tl-date">535&ndash;536</p>
+                <h3 class="tl-h">Theodahad offers to give up Italy, then backs out</h3>
+                <p class="tl-b">Frightened by the loss of Sicily, Theodahad secretly offers Justinian all of Italy in return for estates worth 1,200 pounds of gold a year. When his army wins a battle in Dalmatia, he takes the offer back and locks up the emperor&rsquo;s envoys.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-10" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-10">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">His first offer was Sicily, a gold crown of 300 pounds every year and 3,000 Gothic soldiers whenever the emperor asked for them.</p>
+                        <p class="tl-x-t">Under the first agreement the emperor&rsquo;s name would be acclaimed before the king&rsquo;s at the games, and no statue of Theodahad would stand without one of Justinian beside it. Peter, the envoy, then talked him into the second, and both Theodahad and his wife swore to it.</p>
+                        <p class="tl-x-t">Their letters survive, written for them by Cassiodorus. Theodahad wrote to Justinian begging for peace, and his queen, Gudeliva, wrote to the empress Theodora asking her friendship. These letters are among the very few words from the Gothic court that come down to us in its own voice, though in a Roman&rsquo;s Latin.</p>
+                        <p class="tl-x-t">Then a Gothic army killed Mundus and his son in Dalmatia, early in 536, and Theodahad lost his fear. Procopius is scornful of Theodahad from first to last, and no Gothic history survives to answer him.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#6.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 6, sections 1 to 27, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.6.1&ndash;27</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#7.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 7, sections 1 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.7.1&ndash;25</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/431/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 431, a scan on the Internet Archive, opens in a new tab">Letters of Cassiodorus, p. 431</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/434/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 434, a scan on the Internet Archive, opens in a new tab">p. 434</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p169" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 169, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 169</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p172" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 172, on LacusCurtius, opens in a new tab">p. 172</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">early 536</span> <b class="tl-x-h">Mundus is killed in Dalmatia.</b> Gothic troops kill Mundus&rsquo;s son in a skirmish near Salona. Mundus routs them but is killed in the pursuit, and the Romans leave Salona. Constantianus retakes Dalmatia for the Empire later in the year.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#7.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 7, sections 1 to 10, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.7.1&ndash;10</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5A*.html#7.26" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 7, sections 26 to 36, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.7.26&ndash;36</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">Feb&ndash;Apr 536</span> <b class="tl-x-h">The pope goes to Constantinople to plead for peace.</b> Theodahad sends Pope Agapetus to ask Justinian to call off the war. He fails at that, and dies in Constantinople on April 22, 536.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/145/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 145, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 145</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p172" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 172, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 172</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-naples-is-stormed-through-its-aqueduct">
+            <div class="tl-c">
+                <p class="tl-date">Nov 536 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Naples is stormed through its aqueduct</h3>
+                <p class="tl-b">Belisarius crosses to the mainland and besieges Naples, which holds out for the Goths. After about twenty days, 400 of his men creep in at night along a dry aqueduct and open the walls. The city is sacked.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-11" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-11">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">On his way north, Theodahad&rsquo;s own son-in-law, Ebrimuth, came over to Belisarius with all his men.</p>
+                        <p class="tl-x-t">An Isaurian soldier, curious to see how the aqueduct carried water into the city, crawled along it and found it led inside the walls. The channel narrowed at a rock, and the soldiers cut it wider in silence before the night attack.</p>
+                        <p class="tl-x-t">The two accounts of the sack differ. Procopius says the soldiers killed young and old and took women and children as slaves, until Belisarius gathered them and told them that God had given them the city and they should show mercy, and that they then freed the captives. The <em>Book of the Popes</em>, written by the Roman church, says he &ldquo;spared none, neither priests nor servants of God nor consecrated virgins.&rdquo;</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#8.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 8, sections 1 to 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.8.1&ndash;5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#9.10" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 9, sections 10 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.9.10&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#10.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 10, sections 1 to 36, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.10.1&ndash;36</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/147/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 147, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 147</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p174" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 174, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 174</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-the-goths-depose-theodahad-and-choose-vitiges">
+            <div class="tl-c">
+                <p class="tl-date">Nov&ndash;Dec 536</p>
+                <h3 class="tl-h">The Goths depose Theodahad and choose Vitiges</h3>
+                <p class="tl-b">Angry that Theodahad will not fight, the Gothic army meets at Regata and raises Vitiges, a soldier of no great family, on a shield as king. Theodahad flees toward Ravenna, and a Goth with a grudge against him catches him on the road and kills him.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-12" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-12">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Vitiges announced it to the Goths in a letter Cassiodorus wrote for him, which still exists. &ldquo;Not in the corner of a presence-chamber, but in wide-spreading plains I have been chosen King,&rdquo; it says, and it promises a king who will rule as Theodoric&rsquo;s successor should.</p>
+                        <p class="tl-x-t">To tie himself to Theodoric&rsquo;s line he married Amalasuntha&rsquo;s daughter, Matasuntha, &ldquo;much against her will,&rdquo; Procopius says. He also wrote to Justinian asking for peace, complaining that the Goths had been attacked &ldquo;without our guilt.&rdquo;</p>
+                        <p class="tl-x-t">The <em>Book of the Popes</em> dates his election to August, two months after the pope&rsquo;s ordination in June. Bury rejects that, since every other source puts it after the fall of Naples.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#11.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 11, sections 1 to 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.11.1&ndash;9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#11.26" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 11, sections 26 to 27, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.11.26&ndash;27</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/444/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 444, a scan on the Internet Archive, opens in a new tab">Letters of Cassiodorus, p. 444</a> &middot; <a class="cite-doc" href="https://archive.org/details/lettersofcassiod00cassuoft/page/445/mode/1up" target="_blank" rel="noopener" aria-label="The Letters of Cassiodorus, translated by Thomas Hodgkin, 1886, page 445, a scan on the Internet Archive, opens in a new tab">p. 445</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p178" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 178, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 178</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p180" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 180, on LacusCurtius, opens in a new tab">p. 180</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Witigis" target="_blank" rel="noopener" aria-label="Britannica, “Witigis”, opens in a new tab">Britannica, &ldquo;Witigis&rdquo;</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">late 536</span> <b class="tl-x-h">The Goths buy off the Franks.</b> To keep the Franks out of the war, Vitiges carries out a deal Theodahad had made: the Franks get the Gothic lands in Gaul, around Provence, and 2,000 pounds of gold. They promise to help the Goths in secret, since they have already promised Justinian to help him.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5B*.html#13.14" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 13, sections 14 to 28, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.13.14&ndash;28</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p203" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 203, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 203</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-belisarius-enters-rome">
+            <div class="tl-c">
+                <p class="tl-date">Dec 9, 536</p>
+                <h3 class="tl-h">Belisarius enters Rome</h3>
+                <p class="tl-b">Invited in by the pope and the people, Belisarius marches into Rome by the Asinarian Gate as the Gothic garrison marches out by the Flaminian. Procopius writes that the city &ldquo;became subject to the Romans again after a space of sixty years.&rdquo;</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-13" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-13">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Pope Silverius did most to persuade the Romans to open the gates, afraid that Rome would suffer what Naples had. Belisarius sent the Gothic commander and the city&rsquo;s keys to Justinian, and set about repairing the walls.</p>
+                        <p class="tl-x-t">The Romans were not pleased for long. They pointed out that a city so large, on a plain and away from the sea, could never stand a siege, and he made them bring their food in from the country to store against one.</p>
+                        <p class="tl-x-t">The <em>Book of the Popes</em> gives the day as December 10. This is the first of the five times Rome changed hands in the war.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5C*.html#14.4" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 14, sections 4 to 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.14.4&ndash;17</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/147/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 147, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 147</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18B*.html#p180" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 180, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 180</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-siege-537">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">The year-long siege of Rome</p>
+                <p class="tl-phase-n">537 to 538. Vitiges brings the Gothic army to Rome and besieges it for a year, and fails.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-vitiges-besieges-rome-for-a-year">
+            <div class="tl-c">
+                <p class="tl-date">Mar 537 &ndash; Mar 538 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Vitiges besieges Rome for a year</h3>
+                <p class="tl-b">Vitiges marches on Rome with the main Gothic army and besieges Belisarius there for a year and nine days. The Goths cut all fourteen of the city&rsquo;s aqueducts, and Belisarius keeps the grain mills turning on boats moored in the Tiber.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-14" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-14">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says Vitiges brought 150,000 men. Belisarius had at most 5,000 when the siege began. Bury thought 150,000 impossible: the whole Ostrogothic people, women and children too, had perhaps hardly reached 100,000 when they came to Italy. He suggests it was an estimate of every Goth in Italy.</p>
+                        <p class="tl-x-t">On the eighteenth day the Goths attacked the walls with siege towers drawn by oxen, ladders and rams. At Hadrian&rsquo;s tomb, which was part of the walls, the defenders broke up the marble statues on top and threw the pieces down on the attackers. The assault failed everywhere.</p>
+                        <p class="tl-x-t">For a year the two armies raided, skirmished and starved. The <em>Book of the Popes</em> says buildings burned, the Goths wrecked the churches and martyrs&rsquo; tombs outside the walls, and famine spread across Italy, so that in Liguria, by the archbishop of Milan&rsquo;s report, women ate their own children. Its translator, writing in 1916, saw this siege as the start of Rome&rsquo;s change from the splendid capital of the ancient world into the &ldquo;scarred, crumbling, poverty-stricken, medieval city of the popes.&rdquo;</p>
+                        <p class="tl-x-t">Procopius says the siege began at the start of March. The <em>Book of the Popes</em> says February 21.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5C*.html#16.11" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 16, section 11, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.16.11</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5C*.html#19.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 19, sections 13 to 22, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.19.13&ndash;22</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5C*.html#22.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 22, sections 1 to 23, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.22.1&ndash;23</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5C*.html#22.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 22, section 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 5.22.17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6B*.html#10.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 10, section 13, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.10.13</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/148/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 148, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 148</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/149/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 149, a scan on the Internet Archive, opens in a new tab">p. 149</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18C*.html#p182" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 182, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 182</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18C*.html#p195" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 195, on LacusCurtius, opens in a new tab">p. 195</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-belisarius-deposes-the-pope">
+            <div class="tl-c">
+                <p class="tl-date">Mar 537 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Belisarius deposes the pope</h3>
+                <p class="tl-b">Accused of plotting to let the Goths into the city, Pope Silverius is summoned to Belisarius&rsquo;s headquarters, stripped of his robes and sent into exile. A deacon who had come with the army, Vigilius, is made pope on March 29.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-15" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-15">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says only that &ldquo;a suspicion arose&rdquo; that Silverius was treating with the Goths. The <em>Book of the Popes</em> tells a darker story. The empress Theodora wanted Silverius to restore a bishop of Constantinople whom the last pope had deposed as a heretic. When he refused, she sent orders to Belisarius to find a reason to depose him, and false witnesses came forward with letters in which Silverius offered to open the Asinarian Gate to the Goths.</p>
+                        <p class="tl-x-t">In its telling, Antonina, Belisarius&rsquo;s wife, was lying on a couch with Belisarius &ldquo;sitting at her feet&rdquo; when the pope was brought in. She asked what they had done to him &ldquo;that you should wish to betray us into the hands of the Goths,&rdquo; and a subdeacon took the <a class="term" href="#t-pallium" data-term="t-pallium" title="Pallium: A band of white wool worn over the shoulders, the sign of a pope’s or an archbishop’s office.">pallium</a> from his neck and dressed him as a monk. He was sent to the island of Ponza, and died there.</p>
+                        <p class="tl-x-t">Bury accepted the church&rsquo;s account, and put the deposition about the middle of March.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/5D*.html#25.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 5, chapter 25, section 13, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 5.25.13</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/150/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 150, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 150</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/151/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 151, a scan on the Internet Archive, opens in a new tab">p. 151</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/152/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 152, a scan on the Internet Archive, opens in a new tab">p. 152</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/22*.html#p379" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 379, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 379</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Saint-Silverius" target="_blank" rel="noopener" aria-label="Britannica, “Silverius”, opens in a new tab">Britannica, &ldquo;Silverius&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Vigilius" target="_blank" rel="noopener" aria-label="Britannica, “Vigilius”, opens in a new tab">Britannica, &ldquo;Vigilius&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-the-goths-make-their-case">
+            <div class="tl-c">
+                <p class="tl-date">Dec 537</p>
+                <h3 class="tl-h">The Goths make their case</h3>
+                <p class="tl-b">With his army sick and hungry, Vitiges sends envoys to Belisarius. They argue that the Goths took Italy from a usurper at the emperor&rsquo;s own request, and ruled it lawfully. Belisarius answers that Theodoric was sent to win Italy for the emperor.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-16" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-16">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The envoys&rsquo; words, as Procopius gives them: &ldquo;the Goths did not obtain the land of Italy by wresting it from the Romans by force.&rdquo; Odoacer had taken it, Zeno had sent Theodoric against him, and the Goths had ruled it as lawfully as any emperor. &ldquo;Not one of the Italians has changed his belief, either willingly or unwillingly,&rdquo; they said, and the Romans &ldquo;have continued to hold all the offices of the state.&rdquo;</p>
+                        <p class="tl-x-t">They offered to give up Sicily. Belisarius answered that the Goths were welcome to &ldquo;the whole of Britain,&rdquo; which was larger and had been Roman once too. They offered Campania and Naples, then a yearly payment, and he refused each one, saying he could only guard the land for its owner. In the end the two sides agreed a three-month truce while envoys went to Constantinople.</p>
+                        <p class="tl-x-t">This is the fullest statement of the Gothic case that survives, though it comes through a Roman historian who was in Belisarius&rsquo;s service.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6A*.html#6.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 6, sections 1 to 36, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.6.1&ndash;36</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6A*.html#7.12" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 7, sections 12 to 13, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.7.12&ndash;13</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18C*.html#p188" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 188, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 188</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-a-raid-on-rimini-ends-the-siege">
+            <div class="tl-c">
+                <p class="tl-date">Mar 538</p>
+                <h3 class="tl-h">A raid on Rimini ends the siege</h3>
+                <p class="tl-b">During the truce, Belisarius&rsquo;s cavalry commander John rides up the Adriatic coast and takes Rimini, a day&rsquo;s march from the Gothic capital at Ravenna. Fearing for Ravenna, and out of food, the Goths burn their camps and leave Rome at the spring equinox.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-17" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-17">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">At Rimini, John received a secret message from Vitiges&rsquo;s queen, Matasuntha, who hated the husband who had married her by force. She offered to marry John and betray Ravenna.</p>
+                        <p class="tl-x-t">Belisarius&rsquo;s men attacked the Goths as they crossed the Milvian Bridge, and many drowned in the Tiber.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6B*.html#10.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 10, sections 1 to 20, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.10.1&ndash;20</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18C*.html#p195" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 195, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 195</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-north">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">Milan and Ravenna</p>
+                <p class="tl-phase-n">538 to 540. The war moves north. Milan is destroyed, the Franks come and go, and Belisarius takes Ravenna by a trick.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-two-generals-and-a-divided-army">
+            <div class="tl-c">
+                <p class="tl-date">538&ndash;539</p>
+                <h3 class="tl-h">Two generals and a divided army</h3>
+                <p class="tl-b">Justinian sends a second army under Narses, a <a class="term" href="#t-eunuch" data-term="t-eunuch" title="Eunuch: A man castrated as a boy. Eunuchs served in the emperor’s palace, and a few, like Narses, rose to great power.">eunuch</a> of the palace, who soon quarrels with Belisarius over who commands. Together they save John at Rimini, but Narses&rsquo;s officers will take orders only from him.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-18" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-18">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Justinian wrote to the commanders that &ldquo;we wish Belisarius alone to command the whole army,&rdquo; but Narses&rsquo;s party read the letter as leaving them free whenever Belisarius&rsquo;s plans seemed against the empire&rsquo;s interest.</p>
+                        <p class="tl-x-t">After Milan was lost, Justinian recalled Narses and made Belisarius commander of the whole war.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6B*.html#13.16" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 13, sections 16 to 18, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.13.16&ndash;18</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6C*.html#18.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 18, sections 1 to 29, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.18.1&ndash;29</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6D*.html#22.4" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 22, section 4, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.22.4</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p199" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 199, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 199</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p205" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 205, on LacusCurtius, opens in a new tab">p. 205</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-the-goths-destroy-milan">
+            <div class="tl-c">
+                <p class="tl-date">Mar 539 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">The Goths destroy Milan</h3>
+                <p class="tl-b">Milan, the richest city in Italy, had gone over to the Empire. Gothic troops and 10,000 <a class="term" href="#t-burgundians" data-term="t-burgundians" title="Burgundians: A Germanic people in the Rhône valley, conquered by the Franks in 534.">Burgundians</a> besiege it, and no relief comes. When it surrenders, the Goths raze the city, kill its men and give its women to the Burgundians as slaves.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-19" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-19">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The Burgundians had been sent by Theudebert, king of the <a class="term" href="#t-franks" data-term="t-franks" title="Franks: The Germanic people who ruled Gaul, now France, under kings of their own. Both sides in this war courted them, and they kept faith with neither.">Franks</a>, who said they had come of their own accord, since he had promised Justinian his help too. An imperial army sent to save the city camped on the far bank of the Po, afraid to cross.</p>
+                        <p class="tl-x-t">The archbishop of Milan, Datius, had asked Belisarius for troops in 537, and 1,000 men had taken the city in the spring of 538. The garrison commander tried to save the townspeople, but the Goths, Bury writes, were set on revenge against the Ligurians who had gone over to the Empire.</p>
+                        <p class="tl-x-t">Procopius says no fewer than 300,000 men were killed. Bury pointed out that if that were true, Milan would have been nearly as large as it was in 1923, when he wrote, a city of about 800,000.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6B*.html#12.26" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 12, sections 26 to 41, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.12.26&ndash;41</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6C*.html#21.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 21, sections 1 to 42, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.21.1&ndash;42</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p202" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 202, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 202</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p204" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 204, on LacusCurtius, opens in a new tab">p. 204</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p205" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 205, on LacusCurtius, opens in a new tab">p. 205</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6B*.html#12.38" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 12, sections 38 to 39, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.12.38&ndash;39</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n is-key" id="ev-the-franks-come-into-italy">
+            <div class="tl-c">
+                <p class="tl-date">539</p>
+                <h3 class="tl-h">The Franks come into Italy</h3>
+                <p class="tl-b">Theudebert, king of the Franks, crosses the Alps with a huge army. At the Po he attacks both sides, the Goths who were expecting allies and the imperial troops. Dysentery soon spreads through his army, and he takes it home.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-20" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-20">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius puts his army at 100,000, nearly all on foot. Belisarius wrote to him that it was unworthy of a king to break his word, and the Franks, dying &ldquo;for no good reason&rdquo; in a deserted land, gave him no peace until he left.</p>
+                        <p class="tl-x-t">The Franks had taken money and land from the Goths and a promise of alliance from Justinian, and kept neither bargain. Their kings were starting to strike gold coins with their own faces, which only the emperor had done before.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6D*.html#25.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 25, sections 1 to 24, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.25.1&ndash;24</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7F*.html#33.5" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 33, section 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.33.5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p206" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 206, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 206</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-the-goths-ask-persia-to-attack-the-empire">
+            <div class="tl-c">
+                <p class="tl-date">539</p>
+                <h3 class="tl-h">The Goths ask Persia to attack the Empire</h3>
+                <p class="tl-b">Vitiges sends two Italian priests, posing as envoys of their own, to Khosrow, king of Persia, urging him to strike the Empire while its best army is far away in Italy. The next spring Khosrow invades Roman Syria.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-21" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-21">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says Vitiges&rsquo;s letter moved Khosrow to break the peace. Bury thought the appeal &ldquo;was hardly the chief motive&rdquo; for Khosrow&rsquo;s war, &ldquo;but undoubtedly it produced its effect.&rdquo; Either way, the Persian invasion was the main reason Justinian wanted the war in Italy ended quickly, and why he called Belisarius home.</p>
+                        <p class="tl-x-t">The war with Persia has a tab of its own in this volume.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6D*.html#22.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 22, sections 17 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.22.17&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2A*.html#2.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 2, sections 1 to 12, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.2.1&ndash;12</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p205" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 205, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 205</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p206" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 206, on LacusCurtius, opens in a new tab">p. 206</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-belisarius-takes-osimo-and-fiesole">
+            <div class="tl-c">
+                <p class="tl-date">May&ndash;Nov 539</p>
+                <h3 class="tl-h">Belisarius takes Osimo and Fiesole</h3>
+                <p class="tl-b">Before he can move on Ravenna, Belisarius has to take the Gothic strongholds behind him. He besieges Osimo for months, fouls its spring with dead animals and quicklime, and starves it into surrendering. Fiesole, outside Florence, gives up too.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-22" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-22">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6D*.html#23.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapters 23 to 27, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.23&ndash;27</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6D*.html#27.21" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 27, section 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 6.27.21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p205" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 205, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 205</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-justinian-offers-to-split-italy">
+            <div class="tl-c">
+                <p class="tl-date">Winter 539 &ndash; 540</p>
+                <h3 class="tl-h">Justinian offers to split Italy</h3>
+                <p class="tl-b">With the Goths shut up in Ravenna, two senators arrive from Constantinople with Justinian&rsquo;s terms: Vitiges may keep the land north of the Po and half the royal treasure, and the rest goes to the emperor. The Goths accept at once. Belisarius refuses to sign.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-23" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-23">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Bury thought Belisarius meant to finish what he had done to the Vandals, and bring the Gothic king to Constantinople as a captive. His refusal made the Goths suspect a trap, and the agreement was never carried out.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6E*.html#29.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 29, sections 1 to 16, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.29.1&ndash;16</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p211" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 211, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 211</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-the-goths-offer-belisarius-the-crown-and-he-takes-ravenna">
+            <div class="tl-c">
+                <p class="tl-date">Spring 540</p>
+                <h3 class="tl-h">The Goths offer Belisarius the crown, and he takes Ravenna</h3>
+                <p class="tl-b">Starving in Ravenna, the Gothic nobles secretly offer to make Belisarius emperor of the West. He lets them think he accepts, marches into the city, and takes Vitiges prisoner. Procopius watched the army go in.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-24" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-24">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Belisarius had sworn to Justinian never to seize power. Procopius says he had &ldquo;an extraordinary loathing for the name of tyrant,&rdquo; and only pretended, to end the war. He swore to the Goths that no one would be harmed, and put off swearing to the kingship.</p>
+                        <p class="tl-x-t">Watching the army march in, Procopius thought that it was not men&rsquo;s wisdom or strength that decided such things but &ldquo;some divine power.&rdquo;</p>
+                        <p class="tl-x-t">The Gothic women had been told the enemy were giants too many to count. When they saw how small the army was, Procopius says, they spat in their husbands&rsquo; faces.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6E*.html#29.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 29, sections 17 to 41, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.29.17&ndash;41</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p212" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 212, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 212</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6E*.html#29.34" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 29, section 34, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.29.34</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-belisarius-is-called-home-with-the-gothic-king">
+            <div class="tl-c">
+                <p class="tl-date">540</p>
+                <h3 class="tl-h">Belisarius is called home with the Gothic king</h3>
+                <p class="tl-b">Officers slander Belisarius to Justinian as a would-be usurper, and with Persia invading, the emperor calls him home. He sails with Vitiges, Matasuntha and Theodoric&rsquo;s treasure. North of the Po, the Goths who have not surrendered choose a new king.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-25" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-25">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Justinian showed the treasure only to the senators, in private, and gave Belisarius no triumph this time. Vitiges lived on in Constantinople with the rank of <a class="term" href="#t-patrician" data-term="t-patrician" title="Patrician: A title of the highest honor, given by the emperor.">patrician</a> until he died about two years later.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6E*.html#30.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 30, sections 1 to 30, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.30.1&ndash;30</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#1.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 1, sections 1 to 3, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.1.1&ndash;3</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/18D*.html#p216" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 216, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 216</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-the-emperors-auditor-turns-italy-against-him">
+            <div class="tl-c">
+                <p class="tl-date">540&ndash;541</p>
+                <h3 class="tl-h">The emperor&rsquo;s auditor turns Italy against him</h3>
+                <p class="tl-b">Justinian sends an auditor, Alexander, nicknamed &ldquo;Snips&rdquo; for clipping gold coins, to Ravenna. He makes Italians pay back what they had gained under the Gothic kings and cuts the soldiers&rsquo; pay, and both turn against the emperor.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-26" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-26">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says that the Italians turned against Justinian, and that the soldiers, unwilling to risk their lives any longer, let the enemy grow stronger.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#1.28" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 1, sections 28 to 33, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.1.28&ndash;33</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p227" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 227, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 227</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#1.33" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 1, section 33, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.1.33</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-three-kings">
+            <div class="tl-phase-in">
+                <p class="tl-era">540 to 549 <span>Totila&rsquo;s war</span></p>
+                <p class="tl-phase-l">Three kings in a year</p>
+                <p class="tl-phase-n">540 to 541. The Goths beyond the Po choose a king, murder him, choose another and murder him too, and then choose Totila.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-three-kings-in-a-year-then-totila">
+            <div class="tl-c">
+                <p class="tl-date">540&ndash;541</p>
+                <h3 class="tl-h">Three kings in a year, then Totila</h3>
+                <p class="tl-b">The Goths beyond the Po make Ildibad king, and one of his own guards beheads him at dinner. A Rugian named Eraric rules for five months and is murdered. In the autumn of 541 the Goths choose Ildibad&rsquo;s nephew, Totila, also called Baduila.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-27" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-27">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Ildibad had his rival Uraias, Vitiges&rsquo;s nephew, killed after a quarrel between their wives, and the murder turned many Goths against him.</p>
+                        <p class="tl-x-t">Totila was commanding the Goths at Treviso and had just agreed to surrender the town and himself to the Romans when the Goths&rsquo; offer of the crown reached him. He took the crown instead.</p>
+                        <p class="tl-x-t">Ildibad&rsquo;s killer, a guard named Velas, struck while the king was reaching for his food, so that, Procopius says, &ldquo;the food was still grasped in the man&rsquo;s fingers&rdquo; when his head fell on the table.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/6E*.html#30.4" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 6, chapter 30, sections 4 to 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 6.30.4&ndash;17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#1.37" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 1, sections 37 to 49, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.1.37&ndash;49</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#2.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 2, sections 1 to 18, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.2.1&ndash;18</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p227" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 227, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 227</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Totila" target="_blank" rel="noopener" aria-label="Britannica, “Totila”, opens in a new tab">Britannica, &ldquo;Totila&rdquo;</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#1.37" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 1, sections 37 to 42, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.1.37&ndash;42</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-south">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">Totila takes back the south</p>
+                <p class="tl-phase-n">541 to 544. With 5,000 men Totila routs the imperial armies and takes nearly everything south of Rome, while plague spreads across the Empire.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-totila-routs-the-imperial-armies">
+            <div class="tl-c">
+                <p class="tl-date">542</p>
+                <h3 class="tl-h">Totila routs the imperial armies</h3>
+                <p class="tl-b">With 5,000 men Totila beats a much larger imperial army at Faenza, then another at Mugello near Florence. The imperial generals stop working together and shut themselves up in their own separate towns.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-28" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-28">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#3.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapters 3 to 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.3&ndash;5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#4.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 4, section 1, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.4.1</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p229" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 229, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 229</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-totila-takes-the-south">
+            <div class="tl-c">
+                <p class="tl-date">542&ndash;543</p>
+                <h3 class="tl-h">Totila takes the south</h3>
+                <p class="tl-b">Going around Rome, Totila takes Benevento, Cumae and most of southern Italy. He frees the senators&rsquo; wives he finds at Cumae, collects the taxes and the landowners&rsquo; rents for himself, and pulls down the walls of the towns he takes so the Empire cannot use them.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-29" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-29">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says Totila&rsquo;s kindness to the senators&rsquo; wives &ldquo;won a great name for wisdom and humanity among all Romans.&rdquo; Razing the walls was a deliberate policy. As Totila later put it in a speech Procopius gives him, it was so that &ldquo;the enemy&rsquo;s army might not be able, by having any strong base,&rdquo; to fight from them.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#6.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 6, sections 1 to 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.6.1&ndash;5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7E*.html#25.11" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 25, section 11, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.25.11</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p230" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 230, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 230</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n is-key" id="ev-the-plague">
+            <div class="tl-c">
+                <p class="tl-date">541&ndash;543 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">The plague</h3>
+                <p class="tl-b">A pandemic spreads from Egypt across the Mediterranean. In Constantinople, where Procopius lived through it, the dead reach 10,000 a day, and Justinian himself falls ill. DNA from graves of the time shows it was bubonic plague.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-30" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-30">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says it started at Pelusium, on the edge of Egypt, and reached Constantinople &ldquo;in the middle of the spring&rdquo; of 542. Soldiers and taxpayers alike died, and both armies in Italy fought on with fewer men. The emperor caught it too: &ldquo;he too had a swelling of the groin.&rdquo;</p>
+                        <p class="tl-x-t">Bury called it more destructive than the plagues of ancient Athens and of London in 1665. How many died is still argued over. Many historians have put the toll at between a quarter and half of the people of the Mediterranean. A 2019 study of the laws, coins, papyri, inscriptions and pollen of the time found no sign of the collapse that would mean, and argued that the toll has been overstated.</p>
+                        <p class="tl-x-t">It came back again and again for two hundred years.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2F*.html#22.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 22, sections 1 to 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.22.1&ndash;9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2F*.html#23.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 23, sections 1 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.23.1&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p62" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 62, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 62</a> &middot; <a class="cite-doc" href="https://doi.org/10.1371/journal.ppat.1003349" target="_blank" rel="noopener" aria-label="Harbeck and others, “Yersinia pestis DNA from skeletal remains from the 6th century AD reveals insights into Justinianic Plague,” PLOS Pathogens, 2013, opens in a new tab">Harbeck and others, PLOS Pathogens, 2013</a> &middot; <a class="cite-doc" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6926030/" target="_blank" rel="noopener" aria-label="Mordechai and others, “The Justinianic Plague: An inconsequential pandemic?”, Proceedings of the National Academy of Sciences, 2019, the free copy on PubMed Central, opens in a new tab">Mordechai and others, PNAS, 2019</a> &middot; <a class="cite-doc" href="https://www.britannica.com/event/plague-of-Justinian" target="_blank" rel="noopener" aria-label="Britannica, “plague of Justinian”, opens in a new tab">Britannica, &ldquo;plague of Justinian&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-naples-surrenders-to-totila">
+            <div class="tl-c">
+                <p class="tl-date">543</p>
+                <h3 class="tl-h">Naples surrenders to Totila</h3>
+                <p class="tl-b">Besieged and starving, Naples surrenders to Totila when no help comes. He keeps its people in the city and feeds them back to health a little at a time, so the starving do not die from eating too fast, and lets the garrison sail away.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-31" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-31">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The city had agreed to surrender if no help came within three months, and Totila promised not to attack it in the meantime.</p>
+                        <p class="tl-x-t">Procopius calls the treatment of the captives a &ldquo;kindness ... which was to be expected neither from an enemy nor from a barbarian.&rdquo;</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#7.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 7, sections 1 to 20, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.7.1&ndash;20</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7B*.html#8.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 8, sections 1 to 6, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.8.1&ndash;6</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p230" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 230, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 230</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7A*.html#7.19" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 7, section 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.7.19</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-totila-writes-to-the-romans">
+            <div class="tl-c">
+                <p class="tl-date">543</p>
+                <h3 class="tl-h">Totila writes to the Romans</h3>
+                <p class="tl-b">Totila writes to the Roman Senate, asking how it could forget what Theodoric and Amalasuntha had done for it. When the commanders in Rome forbid an answer, short letters promising that the Goths will harm no Roman appear in the city&rsquo;s squares at night.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-32" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-32">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The letter, as Procopius gives it, also pointed to the accounts of the emperor&rsquo;s auditor, Alexander, as a taste of what the Romans had gained by changing masters.</p>
+                        <p class="tl-x-t">The commanders suspected the Arian priests in Rome, the Goths&rsquo; own clergy, of posting the letters, and expelled them all from the city.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7B*.html#9.6" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 9, sections 6 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.9.6&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p231" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 231, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 231</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7B*.html#9.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 9, section 13, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.9.13</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-belisarius-comes-back-with-too-few-men">
+            <div class="tl-c">
+                <p class="tl-date">Summer 544</p>
+                <h3 class="tl-h">Belisarius comes back with too few men</h3>
+                <p class="tl-b">Justinian sends Belisarius back to Italy with about 4,000 raw recruits and no money. &ldquo;We have arrived in Italy, most mighty emperor, without men, horses, arms, or money,&rdquo; he writes to the emperor, and asks for his old guards and for Huns, with money to pay them.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-33" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-33">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">His own veterans were still on the Persian front, and he had gathered the recruits by touring Thrace and offering pay.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7B*.html#10.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 10, sections 1 to 3, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.10.1&ndash;3</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7C*.html#12.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 12, sections 1 to 10, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.12.1&ndash;10</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19A*.html#p232" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 232, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 232</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-rome-falls">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">Rome changes hands</p>
+                <p class="tl-phase-n">545 to 549. Totila starves Rome, takes it and empties it. Belisarius walks back in, and four years later he goes home with the war no nearer its end.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-totila-starves-rome">
+            <div class="tl-c">
+                <p class="tl-date">545&ndash;546</p>
+                <h3 class="tl-h">Totila starves Rome</h3>
+                <p class="tl-b">Totila blockades Rome. Grain sells for seven <a class="term" href="#t-gold-piece" data-term="t-gold-piece" title="Gold piece: The solidus, the Empire’s gold coin. Seventy-two were struck from a Roman pound of gold.">gold pieces</a> a bushel, the city&rsquo;s commander, Bessas, sells from his own hoard at a profit, and the poor live on nettles from the ruins. Belisarius sails up the Tiber to break the blockade and fails within sight of the city.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-34" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-34">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Some Romans, Procopius says, could no longer find &ldquo;dogs or mice or any dead animal of any kind&rdquo; to eat, and killed themselves.</p>
+                        <p class="tl-x-t">Belisarius&rsquo;s attack on the Goths&rsquo; boom across the Tiber was going well until the officer he had left guarding his base was captured, and Belisarius, thinking it lost, turned back.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#17.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 17, sections 1 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.17.1&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#18.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapters 18 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.18&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p238" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 238, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 238</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">Nov 22, 545</span> <b class="tl-x-h">The pope is taken to Constantinople.</b> By the emperor&rsquo;s order an official arrests Pope Vigilius in the church of Saint Cecilia, as he is handing out gifts, and puts him on a ship on the Tiber. The crowd follows to the river, and he is kept in the East for nearly ten years.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/156/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 156, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 156</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p258" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 258, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 258</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-totila-takes-rome-and-empties-it">
+            <div class="tl-c">
+                <p class="tl-date">Dec 17, 546</p>
+                <h3 class="tl-h">Totila takes Rome and empties it</h3>
+                <p class="tl-b">Four Isaurian guards let the Goths in at night, and Totila finds only about 500 people left in Rome. He pulls down a third of the walls and threatens to make it a sheep pasture, until a letter from Belisarius talks him out of it. Then he empties the city.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-35" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-35">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Totila sent the deacon Pelagius to Justinian with a letter offering peace on the terms of the days of Theodoric and Anastasius: &ldquo;thou wouldst properly be called my father, and thou wilt also have us hereafter as allies.&rdquo; Justinian answered only that Belisarius had full power to settle the war.</p>
+                        <p class="tl-x-t">Belisarius&rsquo;s letter argued that Rome was the greatest city under the sun, and that destroying it would rob the past of its memorials and the future of the sight of them. Totila read it many times and spared the city.</p>
+                        <p class="tl-x-t">Totila kept the senators with him and sent everyone else into Campania. A chronicle of the time says Rome stood empty for forty days.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#20.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 20, sections 1 to 26, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.20.1&ndash;26</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#21.18" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 21, sections 18 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.21.18&ndash;25</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#22.6" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 22, sections 6 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.22.6&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p242" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 242, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 242</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p258" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 258, on LacusCurtius, opens in a new tab">p. 258</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-belisarius-walks-back-into-the-empty-city">
+            <div class="tl-c">
+                <p class="tl-date">Apr 547</p>
+                <h3 class="tl-h">Belisarius walks back into the empty city</h3>
+                <p class="tl-b">Belisarius marches into deserted Rome, rebuilds the broken walls in twenty-five days and fills it again with people from the countryside. Totila hurries back and attacks before the gates are even hung, and fails.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-36" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-36">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7D*.html#24.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 24, sections 1 to 34, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.24.1&ndash;34</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p244" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 244, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 244</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p258" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 258, on LacusCurtius, opens in a new tab">p. 258</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-belisarius-leaves-italy-for-good">
+            <div class="tl-c">
+                <p class="tl-date">548&ndash;549</p>
+                <h3 class="tl-h">Belisarius leaves Italy for good</h3>
+                <p class="tl-b">After four years of making do, Belisarius is called home at his wife Antonina&rsquo;s request, with most of Italy in Gothic hands. He never returns.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-37" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-37">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Antonina had sailed to ask the empress Theodora for more troops and found her dead. She asked Justinian to recall her husband instead, and with the Persian war pressing, he agreed.</p>
+                        <p class="tl-x-t">Even in the <em>Wars</em>, Procopius calls the journey home &ldquo;an inglorious one.&rdquo; In five years, he says, Belisarius had not made a single march by land in Italy, and had sailed from one fortified town on the coast to the next.</p>
+                        <p class="tl-x-t">The <em>Secret History</em> says the same in harsher words, that he &ldquo;departed from there most ignominiously,&rdquo; and adds that he grew greedy in those years and squeezed the Italians of Ravenna and Sicily for money, &ldquo;alleging that he was making them pay a reckoning for the acts of their past lives.&rdquo;</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7F*.html#30.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 30, sections 1 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.30.1&ndash;25</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7F*.html#35.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 35, section 1, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.35.1</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Anecdota/5*.html" target="_blank" rel="noopener" aria-label="Procopius, The Secret History, chapter 5, sections 1 to 4, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Secret History 5.1&ndash;4</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p246" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 246, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 246</a></p>
+                        <p class="tl-x-t tl-x-f"><span class="tl-x-d">Jun 28, 548</span> <b class="tl-x-h">Theodora dies.</b> The empress, Justinian&rsquo;s wife and closest partner in power for twenty-one years, dies of cancer.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7F*.html#30.4" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 30, section 4, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.30.4</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p66" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 66, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 66</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-height">
+            <div class="tl-phase-in">
+                <p class="tl-era">549 to 554 <span>Narses</span></p>
+                <p class="tl-phase-l">Totila at his height</p>
+                <p class="tl-phase-n">549 to 551. Totila holds Rome, takes Sicily and raids Greece, while Justinian&rsquo;s first choice of new commander dies before he can march.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-totila-takes-rome-a-second-time-and-keeps-it">
+            <div class="tl-c">
+                <p class="tl-date">Jan 16, 550</p>
+                <h3 class="tl-h">Totila takes Rome a second time, and keeps it</h3>
+                <p class="tl-b">Unpaid Isaurian guards open the Gate of St. Paul. This time Totila means to keep the city. He brings back the senators, rebuilds what he had torn down, and presides over horse races in the Circus Maximus.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-38" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-38">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The Isaurians had seen how rich the guards who betrayed Rome in 546 had become, and they had not been paid for years.</p>
+                        <p class="tl-x-t">Totila had asked the Frankish king for his daughter&rsquo;s hand. The king refused, saying that Totila neither was nor ever would be king of Italy, since he had taken Rome and then let it go.</p>
+                        <p class="tl-x-t">He sent an envoy to Justinian offering to end the war and fight for the emperor as his ally. Justinian would not let the man into his presence.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#36.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 36, sections 1 to 29, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.36.1&ndash;29</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#37.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 37, sections 1 to 7, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.37.1&ndash;7</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p250" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 250, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 250</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p252" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 252, on LacusCurtius, opens in a new tab">p. 252</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-totila-takes-the-war-to-sea">
+            <div class="tl-c">
+                <p class="tl-date">550&ndash;551</p>
+                <h3 class="tl-h">Totila takes the war to sea</h3>
+                <p class="tl-b">Totila crosses to Sicily and plunders it, then sends 300 warships to raid the coast of Greece, around Corfu, where they capture ships carrying supplies for the emperor&rsquo;s new army. His fleet takes Corsica and Sardinia.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-39" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-39">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#39.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 39, sections 1 to 5, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.39.1&ndash;5</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8E*.html#22.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 22, sections 17 to 32, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.22.17&ndash;32</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8G*.html#24.31" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 24, sections 31 to 33, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.24.31&ndash;33</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p252" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 252, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 252</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-the-emperors-cousin-marries-theodorics-granddaughter">
+            <div class="tl-c">
+                <p class="tl-date">550</p>
+                <h3 class="tl-h">The emperor&rsquo;s cousin marries Theodoric&rsquo;s granddaughter</h3>
+                <p class="tl-b">Justinian gives the war to his cousin Germanus, who marries Matasuntha, Vitiges&rsquo;s widow, hoping the Goths will not fight Theodoric&rsquo;s granddaughter. He raises a large army, and then dies of an illness in the autumn of 550, before he can march.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-40" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-40">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Bury notes that Germanus was expected to succeed Justinian, so Matasuntha might have shared the throne of the Empire.</p>
+                        <p class="tl-x-t">Their son, also named Germanus, was born after his father&rsquo;s death. Jordanes, a writer of Gothic descent in Constantinople, ends his history of the Goths with him: the union of a great Roman family with Theodoric&rsquo;s, he wrote, &ldquo;gives hopeful promise, under the Lord&rsquo;s favor, to both peoples.&rdquo;</p>
+                        <p class="tl-x-t">He paid for much of the army out of his own fortune, and fell ill at Serdica, now Sofia, two days before he meant to set out.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#39.9" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 39, sections 9 to 29, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.39.9&ndash;29</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#40.9" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 40, section 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 7.40.9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p253" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 253, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 253</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19B*.html#p254" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 254, on LacusCurtius, opens in a new tab">p. 254</a> &middot; <a class="cite-doc" href="https://www.gutenberg.org/cache/epub/14809/pg14809-images.html#id00344" target="_blank" rel="noopener" aria-label="Jordanes, The Origin and Deeds of the Goths, section 314, translated by Charles Mierow, Project Gutenberg, opens in a new tab">Jordanes, Getica 314</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/7G*.html#39.16" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 7, chapter 39, section 16, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 7.39.16</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-narses-takes-command">
+            <div class="tl-c">
+                <p class="tl-date">551</p>
+                <h3 class="tl-h">Narses takes command</h3>
+                <p class="tl-b">Justinian puts Narses, the elderly palace eunuch who had fallen out with Belisarius in 538, in command, and gives him the money and men no general before him had. His army includes 5,500 <a class="term" href="#t-lombards" data-term="t-lombards" title="Lombards: A Germanic people from the Danube. They sent soldiers to fight for Narses in 552, and in 568 came into Italy themselves and took most of it.">Lombards</a>, more than 3,000 <a class="term" href="#t-heruls" data-term="t-heruls" title="Heruls: A Germanic people from the Danube, many of whom fought for the Empire for pay.">Heruls</a>, and Huns, <a class="term" href="#t-gepids" data-term="t-gepids" title="Gepids: A Germanic people on the middle Danube, neighbors and enemies of the Lombards.">Gepids</a> and Persian deserters.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-41" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-41">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Nobody recorded the size of the whole army, Bury notes, only its parts. Narses was famous for his generosity, and soldiers came eagerly to serve under him, some to repay old favors, Procopius says, and others hoping for new ones.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8E*.html#21.6" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 21, sections 6 to 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.21.6&ndash;9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8H*.html#26.5" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 26, sections 5 to 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.26.5&ndash;17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p261" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 261, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 261</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Narses-Byzantine-general" target="_blank" rel="noopener" aria-label="Britannica, “Narses”, opens in a new tab">Britannica, &ldquo;Narses&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-the-empire-wins-at-sea">
+            <div class="tl-c">
+                <p class="tl-date">551</p>
+                <h3 class="tl-h">The Empire wins at sea</h3>
+                <p class="tl-b">Fifty imperial warships meet forty-seven Gothic ones off Senigallia on the Adriatic. The ships lock together, and the crews fight from the decks with swords and spears &ldquo;as if on a plain.&rdquo; Only eleven Gothic ships escape.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-42" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-42">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says the battle &ldquo;especially broke the spirit and weakened the power of Totila and the Goths.&rdquo;</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8F*.html#23.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 23, sections 1 to 42, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.23.1&ndash;42</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p259" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 259, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 259</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-end">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">The last battles</p>
+                <p class="tl-phase-n">552. Narses marches into Italy, Totila dies at Busta Gallorum, Rome changes hands for the fifth time, and the last Gothic king falls under Vesuvius.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-busta-gallorum-totila-is-killed">
+            <div class="tl-c">
+                <p class="tl-date">Late Jun or early Jul 552</p>
+                <h3 class="tl-h">Busta Gallorum: Totila is killed</h3>
+                <p class="tl-b">Near the village of Taginae in the Apennines, Narses meets Totila. Before the battle Totila, in gold armor, dances his horse between the lines. The Gothic cavalry charge breaks on Narses&rsquo;s archers, 6,000 Goths die, and Totila is mortally wounded.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-43" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-43">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius describes the dance. Totila wheeled his horse in circles, hurled his javelin into the air and caught it as it quivered above him, and passed it from hand to hand, as if he had been taught to dance from childhood.</p>
+                        <p class="tl-x-t">Procopius gives two versions of Totila&rsquo;s death. In one, a Gepid in the pursuit spears him without knowing who he is, and his men carry him off to die. In the other, he is hit by a stray arrow early in the battle, and his army, seeing him fall, loses heart. He had ruled for eleven years.</p>
+                        <p class="tl-x-t">Narses had marched around the head of the Adriatic, since the Franks barred the road through Venetia, and reached Ravenna in June. Bury puts the battle no later than the end of June or the first days of July.</p>
+                        <p class="tl-x-t">Narses&rsquo;s Lombard allies burned houses and raped women who had taken refuge in churches. He paid them off and sent them home.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8I*.html#29.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapters 29 to 32, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.29&ndash;32</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8J*.html#33.2" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 33, section 2, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.33.2</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p261" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 261, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 261</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p264" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 264, on LacusCurtius, opens in a new tab">p. 264</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p291" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 291, on LacusCurtius, opens in a new tab">p. 291</a> &middot; <a class="cite-doc" href="https://www.britannica.com/event/Battle-of-Taginae" target="_blank" rel="noopener" aria-label="Britannica, “Battle of Taginae”, opens in a new tab">Britannica, &ldquo;Battle of Taginae&rdquo;</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8I*.html#31.18" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 31, sections 18 to 20, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.31.18&ndash;20</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-narses-takes-rome-the-fifth-change-of-hands">
+            <div class="tl-c">
+                <p class="tl-date">552</p>
+                <h3 class="tl-h">Narses takes Rome, the fifth change of hands</h3>
+                <p class="tl-b">Narses retakes Rome after a short fight and sends its keys to Justinian. Procopius counts it the fifth time the city had been captured in Justinian&rsquo;s reign.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-44" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-44">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The five: Belisarius in 536, Totila in 546, Belisarius in 547, Totila in 550 and Narses in 552.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8J*.html#33.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 33, sections 13 to 27, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.33.13&ndash;27</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p270" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 270, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 270</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-teias-the-last-king-and-his-revenge">
+            <div class="tl-c">
+                <p class="tl-date">552</p>
+                <h3 class="tl-h">Teias, the last king, and his revenge</h3>
+                <p class="tl-b">The Goths who escaped make Teias king at Pavia, where Totila&rsquo;s treasure is kept. When Rome falls, Gothic garrisons in Campania kill every senator they can find, and Teias kills the 300 children of Roman nobles whom Totila had been holding as hostages.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-45" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-45">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says the victory brought the Senate and people of Rome &ldquo;far greater destruction&rdquo; than defeat would have.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8J*.html#33.6" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 33, sections 6 to 8, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.33.6&ndash;8</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8J*.html#34.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 34, sections 1 to 8, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.34.1&ndash;8</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p270" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 270, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 270</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-court is-key" id="ev-the-last-stand-under-vesuvius-and-the-goths-agree-to-leave">
+            <div class="tl-c">
+                <p class="tl-date">Late 552</p>
+                <h3 class="tl-h">The last stand under Vesuvius, and the Goths agree to leave</h3>
+                <p class="tl-b">Teias marches south to save the treasure at Cumae and is cornered below Vesuvius. After two months, the Goths fight on foot for two days, and Teias falls holding his ground. The Goths who are left agree to leave Italy with their own money.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-46" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-46">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius compares Teias&rsquo;s stand to the heroes of legend: he fought for a third of the day with twelve spears stuck in his shield before a javelin found him while he was changing it. His head was raised on a pole, and still the Goths fought on until night, and all the next day.</p>
+                        <p class="tl-x-t">The Goths asked to go &ldquo;not, however, to obey the emperor, but to live in independence&rdquo; somewhere beyond the Empire. Narses agreed, on John&rsquo;s advice. A thousand broke away and went north to Pavia.</p>
+                        <p class="tl-x-t">Here Procopius&rsquo;s history of the war ends. The date is uncertain: a chronicle from Ravenna gives October 1, 552, but Procopius&rsquo;s two months of waiting would put it later. Bury doubted that Procopius&rsquo;s account of the fighting could be taken as it stands.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8J*.html#35.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 35, sections 1 to 38, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.35.1&ndash;38</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p273" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 273, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 273</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p274" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 274, on LacusCurtius, opens in a new tab">p. 274</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p291" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 291, on LacusCurtius, opens in a new tab">p. 291</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-after-552">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">The Franks, and the settlement</p>
+                <p class="tl-phase-n">553 to 554. A Frankish and Alamannic army plunders Italy and is destroyed, and Justinian lays down how Italy is to be ruled.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-cumae-lucca-and-the-gothic-towns">
+            <div class="tl-c">
+                <p class="tl-date">553</p>
+                <h3 class="tl-h">Cumae, Lucca and the Gothic towns</h3>
+                <p class="tl-b">Gothic garrisons still hold Cumae, with the royal treasure, and towns in Tuscany and the north. At Lucca, Narses pretends to behead the town&rsquo;s hostages, who have wood strapped under their clothes, to frighten it into surrender.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-47" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-47">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">When Lucca still held out, Narses brought the hostages back alive and unharmed, and promised the town good treatment. It surrendered after three months, at the end of autumn.</p>
+                        <p class="tl-x-t">Aligern, Teias&rsquo;s brother, gave up Cumae and the treasure at about the same time, judging that the Franks were in Italy for themselves and would never restore the Gothic kingdom.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p275" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 275, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 275</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p276" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 276, on LacusCurtius, opens in a new tab">p. 276</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p277" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 277, on LacusCurtius, opens in a new tab">p. 277</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n is-key" id="ev-the-franks-and-alamanni-invade">
+            <div class="tl-c">
+                <p class="tl-date">553&ndash;554</p>
+                <h3 class="tl-h">The Franks and Alamanni invade</h3>
+                <p class="tl-b">Two <a class="term" href="#t-alamanni" data-term="t-alamanni" title="Alamanni: A Germanic people of the upper Rhine, ruled by the Franks in Justinian’s day.">Alamannic</a> brothers serving the Frankish king, Leuthari and Butilinus, plunder Italy as far as the Strait of Messina. Disease kills Leuthari and much of his army on the way home, and Narses destroys Butilinus&rsquo;s army near Capua.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-48" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-48">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The army was said to be 75,000 strong. The Franks, who were Catholics, spared the churches, but the Alamanni, who were not yet Christian, stripped the church plate and pulled the roofs off.</p>
+                        <p class="tl-x-t">At Capua Narses had about 18,000 men. His cavalry, all mounted archers, wheeled in on both sides of the Frankish column and shot into it from behind, and Butilinus was killed with nearly all his men.</p>
+                        <p class="tl-x-t">Agathias, who took up the history where Procopius left off, is the main source for these years; no free English translation of his history is online, so the links are to Bury&rsquo;s account of it.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p275" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 275, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 275</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p278" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 278, on LacusCurtius, opens in a new tab">p. 278</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p279" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 279, on LacusCurtius, opens in a new tab">p. 279</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p280" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 280, on LacusCurtius, opens in a new tab">p. 280</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-justinian-settles-italy">
+            <div class="tl-c">
+                <p class="tl-date">Aug 13, 554</p>
+                <h3 class="tl-h">Justinian settles Italy</h3>
+                <p class="tl-b">Justinian issues a law for Italy, the <a class="term" href="#t-pragmatic-sanction" data-term="t-pragmatic-sanction" title="Pragmatic Sanction: A law an emperor issued in answer to a request. Justinian’s of 554 laid down how Italy was to be ruled after the war.">Pragmatic Sanction</a>. It keeps the grants made by Athalaric, Amalasuntha and Theodahad, cancels every one made by Totila, gives property back to the owners who fled the war, and puts Italy under the Empire&rsquo;s own laws.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-49" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-49">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Bury explains why the law mattered so much: Italians needed to know at once how far the new government would honor what the Gothic kings had done, above all about land. Totila had handed estates to their tenants and freed slaves to fight for him, and the law undid that.</p>
+                        <p class="tl-x-t">It was issued at the request of Pope Vigilius, who had been held in Constantinople since 547. He set out for home and died on the way, at Syracuse, in June 555.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19D*.html#p282" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 282, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 282</a> &middot; <a class="cite-doc" href="https://archive.org/details/cu31924006163897/page/160/mode/1up" target="_blank" rel="noopener" aria-label="The Book of the Popes (Liber Pontificalis), translated by Louise Ropes Loomis, 1916, page 160, a scan on the Internet Archive, opens in a new tab">Book of the Popes, p. 160</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-after">
+            <div class="tl-phase-in">
+                <p class="tl-era">554 to 568 <span>After the war</span></p>
+                <p class="tl-phase-l">After the war</p>
+                <p class="tl-phase-n">555 to 568. The last Gothic towns give up, Justinian dies, and three years later new invaders come over the Alps.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-the-last-gothic-towns-fall">
+            <div class="tl-c">
+                <p class="tl-date">555&ndash;562</p>
+                <h3 class="tl-h">The last Gothic towns fall</h3>
+                <p class="tl-b">The last Gothic garrisons hold out for years. The mountain fort of Conza, with 7,000 Goths, gives up in the spring of 555. In November 562 Narses sends Justinian the keys of Verona and Brescia, the last Gothic towns.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-50" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-50">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">At Conza their commander, Ragnaris, asked for a parley, and when Narses refused his terms, he turned and shot an arrow at him. It missed, one of Narses&rsquo;s guards shot Ragnaris dead, and the garrison surrendered.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p281" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 281, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 281</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-justinian-dies">
+            <div class="tl-c">
+                <p class="tl-date">Nov 14, 565</p>
+                <h3 class="tl-h">Justinian dies</h3>
+                <p class="tl-b">Justinian dies at about eighty-three, after thirty-eight years on the throne, and his nephew, Justin II, succeeds him. Belisarius had died eight months before.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-51" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-51">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p71" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 71, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 71</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p69" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 69, on LacusCurtius, opens in a new tab">p. 69</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Justinian-I" target="_blank" rel="noopener" aria-label="Britannica, “Justinian I”, opens in a new tab">Britannica, &ldquo;Justinian I&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n" id="ev-narses-is-dismissed-and-a-legend">
+            <div class="tl-c">
+                <p class="tl-date">567&ndash;568 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Narses is dismissed, and a legend</h3>
+                <p class="tl-b">The new emperor dismisses Narses. A later story says the empress Sophia mocked the old eunuch, offering to set him to handing out wool to her maids, and that he answered he would weave her a web she could not undo, and invited the Lombards in.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-52" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-52">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Paul the Deacon says the Romans had written to the new emperor, Justin II, threatening to hand Rome to the barbarians unless he freed them from Narses.</p>
+                        <p class="tl-x-t">The story is told two hundred years later by Paul the Deacon, the Lombards&rsquo; own historian, and historians treat it as a legend. Narses went back to Rome and died there not long after, Paul says, and his body was taken to Constantinople in a lead coffin.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://archive.org/details/historyoflangoba00pauluoft/page/59/mode/1up" target="_blank" rel="noopener" aria-label="Paul the Deacon, History of the Langobards, translated by William Dudley Foulke, 1907, page 59, a scan on the Internet Archive, opens in a new tab">Paul the Deacon, p. 59</a> &middot; <a class="cite-doc" href="https://archive.org/details/historyoflangoba00pauluoft/page/68/mode/1up" target="_blank" rel="noopener" aria-label="Paul the Deacon, History of the Langobards, translated by William Dudley Foulke, 1907, page 68, a scan on the Internet Archive, opens in a new tab">p. 68</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-end" id="ev-where-it-ended">
+            <div class="tl-end-in">
+                <p class="tl-end-d">568 and after</p>
+                <h3 class="tl-end-h">Where it ended</h3>
+                <ul class="tl-open">
+                    <li class="is-major"><span class="o-d">Apr 568</span><span class="o-t">The Lombards come into Italy, three years after Justinian&rsquo;s death.</span></li>
+                    <li><span class="o-d">572</span><span class="o-t">Pavia, where the last Gothic kings kept their treasure, falls to the Lombards after a siege of more than three years.</span></li>
+                    <li><span class="o-d">About 751</span><span class="o-t">Ravenna, the seat of the emperors&rsquo; governors in Italy since the war, falls to the Lombards.</span></li>
+                    <li><span class="o-d">Apr 1071</span><span class="o-t">The Normans take Bari, and the Empire&rsquo;s rule in southern Italy ends.</span></li>
+                </ul>
+                <p class="tl-end-n">Three years after Justinian died, the Lombards under their king, Alboin, crossed the Alps into Italy with their families. Within a few years they held &ldquo;everything as far as Tuscany except Rome and Ravenna,&rdquo; in the words of their historian, Paul the Deacon.</p>
+                <p class="tl-end-n">Paul dates their setting out to April 568, &ldquo;on the day after holy Easter.&rdquo;</p>
+                <p class="tl-end-n">Paul gives a reason the Italians did not fight: plague in Narses&rsquo;s time had killed great numbers in the north, and a famine had followed it across Italy. Nearly twenty years of war had won Italy back for the Empire. The Lombards came fourteen years after Justinian&rsquo;s settlement of 554, and six after the last Gothic towns gave up.</p>
+                <p class="tl-cite"><a class="cite-doc" href="https://archive.org/details/historyoflangoba00pauluoft/page/62/mode/1up" target="_blank" rel="noopener" aria-label="Paul the Deacon, History of the Langobards, translated by William Dudley Foulke, 1907, page 62, a scan on the Internet Archive, opens in a new tab">Paul the Deacon, p. 62</a> &middot; <a class="cite-doc" href="https://archive.org/details/historyoflangoba00pauluoft/page/80/mode/1up" target="_blank" rel="noopener" aria-label="Paul the Deacon, History of the Langobards, translated by William Dudley Foulke, 1907, page 80, a scan on the Internet Archive, opens in a new tab">p. 80</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/19C*.html#p281" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 281, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 281</a> &middot; <a class="cite-doc" href="https://www.britannica.com/topic/Lombard-people" target="_blank" rel="noopener" aria-label="Britannica, “Lombard”, opens in a new tab">Britannica, &ldquo;Lombard&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/place/Ravenna-Italy" target="_blank" rel="noopener" aria-label="Britannica, “Ravenna”, opens in a new tab">Britannica, &ldquo;Ravenna&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Robert-duke-of-Apulia" target="_blank" rel="noopener" aria-label="Britannica, “Robert Guiscard”, opens in a new tab">Britannica, &ldquo;Robert Guiscard&rdquo;</a></p>
+            </div>
+        </li>
+                    </ol>
+
+                    <p class="tl-close">Every card links its sources: Procopius&rsquo;s own words, down to the sentence, wherever he tells the event, then the history J. B. Bury wrote from all the sources in 1923, and the other writers of the time where they add to Procopius or disagree with him. Where the sources tell an event differently, its drawer gives each account and says whose it is. Every number is the source&rsquo;s own, and where historians doubt it, the drawer says so.</p>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/restricted-section/" aria-label="Back to the Restricted Section">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the shelf</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Who tells this story</h3>
+                        <p>Almost everything known about this war comes from one man. <a class="term" href="#t-procopius" data-term="t-procopius" title="Procopius: Procopius of Caesarea, Belisarius’s legal secretary from 527, who saw much of these wars himself and wrote their history in eight books, the Wars. He also wrote the Secret History and a book on Justinian’s buildings.">Procopius</a> of Caesarea was the legal secretary of Belisarius, the Empire&rsquo;s general, and saw much of it himself. He wrote it up in his <em>History of the Wars</em>. He also wrote the <a class="term" href="#t-secret-history" data-term="t-secret-history" title="Secret History: A book Procopius wrote in secret, about 550, and could not publish. It blames Justinian, Theodora, Belisarius and his wife Antonina for the age’s disasters, and historians use it with care."><em>Secret History</em></a>, which he could not publish while Justinian lived, and which blames the emperor, the empress Theodora, Belisarius and his wife for nearly everything. The cards use both, and say which is which.</p>
+                        <p>No account by a Goth survives. What the Gothic side said comes through Roman writers: the speeches and letters Procopius gives Gothic envoys and kings, the royal letters <a class="term" href="#t-cassiodorus" data-term="t-cassiodorus" title="Cassiodorus: A Roman senator who served the Gothic kings as a minister and wrote their official letters, which he collected as the Variae.">Cassiodorus</a> drafted for the Gothic court, and <a class="term" href="#t-jordanes" data-term="t-jordanes" title="Jordanes: A writer of Gothic descent who wrote a history of the Goths in Constantinople, about 551.">Jordanes</a>, a writer of Gothic descent in Constantinople. The <a class="term" href="#t-book-of-the-popes" data-term="t-book-of-the-popes" title="Book of the Popes: The Liber Pontificalis, lives of the popes kept by the church in Rome. Some lives were written soon after the events they tell."><em>Book of the Popes</em></a>, kept by the church in Rome, gives an Italian view of some events, and is sometimes harder on Belisarius than Procopius is. After Procopius&rsquo;s history ends, in 552, the story comes from <a class="term" href="#t-agathias" data-term="t-agathias" title="Agathias: A lawyer and poet in Constantinople who carried Procopius’s history on from 552 to 559.">Agathias</a>.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Who goes where</h3>
+                        <p>A card&rsquo;s column says who acted, never who was right or who suffered. Naples is on the left because the Empire&rsquo;s army stormed it. The destruction of Milan is on the right because the Goths did it.</p>
+                        <p>The middle is for everyone else: the Franks, the Persians, the popes when they acted for themselves, and the plague, which had no side. What the two sides agreed together is in the middle too, marked with a diamond. The people of Italy are on nearly every card and in no column of their own, which is close to how the sources treat them.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names, dates and numbers</h3>
+                        <p>Names are spelled the way most English histories spell them: Vitiges, not Witigis, and Theodahad, not Theodatus. The old translations the links go to spell them their own way.</p>
+                        <p>Dates are as exact as the sources allow, and many events are known only to the year or the season. Where two sources give different days, the card follows the one most historians follow, and the drawer gives the other.</p>
+                        <p>Ancient writers&rsquo; numbers for armies and the dead are often far too big. Procopius says 150,000 Goths besieged Rome and 300,000 men died at Milan. The drawers give such figures as the writer&rsquo;s own, with what historians have made of them.</p>
+                    </div>
+                    <div class="note">
+                        <h3>The sources</h3>
+                        <p>Every link goes to a text anyone can read for free. Procopius is in H. B. Dewing&rsquo;s translation, and each link goes to the sentence on Bill Thayer&rsquo;s LacusCurtius site: &ldquo;Wars 5.14.14&rdquo; is book 5, chapter 14, section 14. J. B. Bury&rsquo;s <em>History of the Later Roman Empire</em>, from 1923, is linked by the page. The <em>Book of the Popes</em>, Cassiodorus&rsquo;s letters and Paul the Deacon&rsquo;s history of the Lombards are scans of old translations, linked to the printed page.</p>
+                        <p>These translations are a century old or more, and their English is old-fashioned, but they are free of copyright and anyone can check them. Bury&rsquo;s history is old too. Historians since have rethought much of this period, and where a card leans on Bury&rsquo;s judgment, it says so.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What it leaves out</h3>
+                        <p>This tab is the war for Italy. The war in Africa and the war with Persia have tabs of their own. Much of what Justinian is remembered for, his code of laws, the church of Hagia Sophia and his long quarrels over doctrine, comes into these cards only where it touched the war.</p>
+                        <p>It is not a verdict on who was right, and it doesn&rsquo;t try to be.</p>
+                    </div>
+                </div>
+
+                <!-- Corrections intake, as on every case page. Posts to
+                     /api/suggest/case with data-case from <body>; the service
+                     only takes a page on its own allowlist. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or <strong>unfairly portrayed</strong>, let me know. Point me at a document or a report and I will verify it on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to a source (optional)"
+                            placeholder="Link to a source, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on: a form with no
+                             action would otherwise send what was typed to this
+                             page's own address. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Sources and links checked <span class="mono">October 21, 2026</span>.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a></p>
+                <p class="foot-cite">The Restricted Section &middot; Volume VI</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because Procopius and the other writers of the time use them. Where a word is a later historian&rsquo;s, the definition says so.</p>
+
+                <p class="gloss-s">The two sides</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-empire">Eastern Roman Empire</dt><dd>The half of the Roman Empire ruled from Constantinople, which outlasted the western half by nearly a thousand years. Its people called themselves Romans.</dd></div>
+                    <div><dt id="t-byzantine">Byzantine</dt><dd>The name historians gave the Eastern Roman Empire long after it was gone, from Byzantium, the old Greek name of Constantinople. Nobody at the time called it that.</dd></div>
+                    <div><dt id="t-ostrogoths">Ostrogoths</dt><dd>The eastern Goths, a Germanic people who came out of the Balkans under Theodoric and ruled Italy from 493 until this war. Their cousins the Visigoths, the western Goths, ruled Spain.</dd></div>
+                    <div><dt id="t-arian">Arian</dt><dd>A kind of Christianity which held that the Son was created by the Father, and so was less than him. The Goths, the Vandals and the Lombards were Arians. The Empire and most Italians held the Catholic creed, which says the two are equal.</dd></div>
+                    <div><dt id="t-catholic">Catholic</dt><dd>Here, the creed of the councils of Nicaea and Chalcedon, held by the emperors and the popes, as against the Arians.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Peoples in the armies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-isaurians">Isaurians</dt><dd>Mountain people from southern Asia Minor, now Turkey, inside the Empire, who served in its armies.</dd></div>
+                    <div><dt id="t-huns">Huns</dt><dd>Nomad horsemen from beyond the Black Sea. By Justinian&rsquo;s day the name covered several such peoples, and many of them fought for the Empire as mounted archers.</dd></div>
+                    <div><dt id="t-heruls">Heruls</dt><dd>A Germanic people from the Danube, many of whom fought for the Empire for pay.</dd></div>
+                    <div><dt id="t-gepids">Gepids</dt><dd>A Germanic people on the middle Danube, neighbors and enemies of the Lombards.</dd></div>
+                    <div><dt id="t-lombards">Lombards</dt><dd>A Germanic people from the Danube. They sent soldiers to fight for Narses in 552, and in 568 came into Italy themselves and took most of it.</dd></div>
+                    <div><dt id="t-franks">Franks</dt><dd>The Germanic people who ruled Gaul, now France, under kings of their own. Both sides in this war courted them, and they kept faith with neither.</dd></div>
+                    <div><dt id="t-alamanni">Alamanni</dt><dd>A Germanic people of the upper Rhine, ruled by the Franks in Justinian&rsquo;s day.</dd></div>
+                    <div><dt id="t-burgundians">Burgundians</dt><dd>A Germanic people in the Rhône valley, conquered by the Franks in 534.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Offices and titles</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-senate">Senate</dt><dd>Rome&rsquo;s ancient council of the great landowning families. It still met in Rome under the Gothic kings, and its members were the richest men in Italy.</dd></div>
+                    <div><dt id="t-consul">Consul</dt><dd>An old Roman office that was by now an honor. It gave its name to the year, and Belisarius held it in 535. Justinian let it lapse after 541.</dd></div>
+                    <div><dt id="t-patrician">Patrician</dt><dd>A title of the highest honor, given by the emperor.</dd></div>
+                    <div><dt id="t-eunuch">Eunuch</dt><dd>A man castrated as a boy. Eunuchs served in the emperor&rsquo;s palace, and a few, like Narses, rose to great power.</dd></div>
+                    <div><dt id="t-pope">Pope</dt><dd>The bishop of Rome. In this war the popes were subjects first of the Gothic king and then of the emperor, and both sides tried to use them.</dd></div>
+                    <div><dt id="t-pallium">Pallium</dt><dd>A band of white wool worn over the shoulders, the sign of a pope&rsquo;s or an archbishop&rsquo;s office.</dd></div>
+                    <div><dt id="t-pragmatic-sanction">Pragmatic Sanction</dt><dd>A law an emperor issued in answer to a request. Justinian&rsquo;s of 554 laid down how Italy was to be ruled after the war.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Money</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-centenarium">Centenarium</dt><dd>A hundred Roman pounds of gold, about 72 of today&rsquo;s pounds. Large sums were counted in them.</dd></div>
+                    <div><dt id="t-gold-piece">Gold piece</dt><dd>The solidus, the Empire&rsquo;s gold coin. Seventy-two were struck from a Roman pound of gold.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The sources</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-procopius">Procopius</dt><dd>Procopius of Caesarea, Belisarius&rsquo;s legal secretary from 527, who saw much of these wars himself and wrote their history in eight books, the <em>Wars</em>. He also wrote the <em>Secret History</em> and a book on Justinian&rsquo;s buildings.</dd></div>
+                    <div><dt id="t-secret-history">Secret History</dt><dd>A book Procopius wrote in secret, about 550, and could not publish. It blames Justinian, Theodora, Belisarius and his wife Antonina for the age&rsquo;s disasters, and historians use it with care.</dd></div>
+                    <div><dt id="t-book-of-the-popes">Book of the Popes</dt><dd>The <em>Liber Pontificalis</em>, lives of the popes kept by the church in Rome. Some lives were written soon after the events they tell.</dd></div>
+                    <div><dt id="t-cassiodorus">Cassiodorus</dt><dd>A Roman senator who served the Gothic kings as a minister and wrote their official letters, which he collected as the <em>Variae</em>.</dd></div>
+                    <div><dt id="t-jordanes">Jordanes</dt><dd>A writer of Gothic descent who wrote a history of the Goths in Constantinople, about 551.</dd></div>
+                    <div><dt id="t-agathias">Agathias</dt><dd>A lawyer and poet in Constantinople who carried Procopius&rsquo;s history on from 552 to 559.</dd></div>
+                    <div><dt id="t-moors">Moors</dt><dd>The Roman name for the Berber peoples of North Africa, outside and inside the old provinces, under kings of their own. Procopius uses it, and it is not the later Spanish sense of the word.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The east</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-sasanian">Sasanian Empire</dt><dd>The Persian empire of the Sasanian kings, from 224 to 651, covering modern Iran and Iraq and more, with its capital at Ctesiphon, near modern Baghdad.</dd></div>
+                    <div><dt id="t-zoroastrian">Zoroastrian</dt><dd>The old faith of Iran, taught by the prophet Zoroaster, and the religion of the Sasanian kings. It held that the dead should not defile the earth, so the dead were left to the birds.</dd></div>
+                    <div><dt id="t-lazica">Lazica</dt><dd>A small Christian kingdom on the eastern shore of the Black Sea, in what is now western Georgia, long under Roman protection.</dd></div>
+                    <div><dt id="t-arab-allies">Arab allies</dt><dd>Arab kings of the desert frontier who fought for the two empires: the Lakhmids, from al-Hira on the Euphrates, for Persia, and the Ghassanids, in the Syrian desert, for Rome.</dd></div>
+                    <div><dt id="t-circus-factions">Blues and Greens</dt><dd>The two great fan clubs of the chariot races in Constantinople, with their own seats, colors and street gangs, and a hand in politics.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
+    <script src="/case-chronicle/restricted-section/volume.js?v=20261021a" defer></script>
+</body>
+
+</html>

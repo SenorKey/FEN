@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Volume VI of the Restricted Section: Justinian's Wars, one page for
+         each of the three wars Procopius wrote about, in the order he wrote
+         them, under tabs. Each page is laid out in the Chronological View's
+         own markup, as Volume I is, so the Chronicle's shared files and the
+         shelf's volume.css and volume.js draw it.
+
+         Written by ~/fen-justinian-sources/build/build.py, which overwrites
+         this file whole. Edit the research or the copy there, or stop using
+         the script once this page has been edited by hand. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
+    <link rel="stylesheet" href="/case-chronicle/restricted-section/volume.css?v=20261021a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Out of search results and out of the sitemap, like the shelf it
+         stands on: the only way in the Chronicle offers is the locked door
+         at the foot of the hub. -->
+    <meta name="robots" content="noindex">
+
+    <meta name="description"
+        content="Rome against Persia on the eastern frontier through Justinian’s reign, from the war he inherited in 527 to the Fifty Years’ Peace of 562, one event at a time, with each side’s account where it survives.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/restricted-section/justinian/persian-war/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/restricted-section/justinian/persian-war/">
+    <meta property="og:title" content="Justinian’s Wars: the Persian War, 527 to 562 &mdash; The Restricted Section">
+    <meta property="og:description"
+        content="Rome against Persia on the eastern frontier through Justinian’s reign, from the war he inherited in 527 to the Fifty Years’ Peace of 562, one event at a time, with each side’s account where it survives.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Justinian&rsquo;s Wars: the Persian War, 527 to 562 &mdash; The Restricted Section</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<!-- data-case names the page to the corrections service, which keeps its
+     own list of what it will take corrections for: all three wars file
+     under the volume. vol-jw sets this volume's two inks (volume.css). -->
+<body data-case="justinian" class="vol vol-jw">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a class="nav-mark" href="/case-chronicle/" title="Case Chronicle home"><img src="/case-chronicle/mark.svg?v=20261020a" alt="Case Chronicle" width="46" height="27"></a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <!-- ═══════════════════════════════════════════════
+             Masthead
+
+             A volume has no case page above it, so this is the whole
+             of the way in: the shelf it came off, the title, the three
+             wars as tabs (each its own page, as a case's views are), what
+             this one covers, and a row of the periods it runs through,
+             each a jump to where that period starts on the rail.
+             ═══════════════════════════════════════════════ -->
+        <header class="masthead masthead-vol" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/restricted-section/">&larr;&nbsp; The Restricted Section</a></p>
+                <p class="eyebrow">Volume VI &middot; 527 to 565</p>
+                <h1 class="masthead-title">Justinian&rsquo;s Wars</h1>
+
+                <nav class="views vol-tabs" aria-label="The wars in this volume">
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/persian-war/" aria-current="page">
+                        <span class="view-t">The Persian War</span>
+                        <span class="view-tag">527&ndash;562</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/vandal-war/">
+                        <span class="view-t">The Vandal War</span>
+                        <span class="view-tag">533&ndash;548</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/restricted-section/justinian/">
+                        <span class="view-t">The Gothic War</span>
+                        <span class="view-tag">535&ndash;554</span>
+                    </a>
+                </nav>
+
+                <p class="masthead-lede">Justinian ruled the Eastern Roman Empire from 527 to 565, and spent most of those years at war. This volume follows the three wars his historian Procopius wrote about, one to a tab, in the order he wrote them. This is the first: the long war with Persia that Justinian inherited when he took the throne, broken by a peace he bought and Persia broke, and ended by the Fifty Years&rsquo; Peace of 562. What the Empire did is on the left, and what Persia did is on the right. What anyone else did, or what both sides agreed together, is down the middle. A card&rsquo;s side says who acted, never who was right.</p>
+
+                <dl class="docket-meta">
+                    <div>
+                        <dt>Began</dt>
+                        <dd>527</dd>
+                    </div>
+                    <div>
+                        <dt>Ended</dt>
+                        <dd>562</dd>
+                    </div>
+                    <div>
+                        <dt>Events</dt>
+                        <dd>28, on 28 cards</dd>
+                    </div>
+                    <div>
+                        <dt>Chief witness</dt>
+                        <dd>Procopius, who was at Dara</dd>
+                    </div>
+                </dl>
+
+                <nav class="vol-eras" aria-label="Periods of this war" style="--n: 3;">
+                    <a href="#ph-first-war"><span class="vol-era-y">527</span> <span class="vol-era-t">The war Justinian inherited</span></a>
+                    <a href="#ph-second-war"><span class="vol-era-y">540</span> <span class="vol-era-t">Khosrow breaks the peace</span></a>
+                    <a href="#ph-lazic"><span class="vol-era-y">548</span> <span class="vol-era-t">The war for Lazica</span></a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             Chronology
+
+             The rail starts where the war does, at the entry with the
+             two sides' cards beside it. What is above that is background,
+             in a list of its own (li.tl-before), drawn on a dotted line
+             that the solid one picks up from. See volume.css.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-time" id="chronology" aria-labelledby="chr-h">
+            <div class="wrap">
+                <h2 class="kicker" id="chr-h">Chronological View</h2>
+
+                <!-- The key names the columns, and on a wide screen it is the
+                     bar that stays over the rail. A column says who acted,
+                     never who was right. -->
+                <div class="tl-key" aria-hidden="true">
+                    <span class="tk-l">
+                        <span class="tk-here"></span>
+                        <span class="tk tk-p">The Empire</span>
+                    </span>
+                    <span class="tk tk-c">Both sides</span>
+                    <span class="tk-r">
+                        <span class="tk tk-d"><span class="tk-dn">Persia</span></span>
+                        <span class="tk tk-n">Others</span>
+                    </span>
+                </div>
+
+                    <!-- The names a phone prints on each card. -->
+                    <ol class="tl" style="--p-name: 'The Empire'; --d-name: 'Persia'; --c-name: 'Both sides';">
+        <li class="tl-before" id="before">
+            <!-- Background, above where the war starts. A list of its own inside
+                 the rail, which covers the rail's line and its ink and draws a
+                 dotted line instead: the solid line, and the ink, start at the
+                 first entry under it. -->
+            <ol class="tl-pro">
+                <li class="tl-phase" id="ph-before">
+                    <div class="tl-phase-in">
+                        <p class="tl-phase-l">Before 527</p>
+                        <p class="tl-phase-n">Background. Rome and Persia had fought on and off for three hundred years. These are the quarrels Justinian inherited. The war starts at the solid line below.</p>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-kavadhs-war-with-rome">
+                    <div class="tl-c">
+                        <p class="tl-date">502&ndash;506</p>
+                        <h3 class="tl-h">Kavadh&rsquo;s war with Rome</h3>
+                        <p class="tl-b">Kavadh, king of Persia, invades the Roman east and takes Amida after a long siege. The war ends with a truce, and the emperor Anastasius builds a great fortress at Dara, a few miles from the Persian frontier city of Nisibis.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-1" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-1">
+                            <div class="tl-x-in">
+                                <p class="tl-x-t">Kavadh gave back what he had taken in exchange for a large payment, the <em>Encyclopaedia Iranica</em> says, because a new wave of Hephthalite nomads was threatening his northern frontier.</p>
+                                <p class="tl-x-t">The Persians protested that Dara broke the old treaties, which forbade new forts on the frontier. It was a sore point for thirty years.</p>
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1A*.html#7.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 7, sections 1 to 35, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.7.1&ndash;35</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#10.13" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 10, sections 13 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.10.13&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/14*.html#p10" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 10, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 10</a> &middot; <a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-a-king-asks-the-emperor-to-adopt-his-son">
+                    <div class="tl-c">
+                        <p class="tl-date">c. 525</p>
+                        <h3 class="tl-h">A king asks the emperor to adopt his son</h3>
+                        <p class="tl-b">Kavadh asks Emperor Justin to adopt his son Khosrow, to secure his succession. Justin&rsquo;s minister Proclus warns that an adopted son could claim the Empire itself, Justin offers only a lesser kind of adoption, and the talks end in bad blood.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-2" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-2">
+                            <div class="tl-x-in">
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#11.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 11, sections 1 to 39, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.11.1&ndash;39</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p79" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 79, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 79</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-ev tl-n tl-pre" id="ev-the-iberian-king-turns-to-rome">
+                    <div class="tl-c">
+                        <p class="tl-date">526</p>
+                        <h3 class="tl-h">The Iberian king turns to Rome</h3>
+                        <p class="tl-b">Gourgenes, the Christian king of Iberia in the Caucasus, refuses Persian demands that his people follow <a class="term" href="#t-zoroastrian" data-term="t-zoroastrian" title="Zoroastrian: The old faith of Iran, taught by the prophet Zoroaster, and the religion of the Sasanian kings. It held that the dead should not defile the earth, so the dead were left to the birds.">Zoroastrian</a> custom and stop burying their dead, and asks Justin for help. Persia invades Iberia, the Romans send too little too late, and the war begins.</p>
+                        <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-3" hidden>
+                            <span class="tl-more-i" aria-hidden="true"></span>
+                            <span class="tl-more-l">More</span>
+                        </button>
+                        <div class="tl-x" id="tlx-3">
+                            <div class="tl-x-in">
+                                <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#12.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 12, sections 1 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.12.1&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p79" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 79, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 79</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </li>
+        <li class="tl-ev tl-n tl-first tl-start is-key" id="ev-where-this-war-starts">
+            <div class="tl-c">
+                <p class="tl-date">Aug 1, 527</p>
+                <h3 class="tl-h">Where this war starts</h3>
+                <p class="tl-b">Emperor Justin dies, and his nephew Justinian, who has shared the throne with him since April, rules alone. He inherits a war with <a class="term" href="#t-sasanian" data-term="t-sasanian" title="Sasanian Empire: The Persian empire of the Sasanian kings, from 224 to 651, covering modern Iran and Iraq and more, with its capital at Ctesiphon, near modern Baghdad.">Persia</a> over Iberia and the frontier forts, and gives a young officer of his guard, Belisarius, his first command in it.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-4" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-4">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15A*.html#p23" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 23, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 23</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p79" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 79, on LacusCurtius, opens in a new tab">p. 79</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Justinian-I" target="_blank" rel="noopener" aria-label="Britannica, “Justinian I”, opens in a new tab">Britannica, &ldquo;Justinian I&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+                    <article class="party party-p" aria-labelledby="party-p-h">
+                <p class="party-role">Left column <span>What the Empire did</span></p>
+                <h2 class="party-name" id="party-p-h">The Eastern Roman Empire</h2>
+                <p class="party-what">Ruled from Constantinople by Justinian. Historians today call it the Byzantine Empire.</p>
+                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-p-x">
+                    <span class="party-more-i" aria-hidden="true"></span>
+                    <span class="party-more-l">More</span>
+                </button>
+                <div class="party-x" id="party-p-x"><div class="party-x-in">
+                <p class="party-b">Its people called themselves Romans, and their state the Roman Empire. <a class="term" href="#t-byzantine" data-term="t-byzantine" title="Byzantine: The name historians gave the Eastern Roman Empire long after it was gone, from Byzantium, the old Greek name of Constantinople. Nobody at the time called it that.">Byzantine</a> is a name historians gave it long afterward. Its eastern frontier ran from the Black Sea to the Syrian desert, through Armenia and Mesopotamia.</p>
+                <p class="party-b">The cards on this side are the acts of the emperor Justinian, of his generals, Belisarius above all, and of his armies and envoys. Rome&rsquo;s <a class="term" href="#t-arab-allies" data-term="t-arab-allies" title="Arab allies: Arab kings of the desert frontier who fought for the two empires: the Lakhmids, from al-Hira on the Euphrates, for Persia, and the Ghassanids, in the Syrian desert, for Rome.">Arab allies</a>, the Ghassanid kings, fought on its side.</p>
+                <p class="party-b">A card on this side names who acted. It never means every Roman.</p>
+                </div></div>
+            </article>
+            <article class="party party-d" aria-labelledby="party-d-h">
+                <p class="party-role">Right column <span>What Persia did</span></p>
+                <h2 class="party-name" id="party-d-h">Persia</h2>
+                <p class="party-what">The Sasanian Empire, ruled from Ctesiphon by Kavadh and then Khosrow I</p>
+                <button class="party-more" type="button" hidden aria-expanded="true" aria-controls="party-d-x">
+                    <span class="party-more-i" aria-hidden="true"></span>
+                    <span class="party-more-l">More</span>
+                </button>
+                <div class="party-x" id="party-d-x"><div class="party-x-in">
+                <p class="party-b">The <a class="term" href="#t-sasanian" data-term="t-sasanian" title="Sasanian Empire: The Persian empire of the Sasanian kings, from 224 to 651, covering modern Iran and Iraq and more, with its capital at Ctesiphon, near modern Baghdad.">Sasanian</a> kings had ruled Persia, modern Iran and Iraq, since 224, and their empire was the only power the Romans thought of as their equal. Its kings held the old Iranian faith, the <a class="term" href="#t-zoroastrian" data-term="t-zoroastrian" title="Zoroastrian: The old faith of Iran, taught by the prophet Zoroaster, and the religion of the Sasanian kings. It held that the dead should not defile the earth, so the dead were left to the birds.">Zoroastrian</a> one, and ruled Christians and Jews as well.</p>
+                <p class="party-b">The cards on this side are the acts of its kings, Kavadh and then Khosrow I, of their generals and armies, and of their Arab allies, the Lakhmid kings.</p>
+                <p class="party-b">No history written by a Persian at the time survives, and Khosrow&rsquo;s words come down through Roman writers. The drawers quote the <em>Encyclopaedia Iranica</em>, a reference work of Iranian studies, where it reads events differently from Procopius. A card names who acted. It never means every Persian.</p>
+                </div></div>
+            </article>
+        </li>
+        <li class="tl-phase" id="ph-first-war">
+            <div class="tl-phase-in">
+                <p class="tl-era">527 to 532 <span>The war Justinian inherited</span></p>
+                <p class="tl-phase-l">The first war</p>
+                <p class="tl-phase-n">527 to 532. Belisarius loses his first battle, wins the next at Dara and loses again at Callinicum, and Persia&rsquo;s new king makes peace.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-a-fort-that-is-never-finished">
+            <div class="tl-c">
+                <p class="tl-date">528</p>
+                <h3 class="tl-h">A fort that is never finished</h3>
+                <p class="tl-b">Ordered to build a new fort near Dara, Belisarius and the other commanders are attacked by a Persian army of 30,000 while the work is going on. The Romans are routed, and the fort is never finished.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-5" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-5">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#13.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 13, sections 1 to 8, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.13.1&ndash;8</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p81" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 81, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 81</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-belisarius-wins-at-dara">
+            <div class="tl-c">
+                <p class="tl-date">Jun 530</p>
+                <h3 class="tl-h">Belisarius wins at Dara</h3>
+                <p class="tl-b">A Persian army of 40,000 comes up to Dara. Belisarius, about twenty-five, meets it with 25,000 men behind a line of trenches, and his Hun horsemen catch the Persians from the side. It is the Empire&rsquo;s first great victory over Persia in generations.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-6" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-6">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Before the battle, the Persian commander sent word to Belisarius to &ldquo;make ready the bath,&rdquo; since he meant to bathe in Dara the next day, and later wrote again: &ldquo;let the bath and lunch be in readiness for me within the fortifications.&rdquo; Procopius says the Romans killed about 5,000 Persians in the rout.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#13.9" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 13, sections 9 to 39, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.13.9&ndash;39</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#13.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 13, section 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.13.17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#14.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 14, sections 1 to 55, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.14.1&ndash;55</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1B*.html#14.51" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 14, section 51, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.14.51</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p82" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 82, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 82</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Belisarius" target="_blank" rel="noopener" aria-label="Britannica, “Belisarius”, opens in a new tab">Britannica, &ldquo;Belisarius&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-a-second-victory-in-armenia">
+            <div class="tl-c">
+                <p class="tl-date">530</p>
+                <h3 class="tl-h">A second victory, in Armenia</h3>
+                <p class="tl-b">In Armenia, the Roman general Sittas beats a Persian army of 30,000, twice the size of his own, at Satala.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-7" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-7">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1C*.html#15.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 15, sections 1 to 33, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.15.1&ndash;33</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1C*.html#15.11" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 15, section 11, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.15.11</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p85" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 85, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 85</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-callinicum-a-defeat-on-the-eve-of-easter">
+            <div class="tl-c">
+                <p class="tl-date">Apr 531</p>
+                <h3 class="tl-h">Callinicum: a defeat on the eve of Easter</h3>
+                <p class="tl-b">A Persian army and its <a class="term" href="#t-arab-allies" data-term="t-arab-allies" title="Arab allies: Arab kings of the desert frontier who fought for the two empires: the Lakhmids, from al-Hira on the Euphrates, for Persia, and the Ghassanids, in the Syrian desert, for Rome.">Arab allies</a> strike up the Euphrates toward Antioch. Belisarius follows, and his men, fasting for Easter, force him into battle. It is lost, and soon afterward Belisarius is called home and given the war against the Vandals.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-8" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-8">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius says the soldiers taunted Belisarius as a coward until he gave in. Al-Mundhir, king of the Lakhmid Arabs, was Persia&rsquo;s ally, and the Ghassanid Arabs under al-Harith fought for Rome.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1C*.html#17.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 17, sections 1 to 48, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.17.1&ndash;48</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1C*.html#18.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 18, sections 1 to 56, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.18.1&ndash;56</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p85" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 85, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 85</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p86" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 86, on LacusCurtius, opens in a new tab">p. 86</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-khosrow-becomes-king">
+            <div class="tl-c">
+                <p class="tl-date">Sept 13, 531</p>
+                <h3 class="tl-h">Khosrow becomes king</h3>
+                <p class="tl-b">Kavadh dies, and his son Khosrow takes the throne ahead of his older brother, as his father had wished and with the backing of the great nobles. He will rule Persia until 579, and puts his brothers to death.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-9" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-9">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Persians remember him as Anushirvan, and Britannica sums up the memory: &ldquo;a great reformer and patron of the arts and scholarship.&rdquo; He reformed Persia&rsquo;s taxes and its army. To the Romans he was the king who sacked Antioch. Both are on this tab.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1E*.html#21.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 21, sections 17 to 22, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.21.17&ndash;22</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p88" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 88, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 88</a> &middot; <a class="cite-doc" href="https://www.britannica.com/biography/Khosrow-I" target="_blank" rel="noopener" aria-label="Britannica, “Khosrow I”, opens in a new tab">Britannica, &ldquo;Khosrow I&rdquo;</a> &middot; <a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n is-key" id="ev-the-nika-riot-nearly-ends-justinians-reign">
+            <div class="tl-c">
+                <p class="tl-date">Jan 13&ndash;18, 532</p>
+                <h3 class="tl-h">The Nika riot nearly ends Justinian&rsquo;s reign</h3>
+                <p class="tl-b">The <a class="term" href="#t-circus-factions" data-term="t-circus-factions" title="Blues and Greens: The two great fan clubs of the chariot races in Constantinople, with their own seats, colors and street gangs, and a hand in politics.">Blues and the Greens</a>, the rival fans of the chariot races, unite against the government, crying &ldquo;Nika,&rdquo; &ldquo;Conquer.&rdquo; They burn the center of Constantinople and crown a rival emperor, until Belisarius traps the crowd in the Hippodrome and kills more than 30,000.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-10" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-10">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Justinian was ready to flee by sea. Procopius gives Theodora a speech that kept him: she would not leave, she said, for &ldquo;royalty is a good burial-shroud.&rdquo;</p>
+                        <p class="tl-x-t">The church Justinian built to replace Hagia Sophia still stands in Istanbul. Procopius tells the riot in his first book on the Persian war, and it is here for that reason.</p>
+                        <p class="tl-x-t">The fire destroyed the old church of Hagia Sophia. The rioters had crowned Hypatius, a nephew of the emperor Anastasius, and the soldiers killed him the next day and threw his body into the sea.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1F*.html#24.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 24, sections 1 to 58, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.24.1&ndash;58</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1F*.html#24.33" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 24, sections 33 to 37, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.24.33&ndash;37</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1F*.html#24.54" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 24, section 54, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 1.24.54</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15B*.html#p40" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 40, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 40</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15B*.html#p41" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 41, on LacusCurtius, opens in a new tab">p. 41</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15B*.html#p44" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 44, on LacusCurtius, opens in a new tab">p. 44</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1F*.html#24.56" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 24, section 56, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.24.56</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-court is-key" id="ev-the-endless-peace">
+            <div class="tl-c">
+                <p class="tl-date">532 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">The &ldquo;Endless Peace&rdquo;</h3>
+                <p class="tl-b">Justinian and Khosrow make a peace &ldquo;without end.&rdquo; Rome pays 110 centenaria, 11,000 pounds of gold, and moves its army&rsquo;s headquarters away from Dara, and the forts each side had taken in the Caucasus are handed back. The army is free to go west.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-11" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-11">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">To Procopius the gold was a price paid for peace. The <em>Encyclopaedia Iranica</em> puts it the way Persians saw it: Rome agreed to pay its share for guarding the passes of the Caucasus, through which nomads from the steppes could raid either empire.</p>
+                        <p class="tl-x-t">The next year Belisarius sailed for Africa, and the Vandal War has its own tab.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/1E*.html#22.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 1, chapter 22, sections 1 to 19, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 1.22.1&ndash;19</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p88" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 88, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 88</a> &middot; <a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-second-war">
+            <div class="tl-phase-in">
+                <p class="tl-era">540 to 545 <span>Khosrow breaks the peace</span></p>
+                <p class="tl-phase-l">The second war</p>
+                <p class="tl-phase-n">539 to 545. Alarmed at Justinian&rsquo;s conquests in the West, and urged on by the Goths and the Armenians, Khosrow strikes into Roman Syria.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-n" id="ev-the-goths-and-the-armenians-plead-with-khosrow">
+            <div class="tl-c">
+                <p class="tl-date">539</p>
+                <h3 class="tl-h">The Goths and the Armenians plead with Khosrow</h3>
+                <p class="tl-b">Envoys of the Gothic king Vitiges, losing in Italy, and of the Armenians, in revolt against Rome, urge Khosrow to attack while the Empire&rsquo;s armies are in the West. A quarrel between the two empires&rsquo; Arab allies gives him his pretext.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-12" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-12">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The <em>Encyclopaedia Iranica</em> says Khosrow &ldquo;became alarmed&rdquo; at Justinian&rsquo;s conquests and was urged &ldquo;to counter the universalist aims of the Byzantine emperor before it was too late.&rdquo; The Gothic War&rsquo;s tab has the Goths&rsquo; side of the embassy.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2A*.html#1.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 1, sections 1 to 15, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.1.1&ndash;15</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2A*.html#2.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 2, sections 1 to 12, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.2.1&ndash;12</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2A*.html#3.31" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 3, sections 31 to 57, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.3.31&ndash;57</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p92" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 92, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 92</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p93" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 93, on LacusCurtius, opens in a new tab">p. 93</a> &middot; <a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-khosrow-sacks-antioch">
+            <div class="tl-c">
+                <p class="tl-date">Jun 540</p>
+                <h3 class="tl-h">Khosrow sacks Antioch</h3>
+                <p class="tl-b">Khosrow marches up the Euphrates into Syria, takes ransoms from the towns in his path, and storms Antioch, one of the greatest cities of the Empire. He enslaves its people, strips its church of marble, and burns the city. Then he bathes alone in the sea at Seleucia.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-13" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-13">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Procopius tells of two noblewomen of Antioch who, rather than be taken by the Persians, covered their faces and threw themselves into the river Orontes.</p>
+                        <p class="tl-x-t">The Romans agreed to pay Khosrow fifty centenaria at once and five more every year for him to go home, and he still took ransoms from Apamea and other towns on the way back.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2B*.html#5.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 5 to 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.5&ndash;9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2B*.html#8.35" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 8, section 35, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.8.35</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2B*.html#10.24" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 10, section 24, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.10.24</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2C*.html#11.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 11, section 1, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.11.1</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p74" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 74, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 74</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p93" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 93, on LacusCurtius, opens in a new tab">p. 93</a> &middot; <a class="cite-doc" href="https://www.britannica.com/place/Antioch-modern-and-ancient-city-south-central-Turkey" target="_blank" rel="noopener" aria-label="Britannica, “Antioch”, opens in a new tab">Britannica, &ldquo;Antioch&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-a-new-antioch-in-persia">
+            <div class="tl-c">
+                <p class="tl-date">540</p>
+                <h3 class="tl-h">A new Antioch in Persia</h3>
+                <p class="tl-b">Near his capital, Ctesiphon, Khosrow builds a new city for the captives from Antioch and names it the Antioch of Khosrow. He gives it a bath and a hippodrome, with charioteers and musicians brought from the Roman cities.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-14" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-14">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2D*.html#14.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 14, sections 1 to 4, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.14.1&ndash;4</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p100" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 100, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 100</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-persia-takes-petra-on-the-black-sea">
+            <div class="tl-c">
+                <p class="tl-date">541</p>
+                <h3 class="tl-h">Persia takes Petra, on the Black Sea</h3>
+                <p class="tl-b">The Lazi of <a class="term" href="#t-lazica" data-term="t-lazica" title="Lazica: A small Christian kingdom on the eastern shore of the Black Sea, in what is now western Georgia, long under Roman protection.">Lazica</a>, a Christian people on the eastern shore of the Black Sea, tired of Roman rule, invite Khosrow in. He takes the Roman fortress of Petra, and Persia has a foothold on the Black Sea for the first time.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-15" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-15">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2D*.html#15.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 15 to 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.15&ndash;17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p100" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 100, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 100</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-belisarius-in-the-east">
+            <div class="tl-c">
+                <p class="tl-date">541&ndash;542</p>
+                <h3 class="tl-h">Belisarius in the east</h3>
+                <p class="tl-b">Called back from Italy, Belisarius invades Persian Mesopotamia in 541. The next year he meets Khosrow&rsquo;s envoy with six hundred of his tallest men, out hunting as if they had nothing to fear, and Khosrow turns back.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-16" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-16">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">In 541 he took the Persian fort of Sisauranon.</p>
+                        <p class="tl-x-t">Belisarius&rsquo;s men crossed the Euphrates in plain sight of the envoy, and Khosrow, Procopius says, decided not to risk a battle. The <em>Secret History</em> tells the campaign of 541 very differently: Belisarius, it says, turned his army back after Sisauranon because he heard his wife Antonina was coming east, and would not go more than a day&rsquo;s march from the frontier.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2D*.html#19.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 19, sections 1 to 49, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.19.1&ndash;49</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2E*.html#20.20" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 20 to 21, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.20&ndash;21</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Anecdota/2*.html#18" target="_blank" rel="noopener" aria-label="Procopius, The Secret History, chapter 2, sections 18 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Secret History 2.18&ndash;25</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p100" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 100, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 100</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p104" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 104, on LacusCurtius, opens in a new tab">p. 104</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-n" id="ev-the-plague-reaches-both-empires">
+            <div class="tl-c">
+                <p class="tl-date">542&ndash;543</p>
+                <h3 class="tl-h">The plague reaches both empires</h3>
+                <p class="tl-b">The plague that came out of Egypt in 541 kills great numbers in Constantinople in 542, and the next year it strikes Persia. Khosrow and his army fall sick and he retreats into Assyria to escape it. The Gothic War&rsquo;s tab tells the plague in full.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-17" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-17">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2F*.html#22.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 22, sections 1 to 9, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.22.1&ndash;9</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2G*.html#24.5" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 24, sections 5 to 12, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.24.5&ndash;12</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/15C*.html#p62" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 62, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 62</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-disaster-at-anglon">
+            <div class="tl-c">
+                <p class="tl-date">543</p>
+                <h3 class="tl-h">Disaster at Anglon</h3>
+                <p class="tl-b">With Persia weakened by the plague, a Roman army of 30,000 invades Persarmenia with no single commander. At the village of Anglon, 4,000 Persians waiting in the hills rout it.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-18" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-18">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2G*.html#24.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 24 to 25, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.24&ndash;25</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p107" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 107, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 107</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p109" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 109, on LacusCurtius, opens in a new tab">p. 109</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d is-key" id="ev-the-siege-of-edessa">
+            <div class="tl-c">
+                <p class="tl-date">544</p>
+                <h3 class="tl-h">The siege of Edessa</h3>
+                <p class="tl-b">Khosrow builds a great mound against the wall of Edessa. The defenders tunnel under it, pack it with tree trunks soaked in cedar oil and set it on fire. His last assault fails, and the city pays him 500 pounds of gold to leave.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-19" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-19">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">The Christians of Edessa believed Christ himself had promised the city would never be taken. Procopius tells that story too, and says Khosrow attacked Edessa in part to prove it false.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2C*.html#12.7" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 12, sections 7 to 30, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.12.7&ndash;30</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2H*.html#26.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 26 to 27, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.26&ndash;27</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2H*.html#27.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 27, sections 1 to 8, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.27.1&ndash;8</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p109" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 109, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 109</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p112" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 112, on LacusCurtius, opens in a new tab">p. 112</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-court" id="ev-a-five-year-truce">
+            <div class="tl-c">
+                <p class="tl-date">545</p>
+                <h3 class="tl-h">A five-year truce</h3>
+                <p class="tl-b">Rome and Persia agree a truce for five years, and Rome pays 20 centenaria, 2,000 pounds of gold. Persia keeps Lazica, and Khosrow begins planning to move its people out and settle Persians there.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-20" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-20">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2I*.html#28.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 28, sections 1 to 11, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.28.1&ndash;11</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2I*.html#28.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapter 28, section 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 2.28.17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p112" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 112, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 112</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-lazic">
+            <div class="tl-phase-in">
+                <p class="tl-era">548 to 562 <span>The war for Lazica</span></p>
+                <p class="tl-phase-l">The war for Lazica</p>
+                <p class="tl-phase-n">548 to 557. The Lazi turn back to Rome, and for nine years the two empires fight over a strip of the Black Sea coast.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-n" id="ev-the-lazi-turn-back-to-rome">
+            <div class="tl-c">
+                <p class="tl-date">548</p>
+                <h3 class="tl-h">The Lazi turn back to Rome</h3>
+                <p class="tl-b">Persian rule proves harder than Roman. The Lazian king, Gubazes, learns that Khosrow is plotting to kill him and settle Persians in his land, and asks Justinian to take Lazica back.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-21" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-21">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2I*.html#28.15" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 28 to 29, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.28&ndash;29</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p113" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 113, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 113</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-the-romans-besiege-petra-and-fail">
+            <div class="tl-c">
+                <p class="tl-date">549&ndash;550</p>
+                <h3 class="tl-h">The Romans besiege Petra, and fail</h3>
+                <p class="tl-b">Justinian sends 7,000 men and 1,000 Tzani to Lazica under a young general, Dagisthaeus, who besieges Petra. Part of the wall comes down, but he does not march in, and the Persians fill the breach with sandbags until a relief army arrives.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-22" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-22">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/2I*.html#29.10" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 2, chapters 29 to 30, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 2.29&ndash;30</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8B*.html#9.2" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 9, section 2, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.9.2</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p113" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 113, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 113</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p is-key" id="ev-an-old-general-storms-petra">
+            <div class="tl-c">
+                <p class="tl-date">Spring 551</p>
+                <h3 class="tl-h">An old general storms Petra</h3>
+                <p class="tl-b">The new commander in Lazica, Bessas, the same man who had commanded Rome in the siege of 546, storms Petra. Old and heavy, he falls from a ladder in the assault, is pulled clear by his men, gets up, and climbs again. The Persian garrison is overwhelmed.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-23" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-23">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Dagisthaeus had been accused of letting himself be talked out of taking Petra two years earlier, and was replaced.</p>
+                        <p class="tl-x-t">Inside, the Romans found the armory Khosrow had stocked for a long siege, and saw how much Lazica mattered to him.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8B*.html#11.11" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 11, sections 11 to 62, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.11.11&ndash;62</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8B*.html#12.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 12, section 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.12.17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p116" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 116, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 116</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-court" id="ev-the-truce-is-renewed-but-not-in-lazica">
+            <div class="tl-c">
+                <p class="tl-date">Autumn 551</p>
+                <h3 class="tl-h">The truce is renewed, but not in Lazica</h3>
+                <p class="tl-b">After eighteen months of talks, Rome and Persia renew the truce for five years for 20 centenaria, with Lazica left out. Procopius complains that Khosrow had now collected 46 centenaria of &ldquo;tribute&rdquo; in eleven and a half years.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-24" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-24">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8C*.html#15.1" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 15, sections 1 to 18, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Procopius, Wars 8.15.1&ndash;18</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Procopius/Wars/8C*.html#15.17" target="_blank" rel="noopener" aria-label="Procopius, History of the Wars, book 8, chapter 15, section 17, in H. B. Dewing’s translation on LacusCurtius, opens in a new tab">Wars 8.15.17</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p117" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 117, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 117</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-p" id="ev-roman-generals-murder-the-lazian-king">
+            <div class="tl-c">
+                <p class="tl-date">554&ndash;555 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">Roman generals murder the Lazian king</h3>
+                <p class="tl-b">Two Roman officers tell Justinian that King Gubazes of Lazica is secretly favoring Persia, and then kill him. The Lazi nearly go over to Persia. After a Roman trial held before the Lazi, the two killers are executed.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-25" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-25">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">They had got a letter from Justinian allowing them to use force if the king resisted.</p>
+                        <p class="tl-x-t">The story is told by Agathias, who carried Procopius&rsquo;s history on from 552. Bury calls the message the officers sent &ldquo;false.&rdquo; The Lazi, he says, thought of turning to Persia, but their Christian faith and their memory of Persian rule kept them with Rome.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p117" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 117, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 117</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p119" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 119, on LacusCurtius, opens in a new tab">p. 119</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-d" id="ev-persia-fails-at-phasis">
+            <div class="tl-c">
+                <p class="tl-date">555</p>
+                <h3 class="tl-h">Persia fails at Phasis</h3>
+                <p class="tl-b">In the spring of 555 the Persian general Nachoragan attacks Phasis, at the mouth of the river of that name on the Lazian coast, and is beaten in the battle before the town.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-26" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-26">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p119" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 119, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 119</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-ev tl-court" id="ev-a-truce-for-every-front">
+            <div class="tl-c">
+                <p class="tl-date">557</p>
+                <h3 class="tl-h">A truce for every front</h3>
+                <p class="tl-b">Both empires, weary of the war, agree a truce that covers Lazica as well as the rest of the frontier.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-27" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-27">
+                    <div class="tl-x-in">
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p120" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 120, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 120</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-phase" id="ph-peace">
+            <div class="tl-phase-in">
+                <p class="tl-phase-l">The Fifty Years&rsquo; Peace</p>
+                <p class="tl-phase-n">557 to 562. Five years of talks end in the longest peace the two empires had tried to make.</p>
+            </div>
+        </li>
+        <li class="tl-ev tl-court is-key" id="ev-the-fifty-years-peace">
+            <div class="tl-c">
+                <p class="tl-date">562 <span class="chip chip-q">Disputed</span></p>
+                <h3 class="tl-h">The Fifty Years&rsquo; Peace</h3>
+                <p class="tl-b">Justinian&rsquo;s and Khosrow&rsquo;s envoys sign a peace for fifty years. Persia gives up Lazica, Rome pays 30,000 <a class="term" href="#t-gold-piece" data-term="t-gold-piece" title="Gold piece: The solidus, the Empire’s gold coin. Seventy-two were struck from a Roman pound of gold.">gold pieces</a> a year, trade is held to named border towns, and Persia&rsquo;s Christians may worship freely.</p>
+                <button type="button" class="tl-more" aria-expanded="true" aria-controls="tlx-28" hidden>
+                    <span class="tl-more-i" aria-hidden="true"></span>
+                    <span class="tl-more-l">More</span>
+                </button>
+                <div class="tl-x" id="tlx-28">
+                    <div class="tl-x-in">
+                        <p class="tl-x-t">Peter, Justinian&rsquo;s master of offices, met Khosrow&rsquo;s envoy on the frontier, and Rome paid the first seven years&rsquo; gold at once.</p>
+                        <p class="tl-x-t">The document Khosrow sent to ratify it began, in the words the Roman envoy Menander recorded: &ldquo;The divine, good, pacific, ancient Chosroes, king of kings ... to Justinian Caesar our brother.&rdquo; It is the nearest thing to a Persian voice in this whole story.</p>
+                        <p class="tl-x-t">Romans called the yearly gold tribute. The <em>Encyclopaedia Iranica</em> calls it a payment for the defense of the Caucasus.</p>
+                        <p class="tl-cite"><a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p120" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 120, on LacusCurtius, opens in a new tab">Bury, vol. 2, p. 120</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p121" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 121, on LacusCurtius, opens in a new tab">p. 121</a> &middot; <a class="cite-doc" href="https://penelope.uchicago.edu/Thayer/E/Roman/Texts/secondary/BURLAT/16*.html#p122" target="_blank" rel="noopener" aria-label="J. B. Bury, History of the Later Roman Empire, 1923, volume 2, page 122, on LacusCurtius, opens in a new tab">p. 122</a> &middot; <a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="tl-end" id="ev-where-it-ended">
+            <div class="tl-end-in">
+                <p class="tl-end-d">562 and after</p>
+                <h3 class="tl-end-h">Where it ended</h3>
+                <ul class="tl-open">
+                    <li class="is-major"><span class="o-d">572</span><span class="o-t">Justin II stops the yearly payments, and the war begins again.</span></li>
+                    <li><span class="o-d">603&ndash;628</span><span class="o-t">The last great war between Rome and Persia. Persian armies take Syria, Jerusalem and Egypt, and camp within a mile of Constantinople.</span></li>
+                    <li><span class="o-d">637&ndash;651</span><span class="o-t">Arab armies destroy the Sasanian empire.</span></li>
+                </ul>
+                <p class="tl-end-n">The peace lasted ten years. Justin II, Justinian&rsquo;s nephew, stopped the payments in 572, and the two empires went back to war on and off for most of the next sixty years, until both were worn out and the Arab armies overran Persia.</p>
+                <p class="tl-cite"><a class="cite-doc" href="https://www.iranicaonline.org/articles/byzantine-iranian-relations/" target="_blank" rel="noopener" aria-label="Encyclopaedia Iranica, “Byzantine-Iranian Relations,” by A. Shapur Shahbazi, opens in a new tab">Encyclopaedia Iranica, &ldquo;Byzantine-Iranian Relations&rdquo;</a> &middot; <a class="cite-doc" href="https://www.britannica.com/topic/Sasanian-dynasty" target="_blank" rel="noopener" aria-label="Britannica, “Sasanian dynasty”, opens in a new tab">Britannica, &ldquo;Sasanian dynasty&rdquo;</a></p>
+            </div>
+        </li>
+                    </ol>
+
+                    <p class="tl-close">Every card links its sources: Procopius&rsquo;s own words, down to the sentence, wherever he tells the event, then the history J. B. Bury wrote from all the sources in 1923, and modern reference works for the Persian side. Where the sources tell an event differently, its drawer gives each account and says whose it is. Every number is the source&rsquo;s own, and where historians doubt it, the drawer says so.</p>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/restricted-section/" aria-label="Back to the Restricted Section">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the shelf</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Who tells this story</h3>
+                        <p>Most of what is known about this war comes from <a class="term" href="#t-procopius" data-term="t-procopius" title="Procopius: Procopius of Caesarea, Belisarius’s legal secretary from 527, who saw much of these wars himself and wrote their history in eight books, the Wars. He also wrote the Secret History and a book on Justinian’s buildings.">Procopius</a>, who joined Belisarius as his secretary in 527 and was with him at Dara. The Persian War is Books I and II of his <em>History of the Wars</em>, and the war for Lazica in the 550s is in his Book VIII. After 552 the story comes from <a class="term" href="#t-agathias" data-term="t-agathias" title="Agathias: A lawyer and poet in Constantinople who carried Procopius’s history on from 552 to 559.">Agathias</a>, and the peace of 562 from the Roman envoy Menander, both through J. B. Bury&rsquo;s history.</p>
+                        <p>No Persian account of the war survives from the time. The Persian side is here as the Roman writers report it, with the reading of modern Iranian studies beside it where the two differ, above all over what Rome&rsquo;s payments to Persia were for.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Who goes where</h3>
+                        <p>A card&rsquo;s column says who acted, never who was right or who suffered. The sack of Antioch is on the right because Persia did it. The truces and peaces are in the middle, marked with a diamond, because both sides made them.</p>
+                        <p>The middle is also for everyone else: the Lazi and the other peoples of the Caucasus, the Goths&rsquo; and Armenians&rsquo; envoys to Khosrow, and the rioters of the Nika revolt in Constantinople in 532, which is on this tab because Procopius told it in his first book on the Persian war.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names, dates and numbers</h3>
+                        <p>Names are spelled the way most English histories spell them: Khosrow and Kavadh, which Procopius&rsquo;s translator writes Chosroes and Cabades. Persia is what the Romans called the empire, and its own people called it Iran.</p>
+                        <p>Dates are as exact as the sources allow. Ancient writers&rsquo; numbers for armies are often far too big, and the drawers give such figures as the writer&rsquo;s own. Sums of gold are in <a class="term" href="#t-centenarium" data-term="t-centenarium" title="Centenarium: A hundred Roman pounds of gold, about 72 of today’s pounds. Large sums were counted in them.">centenaria</a>, a hundred Roman pounds each.</p>
+                    </div>
+                    <div class="note">
+                        <h3>The sources</h3>
+                        <p>Every link goes to a text anyone can read for free. Procopius is in H. B. Dewing&rsquo;s translation, and each link goes to the sentence on Bill Thayer&rsquo;s LacusCurtius site: &ldquo;Wars 2.9.17&rdquo; is book 2, chapter 9, section 17. J. B. Bury&rsquo;s <em>History of the Later Roman Empire</em>, from 1923, is linked by the page. The <em>Encyclopaedia Iranica</em> opens in a browser, though it turns away some programs.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What it leaves out</h3>
+                        <p>This tab is the war with Persia. The wars in Africa and Italy have tabs of their own. The raids across the Danube, the Arab allies&rsquo; own wars in the desert, and many small battles in Armenia and the Caucasus come into these cards only where they changed the course of the war.</p>
+                        <p>It is not a verdict on who was right, and it doesn&rsquo;t try to be.</p>
+                    </div>
+                </div>
+
+                <!-- Corrections intake, as on every case page. Posts to
+                     /api/suggest/case with data-case from <body>; the service
+                     only takes a page on its own allowlist. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or <strong>unfairly portrayed</strong>, let me know. Point me at a document or a report and I will verify it on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to a source (optional)"
+                            placeholder="Link to a source, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on: a form with no
+                             action would otherwise send what was typed to this
+                             page's own address. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Sources and links checked <span class="mono">October 21, 2026</span>.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/case-chronicle/">Case Chronicle</a></p>
+                <p class="foot-cite">The Restricted Section &middot; Volume VI</p>
+            </div>
+        </footer>
+
+        <!-- The glossary. A <details>, so the button is a real button, the
+             keyboard works, and it opens with no JavaScript at all - the
+             reader who most needs this is the least likely to have a reason
+             to trust a script with it. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words these pages use because Procopius and the other writers of the time use them. Where a word is a later historian&rsquo;s, the definition says so.</p>
+
+                <p class="gloss-s">The two sides</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-empire">Eastern Roman Empire</dt><dd>The half of the Roman Empire ruled from Constantinople, which outlasted the western half by nearly a thousand years. Its people called themselves Romans.</dd></div>
+                    <div><dt id="t-byzantine">Byzantine</dt><dd>The name historians gave the Eastern Roman Empire long after it was gone, from Byzantium, the old Greek name of Constantinople. Nobody at the time called it that.</dd></div>
+                    <div><dt id="t-ostrogoths">Ostrogoths</dt><dd>The eastern Goths, a Germanic people who came out of the Balkans under Theodoric and ruled Italy from 493 until this war. Their cousins the Visigoths, the western Goths, ruled Spain.</dd></div>
+                    <div><dt id="t-arian">Arian</dt><dd>A kind of Christianity which held that the Son was created by the Father, and so was less than him. The Goths, the Vandals and the Lombards were Arians. The Empire and most Italians held the Catholic creed, which says the two are equal.</dd></div>
+                    <div><dt id="t-catholic">Catholic</dt><dd>Here, the creed of the councils of Nicaea and Chalcedon, held by the emperors and the popes, as against the Arians.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Peoples in the armies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-isaurians">Isaurians</dt><dd>Mountain people from southern Asia Minor, now Turkey, inside the Empire, who served in its armies.</dd></div>
+                    <div><dt id="t-huns">Huns</dt><dd>Nomad horsemen from beyond the Black Sea. By Justinian&rsquo;s day the name covered several such peoples, and many of them fought for the Empire as mounted archers.</dd></div>
+                    <div><dt id="t-heruls">Heruls</dt><dd>A Germanic people from the Danube, many of whom fought for the Empire for pay.</dd></div>
+                    <div><dt id="t-gepids">Gepids</dt><dd>A Germanic people on the middle Danube, neighbors and enemies of the Lombards.</dd></div>
+                    <div><dt id="t-lombards">Lombards</dt><dd>A Germanic people from the Danube. They sent soldiers to fight for Narses in 552, and in 568 came into Italy themselves and took most of it.</dd></div>
+                    <div><dt id="t-franks">Franks</dt><dd>The Germanic people who ruled Gaul, now France, under kings of their own. Both sides in this war courted them, and they kept faith with neither.</dd></div>
+                    <div><dt id="t-alamanni">Alamanni</dt><dd>A Germanic people of the upper Rhine, ruled by the Franks in Justinian&rsquo;s day.</dd></div>
+                    <div><dt id="t-burgundians">Burgundians</dt><dd>A Germanic people in the Rhône valley, conquered by the Franks in 534.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Offices and titles</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-senate">Senate</dt><dd>Rome&rsquo;s ancient council of the great landowning families. It still met in Rome under the Gothic kings, and its members were the richest men in Italy.</dd></div>
+                    <div><dt id="t-consul">Consul</dt><dd>An old Roman office that was by now an honor. It gave its name to the year, and Belisarius held it in 535. Justinian let it lapse after 541.</dd></div>
+                    <div><dt id="t-patrician">Patrician</dt><dd>A title of the highest honor, given by the emperor.</dd></div>
+                    <div><dt id="t-eunuch">Eunuch</dt><dd>A man castrated as a boy. Eunuchs served in the emperor&rsquo;s palace, and a few, like Narses, rose to great power.</dd></div>
+                    <div><dt id="t-pope">Pope</dt><dd>The bishop of Rome. In this war the popes were subjects first of the Gothic king and then of the emperor, and both sides tried to use them.</dd></div>
+                    <div><dt id="t-pallium">Pallium</dt><dd>A band of white wool worn over the shoulders, the sign of a pope&rsquo;s or an archbishop&rsquo;s office.</dd></div>
+                    <div><dt id="t-pragmatic-sanction">Pragmatic Sanction</dt><dd>A law an emperor issued in answer to a request. Justinian&rsquo;s of 554 laid down how Italy was to be ruled after the war.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Money</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-centenarium">Centenarium</dt><dd>A hundred Roman pounds of gold, about 72 of today&rsquo;s pounds. Large sums were counted in them.</dd></div>
+                    <div><dt id="t-gold-piece">Gold piece</dt><dd>The solidus, the Empire&rsquo;s gold coin. Seventy-two were struck from a Roman pound of gold.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The sources</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-procopius">Procopius</dt><dd>Procopius of Caesarea, Belisarius&rsquo;s legal secretary from 527, who saw much of these wars himself and wrote their history in eight books, the <em>Wars</em>. He also wrote the <em>Secret History</em> and a book on Justinian&rsquo;s buildings.</dd></div>
+                    <div><dt id="t-secret-history">Secret History</dt><dd>A book Procopius wrote in secret, about 550, and could not publish. It blames Justinian, Theodora, Belisarius and his wife Antonina for the age&rsquo;s disasters, and historians use it with care.</dd></div>
+                    <div><dt id="t-book-of-the-popes">Book of the Popes</dt><dd>The <em>Liber Pontificalis</em>, lives of the popes kept by the church in Rome. Some lives were written soon after the events they tell.</dd></div>
+                    <div><dt id="t-cassiodorus">Cassiodorus</dt><dd>A Roman senator who served the Gothic kings as a minister and wrote their official letters, which he collected as the <em>Variae</em>.</dd></div>
+                    <div><dt id="t-jordanes">Jordanes</dt><dd>A writer of Gothic descent who wrote a history of the Goths in Constantinople, about 551.</dd></div>
+                    <div><dt id="t-agathias">Agathias</dt><dd>A lawyer and poet in Constantinople who carried Procopius&rsquo;s history on from 552 to 559.</dd></div>
+                    <div><dt id="t-moors">Moors</dt><dd>The Roman name for the Berber peoples of North Africa, outside and inside the old provinces, under kings of their own. Procopius uses it, and it is not the later Spanish sense of the word.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The east</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-sasanian">Sasanian Empire</dt><dd>The Persian empire of the Sasanian kings, from 224 to 651, covering modern Iran and Iraq and more, with its capital at Ctesiphon, near modern Baghdad.</dd></div>
+                    <div><dt id="t-zoroastrian">Zoroastrian</dt><dd>The old faith of Iran, taught by the prophet Zoroaster, and the religion of the Sasanian kings. It held that the dead should not defile the earth, so the dead were left to the birds.</dd></div>
+                    <div><dt id="t-lazica">Lazica</dt><dd>A small Christian kingdom on the eastern shore of the Black Sea, in what is now western Georgia, long under Roman protection.</dd></div>
+                    <div><dt id="t-arab-allies">Arab allies</dt><dd>Arab kings of the desert frontier who fought for the two empires: the Lakhmids, from al-Hira on the Euphrates, for Persia, and the Ghassanids, in the Syrian desert, for Rome.</dd></div>
+                    <div><dt id="t-circus-factions">Blues and Greens</dt><dd>The two great fan clubs of the chariot races in Constantinople, with their own seats, colors and street gangs, and a hand in politics.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+        <a class="to-top" href="#top" aria-label="Back to top" hidden>
+            <span class="to-top-a" aria-hidden="true">&uarr;</span>
+            <span class="to-top-l">Back to top</span>
+        </a>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261022a" defer></script>
+    <script src="/case-chronicle/restricted-section/volume.js?v=20261021a" defer></script>
+</body>
+
+</html>

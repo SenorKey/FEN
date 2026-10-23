@@ -16,7 +16,7 @@
     <!-- The Chronicle's own sheet first, for the nav, the masthead and the
          shelf, and then this room's, which turns the light down on all
          three. -->
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261021a">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261022a">
     <link rel="stylesheet" href="/case-chronicle/restricted-section/restricted.css?v=20261021b">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -108,8 +108,8 @@
                     <p class="crumb"><a href="/case-chronicle/">&larr;&nbsp; Case Chronicle</a></p>
                     <div class="hub-head">
                         <h1 class="masthead-title"><em>The</em> Restricted <em>Section</em></h1>
-                        <p class="hub-motto">These are conflicts, not cases, and each one runs from its start to
-                            today.</p>
+                        <p class="hub-motto">These are conflicts, not cases, each one followed from where it
+                            began.</p>
                     </div>
                 </div>
             </header>
@@ -206,9 +206,9 @@
                     <div class="shelf">
 
                         <div class="shelf-plate">
-                            <p class="plate-rest">Only the first of these has been written. Each one follows a single
+                            <p class="plate-rest">Two of these have been written. Each one follows a single
                                 conflict the way a case&rsquo;s chronology follows a case, with every significant
-                                event in the order it happened, from the start up to today.</p>
+                                event in the order it happened, from its start to its end, or to today.</p>
                         </div>
 
                         <div class="shelf-rail" role="list">
@@ -342,11 +342,16 @@
 
                             <div class="rs-tier" role="none">
 
-                            <span class="bk bk-old" role="listitem" style="--bind: #6e4a2b; --bk-w: 80px; --bk-h: 350px;">
+                            <!-- Written, so a link, held in an rs-li as Volume I is. -->
+                            <span class="rs-li" role="listitem">
+                            <a class="bk bk-old" href="/case-chronicle/restricted-section/justinian/"
+                                aria-describedby="bk-jw-t bk-jw-s" style="--bind: #6e4a2b; --bk-w: 80px; --bk-h: 350px;">
                                 <span class="bk-plate" aria-hidden="true">
                                     <span class="bk-plate-court">Volume VI</span>
-                                    <span class="bk-plate-t">The wars of Justinian</span>
-                                    <span class="bk-plate-s"><span class="pip pip-soon"></span>Not started</span>
+                                    <span class="bk-plate-t" id="bk-jw-t">The wars of Justinian</span>
+                                    <span class="bk-plate-s" id="bk-jw-s"><span class="pip pip-open"></span>527 to 565
+                                        &middot; Three wars, one to a tab</span>
+                                    <span class="bk-plate-go">Open the volume &rarr;</span>
                                 </span>
                                 <span class="sp">
                                     <span class="sp-skin" aria-hidden="true">
@@ -363,6 +368,7 @@
                                     <span class="sp-name">Justinian&rsquo;s Wars</span>
                                     <span class="sp-vol" aria-hidden="true">VI</span>
                                 </span>
+                            </a>
                             </span>
 
                             <span class="bk bk-old bk-bands" role="listitem" style="--bind: #33291e; --bk-w: 104px; --bk-h: 364px;">
