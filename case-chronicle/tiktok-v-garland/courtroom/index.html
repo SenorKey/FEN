@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Out of the index, like the courtroom of every case. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="TikTok v. Garland as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="TikTok v. Garland as a courtroom seen from above: the Supreme Court’s courtroom on January 10, 2025, the nine justices and the three lawyers who argued, seat by seat, turn by turn.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/tiktok-v-garland/courtroom/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/tiktok-v-garland/courtroom/">
-    <meta property="og:title" content="TikTok v. Garland, the courtroom &mdash; Case Chronicle">
+    <meta property="og:title" content="TikTok v. Garland, the courtroom — Case Chronicle">
     <meta property="og:description"
-        content="TikTok v. Garland as a courtroom seen from above: who is in the case at each step, seat by seat. This view is under construction.">
+        content="TikTok v. Garland as a courtroom seen from above: the Supreme Court’s courtroom on January 10, 2025, the nine justices and the three lawyers who argued, seat by seat, turn by turn.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,8 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="tiktok-v-garland">
     <a href="#main-content" class="skip-link">Skip to content</a>
-
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -96,7 +85,7 @@
         <header class="masthead masthead-view masthead-books" id="top">
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/tiktok-v-garland/">&larr;&nbsp; TikTok v. Garland</a></p>
-                <p class="eyebrow">U.S. Supreme Court &middot; No. 24&#8209;656</p>
+                <p class="eyebrow">U.S. Supreme Court &middot; No. 24&#8209;656 &nbsp;&middot;&nbsp; D.C. Circuit &middot; No. 24&#8209;1113</p>
                 <h1 class="masthead-title">TikTok <em>v.</em> Garland</h1>
 
                 <nav class="views" aria-label="Views of this case">
@@ -119,19 +108,26 @@
         <!-- ═══════════════════════════════════════════════
              The courtroom, from above
 
-             Under construction: the stock plan is drawn and nobody is
-             seated in it. The list under "In the room" is this page's
-             data, and it holds one note for now. The chronology has no
-             moment yet, only its starting card, so the script leaves
-             the bar hidden and the page is the plan and the two lists.
+             Drawn for this case and not the shared plan: the Supreme
+             Court's courtroom, where the case was heard in person on
+             one day, January 10, 2025. The winged bench of nine in
+             seat order, the Clerk to its left and the Marshal to its
+             right, the lectern before the Chief Justice, two counsel
+             tables, the bronze railing and the bar members' seats, the
+             press and the justices' guests along the side walls, and
+             the public at the back. It is a diagram of who is in the
+             room and not a survey of it.
 
-             On a written case that list has one row a person: who, in
-             which seat, and between which entries of the chronology.
-             The script reads the list, reads the chronology page for
-             the moments, and seats people accordingly. The days the
-             court sat go in ol.cr-sits, each with the id of its entry
-             in data-at and data-kind="court". With no script the plan
-             is drawn empty and the list is simply a list.
+             The D.C. Circuit's argument was in another courthouse and
+             is listed as such. The ruling of January 17, 2025 was not
+             read from the bench. Tan v. Trump has had no hearing.
+
+             The list of people underneath is plain markup and is the
+             whole of this page's data: who, in which seat, and
+             between which entries of the chronology. The script reads
+             that list, reads the chronology page for the moments, and
+             seats people accordingly. With no script the plan is
+             drawn empty and the list is simply a list.
 
              Left is the side that filed, as everywhere else here.
              ═══════════════════════════════════════════════ -->
@@ -139,16 +135,11 @@
             <div class="wrap">
                 <p class="kicker">Courtroom View</p>
                 <h2 class="section-title" id="cr-h">The room, one moment at a time</h2>
-                <!-- The lede a written case carries here: "The same case as the
-                     Chronological View, drawn as the room it happened in. Move
-                     the line along the bar, or step with Previous and Next, and
-                     the room changes with the moment: who was in it, who was
-                     only on a screen, and which parts of it stood empty." -->
                 <p class="section-lede">The same case as the Chronological View, drawn as the room it happened in.
-                    The room is empty for now. Once the case is written, a bar of its moments goes over the plan,
-                    and moving along it shows who was in the room at each one.</p>
+                    Move the line along the bar, or step with Previous and Next, and the room changes with the
+                    moment: who was in it, and which parts of it stood empty.</p>
 
-                <div class="cr" data-chronology="/case-chronicle/tiktok-v-garland/chronology/" data-opens="ev-under-construction">
+                <div class="cr" data-chronology="/case-chronicle/tiktok-v-garland/chronology/" data-opens="ev-tiktok-and-bytedance-sue">
 
                     <!-- The bar of moments. Empty here and hidden: it is built
                          from the chronology, which only the script can fetch. -->
@@ -172,117 +163,100 @@
                         <div class="cr-fig">
                             <div class="cr-plan">
                             <svg class="cr-svg" viewBox="0 0 760 880" aria-hidden="true">
-                            <path class="cr-wall" d="M374 864H16V16h728v848H434"/>
-                            <path class="cr-door" d="M374 864v-14M434 864v-14"/>
+                            <path class="cr-wall" d="M346 864H16V16h728v848H414"/>
+                            <path class="cr-door" d="M346 864v-14M414 864v-14"/>
 
-                            <rect class="cr-area" data-area="court" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-desk" x="269" y="88" width="270" height="30"/>
-                            <rect class="cr-box" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-box" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-box" x="36" y="230" width="116" height="234"/>
+                            <!-- The bench, winged: a straight middle and two wings
+                                 angled toward the room, the justices behind it. -->
+                            <rect class="cr-area" data-area="court" x="56" y="44" width="648" height="138"/>
+                            <path class="cr-desk" d="M70 150L220 108H540L690 150L684 170L536 128H224L76 170Z"/>
 
-                            <rect class="cr-area" data-area="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-area" data-area="d" x="409" y="408" width="200" height="152"/>
-                            <rect class="cr-desk" x="209" y="420" width="180" height="32"/>
-                            <rect class="cr-desk" x="419" y="420" width="180" height="32"/>
+                            <!-- The Clerk's desk to the left of the bench, the
+                                 Marshal's to the right, as you face it. -->
+                            <rect class="cr-box" x="40" y="236" width="88" height="30"/>
+                            <rect class="cr-box" x="632" y="236" width="88" height="30"/>
 
-                            <path class="cr-bar" d="M16 596H364M444 596H744"/>
-                            <path class="cr-gate" d="M364 596l34 -12M444 596l-34 -12"/>
+                            <!-- The lectern, in front of the Chief Justice. -->
+                            <rect class="cr-box" x="350" y="230" width="60" height="16"/>
 
-                            <rect class="cr-pew" x="70" y="634" width="294" height="24"/><rect class="cr-pew" x="444" y="634" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="692" width="294" height="24"/><rect class="cr-pew" x="444" y="692" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="750" width="294" height="24"/><rect class="cr-pew" x="444" y="750" width="246" height="24"/>
-                            <rect class="cr-pew" x="70" y="808" width="294" height="24"/><rect class="cr-pew" x="444" y="808" width="246" height="24"/>
+                            <!-- Two counsel tables of four. -->
+                            <rect class="cr-area" data-area="p" x="128" y="314" width="216" height="80"/>
+                            <rect class="cr-area" data-area="d" x="416" y="314" width="216" height="80"/>
+                            <rect class="cr-desk" x="140" y="326" width="192" height="22"/>
+                            <rect class="cr-desk" x="428" y="326" width="192" height="22"/>
+
+                            <!-- The press along the left wall, the justices' guests
+                                 along the right, facing each other. -->
+                            <rect class="cr-pew" x="34" y="300" width="20" height="130"/>
+                            <rect class="cr-pew" x="62" y="300" width="20" height="130"/>
+                            <rect class="cr-pew" x="678" y="300" width="20" height="130"/>
+                            <rect class="cr-pew" x="706" y="300" width="20" height="130"/>
+
+                            <!-- The bronze railing, and the bar members' seats
+                                 just past it. -->
+                            <path class="cr-bar" d="M16 456H344M416 456H744"/>
+                            <path class="cr-gate" d="M344 456H416"/>
+                            <rect class="cr-pew" x="110" y="476" width="540" height="20"/>
+                            <rect class="cr-pew" x="110" y="508" width="540" height="20"/>
+
+                            <!-- The public, at the back. -->
+                            <rect class="cr-pew" x="70" y="572" width="274" height="22"/>
+                            <rect class="cr-pew" x="416" y="572" width="274" height="22"/>
+                            <rect class="cr-pew" x="70" y="626" width="274" height="22"/>
+                            <rect class="cr-pew" x="416" y="626" width="274" height="22"/>
+                            <rect class="cr-pew" x="70" y="680" width="274" height="22"/>
+                            <rect class="cr-pew" x="416" y="680" width="274" height="22"/>
+                            <rect class="cr-pew" x="70" y="734" width="274" height="22"/>
+                            <rect class="cr-pew" x="416" y="734" width="274" height="22"/>
+                            <rect class="cr-pew" x="70" y="788" width="274" height="22"/>
+                            <rect class="cr-pew" x="416" y="788" width="274" height="22"/>
 
                             <!-- The parts of the room, for the script to measure. Never drawn. -->
-                            <rect class="cr-zone" data-zone="bench" x="239" y="34" width="330" height="104"/>
-                            <rect class="cr-zone" data-zone="stand" x="128" y="62" width="102" height="80"/>
-                            <rect class="cr-zone" data-zone="staff" x="590" y="70" width="76" height="64"/>
-                            <rect class="cr-zone" data-zone="jury" x="36" y="230" width="116" height="234"/>
-                            <rect class="cr-zone" data-zone="p" x="199" y="408" width="200" height="152"/>
-                            <rect class="cr-zone" data-zone="d" x="409" y="408" width="200" height="152"/>
-                            <rect class="cr-zone" data-zone="gallery" x="56" y="622" width="648" height="222"/>
+                            <rect class="cr-zone" data-zone="bench" x="56" y="44" width="648" height="138"/>
+                            <rect class="cr-zone" data-zone="c" x="40" y="200" width="88" height="66"/>
+                            <rect class="cr-zone" data-zone="m" x="632" y="200" width="88" height="66"/>
+                            <rect class="cr-zone" data-zone="stand" x="346" y="226" width="68" height="54"/>
+                            <rect class="cr-zone" data-zone="p" x="128" y="314" width="216" height="80"/>
+                            <rect class="cr-zone" data-zone="d" x="416" y="314" width="216" height="80"/>
+                            <rect class="cr-zone" data-zone="press" x="28" y="294" width="60" height="142"/>
+                            <rect class="cr-zone" data-zone="guests" x="672" y="294" width="60" height="142"/>
+                            <rect class="cr-zone" data-zone="bar" x="104" y="470" width="552" height="64"/>
+                            <rect class="cr-zone" data-zone="gallery" x="64" y="566" width="632" height="250"/>
 
-                            <circle class="cr-seat" data-seat="judge-l" cx="354" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="judge-r" cx="454" cy="62" r="13"/>
-                            <circle class="cr-seat" data-seat="stand" cx="179" cy="102" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-a" cx="154" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-b" cx="204" cy="88" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-c" cx="154" cy="122" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="stand-d" cx="204" cy="122" r="13"/>
-                            <circle class="cr-seat" data-seat="rep" cx="628" cy="102" r="13"/>
-                            <circle class="cr-seat" data-seat="p1" cx="239" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p2" cx="299" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p3" cx="359" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="p4" cx="239" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p5" cx="299" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="p6" cx="359" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d1" cx="449" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d2" cx="509" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d3" cx="569" cy="484" r="13"/>
-                            <circle class="cr-seat" data-seat="d4" cx="449" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d5" cx="509" cy="534" r="13"/>
-                            <circle class="cr-seat" data-seat="d6" cx="569" cy="534" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g1" cx="112" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-bench" data-seat="g5" cx="482" cy="646" r="13"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="1" cx="70" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="2" cx="118" cy="264" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="3" cx="70" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="4" cx="118" cy="298" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="5" cx="70" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="6" cx="118" cy="332" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="7" cx="70" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="8" cx="118" cy="366" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="9" cx="70" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="10" cx="118" cy="400" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="11" cx="70" cy="434" r="11"/>
-                            <circle class="cr-seat cr-seat-j" data-juror="12" cx="118" cy="434" r="11"/>
-                            <circle class="cr-pub" data-pub="1" cx="98" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="2" cx="145" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="3" cx="193" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="4" cx="240" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="5" cx="288" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="6" cx="336" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="7" cx="472" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="8" cx="510" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="9" cx="548" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="10" cx="586" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="11" cx="624" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="12" cx="662" cy="704" r="8"/>
-                            <circle class="cr-pub" data-pub="13" cx="98" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="14" cx="145" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="15" cx="193" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="16" cx="240" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="17" cx="288" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="18" cx="336" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="19" cx="472" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="20" cx="510" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="21" cx="548" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="22" cx="586" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="23" cx="624" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="24" cx="662" cy="762" r="8"/>
-                            <circle class="cr-pub" data-pub="25" cx="98" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="26" cx="145" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="27" cx="193" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="28" cx="240" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="29" cx="288" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="30" cx="336" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="31" cx="472" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="32" cx="510" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="33" cx="548" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="34" cx="586" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="35" cx="624" cy="820" r="8"/>
-                            <circle class="cr-pub" data-pub="36" cx="662" cy="820" r="8"/>
+                            <circle class="cr-seat" data-seat="judge-0" cx="95" cy="118" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-1" cx="164" cy="98" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-2" cx="240" cy="84" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-3" cx="310" cy="84" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-4" cx="380" cy="84" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-5" cx="450" cy="84" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-6" cx="520" cy="84" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-7" cx="596" cy="98" r="13"/>
+                            <circle class="cr-seat" data-seat="judge-8" cx="665" cy="118" r="13"/>
+                            <circle class="cr-seat" data-seat="c1" cx="84" cy="222" r="13"/>
+                            <circle class="cr-seat" data-seat="m1" cx="676" cy="222" r="13"/>
+                            <circle class="cr-seat" data-seat="stand" cx="380" cy="262" r="13"/>
+                            <circle class="cr-seat" data-seat="p1" cx="157" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="p2" cx="210" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="p3" cx="263" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="p4" cx="316" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="d1" cx="444" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="d2" cx="497" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="d3" cx="550" cy="368" r="13"/>
+                            <circle class="cr-seat" data-seat="d4" cx="603" cy="368" r="13"/>
                         </svg>
-                            <span class="cr-lab" style="left:53.16%;top:14.55%">Bench</span>
-                        <span class="cr-lab" style="left:23.55%;top:17.73%">Witness stand</span>
-                        <span class="cr-lab" style="left:82.63%;top:16.82%">Reporter</span>
-                        <span class="cr-lab" style="left:12.37%;top:24.55%">Jury box</span>
-                        <span class="cr-lab" style="left:39.34%;top:45%">Petitioners</span>
-                        <span class="cr-lab" style="left:66.97%;top:45%">Respondent</span>
-                        <span class="cr-lab" style="left:90.79%;top:66.14%">The bar</span>
-                        <span class="cr-lab" style="left:28.55%;top:70.23%">Public gallery</span>
+                            <span class="cr-lab" style="left:50%;top:16.59%">Bench</span>
+                        <span class="cr-lab" style="left:11.05%;top:32.05%">Clerk</span>
+                        <span class="cr-lab" style="left:88.95%;top:32.05%">Marshal</span>
+                        <span class="cr-lab" style="left:50%;top:33.64%">Lectern</span>
+                        <span class="cr-lab" style="left:31.05%;top:34.55%">Challengers</span>
+                        <span class="cr-lab" style="left:68.95%;top:34.55%">Government</span>
+                        <span class="cr-lab" style="left:7.63%;top:50.68%">Press</span>
+                        <span class="cr-lab" style="left:92.37%;top:50.68%">Guests</span>
+                        <span class="cr-lab" style="left:50%;top:50.45%">Railing</span>
+                        <span class="cr-lab" style="left:50%;top:61.82%">Bar members</span>
+                        <span class="cr-lab" style="left:50%;top:94.55%">Public</span>
                             </div>
+
                             <!-- What the marks mean. Hidden until the script has
                                  drawn any, since without it there are none. -->
                             <ul class="cr-key" hidden>
@@ -305,10 +279,240 @@
                             <div class="cr-list">
                                 <h3 class="cr-cast-h">In the room</h3>
                                 <ul class="cr-cast">
-                                <li class="cr-who cr-about" id="cr-a1" data-zone="bench" data-always>
-                                    <p class="cr-role">The room</p>
-                                    <p class="cr-name">Under construction</p>
-                                    <p class="cr-note">Nobody is seated yet. The hearings in this case have not been read for this page, so the room is drawn empty. The plan drawn here is the Chronicle&rsquo;s stock courtroom. This court has nine justices, no jury and no witnesses, so the plan will be redrawn for it.</p>
+                                <li class="cr-who" id="cr-p1" data-seat="judge-0" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Amy Coney Barrett</p>
+                                    <p class="cr-note">Asked TikTok&rsquo;s lawyer: &ldquo;The law doesn&rsquo;t say TikTok has to shut down. It says ByteDance has to divest.&rdquo; Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=60" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 59">Tr.</a> p. 59 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p2" data-seat="judge-1" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Neil M. Gorsuch</p>
+                                    <p class="cr-note">Asked about the secret evidence, and whether one of the government&rsquo;s worries was &ldquo;a pretty paternalistic point of view.&rdquo; Agreed with the result only, in a short opinion of his own.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=97" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 96">Tr.</a> pp. 96, <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=124" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 123">123</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf#page=23" target="_blank" rel="noopener" aria-label="Justice Gorsuch’s opinion concurring in the judgment, January 17, 2025, opens the document at page 1">Gorsuch, J.</a> p. 1 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p3" data-seat="judge-2" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Sonia Sotomayor</p>
+                                    <p class="cr-note">Got the Solicitor General to agree that if TikTok stayed up on January 19, the law would be broken. Joined all but one part of the opinion, writing that the First Amendment plainly applies.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=172" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 171">Tr.</a> p. 171 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf#page=21" target="_blank" rel="noopener" aria-label="Justice Sotomayor’s concurring opinion, January 17, 2025, opens the document at page 1">Sotomayor, J.</a> p. 1 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p4" data-seat="judge-3" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Clarence Thomas</p>
+                                    <p class="cr-note">Asked the first question of the day: &ldquo;Exactly what is TikTok&rsquo;s speech here?&rdquo; Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=7" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 6">Tr.</a> p. 6 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p5" data-seat="judge-4" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">The Chief Justice</p>
+                                    <p class="cr-name">John G. Roberts, Jr.</p>
+                                    <p class="cr-note">The Chief Justice, in the center seat. Asked whether the Court was &ldquo;supposed to ignore the fact that the ultimate parent is, in fact, subject to doing intelligence work for the Chinese government.&rdquo;</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=9" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 8">Tr.</a> pp. 8&ndash;9 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p6" data-seat="judge-5" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Samuel A. Alito, Jr.</p>
+                                    <p class="cr-note">Asked whether ByteDance had &ldquo;devised this magical algorithm&rdquo; that no one else could match. Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=112" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 111">Tr.</a> pp. 111&ndash;112 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p7" data-seat="judge-6" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Elena Kagan</p>
+                                    <p class="cr-note">Asked what &ldquo;covert&rdquo; added, since &ldquo;everybody does know now that there&rsquo;s China behind it.&rdquo; Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=124" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 123">Tr.</a> p. 123 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p8" data-seat="judge-7" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Brett M. Kavanaugh</p>
+                                    <p class="cr-note">Called the data collection &ldquo;a huge concern for the future of the country,&rdquo; and asked what would happen on January 19. Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=56" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 55">Tr.</a> pp. 55&ndash;57 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p9" data-seat="judge-8" data-side="court" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-in="ev-tiktok-argues ev-the-creators-argue ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">Justice</p>
+                                    <p class="cr-name">Ketanji Brown Jackson</p>
+                                    <p class="cr-note">The most junior justice, at the far right. Asked whether this was &ldquo;really a right of association case.&rdquo; Didn&rsquo;t write separately.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/courtroomseating.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s courtroom seating chart, opens the document">Seating chart</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=66" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 65">Tr.</a> p. 65 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> p. 269</p>
+                                </li>
+                                <li class="cr-who" id="cr-p10" data-seat="p1" data-side="p" data-from="ev-tiktok-and-bytedance-sue" data-gone="ev-to-the-supreme-court">
+                                    <p class="cr-role">For TikTok, in the D.C. Circuit</p>
+                                    <p class="cr-name">Andrew J. Pincus</p>
+                                    <p class="cr-note">Argued for TikTok and ByteDance in the D.C. Circuit in September 2024. That argument was in another courthouse, so he&rsquo;s drawn here only as part of the case.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=1" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 1">D.C. Cir. opinion</a> p. 1 &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208662220.0_1.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s minute entry for the argument of September 16, 2024, opens the document">Minutes, Sept 16, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p11" data-seat="p1" data-side="p" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-not="ev-tiktok-argues ev-tiktoks-last-word" data-in="ev-the-creators-argue ev-the-government-argues">
+                                    <p class="cr-role">For TikTok and ByteDance</p>
+                                    <p class="cr-name">Noel J. Francisco</p>
+                                    <p class="cr-note">Of Jones Day, and Solicitor General in President Trump&rsquo;s first term. At the table while the others argued.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=3" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 2">Tr.</a> p. 2 &middot; <a class="cite-doc" href="https://www.jonesday.com/en/lawyers/f/noel-francisco" target="_blank" rel="noopener" aria-label="Jones Day’s biography of Noel Francisco, opens in a new tab">Jones Day, Francisco</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p12" data-seat="stand" data-side="p" data-at="ev-tiktok-argues ev-tiktoks-last-word" data-in="*">
+                                    <p class="cr-role">At the lectern</p>
+                                    <p class="cr-name">Noel J. Francisco</p>
+                                    <p class="cr-note">Argued first, for about an hour, and came back for the rebuttal at the end.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=5" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 4">Tr.</a> pp. 4&ndash;73, <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=173" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 172">172&ndash;178</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p13" data-seat="p3" data-side="p" data-from="ev-eight-creators-sue-too" data-gone="ev-the-case-is-closed" data-not="ev-the-creators-argue" data-in="ev-tiktok-argues ev-the-government-argues ev-tiktoks-last-word">
+                                    <p class="cr-role">For the creators</p>
+                                    <p class="cr-name">Jeffrey L. Fisher</p>
+                                    <p class="cr-note">Of O&rsquo;Melveny & Myers. He argued for the creators in both courts. At the table while the others argued.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=3" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 2">Tr.</a> p. 2 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/DocketPDF/24/24-656/336134/20241227155801895_Firebaugh%20v.%20Garland%20--%20Merits%20Brief%20for%20Petitioners.pdf" target="_blank" rel="noopener" aria-label="The creators’ brief in the Supreme Court, December 27, 2024, opens the document">Creators&rsquo; brief</a> cover &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208662220.0_1.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s minute entry for the argument of September 16, 2024, opens the document">Minutes, Sept 16, 2024</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p14" data-seat="stand" data-side="p" data-at="ev-the-creators-argue" data-in="*">
+                                    <p class="cr-role">At the lectern</p>
+                                    <p class="cr-name">Jeffrey L. Fisher</p>
+                                    <p class="cr-note">Argued second, sharing the challengers&rsquo; side under the Court&rsquo;s order for <a class="term" href="#t-divided-argument" data-term="t-divided-argument" title="Divided argument: Two lawyers splitting one side’s time. TikTok’s lawyer and the creators’ lawyer shared the challengers’ side.">divided argument</a>.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=74" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 73">Tr.</a> pp. 73&ndash;117 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-656, opens the document">Docket, No. 24-656</a></p>
+                                </li>
+                                <li class="cr-who" id="cr-p15" data-seat="d1" data-side="d" data-from="ev-tiktok-and-bytedance-sue" data-gone="ev-to-the-supreme-court">
+                                    <p class="cr-role">For the government, in the D.C. Circuit</p>
+                                    <p class="cr-name">Daniel Tenny</p>
+                                    <p class="cr-note">Of the Justice Department&rsquo;s appellate staff. Argued in the D.C. Circuit, in another courthouse.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208662220.0_1.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s minute entry for the argument of September 16, 2024, opens the document">Minutes, Sept 16, 2024</a> &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=3" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 3">D.C. Cir. opinion</a> p. 3</p>
+                                </li>
+                                <li class="cr-who" id="cr-p16" data-seat="d1" data-side="d" data-from="ev-to-the-supreme-court" data-gone="ev-the-case-is-closed" data-not="ev-the-government-argues" data-in="ev-tiktok-argues ev-the-creators-argue ev-tiktoks-last-word">
+                                    <p class="cr-role">For the government</p>
+                                    <p class="cr-name">Elizabeth B. Prelogar</p>
+                                    <p class="cr-note">The Solicitor General. At the table while the challengers argued.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=3" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 2">Tr.</a> p. 2</p>
+                                </li>
+                                <li class="cr-who" id="cr-p17" data-seat="stand" data-side="d" data-at="ev-the-government-argues" data-in="*">
+                                    <p class="cr-role">At the lectern</p>
+                                    <p class="cr-name">Elizabeth B. Prelogar</p>
+                                    <p class="cr-note">Argued for the government, for nearly an hour.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=118" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 117">Tr.</a> pp. 117&ndash;172</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a1" data-zone="bar" data-at="ev-tiktok-argues" data-always data-crowd="some">
+                                    <p class="cr-role">The bar section</p>
+                                    <p class="cr-name">About 90 new members</p>
+                                    <p class="cr-note">Before the argument the Court admitted about 90 lawyers to its bar, each moved in by a member. The seats just past the bronze railing are kept for members of the Court&rsquo;s bar.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> pp. 269&ndash;272 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a2" data-zone="stand" data-when="court" data-always>
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Right in front of the Chief Justice</p>
+                                    <p class="cr-note">Each lawyer stands here in turn. A white light on it means five minutes are left, and a red one means time is up. The Court gave the case two hours, and it ran about two and a half.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=5" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 4">Tr.</a> pp. 4, <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=179" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 178">178</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a3" data-zone="p" data-when="court" data-always>
+                                    <p class="cr-role">The challengers&rsquo; table</p>
+                                    <p class="cr-name">Drawn by the page&rsquo;s rule</p>
+                                    <p class="cr-note">Four seats at each table. With the argument divided, the Court allows one co-counsel for each lawyer who argues, and they aren&rsquo;t named in any source found. Which table each side used isn&rsquo;t either, so the challengers are drawn on the left, as on every page here.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/casehand/guideforcounsel.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s guide for counsel, opens the document">Guide for counsel</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-656, opens the document">Docket, No. 24-656</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a4" data-zone="d" data-when="court" data-always>
+                                    <p class="cr-role">The government&rsquo;s table</p>
+                                    <p class="cr-name">Up to four</p>
+                                    <p class="cr-note">The Solicitor General and up to three others from her office. The others aren&rsquo;t named in any source found.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/casehand/guideforcounsel.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s guide for counsel, opens the document">Guide for counsel</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a5" data-zone="c" data-when="court" data-always>
+                                    <p class="cr-role">The Clerk</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The Clerk of the Court, or someone from the Clerk&rsquo;s office, sits to the left of the bench and swears in new members of the bar. The Court doesn&rsquo;t record who sat in this chair that day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a6" data-zone="m" data-when="court" data-always>
+                                    <p class="cr-role">The Marshal</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">The Marshal, or a deputy, sits to the right of the bench, calls the Court to order and keeps time. Who sat in this chair that day isn&rsquo;t recorded.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a7" data-zone="bar" data-when="court">
+                                    <p class="cr-role">The bar section</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Seats for members of the Court&rsquo;s bar, just past the bronze railing. Who sat in them isn&rsquo;t recorded.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a8" data-zone="press" data-when="court" data-always>
+                                    <p class="cr-role">The press</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Reporters sit here, to the left of the bench. Which ones were in the room isn&rsquo;t recorded in any source found.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a9" data-zone="guests" data-when="court" data-always>
+                                    <p class="cr-role">The justices&rsquo; guests</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Benches for the justices&rsquo; guests, seated by the seniority of the justice who invited them, with chairs in front for retired justices and officers of the Court. Nobody who sat here is recorded.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a10" data-zone="gallery" data-when="court" data-always>
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Not recorded</p>
+                                    <p class="cr-note">Seats for the public, given out to people waiting in line. No source found names anyone who sat in them that day.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/visiting/visitorsguidetooralargument.aspx" target="_blank" rel="noopener" aria-label="The Supreme Court’s visitor’s guide to oral argument, opens the document">Visitor&rsquo;s guide</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a11" data-zone="bench" data-from="ev-tiktok-and-bytedance-sue" data-gone="ev-to-the-supreme-court" data-when="paper away">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Not here yet</p>
+                                    <p class="cr-note">Until December 2024 the case was in the D.C. Circuit, a different court in a different building. It reached this Court on December 16, 2024.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.courtlistener.com/docket/68506893/tiktok-inc-v-pamela-bondi/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for No. 24-1113, on CourtListener, opens the document">Docket, No. 24-1113</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a12" data-zone="bench" data-from="ev-the-case-is-closed" data-when="paper">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">A different case now</p>
+                                    <p class="cr-note">This Court&rsquo;s case closed on February 18, 2025. Tan v. Trump, the case about the sale, is in the D.C. Circuit, and no hearing has been held in it.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/DocketPDF/24/24-656/342952/20250218111452493_EFILING%2024-656%20and%2024-657%20Aff%20DC%20Cir.%202.18.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s judgment as issued, February 18, 2025, opens the document">Judgment issued</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/72369202/zhaocheng-tan-v-donald-trump/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for Tan v. Trump, No. 26-1047, on CourtListener, opens the document">Docket, No. 26-1047</a></p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a13" data-zone="bench" data-when="paper">
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Deciding on paper</p>
+                                    <p class="cr-note">The justices are in the case, but this was a filing or a written order, or it happened outside court. The ruling of January 17, 2025 was released, not read from the bench. Nothing was heard in court on this date.</p>
+                                    <p class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=294" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 294">Journal</a> p. 313</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a14" data-zone="stand" data-when="paper away">
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the lawyers stand to argue. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a15" data-zone="p" data-when="paper away">
+                                    <p class="cr-role">The challengers&rsquo; table</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where TikTok&rsquo;s and the creators&rsquo; lawyers sit. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a16" data-zone="d" data-when="paper away">
+                                    <p class="cr-role">The government&rsquo;s table</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Where the government&rsquo;s lawyers sit. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a17" data-zone="c" data-when="paper away">
+                                    <p class="cr-role">The Clerk</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the Clerk of the Court sits. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a18" data-zone="m" data-when="paper away">
+                                    <p class="cr-role">The Marshal</p>
+                                    <p class="cr-name">Not in use</p>
+                                    <p class="cr-note">Where the Marshal sits. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a19" data-zone="gallery" data-when="paper away">
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Empty</p>
+                                    <p class="cr-note">Seats for the public. Nothing was heard in court on this date.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a20" data-zone="bench" data-before>
+                                    <p class="cr-role">The bench</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the nine justices sit, the Chief Justice in the middle. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a21" data-zone="stand" data-before>
+                                    <p class="cr-role">The lectern</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the lawyers stand to argue. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a22" data-zone="p" data-before>
+                                    <p class="cr-role">The challengers&rsquo; table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side that brought the case sits. It is always drawn on the left here. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a23" data-zone="d" data-before>
+                                    <p class="cr-role">The government&rsquo;s table</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Where the side answering the case sits. On this date there was no case yet.</p>
+                                </li>
+                                <li class="cr-who cr-about" id="cr-a24" data-zone="gallery" data-before>
+                                    <p class="cr-role">The public</p>
+                                    <p class="cr-name">Empty: no case yet</p>
+                                    <p class="cr-note">Seats for the public. On this date there was no case yet.</p>
                                 </li>
                                 </ul>
                             </div>
@@ -317,12 +521,15 @@
 
                     <!-- The days something happened in a room. With the script
                          each one is shown under its own moment; without it this
-                         is the list. The line here has no data-at, so the
-                         script passes over it. -->
+                         is the list. -->
                     <div class="cr-days">
                         <h3 class="cr-cast-h">Days in court</h3>
                         <ol class="cr-sits">
-                            <li><span class="cr-sit-t">None listed yet.</span></li>
+                            <li data-at="ev-argued-before-three-judges" data-kind="away"><span class="cr-sit-d">Sept 16, 2024</span> <span class="cr-sit-t">Argued in the D.C. Circuit before Chief Judge Srinivasan and Judges Rao and Ginsburg. The court opened at 9:33 a.m., and this was the second of two cases that morning.</span> <span class="cr-cite"><a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208662220.0_1.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s minute entry for the argument of September 16, 2024, opens the document">Minutes, Sept 16, 2024</a> &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/recordings/docs/2024/09/24-1113.mp3" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s recording of the argument, September 16, 2024, an audio file of about 85 megabytes, opens the document">Argument audio</a></span></li>
+                            <li data-at="ev-tiktok-argues" data-kind="court"><span class="cr-sit-d">Jan 10, 2025</span> <span class="cr-sit-t">The Court sits at 10 a.m., admits new members to its bar, and calls the case at 10:08. Noel Francisco argues first, for TikTok and ByteDance.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/orders/journal/Jnl24.pdf#page=252" target="_blank" rel="noopener" aria-label="The Journal of the Supreme Court, October Term 2024, opens the document at page 252">Journal</a> pp. 269&ndash;272 &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=5" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 4">Tr.</a> p. 4</span></li>
+                            <li data-at="ev-the-creators-argue" data-kind="court"><span class="cr-sit-d">Jan 10, 2025</span> <span class="cr-sit-t">Jeffrey Fisher argues second, for the creators.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=74" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 73">Tr.</a> p. 73</span></li>
+                            <li data-at="ev-the-government-argues" data-kind="court"><span class="cr-sit-d">Jan 10, 2025</span> <span class="cr-sit-t">Solicitor General Elizabeth Prelogar argues for the government.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=118" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 117">Tr.</a> p. 117</span></li>
+                            <li data-at="ev-tiktoks-last-word" data-kind="court"><span class="cr-sit-d">Jan 10, 2025</span> <span class="cr-sit-t">Francisco&rsquo;s rebuttal. The case is submitted at 12:38 p.m.</span> <span class="cr-cite"><a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=173" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 172">Tr.</a> pp. 172, <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf#page=179" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document at page 178">178</a></span></li>
                         </ol>
                     </div>
                 </div>
@@ -353,22 +560,28 @@
 
                 <div class="notes-grid">
                     <div class="note">
-                        <h3>Under construction</h3>
-                        <p>Only the top of the case page is written. Each of the four views behind its doors
-                            holds one starting card and nothing else yet.</p>
-                        <p>The description at the top of the case page is a temporary one. It comes from a
-                            quick look at the record, and it will be rewritten once the record has been read
-                            in full.</p>
+                        <h3>Source</h3>
+                        <p>Built from the <a class="term" href="#t-record" data-term="t-record" title="Record: Everything a court has in front of it to decide a case: the filings, the declarations, the evidence.">record</a> of the two courts: the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">dockets</a>, the briefs, the sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement a witness signs under penalty of perjury. There was no trial here, so the evidence was mostly declarations.">declarations</a> in the appendix, the D.C. Circuit&rsquo;s opinion of December 6, 2024, the Supreme Court&rsquo;s opinion of January 17, 2025, and the transcript of the argument on January 10, 2025. Then the law itself, the President&rsquo;s orders in the Federal Register, and the filings in Tan v. Trump, read through the archive of federal court records on CourtListener. Each side is described in its own words, in court or in its own briefs.</p>
+                        <p>Words spoken in the Supreme Court are quoted from the Court&rsquo;s own transcript and cited by its page. The D.C. Circuit doesn&rsquo;t post transcripts, so its argument is described, not quoted, with a link to the court&rsquo;s recording. What happened outside the courts after the ruling is cited to the orders themselves where there are any, and to reporting where there aren&rsquo;t.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-656, opens the document">Docket, No. 24-656</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/68506893/tiktok-inc-v-pamela-bondi/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for No. 24-1113, on CourtListener, opens the document">Docket, No. 24-1113</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s opinion of January 17, 2025, opens the document">Opinion</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document">Transcript</a></p>
                     </div>
                     <div class="note">
-                        <h3>Source</h3>
-                        <p>The names, numbers and dates at the top of the case page come from the Supreme Court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a> for the case and from its opinion. Nothing else has been read for these pages yet.</p>
-                        <p class="note-src">Docket: <a class="cite-doc" href="https://www.supremecourt.gov/search.aspx?filename=/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="TikTok v. Garland, the Supreme Court docket, opens in a new tab">No. 24-656</a> &middot; Opinion: <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf" target="_blank" rel="noopener" aria-label="TikTok v. Garland, the opinion of January 17, 2025, opens as a PDF">Jan 17, 2025</a></p>
+                        <h3>Two cases, one ruling</h3>
+                        <p>Two cases were heard together the whole way. TikTok and ByteDance&rsquo;s is No. 24-1113 in the D.C. Circuit and No. 24-656 in the Supreme Court. The creators&rsquo; is No. 24-1130 and No. 24-657, Firebaugh v. Garland. A third petition, BASED Politics&rsquo;, No. 24-1183, was joined to them in the D.C. Circuit. One opinion in each court decided them all.</p>
+                        <p>Other challenges to the same law are left out. One by Robert F. Kennedy Jr. and two others, No. 24-1316, was filed in October 2024, and the government asked the court to set it aside while this one was decided.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-657.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-657, the creators’ case, opens the document">Docket, No. 24-657</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208634724.2.pdf" target="_blank" rel="noopener" aria-label="The order of June 18, 2024, joining BASED Politics’ petition, opens the document">Order of Jun 18, 2024</a> &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=1" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 1">D.C. Cir. opinion</a> p. 1</p>
+                    </div>
+                    <div class="note">
+                        <h3>The case after the case</h3>
+                        <p>The Supreme Court&rsquo;s case is over. It sent its judgment down on February 18, 2025, and the D.C. Circuit closed the case ten days later. What happened to the law after that, the orders not to enforce it, the sale and the new company, happened outside both courts, and these pages say so card by card.</p>
+                        <p>Then in March 2026 a new case was filed under the same law, Tan v. Trump, No. 26-1047 in the D.C. Circuit. Two software engineers who own stock in Alphabet and Meta brought it, and later a former employee of a ByteDance company, against President Trump and the Attorney General. It says the sale isn&rsquo;t the one the law demands. It&rsquo;s still open. These pages show it as far as its record goes, with what each side says marked as what that side says.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/DocketPDF/24/24-656/342952/20250218111452493_EFILING%2024-656%20and%2024-657%20Aff%20DC%20Cir.%202.18.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s judgment as issued, February 18, 2025, opens the document">Judgment issued</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.2103436.0.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s mandate, February 28, 2025, opens the document">Mandate, Feb 28, 2025</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/72369202/zhaocheng-tan-v-donald-trump/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for Tan v. Trump, No. 26-1047, on CourtListener, opens the document">Docket, No. 26-1047</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.42917/gov.uscourts.cadc.42917.01208838932.0.pdf#page=7" target="_blank" rel="noopener" aria-label="The amended petition in Tan v. Trump, April 6, 2026, opens the document at page 6">Amended petition</a> &para;&para; 13&ndash;15</p>
                     </div>
                     <div class="note">
                         <h3>What this is not</h3>
-                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
-                            reach, these pages say so and stop.</p>
+                        <p>Not legal advice, not a finding, and not a verdict. The Supreme Court upheld the law as it applies to TikTok and the creators. It didn&rsquo;t decide whether the 2026 sale meets the law, and no court has yet. What the challengers in Tan v. Trump say about the deal is reported as their claim, and the President&rsquo;s findings about it as his findings.</p>
+                        <p>The government also filed <a class="term" href="#t-classified" data-term="t-classified" title="Classified evidence: Material the government keeps secret for national security. It filed some here for the judges alone, which the other side never got to see or answer.">classified evidence</a> that TikTok never saw. Both courts said they decided without it, and these pages leave it out. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf#page=13" target="_blank" rel="noopener" aria-label="The Supreme Court’s opinion of January 17, 2025, opens the document at page 13">Opinion</a> p. 13 n. 3 &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=64" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 64">D.C. Cir. opinion</a> p. 64</p>
                     </div>
                 </div>
 
@@ -425,24 +638,23 @@
                         address and your browser string, to make abuse traceable and for nothing else.</p>
                 </div>
 
-                <p class="notes-updated">The lines at the top of the case page were checked on
-                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+                <p class="notes-updated">Record reviewed through <span class="mono">October 23, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
             </div>
         </section>
 
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/">frontendneeded.com</a></p>
-                <p class="foot-cite">TikTok Inc. v. Garland, No. 24-656 (U.S.)</p>
+                <p class="foot-cite">TikTok Inc. v. Garland, 604 U.S. 56 (2025), Nos. 24-656 and 24-657 &middot; TikTok Inc. v. Garland, 122 F.4th 930 (D.C. Cir. 2024), No. 24-1113</p>
             </div>
         </footer>
 
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -450,12 +662,108 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the courts use them. The case went through two courts, the D.C. Circuit and the Supreme Court, and a few words only matter after the ruling, in the case that came after it.</p>
+
+                <p class="gloss-s">The courts</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-dc-circuit">D.C. Circuit</dt><dd>The U.S. Court of Appeals for the District of Columbia Circuit, in Washington. The law sends every challenge to it first, and to no other court.</dd></div>
+                    <div><dt id="t-panel">Panel</dt><dd>The three judges of an appeals court who hear a case or a motion. The D.C. Circuit has about a dozen judges, and different panels handle different steps.</dd></div>
+                    <div><dt id="t-merits-panel">Merits panel</dt><dd>The panel that will decide a case itself, as opposed to the ones that handle motions along the way.</dd></div>
+                    <div><dt id="t-attorney-general">Attorney General</dt><dd>The head of the Justice Department. The law gives this office alone the job of enforcing it, which is why the case is named after one.</dd></div>
+                    <div><dt id="t-solicitor-general">Solicitor General</dt><dd>The lawyer who argues the federal government&rsquo;s cases in the Supreme Court. Elizabeth Prelogar held the job when this case was argued.</dd></div>
+                    <div><dt id="t-per-curiam">Per curiam</dt><dd>Latin for &ldquo;by the court.&rdquo; An opinion that no one justice signs, issued in the name of the whole Court.</dd></div>
+                    <div><dt id="t-concurring">Concurring opinion</dt><dd>A justice who agrees with the result writing separately to give other or extra reasons. Concurring &ldquo;in the judgment&rdquo; means agreeing with the result but not the Court&rsquo;s reasoning.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
                     <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-petition-for-review">Petition for review</dt><dd>How a case under this law starts: a request made straight to the appeals court, with no trial court first.</dd></div>
+                    <div><dt id="t-exclusive-jurisdiction">Exclusive jurisdiction</dt><dd>Being the only court allowed to hear a kind of case. The law gave that to the D.C. Circuit.</dd></div>
+                    <div><dt id="t-consolidated">Consolidated</dt><dd>Separate cases joined so they&rsquo;re briefed, argued and decided together.</dd></div>
+                    <div><dt id="t-brief">Brief</dt><dd>A side&rsquo;s written argument to the court.</dd></div>
+                    <div><dt id="t-amicus">Amicus brief</dt><dd>A brief from someone who isn&rsquo;t a party, a &ldquo;friend of the court,&rdquo; giving the court a view of the case.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement a witness signs under penalty of perjury. There was no trial here, so the evidence was mostly declarations.</dd></div>
+                    <div><dt id="t-record">Record</dt><dd>Everything a court has in front of it to decide a case: the filings, the declarations, the evidence.</dd></div>
+                    <div><dt id="t-classified">Classified evidence</dt><dd>Material the government keeps secret for national security. It filed some here for the judges alone, which the other side never got to see or answer.</dd></div>
+                    <div><dt id="t-special-master">Special master</dt><dd>Someone a court appoints to help with a task. TikTok asked for one with a security clearance to review the secret evidence.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How the case moved</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-application">Application</dt><dd>A request to the Supreme Court for emergency help before it has taken a case. Here, to pause the law before it took effect.</dd></div>
+                    <div><dt id="t-injunction">Injunction</dt><dd>A court order stopping something. One &ldquo;pending review&rdquo; pauses a law while a higher court looks at the case.</dd></div>
+                    <div><dt id="t-certiorari">Certiorari</dt><dd>The Supreme Court agreeing to hear a case. Here it treated TikTok&rsquo;s emergency applications as requests for it and granted them two days later.</dd></div>
+                    <div><dt id="t-question-presented">Question presented</dt><dd>The exact question the Supreme Court agrees to answer. Here there was one: does the law, as applied to TikTok and the creators, violate the First Amendment.</dd></div>
+                    <div><dt id="t-as-applied">As applied</dt><dd>A challenge to how a law works on the people bringing it, not to every possible use of it. The Supreme Court looked only at the part of the law that names TikTok.</dd></div>
+                    <div><dt id="t-oral-argument">Oral argument</dt><dd>The time the lawyers spend answering the judges&rsquo; questions in court. No witnesses, no new evidence and no jury.</dd></div>
+                    <div><dt id="t-divided-argument">Divided argument</dt><dd>Two lawyers splitting one side&rsquo;s time. TikTok&rsquo;s lawyer and the creators&rsquo; lawyer shared the challengers&rsquo; side.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>The few minutes the side that brought the case gets at the end, to answer the other side.</dd></div>
+                    <div><dt id="t-mandate">Mandate</dt><dd>The formal order that closes an appeal and makes the decision final in the court below.</dd></div>
+                    <div><dt id="t-moot">Moot</dt><dd>No longer a live question, so there&rsquo;s nothing left for a court to decide.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The law</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-divestiture">Divestiture</dt><dd>Selling off a business, or enough of it that the seller no longer controls it.</dd></div>
+                    <div><dt id="t-qualified-divestiture">Qualified divestiture</dt><dd>A sale the President finds ends a foreign adversary&rsquo;s control and leaves no &ldquo;operational relationship&rdquo; with ByteDance. Only that lifts the law&rsquo;s ban.</dd></div>
+                    <div><dt id="t-operational-relationship">Operational relationship</dt><dd>The tie the law says can&rsquo;t survive the sale, &ldquo;including any cooperation with respect to the operation of a content recommendation algorithm or an agreement with respect to data sharing.&rdquo;</dd></div>
+                    <div><dt id="t-foreign-adversary">Foreign adversary</dt><dd>A country the law treats as one: China, Russia, Iran and North Korea.</dd></div>
+                    <div><dt id="t-app-stores">App stores and hosting</dt><dd>What the law actually forbids, which is offering the app in an app store or hosting it. So it binds companies like Apple, Google and Oracle, not TikTok&rsquo;s users.</dd></div>
+                    <div><dt id="t-civil-penalty">Civil penalty</dt><dd>A fine, not a crime. The law sets it at up to $5,000 for each US user reached through a violation.</dd></div>
+                    <div><dt id="t-extension">The one extension</dt><dd>The law let the President add up to 90 days, once, if he told Congress a sale was in sight and showed binding agreements. No President used it.</dd></div>
+                    <div><dt id="t-general-track">The general track</dt><dd>The law&rsquo;s second route, which lets the President name other apps controlled by a foreign adversary later. TikTok was named in the law itself.</dd></div>
+                    <div><dt id="t-algorithm">Recommendation algorithm</dt><dd>The software that picks which video each user sees next on the &ldquo;For You&rdquo; feed. ByteDance owns it, and it&rsquo;s developed and maintained in China.</dd></div>
+                    <div><dt id="t-executive-order">Executive order</dt><dd>A written order from the President to the executive branch, published in the Federal Register.</dd></div>
+                    <div><dt id="t-non-enforcement">Non-enforcement</dt><dd>The executive branch choosing not to bring cases under a law, here on the President&rsquo;s orders. The law itself stays on the books.</dd></div>
+                    <div><dt id="t-cfius">CFIUS</dt><dd>The Committee on Foreign Investment in the United States, the federal panel that reviews foreign purchases of US businesses for security risks.</dd></div>
+                    <div><dt id="t-nsa">National security agreement</dt><dd>A contract setting the security conditions a company operates under. TikTok&rsquo;s draft ran about 90 pages and was never signed.</dd></div>
+                    <div><dt id="t-project-texas">Project Texas</dt><dd>TikTok&rsquo;s plan to keep US users&rsquo; data in the United States, stored with Oracle and run by a separate US company. TikTok says it spent more than $2 billion on it.</dd></div>
+                    <div><dt id="t-ieepa">IEEPA</dt><dd>The International Emergency Economic Powers Act, the 1977 law President Trump used for his 2020 ban. Courts found it couldn&rsquo;t reach this kind of communication.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The free-speech test</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-first-amendment">First Amendment</dt><dd>The part of the Constitution that bars the government from &ldquo;abridging the freedom of speech.&rdquo; Courts check laws that burden speech with one of a few tests.</dd></div>
+                    <div><dt id="t-assume">Assume without deciding</dt><dd>A court treating something as true for the sake of argument, because the answer wouldn&rsquo;t change the result, and leaving the real question open.</dd></div>
+                    <div><dt id="t-heightened-scrutiny">Heightened scrutiny</dt><dd>Any of the stricter tests a court uses when a law burdens speech, instead of just asking whether the law is reasonable.</dd></div>
+                    <div><dt id="t-strict-scrutiny">Strict scrutiny</dt><dd>The hardest test. The government needs a compelling reason and the narrowest way of getting there. Most laws that get it fail.</dd></div>
+                    <div><dt id="t-intermediate-scrutiny">Intermediate scrutiny</dt><dd>The middle test. The government needs an important reason that isn&rsquo;t about suppressing speech, and a law that doesn&rsquo;t burden much more speech than it has to.</dd></div>
+                    <div><dt id="t-content-based">Content-based</dt><dd>Aimed at what is said, its topic, idea or message. A content-based law gets strict scrutiny.</dd></div>
+                    <div><dt id="t-content-neutral">Content-neutral</dt><dd>Applying whatever is said, like a limit on how loud a speaker can be. A content-neutral law gets intermediate scrutiny.</dd></div>
+                    <div><dt id="t-speaker-based">Singling out a speaker</dt><dd>A law aimed at one speaker. Courts look harder when that&rsquo;s a way of getting at what the speaker says.</dd></div>
+                    <div><dt id="t-tailoring">Tailoring</dt><dd>Whether a law fits its reason, covering what the problem needs and not much more.</dd></div>
+                    <div><dt id="t-less-restrictive">Less restrictive alternative</dt><dd>Another way of meeting the same goal that burdens less speech. If one would work as well, the law can fail.</dd></div>
+                    <div><dt id="t-underinclusive">Underinclusive</dt><dd>Covering too little of the problem a law claims to fix, which can suggest the stated reason isn&rsquo;t the real one.</dd></div>
+                    <div><dt id="t-deference">Deference</dt><dd>A court giving weight to another branch&rsquo;s judgment, here Congress&rsquo;s predictions about national security.</dd></div>
+                    <div><dt id="t-covert-manipulation">Covert content manipulation</dt><dd>The government&rsquo;s second reason: that China could secretly have ByteDance change what Americans see on TikTok. The Supreme Court didn&rsquo;t rest on it.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The other claims</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-equal-protection">Equal protection</dt><dd>The Constitution&rsquo;s promise that the government won&rsquo;t treat people differently without a good enough reason.</dd></div>
+                    <div><dt id="t-bill-of-attainder">Bill of attainder</dt><dd>A law that punishes a named person or group without a trial. The Constitution forbids Congress to pass one.</dd></div>
+                    <div><dt id="t-taking">Taking</dt><dd>The government seizing private property, which the Constitution allows only with fair payment.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The case after the case</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-standing">Standing</dt><dd>The right to bring a case at all. A challenger has to show a real injury of their own, caused by what they&rsquo;re challenging, that a court could fix.</dd></div>
+                    <div><dt id="t-deadline">Deadline to sue</dt><dd>The time limit for bringing a case, also called a statute of limitations. This law allows 90 days after the government action being challenged.</dd></div>
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Asking a court to end a case without deciding who is right, for a reason like filing too late or having no standing.</dd></div>
+                    <div><dt id="t-ripe">Ripe</dt><dd>Ready for a court. A challenge to something that hasn&rsquo;t happened yet comes too early.</dd></div>
+                    <div><dt id="t-pseudonym">Pseudonym</dt><dd>A made-up name, here &ldquo;John Doe,&rdquo; that a court lets a party use to keep their identity off the public record.</dd></div>
+                    <div><dt id="t-certified-index">Certified index</dt><dd>The government&rsquo;s official list of what&rsquo;s in the record behind the decision being challenged. Briefing usually follows it.</dd></div>
+                    <div><dt id="t-motion-to-govern">Motion to govern</dt><dd>The parties&rsquo; proposal to the court for how a case should go on from here.</dd></div>
+                    <div><dt id="t-foia">FOIA</dt><dd>The Freedom of Information Act, which lets anyone ask a federal agency for its records, and sue if it refuses.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The stamp on a ruling</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-granted">Granted</dt><dd>The court said yes to the request on this card, whichever side made it.</dd></div>
+                    <div><dt id="t-denied">Denied</dt><dd>The court said no to the request on this card.</dd></div>
+                    <div><dt id="t-affirmed">Affirmed</dt><dd>The court above agreed with the court below and left its ruling as it was.</dd></div>
+                    <div><dt id="t-referred">Referred</dt><dd>The court didn&rsquo;t decide the request yet. It passed it on to the judges who will decide the whole case.</dd></div>
                 </dl>
             </div>
         </details>

@@ -23,20 +23,18 @@
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Skeleton page. Under construction, like the case page this view
-         belongs to. Take this comment and the line under it out in the same
-         edit that takes them off the case page. -->
+    <!-- Not for search engines yet, like the case page this view belongs to. Take this line out in the same edit that takes it off the case page. -->
     <meta name="robots" content="noindex">
 
     <meta name="description"
-        content="TikTok v. Garland as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="TikTok v. Garland as a TLDR case flow: what the courts had to decide about the law forcing a sale of TikTok, in what order, where each answer led, and the open question about the sale itself.">
     <link rel="canonical" href="https://frontendneeded.com/case-chronicle/tiktok-v-garland/flow/">
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://frontendneeded.com/case-chronicle/tiktok-v-garland/flow/">
-    <meta property="og:title" content="TikTok v. Garland, the TLDR &mdash; Case Chronicle">
+    <meta property="og:title" content="TikTok v. Garland, the TLDR — Case Chronicle">
     <meta property="og:description"
-        content="TikTok v. Garland as a TLDR case flow: what has to be decided, in what order, and where each answer leads. This view is under construction.">
+        content="TikTok v. Garland as a TLDR case flow: what the courts had to decide about the law forcing a sale of TikTok, in what order, where each answer led, and the open question about the sale itself.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -54,17 +52,146 @@
     </script>
 </head>
 
-<!-- data-case is the whole of what the corrections form needs to know. The
-     service checks the slug against its own allowlist before it believes
-     it, so adding a case here without adding it there gets a 400, not a
-     mislabelled correction. -->
 <body data-case="tiktok-v-garland">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- No transcript wash on this page yet. The wash runs each side's own
-         words down its own side of the page, and no transcript in this
-         case has been read for these pages. It goes in with the first one
-         that has. -->
+    <!-- ═══════════════════════════════════════════════
+         Transcript wash
+
+         Each side's own words, run down its own side of the page
+         behind the argument: the challengers' two lawyers on the
+         left, the government's on the right. All of it is argument,
+         and all of it is from the Supreme Court's own transcript of
+         January 10, 2025, cited by its page. The two set as Q and A
+         are answers to justices: Justice Kavanaugh's question to
+         TikTok's lawyer, and Justice Sotomayor's to the Solicitor
+         General.
+
+         Both columns open on the first thing each lawyer said: a
+         platform that "will shut down in nine days," and a "grave
+         threat to national security." That pair is the case in
+         small, which is why the two cards sit level at the head of
+         the page.
+
+         The D.C. Circuit posts no transcript of its own, so nothing
+         from its argument is quoted here. An ellipsis marks words
+         left out.
+
+         The layer is masked to nothing before it reaches the reading
+         column, so it never sits under body text, and it is inert:
+         aria-hidden, unselectable, and invisible to find-in-page.
+         ═══════════════════════════════════════════════ -->
+    <div class="exhibits" aria-hidden="true">
+        <div class="ex-col ex-col-p">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Francisco</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>Under the Act, one of America&rsquo;s most popular speech platforms will shut down in nine days.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 4</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Francisco</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>The government&rsquo;s real target, rather, is the speech itself, its fear that Americans, even if fully informed, could be persuaded by Chinese misinformation. That, however, is a decision that the First Amendment leaves to the people.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 5</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Francisco</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>What happens after January 19th if you lose this case? Can you just spell that out?</dd>
+                    <dt>A</dt><dd>At least as I understand it, we go dark. Essentially, the platform shuts down.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 56&ndash;57</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Fisher</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>Throughout our history, we have faced ideological campaigns by foreign adversaries. Yet, under the First Amendment, mere ideas do not constitute a national security threat. Restricting speech because it might sow doubt about our leaders or undermine democracy are kind of things our enemies do. It is not what we do in this country.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 74&ndash;75</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Francisco</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; the bare minimum that has to be done before we take an unprecedented &mdash; unprecedented step of shutting down the voices of 170 million Americans.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 73</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Francisco</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>If the First Amendment means anything, it means that the government cannot restrict speech in order to protect us from speech.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 177</figcaption>
+                </figure>
+
+            </div>
+        </div>
+
+        <div class="ex-col ex-col-d">
+            <div class="ex-strip">
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>The Chinese government&rsquo;s control of TikTok poses a grave threat to national security.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 117</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>For years, the Chinese government has sought to build detailed profiles about Americans, where we live and work, who our friends and coworkers are, what our interests are, and what our vices are. TikTok&rsquo;s immense data set would give the PRC a powerful tool for harassment, recruitment, and espionage.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 118</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; the national security harm arises from the very fact of a foreign adversary&rsquo;s capacity to secretly manipulate the platform to advance its geopolitical goals in whatever form that kind of covert operation might take.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 118</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>We know that the PRC has a voracious appetite to get its hands on as much information about Americans as possible, and that creates a potent weapon here because the PRC could command that ByteDance comply with any request it gives to obtain that data that&rsquo;s in the hands of the U.S. subsidiary.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 131</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dd>&hellip; it might be just the jolt that Congress expected the company would need to actually move forward with the divestiture process.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 150</figcaption>
+                </figure>
+
+                <figure class="ex-c ex-depo">
+                    <p class="ex-h"><b>Prelogar</b> <time>Jan 10, 2025</time></p>
+                    <dl class="ex-qa">
+                    <dt>Q</dt><dd>But putting that aside, on the 19th, if it doesn&rsquo;t shut down, there is a violation of law, correct?</dd>
+                    <dt>A</dt><dd>Yes.</dd>
+                    </dl>
+                    <figcaption class="ex-cite">Tr. 171</figcaption>
+                </figure>
+
+            </div>
+        </div>
+    </div>
 
     <nav class="site-nav">
         <a href="/" class="nav-home">FEN</a>
@@ -96,7 +223,7 @@
         <header class="masthead masthead-view masthead-books" id="top">
             <div class="wrap">
                 <p class="crumb"><a href="/case-chronicle/tiktok-v-garland/">&larr;&nbsp; TikTok v. Garland</a></p>
-                <p class="eyebrow">U.S. Supreme Court &middot; No. 24&#8209;656</p>
+                <p class="eyebrow">U.S. Supreme Court &middot; No. 24&#8209;656 &nbsp;&middot;&nbsp; D.C. Circuit &middot; No. 24&#8209;1113</p>
                 <h1 class="masthead-title">TikTok <em>v.</em> Garland</h1>
 
                 <nav class="views" aria-label="Views of this case">
@@ -119,16 +246,25 @@
         <!-- ═══════════════════════════════════════════════
              Case flow
 
-             Under construction: the frame of the map is in place, with
-             one starting card. The questions of the case replace it.
+             The logic of the case as a map: what has to be answered,
+             in what order, and where each answer leads. Markup only.
+             chronicle.css draws every line from it, and says at the
+             head of its own block what each class is for.
 
-             On a written case every card in the chain is a question,
-             and every way out of it is an answer, written on the line.
-             Where the case stands is said in three places and kept in
-             step by hand: the line at the top, is-done on every step
-             the case has been along, and is-here with its flag on the
-             step it is waiting at. chronicle.css says at the head of
-             its own block what each class is for.
+             Every card in the chain is a question, and every way out
+             of it is an answer, written on the line. A thing that is
+             not a question has no card of its own: it is the strip
+             across the head of the question it leads to.
+
+             Two chains, each its own ol.cf-flow: the case as the two
+             courts decided it, then under div.cf-chain what happened
+             to the law after the ruling, which ends at Tan v. Trump.
+
+             Where the case stands is said in three places here, and
+             they are kept in step by hand: the line at the top,
+             is-done on every step and every way the case has been
+             along, and is-here with its flag on the step it is
+             waiting at.
 
              Every card ships open. The script shuts them and shows the
              controls, so with no JavaScript the whole map is written
@@ -139,11 +275,11 @@
                 <h2 class="kicker" id="tree-h">TLDR Case Flow</h2>
 
                 <div class="cf">
-                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>Under construction. The questions this case turns on have not been written yet.</p>
+                    <p class="cf-now"><span class="cf-now-l">Where it stands</span>The law was upheld in January 2025, and it hasn&rsquo;t been enforced. TikTok&rsquo;s US business was sold to a new company in January 2026, and a new case in the D.C. Circuit says the sale breaks the law. The court hasn&rsquo;t decided yet whether it can even hear that case.</p>
                     <div class="cf-head">
                         <ul class="cf-key" aria-hidden="true">
-                            <li class="cf-key-p">Petitioners</li>
-                            <li class="cf-key-d">Respondent</li>
+                            <li class="cf-key-p">Challengers</li>
+                            <li class="cf-key-d">Government</li>
                             <li class="cf-key-done">Settled or decided</li>
                             <li class="cf-key-open">Still open</li>
                             <li class="cf-key-line">How far the case has gotten</li>
@@ -156,20 +292,431 @@
                             <span class="da-l">Open every card</span>
                         </button>
                     </div>
+                    <div class="cf-chain">
+                        <h3 class="cf-chain-h">The case</h3>
+                        <p class="cf-chain-n">TikTok, ByteDance and the creators against the Attorney General, in the D.C. Circuit and then the Supreme Court. Did the law break the Constitution?</p>
+                    </div>
                     <ol class="cf-flow cf-sides">
-                        <li class="cf-step">
+                        <li class="cf-step is-done">
                             <article class="cf-card cf-c cf-q">
                                 <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The first fight &middot; Speech, or just ownership?</p>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-k">The starting card</p>
+                                    <p class="cf-k">Before any test can apply</p>
                                 </div></div>
-                                <h3 class="cf-h">Under construction</h3>
-                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Under construction"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <h3 class="cf-h">Does the First Amendment even apply to this law?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does the First Amendment even apply to this law?"><span class="cf-more-i" aria-hidden="true"></span></button>
                                 <div class="cf-x"><div class="cf-x-in">
-                                    <p class="cf-stamp"><span class="cf-st cf-st-open">Not written yet</span></p>
-                                    <p class="cf-b">This view will set out what has to be decided in the case, in what order, and where each answer leads. Each question will get a card like this one, and each card will open to explain the question in plain words.</p>
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">Assumed so &middot; Jan 17, 2025</span></p>
+                                    <p class="cf-b">This is where the government started. The law doesn&rsquo;t ban any video or tell anyone what to say, it argued. It only says who can own TikTok, and ByteDance, a foreign company abroad, has no free-speech rights to begin with. If that&rsquo;s right, there&rsquo;s no <a class="term" href="#t-first-amendment" data-term="t-first-amendment" title="First Amendment: The part of the Constitution that bars the government from “abridging the freedom of speech.” Courts check laws that burden speech with one of a few tests.">First Amendment</a> question at all, and the law just has to be reasonable.</p>
+                                    <p class="cf-b">TikTok and the creators said the law shuts down an American company&rsquo;s speech and 170 million people&rsquo;s place to post, so of course it applies. The D.C. Circuit agreed with them on this. The Supreme Court didn&rsquo;t decide it. It <a class="term" href="#t-assume" data-term="t-assume" title="Assume without deciding: A court treating something as true for the sake of argument, because the answer wouldn’t change the result, and leaving the real question open.">assumed</a> the First Amendment applies and moved on, which basically means the law passes even if TikTok is right about this part. Justice Sotomayor would have said yes outright.</p>
+                                    <p class="cf-who"><span class="cf-l">What each side said</span>The government: a foreign company can&rsquo;t use &ldquo;an American puppet as a mouthpiece.&rdquo; TikTok: &ldquo;It&rsquo;s a burden on TikTok&rsquo;s speech, so the First Amendment applies.&rdquo;</p>
                                 </div></div>
                             </article>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">No free-speech case</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: No free-speech case"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The law just has to be reasonable</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">That&rsquo;s the outcome the government asked for first. A law about who owns a company, with no First Amendment question in it, would almost certainly stand.</p>
+                                            <p class="cf-b">Neither court went this way. The D.C. Circuit said the First Amendment applies, and the Supreme Court left the question open.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Which test? &middot; The hardest one or the middle one</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">What the test turns on</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Is the law aimed at what people say?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is the law aimed at what people say?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; content-neutral, Jan 17, 2025</span></p>
+                                        <p class="cf-b">Courts test speech laws harder or easier depending on what they&rsquo;re aimed at. A law aimed at what people say, its topic or its message, is <a class="term" href="#t-content-based" data-term="t-content-based" title="Content-based: Aimed at what is said, its topic, idea or message. A content-based law gets strict scrutiny.">content-based</a>, and it gets <a class="term" href="#t-strict-scrutiny" data-term="t-strict-scrutiny" title="Strict scrutiny: The hardest test. The government needs a compelling reason and the narrowest way of getting there. Most laws that get it fail.">strict scrutiny</a>, the hardest test, which most laws fail. A law that applies whatever is said is <a class="term" href="#t-content-neutral" data-term="t-content-neutral" title="Content-neutral: Applying whatever is said, like a limit on how loud a speaker can be. A content-neutral law gets intermediate scrutiny.">content-neutral</a>, and it only gets the middle test, <a class="term" href="#t-intermediate-scrutiny" data-term="t-intermediate-scrutiny" title="Intermediate scrutiny: The middle test. The government needs an important reason that isn’t about suppressing speech, and a law that doesn’t burden much more speech than it has to.">intermediate scrutiny</a>.</p>
+                                        <p class="cf-b">So this is the fight over which test applies, and the two cards inside it are the two ways TikTok said the law is aimed at speech. Either one would have been enough. The case goes on to the test either way, but the answer here decides how hard that test is.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part one &middot; The words of the law</p>
+                                        <h4 class="cf-h">Does the law pick out apps by what&rsquo;s on them?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does the law pick out apps by what’s on them?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; not as applied, Jan 17, 2025</span></p>
+                                            <p class="cf-b">The law&rsquo;s general rule only covers apps where people post and share their own content, and it leaves out apps whose main purpose is reviews of products, businesses or travel. TikTok said that makes the whole law content-based from the start.</p>
+                                            <p class="cf-b">The Supreme Court said that part doesn&rsquo;t matter here. The review-site exclusion only applies to the law&rsquo;s <a class="term" href="#t-general-track" data-term="t-general-track" title="The general track: The law’s second route, which lets the President name other apps controlled by a foreign adversary later. TikTok was named in the law itself.">general track</a>, and TikTok was named in the law itself. Looking only at TikTok&rsquo;s part, the law is about who controls the app, not what&rsquo;s on it.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part two &middot; The reason for the law</p>
+                                        <h4 class="cf-h">Is the law&rsquo;s reason about content?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is the law’s reason about content?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; the data reason isn&rsquo;t, Jan 17, 2025</span></p>
+                                            <p class="cf-b">The government gave two reasons. One is data, that China could collect information on 170 million Americans. The other is <a class="term" href="#t-covert-manipulation" data-term="t-covert-manipulation" title="Covert content manipulation: The government’s second reason: that China could secretly have ByteDance change what Americans see on TikTok. The Supreme Court didn’t rest on it.">covert content manipulation</a>, that China could secretly push ByteDance to change what Americans see. TikTok said the second one is about content, plain and simple.</p>
+                                            <p class="cf-b">The Court called the data reason &ldquo;decidedly content agnostic.&rdquo; It didn&rsquo;t decide whether the second one is about content, because it found Congress would have passed the law for the data reason alone. Justice Gorsuch wrote that he had &ldquo;serious reservations&rdquo; about calling the law content-neutral, but he agreed with the result.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-d is-done cf-dash">
+                                <p class="cf-ans">Either way</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The test, part one &middot; The reason</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Why the government wanted it</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Is the government&rsquo;s reason important enough?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is the government’s reason important enough?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; the data reason alone, Jan 17, 2025</span></p>
+                                        <p class="cf-b">Under the middle test the government needs an important reason, and under the hardest one a compelling one. Here that means its two reasons, data and covert manipulation. If either one is strong enough, the law gets past this card.</p>
+                                        <p class="cf-b">TikTok and the creators said a government can&rsquo;t act because of what people might be persuaded of, so the manipulation reason doesn&rsquo;t count at all. On data they mostly argued that this law doesn&rsquo;t fit it, which is the next card. The Supreme Court decided this card on data alone.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on either one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Reason one &middot; Data</p>
+                                        <h4 class="cf-h">Is keeping Americans&rsquo; data away from China a strong enough reason?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is keeping Americans’ data away from China a strong enough reason?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">Yes &middot; Jan 17, 2025</span></p>
+                                            <p class="cf-b">The government said TikTok collects huge amounts of personal data, on its users and on people in their contacts who never signed up, and that China&rsquo;s laws can make ByteDance hand it over. Its lawyer pointed to China&rsquo;s past hacks of federal personnel files, Equifax and Anthem.</p>
+                                            <p class="cf-b">&ldquo;Petitioners do not dispute&rdquo; that this interest is important, the Court wrote. &ldquo;Nor could they.&rdquo; Even the creators&rsquo; lawyer said at argument that data security &ldquo;is compelling.&rdquo; The D.C. Circuit called it compelling too.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Reason two &middot; What Americans see</p>
+                                        <h4 class="cf-h">Can the government act to stop China secretly steering what Americans see?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Can the government act to stop China secretly steering what Americans see?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-set">Not decided</span></p>
+                                            <p class="cf-b">This is the reason TikTok said is forbidden. The creators&rsquo; lawyer put it this way at argument: restricting speech &ldquo;because it might sow doubt about our leaders or undermine democracy&rdquo; is what &ldquo;our enemies do.&rdquo; The government said it isn&rsquo;t about any message, it&rsquo;s about a foreign adversary having that power at all.</p>
+                                            <p class="cf-b">The D.C. Circuit said this reason was compelling too. The Supreme Court didn&rsquo;t decide it. Justice Gorsuch wrote that &ldquo;One man&rsquo;s &lsquo;covert content manipulation&rsquo; is another&rsquo;s &lsquo;editorial discretion,&rsquo;&rdquo; and said the Court was right not to rest on it.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The law falls</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The law falls"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">Its reason wasn&rsquo;t enough</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If neither reason were strong enough, the part of the law that names TikTok couldn&rsquo;t be enforced, and ByteDance could keep TikTok.</p>
+                                            <p class="cf-b">That&rsquo;s where TikTok wanted the case to end. It didn&rsquo;t, because the data reason alone was enough for every judge and justice.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If yes</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">The test, part two &middot; The fit</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Whether a smaller fix would do</p>
+                                </div></div>
+                                <h3 class="cf-h">Is a forced sale more than the problem needs?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is a forced sale more than the problem needs?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; Jan 17, 2025</span></p>
+                                    <p class="cf-b">Even with a good reason, a law can&rsquo;t burden a lot more speech than it needs to. That&rsquo;s <a class="term" href="#t-tailoring" data-term="t-tailoring" title="Tailoring: Whether a law fits its reason, covering what the problem needs and not much more.">tailoring</a>. TikTok offered smaller fixes, each one, it said, a <a class="term" href="#t-less-restrictive" data-term="t-less-restrictive" title="Less restrictive alternative: Another way of meeting the same goal that burdens less speech. If one would work as well, the law can fail.">less restrictive alternative</a>: the 90-page security agreement it had negotiated, with Oracle checking the code, a ban on sharing users&rsquo; data with anyone, or a warning label on the app.</p>
+                                    <p class="cf-b">The government said none of them would work, because it couldn&rsquo;t trust ByteDance or watch it closely enough. The Court sided with the government. The law isn&rsquo;t an outright ban, it said, but &ldquo;a conditional ban,&rdquo; lifted the moment China&rsquo;s control ends, and the alternatives &ldquo;do not alter our tailoring analysis.&rdquo; It gave <a class="term" href="#t-deference" data-term="t-deference" title="Deference: A court giving weight to another branch’s judgment, here Congress’s predictions about national security.">deference</a> to Congress&rsquo;s judgment about national security.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The law falls</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The law falls"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">A smaller fix would have done</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If a smaller fix would have worked as well, the forced sale would fail the test, and the part of the law that names TikTok couldn&rsquo;t be enforced.</p>
+                                            <p class="cf-b">The Court didn&rsquo;t go there. It said Congress could reasonably decide that only a sale would do.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If no</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Only the appeals court answered these &middot; Dec 6, 2024</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">TikTok&rsquo;s other three claims</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Does the law break the Constitution any other way?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does the law break the Constitution any other way?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-done">No, all three &middot; Dec 6, 2024</span></p>
+                                        <p class="cf-b">TikTok also said the law breaks three other parts of the Constitution. The D.C. Circuit turned down all three. The Supreme Court only agreed to answer the free-speech question, so these were decided once, by the appeals court, and that&rsquo;s where they stand.</p>
+                                        <p class="cf-b">Any one of them would have been enough to stop the law, so a yes on any card inside this one would have meant TikTok won.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes on any one is enough</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim one &middot; Equal treatment</p>
+                                        <h4 class="cf-h">Did Congress single TikTok out unfairly?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did Congress single TikTok out unfairly?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; Dec 6, 2024</span></p>
+                                            <p class="cf-b">TikTok said Congress treated it worse than every other app without a good enough reason, which would break the Constitution&rsquo;s promise of <a class="term" href="#t-equal-protection" data-term="t-equal-protection" title="Equal protection: The Constitution’s promise that the government won’t treat people differently without a good enough reason.">equal protection</a>.</p>
+                                            <p class="cf-b">The court said Congress had its reasons. &ldquo;The Act singled out TikTok because of its known characteristics and history.&rdquo;</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim two &middot; Punishment</p>
+                                        <h4 class="cf-h">Is the law a punishment without a trial?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Is the law a punishment without a trial?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; Dec 6, 2024</span></p>
+                                            <p class="cf-b">The Constitution bars Congress from passing a <a class="term" href="#t-bill-of-attainder" data-term="t-bill-of-attainder" title="Bill of attainder: A law that punishes a named person or group without a trial. The Constitution forbids Congress to pass one.">bill of attainder</a>, a law that punishes a named person or group without a trial. TikTok said a law naming it is exactly that.</p>
+                                            <p class="cf-b">The court said the law asks for &ldquo;a sale, not a confiscation,&rdquo; and leaves the way out open forever. The government&rsquo;s effort, it wrote, &ldquo;reflects a forward-looking prophylactic, not a backward-looking punitive, purpose.&rdquo;</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">or</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Claim three &middot; Property</p>
+                                        <h4 class="cf-h">Does the law take TikTok&rsquo;s property without paying for it?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does the law take TikTok’s property without paying for it?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; Dec 6, 2024</span></p>
+                                            <p class="cf-b">The government can take private property only if it pays fairly for it. TikTok said forcing a sale, maybe at a fire-sale price, is a <a class="term" href="#t-taking" data-term="t-taking" title="Taking: The government seizing private property, which the Constitution allows only with fair payment.">taking</a>.</p>
+                                            <p class="cf-b">The court said the problem was China. Its export rules were what made a sale hard, and &ldquo;the PRC, not the divestiture offramp in the Act, is the source of TikTok&rsquo;s difficulty.&rdquo;</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The law falls</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The law falls"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">On other grounds</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">A win on any of these would have stopped the part of the law that names TikTok, whatever the free-speech answer was.</p>
+                                            <p class="cf-b">None got that far, and the Supreme Court never looked at them.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r is-done">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The law stands</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The law stands"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">ByteDance has until January 19, 2025</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">This is where the case ended. Every judge and justice agreed the law could be enforced. ByteDance had until January 19, 2025 to sell, or app stores and web hosts in the US would have to drop TikTok.</p>
+                                            <p class="cf-b">What happened next wasn&rsquo;t up to a court. It&rsquo;s the chain below.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                        </li>
+                    </ol>
+                    <div class="cf-chain">
+                        <h3 class="cf-chain-h">After the ruling</h3>
+                        <p class="cf-chain-n">What happened to the law once it was upheld, and the new case that says it&rsquo;s being broken, Tan v. Trump, in the D.C. Circuit. The challengers there are other people.</p>
+                    </div>
+                    <ol class="cf-flow cf-sides">
+                        <li class="cf-step is-done">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">January 19, 2025 &middot; The deadline passes</p>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-k">Not a question for a court</p>
+                                </div></div>
+                                <h3 class="cf-h">Was the law enforced?</h3>
+                                <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Was the law enforced?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                <div class="cf-x"><div class="cf-x-in">
+                                    <p class="cf-stamp"><span class="cf-st cf-st-done">No &middot; Jan 20, 2025 onward</span></p>
+                                    <p class="cf-b">This one wasn&rsquo;t decided by a court. Only the <a class="term" href="#t-attorney-general" data-term="t-attorney-general" title="Attorney General: The head of the Justice Department. The law gives this office alone the job of enforcing it, which is why the case is named after one.">Attorney General</a> can enforce this law, and it took effect the day before President Trump took office. TikTok shut itself off for about half a day, then came back on his promise.</p>
+                                    <p class="cf-b">On his first day he ordered the Attorney General not to enforce it, and he renewed that order four times. The Justice Department wrote to Apple, Google and the rest promising them no liability. That was <a class="term" href="#t-non-enforcement" data-term="t-non-enforcement" title="Non-enforcement: The executive branch choosing not to bring cases under a law, here on the President’s orders. The law itself stays on the books.">non-enforcement</a>, not the law&rsquo;s own <a class="term" href="#t-extension" data-term="t-extension" title="The one extension: The law let the President add up to 90 days, once, if he told Congress a sale was in sight and showed binding agreements. No President used it.">extension</a>, and it&rsquo;s part of what Tan v. Trump challenges.</p>
+                                </div></div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Cut off</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Cut off"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">App stores and web hosts drop TikTok</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">That&rsquo;s what the law said would happen on January 19, 2025 unless TikTok was sold first. Any company that kept offering it would face fines of up to $5,000 for each US user.</p>
+                                            <p class="cf-b">It&rsquo;s roughly what the challengers in Tan v. Trump say the law required then, though they aren&rsquo;t asking for a ban now.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-d is-done">
+                                <p class="cf-ans">If no</p>
+                            </div>
+                        </li>
+                        <li class="cf-step is-here">
+                            <article class="cf-card cf-c cf-q">
+                                <span class="cf-pin" aria-hidden="true"></span>
+                                <p class="cf-ban">Tan v. Trump &middot; Filed March 5, 2026</p>
+                                <p class="cf-here">The case is here</p>
+                                <div class="cf-own">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">The case after the case</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Does the 2026 sale break the law?</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does the 2026 sale break the law?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                        <p class="cf-b">The law only lifts the ban after a <a class="term" href="#t-qualified-divestiture" data-term="t-qualified-divestiture" title="Qualified divestiture: A sale the President finds ends a foreign adversary’s control and leaves no “operational relationship” with ByteDance. Only that lifts the law’s ban.">qualified divestiture</a>, a sale that leaves no <a class="term" href="#t-operational-relationship" data-term="t-operational-relationship" title="Operational relationship: The tie the law says can’t survive the sale, “including any cooperation with respect to the operation of a content recommendation algorithm or an agreement with respect to data sharing.”">operational relationship</a> with ByteDance. President Trump decided on September 25, 2025 that this deal is one, and the new company took over on January 22, 2026. Two software engineers, later joined by a former ByteDance employee, say it isn&rsquo;t, and they&rsquo;ve asked the D.C. Circuit to say so.</p>
+                                        <p class="cf-b">Before the court gets to the deal itself, it has two questions about the challengers, and the government says they lose on both. The challengers need a yes on all three cards inside this one. The court hasn&rsquo;t ruled on any of them. On July 20, 2026 it sent the first two on to the judges who will decide the whole case.</p>
+                                    </div></div>
+                                </div>
+                                <div class="cf-parts">
+                                    <p class="cf-rule">A yes to all three is needed</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part one &middot; The deadline</p>
+                                        <h4 class="cf-h">Did they sue in time?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Did they sue in time?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">The law gives 90 days to challenge a government action, a <a class="term" href="#t-deadline" data-term="t-deadline" title="Deadline to sue: The time limit for bringing a case, also called a statute of limitations. This law allows 90 days after the government action being challenged.">deadline to sue</a>. The government says the last action was the President&rsquo;s order of September 25, 2025, so the March 2026 petition &ldquo;missed by several months.&rdquo;</p>
+                                            <p class="cf-b">The challengers say that order only approved the deal &ldquo;once its implementation agreements are executed,&rdquo; so nothing was final until the sale closed on January 22, and they sued &ldquo;a few weeks later.&rdquo; The government says the only thing that happened in January was the President&rsquo;s post about it, which isn&rsquo;t an order.</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part two &middot; Standing</p>
+                                        <h4 class="cf-h">Can these challengers sue at all?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Can these challengers sue at all?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">To bring a case you need <a class="term" href="#t-standing" data-term="t-standing" title="Standing: The right to bring a case at all. A challenger has to show a real injury of their own, caused by what they’re challenging, that a court could fix.">standing</a>, a real harm of your own. The challengers say Reid uses TikTok and his data is still shared with ByteDance, that Doe lost his job in the deal, and that Tan and Reid lost money as shareholders in TikTok&rsquo;s rivals.</p>
+                                            <p class="cf-b">The government says shareholders can&rsquo;t sue over harm to their companies, that the effect on stock prices is &ldquo;highly speculative,&rdquo; and that the data claim is &ldquo;speculation piled upon speculation.&rdquo;</p>
+                                        </div></div>
+                                    </div>
+                                    <p class="cf-op">and</p>
+                                    <div class="cf-part">
+                                        <p class="cf-ban cf-ban-p">Part three &middot; The deal</p>
+                                        <h4 class="cf-h">Does ByteDance keep an &ldquo;operational relationship&rdquo;?</h4>
+                                        <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Does ByteDance keep an “operational relationship”?"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-stamp"><span class="cf-st cf-st-open">Undecided</span></p>
+                                            <p class="cf-b">This is the heart of it. The challengers say ByteDance still owns the <a class="term" href="#t-algorithm" data-term="t-algorithm" title="Recommendation algorithm: The software that picks which video each user sees next on the “For You” feed. ByteDance owns it, and it’s developed and maintained in China.">algorithm</a> and licenses it to the new company, still runs its e-commerce, advertising and marketing, and that TikTok&rsquo;s global chief executive sits on its board. They say ByteDance staff still get US user data. Those are their claims, and none has been tested.</p>
+                                            <p class="cf-b">The government hasn&rsquo;t argued this part yet. Its view so far is the President&rsquo;s own findings, that the new company controls the algorithms, the code and moderation, keeps US data in an American company&rsquo;s cloud, and has the algorithm retrained on US data.</p>
+                                        </div></div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="cf-way cf-way-l">
+                                <p class="cf-ans">If yes</p>
+                                <article class="cf-card cf-out cf-p">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">Declared unlawful</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: Declared unlawful"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">The Attorney General has to investigate</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">That&rsquo;s what the challengers ask for, a ruling that the extensions, the failure to investigate and the sale broke the law, and an order for the Attorney General to investigate. They don&rsquo;t ask the court to ban TikTok.</p>
+                                            <p class="cf-b">What would follow isn&rsquo;t clear. The law leaves enforcement, and its fines, to the Attorney General.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cf-way cf-way-r">
+                                <p class="cf-ans">If no</p>
+                                <article class="cf-card cf-out cf-d">
+                                    <div class="cf-x"><div class="cf-x-in">
+                                        <p class="cf-k">Outcome</p>
+                                    </div></div>
+                                    <h3 class="cf-h">The sale stands</h3>
+                                    <button class="cf-more" type="button" hidden aria-expanded="false" aria-label="More on: The sale stands"><span class="cf-more-i" aria-hidden="true"></span></button>
+                                    <div class="cf-then">
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-k">Then</p>
+                                        </div></div>
+                                        <h4 class="cf-h">TikTok stays with the new company</h4>
+                                        <div class="cf-x"><div class="cf-x-in">
+                                            <p class="cf-b">If the challengers sued too late or can&rsquo;t sue at all, the case ends without any court ruling on the deal itself. If the court does rule on the deal and finds it meets the law, the sale is settled.</p>
+                                            <p class="cf-b">Either way, the new company keeps running TikTok in the US, as it has since January 2026.</p>
+                                        </div></div>
+                                    </div>
+                                </article>
+                            </div>
                         </li>
                     </ol>
                 </div>
@@ -200,22 +747,28 @@
 
                 <div class="notes-grid">
                     <div class="note">
-                        <h3>Under construction</h3>
-                        <p>Only the top of the case page is written. Each of the four views behind its doors
-                            holds one starting card and nothing else yet.</p>
-                        <p>The description at the top of the case page is a temporary one. It comes from a
-                            quick look at the record, and it will be rewritten once the record has been read
-                            in full.</p>
+                        <h3>Source</h3>
+                        <p>Built from the <a class="term" href="#t-record" data-term="t-record" title="Record: Everything a court has in front of it to decide a case: the filings, the declarations, the evidence.">record</a> of the two courts: the <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">dockets</a>, the briefs, the sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement a witness signs under penalty of perjury. There was no trial here, so the evidence was mostly declarations.">declarations</a> in the appendix, the D.C. Circuit&rsquo;s opinion of December 6, 2024, the Supreme Court&rsquo;s opinion of January 17, 2025, and the transcript of the argument on January 10, 2025. Then the law itself, the President&rsquo;s orders in the Federal Register, and the filings in Tan v. Trump, read through the archive of federal court records on CourtListener. Each side is described in its own words, in court or in its own briefs.</p>
+                        <p>Words spoken in the Supreme Court are quoted from the Court&rsquo;s own transcript and cited by its page. The D.C. Circuit doesn&rsquo;t post transcripts, so its argument is described, not quoted, with a link to the court&rsquo;s recording. What happened outside the courts after the ruling is cited to the orders themselves where there are any, and to reporting where there aren&rsquo;t.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-656, opens the document">Docket, No. 24-656</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/68506893/tiktok-inc-v-pamela-bondi/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for No. 24-1113, on CourtListener, opens the document">Docket, No. 24-1113</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s opinion of January 17, 2025, opens the document">Opinion</a> &middot; <a class="cite-doc" href="https://www.supremecourt.gov/oral_arguments/argument_transcripts/2024/24-656_pm02.pdf" target="_blank" rel="noopener" aria-label="The transcript of the Supreme Court argument, January 10, 2025, opens the document">Transcript</a></p>
                     </div>
                     <div class="note">
-                        <h3>Source</h3>
-                        <p>The names, numbers and dates at the top of the case page come from the Supreme Court&rsquo;s <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a> for the case and from its opinion. Nothing else has been read for these pages yet.</p>
-                        <p class="note-src">Docket: <a class="cite-doc" href="https://www.supremecourt.gov/search.aspx?filename=/docket/docketfiles/html/public/24-656.html" target="_blank" rel="noopener" aria-label="TikTok v. Garland, the Supreme Court docket, opens in a new tab">No. 24-656</a> &middot; Opinion: <a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf" target="_blank" rel="noopener" aria-label="TikTok v. Garland, the opinion of January 17, 2025, opens as a PDF">Jan 17, 2025</a></p>
+                        <h3>Two cases, one ruling</h3>
+                        <p>Two cases were heard together the whole way. TikTok and ByteDance&rsquo;s is No. 24-1113 in the D.C. Circuit and No. 24-656 in the Supreme Court. The creators&rsquo; is No. 24-1130 and No. 24-657, Firebaugh v. Garland. A third petition, BASED Politics&rsquo;, No. 24-1183, was joined to them in the D.C. Circuit. One opinion in each court decided them all.</p>
+                        <p>Other challenges to the same law are left out. One by Robert F. Kennedy Jr. and two others, No. 24-1316, was filed in October 2024, and the government asked the court to set it aside while this one was decided.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/docket/docketfiles/html/public/24-657.html" target="_blank" rel="noopener" aria-label="The Supreme Court’s docket for No. 24-657, the creators’ case, opens the document">Docket, No. 24-657</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.1208634724.2.pdf" target="_blank" rel="noopener" aria-label="The order of June 18, 2024, joining BASED Politics’ petition, opens the document">Order of Jun 18, 2024</a> &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=1" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 1">D.C. Cir. opinion</a> p. 1</p>
+                    </div>
+                    <div class="note">
+                        <h3>The case after the case</h3>
+                        <p>The Supreme Court&rsquo;s case is over. It sent its judgment down on February 18, 2025, and the D.C. Circuit closed the case ten days later. What happened to the law after that, the orders not to enforce it, the sale and the new company, happened outside both courts, and these pages say so card by card.</p>
+                        <p>Then in March 2026 a new case was filed under the same law, Tan v. Trump, No. 26-1047 in the D.C. Circuit. Two software engineers who own stock in Alphabet and Meta brought it, and later a former employee of a ByteDance company, against President Trump and the Attorney General. It says the sale isn&rsquo;t the one the law demands. It&rsquo;s still open. These pages show it as far as its record goes, with what each side says marked as what that side says.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/DocketPDF/24/24-656/342952/20250218111452493_EFILING%2024-656%20and%2024-657%20Aff%20DC%20Cir.%202.18.pdf" target="_blank" rel="noopener" aria-label="The Supreme Court’s judgment as issued, February 18, 2025, opens the document">Judgment issued</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.40861/gov.uscourts.cadc.40861.2103436.0.pdf" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s mandate, February 28, 2025, opens the document">Mandate, Feb 28, 2025</a> &middot; <a class="cite-doc" href="https://www.courtlistener.com/docket/72369202/zhaocheng-tan-v-donald-trump/" target="_blank" rel="noopener" aria-label="The D.C. Circuit docket for Tan v. Trump, No. 26-1047, on CourtListener, opens the document">Docket, No. 26-1047</a> &middot; <a class="cite-doc" href="https://storage.courtlistener.com/recap/gov.uscourts.cadc.42917/gov.uscourts.cadc.42917.01208838932.0.pdf#page=7" target="_blank" rel="noopener" aria-label="The amended petition in Tan v. Trump, April 6, 2026, opens the document at page 6">Amended petition</a> &para;&para; 13&ndash;15</p>
                     </div>
                     <div class="note">
                         <h3>What this is not</h3>
-                        <p>Not legal advice, not a finding, and not a verdict. Where the record does not
-                            reach, these pages say so and stop.</p>
+                        <p>Not legal advice, not a finding, and not a verdict. The Supreme Court upheld the law as it applies to TikTok and the creators. It didn&rsquo;t decide whether the 2026 sale meets the law, and no court has yet. What the challengers in Tan v. Trump say about the deal is reported as their claim, and the President&rsquo;s findings about it as his findings.</p>
+                        <p>The government also filed <a class="term" href="#t-classified" data-term="t-classified" title="Classified evidence: Material the government keeps secret for national security. It filed some here for the judges alone, which the other side never got to see or answer.">classified evidence</a> that TikTok never saw. Both courts said they decided without it, and these pages leave it out. Where the record doesn&rsquo;t reach, these pages say so and stop.</p>
+                        <p class="note-src"><a class="cite-doc" href="https://www.supremecourt.gov/opinions/24pdf/24-656_ca7d.pdf#page=13" target="_blank" rel="noopener" aria-label="The Supreme Court’s opinion of January 17, 2025, opens the document at page 13">Opinion</a> p. 13 n. 3 &middot; <a class="cite-doc" href="https://media.cadc.uscourts.gov/opinions/docs/2024/12/24-1113-2088317.pdf#page=64" target="_blank" rel="noopener" aria-label="The D.C. Circuit’s opinion of December 6, 2024, opens the document at page 64">D.C. Cir. opinion</a> p. 64</p>
                     </div>
                 </div>
 
@@ -272,24 +825,23 @@
                         address and your browser string, to make abuse traceable and for nothing else.</p>
                 </div>
 
-                <p class="notes-updated">The lines at the top of the case page were checked on
-                    <span class="mono">October 13, 2026</span>. Nothing after that date is reflected here.</p>
+                <p class="notes-updated">Record reviewed through <span class="mono">October 23, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
             </div>
         </section>
 
         <footer class="page-foot">
             <div class="wrap">
                 <p><a href="/">frontendneeded.com</a></p>
-                <p class="foot-cite">TikTok Inc. v. Garland, No. 24-656 (U.S.)</p>
+                <p class="foot-cite">TikTok Inc. v. Garland, 604 U.S. 56 (2025), Nos. 24-656 and 24-657 &middot; TikTok Inc. v. Garland, 122 F.4th 930 (D.C. Cir. 2024), No. 24-1113</p>
             </div>
         </footer>
 
         <!-- The glossary. A <details>, so the button is a real button, the
              keyboard works, and it opens with no JavaScript at all - the
              reader who most needs this is the least likely to have a reason
-             to trust a script with it. The same short list is on all five
-             of this case's pages for now. It grows with the pages: a term
-             goes in when the text first uses it. -->
+             to trust a script with it. The same list is on all five of this
+             case's pages. -->
         <details class="gloss">
             <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
                 <span class="gloss-b-i" aria-hidden="true">?</span>
@@ -297,12 +849,108 @@
             </summary>
             <div class="gloss-p" role="group" aria-label="Plain-English glossary">
                 <p class="gloss-h">Plain English</p>
-                <p class="gloss-n">Words these pages use because the court uses them. Nothing here is
-                    special to this case.</p>
+                <p class="gloss-n">Words these pages use because the courts use them. The case went through two courts, the D.C. Circuit and the Supreme Court, and a few words only matter after the ruling, in the case that came after it.</p>
+
+                <p class="gloss-s">The courts</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-dc-circuit">D.C. Circuit</dt><dd>The U.S. Court of Appeals for the District of Columbia Circuit, in Washington. The law sends every challenge to it first, and to no other court.</dd></div>
+                    <div><dt id="t-panel">Panel</dt><dd>The three judges of an appeals court who hear a case or a motion. The D.C. Circuit has about a dozen judges, and different panels handle different steps.</dd></div>
+                    <div><dt id="t-merits-panel">Merits panel</dt><dd>The panel that will decide a case itself, as opposed to the ones that handle motions along the way.</dd></div>
+                    <div><dt id="t-attorney-general">Attorney General</dt><dd>The head of the Justice Department. The law gives this office alone the job of enforcing it, which is why the case is named after one.</dd></div>
+                    <div><dt id="t-solicitor-general">Solicitor General</dt><dd>The lawyer who argues the federal government&rsquo;s cases in the Supreme Court. Elizabeth Prelogar held the job when this case was argued.</dd></div>
+                    <div><dt id="t-per-curiam">Per curiam</dt><dd>Latin for &ldquo;by the court.&rdquo; An opinion that no one justice signs, issued in the name of the whole Court.</dd></div>
+                    <div><dt id="t-concurring">Concurring opinion</dt><dd>A justice who agrees with the result writing separately to give other or extra reasons. Concurring &ldquo;in the judgment&rdquo; means agreeing with the result but not the Court&rsquo;s reasoning.</dd></div>
+                </dl>
 
                 <p class="gloss-s">The paperwork</p>
                 <dl class="gloss-l">
                     <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-petition-for-review">Petition for review</dt><dd>How a case under this law starts: a request made straight to the appeals court, with no trial court first.</dd></div>
+                    <div><dt id="t-exclusive-jurisdiction">Exclusive jurisdiction</dt><dd>Being the only court allowed to hear a kind of case. The law gave that to the D.C. Circuit.</dd></div>
+                    <div><dt id="t-consolidated">Consolidated</dt><dd>Separate cases joined so they&rsquo;re briefed, argued and decided together.</dd></div>
+                    <div><dt id="t-brief">Brief</dt><dd>A side&rsquo;s written argument to the court.</dd></div>
+                    <div><dt id="t-amicus">Amicus brief</dt><dd>A brief from someone who isn&rsquo;t a party, a &ldquo;friend of the court,&rdquo; giving the court a view of the case.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement a witness signs under penalty of perjury. There was no trial here, so the evidence was mostly declarations.</dd></div>
+                    <div><dt id="t-record">Record</dt><dd>Everything a court has in front of it to decide a case: the filings, the declarations, the evidence.</dd></div>
+                    <div><dt id="t-classified">Classified evidence</dt><dd>Material the government keeps secret for national security. It filed some here for the judges alone, which the other side never got to see or answer.</dd></div>
+                    <div><dt id="t-special-master">Special master</dt><dd>Someone a court appoints to help with a task. TikTok asked for one with a security clearance to review the secret evidence.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How the case moved</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-application">Application</dt><dd>A request to the Supreme Court for emergency help before it has taken a case. Here, to pause the law before it took effect.</dd></div>
+                    <div><dt id="t-injunction">Injunction</dt><dd>A court order stopping something. One &ldquo;pending review&rdquo; pauses a law while a higher court looks at the case.</dd></div>
+                    <div><dt id="t-certiorari">Certiorari</dt><dd>The Supreme Court agreeing to hear a case. Here it treated TikTok&rsquo;s emergency applications as requests for it and granted them two days later.</dd></div>
+                    <div><dt id="t-question-presented">Question presented</dt><dd>The exact question the Supreme Court agrees to answer. Here there was one: does the law, as applied to TikTok and the creators, violate the First Amendment.</dd></div>
+                    <div><dt id="t-as-applied">As applied</dt><dd>A challenge to how a law works on the people bringing it, not to every possible use of it. The Supreme Court looked only at the part of the law that names TikTok.</dd></div>
+                    <div><dt id="t-oral-argument">Oral argument</dt><dd>The time the lawyers spend answering the judges&rsquo; questions in court. No witnesses, no new evidence and no jury.</dd></div>
+                    <div><dt id="t-divided-argument">Divided argument</dt><dd>Two lawyers splitting one side&rsquo;s time. TikTok&rsquo;s lawyer and the creators&rsquo; lawyer shared the challengers&rsquo; side.</dd></div>
+                    <div><dt id="t-rebuttal">Rebuttal</dt><dd>The few minutes the side that brought the case gets at the end, to answer the other side.</dd></div>
+                    <div><dt id="t-mandate">Mandate</dt><dd>The formal order that closes an appeal and makes the decision final in the court below.</dd></div>
+                    <div><dt id="t-moot">Moot</dt><dd>No longer a live question, so there&rsquo;s nothing left for a court to decide.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The law</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-divestiture">Divestiture</dt><dd>Selling off a business, or enough of it that the seller no longer controls it.</dd></div>
+                    <div><dt id="t-qualified-divestiture">Qualified divestiture</dt><dd>A sale the President finds ends a foreign adversary&rsquo;s control and leaves no &ldquo;operational relationship&rdquo; with ByteDance. Only that lifts the law&rsquo;s ban.</dd></div>
+                    <div><dt id="t-operational-relationship">Operational relationship</dt><dd>The tie the law says can&rsquo;t survive the sale, &ldquo;including any cooperation with respect to the operation of a content recommendation algorithm or an agreement with respect to data sharing.&rdquo;</dd></div>
+                    <div><dt id="t-foreign-adversary">Foreign adversary</dt><dd>A country the law treats as one: China, Russia, Iran and North Korea.</dd></div>
+                    <div><dt id="t-app-stores">App stores and hosting</dt><dd>What the law actually forbids, which is offering the app in an app store or hosting it. So it binds companies like Apple, Google and Oracle, not TikTok&rsquo;s users.</dd></div>
+                    <div><dt id="t-civil-penalty">Civil penalty</dt><dd>A fine, not a crime. The law sets it at up to $5,000 for each US user reached through a violation.</dd></div>
+                    <div><dt id="t-extension">The one extension</dt><dd>The law let the President add up to 90 days, once, if he told Congress a sale was in sight and showed binding agreements. No President used it.</dd></div>
+                    <div><dt id="t-general-track">The general track</dt><dd>The law&rsquo;s second route, which lets the President name other apps controlled by a foreign adversary later. TikTok was named in the law itself.</dd></div>
+                    <div><dt id="t-algorithm">Recommendation algorithm</dt><dd>The software that picks which video each user sees next on the &ldquo;For You&rdquo; feed. ByteDance owns it, and it&rsquo;s developed and maintained in China.</dd></div>
+                    <div><dt id="t-executive-order">Executive order</dt><dd>A written order from the President to the executive branch, published in the Federal Register.</dd></div>
+                    <div><dt id="t-non-enforcement">Non-enforcement</dt><dd>The executive branch choosing not to bring cases under a law, here on the President&rsquo;s orders. The law itself stays on the books.</dd></div>
+                    <div><dt id="t-cfius">CFIUS</dt><dd>The Committee on Foreign Investment in the United States, the federal panel that reviews foreign purchases of US businesses for security risks.</dd></div>
+                    <div><dt id="t-nsa">National security agreement</dt><dd>A contract setting the security conditions a company operates under. TikTok&rsquo;s draft ran about 90 pages and was never signed.</dd></div>
+                    <div><dt id="t-project-texas">Project Texas</dt><dd>TikTok&rsquo;s plan to keep US users&rsquo; data in the United States, stored with Oracle and run by a separate US company. TikTok says it spent more than $2 billion on it.</dd></div>
+                    <div><dt id="t-ieepa">IEEPA</dt><dd>The International Emergency Economic Powers Act, the 1977 law President Trump used for his 2020 ban. Courts found it couldn&rsquo;t reach this kind of communication.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The free-speech test</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-first-amendment">First Amendment</dt><dd>The part of the Constitution that bars the government from &ldquo;abridging the freedom of speech.&rdquo; Courts check laws that burden speech with one of a few tests.</dd></div>
+                    <div><dt id="t-assume">Assume without deciding</dt><dd>A court treating something as true for the sake of argument, because the answer wouldn&rsquo;t change the result, and leaving the real question open.</dd></div>
+                    <div><dt id="t-heightened-scrutiny">Heightened scrutiny</dt><dd>Any of the stricter tests a court uses when a law burdens speech, instead of just asking whether the law is reasonable.</dd></div>
+                    <div><dt id="t-strict-scrutiny">Strict scrutiny</dt><dd>The hardest test. The government needs a compelling reason and the narrowest way of getting there. Most laws that get it fail.</dd></div>
+                    <div><dt id="t-intermediate-scrutiny">Intermediate scrutiny</dt><dd>The middle test. The government needs an important reason that isn&rsquo;t about suppressing speech, and a law that doesn&rsquo;t burden much more speech than it has to.</dd></div>
+                    <div><dt id="t-content-based">Content-based</dt><dd>Aimed at what is said, its topic, idea or message. A content-based law gets strict scrutiny.</dd></div>
+                    <div><dt id="t-content-neutral">Content-neutral</dt><dd>Applying whatever is said, like a limit on how loud a speaker can be. A content-neutral law gets intermediate scrutiny.</dd></div>
+                    <div><dt id="t-speaker-based">Singling out a speaker</dt><dd>A law aimed at one speaker. Courts look harder when that&rsquo;s a way of getting at what the speaker says.</dd></div>
+                    <div><dt id="t-tailoring">Tailoring</dt><dd>Whether a law fits its reason, covering what the problem needs and not much more.</dd></div>
+                    <div><dt id="t-less-restrictive">Less restrictive alternative</dt><dd>Another way of meeting the same goal that burdens less speech. If one would work as well, the law can fail.</dd></div>
+                    <div><dt id="t-underinclusive">Underinclusive</dt><dd>Covering too little of the problem a law claims to fix, which can suggest the stated reason isn&rsquo;t the real one.</dd></div>
+                    <div><dt id="t-deference">Deference</dt><dd>A court giving weight to another branch&rsquo;s judgment, here Congress&rsquo;s predictions about national security.</dd></div>
+                    <div><dt id="t-covert-manipulation">Covert content manipulation</dt><dd>The government&rsquo;s second reason: that China could secretly have ByteDance change what Americans see on TikTok. The Supreme Court didn&rsquo;t rest on it.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The other claims</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-equal-protection">Equal protection</dt><dd>The Constitution&rsquo;s promise that the government won&rsquo;t treat people differently without a good enough reason.</dd></div>
+                    <div><dt id="t-bill-of-attainder">Bill of attainder</dt><dd>A law that punishes a named person or group without a trial. The Constitution forbids Congress to pass one.</dd></div>
+                    <div><dt id="t-taking">Taking</dt><dd>The government seizing private property, which the Constitution allows only with fair payment.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The case after the case</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-standing">Standing</dt><dd>The right to bring a case at all. A challenger has to show a real injury of their own, caused by what they&rsquo;re challenging, that a court could fix.</dd></div>
+                    <div><dt id="t-deadline">Deadline to sue</dt><dd>The time limit for bringing a case, also called a statute of limitations. This law allows 90 days after the government action being challenged.</dd></div>
+                    <div><dt id="t-motion-to-dismiss">Motion to dismiss</dt><dd>Asking a court to end a case without deciding who is right, for a reason like filing too late or having no standing.</dd></div>
+                    <div><dt id="t-ripe">Ripe</dt><dd>Ready for a court. A challenge to something that hasn&rsquo;t happened yet comes too early.</dd></div>
+                    <div><dt id="t-pseudonym">Pseudonym</dt><dd>A made-up name, here &ldquo;John Doe,&rdquo; that a court lets a party use to keep their identity off the public record.</dd></div>
+                    <div><dt id="t-certified-index">Certified index</dt><dd>The government&rsquo;s official list of what&rsquo;s in the record behind the decision being challenged. Briefing usually follows it.</dd></div>
+                    <div><dt id="t-motion-to-govern">Motion to govern</dt><dd>The parties&rsquo; proposal to the court for how a case should go on from here.</dd></div>
+                    <div><dt id="t-foia">FOIA</dt><dd>The Freedom of Information Act, which lets anyone ask a federal agency for its records, and sue if it refuses.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The stamp on a ruling</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-granted">Granted</dt><dd>The court said yes to the request on this card, whichever side made it.</dd></div>
+                    <div><dt id="t-denied">Denied</dt><dd>The court said no to the request on this card.</dd></div>
+                    <div><dt id="t-affirmed">Affirmed</dt><dd>The court above agreed with the court below and left its ruling as it was.</dd></div>
+                    <div><dt id="t-referred">Referred</dt><dd>The court didn&rsquo;t decide the request yet. It passed it on to the judges who will decide the whole case.</dd></div>
                 </dl>
             </div>
         </details>
