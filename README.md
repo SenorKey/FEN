@@ -57,6 +57,10 @@ Live at [frontendneeded.com](https://frontendneeded.com)
   the sitemap). The masthead docket facts and the Notes are researched and cited; the three
   sections between them are not. Listed on the Chronicle hub as in-progress. Lift the `robots`
   meta and add the URL to `sitemap.xml` on the commit that fills it in
+- `/cheatsheet/` — Personal Java cheat sheet (`noindex,nofollow`, linked from nowhere). One
+  self-contained `index.html`, added to a lesson at a time by Claude following the lesson
+  plan in `~/JavaLessons/LESSON_PLAN.md`. Kept out of robots.txt for the same reason as
+  `/my-kings-cadence/`
 - `/etc/` — Ephemeral thought collection
 - `/diet/` — Personal daily reset checklist
 - `/gallimaufry/` — Returns 404 via `.htaccess`

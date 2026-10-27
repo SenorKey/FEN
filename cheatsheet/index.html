@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Unlisted: a personal Java cheat sheet, filled in a lesson at a time.
+         Not in the projects dropdown, not in the sitemap, linked from nowhere.
+         Kept out of robots.txt on purpose, same as /my-kings-cadence/: a
+         Disallow would stop crawlers reading this very tag. -->
+    <meta name="robots" content="noindex,nofollow">
+
+    <!-- Self-contained: styles and the highlighter are inline so a lesson's
+         edit touches one file. Does not load /assets/css/styles.css, whose
+         golden-ratio shell pins the body to 100vh; this page scrolls. -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Java Cheat Sheet</title>
+
+    <style>
+        @font-face {
+            font-family: 'Bricolage Grotesque';
+            src: url('/assets/fonts/bricolage-grotesque-latin-var.woff2') format('woff2');
+            font-weight: 200 800;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* A formula sheet, not a tutorial: a label, the code, and at most
+           one line of description per entry, packed into columns. */
+
+        :root {
+            --bg: #0a0e1a;
+            --code-bg: #0e1426;
+            --edge: rgba(255, 255, 255, 0.08);
+            --ink: #e9ecf5;
+            --muted: rgba(233, 236, 245, 0.55);
+            --faint: rgba(233, 236, 245, 0.3);
+            --accent: #f0a24a;
+
+            /* Syntax */
+            --k: #c4b5fd;
+            --t: #5eead4;
+            --s: #a7e08a;
+            --n: #f0a24a;
+            --c: rgba(233, 236, 245, 0.4);
+            --a: #f9a8d4;
+
+            --sans: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { -webkit-text-size-adjust: 100%; scroll-padding-top: 64px; }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+        /* ── Bar ── */
+        .bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            height: 48px;
+            padding: 0 max(16px, calc((100vw - 1080px) / 2));
+            background: rgba(10, 14, 26, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--edge);
+        }
+
+        .bar .home {
+            color: #2dd4bf;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-decoration: none;
+        }
+
+        .bar .home:hover { color: #fff; }
+
+        .search {
+            margin-left: auto;
+            width: min(240px, 52vw);
+            height: 30px;
+            padding: 0 10px;
+            border-radius: 6px;
+            border: 1px solid var(--edge);
+            background: var(--code-bg);
+            color: var(--ink);
+            font: inherit;
+            font-size: 0.85rem;
+        }
+
+        .bar .plan {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: 0.82rem;
+            text-decoration: none;
+        }
+
+        .bar .plan:hover { color: var(--accent); }
+        .plan:not([hidden]) + .search { margin-left: 0; }
+
+        .search::placeholder { color: var(--faint); }
+        .search:focus { outline: none; border-color: var(--accent); }
+
+        /* ── Layout ── */
+        main {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 32px 16px 80px;
+        }
+
+        .mast { margin-bottom: 24px; }
+
+        .mast h1 {
+            font-size: clamp(1.7rem, 5vw, 2.4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .mast h1 span { color: var(--accent); }
+        .mast .updated { font-size: 0.8rem; color: var(--faint); margin-top: 4px; }
+
+        .toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+            margin-bottom: 28px;
+            font-size: 0.82rem;
+        }
+
+        .toc a { color: var(--muted); text-decoration: none; }
+        .toc a:hover { color: var(--accent); }
+
+        .unit { margin-bottom: 32px; }
+
+        .unit > h2 {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--edge);
+        }
+
+        /* Entries flow down columns like a printed sheet. */
+        .entries {
+            columns: 3 300px;
+            column-gap: 28px;
+        }
+
+        .entry {
+            break-inside: avoid;
+            margin-bottom: 18px;
+            min-width: 0;
+        }
+
+        .entry h3 {
+            font-size: 0.9rem;
+            font-weight: 650;
+            margin-bottom: 4px;
+        }
+
+        .entry pre {
+            background: var(--code-bg);
+            border: 1px solid var(--edge);
+            border-radius: 6px;
+            padding: 8px 10px;
+            overflow-x: auto;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            line-height: 1.55;
+            /* Show the characters as typed: no == or /= ligatures. */
+            font-variant-ligatures: none;
+        }
+
+        .entry pre code { font-family: inherit; white-space: pre; }
+
+        .entry .desc {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .entry .desc code {
+            font-family: var(--mono);
+            font-size: 0.95em;
+            color: var(--ink);
+        }
+
+        .empty-state {
+            color: var(--faint);
+            font-size: 0.9rem;
+            padding: 24px 0;
+            border-top: 1px solid var(--edge);
+        }
+
+        .no-results { color: var(--muted); display: none; }
+        .no-results.show { display: block; }
+
+        [hidden] { display: none !important; }
+        main:has(.entry) .empty-state { display: none; }
+
+        /* Highlighter tokens */
+        .hk { color: var(--k); }
+        .ht { color: var(--t); }
+        .hs { color: var(--s); }
+        .hn { color: var(--n); }
+        .hc { color: var(--c); font-style: italic; }
+        .ha { color: var(--a); }
+
+        /* On paper: black on white, no chrome. */
+        @media print {
+            :root {
+                --bg: #fff; --code-bg: #f6f6f6; --edge: #ddd; --ink: #111;
+                --muted: #555; --faint: #888; --accent: #a35a00;
+                --k: #5b2bbf; --t: #00796b; --s: #2e7d32; --n: #a35a00; --c: #888; --a: #ad1457;
+            }
+            .bar, .toc { display: none; }
+            main { padding: 0; max-width: none; }
+            .entries { columns: 3; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="bar">
+        <a class="home" href="/">FEN</a>
+        <!-- Only shown on the local copy (file://), where the plan sits two
+             folders up in ~/JavaLessons. Relative, so no local path is
+             published; on the live site it stays hidden. -->
+        <a class="plan" href="../../JavaLessons/LESSON_PLAN.md" hidden>Lesson plan</a>
+        <input class="search" type="search" placeholder="Search…" aria-label="Search the cheat sheet" autocomplete="off">
+    </nav>
+
+    <main>
+        <header class="mast">
+            <h1>Java <span>cheat sheet</span></h1>
+            <p class="updated">Last updated <time datetime="2026-10-27">Oct 27, 2026</time></p>
+        </header>
+
+        <nav class="toc" aria-label="Units"></nav>
+
+        <p class="no-results">Nothing matches that search.</p>
+
+        <p class="empty-state">Nothing here yet.</p>
+
+        <!-- ═══════════════════════════════════════════════
+             ENTRIES
+
+             A formula sheet: each entry is a label, a short code
+             example, and at most one line of description. Starts
+             empty; a unit's section goes in with its first entry,
+             in curriculum order.
+
+             <section class="unit" id="u3" data-title="Loops">
+                 <h2>Loops</h2>
+                 <div class="entries">
+                     <article class="entry" data-lesson="3.2" data-tags="for loop iterate">
+                         <h3>for loop</h3>
+                         <pre><code class="language-java">for (int i = 0; i &lt; n; i++) {
+    sum += i;
+}</code></pre>
+                         <p class="desc">Optional, one line.</p>
+                     </article>
+                 </div>
+             </section>
+
+             data-tags feeds the search box. Escape < > & inside code.
+             ═══════════════════════════════════════════════ -->
+
+    </main>
+
+    <script>
+        (() => {
+            // ── Highlighter ──
+            // A small Java tokenizer: enough for cheat-sheet snippets, no CDN.
+            const KW = 'abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if implements import instanceof int interface long native new package private protected public return short static strictfp super switch synchronized this throw throws transient try void volatile while var record yield sealed permits non-sealed true false null';
+            const re = new RegExp(
+                '(\\/\\/.*$|\\/\\*[\\s\\S]*?\\*\\/)' +            // 1 comment
+                '|("(?:\\\\.|[^"\\\\])*"|\'(?:\\\\.|[^\'\\\\])\')' + // 2 string / char
+                '|(@\\w+)' +                                      // 3 annotation
+                '|\\b(\\d[\\d_]*(?:\\.\\d+)?[lLdDfF]?)\\b' +      // 4 number
+                '|\\b(' + KW.split(' ').join('|') + ')\\b' +      // 5 keyword
+                '|\\b([A-Z]\\w*)\\b',                             // 6 type
+                'gm');
+            const cls = [null, 'hc', 'hs', 'ha', 'hn', 'hk', 'ht'];
+            const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            document.querySelectorAll('code.language-java').forEach(el => {
+                const src = el.textContent;
+                let out = '', last = 0;
+                for (const m of src.matchAll(re)) {
+                    out += esc(src.slice(last, m.index));
+                    const g = m.findIndex((v, i) => i > 0 && v !== undefined);
+                    out += `<span class="${cls[g]}">${esc(m[0])}</span>`;
+                    last = m.index + m[0].length;
+                }
+                el.innerHTML = out + esc(src.slice(last));
+            });
+
+            // ── Unit index ──
+            const units = [...document.querySelectorAll('.unit')];
+            const toc = document.querySelector('.toc');
+            units.forEach(u => {
+                const a = document.createElement('a');
+                a.href = '#' + u.id;
+                a.textContent = u.dataset.title;
+                toc.appendChild(a);
+            });
+
+            // Nothing to index or search until the first entry goes in.
+            // The lesson plan lives on Key's Mac, so its link only works locally.
+            document.querySelector('.plan').hidden = location.protocol !== 'file:';
+
+            const input = document.querySelector('.search');
+            const hasEntries = !!document.querySelector('.entry');
+            toc.hidden = !hasEntries;
+            input.hidden = !hasEntries;
+
+            // ── Search ──
+            const none = document.querySelector('.no-results');
+            input.addEventListener('input', () => {
+                const q = input.value.trim().toLowerCase();
+                let shown = 0;
+                units.forEach(u => {
+                    let any = false;
+                    u.querySelectorAll('.entry').forEach(e => {
+                        const hay = (e.textContent + ' ' + (e.dataset.tags || '')).toLowerCase();
+                        const hit = !q || hay.includes(q);
+                        e.hidden = !hit;
+                        if (hit) any = true;
+                    });
+                    u.hidden = q ? !any : false;
+                    if (any) shown++;
+                });
+                none.classList.toggle('show', !!q && shown === 0);
+                toc.hidden = !!q || !hasEntries;
+            });
+            document.addEventListener('keydown', e => {
+                if (e.key === '/' && document.activeElement !== input && !input.hidden) {
+                    e.preventDefault();
+                    input.focus();
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
