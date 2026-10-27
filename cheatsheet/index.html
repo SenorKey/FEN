@@ -79,7 +79,7 @@
             align-items: center;
             gap: 16px;
             height: 48px;
-            padding: 0 max(16px, calc((100vw - 1080px) / 2));
+            padding: 0 max(16px, calc((100vw - 1200px) / 2));
             background: rgba(10, 14, 26, 0.92);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -124,7 +124,7 @@
 
         /* ── Layout ── */
         main {
-            max-width: 1080px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 32px 16px 80px;
         }
@@ -167,7 +167,7 @@
 
         /* Entries flow down columns like a printed sheet. */
         .entries {
-            columns: 3 300px;
+            columns: 3 360px;
             column-gap: 28px;
         }
 
@@ -290,6 +290,61 @@
 
              data-tags feeds the search box. Escape < > & inside code.
              ═══════════════════════════════════════════════ -->
+
+        <section class="unit" id="u0" data-title="Running Java">
+            <h2>Running Java</h2>
+            <div class="entries">
+                <article class="entry" data-lesson="0.1" data-tags="skeleton class main println print program structure entry point">
+                    <h3>Program skeleton</h3>
+                    <pre><code class="language-java">// file must be named Main.java
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(25);
+    }
+}</code></pre>
+                    <p class="desc">Runs from <code>main</code>. <code>println</code> adds a new line. Statements end in <code>;</code></p>
+                </article>
+                <article class="entry" data-lesson="0.1" data-tags="run execute terminal command java javac compile">
+                    <h3>Run a file</h3>
+                    <pre><code class="language-java">java projects/Main.java</code></pre>
+                    <p class="desc">In the terminal. Compiles and runs in one step.</p>
+                </article>
+                <article class="entry" data-lesson="0.2" data-tags="print println newline output blank line">
+                    <h3>print vs println</h3>
+                    <pre><code class="language-java">System.out.print("a");    // no new line
+System.out.println("b");  // new line after
+System.out.println();     // just a new line</code></pre>
+                </article>
+                <article class="entry" data-lesson="0.2" data-tags="+ concatenation join string text numbers parentheses order">
+                    <h3>+ with text</h3>
+                    <pre><code class="language-java">"x = " + 3 + 4     // "x = 34"  left to right
+"x = " + (3 + 4)   // "x = 7"   math first
+3 + 4 + " total"   // "7 total"</code></pre>
+                    <p class="desc">Once one side is text, <code>+</code> joins instead of adding.</p>
+                </article>
+                <article class="entry" data-lesson="0.2" data-tags="comment // ignore note">
+                    <h3>Comment</h3>
+                    <pre><code class="language-java">// Java ignores the rest of the line</code></pre>
+                </article>
+                <article class="entry" data-lesson="0.3" data-tags="compile error message read line caret ^ debugging">
+                    <h3>Reading a compile error</h3>
+                    <pre><code>Main.java:4: error: ';' expected
+        System.out.println(9)
+                             ^</code></pre>
+                    <p class="desc">File:line, what Java wanted, <code>^</code> where it noticed. Fix the first one first.</p>
+                </article>
+                <article class="entry" data-lesson="0.3" data-tags="compile error messages common expected cannot find symbol end of file string literal">
+                    <h3>Common compile errors</h3>
+                    <pre><code>';' expected              missing ;
+')' expected              missing )
+unclosed string literal   missing "
+reached end of file       missing }
+cannot find symbol        typo in a name
+package x does not exist  typo in System</code></pre>
+                    <p class="desc">Fixing one round of errors can reveal the next round.</p>
+                </article>
+            </div>
+        </section>
 
     </main>
 
