@@ -147,19 +147,24 @@
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/chronology/</loc>
-    <lastmod>2026-10-10</lastmod>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/flow/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-11-08</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://frontendneeded.com/case-chronicle/people-v-mangione/side-by-side/</loc>
+    <lastmod>2026-11-08</lastmod>
     <priority>0.6</priority>
   </url>
 
