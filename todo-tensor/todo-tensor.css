@@ -1,0 +1,411 @@
+/* ═══════════════════════════════════════════════
+   ToDo Tensor — rank 0: one list in deep black space
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* Black and white only for now. Color comes later, as highlights the
+     list's owner picks, not as decoration. */
+  --tt-void: #000000;
+  --tt-ink: #ffffff;
+  --tt-dim: rgba(255, 255, 255, 0.6);
+  --tt-faint: rgba(255, 255, 255, 0.34);
+  --tt-rule: rgba(255, 255, 255, 0.16);
+}
+
+html { background: var(--tt-void); }
+
+/* styles.css fits every page to one screen with no scrolling.
+   This page scrolls, so the list can run as long as it likes. */
+body.tt {
+  background: var(--tt-void);
+  color: var(--tt-ink);
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+  display: block;
+}
+
+body.tt .site-nav { background: var(--tt-void); }
+
+.tt-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tt-space { min-height: calc(100vh - 44px); }
+
+.tt-column {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 72px 24px 120px;
+}
+
+/* ── Head ── */
+
+.tt-rank {
+  color: var(--tt-ink);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.tt-title {
+  margin-top: 10px;
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--tt-ink);
+}
+
+.tt-lede {
+  margin-top: 12px;
+  color: var(--tt-ink);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+/* ── Add ── */
+
+.tt-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 44px;
+  border-bottom: 1px solid var(--tt-rule);
+  transition: border-color 0.2s;
+}
+
+.tt-add:focus-within { border-color: var(--tt-ink); }
+
+.tt-new {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 0;
+  border: 0;
+  background: transparent;
+  color: var(--tt-ink);
+  font: inherit;
+  font-size: 1.05rem;
+  outline: none;
+}
+
+.tt-new::placeholder { color: var(--tt-faint); }
+
+.tt-add-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tt-ink);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.tt-add-btn:hover,
+.tt-add-btn:focus-visible {
+  border-color: var(--tt-ink);
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.tt-count {
+  min-height: 1.2em;
+  margin-top: 18px;
+  color: var(--tt-faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ── List ── */
+
+.tt-list {
+  position: relative; /* rows measure their offsetTop from here while dragging */
+  list-style: none;
+  margin-top: 8px;
+}
+
+.tt-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 8px 10px 0;
+  border-radius: 10px;
+  background: var(--tt-void);
+}
+
+.tt-item + .tt-item { margin-top: 2px; }
+
+/* Grip */
+
+.tt-grip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 28px;
+  margin-top: -1px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tt-faint);
+  cursor: grab;
+  touch-action: none; /* a drag on the grip moves the row, not the page */
+  transition: color 0.2s;
+}
+
+.tt-grip:hover,
+.tt-grip:focus-visible { color: var(--tt-ink); outline: none; }
+.tt-grip:focus-visible { box-shadow: 0 0 0 1px var(--tt-ink); }
+
+/* Check */
+
+.tt-check {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.tt-check input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tt-box {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  color: var(--tt-void);
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.tt-box svg { opacity: 0; transition: opacity 0.18s; }
+
+.tt-check:hover .tt-box { border-color: var(--tt-ink); }
+
+.tt-check input:focus-visible + .tt-box { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+
+.tt-check input:checked + .tt-box {
+  border-color: var(--tt-ink);
+  background: var(--tt-ink);
+}
+
+.tt-check input:checked + .tt-box svg { opacity: 1; }
+
+/* Text */
+
+.tt-text {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--tt-ink);
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: text;
+  transition: color 0.2s;
+}
+
+.tt-text:focus-visible {
+  outline: none;
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-color: var(--tt-ink);
+  text-underline-offset: 4px;
+}
+
+.tt-item.is-done .tt-text {
+  color: var(--tt-faint);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+}
+
+.tt-edit {
+  flex: 1;
+  min-width: 0;
+  padding: 1px 0;
+  border: 0;
+  border-bottom: 1px solid var(--tt-ink);
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  outline: none;
+}
+
+/* Remove */
+
+.tt-remove {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: -1px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tt-faint);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, opacity 0.2s;
+}
+
+.tt-remove:hover,
+.tt-remove:focus-visible {
+  color: var(--tt-ink);
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+/* With a mouse, the remove control waits until the row is pointed at. */
+@media (hover: hover) {
+  .tt-remove { opacity: 0; }
+  .tt-item:hover .tt-remove,
+  .tt-item:focus-within .tt-remove { opacity: 1; }
+}
+
+/* Dragging */
+
+body.tt-dragging,
+body.tt-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tt-item.is-dragging {
+  z-index: 2;
+  background: #0b0b0b;
+  box-shadow: 0 0 0 1px var(--tt-rule), 0 10px 40px rgba(255, 255, 255, 0.16);
+}
+
+.tt-item.is-dragging .tt-grip { color: var(--tt-ink); }
+
+.tt-empty {
+  margin-top: 24px;
+  color: var(--tt-faint);
+  font-size: 0.95rem;
+}
+
+/* ── Foot ── */
+
+.tt-foot {
+  margin-top: 64px;
+  padding-top: 18px;
+  border-top: 1px solid var(--tt-rule);
+  color: var(--tt-faint);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.tt-foot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 8px;
+}
+
+.tt-quiet {
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--tt-dim);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--tt-rule);
+  text-underline-offset: 3px;
+}
+
+.tt-quiet:hover,
+.tt-quiet:focus-visible {
+  color: var(--tt-ink);
+  text-decoration-color: currentColor;
+  outline: none;
+}
+
+/* ── Toast ── */
+
+.tt-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 12px 10px 18px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 999px;
+  background: #0d0d0d;
+  color: var(--tt-dim);
+  font-size: 0.85rem;
+  transform: translateX(-50%);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.tt-toast[hidden] { display: none; }
+
+#tt-toast-msg {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tt-undo {
+  flex: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tt-ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tt-undo:hover,
+.tt-undo:focus-visible { background: rgba(255, 255, 255, 0.12); outline: none; }
+
+/* ── Small screens ── */
+
+@media (max-width: 620px) {
+  .tt-column { padding: 44px 16px 104px; }
+  .tt-add { margin-top: 32px; }
+  .tt-item { gap: 6px; padding-right: 0; }
+  .tt-grip { width: 28px; height: 32px; margin-top: -3px; }
+  .tt-remove { width: 32px; height: 32px; margin-top: -3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261110a">
+  <script src="/todo-tensor/todo-tensor.js?v=20261110a" defer></script>
+
+  <meta name="description"
+    content="ToDo Tensor — Key's page ideas and plans as a list in deep black space, on its way to a graph you can view along any number of parameters.">
+  <link rel="canonical" href="https://frontendneeded.com/todo-tensor/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://frontendneeded.com/todo-tensor/">
+  <meta property="og:title" content="ToDo Tensor">
+  <meta property="og:description"
+    content="Page ideas and plans as a list in deep black space, on its way to a graph of any rank.">
+  <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>ToDo Tensor</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-TVD9746XT1');
+  </script>
+</head>
+
+<body class="tt">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <nav class="site-nav">
+    <a href="/" class="nav-home">FEN</a>
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
+      <div class="nav-dropdown-menu">
+        <a href="/case-chronicle">Case Chronicle</a>
+        <a href="/match-analysis-ad">Match Analysis</a>
+        <a href="/preside-by-side-ad">Preside by Side</a>
+        <a href="/tarella-notes">Tarella Notes</a>
+        <a href="/wfpc">WF Price Checker</a>
+      </div>
+    </div>
+    <a href="/my-kings-cadence">NFL</a>
+    <a href="/todo-tensor/" class="active" aria-current="page">To-do</a>
+    <a href="/hire-me">Hire Me</a>
+  </nav>
+
+  <main id="main-content" class="tt-space">
+    <div class="tt-column">
+
+      <header class="tt-head">
+        <p class="tt-rank">Rank 0</p>
+        <h1 class="tt-title">ToDo Tensor</h1>
+        <p class="tt-lede">Every idea in one cell, before any parameters pull them apart.</p>
+      </header>
+
+      <form id="tt-add" class="tt-add" autocomplete="off">
+        <label for="tt-new" class="tt-sr">New idea</label>
+        <input id="tt-new" class="tt-new" type="text" maxlength="300" placeholder="Add an idea, then press Enter"
+          enterkeyhint="done">
+        <button type="submit" class="tt-add-btn" aria-label="Add idea">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none" />
+          </svg>
+        </button>
+      </form>
+
+      <p id="tt-count" class="tt-count"></p>
+      <ul id="tt-list" class="tt-list" aria-label="Ideas"></ul>
+      <p id="tt-empty" class="tt-empty" hidden>Nothing out here yet. Add the first idea above.</p>
+
+      <footer class="tt-foot">
+        <p id="tt-status" class="tt-status">Your changes are saved in this browser only.</p>
+        <div class="tt-foot-actions">
+          <button id="tt-copy" class="tt-quiet" type="button">Copy as JSON</button>
+          <button id="tt-reset" class="tt-quiet" type="button">Reset to published list</button>
+        </div>
+      </footer>
+
+    </div>
+
+    <div id="tt-toast" class="tt-toast" hidden>
+      <span id="tt-toast-msg"></span>
+      <button id="tt-undo" class="tt-undo" type="button">Undo</button>
+    </div>
+    <div id="tt-live" class="tt-sr" aria-live="polite"></div>
+  </main>
+</body>
+
+</html>

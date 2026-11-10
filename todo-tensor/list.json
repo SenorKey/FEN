@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "rank-1-line",
+      "text": "Rank 1: spread every idea along one line, need to want",
+      "done": false,
+      "scores": {}
+    },
+    {
+      "id": "rank-2-quadrant",
+      "text": "Rank 2: the quadrant, need/want by easy/hard",
+      "done": false,
+      "scores": {}
+    },
+    {
+      "id": "rank-3-color",
+      "text": "Rank 3: show a third parameter as color or size",
+      "done": false,
+      "scores": {}
+    },
+    {
+      "id": "rank-n-parallel",
+      "text": "Rank N: parallel coordinates for any number of parameters",
+      "done": false,
+      "scores": {}
+    },
+    {
+      "id": "navbar-link",
+      "text": "Put “To-do” in the FEN navbar, beside NFL",
+      "done": false,
+      "scores": {}
+    }
+  ]
+}
