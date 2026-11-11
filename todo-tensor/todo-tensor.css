@@ -1,28 +1,36 @@
 /* ═══════════════════════════════════════════════
-   ToDo Tensor — rank 0: one list in deep black space
+   ToDo Tensor — one black scene, drawn at ranks 0 to 3,
+   with the list and the parameters in a panel at its side
    ═══════════════════════════════════════════════ */
 
 :root {
-  /* Black and white only for now. Color comes later, as highlights the
-     list's owner picks, not as decoration. */
+  /* Black and white only. White at four strengths does all the work:
+     full for what is focused, 60% for words, 34% for secondary marks,
+     16% for hairlines. Color comes later, as highlights the list's owner
+     picks, not as decoration. */
   --tt-void: #000000;
   --tt-ink: #ffffff;
   --tt-dim: rgba(255, 255, 255, 0.6);
   --tt-faint: rgba(255, 255, 255, 0.34);
   --tt-rule: rgba(255, 255, 255, 0.16);
+  --tt-panel: 320px;
+  --tt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-html { background: var(--tt-void); }
+html {
+  background: var(--tt-void);
+  color-scheme: dark; /* so dialogs, scrollbars and autofill come out dark too */
+}
 
-/* styles.css fits every page to one screen with no scrolling.
-   This page scrolls, so the list can run as long as it likes. */
+/* styles.css already fits the page to one screen; the scene wants that. */
 body.tt {
   background: var(--tt-void);
   color: var(--tt-ink);
-  height: auto;
-  min-height: 100vh;
-  overflow: visible;
-  display: block;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 body.tt .site-nav { background: var(--tt-void); }
@@ -36,38 +44,327 @@ body.tt .site-nav { background: var(--tt-void); }
   white-space: nowrap;
 }
 
-.tt-space { min-height: calc(100vh - 44px); }
+body.tt [hidden] { display: none !important; }
 
-.tt-column {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 72px 24px 120px;
+.tt-noscript {
+  position: absolute;
+  left: 24px;
+  top: 80px;
+  max-width: 420px;
+  color: var(--tt-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
-/* ── Head ── */
+/* Round icon buttons: swap, remove, and the one on each parameter row. */
+.tt-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tt-faint);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, opacity 0.2s;
+}
 
-.tt-rank {
+.tt-icon:hover,
+.tt-icon:focus-visible {
   color: var(--tt-ink);
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+/* ── Shell: scene | panel ── */
+
+.tt-space {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 0;
+  transition: grid-template-columns 0.5s var(--tt-ease);
+}
+
+.tt-space.has-panel { grid-template-columns: minmax(0, 1fr) var(--tt-panel); }
+
+.tt-scene {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tt-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none; /* a finger on the scene drags a node or turns the cube, never the page */
+}
+
+/* The small print in the corners: rank, faces, the panel toggle, the name. */
+
+.tt-hud {
+  position: absolute;
+  top: 22px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.tt-hud-left { left: 24px; }
+.tt-hud-right { right: 24px; }
+
+.tt-rank-word { color: var(--tt-ink); }
+
+.tt-ranks { display: flex; gap: 2px; }
+
+.tt-rank-btn,
+.tt-face,
+.tt-hud-btn {
+  padding: 6px 7px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tt-faint);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+
+.tt-rank-btn:hover,
+.tt-face:hover,
+.tt-hud-btn:hover { color: var(--tt-dim); }
+
+.tt-rank-btn:focus-visible,
+.tt-face:focus-visible,
+.tt-hud-btn:focus-visible {
+  outline: none;
+  color: var(--tt-ink);
+  box-shadow: 0 0 0 1px var(--tt-ink);
+}
+
+.tt-rank-btn[aria-checked="true"],
+.tt-face.is-on,
+.tt-hud-btn[aria-expanded="true"] { color: var(--tt-ink); }
+
+.tt-faces { display: flex; gap: 2px; }
+
+.tt-mark {
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  z-index: 2;
+  margin: 0;
+  color: var(--tt-faint);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* ── Tray: ideas not yet placed on the shown parameters ── */
+
+.tt-tray {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 2;
+  width: min(66%, 760px);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.tt-tray-label {
+  margin: 0 0 8px;
+  color: var(--tt-faint);
+  font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
-.tt-title {
-  margin-top: 10px;
-  font-size: clamp(2.2rem, 7vw, 3.4rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  color: var(--tt-ink);
+/* One row that scrolls sideways when full: a finger moving across it
+   scrolls, a finger moving up out of it lifts a pill. */
+.tt-tray-nodes {
+  display: flex;
+  gap: 6px;
+  padding: 2px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  /* the ends fade, so a pill cut off by the edge reads as "more this way" */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 28px, #000 calc(100% - 28px), transparent);
 }
 
-.tt-lede {
-  margin-top: 12px;
+.tt-tray-nodes::-webkit-scrollbar { display: none; }
+
+/* centred while there is room, scrolling from the left edge once there isn't */
+.tt-tray-node:first-child { margin-left: auto; }
+.tt-tray-node:last-child { margin-right: auto; }
+
+.tt-tray-node {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(100%, 220px);
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tt-faint);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  cursor: grab;
+  touch-action: pan-x;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.tt-tray-node:hover,
+.tt-tray-node:focus-visible,
+.tt-tray-node.is-focus { color: var(--tt-ink); outline: none; }
+
+.tt-tray-node:focus-visible { box-shadow: 0 0 0 1px var(--tt-rule); }
+
+.tt-tray-node.is-lifted { opacity: 0; }
+
+.tt-tray-node .tt-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.tt-tray-node.is-done .tt-dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.tt-tray-node .tt-tray-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.tt-free .tt-tray-node { cursor: pointer; }
+
+/* ── Card: the focused idea, beside its node ── */
+
+.tt-card {
+  position: absolute;
+  z-index: 3;
+  width: 272px;
+  max-width: calc(100% - 32px);
+  padding: 10px 10px 10px 4px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 12px;
+  background: var(--tt-void);
+  transform: translate(var(--x, 0px), var(--y, 0px));
+}
+
+.tt-card .tt-item { padding: 0; }
+
+/* ── Panel ── */
+
+.tt-panel {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-left: 1px solid var(--tt-rule);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0s 0.3s;
+}
+
+.tt-space.has-panel .tt-panel {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s 0.15s, visibility 0s;
+}
+
+.tt-panel-scroll {
+  box-sizing: border-box;
+  width: var(--tt-panel);
+  height: 100%;
+  overflow-y: auto;
+  padding: 22px 20px 60px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-rule) transparent;
+}
+
+/* Parameters */
+
+.tt-params { margin-bottom: 26px; }
+
+.tt-param {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) 24px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  transition: opacity 0.2s;
+}
+
+/* past the rank: kept, not drawn */
+.tt-param.is-hidden { opacity: 0.4; }
+.tt-param.is-hidden:hover,
+.tt-param.is-hidden:focus-within { opacity: 1; }
+
+.tt-param-add { margin: 10px 0 0 20px; }
+
+.tt-param-n {
+  color: var(--tt-faint);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.tt-pole {
+  min-width: 0;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--tt-rule);
+  background: transparent;
   color: var(--tt-ink);
-  font-size: 0.98rem;
-  line-height: 1.5;
+  font: inherit;
+  font-size: 1rem; /* 16px: anything smaller makes iOS zoom in on focus */
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.tt-pole[data-side="right"] { text-align: right; }
+.tt-pole::placeholder { color: var(--tt-faint); }
+.tt-pole:focus { border-color: var(--tt-ink); }
+
+.tt-swap,
+.tt-param-remove { width: 24px; height: 24px; }
+
+.tt-params-note {
+  margin: 10px 0 0 20px;
+  color: var(--tt-faint);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 /* ── Add ── */
@@ -76,7 +373,6 @@ body.tt .site-nav { background: var(--tt-void); }
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 44px;
   border-bottom: 1px solid var(--tt-rule);
   transition: border-color 0.2s;
 }
@@ -86,12 +382,12 @@ body.tt .site-nav { background: var(--tt-void); }
 .tt-new {
   flex: 1;
   min-width: 0;
-  padding: 14px 0;
+  padding: 12px 0;
   border: 0;
   background: transparent;
   color: var(--tt-ink);
   font: inherit;
-  font-size: 1.05rem;
+  font-size: 1rem;
   outline: none;
 }
 
@@ -100,8 +396,8 @@ body.tt .site-nav { background: var(--tt-void); }
 .tt-add-btn {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border: 1px solid var(--tt-rule);
   border-radius: 50%;
   background: transparent;
@@ -119,10 +415,11 @@ body.tt .site-nav { background: var(--tt-void); }
 
 .tt-count {
   min-height: 1.2em;
-  margin-top: 18px;
+  margin-top: 16px;
   color: var(--tt-faint);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -131,20 +428,30 @@ body.tt .site-nav { background: var(--tt-void); }
 .tt-list {
   position: relative; /* rows measure their offsetTop from here while dragging */
   list-style: none;
-  margin-top: 8px;
+  margin: 6px 0 0;
+  padding: 0;
 }
 
 .tt-item {
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  padding: 10px 8px 10px 0;
+  gap: 8px;
+  padding: 8px 4px 8px 0;
   border-radius: 10px;
   background: var(--tt-void);
+  transition: background 0.2s;
 }
 
-.tt-item + .tt-item { margin-top: 2px; }
+.tt-item + .tt-item { margin-top: 1px; }
+
+.tt-item.is-focus,
+.tt-item.is-hover { background: #0b0b0b; }
+
+.tt-body {
+  flex: 1;
+  min-width: 0;
+}
 
 /* Grip */
 
@@ -152,9 +459,8 @@ body.tt .site-nav { background: var(--tt-void); }
   flex: none;
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 28px;
-  margin-top: -1px;
+  width: 22px;
+  height: 26px;
   border: 0;
   border-radius: 6px;
   background: transparent;
@@ -191,8 +497,8 @@ body.tt .site-nav { background: var(--tt-void); }
 .tt-box {
   display: grid;
   place-items: center;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 1.5px solid rgba(255, 255, 255, 0.55);
   border-radius: 50%;
   color: var(--tt-void);
@@ -215,15 +521,15 @@ body.tt .site-nav { background: var(--tt-void); }
 /* Text */
 
 .tt-text {
-  flex: 1;
-  min-width: 0;
-  padding: 2px 0;
+  display: block;
+  width: 100%;
+  padding: 3px 0;
   border: 0;
   background: transparent;
   color: var(--tt-ink);
   font: inherit;
-  font-size: 1.05rem;
-  line-height: 1.45;
+  font-size: 1rem;
+  line-height: 1.4;
   text-align: left;
   overflow-wrap: anywhere;
   cursor: text;
@@ -232,7 +538,6 @@ body.tt .site-nav { background: var(--tt-void); }
 
 .tt-text:focus-visible {
   outline: none;
-  color: #ffffff;
   text-decoration: underline;
   text-decoration-color: var(--tt-ink);
   text-underline-offset: 4px;
@@ -245,51 +550,104 @@ body.tt .site-nav { background: var(--tt-void); }
 }
 
 .tt-edit {
-  flex: 1;
-  min-width: 0;
-  padding: 1px 0;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 2px 0;
   border: 0;
   border-bottom: 1px solid var(--tt-ink);
   background: transparent;
-  color: #ffffff;
-  font: inherit;
-  font-size: 1.05rem;
-  line-height: 1.45;
-  outline: none;
-}
-
-/* Remove */
-
-.tt-remove {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  margin-top: -1px;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  color: var(--tt-faint);
-  cursor: pointer;
-  transition: color 0.2s, background 0.2s, opacity 0.2s;
-}
-
-.tt-remove:hover,
-.tt-remove:focus-visible {
   color: var(--tt-ink);
-  background: rgba(255, 255, 255, 0.1);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
   outline: none;
 }
 
-/* With a mouse, the remove control waits until the row is pointed at. */
-@media (hover: hover) {
-  .tt-remove { opacity: 0; }
-  .tt-item:hover .tt-remove,
-  .tt-item:focus-within .tt-remove { opacity: 1; }
+/* Sliders: one hairline per shown parameter, the pole words at its ends.
+   No thumb until the idea has been placed. */
+
+.tt-sliders { margin: 4px 0 2px; }
+
+.tt-slider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  touch-action: none;
 }
 
-/* Dragging */
+.tt-slider:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--tt-rule); }
+
+.tt-slider-pole {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--tt-faint);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tt-slider-pole:last-child { text-align: right; }
+
+.tt-slider-track {
+  position: relative;
+  height: 14px;
+}
+
+.tt-slider-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--tt-rule);
+}
+
+.tt-slider-track::after {
+  /* the midpoint, so "neither" has a place */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 1px;
+  height: 6px;
+  background: var(--tt-rule);
+}
+
+.tt-slider-thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--v, 50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tt-ink);
+  transform: translate(-50%, -50%);
+  transition: left 0.15s;
+}
+
+.tt-slider.is-unset .tt-slider-thumb { display: none; }
+.tt-slider.is-dragging .tt-slider-thumb { transition: none; }
+.tt-slider:hover .tt-slider-track::before,
+.tt-slider:focus-visible .tt-slider-track::before { background: var(--tt-faint); }
+.tt-item.is-done .tt-slider-thumb { background: transparent; box-shadow: inset 0 0 0 1px var(--tt-ink); }
+
+/* Remove: with a mouse, the control waits until the row is pointed at. */
+@media (hover: hover) {
+  .tt-list .tt-remove { opacity: 0; }
+  .tt-list .tt-item:hover .tt-remove,
+  .tt-list .tt-item:focus-within .tt-remove { opacity: 1; }
+}
+
+/* Dragging a row */
 
 body.tt-dragging,
 body.tt-dragging * {
@@ -307,19 +665,19 @@ body.tt-dragging * {
 .tt-item.is-dragging .tt-grip { color: var(--tt-ink); }
 
 .tt-empty {
-  margin-top: 24px;
+  margin-top: 20px;
   color: var(--tt-faint);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 /* ── Foot ── */
 
 .tt-foot {
-  margin-top: 64px;
-  padding-top: 18px;
+  margin-top: 48px;
+  padding-top: 16px;
   border-top: 1px solid var(--tt-rule);
   color: var(--tt-faint);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   line-height: 1.5;
 }
 
@@ -336,7 +694,7 @@ body.tt-dragging * {
   background: transparent;
   color: var(--tt-dim);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   cursor: pointer;
   text-decoration: underline;
   text-decoration-color: var(--tt-rule);
@@ -371,7 +729,8 @@ body.tt-dragging * {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-.tt-toast[hidden] { display: none; }
+/* above the tray while there is one */
+body.tt-has-tray .tt-toast { bottom: 116px; }
 
 #tt-toast-msg {
   min-width: 0;
@@ -396,14 +755,33 @@ body.tt-dragging * {
 .tt-undo:hover,
 .tt-undo:focus-visible { background: rgba(255, 255, 255, 0.12); outline: none; }
 
-/* ── Small screens ── */
+/* ── Narrow screens: the panel becomes a sheet under the scene ── */
 
-@media (max-width: 620px) {
-  .tt-column { padding: 44px 16px 104px; }
-  .tt-add { margin-top: 32px; }
-  .tt-item { gap: 6px; padding-right: 0; }
-  .tt-grip { width: 28px; height: 32px; margin-top: -3px; }
-  .tt-remove { width: 32px; height: 32px; margin-top: -3px; }
+@media (max-width: 760px) {
+  .tt-space {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 0;
+    transition: grid-template-rows 0.5s var(--tt-ease);
+  }
+
+  .tt-space.has-panel {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 46%;
+  }
+
+  .tt-panel { border-left: 0; border-top: 1px solid var(--tt-rule); }
+  .tt-panel-scroll { width: 100%; padding: 16px 16px 48px; }
+
+  .tt-hud { top: 16px; }
+  .tt-hud-left { left: 16px; }
+  .tt-hud-right { right: 16px; }
+  .tt-mark { left: 16px; bottom: 14px; }
+  .tt-scene.has-tray .tt-mark { display: none; } /* the tray needs the whole width */
+  .tt-tray { width: calc(100% - 32px); bottom: 12px; }
+  body.tt-has-tray .tt-toast { bottom: 24px; } /* the panel sheet is below the tray here */
+  .tt-card { width: 240px; }
+  .tt-grip { width: 26px; height: 30px; }
+  .tt-remove { width: 30px; height: 30px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

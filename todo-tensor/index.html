@@ -6,18 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261110a">
-  <script src="/todo-tensor/todo-tensor.js?v=20261110a" defer></script>
+  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261111b">
+  <script src="/todo-tensor/todo-tensor.js?v=20261111b" defer></script>
 
   <meta name="description"
-    content="ToDo Tensor — Key's page ideas and plans as a list in deep black space, on its way to a graph you can view along any number of parameters.">
+    content="ToDo Tensor — Key's page ideas and plans as nodes in deep black space: one point at rank 0, a line at rank 1, a plane at rank 2, a cube at rank 3, along parameters you name yourself.">
   <link rel="canonical" href="https://frontendneeded.com/todo-tensor/">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://frontendneeded.com/todo-tensor/">
   <meta property="og:title" content="ToDo Tensor">
   <meta property="og:description"
-    content="Page ideas and plans as a list in deep black space, on its way to a graph of any rank.">
+    content="Page ideas and plans as nodes in deep black space: a point, a line, a plane, a cube, along parameters you name yourself.">
   <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -55,38 +55,80 @@
   </nav>
 
   <main id="main-content" class="tt-space">
-    <div class="tt-column">
 
-      <header class="tt-head">
-        <p class="tt-rank">Rank 0</p>
-        <h1 class="tt-title">ToDo Tensor</h1>
-        <p class="tt-lede">Every idea in one cell, before any parameters pull them apart.</p>
-      </header>
+    <!-- The scene: one canvas draws every rank. The list in the panel is the
+         same ideas in words, so what the canvas shows is never the only copy. -->
+    <section id="tt-scene" class="tt-scene">
+      <canvas id="tt-canvas" class="tt-canvas" role="img" aria-label="Ideas drawn as nodes. The same ideas are listed in the panel."></canvas>
+      <noscript>
+        <p class="tt-noscript">ToDo Tensor needs JavaScript to draw the ideas. The list itself is published as
+          <a href="/todo-tensor/list.json">list.json</a>.</p>
+      </noscript>
 
-      <form id="tt-add" class="tt-add" autocomplete="off">
-        <label for="tt-new" class="tt-sr">New idea</label>
-        <input id="tt-new" class="tt-new" type="text" maxlength="300" placeholder="Add an idea, then press Enter"
-          enterkeyhint="done">
-        <button type="submit" class="tt-add-btn" aria-label="Add idea">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-            <path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none" />
-          </svg>
-        </button>
-      </form>
-
-      <p id="tt-count" class="tt-count"></p>
-      <ul id="tt-list" class="tt-list" aria-label="Ideas"></ul>
-      <p id="tt-empty" class="tt-empty" hidden>Nothing out here yet. Add the first idea above.</p>
-
-      <footer class="tt-foot">
-        <p id="tt-status" class="tt-status">Your changes are saved in this browser only.</p>
-        <div class="tt-foot-actions">
-          <button id="tt-copy" class="tt-quiet" type="button">Copy as JSON</button>
-          <button id="tt-reset" class="tt-quiet" type="button">Reset to published list</button>
+      <div class="tt-hud tt-hud-left">
+        <span class="tt-rank-word" id="tt-rank-word">Rank</span>
+        <div class="tt-ranks" role="radiogroup" aria-label="Rank">
+          <button type="button" class="tt-rank-btn" data-rank="0" role="radio" aria-checked="true">0</button>
+          <button type="button" class="tt-rank-btn" data-rank="1" role="radio" aria-checked="false">1</button>
+          <button type="button" class="tt-rank-btn" data-rank="2" role="radio" aria-checked="false">2</button>
+          <button type="button" class="tt-rank-btn" data-rank="3" role="radio" aria-checked="false">3</button>
         </div>
-      </footer>
+      </div>
 
-    </div>
+      <div class="tt-hud tt-hud-right">
+        <div id="tt-faces" class="tt-faces" role="group" aria-label="Look straight at a face" hidden>
+          <button type="button" class="tt-face" data-face="xy">xy</button>
+          <button type="button" class="tt-face" data-face="xz">xz</button>
+          <button type="button" class="tt-face" data-face="yz">yz</button>
+        </div>
+        <button type="button" id="tt-panel-toggle" class="tt-hud-btn" aria-expanded="false" aria-controls="tt-panel">List</button>
+      </div>
+
+      <div id="tt-tray" class="tt-tray" hidden>
+        <p id="tt-tray-label" class="tt-tray-label"></p>
+        <div id="tt-tray-nodes" class="tt-tray-nodes"></div>
+      </div>
+
+      <div id="tt-card" class="tt-card" hidden></div>
+
+      <h1 class="tt-mark">ToDo Tensor</h1>
+    </section>
+
+    <aside id="tt-panel" class="tt-panel" aria-label="Parameters and ideas">
+      <div class="tt-panel-scroll">
+
+        <section id="tt-params" class="tt-params" aria-label="Parameters">
+          <div id="tt-param-rows"></div>
+          <p id="tt-params-note" class="tt-params-note" hidden></p>
+          <button type="button" id="tt-param-add" class="tt-quiet tt-param-add">Add a parameter</button>
+        </section>
+
+        <form id="tt-add" class="tt-add" autocomplete="off">
+          <label for="tt-new" class="tt-sr">New idea</label>
+          <input id="tt-new" class="tt-new" type="text" maxlength="300" placeholder="Add an idea, then press Enter"
+            enterkeyhint="done">
+          <button type="submit" class="tt-add-btn" aria-label="Add idea">
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+              <path d="M8 2.5v11M2.5 8h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none" />
+            </svg>
+          </button>
+        </form>
+
+        <p id="tt-count" class="tt-count"></p>
+        <ul id="tt-list" class="tt-list" aria-label="Ideas"></ul>
+        <p id="tt-empty" class="tt-empty" hidden>Nothing out here yet. Add the first idea above.</p>
+
+        <footer class="tt-foot">
+          <p id="tt-status" class="tt-status">Your changes are saved in this browser only.</p>
+          <div class="tt-foot-actions">
+            <button id="tt-copy" class="tt-quiet" type="button">Copy as JSON</button>
+            <button id="tt-link" class="tt-quiet" type="button">Copy link to this arrangement</button>
+            <button id="tt-reset" class="tt-quiet" type="button">Reset to published list</button>
+          </div>
+        </footer>
+
+      </div>
+    </aside>
 
     <div id="tt-toast" class="tt-toast" hidden>
       <span id="tt-toast-msg"></span>
