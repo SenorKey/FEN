@@ -539,6 +539,16 @@ double w = 7 / 2;   // 3.0  divides first, then widens
 int n = 3.5;        // error: possible lossy conversion</code></pre>
                             <p class="desc">int → double is implicit; double → int needs a cast.</p>
                         </article>
+                        <article class="entry" data-lesson="1.4" data-tags="Math sqrt abs pow max min square root power absolute value static method">
+                            <h4>Math methods</h4>
+                            <pre><code class="language-java">Math.sqrt(2)        // 1.4142135623730951
+Math.pow(2, 10)     // 1024.0   always double
+Math.abs(-7)        // 7
+Math.max(3, 8)      // 8   int args → int
+Math.min(3, 2.5)    // 2.5 mixed → double
+Math.sqrt(-1)       // NaN</code></pre>
+                            <p class="desc">Static methods of <code>java.lang.Math</code>; no import needed.</p>
+                        </article>
                     </div>
                 </div>
             </section>
