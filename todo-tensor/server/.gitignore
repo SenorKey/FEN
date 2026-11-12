@@ -1,0 +1,9 @@
+# The real config lives only on the server; config.env.example is tracked.
+config.env
+
+# The list lives in /var/lib/todo-tensor/ on the server. Guard against a
+# local copy (dev.db from `tensor.py dev`) landing in the repo.
+*.db
+*.db-shm
+*.db-wal
+__pycache__/

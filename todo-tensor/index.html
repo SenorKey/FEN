@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261111k">
-  <script src="/todo-tensor/todo-tensor.js?v=20261111k" defer></script>
+  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261112c">
+  <script src="/todo-tensor/todo-tensor.js?v=20261112c" defer></script>
 
   <meta name="description"
     content="ToDo Tensor — Key's page ideas and plans as nodes in deep black space: one point at rank 0, a line at rank 1, a plane at rank 2, a cube at rank 3, along parameters you name yourself.">
@@ -35,7 +35,7 @@
   </script>
 </head>
 
-<body class="tt">
+<body class="tt tt-readonly">
   <a href="#main-content" class="skip-link">Skip to content</a>
   <nav class="site-nav">
     <a href="/" class="nav-home">FEN</a>
@@ -127,12 +127,23 @@
         <p id="tt-empty" class="tt-empty" hidden>Nothing out here yet. Add the first idea above.</p>
 
         <footer class="tt-foot">
-          <p id="tt-status" class="tt-status">Your changes are saved in this browser only.</p>
+          <p id="tt-status" class="tt-status" aria-live="polite"></p>
+          <div id="tt-status-acts" class="tt-foot-actions" hidden></div>
           <div class="tt-foot-actions">
             <button id="tt-copy" class="tt-quiet" type="button">Copy as JSON</button>
-            <button id="tt-link" class="tt-quiet" type="button">Copy link to this arrangement</button>
-            <button id="tt-reset" class="tt-quiet" type="button">Reset to published list</button>
+            <button id="tt-link" class="tt-quiet" type="button">Copy link to this view</button>
+            <button id="tt-owner" class="tt-quiet" type="button" aria-controls="tt-signin">Owner sign-in</button>
           </div>
+          <!-- Only the list's owner has the password. The username field is
+               for password managers, which file a password under one. -->
+          <form id="tt-signin" class="tt-signin" hidden>
+            <input type="text" name="username" autocomplete="username" value="owner" hidden>
+            <label for="tt-password" class="tt-sr">Password</label>
+            <input id="tt-password" class="tt-password" type="password" autocomplete="current-password"
+              placeholder="Password" maxlength="1024" enterkeyhint="go">
+            <button type="submit" class="tt-quiet">Sign in</button>
+            <p id="tt-signin-note" class="tt-signin-note" aria-live="polite"></p>
+          </form>
         </footer>
 
       </div>

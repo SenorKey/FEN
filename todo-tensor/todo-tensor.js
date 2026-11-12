@@ -12,17 +12,20 @@
 
    Nothing is rebuilt between ranks: nodes slide along one axis at a time,
    and the cube is a rotation of the plane, so each rank grows out of the
-   last. The published list comes from list.json; once a visitor changes
-   anything, their copy lives in this browser's localStorage. The address
-   carries the rank and the focused idea, and can carry a whole arrangement
-   (#data=…) so one can be shared without a server. */
+   last. The list lives on the server (/api/todo-tensor, server/tensor.py):
+   everyone reads it, and only its owner, signed in, can change it. Visitors
+   get the same scene with every editing control taken away. list.json is
+   the fallback copy when the server can't be reached. The address carries
+   the rank and the focused idea. */
 
 (() => {
   'use strict';
 
-  const STORE = 'todo-tensor:v2';
-  const STORE_V1 = 'todo-tensor:v1';
+  const API = '/api/todo-tensor';
   const SEED = '/todo-tensor/list.json';
+  const DRAFT = 'todo-tensor:draft';     // the owner's changes, kept here until the server has them
+  const LEGACY = ['todo-tensor:v2', 'todo-tensor:v1'];   // lists saved in a browser before there was a server
+  const SAVE_MS = 600;                    // a pause this long after a change sends it
   const MAX_RANK = 3;
   const NEW_TEXT = 'New idea';
 
@@ -94,7 +97,6 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = window.matchMedia('(hover: none)');   // a finger, so no keyboard pops up uninvited
 
-  const SAVED_NOTE = 'Your changes are saved in this browser only.';
 
   const state = { params: [], items: [] };
   let rank = 0;
@@ -104,7 +106,12 @@
   let face = null;         // 'xy' | 'xz' | 'yz' while the cube is seen square on
   let panelOpen = true;    // the panel starts open (shut on a phone, where it is a sheet over half the screen)
   let booting = true;      // while the page is being set up, every move is instant
-  let shared = null;       // the #data= string while a shared arrangement is on show
+  let editable = false;    // signed in as the owner, with the server's copy loaded
+  let owner = false;       // this browser holds the owner's sign-in
+  let csrf = null;         // the token every save carries
+  let rev = null;          // the server revision the list on screen was loaded from or saved as
+  let savedAt = null;      // when that revision was saved
+  let fromServer = false;  // false: the server couldn't be reached and list.json is on show
   let toastTimer = 0;
 
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
@@ -151,10 +158,50 @@
     return { params, items };
   }
 
-  function readLocal() {
+  function readStore(key) {
     try {
-      const s = localStorage.getItem(STORE) || localStorage.getItem(STORE_V1);
-      return s ? clean(JSON.parse(s)) : null;
+      const s = localStorage.getItem(key);
+      return s ? JSON.parse(s) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function dropStore(key) {
+    try { localStorage.removeItem(key); } catch { /* nothing kept */ }
+  }
+
+  // A list this browser saved before the server existed, if any.
+  function readLegacy() {
+    for (const k of LEGACY) {
+      const v = readStore(k);
+      if (v) return clean(v);
+    }
+    return null;
+  }
+
+  async function api(path, opts = {}) {
+    const headers = {};
+    if (opts.body !== undefined) headers['Content-Type'] = 'application/json';
+    if (csrf && opts.method && opts.method !== 'GET') headers['X-Tensor-CSRF'] = csrf;
+    const r = await fetch(API + path, {
+      method: opts.method || 'GET',
+      headers,
+      body: opts.body === undefined ? undefined : JSON.stringify(opts.body),
+      credentials: 'same-origin',
+      cache: 'no-store',
+    });
+    let data = null;
+    try { data = await r.json(); } catch { /* not JSON */ }
+    return { status: r.status, ok: r.ok, data };
+  }
+
+  // The list from the server, or null when it can't be reached.
+  async function readRemote() {
+    try {
+      const r = await api('/list');
+      if (!r.ok || !r.data || !r.data.list) return null;
+      return { list: clean(r.data.list), rev: r.data.rev, savedAt: r.data.saved_at };
     } catch {
       return null;
     }
@@ -206,60 +253,105 @@
   }
 
   /* ── The address ──
-     #rank=2&idea=<id> opens the page there. #data=… carries a whole list, so
-     a link can show an arrangement with no server behind it; the visitor's
-     own saved list is left alone until they change something. */
-
-  const b64url = (s) => {
-    let bin = '';
-    for (const b of new TextEncoder().encode(s)) bin += String.fromCharCode(b);
-    return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  };
-
-  const unb64url = (s) =>
-    new TextDecoder().decode(Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0)));
+     #rank=2&idea=<id> opens the page there. The list itself never rides in
+     the address: what the page shows is always the owner's list. */
 
   const readHash = () => new URLSearchParams(location.hash.slice(1));
 
-  function hashFor(data) {
+  function hashFor() {
     const q = new URLSearchParams();
     if (rank) q.set('rank', String(rank));
     if (focusId) q.set('idea', focusId);
-    if (data) q.set('data', data);
     return q.toString();
   }
 
   function writeHash() {
     if (booting) return;
-    const s = hashFor(shared);
+    const s = hashFor();
     history.replaceState(null, '', location.pathname + location.search + (s ? '#' + s : ''));
   }
 
-  const shareLink = () => location.origin + location.pathname + '#' + hashFor(b64url(JSON.stringify(payload())));
+  const shareLink = () => location.origin + location.pathname + (hashFor() ? '#' + hashFor() : '');
 
   /* ── Saving, and one step back ──
      Every save remembers the payload before it. Cmd/Ctrl+Z swaps the two, so
      pressing it again redoes. Typing a pole word is one change, not one per
-     letter: saves that share a merge key keep the same step back. */
+     letter: saves that share a merge key keep the same step back.
+
+     A change is kept in this browser at once (the draft), then sent to the
+     server after a short pause, so a burst of changes is one request. The
+     draft goes once the server has it. If the save fails, the draft stays
+     and the page says why. */
 
   let lastSaved = '';      // the payload as last written
   let undoJSON = null;     // the payload before the latest change
   let mergeKey = null;
   let undone = false;
 
+  let saveTimer = 0;
+  let saving = false;      // a request is out
+  let again = false;       // something changed while it was out
+
+  function keepDraft() {
+    try { localStorage.setItem(DRAFT, JSON.stringify({ rev, list: payload() })); } catch { /* the server copy is what counts */ }
+  }
+
   function persist() {
     lastSaved = JSON.stringify(payload());
-    try {
-      localStorage.setItem(STORE, lastSaved);
-      status.textContent = SAVED_NOTE;
-    } catch {
-      status.textContent = 'This browser won’t save changes, so they will be gone when you leave.';
-    }
-    shared = null;
+    if (!editable) return;
+    keepDraft();
+    setStatus('Saving…');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(push, SAVE_MS);
     writeHash();
   }
 
+  async function push() {
+    clearTimeout(saveTimer);
+    if (!editable) return;
+    if (saving) { again = true; return; }
+    saving = true;
+    again = false;
+    const sent = lastSaved;
+    let r;
+    try {
+      r = await api('/list', { method: 'PUT', body: { rev, list: JSON.parse(sent) } });
+    } catch {
+      r = { status: 0 };
+    }
+    saving = false;
+    if (r.ok) {
+      rev = r.data.rev;
+      savedAt = r.data.saved_at;
+      confirmed = sent;
+      if (lastSaved === sent) { dropStore(DRAFT); setStatus(savedNote()); }
+      else { keepDraft(); push(); }
+      return;
+    }
+    if (r.status === 409) {
+      // saved from another device since this page loaded: say so, and let
+      // the owner pick which version stands
+      const theirs = r.data;
+      setStatus('This list was changed on another device since this page loaded, so this change wasn’t saved.', [
+        ['Show the other version', () => adopt(theirs, { keepUndo: true })],
+        ['Keep this one', () => { rev = theirs.rev; push(); }],
+      ]);
+      return;
+    }
+    if (r.status === 401) {
+      signedOut('You were signed out, so this change wasn’t saved yet. It’s kept in this browser: sign in again to save it.');
+      return;
+    }
+    const down = r.status === 0 || r.status >= 500;
+    setStatus(down
+      ? 'The server couldn’t be reached. This change is kept in this browser and will be sent again.'
+      : `The server refused this change${r.data && r.data.error ? ` (${r.data.error})` : ''}. It’s kept in this browser.`,
+    [['Try again', () => push()]]);
+    if (down) saveTimer = setTimeout(push, 8000);
+  }
+
   function save(merge) {
+    if (!editable) return;
     const prev = lastSaved;
     persist();
     if (lastSaved === prev) return;   // nothing changed
@@ -269,6 +361,7 @@
   }
 
   function undo() {
+    if (!editable) return;
     if (!undoJSON) { announce('Nothing to undo'); return; }
     let data;
     try { data = clean(JSON.parse(undoJSON)); } catch { undoJSON = null; return; }
@@ -956,8 +1049,15 @@
     'Rank 3. The plane turns into a cube. Drag the empty space to turn it, scroll to zoom, or pick a face.',
   ];
 
+  const VIEW_NOTE = [
+    RANK_NOTE[0],
+    'Rank 1. The ideas along one line, from one end of the first parameter to the other.',
+    'Rank 2. A second parameter crosses the first.',
+    RANK_NOTE[3],
+  ];
+
   function setRank(r) {
-    r = clamp(r, 0, MAX_RANK);
+    r = clamp(r, 0, editable ? MAX_RANK : state.params.length);
     if (r === rank) return;
     const prev = rank;
     rank = r;
@@ -987,7 +1087,7 @@
 
     relayout({ dur, delay, win });
 
-    rankBtns.forEach((b) => b.setAttribute('aria-checked', String(+b.dataset.rank === r)));
+    syncRankBtns();
     rankWord.textContent = `Rank ${r}`;
     facesBox.hidden = r !== 3;
     canvas.setAttribute('aria-label', `Rank ${r}: ideas drawn as nodes${r ? ` along ${r} ${r === 1 ? 'parameter' : 'parameters'}` : ' in one point'}. The same ideas are listed in the panel.`);
@@ -999,7 +1099,16 @@
       if (blank) blank.focus({ preventScroll: true });
     }
     writeHash();
-    if (!booting) announce(RANK_NOTE[r]);
+    if (!booting) announce(editable ? RANK_NOTE[r] : VIEW_NOTE[r]);
+  }
+
+  // Ranks past the named parameters are there to be built, so only the owner gets them.
+  function syncRankBtns() {
+    for (const b of rankBtns) {
+      const k = +b.dataset.rank;
+      b.setAttribute('aria-checked', String(k === rank));
+      b.disabled = !editable && k > state.params.length;
+    }
   }
 
   function bloom() {
@@ -1145,7 +1254,7 @@
       drag = { kind: 'cell', pid: e.pointerId, inside: Math.hypot(x - view.cx, y - view.cy) <= HIT_CELL };
     } else {
       const n = hit(x, y);
-      if (n && rank > 0) drag = { kind: 'node', pid: e.pointerId, id: n.id, x0: x, y0: y, z2: n.sz, moved: false };
+      if (n && rank > 0 && editable) drag = { kind: 'node', pid: e.pointerId, id: n.id, x0: x, y0: y, z2: n.sz, moved: false };
       else if (n) drag = { kind: 'pick', pid: e.pointerId, id: n.id };
       else if (rank === 3) drag = { kind: 'orbit', pid: e.pointerId, x0: x, y0: y, yaw: cam.yaw, pitch: cam.pitch, moved: false };
       else drag = { kind: 'bg', pid: e.pointerId };
@@ -1219,7 +1328,7 @@
     } else if (!d.moved) {
       // empty space: one tap closes what is open; two in a row add an idea here
       const now = performance.now();
-      if (rank > 0 && lastTap && now - lastTap.t < TAP_MS && Math.hypot(x - lastTap.x, y - lastTap.y) < TAP_PX) {
+      if (editable && rank > 0 && lastTap && now - lastTap.t < TAP_MS && Math.hypot(x - lastTap.x, y - lastTap.y) < TAP_PX) {
         lastTap = null;
         addAt(x, y);
       } else {
@@ -1250,6 +1359,7 @@
   // Two taps on empty space put a new idea there, with the values that spot
   // means, and open its card to be written.
   function addAt(x, y) {
+    if (!editable) return;
     const pos = unproject(x, y, 0).map((v) => clamp(v, -1, 1));
     if (rank <= 2) pos[2] = 0;
     const item = { id: uid(), text: NEW_TEXT, done: false, scores: {} };
@@ -1302,6 +1412,7 @@
     if (!drag || drag.kind !== 'tray') return;
     const { x, y } = scenePoint(e);
     drag.x = x; drag.y = y;
+    if (!editable) return;   // a visitor's tap on a pill only opens the idea
     if (!drag.moved) {
       const dx = x - drag.x0, dy = y - drag.y0;
       if (Math.hypot(dx, dy) < DRAG_PX) return;
@@ -1395,6 +1506,7 @@
   // names and values, and come back when the rank does.
   function renderParams() {
     paramRows.textContent = '';
+    paramsBox.hidden = !editable && !state.params.length;
     state.params.forEach((p, i) => {
       const row = document.createElement('div');
       row.className = 'tt-param' + (i >= rank ? ' is-hidden' : '');
@@ -1404,6 +1516,17 @@
       n.className = 'tt-param-n';
       n.textContent = String(i + 1);
       const name = p.left || p.right ? `${p.left || '—'} to ${p.right || '—'}` : `parameter ${i + 1}`;
+      if (!editable) {
+        // a visitor reads the two ends; nothing here takes a click
+        if (i >= rank) row.title = `Not drawn at rank ${rank}.`;
+        const to = document.createElement('span');
+        to.className = 'tt-param-to';
+        to.textContent = 'to';
+        row.classList.add('is-static');
+        row.append(n, poleText(p.left), to, poleText(p.right));
+        paramRows.append(row);
+        return;
+      }
       row.append(
         n,
         pole(p, 'left', i),
@@ -1415,11 +1538,18 @@
       for (const f of row.querySelectorAll('.tt-pole')) fitPole(f);
     });
     updateNote();
-    paramAdd.hidden = state.params.length >= MAX_RANK;
+    paramAdd.hidden = !editable || state.params.length >= MAX_RANK;
+  }
+
+  function poleText(v) {
+    const t = document.createElement('span');
+    t.className = 'tt-pole-text';
+    t.textContent = v || '—';
+    return t;
   }
 
   function updateNote() {
-    const text = !state.params.length
+    const text = !editable ? '' : !state.params.length
       ? 'Add a parameter to spread the ideas along a line.'
       : shownParams().some((p) => !p.left && !p.right)
         ? (rank === 1
@@ -1516,6 +1646,12 @@
   /* ── Panel: the list ── */
 
   function textButton(item) {
+    if (!editable) {
+      const t = document.createElement('p');
+      t.className = 'tt-text is-static';
+      t.textContent = item.text;
+      return t;
+    }
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'tt-text';
@@ -1528,8 +1664,9 @@
   function describe(el, item) {
     const grip = el.querySelector('.tt-grip');
     if (grip) grip.setAttribute('aria-label', `Move “${item.text}”. Drag, or press the up and down arrow keys.`);
-    el.querySelector('.tt-check .tt-sr').textContent = `Done: ${item.text}`;
-    el.querySelector('.tt-remove').setAttribute('aria-label', `Remove “${item.text}”`);
+    el.querySelector('.tt-check .tt-sr').textContent = `${editable || item.done ? 'Done' : 'Not done'}: ${item.text}`;
+    const remove = el.querySelector('.tt-remove');
+    if (remove) remove.setAttribute('aria-label', `Remove “${item.text}”`);
   }
 
   function row(item, isCard) {
@@ -1539,7 +1676,7 @@
       + (!isCard && item.id === hoverId ? ' is-hover' : '');
     el.dataset.id = item.id;
 
-    if (!isCard) {
+    if (!isCard && editable) {
       const grip = document.createElement('button');
       grip.type = 'button';
       grip.className = 'tt-grip';
@@ -1552,6 +1689,7 @@
     const tick = document.createElement('input');
     tick.type = 'checkbox';
     tick.checked = item.done;
+    tick.disabled = !editable;
     const box = document.createElement('span');
     box.className = 'tt-box';
     box.append(checkIcon());
@@ -1570,7 +1708,8 @@
       body.append(sl);
     }
 
-    el.append(check, body, iconButton('tt-remove', '', crossIcon));
+    el.append(check, body);
+    if (editable) el.append(iconButton('tt-remove', '', crossIcon));
     describe(el, item);
     return el;
   }
@@ -1580,7 +1719,8 @@
     s.className = 'tt-slider';
     s.dataset.param = p.id;
     s.setAttribute('role', 'slider');
-    s.tabIndex = 0;
+    if (editable) s.tabIndex = 0;
+    else { s.setAttribute('aria-readonly', 'true'); s.classList.add('is-static'); }
     s.setAttribute('aria-valuemin', '-1');
     s.setAttribute('aria-valuemax', '1');
     const l = document.createElement('span');
@@ -1624,6 +1764,7 @@
     const done = state.items.filter((i) => i.done).length;
     count.textContent = state.items.length ? `${done} of ${state.items.length} done` : '';
     empty.hidden = state.items.length > 0;
+    empty.textContent = editable ? 'Nothing out here yet. Add the first idea above.' : 'Nothing here yet.';
   }
 
   // focus: { id, sel, host } of the control to put the cursor back on.
@@ -1660,6 +1801,7 @@
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!editable) return;
     const text = input.value.trim().slice(0, 300);
     if (!text) return;
     state.items.unshift({ id: uid(), text, done: false, scores: {} });
@@ -1671,7 +1813,7 @@
   /* ── Check off, edit, remove, set a value: the same in the list and the card ── */
 
   function onChange(e) {
-    if (!e.target.matches('.tt-check input')) return;
+    if (!editable || !e.target.matches('.tt-check input')) return;
     const el = e.target.closest('.tt-item');
     const item = byId(el.dataset.id);
     if (!item) return;
@@ -1682,6 +1824,7 @@
   }
 
   function onClick(e) {
+    if (!editable) return;
     const text = e.target.closest('.tt-text');
     if (text) return startEdit(text.closest('.tt-item'));
     const remove = e.target.closest('.tt-remove');
@@ -1811,7 +1954,7 @@
 
   function onSliderDown(e) {
     const s = e.target.closest('.tt-slider');
-    if (!s || sliding || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (!s || !editable || sliding || (e.pointerType === 'mouse' && e.button !== 0)) return;
     const item = byId(s.closest('.tt-item').dataset.id);
     const p = paramOf(s);
     if (!item || !p) return;
@@ -1837,7 +1980,7 @@
 
   function onSliderKey(e) {
     const s = e.target.closest('.tt-slider');
-    if (!s) return;
+    if (!s || !editable) return;
     const item = byId(s.closest('.tt-item').dataset.id);
     const p = paramOf(s);
     if (!item || !p) return;
@@ -1859,7 +2002,7 @@
 
   list.addEventListener('keydown', (e) => {
     const grip = e.target.closest('.tt-grip');
-    if (!grip) return;
+    if (!grip || !editable) return;
     const d = e.key === 'ArrowUp' ? -1 : e.key === 'ArrowDown' ? 1 : 0;
     if (!d) return;
     e.preventDefault();
@@ -1985,45 +2128,200 @@
     }
   }
 
-  /* ── Foot ── */
+  /* ── Foot: what the page says about the list, and the owner's door ── */
+
+  const statusActs = $('tt-status-acts');
+  const ownerBtn = $('tt-owner');
+  const signin = $('tt-signin');
+  const password = $('tt-password');
+  const signinNote = $('tt-signin-note');
+
+  let confirmed = '';      // the payload the server is known to hold
+
+  const when = (iso, withTime) => {
+    const d = iso ? new Date(iso) : null;
+    if (!d || isNaN(d)) return '';
+    const day = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return withTime ? `${day}, ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : day;
+  };
+
+  function savedNote() {
+    if (!fromServer) return 'The live list couldn’t be reached, so this is the last published copy.';
+    if (editable) return savedAt ? `Saved ${when(savedAt, true)}.` : 'Saved.';
+    return savedAt ? `Last changed ${when(savedAt)}.` : '';
+  }
+
+  // The status line, with buttons for whatever it asks of the owner.
+  function setStatus(text, acts = []) {
+    status.textContent = text;
+    statusActs.textContent = '';
+    for (const [label, fn] of acts) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tt-quiet';
+      b.textContent = label;
+      b.addEventListener('click', () => { setStatus(editable ? 'Saving…' : savedNote()); fn(); });
+      statusActs.append(b);
+    }
+    statusActs.hidden = !acts.length;
+  }
 
   async function copyText(text, okNote) {
     try {
       await navigator.clipboard.writeText(text);
-      status.textContent = okNote;
+      setStatus(okNote);
     } catch {
-      status.textContent = 'This browser blocked copying.';
+      setStatus('This browser blocked copying.');
     }
   }
 
   $('tt-copy').addEventListener('click', () => {
-    copyText(JSON.stringify(payload(), null, 2) + '\n', 'Copied. Paste it into todo-tensor/list.json to publish this list.');
+    copyText(JSON.stringify(payload(), null, 2) + '\n', editable
+      ? 'Copied. Pasted into todo-tensor/list.json, it becomes the copy shown when the server is down.'
+      : 'Copied.');
   });
 
   $('tt-link').addEventListener('click', () => {
-    copyText(shareLink(), 'Link copied. Whoever opens it sees this arrangement; their own list stays theirs.');
+    copyText(shareLink(), 'Link copied. It opens the page at this rank, on the idea that is open.');
   });
 
-  $('tt-reset').addEventListener('click', async () => {
-    if (!window.confirm('Replace your list and parameters in this browser with the published ones?')) return;
-    try { localStorage.removeItem(STORE); localStorage.removeItem(STORE_V1); } catch { /* nothing saved */ }
-    const prev = lastSaved;
-    Object.assign(state, await readSeed());
-    ensureParams(rank);
-    setFocus(null, true);
-    // not saved: a visitor with no copy of their own keeps seeing the live
-    // published list. Undo still brings their old copy back.
-    lastSaved = JSON.stringify(payload());
-    undoJSON = prev;
-    mergeKey = null;
-    undone = false;
-    shared = null;
+  // Turn the editing controls on or off, and draw everything again to match.
+  function setEditable(on) {
+    editable = on;
+    document.body.classList.toggle('tt-readonly', !on);
+    ownerBtn.textContent = owner ? 'Sign out' : 'Owner sign-in';
+    if (finishEdit) finishEdit();
+    hideToast();
+    if (!on) {
+      clearTimeout(saveTimer);
+      undoJSON = null;
+      // blank parameters were only ever the owner's scaffolding
+      const keep = payload().params.length;
+      state.params.length = Math.min(state.params.length, keep);
+      if (rank > state.params.length) setRank(state.params.length);
+    } else {
+      ensureParams(rank);
+    }
+    syncRankBtns();
     renderParams();
     render();
-    relayout({ dur: 500 });
-    writeHash();
-    status.textContent = 'Back to the published list.';
-    announce('Back to the published list');
+    relayout({ dur: 300 });
+  }
+
+  // Put a version of the list from the server on screen, as what it holds.
+  function adopt(data, { keepUndo = false, keepDraft = false } = {}) {
+    const prev = lastSaved;
+    Object.assign(state, clean(data.list));
+    rev = data.rev;
+    savedAt = data.saved_at || data.savedAt || savedAt;
+    lastSaved = confirmed = JSON.stringify(payload());
+    if (!keepDraft) dropStore(DRAFT);    // what is on screen is what the server holds (offerKept asks about a draft first)
+    undoJSON = keepUndo ? prev : null;   // Cmd/Ctrl+Z brings back what was on screen
+    mergeKey = null;
+    undone = false;
+    if (focusId && !byId(focusId)) setFocus(null, true);
+    if (rank > state.params.length && !editable) setRank(state.params.length);
+    if (editable) ensureParams(rank);
+    renderParams();
+    render();
+    relayout({ dur: 400 });
+    setStatus(savedNote());
+  }
+
+  // Changes this browser kept but the server never got, and lists saved in
+  // this browser before there was a server: offered once the owner is in.
+  function offerKept() {
+    const draft = readStore(DRAFT);
+    if (draft && draft.list) {
+      const mine = JSON.stringify(clean(draft.list));
+      const shown = JSON.stringify(clean(JSON.parse(lastSaved)));
+      if (mine === shown) { dropStore(DRAFT); }
+      else if (draft.rev === rev) {
+        // nothing has been saved since they were made, so they simply go on
+        Object.assign(state, clean(draft.list));
+        commit({ dur: 400 });
+        setStatus('Saving the changes this browser kept from last time…');
+        return;
+      } else {
+        setStatus('This browser kept changes that never reached the server, made before the list was last saved.', [
+          ['Use them', () => { Object.assign(state, clean(draft.list)); commit({ dur: 400 }); }],
+          ['Throw them away', () => { dropStore(DRAFT); setStatus(savedNote()); }],
+        ]);
+        return;
+      }
+    }
+    const old = readLegacy();
+    if (old && old.items.length && JSON.stringify(old) !== JSON.stringify(clean(JSON.parse(lastSaved)))) {
+      const n = old.items.length;
+      setStatus(`This browser has a list of ${n} ${n === 1 ? 'idea' : 'ideas'} saved before the list moved to the server.`, [
+        ['Put it on the server', () => { LEGACY.forEach(dropStore); Object.assign(state, old); commit({ dur: 500 }); }],
+        ['Throw it away', () => { LEGACY.forEach(dropStore); setStatus(savedNote()); }],
+      ]);
+    }
+  }
+
+  function signedOut(note) {
+    owner = false;
+    csrf = null;
+    setEditable(false);
+    setStatus(note || savedNote(), note ? [['Sign in', () => openSignin()]] : []);
+  }
+
+  function openSignin() {
+    signin.hidden = false;
+    signinNote.textContent = '';
+    password.value = '';
+    password.focus();
+  }
+
+  ownerBtn.addEventListener('click', async () => {
+    if (!owner) {
+      if (signin.hidden) openSignin();
+      else signin.hidden = true;
+      return;
+    }
+    if (lastSaved !== confirmed && !window.confirm('A change hasn’t reached the server yet. Sign out anyway? It stays kept in this browser.')) return;
+    try { await api('/logout', { method: 'POST' }); } catch { /* signed out here either way */ }
+    signedOut();
+    announce('Signed out');
+  });
+
+  signin.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = password.value;
+    if (!pw) return;
+    signinNote.textContent = 'Signing in…';
+    let r;
+    try {
+      r = await api('/login', { method: 'POST', body: { password: pw } });
+    } catch {
+      r = { status: 0 };
+    }
+    if (!r.ok) {
+      signinNote.textContent = r.status === 401 ? 'That isn’t the password.'
+        : r.status === 429 ? 'Too many wrong tries. Wait fifteen minutes, then try again.'
+          : 'The server couldn’t be reached.';
+      password.select();
+      return;
+    }
+    password.value = '';
+    signin.hidden = true;
+    owner = true;
+    csrf = r.data.csrf;
+    // start from what the server holds now, then turn the controls on
+    const remote = await readRemote();
+    if (!remote) { setStatus('Signed in, but the list couldn’t be loaded, so editing stays off. Reload to try again.'); ownerBtn.textContent = 'Sign out'; return; }
+    fromServer = true;
+    adopt(remote, { keepDraft: true });
+    setEditable(true);
+    setStatus(savedNote());
+    offerKept();
+    announce('Signed in. The list can be edited.');
+  });
+
+  // Leaving with a change still on its way: the draft has it, but say so.
+  window.addEventListener('beforeunload', (e) => {
+    if (editable && lastSaved !== confirmed) { push(); e.preventDefault(); }
   });
 
   /* ── The corners: rank, faces, panel ── */
@@ -2071,29 +2369,40 @@
 
   (async () => {
     const q = readHash();
-    let data = null;
-    if (q.has('data')) {
-      try { data = clean(JSON.parse(unb64url(q.get('data')))); shared = q.get('data'); } catch { data = null; }
+    let session = null;
+    const [remote] = await Promise.all([
+      readRemote(),
+      api('/session').then((r) => { session = r.ok ? r.data : null; }, () => {}),
+    ]);
+    if (remote) {
+      fromServer = true;
+      rev = remote.rev;
+      savedAt = remote.savedAt;
+      Object.assign(state, remote.list);
+    } else {
+      Object.assign(state, await readSeed());
     }
-    if (!data) {
-      const local = readLocal();
-      data = local !== null ? local : await readSeed();
-    }
-    Object.assign(state, data);
-    lastSaved = JSON.stringify(payload());
+    owner = !!(session && session.owner);
+    csrf = owner ? session.csrf : null;
+    editable = owner && fromServer;
+    document.body.classList.toggle('tt-readonly', !editable);
+    ownerBtn.textContent = owner ? 'Sign out' : 'Owner sign-in';
+    lastSaved = confirmed = JSON.stringify(payload());
     syncNodes();
     for (const n of nodes.values()) { n.alpha = 1; n.shown = true; }
     resize();
     relayout({ instant: true });
+    syncRankBtns();
     renderParams();
     render();
-    const r = clamp(parseInt(q.get('rank'), 10) || 0, 0, MAX_RANK);
+    const r = parseInt(q.get('rank'), 10) || 0;
     if (r) setRank(r);
     const idea = q.get('idea');
     if (idea && byId(idea)) setFocus(idea, true);
     booting = false;
     writeHash();
-    if (shared) status.textContent = 'A shared arrangement. Your own saved list stays as it was until you change something here.';
+    setStatus(savedNote());
+    if (editable) offerKept();
     // one quiet ring, so the point reads as something to open
     tween({
       tag: 'pulse', dur: 1600, delay: 900, ease: linear,

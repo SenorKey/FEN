@@ -20,6 +20,13 @@
       "runtimeArgs": ["status-station/server/station.py"],
       "port": 8788,
       "autoPort": false
+    },
+    {
+      "name": "todo-tensor-dev",
+      "runtimeExecutable": "status-station/server/.venv/bin/python",
+      "runtimeArgs": ["todo-tensor/server/tensor.py", "dev"],
+      "port": 8790,
+      "autoPort": false
     }
   ]
 }
