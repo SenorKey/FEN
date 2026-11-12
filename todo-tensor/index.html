@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261111b">
-  <script src="/todo-tensor/todo-tensor.js?v=20261111b" defer></script>
+  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261111k">
+  <script src="/todo-tensor/todo-tensor.js?v=20261111k" defer></script>
 
   <meta name="description"
     content="ToDo Tensor — Key's page ideas and plans as nodes in deep black space: one point at rank 0, a line at rank 1, a plane at rank 2, a cube at rank 3, along parameters you name yourself.">
@@ -54,7 +54,7 @@
     <a href="/hire-me">Hire Me</a>
   </nav>
 
-  <main id="main-content" class="tt-space">
+  <main id="main-content" class="tt-space has-panel">
 
     <!-- The scene: one canvas draws every rank. The list in the panel is the
          same ideas in words, so what the canvas shows is never the only copy. -->
@@ -66,13 +66,7 @@
       </noscript>
 
       <div class="tt-hud tt-hud-left">
-        <span class="tt-rank-word" id="tt-rank-word">Rank</span>
-        <div class="tt-ranks" role="radiogroup" aria-label="Rank">
-          <button type="button" class="tt-rank-btn" data-rank="0" role="radio" aria-checked="true">0</button>
-          <button type="button" class="tt-rank-btn" data-rank="1" role="radio" aria-checked="false">1</button>
-          <button type="button" class="tt-rank-btn" data-rank="2" role="radio" aria-checked="false">2</button>
-          <button type="button" class="tt-rank-btn" data-rank="3" role="radio" aria-checked="false">3</button>
-        </div>
+        <span class="tt-rank-word" id="tt-rank-word">Rank 0</span>
       </div>
 
       <div class="tt-hud tt-hud-right">
@@ -81,7 +75,11 @@
           <button type="button" class="tt-face" data-face="xz">xz</button>
           <button type="button" class="tt-face" data-face="yz">yz</button>
         </div>
-        <button type="button" id="tt-panel-toggle" class="tt-hud-btn" aria-expanded="false" aria-controls="tt-panel">List</button>
+        <button type="button" id="tt-panel-toggle" class="tt-hud-btn tt-panel-toggle" aria-expanded="true" aria-controls="tt-panel" aria-label="Hide the side panel" title="Hide the side panel">
+          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+            <path d="M3 3.5 7.5 8 3 12.5M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          </svg>
+        </button>
       </div>
 
       <div id="tt-tray" class="tt-tray" hidden>
@@ -96,6 +94,16 @@
 
     <aside id="tt-panel" class="tt-panel" aria-label="Parameters and ideas">
       <div class="tt-panel-scroll">
+
+        <div class="tt-rank-set">
+          <span class="tt-rank-label" id="tt-rank-label">Rank</span>
+          <div class="tt-ranks" role="radiogroup" aria-labelledby="tt-rank-label">
+            <button type="button" class="tt-rank-btn" data-rank="0" role="radio" aria-checked="true">0</button>
+            <button type="button" class="tt-rank-btn" data-rank="1" role="radio" aria-checked="false">1</button>
+            <button type="button" class="tt-rank-btn" data-rank="2" role="radio" aria-checked="false">2</button>
+            <button type="button" class="tt-rank-btn" data-rank="3" role="radio" aria-checked="false">3</button>
+          </div>
+        </div>
 
         <section id="tt-params" class="tt-params" aria-label="Parameters">
           <div id="tt-param-rows"></div>

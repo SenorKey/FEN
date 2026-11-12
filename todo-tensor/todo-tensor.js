@@ -69,6 +69,7 @@
   const canvas = $('tt-canvas');
   const ctx = canvas.getContext('2d');
   const rankBtns = [...document.querySelectorAll('.tt-rank-btn')];
+  const rankWord = $('tt-rank-word');
   const facesBox = $('tt-faces');
   const faceBtns = [...facesBox.querySelectorAll('.tt-face')];
   const panelToggle = $('tt-panel-toggle');
@@ -101,7 +102,7 @@
   let focusId = null;
   let hoverId = null;      // a node id, or 'cell' over the closed point
   let face = null;         // 'xy' | 'xz' | 'yz' while the cube is seen square on
-  let panelOpen = false;
+  let panelOpen = true;    // the panel starts open (shut on a phone, where it is a sheet over half the screen)
   let booting = true;      // while the page is being set up, every move is instant
   let shared = null;       // the #data= string while a shared arrangement is on show
   let toastTimer = 0;
@@ -117,7 +118,7 @@
       ? crypto.randomUUID()
       : Date.now().toString(36) + Math.random().toString(36).slice(2);
 
-  const word = (v) => (typeof v === 'string' ? v.trim().slice(0, 24) : '');
+  const word = (v) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, 40) : '');
 
   // Accepts { params, items } (the v2 file), { items } or a bare array of
   // items (the v1 file, which only ever lived in this browser), and drops
@@ -539,6 +540,7 @@
       n.from = n.pos.slice();
     }
     cancel('motion');
+    cancel('glide');
     cancel('label');
     if (instant || reduced.matches || booting) {
       for (const n of nodes.values()) if (n.shown) n.pos = n.to.slice();
@@ -783,6 +785,18 @@
       if (!n.shown || n.alpha < 0.5) continue;
       if (n.id === focusId && !card.hidden) continue;   // the card carries its words
       const must = n.id === focusId || n.id === hoverId || (drag && drag.kind === 'node' && drag.id === n.id);
+      // dots stand alone at every rank: a label shows only for the one pointed at (or being carried)
+      if (n.id !== hoverId && !(drag && drag.kind === 'node' && drag.id === n.id)) continue;
+      if (rank === 1) {
+        // above the line, centred on its dot, so it never runs along the line over the other dots
+        const t = fit(labelOf(n.item.text), view.w - 24);
+        if (!t) continue;
+        const tw = textW(t);
+        const x = clamp(n.sx - tw / 2, 12, view.w - 12 - tw);
+        ctx.globalAlpha = labelMix * n.alpha * (n.item.done ? 0.7 : 1);
+        ctx.fillText(t, x, n.sy - 18);
+        continue;
+      }
       const full = labelOf(n.item.text);
       // a label stops short of the fixed words; a focused or hovered one may
       // run over them, but only when neither side holds all of it
@@ -974,6 +988,7 @@
     relayout({ dur, delay, win });
 
     rankBtns.forEach((b) => b.setAttribute('aria-checked', String(+b.dataset.rank === r)));
+    rankWord.textContent = `Rank ${r}`;
     facesBox.hidden = r !== 3;
     canvas.setAttribute('aria-label', `Rank ${r}: ideas drawn as nodes${r ? ` along ${r} ${r === 1 ? 'parameter' : 'parameters'}` : ' in one point'}. The same ideas are listed in the panel.`);
     renderParams();
@@ -1397,6 +1412,7 @@
         iconButton('tt-param-remove', `Remove ${name}`, crossIcon),
       );
       paramRows.append(row);
+      for (const f of row.querySelectorAll('.tt-pole')) fitPole(f);
     });
     updateNote();
     paramAdd.hidden = state.params.length >= MAX_RANK;
@@ -1414,12 +1430,20 @@
     paramsNote.hidden = !text;
   }
 
+  // Where `field-sizing: content` is missing, size the field to its wrapped text.
+  function fitPole(f) {
+    if (CSS.supports('field-sizing', 'content')) return;
+    f.style.height = 'auto';
+    f.style.height = f.scrollHeight + 'px';
+  }
+
   function pole(p, side, i) {
-    const f = document.createElement('input');
-    f.type = 'text';
+    const f = document.createElement('textarea');   // a field that wraps; Enter still just finishes
+    f.rows = 1;
     f.className = 'tt-pole';
     f.dataset.side = side;
-    f.maxLength = 24;
+    f.maxLength = 40;
+    f.spellcheck = false;
     f.value = p[side];
     f.placeholder = side === 'left' ? 'left end' : 'right end';
     f.setAttribute('aria-label', `Parameter ${i + 1}, ${side} end`);
@@ -1463,6 +1487,7 @@
     const p = paramOf(f);
     if (!p) return;
     p[f.dataset.side] = word(f.value);
+    fitPole(f);
     save(`pole:${p.id}:${f.dataset.side}`);
     for (const s of document.querySelectorAll(`.tt-slider[data-param="${CSS.escape(p.id)}"]`)) decorateSlider(s, p);
     updateNote();
@@ -1762,14 +1787,26 @@
   const sliderFocus = (s, item, p) => ({ id: item.id, sel: `.tt-slider[data-param="${CSS.escape(p.id)}"]`, host: s.closest('.tt-card') ? 'card' : 'list' });
 
   // live: the thumb and the dot follow, but nothing is saved yet.
-  function setScore(item, p, v, { live = false, focus } = {}) {
+  // glide: the first press on the hairline eases the node over to it; every
+  // move after that follows the pointer with no delay at all.
+  function setScore(item, p, v, { live = false, glide = false, focus } = {}) {
     if (v === null) delete item.scores[p.id]; else item.scores[p.id] = v;
     for (const s of document.querySelectorAll(`.tt-item[data-id="${CSS.escape(item.id)}"] .tt-slider[data-param="${CSS.escape(p.id)}"]`)) decorateSlider(s, p, v === null ? undefined : v);
+    // the node slides to its new place, except under a dragging pointer, which it follows live
     const n = nodes.get(item.id);
     const a = shownParams().indexOf(p);
-    if (n && n.shown && v !== null && a >= 0 && !(rank === 1 && a > 0)) n.pos[a] = v;
-    if (live) kick();
-    else commit({ dur: 350, focus });
+    if (live) {
+      if (n && n.shown && v !== null && a >= 0 && !(rank === 1 && a > 0)) {
+        if (glide) {
+          const from = n.pos[a];
+          tween({ tag: 'glide', dur: 220, step: (t) => { n.pos[a] = from + (v - from) * t; } });
+        } else {
+          cancel('glide');
+          n.pos[a] = v;
+        }
+      }
+      kick();
+    } else commit({ dur: 450, focus });
   }
 
   function onSliderDown(e) {
@@ -1782,7 +1819,7 @@
     s.setPointerCapture(e.pointerId);
     s.classList.add('is-dragging');
     sliding = true;
-    setScore(item, p, sliderValue(s, e.clientX), { live: true });
+    setScore(item, p, sliderValue(s, e.clientX), { live: true, glide: true });
     const move = (ev) => setScore(item, p, sliderValue(s, ev.clientX), { live: true });
     const up = () => {
       s.removeEventListener('pointermove', move);
@@ -1998,6 +2035,9 @@
     panelOpen = on;
     space.classList.toggle('has-panel', on);
     panelToggle.setAttribute('aria-expanded', String(on));
+    const verb = on ? 'Hide' : 'Show';
+    panelToggle.setAttribute('aria-label', `${verb} the side panel`);
+    panelToggle.title = `${verb} the side panel`;
   }
 
   panelToggle.addEventListener('click', () => setPanel(!panelOpen));
@@ -2025,6 +2065,9 @@
   if (document.fonts && document.fonts.load) {
     document.fonts.load(FONT_LABEL).then(() => { widths.clear(); fitCache.clear(); kick(); }).catch(() => {});
   }
+
+  // on a phone the panel is a sheet over half the screen, so it starts shut there
+  if (window.matchMedia('(max-width: 760px)').matches) setPanel(false);
 
   (async () => {
     const q = readHash();

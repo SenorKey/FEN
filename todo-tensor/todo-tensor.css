@@ -13,7 +13,7 @@
   --tt-dim: rgba(255, 255, 255, 0.6);
   --tt-faint: rgba(255, 255, 255, 0.34);
   --tt-rule: rgba(255, 255, 255, 0.16);
-  --tt-panel: 320px;
+  --tt-panel: 440px;
   --tt-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -130,7 +130,28 @@ body.tt [hidden] { display: none !important; }
 
 .tt-rank-word { color: var(--tt-ink); }
 
-.tt-ranks { display: flex; gap: 2px; }
+/* The rank picker lives at the top of the panel; the corner only names it. */
+.tt-rank-set {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--tt-rule);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.tt-rank-label { color: var(--tt-ink); }
+
+.tt-ranks { display: flex; gap: 6px; }
+
+.tt-rank-set .tt-rank-btn { min-width: 40px; padding: 10px 12px; border: 1px solid var(--tt-rule); }
+.tt-rank-set .tt-rank-btn[aria-checked="true"] { border-color: var(--tt-ink); }
 
 .tt-rank-btn,
 .tt-face,
@@ -164,6 +185,12 @@ body.tt [hidden] { display: none !important; }
 .tt-hud-btn[aria-expanded="true"] { color: var(--tt-ink); }
 
 .tt-faces { display: flex; gap: 2px; }
+
+/* the panel toggle: » while the panel is open (push it away), « while shut */
+.tt-panel-toggle { display: grid; place-items: center; padding: 6px 8px; color: var(--tt-dim); }
+.tt-panel-toggle:hover { color: var(--tt-ink); }
+.tt-panel-toggle svg { display: block; transition: transform 0.3s var(--tt-ease); }
+.tt-panel-toggle[aria-expanded="false"] svg { transform: scaleX(-1); }
 
 .tt-mark {
   position: absolute;
@@ -341,7 +368,14 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 }
 
 .tt-pole {
+  display: block;
+  width: 100%;
   min-width: 0;
+  resize: none;
+  overflow: hidden;
+  overflow-wrap: anywhere;   /* long words wrap too */
+  field-sizing: content;     /* grows with its text where supported; the script does it elsewhere */
+  line-height: 1.3;
   padding: 8px 0;
   border: 0;
   border-bottom: 1px solid var(--tt-rule);
@@ -571,10 +605,13 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 
 .tt-slider {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  padding: 5px 0;
+  /* the two pole words share a row above the track, so each gets half the
+     width and wraps instead of being cut to a few letters */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "left right" "track track";
+  align-items: start;
+  gap: 4px 16px;
+  padding: 6px 0;
   border-radius: 4px;
   cursor: pointer;
   touch-action: none;
@@ -584,19 +621,20 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 
 .tt-slider-pole {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--tt-faint);
-  font-size: 0.62rem;
+  grid-area: left;
+  color: var(--tt-dim);
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
-.tt-slider-pole:last-child { text-align: right; }
+.tt-slider-pole:last-child { grid-area: right; text-align: right; }
 
 .tt-slider-track {
+  grid-area: track;
   position: relative;
   height: 14px;
 }
