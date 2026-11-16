@@ -8,7 +8,8 @@
    below:
 
      the table   checked against the lines it points at, so a dot cannot
-                 outlive its sentence or a sentence go without its dot
+                 outlive its sentence or a sentence go without its dot,
+                 and a tip on each dot saying what filled and ring mean
      the lens    which lines stand open, which dots are solid, which
                  starter questions show, and the address (?lens=support)
      following   pick a name in the table and the page becomes that one
@@ -110,12 +111,22 @@
      ═══════════════════════════════════════════════ */
 
   const LENSES = ['automation', 'software', 'support', 'all'];
+  const LENS_NAME = { automation: 'Automation', software: 'Software', support: 'Support' };
   const radios = $$('input[name="lens"]');
   const chips = $('#askChips');
   let lens = 'automation';
   let following = null;
 
   const wants = (line, which) => which === 'all' || (line.dataset.lens || '').split(/\s+/).includes(which);
+
+  /* What a dot means under the lens that is on: said by the tip on hover,
+     and added to the dot's own label for a screen reader. */
+  function meaning(td) {
+    if (lens === 'all') return 'Work I did at this layer.';
+    return td.classList.contains('is-off-lens')
+      ? `Ring: real work, just not what the ${LENS_NAME[lens]} tab is about.`
+      : `Filled: this work counts toward the ${LENS_NAME[lens]} tab.`;
+  }
 
   function setLens(next, opts = {}) {
     if (!LENSES.includes(next)) next = 'automation';
@@ -126,7 +137,13 @@
       line.classList.toggle('is-lens', hit && lens !== 'all');
       if (!following) line.open = hit;
       const td = cells[line.id];
-      if (td) td.classList.toggle('is-off-lens', !hit);
+      if (!td) return;
+      td.classList.toggle('is-off-lens', !hit);
+      const dot = $('a', td);
+      if (dot) {
+        if (dot.dataset.label == null) dot.dataset.label = dot.getAttribute('aria-label') || '';
+        dot.setAttribute('aria-label', `${dot.dataset.label}. ${meaning(td)}`);
+      }
     });
 
     if (chips) {
@@ -148,6 +165,64 @@
       track('hire_me_lens', { lens: r.value });
     });
   });
+
+  /* ── what a dot means, on hover ──
+     One tip for the whole table, set beside the dot under the pointer. It
+     lives outside the table's scroll box, which would otherwise clip it at
+     the edges. Its words are read from the lens at the moment of hovering,
+     so they are always about the dot as it is drawn. A mouse only: on a
+     touch screen a tap already goes to the line, and a tip would only
+     flash on the way there. */
+
+  const tip = document.createElement('div');
+  const tipWhere = document.createElement('b');
+  const tipSay = document.createElement('span');
+  tip.className = 'dot-tip';
+  tip.hidden = true;
+  tip.setAttribute('aria-hidden', 'true');     /* the dot's own label already says it */
+  tip.append(tipWhere, tipSay);
+  document.body.append(tip);
+
+  const barH = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar-h')) || 44;
+
+  function showTip(a) {
+    const td = a.closest('td');
+    tipWhere.textContent = `${tidy($('span', headOf[td.dataset.entry]).textContent)} · ${tidy($('th b', td.closest('tr')).textContent)}`;
+    tipSay.textContent = `${meaning(td)} Click to read it.`;
+
+    tip.style.left = '0px';                    /* measured at full width, then placed */
+    tip.style.top = '0px';
+    tip.hidden = false;
+    const cell = a.getBoundingClientRect();
+    const box = tip.getBoundingClientRect();
+    const x = cell.left + cell.width / 2;
+    const y = cell.top + cell.height / 2;
+    const reach = 18;                          /* from the dot's centre to the tip's point */
+
+    let top = y - reach - box.height;
+    const below = top < barH() + 8;            /* no room above, under the bar: go under the dot */
+    if (below) top = y + reach;
+    const left = Math.min(Math.max(8, x - box.width / 2), innerWidth - box.width - 8);
+
+    tip.style.left = `${Math.round(left)}px`;
+    tip.style.top = `${Math.round(top)}px`;
+    tip.style.setProperty('--point', `${Math.round(x - left)}px`);
+    tip.classList.toggle('is-below', below);
+  }
+
+  const hideTip = () => { tip.hidden = true; };
+
+  matrix.addEventListener('pointerover', (e) => {
+    if (e.pointerType === 'touch') return;
+    const a = e.target.closest('td a');
+    if (a) showTip(a);
+  });
+  matrix.addEventListener('pointerout', (e) => {
+    const a = e.target.closest('td a');
+    if (a && !a.contains(e.relatedTarget)) hideTip();
+  });
+  matrix.addEventListener('click', hideTip);
+  document.addEventListener('scroll', hideTip, { capture: true, passive: true });
 
   /* ═══════════════════════════════════════════════
      FOLLOWING ONE NAME

@@ -74,6 +74,11 @@
   --gut: clamp(16px, 4vw, 56px);
   --wrap: 1240px;
   --bar-h: 44px;
+
+  /* Corners. The page is rules and bands, so its controls are squared off
+     to match. The only round things are the table's dots, which mean
+     something by being round. */
+  --radius: 3px;
 }
 
 /* A layer, wherever it is drawn. --fg2 is the dimmer ink for captions and
@@ -435,7 +440,7 @@ a { color: inherit; }
   writing-mode: vertical-rl;
   rotate: 180deg;
   padding: 6px 5px;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-size: 0.88rem;
   font-weight: 650;
   line-height: 1;
@@ -585,6 +590,60 @@ a { color: inherit; }
 /* A column the pointer is over. */
 .matrix td.is-hot a::before { scale: 1.25; }
 
+/* ── what a dot means ──
+   One tip, placed by the script beside the dot under the pointer: which
+   job and layer it is, then what filled or ring means under the tab that
+   is on. Night, like the assistant, because it is the page talking about
+   the table rather than part of it. The point is set to the dot by
+   --point, and turns over when the tip has to sit under the dot. */
+
+.dot-tip {
+  position: fixed;
+  z-index: 250;
+  max-width: 260px;
+  padding: 9px 12px 10px;
+  border-radius: var(--radius);
+  background: var(--night);
+  color: var(--paper);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  animation: tip-in 0.12s ease-out;
+}
+
+.dot-tip b {
+  display: block;
+  margin-bottom: 3px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.dot-tip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--point, 50%);
+  margin-left: -6px;
+  border: 6px solid transparent;
+  border-top-color: var(--night);
+}
+
+.dot-tip.is-below::after {
+  top: auto;
+  bottom: 100%;
+  border-top-color: transparent;
+  border-bottom-color: var(--night);
+}
+
+@keyframes tip-in {
+  from { opacity: 0; translate: 0 3px; }
+}
+
 /* ═══════════════════════════════════════════════
    THE PROBE
    ═══════════════════════════════════════════════ */
@@ -627,7 +686,7 @@ a { color: inherit; }
   min-width: 0;
   padding: 10px 13px;
   border: 1px solid rgba(246, 242, 232, 0.5);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: transparent;
   color: var(--paper);
   font: inherit;
@@ -642,7 +701,7 @@ a { color: inherit; }
   min-width: 68px;
   padding: 0 14px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--amber);
   color: var(--night);
   font: inherit;
@@ -660,9 +719,9 @@ a { color: inherit; }
 
 .chips button {
   display: none;
-  padding: 6px 12px;
+  padding: 6px 11px;
   border: 1px solid rgba(246, 242, 232, 0.45);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: none;
   color: var(--paper);
   font: inherit;
@@ -757,7 +816,7 @@ a { color: inherit; }
 
 .probe-tags a {
   padding: 6px 9px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   background: var(--amber);
   color: var(--night);
   font-family: var(--mono);
@@ -822,7 +881,7 @@ a { color: inherit; }
   flex-shrink: 0;
   padding: 6px 14px;
   border: 1px solid rgba(246, 242, 232, 0.55);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: none;
   color: var(--paper);
   font: inherit;
@@ -1003,9 +1062,13 @@ a { color: inherit; }
    THE SHORT VERSION
    ═══════════════════════════════════════════════ */
 
+/* Straight under the table, on the head's own ground, so the first screen
+   and this read as one overview and the People layer under it, on paper,
+   plainly starts the long version. */
 .record {
   padding-block: clamp(48px, 8vw, 96px);
-  background: var(--paper);
+  background: var(--ground);
+  border-bottom: 1px solid rgba(29, 27, 23, 0.16);
 }
 
 .record h2,
@@ -1126,9 +1189,46 @@ a { color: inherit; }
   color: #bdb9af;
 }
 
-.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+/* ── an answer ──
+   No boxes. A question's answers are one line of words set large and
+   split by slashes. Hovering one underlines it, and picking it fills it in
+   like a highlighter pen. Picked is said in colour only, so a word never
+   changes size, and never wraps the moment it is picked (it used to, when
+   picked meant bold).
 
-.opts label { cursor: pointer; }
+   The labels are flex items with the slashes hung in the gaps between
+   them and deaf to the pointer, so a click on a slash picks nothing. The
+   size is set by the form's width, not the window's. */
+
+.fb { container-type: inline-size; }
+
+.opts {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.2em;
+  max-width: 900px;
+  font-size: clamp(1.08rem, 3.2cqi, 1.3rem);
+  font-weight: 500;
+  line-height: 1.95;
+  letter-spacing: -0.01em;
+}
+
+.opts label {
+  position: relative;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.opts label:not(:last-child)::after {
+  content: '/';
+  position: absolute;
+  top: 0;
+  left: calc(100% + 0.6em);
+  translate: -50% 0;
+  font-weight: 400;
+  color: #6f6b62;
+  pointer-events: none;
+}
 
 .opts input {
   position: absolute;
@@ -1137,26 +1237,59 @@ a { color: inherit; }
   opacity: 0;
 }
 
+/* --hl is the pen, --hl-ink the words on it once they are filled in. */
 .opts span {
-  display: block;
-  padding: 8px 16px;
-  border: 1px solid rgba(246, 242, 232, 0.45);
-  border-radius: 999px;
-  font-size: 0.95rem;
-  line-height: 1.3;
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  --hl: var(--amber);
+  --hl-ink: var(--night);
+  padding: 0 0.16em;
+  color: #d5d1c7;
+  background-image: linear-gradient(var(--hl), var(--hl));
+  background-repeat: no-repeat;
+  background-position: left 0 bottom 0.06em;
+  background-size: 0% 0.1em;
+  transition: background-size 0.2s ease-out, color 0.15s;
 }
 
-.opts label:hover span { border-color: var(--paper); background: rgba(246, 242, 232, 0.08); }
+.opts label:hover span {
+  color: var(--paper);
+  background-size: 100% 0.1em;
+}
 
 .opts input:checked + span {
-  border-color: var(--amber);
-  background: var(--amber);
-  color: var(--night);
-  font-weight: 600;
+  color: var(--hl-ink);
+  background-size: 100% 82%;
 }
 
-.opts input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 3px; }
+.opts input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* ── the projects, each in its own pen ──
+   Taken from each project's own stylesheet: Case Chronicle's paper,
+   trtbench's green, WFPC's gold, Tarella Notes' rose. This site's purple
+   is the home page's hue (#3b123f), lifted until it shows on night. Every
+   pen clears 3:1 against night as a line and 4.5:1 under the words on it.
+
+   Preside by Side underlines in red, white and blue. Picked, it fills in
+   the steel blue its own stylesheet calls night-glow, with dark words,
+   and the three stripes stay along the bottom. Its main blue is too dark
+   to see as a line on night, so the stripe's blue third is the brighter
+   blue from the same stylesheet. */
+
+.opts input[value="chronicle"] + span { --hl: #efe9dc; }
+.opts input[value="trtbench"] + span { --hl: #76b900; }
+.opts input[value="wfpc"] + span { --hl: #e2b12a; }
+.opts input[value="tarella"] + span { --hl: #c0687a; }
+.opts input[value="site"] + span { --hl: #c16bc7; }
+
+.opts input[value="pbs"] + span {
+  --hl: #7a8db0;
+  background-image:
+    linear-gradient(90deg, #c81e2a 0 33.34%, var(--paper) 33.34% 66.67%, #4d7fff 66.67%),
+    linear-gradient(var(--hl), var(--hl));
+  background-size: 0% 0.1em, 0% 0.1em;
+}
+
+.opts label:hover input[value="pbs"] + span { background-size: 100% 0.1em, 0% 0.1em; }
+.opts label input[value="pbs"]:checked + span { background-size: 100% 0.16em, 100% 82%; }
 
 .fb-note { margin-top: 30px; }
 
@@ -1166,7 +1299,7 @@ a { color: inherit; }
   max-width: 640px;
   padding: 10px 13px;
   border: 1px solid rgba(246, 242, 232, 0.5);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: transparent;
   color: var(--paper);
   font: inherit;
@@ -1196,7 +1329,7 @@ a { color: inherit; }
   min-width: 108px;
   padding: 11px 24px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--amber);
   color: var(--night);
   font: inherit;
@@ -1248,7 +1381,7 @@ a { color: inherit; }
   z-index: 180;
   padding: 10px 20px;
   border: 1px solid rgba(246, 242, 232, 0.35);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--night);
   color: var(--paper);
   font-family: var(--mono);
@@ -1378,7 +1511,7 @@ a { color: inherit; }
 @media print {
   html { font-size: 12px; }
 
-  .site-nav, .skip-link, .lens, .probe, .follow, .ask-back, .foot, .ask-fab { display: none !important; }
+  .site-nav, .skip-link, .lens, .probe, .follow, .ask-back, .foot, .ask-fab, .dot-tip { display: none !important; }
 
   body, .top, .layer, .record { background: #fff !important; color: #000 !important; }
 
