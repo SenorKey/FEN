@@ -330,9 +330,9 @@
   const LAYER_WORDS = {
     people: ['support', 'call', 'customer', 'technician', 'installer', 'escalat', 'documentation', 'knowledge-base', 'knowledge base', 'team lead', 'stakeholder', 'ticket', 'feedback from'],
     interface: ['html', 'css', 'javascript', 'react', 'swiftui', 'front end', 'front-end', 'frontend', 'accessib', 'pagespeed', 'interface', 'landing page', 'seo', 'core web vitals', 'overlay', 'dashboard'],
-    application: ['python', 'flask', 'java ', 'swift', 'automated test', 'tests', 'playwright', 'ocr', 'daemon', 'harness', 'extension', 'root-cause', 'root cause', 'installer through'],
-    data: ['sqlite', 'api', 'rest ', 'cach', 'rate limit', 'rate-limit', 'webhook', 'json', 'ga4', 'analytics', 'structured data', 'structured-data', 'edgar', 'espn'],
-    ai: ['llama', 'ollama', 'model', 'pytorch', 'onnx', 'tensorrt', 'yolo', 'inference', ' ai ', 'ai-', 'llm', 'scheduleai', 'noteguardai', 'claude', 'benchmark'],
+    application: ['python', 'flask', 'java ', 'swift', 'automated test', 'tests', 'playwright', 'ocr', 'harness', 'extension', 'root-cause', 'root cause', 'installer through'],
+    data: ['sqlite', 'api', 'rest ', 'cach', 'rate limit', 'rate-limit', 'webhook', 'json', 'ga4', 'analytics', 'structured data', 'structured-data', 'espn'],
+    ai: ['llama', 'ollama', 'model', 'pytorch', 'onnx', 'tensorrt', 'yolo', 'inference', ' ai ', 'ai-', 'llm', 'scheduleai', 'noteguardai', 'benchmark'],
     systems: ['linux', 'fedora', 'apache', 'systemd', 'server', 'deploy', 'git', 'self-host', 'monitor', 'operating system', 'windows', 'reverse proxy', 'reverse-prox'],
     network: ['cellular', 'vpn', 'ethernet', 'dns', 'tls', 'ssl', 'network', 'connectivity', 'offline', 'wired internet'],
     hardware: ['hardware', 'wiring', 'voltage', 'multimeter', 'circuit', 'firmware', 'low-voltage', 'pcs', ' pc ', 'pos ', 'printer', 'gpu', 'rtx', 'keyboard', 'board']
@@ -344,8 +344,6 @@
     centralreach: ['centralreach', 'scheduleai', 'noteguardai'],
     topgolf: ['topgolf'],
     fen: ['frontendneeded', 'front end needed', 'fen ', 'this site', 'this page', 'match analysis', 'fresh pull', 'cadence'],
-    incisor: ['incisor'],
-    station: ['status station'],
     pbs: ['preside by side'],
     chronicle: ['case chronicle'],
     trtbench: ['trtbench', 'tensorrt', 'yolov8'],

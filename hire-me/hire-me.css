@@ -300,69 +300,6 @@ a { color: inherit; }
   margin-top: 12px;
 }
 
-/* ── the lens ──
-   Radios drawn as a row of words. The legend is floated, which is what
-   lets it stand on the line with them instead of on the fieldset's
-   border. The inputs stay in the tab order and off the screen. */
-
-.lens {
-  border: 0;
-  min-width: 0;
-  margin-top: clamp(16px, 2vw, 22px);
-}
-
-.lens legend {
-  float: left;
-  padding: 7px 0 0;
-  margin-right: 22px;
-  font-family: var(--mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #4a473f;
-}
-
-.lens label {
-  display: inline-block;
-  margin-right: 22px;
-  cursor: pointer;
-}
-
-.lens input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-.lens label span {
-  display: inline-block;
-  padding: 6px 0 5px;
-  border-bottom: 3px solid transparent;
-  font-family: var(--mono);
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #4a473f;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.lens label:hover span { color: var(--ink); }
-
-.lens input:checked + span {
-  color: var(--ink);
-  font-weight: 700;
-  border-bottom-color: var(--copper);
-}
-
-.lens input:focus-visible + span {
-  outline: 2px solid var(--ink);
-  outline-offset: 4px;
-}
-
-.lens .lens-all { margin-right: 0; }
-
 /* ── what the page says about itself, by lens ──
    All four paragraphs share one grid cell, so the block is always as tall
    as the longest and the table under it does not move when the lens
@@ -385,8 +322,7 @@ a { color: inherit; }
 :root:has(#lens-all:checked) .pitch [data-for="all"] { visibility: visible; }
 
 .facts {
-  clear: both;
-  padding-top: 14px;
+  padding-top: 10px;
   font-family: var(--mono);
   font-size: 0.74rem;
   letter-spacing: 0.01em;
@@ -396,42 +332,72 @@ a { color: inherit; }
 
 .facts i { font-style: normal; padding-inline: 0.35em; }
 
-.links {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.links a {
-  display: block;
-  padding: 7px 16px;
-  border: 1px solid rgba(29, 27, 23, 0.5);
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background-color 0.15s, color 0.15s;
-}
-
-.links a:hover { background: rgba(29, 27, 23, 0.08); }
-
-.links .is-main {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
-
-.links .is-main:hover { background: #3a372f; }
-
 /* ── the table and the assistant, side by side ── */
 
 .deck {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 440px);
   border-top: 1px solid rgba(29, 27, 23, 0.16);
+}
+
+.deck-main { min-width: 0; }
+
+/* ── the lens ──
+   Tabs on top of the table, because the table is what they change. Radios
+   drawn as a row of words, lined up with the layer names under them; the
+   one that is on is underlined in copper on the rule the table hangs from.
+   The legend is for screen readers only, and the inputs stay in the tab
+   order and off the screen. */
+
+.lens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(18px, 2.6vw, 34px);
+  min-width: 0;
+  padding: 4px var(--gut) 0;
+  border: 0;
+  border-bottom: 1px solid rgba(29, 27, 23, 0.22);
+  background: var(--bar);
+}
+
+.lens label { cursor: pointer; }
+
+.lens input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.lens label span {
+  display: block;
+  margin-bottom: -1px;          /* the underline sits on the rule, not above it */
+  padding: 12px 0 9px;
+  border-bottom: 3px solid transparent;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #4a473f;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.lens label:hover span {
+  color: var(--ink);
+  border-bottom-color: rgba(29, 27, 23, 0.3);
+}
+
+.lens input:checked + span {
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--copper);
+}
+
+.lens input:focus-visible + span {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
 }
 
 /* ═══════════════════════════════════════════════
@@ -452,19 +418,6 @@ a { color: inherit; }
 /* The first column holds the layer names; every other column is equal. */
 .matrix .corner,
 .matrix tbody th { width: clamp(150px, 17vw, 236px); }
-
-.matrix .corner {
-  vertical-align: bottom;
-  padding: 16px 16px 14px var(--gut);
-  text-align: left;
-}
-
-.matrix-note {
-  max-width: 24ch;
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: #4a473f;
-}
 
 /* ── a name, set on its side like a spine ── */
 
@@ -1260,8 +1213,10 @@ a { color: inherit; }
 
 /* ── Footer ── */
 
+/* The bottom is tall enough that the Ask button, which floats over the
+   bottom right corner, never sits on the links. */
 .foot {
-  padding-block: 22px 26px;
+  padding-block: 22px 76px;
   background: var(--night);
   color: #bdb9af;
   border-top: 1px solid rgba(246, 242, 232, 0.14);
@@ -1273,6 +1228,13 @@ a { color: inherit; }
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 24px;
+}
+
+.foot-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 22px;
 }
 
 .foot a { display: inline-block; padding-block: 3px; color: var(--paper); text-underline-offset: 3px; }
@@ -1318,15 +1280,11 @@ a { color: inherit; }
   .probe-intro { max-width: 60ch; }
 }
 
-/* One column. The two halves of the head are taken apart so the paragraph
-   can sit straight under the lens that chooses it, with the links last. */
+/* One column: who, then the paragraph. */
 @media (width <= 900px) {
-  .head { display: flex; flex-direction: column; gap: 0; }
-  .head-id, .head-say { display: contents; }
-
-  .pitch { order: 1; max-width: 60ch; padding-top: 14px; }
-  .facts { order: 2; }
-  .links { order: 3; justify-content: flex-start; padding-top: 18px; }
+  .head { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .head-say { padding-top: 16px; }
+  .pitch { max-width: 60ch; }
 }
 
 @media (width <= 760px) {
@@ -1344,20 +1302,19 @@ a { color: inherit; }
     min-width: 0;
   }
 
-  .lens legend { float: none; margin: 0 0 2px; padding: 0; }
-  .lens label { margin-right: 18px; }
+  /* The four tabs spread across the phone, small enough to stay on one
+     line at 360px. */
+  .lens { justify-content: space-between; gap: 0 12px; }
+  .lens label span { font-size: 0.74rem; letter-spacing: 0.06em; }
 
-  /* The table, tighter. The note and the small print under each layer's
-     name go. Twelve columns at 24px, the least a finger should be asked to
-     hit, plus the names: 376px, so a phone that wide or wider shows it all
-     and a narrower one scrolls it sideways with the layer names held still. */
-  .matrix { min-width: 376px; }
+  /* The table, tighter. The small print under each layer's name goes. Ten
+     columns at 24px, the least a finger should be asked to hit, plus the
+     names: 328px, so a phone that wide or wider shows it all and a
+     narrower one scrolls it sideways with the layer names held still. */
+  .matrix { min-width: 328px; }
 
   .matrix .corner,
   .matrix tbody th { width: 88px; }
-
-  .matrix .corner { padding: 0; }
-  .matrix-note { display: none; }
 
   .matrix thead th { height: 132px; }
   .matrix thead th a { min-width: 24px; justify-content: flex-start; font-size: 0.78rem; padding: 6px 2px; gap: 6px; }
@@ -1421,7 +1378,7 @@ a { color: inherit; }
 @media print {
   html { font-size: 12px; }
 
-  .site-nav, .skip-link, .lens, .links, .probe, .follow, .ask-back, .foot, .ask-fab, .matrix-note { display: none !important; }
+  .site-nav, .skip-link, .lens, .probe, .follow, .ask-back, .foot, .ask-fab { display: none !important; }
 
   body, .top, .layer, .record { background: #fff !important; color: #000 !important; }
 

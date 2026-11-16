@@ -23,7 +23,7 @@
          The one face is preloaded because the name is set in it. -->
     <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2"
         crossorigin>
-    <link rel="stylesheet" href="/hire-me/hire-me.css?v=20261115a">
+    <link rel="stylesheet" href="/hire-me/hire-me.css?v=20261116a">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- The table's dots arrive one row at a time, but only for someone who is
@@ -100,40 +100,16 @@
                 <div class="head-id">
                     <h1 class="name">Ki-Jana Panzarella</h1>
                     <p class="aka">Call me Key.</p>
-
-                    <!-- The lens. Four radios, so it works from the keyboard and
-                         with no JavaScript: the paragraph under it is switched by
-                         :has() in the stylesheet. The script only adds the rest
-                         (which lines stand open, the address, the questions). -->
-                    <fieldset class="lens">
-                        <legend>You're hiring for</legend>
-                        <label><input type="radio" name="lens" id="lens-automation" value="automation" checked
-                                data-track="lens: automation"><span>Automation</span></label>
-                        <label><input type="radio" name="lens" id="lens-software" value="software"
-                                data-track="lens: software"><span>Software</span></label>
-                        <label><input type="radio" name="lens" id="lens-support" value="support"
-                                data-track="lens: support"><span>Support</span></label>
-                        <label class="lens-all"><input type="radio" name="lens" id="lens-all" value="all"
-                                data-track="lens: everything"><span>Everything</span></label>
-                    </fieldset>
-
                     <p class="facts">Fort Worth, TX <i>·</i> U.S. citizen, eligible for a security clearance <i>·</i>
                         B.S. Computer Science</p>
                 </div>
 
                 <div class="head-say">
-                    <ul class="links">
-                        <li><a class="is-main" href="#record">The short version</a></li>
-                        <li><a href="https://github.com/SenorKey" target="_blank" rel="noopener">GitHub</a></li>
-                        <li><a href="https://www.linkedin.com/in/kijanapanzarella/" target="_blank"
-                                rel="noopener">LinkedIn</a></li>
-                        <li><a href="mailto:keypanzarella@gmail.com">Email</a></li>
-                    </ul>
-
                     <div class="pitch">
                         <p data-for="automation">I like building things that run without me and tell me when they
-                            don't. That's 450+ automated tests on one app, a daemon that checks my own server every 15
-                            seconds, and a day job on the devices at the far end of the wire.</p>
+                            don't. That's a benchmark harness that times 200 runs of every setup by itself, a
+                            suggestion box that sends reader notes straight to my Discord, and a day job on the
+                            devices at the far end of the wire.</p>
                         <p data-for="software">I write the software and then I'm the one who has to keep it running,
                             which changes how I write it. It's Python and JavaScript mostly, with Swift for the phone,
                             and most of it lives on a server I set up and look after myself.</p>
@@ -149,6 +125,26 @@
             </div>
 
             <div class="deck">
+                <div class="deck-main">
+
+                <!-- The lens, as tabs on top of the table, because the table is
+                     what it changes: solid dots for the work it picks out, rings
+                     for the rest. Four radios, so it works from the keyboard and
+                     with no JavaScript, and the paragraph in the head is switched
+                     by :has() in the stylesheet. The script only adds the rest
+                     (the dots, which lines stand open, the address, the
+                     questions). The legend is there for screen readers only. -->
+                <fieldset class="lens">
+                    <legend class="vh">Show the work for</legend>
+                    <label><input type="radio" name="lens" id="lens-automation" value="automation" checked
+                            data-track="lens: automation"><span>Automation</span></label>
+                    <label><input type="radio" name="lens" id="lens-software" value="software"
+                            data-track="lens: software"><span>Software</span></label>
+                    <label><input type="radio" name="lens" id="lens-support" value="support"
+                            data-track="lens: support"><span>Support</span></label>
+                    <label><input type="radio" name="lens" id="lens-all" value="all"
+                            data-track="lens: everything"><span>Everything</span></label>
+                </fieldset>
 
                 <!-- The cross-section. A real table: a column for each job and
                      project, a row for each layer, people at the top and copper at
@@ -161,10 +157,7 @@
                             top to hardware at the bottom.</caption>
                         <thead>
                             <tr>
-                                <td class="corner">
-                                    <p class="matrix-note">Every dot is work I did at that layer. Pick a dot for the
-                                        sentence behind it, or a name to follow one job down the stack.</p>
-                                </td>
+                                <td class="corner"></td>
                                 <th scope="col" data-entry="cellgate"><a href="#rec-cellgate"><span>CellGate</span>
                                         <small>2026</small></a></th>
                                 <th scope="col" data-entry="ceufast"><a href="#rec-ceufast"><span>CEUfast</span>
@@ -175,10 +168,6 @@
                                         <small>2021</small></a></th>
                                 <th scope="col" data-entry="fen" class="is-first-project"><a
                                         href="#rec-fen"><span>FEN</span></a></th>
-                                <th scope="col" data-entry="incisor"><a href="#rec-incisor"><span>Incisor
-                                            Trading</span></a></th>
-                                <th scope="col" data-entry="station"><a href="#rec-station"><span>Status
-                                            Station</span></a></th>
                                 <th scope="col" data-entry="pbs"><a href="#rec-pbs"><span>Preside by Side</span></a>
                                 </th>
                                 <th scope="col" data-entry="chronicle"><a href="#rec-chronicle"><span>Case
@@ -200,8 +189,6 @@
                                 <td><a href="#people-topgolf" tabindex="-1" aria-label="People at TopGolf"></a></td>
                                 <td class="is-first-project"></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
                                 <td><a href="#people-chronicle" tabindex="-1" aria-label="People in Case Chronicle"></a></td>
                                 <td></td>
                                 <td></td>
@@ -215,8 +202,6 @@
                                 <td></td>
                                 <td></td>
                                 <td class="is-first-project"><a href="#interface-fen" tabindex="-1" aria-label="Interface in FEN"></a></td>
-                                <td><a href="#interface-incisor" tabindex="-1" aria-label="Interface in Incisor Trading"></a></td>
-                                <td><a href="#interface-station" tabindex="-1" aria-label="Interface in Status Station"></a></td>
                                 <td><a href="#interface-pbs" tabindex="-1" aria-label="Interface in Preside by Side"></a></td>
                                 <td><a href="#interface-chronicle" tabindex="-1" aria-label="Interface in Case Chronicle"></a></td>
                                 <td></td>
@@ -231,10 +216,6 @@
                                 <td><a href="#application-centralreach" tabindex="-1" aria-label="Application at CentralReach"></a></td>
                                 <td></td>
                                 <td class="is-first-project"><a href="#application-fen" tabindex="-1" aria-label="Application in FEN"></a></td>
-                                <td><a href="#application-incisor" tabindex="-1" aria-label="Application in Incisor Trading"></a>
-                                </td>
-                                <td><a href="#application-station" tabindex="-1" aria-label="Application in Status Station"></a>
-                                </td>
                                 <td><a href="#application-pbs" tabindex="-1" aria-label="Application in Preside by Side"></a></td>
                                 <td></td>
                                 <td><a href="#application-trtbench" tabindex="-1" aria-label="Application in trtbench"></a></td>
@@ -249,8 +230,6 @@
                                 <td></td>
                                 <td></td>
                                 <td class="is-first-project"><a href="#data-fen" tabindex="-1" aria-label="Data and APIs in FEN"></a></td>
-                                <td><a href="#data-incisor" tabindex="-1" aria-label="Data and APIs in Incisor Trading"></a></td>
-                                <td><a href="#data-station" tabindex="-1" aria-label="Data and APIs in Status Station"></a></td>
                                 <td><a href="#data-pbs" tabindex="-1" aria-label="Data and APIs in Preside by Side"></a></td>
                                 <td></td>
                                 <td></td>
@@ -264,8 +243,6 @@
                                 <td><a href="#ai-centralreach" tabindex="-1" aria-label="AI at CentralReach"></a></td>
                                 <td></td>
                                 <td class="is-first-project"><a href="#ai-fen" tabindex="-1" aria-label="AI in FEN"></a></td>
-                                <td><a href="#ai-incisor" tabindex="-1" aria-label="AI in Incisor Trading"></a></td>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td><a href="#ai-trtbench" tabindex="-1" aria-label="AI in trtbench"></a></td>
@@ -281,8 +258,6 @@
                                 <td><a href="#systems-topgolf" tabindex="-1" aria-label="Systems at TopGolf"></a></td>
                                 <td class="is-first-project"><a href="#systems-fen" tabindex="-1" aria-label="Systems in FEN"></a>
                                 </td>
-                                <td></td>
-                                <td><a href="#systems-station" tabindex="-1" aria-label="Systems in Status Station"></a></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -303,8 +278,6 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
                             </tr>
                             <tr class="l-hardware" data-layer="hardware">
                                 <th scope="row"><a href="#hardware"><b>Hardware</b><small>boards · wiring ·
@@ -316,14 +289,13 @@
                                 <td class="is-first-project"><a href="#hardware-fen" tabindex="-1" aria-label="Hardware in FEN"></a></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
                                 <td><a href="#hardware-trtbench" tabindex="-1" aria-label="Hardware in trtbench"></a></td>
                                 <td></td>
                                 <td></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
                 </div>
 
                 <!-- The probe: the résumé assistant. It reads this page (the
@@ -473,16 +445,6 @@
                                 build step. The smaller apps live here too. Match Analysis is a React scouting tool, about 2,000
                                 lines of JSX across four files with no bundler.</p>
                         </details>
-                        <details class="ev" id="interface-incisor" data-entry="incisor" data-lens="software" open>
-                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
-                            <p>A market dashboard and paper-trading app whose front end is 26 vanilla JavaScript
-                                modules.</p>
-                        </details>
-                        <details class="ev" id="interface-station" data-entry="station"
-                            data-lens="automation software" open>
-                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
-                            <p>A dashboard on my home network that shows what the server is doing right now.</p>
-                        </details>
                         <details class="ev" id="interface-pbs" data-entry="pbs" data-lens="software" open>
                             <summary><b>Preside by Side</b> <span>comparison app</span></summary>
                             <p>A side-by-side comparison of U.S. presidents, drawn entirely from one JSON file per
@@ -520,7 +482,6 @@
                         <p class="layer-say">The logic behind the screen. Mostly Python and JavaScript, with Swift and
                             Java when the job calls for it. This is also where the tests live, because I'd rather find
                             out from a test than from a user.</p>
-                        <p class="layer-fig"><b>450+</b> automated tests on Incisor Trading</p>
                     </div>
                     <div class="layer-ev">
                         <details class="ev" id="application-centralreach" data-entry="centralreach"
@@ -534,18 +495,6 @@
                             open>
                             <summary><b>FEN</b> <span>this site</span></summary>
                             <p>Fresh Pull is a Chrome extension that clears browsing data in one click.</p>
-                        </details>
-                        <details class="ev" id="application-incisor" data-entry="incisor"
-                            data-lens="automation software" open>
-                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
-                            <p>A Flask service feeds the dashboard. The app is covered by 450+ automated tests, plus
-                                a Playwright tool that takes headless screenshots and checks the console for me.</p>
-                        </details>
-                        <details class="ev" id="application-station" data-entry="station"
-                            data-lens="automation software" open>
-                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
-                            <p>A monitoring daemon that probes my local services and systemd units every 15 seconds
-                                and tails their logs.</p>
                         </details>
                         <details class="ev" id="application-pbs" data-entry="pbs" data-lens="software" open>
                             <summary><b>Preside by Side</b> <span>comparison app</span></summary>
@@ -582,7 +531,7 @@
                         <h2 id="data-h">Data &amp; APIs</h2>
                         <p class="layer-cap">SQLite · REST · caching · webhooks</p>
                         <p class="layer-say">Where things get stored and what they talk to. Most of my projects lean
-                            on somebody else's API, so I've learned to cache, rate-limit and budget my calls.</p>
+                            on somebody else's API, from ESPN's scores to live prices off warframe.market.</p>
                     </div>
                     <div class="layer-ev">
                         <details class="ev" id="data-ceufast" data-entry="ceufast" data-lens="software" open>
@@ -595,19 +544,6 @@
                             <summary><b>FEN</b> <span>this site</span></summary>
                             <p>My King's Cadence reads NFL schedules, scores and standings from ESPN's public
                                 endpoints right in the browser, for every season back to 2002.</p>
-                        </details>
-                        <details class="ev" id="data-incisor" data-entry="incisor" data-lens="automation software"
-                            open>
-                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
-                            <p>The market-data service stores to SQLite, caches responses, rate-limits in two tiers,
-                                sticks to a daily budget of upstream calls and pulls company fundamentals from SEC
-                                EDGAR.</p>
-                        </details>
-                        <details class="ev" id="data-station" data-entry="station" data-lens="automation software"
-                            open>
-                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
-                            <p>It reads queue counts out of SQLite and collects first-party page-interaction events
-                                from the site.</p>
                         </details>
                         <details class="ev" id="data-pbs" data-entry="pbs" data-lens="automation software" open>
                             <summary><b>Preside by Side</b> <span>comparison app</span></summary>
@@ -651,12 +587,6 @@
                                 server, behind an Apache reverse proxy, with a system prompt I wrote. Inference is
                                 fully on-prem with no third-party API.</p>
                         </details>
-                        <details class="ev" id="ai-incisor" data-entry="incisor" data-lens="automation software"
-                            open>
-                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
-                            <p>I build it with an AI-assisted workflow in Claude Code, directed by agent guides,
-                                decision logs and audits that I write.</p>
-                        </details>
                         <details class="ev" id="ai-trtbench" data-entry="trtbench" data-lens="automation software"
                             open>
                             <summary><b>trtbench</b> <span>inference benchmark</span></summary>
@@ -694,12 +624,6 @@
                             <p>The whole site runs 24/7 on a repurposed PC with Fedora Linux and Apache. That's
                                 virtual hosts, a reverse proxy, systemd services and a Git-based deploy, 570+ commits
                                 in.</p>
-                        </details>
-                        <details class="ev" id="systems-station" data-entry="station" data-lens="automation support"
-                            open>
-                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
-                            <p>This is the thing that watches the box. It probes the services and systemd units and
-                                tails the service logs, so I'm not guessing.</p>
                         </details>
                         <p class="layer-kit"><span>Also on this layer</span> Linux (Fedora) administration · Apache
                             (virtual hosts, reverse proxy, .htaccess) · systemd services · Git/GitHub · Git-based
@@ -833,16 +757,6 @@
                                 <span class="rec-more">Fedora Linux · Apache · Python (Flask) · SQLite · JavaScript ·
                                     React · Ollama</span>
                             </li>
-                            <li id="rec-incisor" data-entry="incisor">
-                                <b>Incisor Trading</b> <span class="rec-what">Market dashboard and paper-trading
-                                    app</span>
-                                <span class="rec-more">Vanilla JavaScript · Flask · SQLite · Playwright</span>
-                            </li>
-                            <li id="rec-station" data-entry="station">
-                                <b>Status Station</b> <span class="rec-what">Monitoring daemon and LAN
-                                    dashboard</span>
-                                <span class="rec-more">Python · SQLite · systemd</span>
-                            </li>
                             <li id="rec-pbs" data-entry="pbs">
                                 <b>Preside by Side</b> <span class="rec-what">Side-by-side comparison of U.S.
                                     presidents</span>
@@ -880,8 +794,11 @@
                 </div>
 
                 <p class="record-reach">The fastest way to reach me is <a
-                        href="mailto:keypanzarella@gmail.com">keypanzarella@gmail.com</a>. I'm in Fort Worth, TX, I'm a
-                    U.S. citizen, and I'm eligible to obtain a security clearance.</p>
+                        href="mailto:keypanzarella@gmail.com">keypanzarella@gmail.com</a>. My code is on <a
+                        href="https://github.com/SenorKey" target="_blank" rel="noopener">GitHub</a> and the rest of my
+                    work history is on <a href="https://www.linkedin.com/in/kijanapanzarella/" target="_blank"
+                        rel="noopener">LinkedIn</a>. I'm in Fort Worth, TX, I'm a U.S. citizen, and I'm eligible to
+                    obtain a security clearance.</p>
             </div>
         </section>
 
@@ -903,8 +820,6 @@
                     <fieldset>
                         <legend>Which project is my best?</legend>
                         <div class="opts">
-                            <label><input type="radio" name="best" value="incisor"><span>Incisor
-                                    Trading</span></label>
                             <label><input type="radio" name="best" value="chronicle"><span>Case
                                     Chronicle</span></label>
                             <label><input type="radio" name="best" value="pbs"><span>Preside by Side</span></label>
@@ -961,14 +876,20 @@
     <footer class="foot">
         <div class="wrap">
             <p>Plain HTML, CSS and JavaScript. No framework and no build step, served from a PC in Fort Worth.</p>
-            <a href="#top">Back to the top</a>
+            <ul class="foot-links">
+                <li><a href="mailto:keypanzarella@gmail.com">Email</a></li>
+                <li><a href="https://github.com/SenorKey" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/kijanapanzarella/" target="_blank" rel="noopener">LinkedIn</a>
+                </li>
+                <li><a href="#top">Back to the top</a></li>
+            </ul>
         </div>
     </footer>
 
     <a class="ask-fab" id="askFab" href="#ask" hidden data-track="ask: jump">Ask</a>
 
     <script src="/hire-me/sys-prompt.js?v=20261115a" defer></script>
-    <script src="/hire-me/hire-me.js?v=20261115a" defer></script>
+    <script src="/hire-me/hire-me.js?v=20261116a" defer></script>
     <script src="/assets/js/beacon.js" defer></script>
 </body>
 
