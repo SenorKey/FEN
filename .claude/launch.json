@@ -27,6 +27,13 @@
       "runtimeArgs": ["todo-tensor/server/tensor.py", "dev"],
       "port": 8790,
       "autoPort": false
+    },
+    {
+      "name": "hire-me",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["hire-me/.claude/serve.py"],
+      "port": 8766,
+      "autoPort": false
     }
   ]
 }

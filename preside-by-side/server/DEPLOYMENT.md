@@ -7,7 +7,7 @@ or diagnose it without having to reverse-engineer the moving parts.
 The webhook URL itself is never in this file or anywhere in the repo — it
 lives only in `/etc/preside-by-side/config.env` on the server.
 
-There are now **three** webhooks the service uses:
+There are now **four** webhooks the service uses:
 
 - `DISCORD_WEBHOOK_URL` — the suggestions queue channel ("Paul Revere" embeds).
 - `CASE_WEBHOOK_URL` — *optional* corrections channel for the Case Chronicle
@@ -16,6 +16,15 @@ There are now **three** webhooks the service uses:
   `suggest.py` rather than from the request. Falls back to the older
   `DOE_WEBHOOK_URL`, then to `DISCORD_WEBHOOK_URL`, so an existing config
   keeps working across this deploy with nothing changed.
+- `HIRE_ME_WEBHOOK_URL` — *optional* channel for answers to the three
+  questions at the foot of `/hire-me/` ("Front Desk" embeds). Falls back to
+  `DISCORD_WEBHOOK_URL`, so the route works on the config already deployed.
+  The route is `/suggest/hire-me`, reached at `/api/suggest/hire-me` through
+  the existing `/api/suggest` proxy line (it forwards by prefix, so Apache
+  needs no change). It needs the service restarted once after the pull that
+  adds it, since the running process holds the old code; until then the form
+  on the page reports that it could not send. Rows go to the
+  `hire_me_feedback` table, which the service creates on start.
 - `LOG_WEBHOOK_URL` — *optional* alerts channel: service start/stop, global
   rate-limit trips, suggestion-webhook failures, origin-probe alerts (one IP
   exceeding `ORIGIN_REJECT_THRESHOLD` bad-Origin requests in

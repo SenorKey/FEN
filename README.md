@@ -20,7 +20,14 @@ Live at [frontendneeded.com](https://frontendneeded.com)
 **Public:**
 
 - `/` — Home / about
-- `/hire-me/` — Resume + AI chat (Llama 3 via Ollama, reverse-proxied through Apache)
+- `/hire-me/` — The résumé as a cross-section: a table of eight layers (people at the top,
+  hardware at the bottom) against every job and project, then the same eight layers down
+  the page with a line for each dot. A lens (`?lens=software`, `support`, `all`; automation
+  is the default) decides which lines stand open. The assistant is Llama 3 via Ollama behind
+  `/api/chat`; what it knows is read off the page by `hire-me.js`, with the rules and the
+  few extra facts in `sys-prompt.js`. Three questions at the foot post to
+  `/api/suggest/hire-me`, a route on the Preside by Side suggestion service. Standalone,
+  same reason as `/case-chronicle/`
 - `/tarella-notes/` — iOS app showcase
 - `/tarella-privacy-policy/` — Privacy policy for Tarella Notes
 - `/wfpc/` — Warframe Price Checker
@@ -98,4 +105,9 @@ To preview the site locally, run this from the project root:
 python3 -m http.server 8080
 ```
 
-Then open `http://localhost:8080`. Note: the `/api/chat` endpoint on the hire-me page requires the Ollama instance running on the live server and won't work locally.
+Then open `http://localhost:8080`. The `/api/chat` endpoint on the hire-me page is the Ollama
+instance on the live server, so on a plain static server the assistant says it cannot be
+reached. To watch it work locally, run `python3 hire-me/.claude/serve.py` instead and open
+`http://localhost:8766/hire-me/`: it serves the repo and answers `/api/chat` with a stand-in
+that speaks Ollama's streaming format (canned words, not the model). The file's header says
+how to point the feedback form at a local copy of the suggestion service too.

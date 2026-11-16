@@ -4,24 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/hire-me/hire-me.css">
 
+    <title>Hire Me — Ki-Jana Panzarella</title>
     <meta name="description"
-        content="Ki-Jana Panzarella — Computer Science graduate and software developer focused on AI deployment and web development. Self-hosted full-stack work, on-prem LLM integration, and production support for AI-integrated enterprise software.">
+        content="Ki-Jana Panzarella: automation, software and technical support, from the wiring on a circuit board up to the person on the phone. Fort Worth, TX.">
     <link rel="canonical" href="https://frontendneeded.com/hire-me/">
 
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="profile">
     <meta property="og:url" content="https://frontendneeded.com/hire-me/">
     <meta property="og:title" content="Hire Me — Ki-Jana Panzarella">
     <meta property="og:description"
-        content="CS graduate and software developer focused on AI deployment and web development.">
+        content="Automation, software and technical support, from the wiring on a circuit board up to the person on the phone.">
     <meta property="og:image" content="https://frontendneeded.com/assets/images/og-home.webp">
-
     <meta name="twitter:card" content="summary_large_image">
 
+    <!-- Standalone, like the Case Chronicle: the shared stylesheet pins the
+         body to one screen for the golden-ratio shell, and this page scrolls.
+         The one face is preloaded because the name is set in it. -->
+    <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="stylesheet" href="/hire-me/hire-me.css?v=20261115a">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>Hire Me — Ki-Jana Panzarella</title>
+
+    <!-- The table's dots arrive one row at a time, but only for someone who is
+         looking and has not asked for less motion. Decided here, before the
+         first paint, so the dots are never drawn and then taken away. -->
+    <script>
+        if (!document.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('ink');
+        }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "Ki-Jana Panzarella",
+            "alternateName": "Key",
+            "url": "https://frontendneeded.com/hire-me/",
+            "jobTitle": "Technical Dealer Support",
+            "worksFor": { "@type": "Organization", "name": "CellGate" },
+            "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of North Florida" },
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Fort Worth",
+                "addressRegion": "TX",
+                "addressCountry": "US"
+            },
+            "knowsAbout": ["Automation", "Software development", "Technical support", "Python", "JavaScript",
+                "Linux administration", "Local LLM deployment", "Low-voltage troubleshooting"],
+            "sameAs": ["https://github.com/SenorKey", "https://www.linkedin.com/in/kijanapanzarella/"]
+        }
+    }
+    </script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
@@ -53,204 +90,885 @@
         <a href="/hire-me" class="active">Hire Me</a>
     </nav>
 
-    <main id="main-content" class="gr-shell">
+    <main id="main-content">
 
-        <div class="gr-top">
-            <div class="accent-bar"></div>
-            <h1 class="page-title">Hire Me</h1>
-            <p class="page-subtitle">Computer Science graduate and software developer focused on AI deployment and
-                web development. US citizen, eligible for government security clearance.</p>
+        <!-- ═══════════════════════════════════════════════
+             THE TOP: who, the lens, and the whole stack at a glance
+             ═══════════════════════════════════════════════ -->
+        <header class="top" id="top">
+            <div class="wrap head">
+                <div class="head-id">
+                    <h1 class="name">Ki-Jana Panzarella</h1>
+                    <p class="aka">Call me Key.</p>
 
-            <!-- Photo gallery -->
-            <div class="photo-gallery">
-                <div class="photo-frame">
-                    <img class="photo-img active" src="/assets/images/gallery/fancy.webp"
-                        alt="self portrait image of me in a suit" fetchpriority="high">
-                    <img class="photo-img" src="/assets/images/gallery/app-work.webp"
-                        alt="screenshot of programming work on an iOS app">
-                    <img class="photo-img" src="/assets/images/gallery/ceufast-at-page.webp"
-                        alt="Sample image of an athletic trainer page I made while working for CEUfast">
-                    <img class="photo-img" src="/assets/images/gallery/ceufast-blog.webp"
-                        alt="Sample image of a blog I worked on while working for CEUfast">
-                    <img class="photo-img" src="/assets/images/gallery/ceufast-table.webp"
-                        alt="Sample image of a comparison table I made while working for CEUfast">
-                    <img class="photo-img" src="/assets/images/gallery/PSI-hire-me.webp"
-                        alt="screenshot of PageSpeed Insights grading my hire-me page, showing scores of 100 across the board. Not a photo editing trick, go ahead and test it yourself at pagespeed.web.dev">
-                    <img class="photo-img" src="/assets/images/gallery/degree.webp"
-                        alt="Picture of my bachelor's degree in Computer Science from the University of North Florida"
-                        style="object-position: center center;">
+                    <!-- The lens. Four radios, so it works from the keyboard and
+                         with no JavaScript: the paragraph under it is switched by
+                         :has() in the stylesheet. The script only adds the rest
+                         (which lines stand open, the address, the questions). -->
+                    <fieldset class="lens">
+                        <legend>You're hiring for</legend>
+                        <label><input type="radio" name="lens" id="lens-automation" value="automation" checked
+                                data-track="lens: automation"><span>Automation</span></label>
+                        <label><input type="radio" name="lens" id="lens-software" value="software"
+                                data-track="lens: software"><span>Software</span></label>
+                        <label><input type="radio" name="lens" id="lens-support" value="support"
+                                data-track="lens: support"><span>Support</span></label>
+                        <label class="lens-all"><input type="radio" name="lens" id="lens-all" value="all"
+                                data-track="lens: everything"><span>Everything</span></label>
+                    </fieldset>
+
+                    <p class="facts">Fort Worth, TX <i>·</i> U.S. citizen, eligible for a security clearance <i>·</i>
+                        B.S. Computer Science</p>
                 </div>
 
-                <div class="photo-nav">
-                    <button class="photo-prev-btn" aria-label="Prev photo">‹</button>
-                    <div class="photo-dot-row">
-                        <div class="photo-dot active"></div>
-                        <div class="photo-dot"></div>
-                        <div class="photo-dot"></div>
-                        <div class="photo-dot"></div>
-                        <div class="photo-dot"></div>
-                        <div class="photo-dot"></div>
-                        <div class="photo-dot"></div>
+                <div class="head-say">
+                    <ul class="links">
+                        <li><a class="is-main" href="#record">The short version</a></li>
+                        <li><a href="https://github.com/SenorKey" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="https://www.linkedin.com/in/kijanapanzarella/" target="_blank"
+                                rel="noopener">LinkedIn</a></li>
+                        <li><a href="mailto:keypanzarella@gmail.com">Email</a></li>
+                    </ul>
+
+                    <div class="pitch">
+                        <p data-for="automation">I like building things that run without me and tell me when they
+                            don't. That's 450+ automated tests on one app, a daemon that checks my own server every 15
+                            seconds, and a day job on the devices at the far end of the wire.</p>
+                        <p data-for="software">I write the software and then I'm the one who has to keep it running,
+                            which changes how I write it. It's Python and JavaScript mostly, with Swift for the phone,
+                            and most of it lives on a server I set up and look after myself.</p>
+                        <p data-for="support">I've spent most of the last five years as the person you call when it's
+                            broken. I find the actual cause, fix it, and write it down so the next person doesn't have
+                            to call.</p>
+                        <p data-for="all">Computer science degree, then five years across hardware, software and the
+                            web. I've repaired point-of-sale machines, supported AI products on a healthcare
+                            platform, built pages for a healthcare education company, and now I troubleshoot access
+                            control devices over the phone.</p>
                     </div>
-                    <button class="photo-next-btn" aria-label="Next photo">›</button>
                 </div>
             </div>
 
+            <div class="deck">
+
+                <!-- The cross-section. A real table: a column for each job and
+                     project, a row for each layer, people at the top and copper at
+                     the bottom. Every filled cell links to the line further down
+                     the page that backs it, and the script checks the two against
+                     each other, so a dot cannot outlive its sentence. -->
+                <div class="matrix-wrap" id="matrix" tabindex="0" role="region" aria-labelledby="matrix-cap">
+                    <table class="matrix">
+                        <caption id="matrix-cap">Where each job and project sits in the stack, from people at the
+                            top to hardware at the bottom.</caption>
+                        <thead>
+                            <tr>
+                                <td class="corner">
+                                    <p class="matrix-note">Every dot is work I did at that layer. Pick a dot for the
+                                        sentence behind it, or a name to follow one job down the stack.</p>
+                                </td>
+                                <th scope="col" data-entry="cellgate"><a href="#rec-cellgate"><span>CellGate</span>
+                                        <small>2026</small></a></th>
+                                <th scope="col" data-entry="ceufast"><a href="#rec-ceufast"><span>CEUfast</span>
+                                        <small>2025</small></a></th>
+                                <th scope="col" data-entry="centralreach"><a
+                                        href="#rec-centralreach"><span>CentralReach</span> <small>2022</small></a></th>
+                                <th scope="col" data-entry="topgolf"><a href="#rec-topgolf"><span>TopGolf</span>
+                                        <small>2021</small></a></th>
+                                <th scope="col" data-entry="fen" class="is-first-project"><a
+                                        href="#rec-fen"><span>FEN</span></a></th>
+                                <th scope="col" data-entry="incisor"><a href="#rec-incisor"><span>Incisor
+                                            Trading</span></a></th>
+                                <th scope="col" data-entry="station"><a href="#rec-station"><span>Status
+                                            Station</span></a></th>
+                                <th scope="col" data-entry="pbs"><a href="#rec-pbs"><span>Preside by Side</span></a>
+                                </th>
+                                <th scope="col" data-entry="chronicle"><a href="#rec-chronicle"><span>Case
+                                            Chronicle</span></a></th>
+                                <th scope="col" data-entry="trtbench"><a href="#rec-trtbench"><span>trtbench</span></a>
+                                </th>
+                                <th scope="col" data-entry="wfpc"><a href="#rec-wfpc"><span>WFPC</span></a></th>
+                                <th scope="col" data-entry="tarella"><a href="#rec-tarella"><span>Tarella
+                                            Notes</span></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="l-people" data-layer="people">
+                                <th scope="row"><a href="#people"><b>People</b><small>calls · tickets ·
+                                            docs</small></a></th>
+                                <td><a href="#people-cellgate" tabindex="-1" aria-label="People at CellGate"></a></td>
+                                <td><a href="#people-ceufast" tabindex="-1" aria-label="People at CEUfast"></a></td>
+                                <td><a href="#people-centralreach" tabindex="-1" aria-label="People at CentralReach"></a></td>
+                                <td><a href="#people-topgolf" tabindex="-1" aria-label="People at TopGolf"></a></td>
+                                <td class="is-first-project"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#people-chronicle" tabindex="-1" aria-label="People in Case Chronicle"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#people-tarella" tabindex="-1" aria-label="People in Tarella Notes"></a></td>
+                            </tr>
+                            <tr class="l-interface" data-layer="interface">
+                                <th scope="row"><a href="#interface"><b>Interface</b><small>HTML · CSS · JS ·
+                                            React</small></a></th>
+                                <td></td>
+                                <td><a href="#interface-ceufast" tabindex="-1" aria-label="Interface at CEUfast"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td class="is-first-project"><a href="#interface-fen" tabindex="-1" aria-label="Interface in FEN"></a></td>
+                                <td><a href="#interface-incisor" tabindex="-1" aria-label="Interface in Incisor Trading"></a></td>
+                                <td><a href="#interface-station" tabindex="-1" aria-label="Interface in Status Station"></a></td>
+                                <td><a href="#interface-pbs" tabindex="-1" aria-label="Interface in Preside by Side"></a></td>
+                                <td><a href="#interface-chronicle" tabindex="-1" aria-label="Interface in Case Chronicle"></a></td>
+                                <td></td>
+                                <td><a href="#interface-wfpc" tabindex="-1" aria-label="Interface in WFPC"></a></td>
+                                <td><a href="#interface-tarella" tabindex="-1" aria-label="Interface in Tarella Notes"></a></td>
+                            </tr>
+                            <tr class="l-application" data-layer="application">
+                                <th scope="row"><a href="#application"><b>Application</b><small>Python · Swift ·
+                                            tests</small></a></th>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#application-centralreach" tabindex="-1" aria-label="Application at CentralReach"></a></td>
+                                <td></td>
+                                <td class="is-first-project"><a href="#application-fen" tabindex="-1" aria-label="Application in FEN"></a></td>
+                                <td><a href="#application-incisor" tabindex="-1" aria-label="Application in Incisor Trading"></a>
+                                </td>
+                                <td><a href="#application-station" tabindex="-1" aria-label="Application in Status Station"></a>
+                                </td>
+                                <td><a href="#application-pbs" tabindex="-1" aria-label="Application in Preside by Side"></a></td>
+                                <td></td>
+                                <td><a href="#application-trtbench" tabindex="-1" aria-label="Application in trtbench"></a></td>
+                                <td><a href="#application-wfpc" tabindex="-1" aria-label="Application in WFPC"></a></td>
+                                <td><a href="#application-tarella" tabindex="-1" aria-label="Application in Tarella Notes"></a></td>
+                            </tr>
+                            <tr class="l-data" data-layer="data">
+                                <th scope="row"><a href="#data"><b>Data &amp; APIs</b><small>SQLite · REST ·
+                                            caching</small></a></th>
+                                <td></td>
+                                <td><a href="#data-ceufast" tabindex="-1" aria-label="Data and APIs at CEUfast"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td class="is-first-project"><a href="#data-fen" tabindex="-1" aria-label="Data and APIs in FEN"></a></td>
+                                <td><a href="#data-incisor" tabindex="-1" aria-label="Data and APIs in Incisor Trading"></a></td>
+                                <td><a href="#data-station" tabindex="-1" aria-label="Data and APIs in Status Station"></a></td>
+                                <td><a href="#data-pbs" tabindex="-1" aria-label="Data and APIs in Preside by Side"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#data-wfpc" tabindex="-1" aria-label="Data and APIs in WFPC"></a></td>
+                                <td></td>
+                            </tr>
+                            <tr class="l-ai" data-layer="ai">
+                                <th scope="row"><a href="#ai"><b>AI</b><small>local LLM · inference</small></a></th>
+                                <td></td>
+                                <td><a href="#ai-ceufast" tabindex="-1" aria-label="AI at CEUfast"></a></td>
+                                <td><a href="#ai-centralreach" tabindex="-1" aria-label="AI at CentralReach"></a></td>
+                                <td></td>
+                                <td class="is-first-project"><a href="#ai-fen" tabindex="-1" aria-label="AI in FEN"></a></td>
+                                <td><a href="#ai-incisor" tabindex="-1" aria-label="AI in Incisor Trading"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#ai-trtbench" tabindex="-1" aria-label="AI in trtbench"></a></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="l-systems" data-layer="systems">
+                                <th scope="row"><a href="#systems"><b>Systems</b><small>Linux · Apache ·
+                                            systemd</small></a></th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#systems-topgolf" tabindex="-1" aria-label="Systems at TopGolf"></a></td>
+                                <td class="is-first-project"><a href="#systems-fen" tabindex="-1" aria-label="Systems in FEN"></a>
+                                </td>
+                                <td></td>
+                                <td><a href="#systems-station" tabindex="-1" aria-label="Systems in Status Station"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="l-network" data-layer="network">
+                                <th scope="row"><a href="#network"><b>Network</b><small>cellular · VPN ·
+                                            DNS</small></a></th>
+                                <td><a href="#network-cellgate" tabindex="-1" aria-label="Network at CellGate"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="is-first-project"><a href="#network-fen" tabindex="-1" aria-label="Network in FEN"></a>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr class="l-hardware" data-layer="hardware">
+                                <th scope="row"><a href="#hardware"><b>Hardware</b><small>boards · wiring ·
+                                            firmware</small></a></th>
+                                <td><a href="#hardware-cellgate" tabindex="-1" aria-label="Hardware at CellGate"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#hardware-topgolf" tabindex="-1" aria-label="Hardware at TopGolf"></a></td>
+                                <td class="is-first-project"><a href="#hardware-fen" tabindex="-1" aria-label="Hardware in FEN"></a></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="#hardware-trtbench" tabindex="-1" aria-label="Hardware in trtbench"></a></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- The probe: the résumé assistant. It reads this page (the
+                     script builds its notes from the lines below), answers, and
+                     the layers that hold the answer light up in the table. -->
+                <aside class="probe" id="ask" aria-labelledby="ask-h">
+                    <h2 id="ask-h">Ask</h2>
+                    <p class="probe-intro">This is Llama 3 running on my own server, on an RTX 2070 Super, with no
+                        outside API. It has read this page, so ask it what you'd ask me.</p>
+
+                    <form class="probe-form" id="askForm" autocomplete="off">
+                        <label class="vh" for="askInput">Your question</label>
+                        <input type="text" id="askInput" maxlength="300" placeholder="Ask about my work" disabled>
+                        <button type="submit" id="askSend" disabled data-track="ask: send">Ask</button>
+                    </form>
+
+                    <div class="chips" id="askChips" hidden>
+                        <button type="button" data-for="automation" data-track="ask: chip">What have you
+                            automated?</button>
+                        <button type="button" data-for="automation" data-track="ask: chip">How do you test your
+                            work?</button>
+                        <button type="button" data-for="automation" data-track="ask: chip">Have you worked with
+                            hardware?</button>
+                        <button type="button" data-for="software" data-track="ask: chip">What's the biggest thing
+                            you've built?</button>
+                        <button type="button" data-for="software" data-track="ask: chip">Which languages do you
+                            use?</button>
+                        <button type="button" data-for="software" data-track="ask: chip">How do you deploy?</button>
+                        <button type="button" data-for="support" data-track="ask: chip">How do you
+                            troubleshoot?</button>
+                        <button type="button" data-for="support" data-track="ask: chip">What do you do at
+                            CellGate?</button>
+                        <button type="button" data-for="support" data-track="ask: chip">Have you supported AI
+                            products?</button>
+                        <button type="button" data-for="all" data-track="ask: chip">What does Key do now?</button>
+                        <button type="button" data-for="all" data-track="ask: chip">What is this site running
+                            on?</button>
+                        <button type="button" data-for="all" data-track="ask: chip">How do I reach Key?</button>
+                    </div>
+
+                    <div class="probe-out" id="askOut" aria-live="polite"></div>
+                    <p class="receipt" id="askReceipt"></p>
+                    <noscript>
+                        <p class="probe-off">The assistant needs JavaScript. Everything it knows is on this page.</p>
+                    </noscript>
+                </aside>
+            </div>
+        </header>
+
+        <!-- One job, followed down the stack. Filled in and shown by the script
+             when a name in the table is picked. -->
+        <div class="follow" id="follow" hidden>
+            <div class="wrap">
+                <p><span class="follow-cap">Following</span> <b id="followName"></b> <span id="followWhat"></span></p>
+                <button type="button" id="followClear" data-track="follow: clear">Show everything</button>
+            </div>
         </div>
 
-        <div class="gr-bottom">
-            <div class="gr-left">
-                <p class="section-label">Summary</p>
-                <div class="resume-entry">
-                    <p class="body-text">Computer Science graduate and software developer focused on AI deployment
-                        and web development. Designs, builds, and self-hosts production websites end to end &mdash;
-                        front end, backend, Linux ops, and on-prem LLM integration via Ollama. Production experience
-                        supporting AI-integrated enterprise software, with side projects spanning real-time inference
-                        benchmarking, native iOS apps, and live web tools. Comfortable across Python, JavaScript,
-                        Swift, and the systems stack underneath them.</p>
+        <!-- ═══════════════════════════════════════════════
+             THE STACK, one layer at a time.
+
+             A line is a <details>: one job or project at one layer. Its id is
+             layer-entry, which is what the table links to. data-lens says which
+             readers it is evidence for. Open by default, so with no JavaScript
+             every line stands open.
+             ═══════════════════════════════════════════════ -->
+        <div class="strata" id="stack">
+
+            <section class="layer l-people" id="people" data-layer="people" aria-labelledby="people-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="people-h">People</h2>
+                        <p class="layer-cap">calls · tickets · docs</p>
+                        <p class="layer-say">Every problem I've been paid to fix started with a person describing it,
+                            usually not in the words the manual uses. So this is the top of the stack, and it's where
+                            most of my jobs have started.</p>
+                        <p class="layer-fig"><b>3</b> months in a row recognized for top client-support performance
+                        </p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="people-cellgate" data-entry="cellgate" data-lens="automation support" open>
+                            <summary><b>CellGate</b> <span>Technical Dealer Support</span></summary>
+                            <p>I take live calls from installer technicians while they're on site putting in cellular
+                                access control devices. They tell me what they're seeing and I walk them through it
+                                until the device is back online.</p>
+                        </details>
+                        <details class="ev" id="people-ceufast" data-entry="ceufast" data-lens="software" open>
+                            <summary><b>CEUfast</b> <span>Technical SEO Specialist / Web Developer</span></summary>
+                            <p>Shipping anything there meant getting content, engineering and product to test and sign
+                                off on the same change, so I did a lot of coordinating to get updates out on
+                                schedule.</p>
+                        </details>
+                        <details class="ev" id="people-centralreach" data-entry="centralreach" data-lens="support"
+                            open>
+                            <summary><b>CentralReach</b> <span>Software Support Technician</span></summary>
+                            <p>I was the subject matter expert and the escalation point for two AI products on a
+                                healthcare platform, ScheduleAI and NoteGuardAI. I kept a high volume of cases moving
+                                at once, wrote the documentation and knowledge-base articles as I went, and was
+                                recognized for top client-support performance three months in a row.</p>
+                        </details>
+                        <details class="ev" id="people-topgolf" data-entry="topgolf" data-lens="support" open>
+                            <summary><b>TopGolf</b> <span>Maintenance IT Team Lead</span></summary>
+                            <p>I led IT support for a high-traffic venue, helping staff in real time while the place
+                                was open, and was promoted to team lead.</p>
+                        </details>
+                        <details class="ev" id="people-chronicle" data-entry="chronicle" data-lens="support software"
+                            open>
+                            <summary><b>Case Chronicle</b> <span>court cases, explained</span></summary>
+                            <p>Court cases explained from the public docket for people who have never read a filing.
+                                It's on this layer because explaining something technical to someone who doesn't live
+                                in it is most of what a support call is.</p>
+                        </details>
+                        <details class="ev" id="people-tarella" data-entry="tarella" data-lens="support software"
+                            open>
+                            <summary><b>Tarella Notes</b> <span>iOS app</span></summary>
+                            <p>I built it around one real person who takes clinical notes. I asked what they needed
+                                first, and I kept changing the design based on what they told me.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> Ticketing and escalation workflows ·
+                            root-cause analysis · knowledge-base and technical documentation · Jira · Trello ·
+                            Salesforce · Slack · Microsoft Teams</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-interface" id="interface" data-layer="interface" aria-labelledby="interface-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="interface-h">Interface</h2>
+                        <p class="layer-cap">HTML · CSS · JavaScript · React · SwiftUI</p>
+                        <p class="layer-say">What people actually see and touch. I named this site Front End Needed
+                            because I figured this was the part I'd never be any good at. Then I got a job doing it.
+                        </p>
+                        <p class="layer-fig"><b>100</b> on all four PageSpeed Insights scores for this page</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="interface-ceufast" data-entry="ceufast" data-lens="software" open>
+                            <summary><b>CEUfast</b> <span>Technical SEO Specialist / Web Developer</span></summary>
+                            <p>I designed and shipped a comparison interface that lays feature data out so a customer
+                                can make a decision. I also built and maintained dozens of state-specific landing
+                                pages from reusable components, and cleaned up page structure (semantic HTML, header
+                                hierarchy, alt text) for accessibility and Core Web Vitals.</p>
+                        </details>
+                        <details class="ev" id="interface-fen" data-entry="fen" data-lens="software" open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>Every page on this site is plain HTML, CSS and JavaScript with no framework and no
+                                build step. The smaller apps live here too. Match Analysis is a React scouting tool, about 2,000
+                                lines of JSX across four files with no bundler.</p>
+                        </details>
+                        <details class="ev" id="interface-incisor" data-entry="incisor" data-lens="software" open>
+                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
+                            <p>A market dashboard and paper-trading app whose front end is 26 vanilla JavaScript
+                                modules.</p>
+                        </details>
+                        <details class="ev" id="interface-station" data-entry="station"
+                            data-lens="automation software" open>
+                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
+                            <p>A dashboard on my home network that shows what the server is doing right now.</p>
+                        </details>
+                        <details class="ev" id="interface-pbs" data-entry="pbs" data-lens="software" open>
+                            <summary><b>Preside by Side</b> <span>comparison app</span></summary>
+                            <p>A side-by-side comparison of U.S. presidents, drawn entirely from one JSON file per
+                                president.</p>
+                        </details>
+                        <details class="ev" id="interface-chronicle" data-entry="chronicle" data-lens="software" open>
+                            <summary><b>Case Chronicle</b> <span>court cases, explained</span></summary>
+                            <p>Every case gets four views (flow, chronology, courtroom and side by side). The shared
+                                CSS and JavaScript name no case, so adding a case is HTML only.</p>
+                        </details>
+                        <details class="ev" id="interface-wfpc" data-entry="wfpc" data-lens="automation software"
+                            open>
+                            <summary><b>WFPC</b> <span>Windows desktop app</span></summary>
+                            <p>A free, open-source overlay for Windows. You drag a box over the reward names on
+                                screen and it highlights the best pick.</p>
+                        </details>
+                        <details class="ev" id="interface-tarella" data-entry="tarella" data-lens="software" open>
+                            <summary><b>Tarella Notes</b> <span>iOS app</span></summary>
+                            <p>A native iOS app in SwiftUI. Notes group themselves by recency (Today, Last 7 Days,
+                                Older) and search is instant across titles, tags and content.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> HTML5 · CSS3 · JavaScript (ES6+) ·
+                            React · SwiftUI · responsive design · semantic HTML · accessibility (WCAG, ARIA) · Core
+                            Web Vitals · technical SEO</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-application" id="application" data-layer="application"
+                aria-labelledby="application-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="application-h">Application</h2>
+                        <p class="layer-cap">Python · JavaScript · Swift · Java · tests</p>
+                        <p class="layer-say">The logic behind the screen. Mostly Python and JavaScript, with Swift and
+                            Java when the job calls for it. This is also where the tests live, because I'd rather find
+                            out from a test than from a user.</p>
+                        <p class="layer-fig"><b>450+</b> automated tests on Incisor Trading</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="application-centralreach" data-entry="centralreach"
+                            data-lens="support" open>
+                            <summary><b>CentralReach</b> <span>Software Support Technician</span></summary>
+                            <p>I ran structured root-cause analysis on application, configuration and system issues,
+                                then worked with engineering and product to document the bugs and get them
+                                resolved.</p>
+                        </details>
+                        <details class="ev" id="application-fen" data-entry="fen" data-lens="automation software"
+                            open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>Fresh Pull is a Chrome extension that clears browsing data in one click.</p>
+                        </details>
+                        <details class="ev" id="application-incisor" data-entry="incisor"
+                            data-lens="automation software" open>
+                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
+                            <p>A Flask service feeds the dashboard. The app is covered by 450+ automated tests, plus
+                                a Playwright tool that takes headless screenshots and checks the console for me.</p>
+                        </details>
+                        <details class="ev" id="application-station" data-entry="station"
+                            data-lens="automation software" open>
+                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
+                            <p>A monitoring daemon that probes my local services and systemd units every 15 seconds
+                                and tails their logs.</p>
+                        </details>
+                        <details class="ev" id="application-pbs" data-entry="pbs" data-lens="software" open>
+                            <summary><b>Preside by Side</b> <span>comparison app</span></summary>
+                            <p>A small Flask service takes reader suggestions for the page.</p>
+                        </details>
+                        <details class="ev" id="application-trtbench" data-entry="trtbench"
+                            data-lens="automation software" open>
+                            <summary><b>trtbench</b> <span>inference benchmark</span></summary>
+                            <p>A benchmark harness with a protocol I'd defend. It does 20 warmup runs, explicit CUDA
+                                synchronization and 200 timed iterations per configuration, reports p50/p95/p99, and
+                                captures system metadata for every run so it can be reproduced.</p>
+                        </details>
+                        <details class="ev" id="application-wfpc" data-entry="wfpc" data-lens="automation software"
+                            open>
+                            <summary><b>WFPC</b> <span>Windows desktop app</span></summary>
+                            <p>It captures a region of the screen, reads the item names with OCR and matches them
+                                against a known catalog. It ships as a code-signed Windows installer through GitHub
+                                releases.</p>
+                        </details>
+                        <details class="ev" id="application-tarella" data-entry="tarella" data-lens="software" open>
+                            <summary><b>Tarella Notes</b> <span>iOS app</span></summary>
+                            <p>Private by design. Everything stays on the device.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> Python · JavaScript · Java (OOP) ·
+                            Swift · Bash · PowerShell · Flask · Gunicorn · Playwright · Python unittest · Tesseract
+                            OCR · OpenCV</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-data" id="data" data-layer="data" aria-labelledby="data-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="data-h">Data &amp; APIs</h2>
+                        <p class="layer-cap">SQLite · REST · caching · webhooks</p>
+                        <p class="layer-say">Where things get stored and what they talk to. Most of my projects lean
+                            on somebody else's API, so I've learned to cache, rate-limit and budget my calls.</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="data-ceufast" data-entry="ceufast" data-lens="software" open>
+                            <summary><b>CEUfast</b> <span>Technical SEO Specialist / Web Developer</span></summary>
+                            <p>I ran technical audits on a large healthcare education platform and fixed crawl,
+                                indexation and structured-data problems at production scale. I also audited the GA4
+                                event tracking and turned what people actually did into UI changes.</p>
+                        </details>
+                        <details class="ev" id="data-fen" data-entry="fen" data-lens="software" open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>My King's Cadence reads NFL schedules, scores and standings from ESPN's public
+                                endpoints right in the browser, for every season back to 2002.</p>
+                        </details>
+                        <details class="ev" id="data-incisor" data-entry="incisor" data-lens="automation software"
+                            open>
+                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
+                            <p>The market-data service stores to SQLite, caches responses, rate-limits in two tiers,
+                                sticks to a daily budget of upstream calls and pulls company fundamentals from SEC
+                                EDGAR.</p>
+                        </details>
+                        <details class="ev" id="data-station" data-entry="station" data-lens="automation software"
+                            open>
+                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
+                            <p>It reads queue counts out of SQLite and collects first-party page-interaction events
+                                from the site.</p>
+                        </details>
+                        <details class="ev" id="data-pbs" data-entry="pbs" data-lens="automation software" open>
+                            <summary><b>Preside by Side</b> <span>comparison app</span></summary>
+                            <p>Suggestions land in a SQLite queue and reach me through a Discord webhook, behind
+                                origin checks and both per-IP and global rate limits.</p>
+                        </details>
+                        <details class="ev" id="data-wfpc" data-entry="wfpc" data-lens="automation software" open>
+                            <summary><b>WFPC</b> <span>Windows desktop app</span></summary>
+                            <p>It pulls live prices from the warframe.market API to work out the best pick.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> SQL (SQLite) · REST API design and
+                            integration · JSON/XML · webhooks · caching · rate limiting · Google Analytics 4 ·
+                            structured data · Generative Engine Optimization (GEO)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-ai" id="ai" data-layer="ai" aria-labelledby="ai-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="ai-h">AI</h2>
+                        <p class="layer-cap">local LLM · inference · computer vision</p>
+                        <p class="layer-say">My AI work is on the running side. I get a model deployed, measure it
+                            honestly and support the people who have to use it.</p>
+                        <p class="layer-fig"><b>1,211</b> frames per second with TensorRT FP16, at 1.15 ms p99</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="ai-ceufast" data-entry="ceufast" data-lens="software" open>
+                            <summary><b>CEUfast</b> <span>Technical SEO Specialist / Web Developer</span></summary>
+                            <p>I researched and documented how search algorithm updates and AI-driven search (GEO)
+                                were changing things, and that fed into the technical strategy.</p>
+                        </details>
+                        <details class="ev" id="ai-centralreach" data-entry="centralreach" data-lens="support" open>
+                            <summary><b>CentralReach</b> <span>Software Support Technician</span></summary>
+                            <p>ScheduleAI and NoteGuardAI were mine to support. A lot of that was turning "the AI did
+                                something weird" into a bug report or UX feedback an engineer could act on.</p>
+                        </details>
+                        <details class="ev" id="ai-fen" data-entry="fen" data-lens="automation software" open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>The assistant at the top of this page is Llama 3 running through Ollama on my own
+                                server, behind an Apache reverse proxy, with a system prompt I wrote. Inference is
+                                fully on-prem with no third-party API.</p>
+                        </details>
+                        <details class="ev" id="ai-incisor" data-entry="incisor" data-lens="automation software"
+                            open>
+                            <summary><b>Incisor Trading</b> <span>paper-trading app</span></summary>
+                            <p>I build it with an AI-assisted workflow in Claude Code, directed by agent guides,
+                                decision logs and audits that I write.</p>
+                        </details>
+                        <details class="ev" id="ai-trtbench" data-entry="trtbench" data-lens="automation software"
+                            open>
+                            <summary><b>trtbench</b> <span>inference benchmark</span></summary>
+                            <p>I built an end-to-end deployment pipeline for a YOLOv8n object detector and benchmarked
+                                six runtime and precision configurations on an RTX 4080. TensorRT FP16 reached 1,211
+                                FPS at 1.15 ms p99 latency, 3.0x the throughput of PyTorch eager-mode CUDA on
+                                identical inputs. I wrote the ONNX export and the TensorRT engine builders and
+                                verified ONNX numerical parity within about 1e-4 of the source.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> Llama 3 / Ollama · system-prompt design
+                            · PyTorch · ONNX Runtime · NVIDIA TensorRT · CUDA · YOLOv8 · FP16 / Tensor Cores ·
+                            latency benchmarking (p50/p95/p99)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-systems" id="systems" data-layer="systems" aria-labelledby="systems-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="systems-h">Systems</h2>
+                        <p class="layer-cap">Linux · Apache · systemd</p>
+                        <p class="layer-say">The machine everything else runs on. In my case that's literally one old
+                            PC in Fort Worth.</p>
+                        <p class="layer-fig"><b>24/7</b> on one repurposed PC</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="systems-topgolf" data-entry="topgolf" data-lens="support" open>
+                            <summary><b>TopGolf</b> <span>Maintenance IT Team Lead</span></summary>
+                            <p>I configured and maintained the operating systems and software the venue needed to
+                                open every day.</p>
+                        </details>
+                        <details class="ev" id="systems-fen" data-entry="fen" data-lens="automation software support"
+                            open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>The whole site runs 24/7 on a repurposed PC with Fedora Linux and Apache. That's
+                                virtual hosts, a reverse proxy, systemd services and a Git-based deploy, 570+ commits
+                                in.</p>
+                        </details>
+                        <details class="ev" id="systems-station" data-entry="station" data-lens="automation support"
+                            open>
+                            <summary><b>Status Station</b> <span>monitoring daemon</span></summary>
+                            <p>This is the thing that watches the box. It probes the services and systemd units and
+                                tails the service logs, so I'm not guessing.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> Linux (Fedora) administration · Apache
+                            (virtual hosts, reverse proxy, .htaccess) · systemd services · Git/GitHub · Git-based
+                            deployment · service monitoring · Windows · macOS</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-network" id="network" data-layer="network" aria-labelledby="network-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="network-h">Network</h2>
+                        <p class="layer-cap">cellular · Ethernet · VPN · DNS</p>
+                        <p class="layer-say">How a device or a site reaches the outside world. It's a short list, but
+                            it's the part of my day job where a device is either online or it isn't.</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="network-cellgate" data-entry="cellgate" data-lens="automation support"
+                            open>
+                            <summary><b>CellGate</b> <span>Technical Dealer Support</span></summary>
+                            <p>When a device drops offline I work out which path failed, whether that's the cellular
+                                signal, the wired internet or the VPN, and get it back online.</p>
+                        </details>
+                        <details class="ev" id="network-fen" data-entry="fen" data-lens="software" open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>I handle the site's DNS and TLS certificates myself.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> DNS · TLS/SSL · cellular signal testing
+                            · wired Ethernet · VPN · device network configuration</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="layer l-hardware" id="hardware" data-layer="hardware" aria-labelledby="hardware-h">
+                <div class="wrap layer-grid">
+                    <div class="layer-id">
+                        <h2 id="hardware-h">Hardware</h2>
+                        <p class="layer-cap">boards · wiring · firmware</p>
+                        <p class="layer-say">Copper. The bottom of the stack, where it's either getting power or it
+                            isn't.</p>
+                        <p class="layer-fig"><b>3</b> PCs built by hand, plus two keyboards</p>
+                    </div>
+                    <div class="layer-ev">
+                        <details class="ev" id="hardware-cellgate" data-entry="cellgate"
+                            data-lens="automation support" open>
+                            <summary><b>CellGate</b> <span>Technical Dealer Support</span></summary>
+                            <p>I guide technicians through wiring diagnostics over the phone. We test the circuit
+                                board's wiring, meter the voltage and isolate the fault in the low-voltage components
+                                inside the device. When it isn't the wiring I move up to the device's software, which
+                                means firmware updates, network settings and configuration.</p>
+                        </details>
+                        <details class="ev" id="hardware-topgolf" data-entry="topgolf" data-lens="support" open>
+                            <summary><b>TopGolf</b> <span>Maintenance IT Team Lead</span></summary>
+                            <p>I troubleshot and repaired the venue's PCs, POS devices, displays and printers, and
+                                kept the inventory and asset records for all of it.</p>
+                        </details>
+                        <details class="ev" id="hardware-fen" data-entry="fen" data-lens="automation support" open>
+                            <summary><b>FEN</b> <span>this site</span></summary>
+                            <p>The server is one of my old PCs, repurposed. I've built three PCs and two keyboards by
+                                hand and installed my own car stereo, so opening the case doesn't scare me.</p>
+                        </details>
+                        <details class="ev" id="hardware-trtbench" data-entry="trtbench" data-lens="software" open>
+                            <summary><b>trtbench</b> <span>inference benchmark</span></summary>
+                            <p>All of it was measured on real hardware, an RTX 4080, using FP16 on its Tensor
+                                Cores.</p>
+                        </details>
+                        <p class="layer-kit"><span>Also on this layer</span> Low-voltage circuit fundamentals ·
+                            circuit board wiring diagnostics · multimeter voltage testing · device firmware updates ·
+                            asset tracking</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             THE SHORT VERSION: the same record as a plain list, for anyone who
+             skips the drawing. The names in the table land here.
+             ═══════════════════════════════════════════════ -->
+        <section class="record" id="record" aria-labelledby="record-h">
+            <div class="wrap">
+                <h2 id="record-h">The short version</h2>
+                <p class="record-say">If you only have a minute, this is the part that would be on paper.</p>
+
+                <div class="record-grid">
+                    <div>
+                        <h3>Work</h3>
+                        <ul class="rec">
+                            <li id="rec-cellgate" data-entry="cellgate">
+                                <b>CellGate</b> <span class="rec-what">Technical Dealer Support</span>
+                                <span class="rec-when">09/2026 – present</span>
+                                <span class="rec-more">An Alarm.com company</span>
+                            </li>
+                            <li id="rec-ceufast" data-entry="ceufast">
+                                <b>CEUfast</b> <span class="rec-what">Technical SEO Specialist / Web Developer</span>
+                                <span class="rec-when">02/2025 – 02/2026</span>
+                                <span class="rec-more">Remote</span>
+                            </li>
+                            <li id="rec-centralreach" data-entry="centralreach">
+                                <b>CentralReach</b> <span class="rec-what">Software Support Technician</span>
+                                <span class="rec-when">04/2022 – 02/2025</span>
+                                <span class="rec-more">Remote</span>
+                            </li>
+                            <li id="rec-topgolf" data-entry="topgolf">
+                                <b>TopGolf</b> <span class="rec-what">Maintenance IT Team Lead</span>
+                                <span class="rec-when">02/2021 – 04/2022</span>
+                                <span class="rec-more">Jacksonville, FL</span>
+                            </li>
+                        </ul>
+
+                        <h3>Education</h3>
+                        <ul class="rec">
+                            <li>
+                                <b>University of North Florida</b> <span class="rec-what">B.S. Computer
+                                    Science</span>
+                                <span class="rec-when">01/2019</span>
+                                <span class="rec-more">Linear Algebra · Data Structures &amp; Algorithms ·
+                                    Object-Oriented Programming</span>
+                            </li>
+                            <li>
+                                <b>Google Analytics 4</b> <span class="rec-what">GA4 Certified</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3>Projects</h3>
+                        <ul class="rec">
+                            <li id="rec-fen" data-entry="fen">
+                                <b>frontendneeded.com</b> <span class="rec-what">Self-hosted multi-app platform</span>
+                                <span class="rec-when">2025 – present</span>
+                                <span class="rec-more">Fedora Linux · Apache · Python (Flask) · SQLite · JavaScript ·
+                                    React · Ollama</span>
+                            </li>
+                            <li id="rec-incisor" data-entry="incisor">
+                                <b>Incisor Trading</b> <span class="rec-what">Market dashboard and paper-trading
+                                    app</span>
+                                <span class="rec-more">Vanilla JavaScript · Flask · SQLite · Playwright</span>
+                            </li>
+                            <li id="rec-station" data-entry="station">
+                                <b>Status Station</b> <span class="rec-what">Monitoring daemon and LAN
+                                    dashboard</span>
+                                <span class="rec-more">Python · SQLite · systemd</span>
+                            </li>
+                            <li id="rec-pbs" data-entry="pbs">
+                                <b>Preside by Side</b> <span class="rec-what">Side-by-side comparison of U.S.
+                                    presidents</span>
+                                <span class="rec-more">JavaScript · JSON · Flask · SQLite · <a
+                                        href="/preside-by-side/">See it</a></span>
+                            </li>
+                            <li id="rec-chronicle" data-entry="chronicle">
+                                <b>Case Chronicle</b> <span class="rec-what">Court cases explained from the public
+                                    docket</span>
+                                <span class="rec-more">HTML · CSS · JavaScript · <a href="/case-chronicle/">See
+                                        it</a></span>
+                            </li>
+                            <li id="rec-trtbench" data-entry="trtbench">
+                                <b>trtbench</b> <span class="rec-what">Multi-runtime deep learning inference
+                                    benchmark</span>
+                                <span class="rec-when">2026</span>
+                                <span class="rec-more">Python · PyTorch · ONNX Runtime · NVIDIA TensorRT · CUDA · <a
+                                        href="/trtbench/">Write-up</a> · <a href="https://github.com/SenorKey/trtbench"
+                                        target="_blank" rel="noopener">Code</a></span>
+                            </li>
+                            <li id="rec-wfpc" data-entry="wfpc">
+                                <b>WFPC</b> <span class="rec-what">Warframe Price Checker, a Windows desktop
+                                    app</span>
+                                <span class="rec-more">Python · Tesseract OCR · OpenCV · Tkinter · <a
+                                        href="/wfpc/">See it</a> · <a href="https://github.com/SenorKey/WFPC"
+                                        target="_blank" rel="noopener">Code</a></span>
+                            </li>
+                            <li id="rec-tarella" data-entry="tarella">
+                                <b>Tarella Notes</b> <span class="rec-what">Native iOS application</span>
+                                <span class="rec-when">2024 – present</span>
+                                <span class="rec-more">SwiftUI · Xcode · <a href="/tarella-notes/">See it</a></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
-                <p class="section-label" style="margin-top: 24px;">Skills</p>
-
-                <div class="resume-entry">
-                    <h2 class="sub">AI / ML</h2>
-                    <p class="body-text">PyTorch &middot; ONNX Runtime &middot; NVIDIA TensorRT &middot; CUDA &middot;
-                        computer vision (YOLOv8) &middot; FP16 / Tensor Cores &middot; ONNX export &middot; TRT engine
-                        build &middot; latency benchmarking (p50/p95/p99) &middot; local LLM integration (Llama 3 /
-                        Ollama)</p>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Languages</h2>
-                    <p class="body-text">Python &middot; JavaScript (ES6+) &middot; Java (OOP) &middot; Swift
-                        (SwiftUI) &middot; HTML5 &middot; CSS3</p>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Systems &amp; Tooling</h2>
-                    <p class="body-text">Linux (Fedora) &middot; Apache &middot; Git / GitHub &middot; VS Code &middot;
-                        PyCharm &middot; Xcode &middot; Cursor &middot; self-hosted deployment &middot; reverse
-                        proxying &middot; DNS</p>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Engineering practices</h2>
-                    <p class="body-text">Object-oriented programming &middot; data structures &amp; algorithms &middot;
-                        concurrency &middot; I/O &middot; debugging &middot; root-cause analysis &middot; structured
-                        documentation &middot; Agile / Kanban (Jira, Trello)</p>
-                </div>
-
-                <p class="section-label" style="margin-top: 24px;">Selected Projects</p>
-
-                <div class="resume-entry">
-                    <h2 class="sub">trtbench &mdash; Multi-Runtime Deep Learning Inference Benchmark</h2>
-                    <p class="job-meta">Python &middot; PyTorch &middot; ONNX Runtime &middot; NVIDIA TensorRT &middot;
-                        CUDA &middot; 2026 &middot; <a href="https://github.com/SenorKey/trtbench" target="_blank"
-                            rel="noopener">github.com/senorkey/trtbench</a></p>
-                    <ul class="resume-list">
-                        <li class="body-text">Built an end-to-end deployment pipeline for a YOLOv8n object detector
-                            and benchmarked inference latency and throughput across six runtime / precision
-                            configurations on an RTX 4080.</li>
-                        <li class="body-text">Achieved <strong>1,211 FPS at 1.15 ms p99 latency</strong> with TensorRT
-                            FP16 &mdash; a 3.0&times; throughput improvement over PyTorch eager-mode CUDA on identical
-                            inputs.</li>
-                        <li class="body-text">Authored the ONNX export pipeline and TensorRT engine builders (FP32 and
-                            FP16) from PyTorch source weights; verified ONNX numerical parity within ~1e-4 of source
-                            and confirmed TensorRT functional parity on real images.</li>
-                        <li class="body-text">Designed a rigorous benchmark protocol &mdash; 20-iteration warmup,
-                            explicit CUDA stream synchronization, 200 timed iterations per configuration, p50 / p95 /
-                            p99 reporting &mdash; isolating pure forward-pass cost from preprocessing and NMS
-                            overhead.</li>
-                        <li class="body-text">Captured reproducible system metadata (PyTorch / CUDA / TensorRT / ORT /
-                            GPU / OS) per run and produced cross-platform comparison tables and latency-distribution
-                            charts; scoped future work including INT8 calibration and Jetson edge benchmarks.</li>
-                    </ul>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">frontendneeded.com &mdash; Self-Hosted Site with Local LLM Integration</h2>
-                    <p class="job-meta">Linux (Fedora) &middot; Apache &middot; JavaScript &middot; Ollama &middot;
-                        2025&ndash;Present</p>
-                    <ul class="resume-list">
-                        <li class="body-text">Designed, built, and operate a 24/7 self-hosted Fedora Linux + Apache
-                            deployment; manage DNS, deployment workflow (Git-pull on server), and uptime.</li>
-                        <li class="body-text">Integrated a local Llama 3 LLM via Ollama, reverse-proxied through
-                            Apache, exposing an <code>/api/chat</code> endpoint that powers the on-device AI chat on
-                            this page &mdash; fully on-prem inference, no third-party API dependency.</li>
-                    </ul>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Tarella Notes</h2>
-                    <p class="job-meta">Swift &middot; SwiftUI &middot; iOS &middot; App Store</p>
-                    <p class="body-text">Designed and built a lightweight iOS notes app from scratch. Handled the full
-                        lifecycle &mdash; UI design, data modeling, and App Store distribution. Iterated on features
-                        based on real user feedback.</p>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Warframe Price Checker</h2>
-                    <p class="job-meta">Python &middot; asyncio &middot; aiohttp &middot; REST API</p>
-                    <p class="body-text">Built an asynchronous Python tool that fetches bulk item pricing data from
-                        the Warframe.market API, parses JSON responses, and surfaces the highest buy price per item
-                        for the user.</p>
-                </div>
-
-                <p class="section-label" style="margin-top: 24px;">Experience</p>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Technical SEO Specialist / Web Developer</h2>
-                    <p class="job-meta">CEUfast &middot; Remote &middot; 02/2025&ndash;02/2026 &middot; GA4 Certified
-                    </p>
-                    <ul class="resume-list">
-                        <li class="body-text">Conducted technical audits on a large-scale healthcare platform,
-                            debugging crawl, indexation, and structured-data issues at production scale.</li>
-                        <li class="body-text">Designed and shipped a consumer-facing comparison interface; built and
-                            maintained scalable state-specific landing pages with CTA components driving internal
-                            linking and conversion.</li>
-                    </ul>
-                </div>
-
-                <div class="resume-entry">
-                    <h2 class="sub">Software Support Technician</h2>
-                    <p class="job-meta">CentralReach &middot; Remote &middot; 01/2023&ndash;01/2025</p>
-                    <ul class="resume-list">
-                        <li class="body-text">Subject matter expert and escalation point for two AI-integrated
-                            enterprise products (ScheduleAI, NoteGuardAI) within a healthcare-domain platform.</li>
-                        <li class="body-text">Applied structured debugging methodologies to diagnose application,
-                            configuration, and system issues; partnered with engineering and product to escalate and
-                            document root causes.</li>
-                    </ul>
-                </div>
-
-                <p class="section-label" style="margin-top: 24px;">Education</p>
-                <div class="resume-entry">
-                    <h2 class="sub">B.S. Computer Science</h2>
-                    <p class="job-meta">University of North Florida &middot; Jacksonville, FL &middot; 01/2019</p>
-                </div>
+                <p class="record-reach">The fastest way to reach me is <a
+                        href="mailto:keypanzarella@gmail.com">keypanzarella@gmail.com</a>. I'm in Fort Worth, TX, I'm a
+                    U.S. citizen, and I'm eligible to obtain a security clearance.</p>
             </div>
-            <div class="gr-right">
-                <div class="gr-right chat-panel">
-                    <p class="section-label">Ask about me</p>
-                    <div class="chat-scroll" id="chatScroll">
-                        <div class="chat-msg chat-ai">
-                            <p class="body-text">Hey! This is an AI assistant that knows about Key's
-                                background, skills, and projects. Ask me anything you'd like to know.</p>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             THREE QUESTIONS. Same intake service as the Case Chronicle's notes
+             form and the Preside by Side suggestion box, on its own route.
+
+             A form with no action submits to its own address with the answers in
+             the query string, so Send ships disabled and the script turns it on.
+             With no JavaScript the form says it cannot send, and sends nothing.
+             ═══════════════════════════════════════════════ -->
+        <section class="ask-back" id="feedback" aria-labelledby="feedback-h">
+            <div class="wrap">
+                <h2 id="feedback-h">Before you go</h2>
+                <p class="ask-back-say">Three taps would help me a lot. Answer any of them, skip the rest. Nothing
+                    here asks who you are, and I read every one.</p>
+
+                <form class="fb" id="fb-form" novalidate>
+                    <fieldset>
+                        <legend>Which project is my best?</legend>
+                        <div class="opts">
+                            <label><input type="radio" name="best" value="incisor"><span>Incisor
+                                    Trading</span></label>
+                            <label><input type="radio" name="best" value="chronicle"><span>Case
+                                    Chronicle</span></label>
+                            <label><input type="radio" name="best" value="pbs"><span>Preside by Side</span></label>
+                            <label><input type="radio" name="best" value="trtbench"><span>trtbench</span></label>
+                            <label><input type="radio" name="best" value="wfpc"><span>WFPC</span></label>
+                            <label><input type="radio" name="best" value="tarella"><span>Tarella Notes</span></label>
+                            <label><input type="radio" name="best" value="site"><span>This site itself</span></label>
                         </div>
-                    </div>
-                    <div class="chat-input-row">
-                        <input type="text" id="chatInput" class="chat-input"
-                            placeholder="e.g. What languages does Key know?" autocomplete="off">
-                        <button id="chatSend" class="chat-send" aria-label="Send message">→</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </fieldset>
 
+                    <fieldset>
+                        <legend>What would you hire me for?</legend>
+                        <div class="opts">
+                            <label><input type="radio" name="role" value="automation"><span>Automation</span></label>
+                            <label><input type="radio" name="role" value="software"><span>Software</span></label>
+                            <label><input type="radio" name="role" value="support"><span>Support</span></label>
+                            <label><input type="radio" name="role" value="systems"><span>Systems or IT</span></label>
+                            <label><input type="radio" name="role" value="unsure"><span>Not sure yet</span></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Who's reading?</legend>
+                        <div class="opts">
+                            <label><input type="radio" name="reader" value="recruiter"><span>Recruiter</span></label>
+                            <label><input type="radio" name="reader" value="manager"><span>Hiring
+                                    manager</span></label>
+                            <label><input type="radio" name="reader" value="engineer"><span>Engineer</span></label>
+                            <label><input type="radio" name="reader" value="curious"><span>Just looking</span></label>
+                        </div>
+                    </fieldset>
+
+                    <div class="fb-note">
+                        <label for="fb-note">Anything I should fix or add? <span>Optional</span></label>
+                        <textarea id="fb-note" name="note" rows="2" maxlength="600"></textarea>
+                    </div>
+
+                    <!-- Honeypot: off screen, out of the tab order, and filled in
+                         only by something that fills in every field it finds. -->
+                    <div class="fb-hp" aria-hidden="true">
+                        <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+                    </div>
+
+                    <div class="fb-foot">
+                        <button type="submit" class="fb-send" disabled data-track="feedback: send">Send</button>
+                        <p class="fb-status" id="fb-status" role="status">Sending needs JavaScript. You can email me
+                            instead.</p>
+                    </div>
+                </form>
+            </div>
+        </section>
     </main>
-    <script src="/assets/js/gallery.js"></script>
-    <script src="/hire-me/sys-prompt.js"></script>
-    <script src="/hire-me/hire-me.js"></script>
+
+    <footer class="foot">
+        <div class="wrap">
+            <p>Plain HTML, CSS and JavaScript. No framework and no build step, served from a PC in Fort Worth.</p>
+            <a href="#top">Back to the top</a>
+        </div>
+    </footer>
+
+    <a class="ask-fab" id="askFab" href="#ask" hidden data-track="ask: jump">Ask</a>
+
+    <script src="/hire-me/sys-prompt.js?v=20261115a" defer></script>
+    <script src="/hire-me/hire-me.js?v=20261115a" defer></script>
     <script src="/assets/js/beacon.js" defer></script>
 </body>
 

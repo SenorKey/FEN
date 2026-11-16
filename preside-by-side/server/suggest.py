@@ -4,6 +4,7 @@ Preside by Side — suggestion intake service.
 
 POST /suggest      (JSON) -> append to SQLite queue, post Discord embed.
 POST /suggest/case (JSON) -> corrections intake for the Case Chronicle.
+POST /suggest/hire-me (JSON) -> the three questions at the foot of /hire-me/.
 
 Run under systemd; see preside-by-side-suggest.service. Apache reverse-
 proxies /api/suggest on the public site to this service on localhost.
@@ -20,6 +21,10 @@ to /etc/preside-by-side/config.env). Keys:
                                  config keeps working unchanged.
     DOE_WEBHOOK_URL              deprecated alias for CASE_WEBHOOK_URL,
                                  from when the Chronicle was one page.
+    HIRE_ME_WEBHOOK_URL          optional — channel for answers to the
+                                 questions on /hire-me/. Falls back to
+                                 DISCORD_WEBHOOK_URL, so the route works
+                                 on the config already deployed.
     LOG_WEBHOOK_URL              optional — alerts channel (separate webhook
                                  so it can be rotated independently of the
                                  suggestions one). If unset, Discord-bound
@@ -94,6 +99,11 @@ CASE_WEBHOOK_URL = (os.environ.get('CASE_WEBHOOK_URL')
                     or os.environ.get('DOE_WEBHOOK_URL')
                     or WEBHOOK_URL)
 
+# Answers to the three questions on /hire-me/. Their own channel if one is
+# configured, the suggestions channel if not, for the same reason as above:
+# the route should work on the config that is already on the box.
+HIRE_ME_WEBHOOK_URL = os.environ.get('HIRE_ME_WEBHOOK_URL') or WEBHOOK_URL
+
 DB_PATH = os.environ.get('DB_PATH', '/var/lib/preside-by-side/suggestions.db')
 LISTEN_HOST = os.environ.get('LISTEN_HOST', '127.0.0.1')
 LISTEN_PORT = int(os.environ.get('LISTEN_PORT', '8787'))
@@ -133,6 +143,38 @@ CHRONICLE_CASES = {
     'israel-palestine': 'Israel and Palestine (Restricted Section, Volume I)',
     'justinian': "Justinian's Wars (Restricted Section, Volume VI)",
 }
+
+# The three questions on /hire-me/. Every answer is one of a closed set, sent
+# as its key; the words a reader saw are looked up here, so the channel never
+# shows text the page did not offer. A question left alone arrives as '' and
+# is stored as NULL. Changing an answer on the page means changing it here
+# too, or the service will refuse it.
+HIRE_ME_BEST = {
+    'incisor': 'Incisor Trading',
+    'chronicle': 'Case Chronicle',
+    'pbs': 'Preside by Side',
+    'trtbench': 'trtbench',
+    'wfpc': 'WFPC',
+    'tarella': 'Tarella Notes',
+    'site': 'This site itself',
+}
+HIRE_ME_ROLE = {
+    'automation': 'Automation',
+    'software': 'Software',
+    'support': 'Support',
+    'systems': 'Systems or IT',
+    'unsure': 'Not sure yet',
+}
+HIRE_ME_READER = {
+    'recruiter': 'Recruiter',
+    'manager': 'Hiring manager',
+    'engineer': 'Engineer',
+    'curious': 'Just looking',
+}
+# Which lens the page was on when the answers were sent. Context, not an
+# answer: an unknown value is dropped rather than refused.
+HIRE_ME_LENSES = ('automation', 'software', 'support', 'all')
+HIRE_ME_NOTE_MAX = 600
 
 # What /suggest/doe means. The Chronicle's first page shipped on that route
 # and may still be in a cache or a bookmark somewhere, so it keeps working
@@ -846,6 +888,24 @@ with db() as conn:
         """
     )
 
+    # Answers from /hire-me/. One row a submission; any of the four may be
+    # NULL, but never all of them (the route refuses an empty one).
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS hire_me_feedback (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            received_at TEXT NOT NULL,
+            best        TEXT,
+            role        TEXT,
+            reader      TEXT,
+            note        TEXT,
+            lens        TEXT,
+            user_agent  TEXT,
+            ip          TEXT
+        )
+        """
+    )
+
     conn.execute(
         """
         CREATE TABLE IF NOT EXISTS ratings (
@@ -1171,6 +1231,95 @@ def suggest_case():
     return jsonify(ok=True)
 
 
+@app.route('/suggest/hire-me', methods=['POST'])
+def suggest_hire_me():
+    """The three questions at the foot of /hire-me/, and the optional note.
+
+    Apache proxies /api/suggest by prefix, so this is reachable at
+    /api/suggest/hire-me with no change to the proxy.
+
+    Same gates as the two routes above (origin allowlist, per-IP and global
+    rate limits, honeypot), duplicated again rather than shared, so that
+    deploying this cannot change a path that is already working.
+    """
+    origin = request.headers.get('Origin', '')
+    if origin not in ALLOWED_ORIGINS:
+        probe_ip = get_client_ip()
+        log.info('rejected (hire-me): bad origin %r ip=%r', origin, probe_ip)
+        if note_origin_rejection(probe_ip):
+            notify.warning(
+                'probe alert: %d+ origin rejections from %s in last hour '
+                '(latest origin=%r)',
+                ORIGIN_REJECT_THRESHOLD, probe_ip, origin[:120],
+            )
+        abort(403)
+
+    ip = get_client_ip()
+    ok, reason = rate_limit_check(ip)
+    if not ok:
+        log.info('rate limited (hire-me, %s): ip=%r', reason, ip)
+        if reason == 'global':
+            notify.warning(
+                'global rate limit tripped on hire-me intake (ip=%r, cap=%d/%ds)',
+                ip, GLOBAL_RATE_LIMIT_MAX, GLOBAL_RATE_LIMIT_WINDOW_SEC,
+            )
+        return jsonify(ok=False, error='too many requests, try again later'), 429
+
+    data = json_body()
+
+    if honeypot_filled(data):
+        log.info('honeypot hit (hire-me) from %r', ip)
+        return jsonify(ok=True)
+
+    best = clean_input(data.get('best')).lower()
+    role = clean_input(data.get('role')).lower()
+    reader = clean_input(data.get('reader')).lower()
+    note = clean_input(data.get('note'))
+    lens = clean_input(data.get('lens')).lower()
+
+    # An answer is either absent or one of the ones on the page. Anything
+    # else did not come from the form.
+    for name, val, allowed in (('best', best, HIRE_ME_BEST),
+                               ('role', role, HIRE_ME_ROLE),
+                               ('reader', reader, HIRE_ME_READER)):
+        if val and val not in allowed:
+            log.info('rejected (hire-me): bad %s %r', name, val[:40])
+            return jsonify(ok=False, error='that is not one of the answers'), 400
+
+    if len(note) > HIRE_ME_NOTE_MAX:
+        log.info('rejected (hire-me): note exceeds %d chars (len=%d)', HIRE_ME_NOTE_MAX, len(note))
+        return jsonify(ok=False, error=f'the note is over {HIRE_ME_NOTE_MAX} characters'), 400
+
+    if not (best or role or reader or note):
+        log.info('rejected (hire-me): nothing answered')
+        return jsonify(ok=False, error='pick an answer or leave a note'), 400
+
+    if lens not in HIRE_ME_LENSES:
+        lens = ''
+
+    ua = request.headers.get('User-Agent', '')[:300]
+
+    with db() as conn:
+        cur = conn.execute(
+            'INSERT INTO hire_me_feedback (received_at, best, role, reader, note, lens, user_agent, ip)'
+            ' VALUES (?,?,?,?,?,?,?,?)',
+            (now_utc_iso(), best or None, role or None, reader or None, note or None, lens or None, ua, ip),
+        )
+        sid = cur.lastrowid
+
+    log.info('queued hire-me feedback #%d (best=%r role=%r reader=%r note=%r)',
+             sid, best, role, reader, note[:60])
+
+    # The row is durable before this runs; a Discord outage must not reach
+    # the submitter as an error.
+    try:
+        post_hire_me_to_discord(sid, best, role, reader, note, lens)
+    except Exception as exc:
+        notify.warning('discord notify failed for hire-me #%d: %s', sid, exc)
+
+    return jsonify(ok=True)
+
+
 def _rating_log_head(president, bar_id, rating, action, quarantined, ip_hash, label=''):
     """Stable, greppable first line shared by the plain and enriched paths."""
     return 'rating: %s/%s%s score=%d (%s%s) ip=%s' % (
@@ -1444,6 +1593,37 @@ def post_case_to_discord(sid, case_name, kind, detail, source):
         ],
     }
     r = requests.post(CASE_WEBHOOK_URL, json=payload, timeout=5)
+    r.raise_for_status()
+
+
+def post_hire_me_to_discord(sid, best, role, reader, note, lens):
+    """Answers embed for /hire-me/. The three answers are printed from this
+    file's own tables, never from the request; only the note is the
+    reader's text, and it is truncated and then escaped like the rest."""
+    fields = []
+    if best:
+        fields.append({'name': 'Best project', 'value': HIRE_ME_BEST[best], 'inline': True})
+    if role:
+        fields.append({'name': 'Would hire for', 'value': HIRE_ME_ROLE[role], 'inline': True})
+    if reader:
+        fields.append({'name': 'Reader', 'value': HIRE_ME_READER[reader], 'inline': True})
+    if note:
+        fields.append({'name': 'Note', 'value': escape_discord_md(note[:1024]), 'inline': False})
+    if lens:
+        fields.append({'name': 'Lens at the time', 'value': lens, 'inline': True})
+
+    payload = {
+        'username': 'Front Desk',
+        'embeds': [
+            {
+                'title': f'Hire Me, answers #{sid}',
+                'color': 0x8F4C1E,
+                'fields': fields,
+                'timestamp': now_utc_iso(),
+            }
+        ],
+    }
+    r = requests.post(HIRE_ME_WEBHOOK_URL, json=payload, timeout=5)
     r.raise_for_status()
 
 

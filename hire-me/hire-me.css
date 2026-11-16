@@ -1,246 +1,1452 @@
 /* ═══════════════════════════════════════════════
-   hire-me.css — Styles specific to /hire-me
-   frontendneeded.com
+   hire-me.css
+   frontendneeded.com/hire-me/
+
+   The page is a cross-section.
+
+   Every other page here that advertises something draws the one thing its
+   subject is about: a pitch, a flag, a capture. This one advertises a
+   person whose work runs from a phone call down to a circuit board, so it
+   is a cut through that stack. Eight layers, people at the top and copper
+   at the bottom, and scrolling goes down.
+
+   Colour is the layer and nothing else. Each of the eight tints belongs to
+   one layer wherever it appears: its row in the table, its band down the
+   page. The five upper layers are light and carry dark ink; the three
+   under them are dark and carry the paper colour. Every pair was checked
+   for contrast, the dimmer second ink included, and that is why the
+   second ink is mixed per layer instead of being one alpha.
+
+   Two colours sit outside the layers. Night is the assistant's panel and
+   the questions at the foot, because both are the page talking instead of
+   the stack. Amber is whatever the assistant has just lit.
+
+   Standalone, like the Case Chronicle: /assets/css/styles.css pins the body
+   to one screen for the golden-ratio shell and this is a scrolling page,
+   so the bar, the skip link and the mark are ported here.
    ═══════════════════════════════════════════════ */
 
-:root {
-    --accent: #ffffff;
-    --accent-rgb: 255, 255, 255;
-    --bg: #0e0e0e;
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/assets/fonts/bricolage-grotesque-latin-var.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-stretch: 100%;
+  font-display: swap;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Several things here ship hidden and are given a display by their own
+   rule, which would otherwise beat the browser's [hidden]. */
+[hidden] { display: none !important; }
+
+/* ── Tokens ── */
+
+:root {
+  --sans: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --ink: #1d1b17;
+  --paper: #f6f2e8;
+  --ground: #efeadf;
+  --bar: #e4ddce;
+  --night: #1d1b17;
+  --amber: #ffd98a;
+  --copper: #8f4c1e;
+
+  /* The stack, top to bottom. */
+  --people: #f6f2e8;
+  --interface: #e9e1cf;
+  --application: #d8cfba;
+  --data: #c2c2ae;
+  --ai: #a3b1a4;
+  --systems: #435c58;
+  --network: #2c4443;
+  --hardware: #8f4c1e;
+
+  --gut: clamp(16px, 4vw, 56px);
+  --wrap: 1240px;
+  --bar-h: 44px;
+}
+
+/* A layer, wherever it is drawn. --fg2 is the dimmer ink for captions and
+   labels, mixed against the layer's own ground so it clears 4.5:1 on every
+   one of them. --mark is the dot beside a line the current lens picks out,
+   and the halo the assistant puts round a dot. */
+.l-people      { --bg: var(--people); }
+.l-interface   { --bg: var(--interface); }
+.l-application { --bg: var(--application); }
+.l-data        { --bg: var(--data); }
+.l-ai          { --bg: var(--ai); }
+.l-systems     { --bg: var(--systems); }
+.l-network     { --bg: var(--network); }
+.l-hardware    { --bg: var(--hardware); }
+
+.l-people, .l-interface, .l-application, .l-data, .l-ai {
+  --fg: var(--ink);
+  --fg2: color-mix(in srgb, var(--ink) 84%, var(--bg));
+  --mark: var(--copper);
+  --halo: #d9982b;
+}
+
+.l-systems, .l-network, .l-hardware {
+  --fg: var(--paper);
+  --fg2: color-mix(in srgb, var(--paper) 84%, var(--bg));
+  --mark: var(--amber);
+  --halo: var(--amber);
+}
+
+.l-hardware { --fg2: color-mix(in srgb, var(--paper) 90%, var(--bg)); }
+
+/* ── Base ── */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--bar-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+a { color: inherit; }
+
+.wrap {
+  max-width: calc(var(--wrap) + 2 * var(--gut));
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+.vh,
+.matrix caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* ── Nav (ported from the shared shell) ── */
 
 .site-nav {
-    background: #080808;
+  background: var(--bar);
+  border-bottom: 1px solid rgba(29, 27, 23, 0.16);
+  padding: 0 var(--gut);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  height: var(--bar-h);
+  position: sticky;
+  top: 0;
+  z-index: 200;
 }
+
+.site-nav a {
+  min-width: 24px;             /* with the padding, nothing in the bar is smaller than a fingertip */
+  padding-block: 5px;
+  text-align: center;
+  color: rgba(29, 27, 23, 0.74);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.site-nav a:hover,
+.site-nav a.active { color: var(--ink); }
+
+/* Hire Me sits apart from the site links. Targeted by href so it works
+   wherever it falls in the bar. */
+.site-nav a[href="/hire-me"] { margin-left: auto; }
+
+.site-nav .nav-home { color: var(--copper); margin-right: 8px; }
+.site-nav .nav-home:hover { color: var(--ink); }
+
+/* The page's mark: initials in a pill, dead centre, the same placeholder
+   the shared sheet gives every project that has no drawn mark yet. */
+.site-nav .nav-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 11px;
+  border: 1.5px solid var(--ink);
+  border-radius: 13px;
+  color: var(--ink);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  transition: background-color 0.2s;
+}
+
+.site-nav .nav-mark:hover,
+.site-nav .nav-mark:focus-visible { background: rgba(29, 27, 23, 0.1); }
+
+.nav-dropdown { position: relative; display: flex; align-items: center; height: 100%; }
+
+.nav-dropdown-toggle {
+  color: rgba(29, 27, 23, 0.74);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: default;
+  transition: color 0.2s;
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle,
+.nav-dropdown:focus-within .nav-dropdown-toggle { color: var(--ink); }
 
 .nav-dropdown-menu {
-    background: #080808;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--bar);
+  border-top: 1px solid rgba(29, 27, 23, 0.16);
+  box-shadow: 0 6px 18px rgba(29, 27, 23, 0.12);
+  min-width: 160px;
+  padding: 6px 0;
+  z-index: 100;
 }
 
-/* ── Resume entries ── */
+.nav-dropdown-menu a { display: block; padding: 9px 18px; }
 
-.resume-entry {
-    margin-bottom: 22px;
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu { display: block; }
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 0.15s;
 }
 
-.resume-entry:last-child {
-    margin-bottom: 0;
+.skip-link:focus { top: 0; }
+
+/* ═══════════════════════════════════════════════
+   THE TOP
+   ═══════════════════════════════════════════════ */
+
+.top { background: var(--ground); }
+
+/* Two columns: who, and what the page says about him under the lens that
+   is on. The second is as wide as a comfortable line and no wider. */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 31rem);
+  align-items: start;
+  gap: 20px clamp(28px, 5vw, 72px);
+  padding-block: clamp(22px, 3vw, 36px) clamp(18px, 2vw, 26px);
 }
 
-.job-meta {
-    font-size: 0.78rem;
-    font-weight: 400;
-    color: var(--muted);
-    margin-bottom: 8px;
-    letter-spacing: 0.01em;
+.head-id { min-width: 0; }
+
+.head-say {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+  padding-top: 6px;
 }
 
-/* ── Resume bullet list ── */
-
-.resume-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.name {
+  font-size: clamp(2.2rem, 5.6vw, 3.9rem);
+  font-weight: 760;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
 }
 
-.resume-list li.body-text {
-    padding-left: 14px;
-    position: relative;
+.aka {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4a473f;
+  margin-top: 12px;
 }
 
-.resume-list li.body-text::before {
-    content: '–';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-weight: 500;
+/* ── the lens ──
+   Radios drawn as a row of words. The legend is floated, which is what
+   lets it stand on the line with them instead of on the fieldset's
+   border. The inputs stay in the tab order and off the screen. */
+
+.lens {
+  border: 0;
+  min-width: 0;
+  margin-top: clamp(16px, 2vw, 22px);
 }
 
-/* ── Chat panel layout ── */
-
-.chat-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    overflow: hidden;
+.lens legend {
+  float: left;
+  padding: 7px 0 0;
+  margin-right: 22px;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4a473f;
 }
 
-.chat-panel .section-label {
-    flex-shrink: 0;
+.lens label {
+  display: inline-block;
+  margin-right: 22px;
+  cursor: pointer;
 }
 
-/* ── Message area ── */
-
-.chat-scroll {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 12px 0;
+.lens input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
-.chat-msg {
-    max-width: 92%;
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    line-height: 1.6;
+.lens label span {
+  display: inline-block;
+  padding: 6px 0 5px;
+  border-bottom: 3px solid transparent;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4a473f;
+  transition: color 0.15s, border-color 0.15s;
 }
 
-.chat-msg .body-text {
-    font-size: 0.85rem;
+.lens label:hover span { color: var(--ink); }
+
+.lens input:checked + span {
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--copper);
 }
 
-.chat-ai {
-    align-self: flex-start;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+.lens input:focus-visible + span {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
 }
 
-.chat-user {
-    align-self: flex-end;
-    background: #2F80ED;
-    color: #fff;
+.lens .lens-all { margin-right: 0; }
+
+/* ── what the page says about itself, by lens ──
+   All four paragraphs share one grid cell, so the block is always as tall
+   as the longest and the table under it does not move when the lens
+   changes. Which one shows is decided here, from the radios, with no
+   script. */
+
+.pitch { display: grid; }
+
+.pitch p {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  font-size: clamp(1.02rem, 1.35vw, 1.14rem);
+  line-height: 1.5;
+  text-wrap: pretty;
 }
 
-/* ── Typing indicator ── */
+:root:has(#lens-automation:checked) .pitch [data-for="automation"],
+:root:has(#lens-software:checked) .pitch [data-for="software"],
+:root:has(#lens-support:checked) .pitch [data-for="support"],
+:root:has(#lens-all:checked) .pitch [data-for="all"] { visibility: visible; }
 
-.chat-typing {
-    align-self: flex-start;
-    padding: 10px 18px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 10px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
+.facts {
+  clear: both;
+  padding-top: 14px;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+  color: #4a473f;
 }
 
-.chat-typing span {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--muted);
-    animation: typingDot 1.2s infinite;
+.facts i { font-style: normal; padding-inline: 0.35em; }
+
+.links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
-.chat-typing span:nth-child(2) {
-    animation-delay: 0.2s;
+.links a {
+  display: block;
+  padding: 7px 16px;
+  border: 1px solid rgba(29, 27, 23, 0.5);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s;
 }
 
-.chat-typing span:nth-child(3) {
-    animation-delay: 0.4s;
+.links a:hover { background: rgba(29, 27, 23, 0.08); }
+
+.links .is-main {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
 }
 
-@keyframes typingDot {
+.links .is-main:hover { background: #3a372f; }
 
-    0%,
-    60%,
-    100% {
-        opacity: 0.3;
-        transform: translateY(0);
-    }
+/* ── the table and the assistant, side by side ── */
 
-    30% {
-        opacity: 1;
-        transform: translateY(-3px);
-    }
-}
-
-/* ── Input row ── */
-
-.chat-input-row {
-    flex-shrink: 0;
-    display: flex;
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.chat-input {
-    flex: 1;
-    font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: 0.85rem;
-    padding: 9px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-.chat-input::placeholder {
-    color: var(--muted);
-    font-weight: 300;
-}
-
-.chat-input:focus {
-    border-color: rgba(255, 255, 255, 0.25);
-}
-
-.chat-send {
-    width: 38px;
-    height: 38px;
-    border: none;
-    border-radius: 6px;
-    background: var(--ink);
-    color: var(--bg);
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.2s;
-    flex-shrink: 0;
-}
-
-.chat-send:hover {
-    opacity: 0.8;
-}
-
-.chat-send:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* ── Gallery — page-specific theming ── */
-
-.photo-img {
-    object-position: center top;
-}
-
-.photo-cycle-btn {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-}
-
-.photo-cycle-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+.deck {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 440px);
+  border-top: 1px solid rgba(29, 27, 23, 0.16);
 }
 
 /* ═══════════════════════════════════════════════
-   Responsive — mobile overrides
+   THE CROSS-SECTION
    ═══════════════════════════════════════════════ */
 
-@media (max-width: 768px) {
+.matrix-wrap { overflow-x: auto; min-width: 0; }
 
-    .chat-panel {
-        min-height: 360px;
-        height: 50vh;
-        max-height: 480px;
-    }
+.matrix {
+  width: 100%;
+  min-width: 372px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-    .chat-msg {
-        max-width: 88%;
-    }
+.matrix th { font-weight: inherit; }
 
-    .job-meta {
-        font-size: 0.72rem;
-    }
+/* The first column holds the layer names; every other column is equal. */
+.matrix .corner,
+.matrix tbody th { width: clamp(150px, 17vw, 236px); }
+
+.matrix .corner {
+  vertical-align: bottom;
+  padding: 16px 16px 14px var(--gut);
+  text-align: left;
+}
+
+.matrix-note {
+  max-width: 24ch;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #4a473f;
+}
+
+/* ── a name, set on its side like a spine ── */
+
+.matrix thead th {
+  height: 152px;
+  padding: 0 0 10px;
+  vertical-align: bottom;
+  text-align: center;
+}
+
+.matrix thead th a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  padding: 6px 5px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 0.15s, opacity 0.2s;
+}
+
+.matrix thead th a:hover { background: rgba(29, 27, 23, 0.09); }
+
+.matrix thead th small {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #4a473f;
+}
+
+/* Jobs on the left, projects on the right, a rule between. */
+.matrix .is-first-project { border-left: 1px solid color-mix(in srgb, currentColor 24%, transparent); }
+
+/* ── a layer ── */
+
+.matrix tbody tr {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.matrix tbody th {
+  padding: 0 12px 0 var(--gut);
+  text-align: left;
+  background: inherit;
+}
+
+.matrix tbody th a {
+  display: block;
+  padding: 7px 0;
+  text-decoration: none;
+}
+
+.matrix tbody th b {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.matrix tbody th small {
+  display: block;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  color: var(--fg2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.matrix tbody th a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── a cell ──
+   Empty is a speck. Work done there is a dot, and the dot is a link to the
+   line that says what the work was. A ring is work that is real but not
+   what the current lens is looking for. */
+
+.matrix td {
+  padding: 0;
+  text-align: center;
+}
+
+.matrix tbody td:empty::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  margin: auto;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.matrix td a {
+  display: block;
+  position: relative;
+  height: 44px;
+}
+
+.matrix td a::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: scale 0.15s, box-shadow 0.2s, opacity 0.2s;
+}
+
+.matrix td a:hover::before,
+.matrix td a:focus-visible::before { scale: 1.4; }
+
+.matrix td.is-off-lens a::before {
+  background: none;
+  box-shadow: inset 0 0 0 2px currentColor;
+  opacity: 0.6;
+}
+
+/* The dots arrive from the top of the stack down, once, on load. Only under
+   .ink, which a line of script in the head sets when the page is on screen
+   and motion is welcome: a page loaded in a background tab, or by something
+   taking a picture of it, has its dots from the start. */
+@keyframes ink-in {
+  from { scale: 0; }
+}
+
+.ink .matrix td a::before { animation: ink-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) backwards; }
+.ink .matrix tbody tr:nth-child(1) td a::before { animation-delay: 0.06s; }
+.ink .matrix tbody tr:nth-child(2) td a::before { animation-delay: 0.12s; }
+.ink .matrix tbody tr:nth-child(3) td a::before { animation-delay: 0.18s; }
+.ink .matrix tbody tr:nth-child(4) td a::before { animation-delay: 0.24s; }
+.ink .matrix tbody tr:nth-child(5) td a::before { animation-delay: 0.30s; }
+.ink .matrix tbody tr:nth-child(6) td a::before { animation-delay: 0.36s; }
+.ink .matrix tbody tr:nth-child(7) td a::before { animation-delay: 0.42s; }
+.ink .matrix tbody tr:nth-child(8) td a::before { animation-delay: 0.48s; }
+
+/* ── what the assistant lit ──
+   A layer it drew on gets a rule above and below; a job or project it
+   named gets a halo round its dots and a bar over its name. */
+
+.matrix tr.is-lit > * { box-shadow: inset 0 3px 0 var(--halo), inset 0 -3px 0 var(--halo); }
+.matrix tr.is-lit > th { box-shadow: inset 6px 0 0 var(--halo), inset 0 3px 0 var(--halo), inset 0 -3px 0 var(--halo); }
+
+.matrix td.is-lit-col a::before { box-shadow: 0 0 0 5px var(--halo); }
+.matrix td.is-lit-col.is-off-lens a::before { box-shadow: inset 0 0 0 2px currentColor, 0 0 0 5px var(--halo); opacity: 1; }
+.matrix thead th.is-lit-col a { background: var(--amber); }
+
+/* ── following one name down the stack ── */
+
+.matrix.is-following thead th:not(.is-followed) a { opacity: 0.5; }
+.matrix.is-following td:not(.is-followed) a::before { opacity: 0.25; }
+.matrix thead th.is-followed a { background: var(--ink); color: var(--paper); }
+.matrix thead th.is-followed small { color: var(--paper); }
+
+/* A column the pointer is over. */
+.matrix td.is-hot a::before { scale: 1.25; }
+
+/* ═══════════════════════════════════════════════
+   THE PROBE
+   ═══════════════════════════════════════════════ */
+
+/* height 0 and min-height 100%: the panel takes the table's height and
+   never adds to it, so a long answer scrolls inside the panel instead of
+   stretching the first screen. */
+.probe {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  height: 0;
+  min-height: 100%;
+  padding: clamp(20px, 2.2vw, 28px) clamp(18px, 2.2vw, 28px) 18px;
+  background: var(--night);
+  color: var(--paper);
+  overflow: hidden;
+}
+
+.probe h2,
+.cap {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.probe-intro {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #d5d1c7;
+}
+
+.probe-form { display: flex; gap: 8px; }
+
+.probe-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 13px;
+  border: 1px solid rgba(246, 242, 232, 0.5);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.probe-form input::placeholder { color: #aaa69c; opacity: 1; }
+.probe-form input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.probe-form button {
+  flex-shrink: 0;
+  min-width: 68px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--amber);
+  color: var(--night);
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.probe-form button:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+.probe-form :disabled { opacity: 0.55; cursor: default; }
+
+/* The starter questions. All twelve are in the markup; the lens decides
+   which three show. */
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.chips button {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid rgba(246, 242, 232, 0.45);
+  border-radius: 999px;
+  background: none;
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.84rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.chips button.is-on { display: block; flex-shrink: 0; }
+
+/* Once there is an answer the questions give it the room: one row that
+   scrolls sideways instead of three that push the answer off the panel. */
+.probe.has-answer .chips {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-right: calc(-1 * clamp(18px, 2.2vw, 28px));
+  padding-right: clamp(18px, 2.2vw, 28px);
+}
+
+.probe.has-answer .chips::-webkit-scrollbar { display: none; }
+.chips button:hover { background: rgba(246, 242, 232, 0.1); border-color: var(--paper); }
+.chips button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.chips button:disabled { opacity: 0.5; cursor: default; }
+
+.probe-out {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.probe-q {
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: #bdb9af;
+  margin-bottom: 8px;
+}
+
+.probe-a {
+  padding-left: 14px;
+  border-left: 3px solid var(--amber);
+  font-size: 0.93rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* A caret while the answer is still arriving. */
+.probe-a.is-live::after {
+  content: '';
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--amber);
+  animation: blink 0.9s steps(2, start) infinite;
+}
+
+@keyframes blink { to { visibility: hidden; } }
+
+.probe-note {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #d5d1c7;
+}
+
+.probe-note a { color: var(--amber); }
+
+.probe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding-left: 17px;
+}
+
+.probe-tags span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #bdb9af;
+  margin-right: 2px;
+}
+
+.probe-tags a {
+  padding: 6px 9px;
+  border-radius: 4px;
+  background: var(--amber);
+  color: var(--night);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.probe-tags a:hover { background: var(--paper); }
+
+.receipt {
+  min-height: 1.5em;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: #bdb9af;
+}
+
+.probe-off {
+  font-size: 0.88rem;
+  color: #d5d1c7;
+}
+
+/* ═══════════════════════════════════════════════
+   FOLLOWING ONE NAME
+   ═══════════════════════════════════════════════ */
+
+.follow {
+  position: sticky;
+  top: var(--bar-h);
+  z-index: 150;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.follow .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  padding-block: 6px;
+}
+
+.follow p { font-size: 0.92rem; line-height: 1.35; }
+
+.follow-cap {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bdb9af;
+  margin-right: 6px;
+}
+
+.follow #followWhat { color: #d5d1c7; margin-left: 6px; }
+
+.follow button {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid rgba(246, 242, 232, 0.55);
+  border-radius: 999px;
+  background: none;
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.follow button:hover { background: rgba(246, 242, 232, 0.12); }
+
+/* ═══════════════════════════════════════════════
+   THE STACK
+   ═══════════════════════════════════════════════ */
+
+.layer {
+  background: var(--bg);
+  color: var(--fg);
+  padding-block: clamp(40px, 6.5vw, 84px);
+}
+
+.layer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: 28px clamp(28px, 6vw, 88px);
+}
+
+/* The layer's name stays put while its lines go by, then leaves with
+   the layer. */
+.layer-id {
+  position: sticky;
+  top: calc(var(--bar-h) + 60px);
+  align-self: start;
+}
+
+.layer h2 {
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 760;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.layer-cap {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg2);
+}
+
+.layer-say {
+  margin-top: 18px;
+  max-width: 36ch;
+  font-size: 1.06rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.layer-fig {
+  margin-top: 26px;
+  max-width: 24ch;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--fg2);
+}
+
+.layer-fig b {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: clamp(2.2rem, 4.2vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--fg);
+}
+
+/* ── a line: one job or project, at this layer ── */
+
+.ev {
+  border-top: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
+  scroll-margin-top: calc(var(--bar-h) + 60px);
+}
+
+.ev summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  position: relative;
+  padding: 14px 36px 14px 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.ev summary::-webkit-details-marker { display: none; }
+
+.ev summary b {
+  font-size: 1.04rem;
+  font-weight: 700;
+}
+
+.ev summary span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg2);
+}
+
+.ev summary::after {
+  content: '+';
+  position: absolute;
+  right: 6px;
+  top: 13px;
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.ev[open] summary::after { content: '\2013'; }
+
+.ev summary:focus-visible { outline-offset: -2px; }
+
+.ev p {
+  max-width: 64ch;
+  padding: 0 36px 18px 0;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* A line the lens picks out carries a dot beside its name. */
+.ev.is-lens summary b::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--mark);
+  vertical-align: 0.06em;
+}
+
+/* Arrived at from a dot in the table. */
+@keyframes arrive {
+  from { background-color: color-mix(in srgb, var(--halo) 55%, transparent); }
+}
+
+.ev.is-arrived { animation: arrive 1.8s ease-out; }
+
+.layer-kit {
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--fg) 24%, transparent);
+  font-size: 0.86rem;
+  line-height: 1.65;
+  color: var(--fg2);
+}
+
+.layer-kit span {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Following one name: only its lines, only the layers it touches. */
+.strata.is-following .layer:not(.has-followed),
+.strata.is-following .ev:not(.is-followed),
+.strata.is-following .layer-kit { display: none; }
+
+.strata.is-following .layer { padding-block: clamp(28px, 4vw, 48px); }
+.strata.is-following .layer-fig,
+.strata.is-following .layer-say { display: none; }
+.strata.is-following .ev { border-bottom: 1px solid color-mix(in srgb, var(--fg) 24%, transparent); }
+
+/* ═══════════════════════════════════════════════
+   THE SHORT VERSION
+   ═══════════════════════════════════════════════ */
+
+.record {
+  padding-block: clamp(48px, 8vw, 96px);
+  background: var(--paper);
+}
+
+.record h2,
+.ask-back h2 {
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  font-weight: 760;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.record-say {
+  margin-top: 12px;
+  max-width: 52ch;
+  font-size: 1.06rem;
+}
+
+.record-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px clamp(28px, 6vw, 88px);
+  margin-top: 30px;
+}
+
+.record h3 {
+  margin: 30px 0 8px;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #4a473f;
+}
+
+.record-grid > div > h3:first-child { margin-top: 0; }
+
+.rec { list-style: none; }
+
+.rec li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(29, 27, 23, 0.2);
+  scroll-margin-top: calc(var(--bar-h) + 60px);
+}
+
+.rec b { grid-area: 1 / 1; font-weight: 700; }
+
+.rec-when {
+  grid-area: 1 / 2;
+  align-self: baseline;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  color: #4a473f;
+}
+
+.rec-what { grid-column: 1 / -1; }
+
+.rec-more {
+  grid-column: 1 / -1;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #4a473f;
+}
+
+.rec-more a { color: var(--copper); font-weight: 600; text-underline-offset: 3px; }
+
+.rec li:target { background: linear-gradient(90deg, rgba(217, 152, 43, 0.3), transparent); }
+
+.record-reach {
+  margin-top: 34px;
+  max-width: 60ch;
+  font-size: 1.06rem;
+}
+
+.record-reach a { color: var(--copper); font-weight: 600; text-underline-offset: 3px; }
+
+/* ═══════════════════════════════════════════════
+   THREE QUESTIONS
+   ═══════════════════════════════════════════════ */
+
+.ask-back {
+  padding-block: clamp(48px, 8vw, 96px);
+  background: var(--night);
+  color: var(--paper);
+}
+
+.ask-back-say {
+  margin-top: 12px;
+  max-width: 54ch;
+  font-size: 1.06rem;
+  color: #d5d1c7;
+}
+
+.fb fieldset {
+  border: 0;
+  min-width: 0;
+  margin-top: 30px;
+}
+
+.fb legend,
+.fb-note label {
+  display: block;
+  padding: 0;
+  margin-bottom: 12px;
+  font-size: 1.14rem;
+  font-weight: 700;
+}
+
+.fb-note label span {
+  margin-left: 8px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bdb9af;
+}
+
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.opts label { cursor: pointer; }
+
+.opts input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opts span {
+  display: block;
+  padding: 8px 16px;
+  border: 1px solid rgba(246, 242, 232, 0.45);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.opts label:hover span { border-color: var(--paper); background: rgba(246, 242, 232, 0.08); }
+
+.opts input:checked + span {
+  border-color: var(--amber);
+  background: var(--amber);
+  color: var(--night);
+  font-weight: 600;
+}
+
+.opts input:focus-visible + span { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+.fb-note { margin-top: 30px; }
+
+.fb-note textarea {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  padding: 10px 13px;
+  border: 1px solid rgba(246, 242, 232, 0.5);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--paper);
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.fb-note textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.fb-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.fb-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin-top: 26px;
+}
+
+.fb-send {
+  min-width: 108px;
+  padding: 11px 24px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--amber);
+  color: var(--night);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fb-send:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.fb-send:disabled { opacity: 0.55; cursor: default; }
+
+.fb-status { font-size: 0.92rem; color: #d5d1c7; }
+.fb-status.is-error { color: #ffb9ad; }
+.fb-status.is-success { color: #bfe8c4; }
+
+/* ── Footer ── */
+
+.foot {
+  padding-block: 22px 26px;
+  background: var(--night);
+  color: #bdb9af;
+  border-top: 1px solid rgba(246, 242, 232, 0.14);
+  font-size: 0.86rem;
+}
+
+.foot .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+.foot a { display: inline-block; padding-block: 3px; color: var(--paper); text-underline-offset: 3px; }
+
+/* ── The way back to the assistant, once it has scrolled away ── */
+
+.ask-fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 180;
+  padding: 10px 20px;
+  border: 1px solid rgba(246, 242, 232, 0.35);
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+.ask-fab:hover { background: #3a372f; }
+
+/* ═══════════════════════════════════════════════
+   NARROWER
+   ═══════════════════════════════════════════════ */
+
+/* The assistant drops under the table and is as tall as it needs to be. */
+@media (width <= 1080px) {
+  .deck { grid-template-columns: minmax(0, 1fr); }
+
+  .probe {
+    height: auto;
+    min-height: 0;
+    padding-bottom: 22px;
+  }
+
+  .probe-out { overflow: visible; }
+  .probe-intro { max-width: 60ch; }
+}
+
+/* One column. The two halves of the head are taken apart so the paragraph
+   can sit straight under the lens that chooses it, with the links last. */
+@media (width <= 900px) {
+  .head { display: flex; flex-direction: column; gap: 0; }
+  .head-id, .head-say { display: contents; }
+
+  .pitch { order: 1; max-width: 60ch; padding-top: 14px; }
+  .facts { order: 2; }
+  .links { order: 3; justify-content: flex-start; padding-top: 18px; }
+}
+
+@media (width <= 760px) {
+  :root { --bar-h: 40px; }
+
+  .site-nav { gap: 14px; padding: 0 16px; }
+  .site-nav a,
+  .nav-dropdown-toggle { font-size: 0.7rem; }
+
+  .nav-dropdown-menu {
+    position: fixed;
+    top: var(--bar-h);
+    left: 0;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .lens legend { float: none; margin: 0 0 2px; padding: 0; }
+  .lens label { margin-right: 18px; }
+
+  /* The table, tighter. The note and the small print under each layer's
+     name go. Twelve columns at 24px, the least a finger should be asked to
+     hit, plus the names: 376px, so a phone that wide or wider shows it all
+     and a narrower one scrolls it sideways with the layer names held still. */
+  .matrix { min-width: 376px; }
+
+  .matrix .corner,
+  .matrix tbody th { width: 88px; }
+
+  .matrix .corner { padding: 0; }
+  .matrix-note { display: none; }
+
+  .matrix thead th { height: 132px; }
+  .matrix thead th a { min-width: 24px; justify-content: flex-start; font-size: 0.78rem; padding: 6px 2px; gap: 6px; }
+  .matrix thead th small { font-size: 0.66rem; }
+
+  .matrix tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    padding: 0 4px 0 12px;
+  }
+
+  .matrix tbody th b { font-size: 0.64rem; letter-spacing: 0.06em; }
+  .matrix tbody th small { display: none; }
+
+  .matrix td a { height: 40px; }
+  .matrix td a::before { width: 12px; height: 12px; margin: -6px 0 0 -6px; }
+
+  .layer-grid,
+  .record-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .layer-id { position: static; }
+  .layer-say { max-width: 60ch; }
+  .layer-fig { max-width: none; }
+
+  .record-grid > div + div { margin-top: 30px; }
+}
+
+/* On a phone the links run into the middle of the bar, so the mark goes
+   back into the row and takes the middle of what is left before Hire Me. */
+@media (width <= 620px) {
+  .site-nav .nav-mark {
+    position: static;
+    translate: none;
+    margin-inline: auto;
+    height: 24px;
+    padding: 0 9px;
+  }
+
+  .site-nav .nav-mark + a[href="/hire-me"] { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   ON PAPER
+   Black on white, the table as a chart, and nothing that only works on a
+   screen. Lines print in whatever state the lens left them, so the
+   "Everything" lens is the one to print from.
+   ═══════════════════════════════════════════════ */
+
+@media print {
+  html { font-size: 12px; }
+
+  .site-nav, .skip-link, .lens, .links, .probe, .follow, .ask-back, .foot, .ask-fab, .matrix-note { display: none !important; }
+
+  body, .top, .layer, .record { background: #fff !important; color: #000 !important; }
+
+  .l-people, .l-interface, .l-application, .l-data, .l-ai, .l-systems, .l-network, .l-hardware {
+    --bg: #fff;
+    --fg: #000;
+    --fg2: #333;
+    --mark: #000;
+  }
+
+  .deck { display: block; border: 0; }
+  .matrix tbody tr { border-top: 1px solid #999; }
+  .matrix td a::before { animation: none; }
+
+  .layer { padding-block: 14pt; border-top: 1px solid #000; break-inside: avoid-page; }
+  .layer-grid { grid-template-columns: 1fr; gap: 6pt; }
+  .layer-id { position: static; }
+  .layer h2 { font-size: 16pt; }
+  .layer-say, .layer-fig { display: none; }
+
+  .ev summary::after,
+  .ev[open] summary::after { content: none; }
+  .ev summary { padding: 6pt 0 2pt; }
+  .ev p { padding-bottom: 6pt; max-width: none; }
+
+  .record { padding-block: 14pt; border-top: 1px solid #000; }
+  a { text-decoration: none; }
 }
