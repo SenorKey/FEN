@@ -177,6 +177,8 @@
                                 <th scope="col" data-entry="trtbench"><a href="#rec-trtbench"><span>trtbench</span></a>
                                 </th>
                                 <th scope="col" data-entry="wfpc"><a href="#rec-wfpc"><span>WFPC</span></a></th>
+                                <th scope="col" data-entry="freshpull"><a href="#rec-freshpull"><span>Fresh Pull</span></a>
+                                </th>
                                 <th scope="col" data-entry="tarella"><a href="#rec-tarella"><span>Tarella
                                             Notes</span></a></th>
                             </tr>
@@ -194,6 +196,7 @@
                                 <td><a href="#people-chronicle" tabindex="-1" aria-label="People in Case Chronicle"></a></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td><a href="#people-tarella" tabindex="-1" aria-label="People in Tarella Notes"></a></td>
                             </tr>
                             <tr class="l-interface" data-layer="interface">
@@ -208,6 +211,7 @@
                                 <td><a href="#interface-chronicle" tabindex="-1" aria-label="Interface in Case Chronicle"></a></td>
                                 <td></td>
                                 <td><a href="#interface-wfpc" tabindex="-1" aria-label="Interface in WFPC"></a></td>
+                                <td><a href="#interface-freshpull" tabindex="-1" aria-label="Interface in Fresh Pull"></a></td>
                                 <td><a href="#interface-tarella" tabindex="-1" aria-label="Interface in Tarella Notes"></a></td>
                             </tr>
                             <tr class="l-application" data-layer="application">
@@ -217,11 +221,12 @@
                                 <td></td>
                                 <td><a href="#application-centralreach" tabindex="-1" aria-label="Application at CentralReach"></a></td>
                                 <td></td>
-                                <td class="is-first-project"><a href="#application-fen" tabindex="-1" aria-label="Application in FEN"></a></td>
+                                <td class="is-first-project"></td>
                                 <td><a href="#application-pbs" tabindex="-1" aria-label="Application in Preside by Side"></a></td>
                                 <td></td>
                                 <td><a href="#application-trtbench" tabindex="-1" aria-label="Application in trtbench"></a></td>
                                 <td><a href="#application-wfpc" tabindex="-1" aria-label="Application in WFPC"></a></td>
+                                <td><a href="#application-freshpull" tabindex="-1" aria-label="Application in Fresh Pull"></a></td>
                                 <td><a href="#application-tarella" tabindex="-1" aria-label="Application in Tarella Notes"></a></td>
                             </tr>
                             <tr class="l-data" data-layer="data">
@@ -236,6 +241,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><a href="#data-wfpc" tabindex="-1" aria-label="Data and APIs in WFPC"></a></td>
+                                <td><a href="#data-freshpull" tabindex="-1" aria-label="Data and APIs in Fresh Pull"></a></td>
                                 <td></td>
                             </tr>
                             <tr class="l-ai" data-layer="ai">
@@ -250,6 +256,7 @@
                                 <td><a href="#ai-trtbench" tabindex="-1" aria-label="AI in trtbench"></a></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="l-systems" data-layer="systems">
                                 <th scope="row"><a href="#systems"><b>Systems</b><small>Linux · Apache ·
@@ -260,6 +267,7 @@
                                 <td><a href="#systems-topgolf" tabindex="-1" aria-label="Systems at TopGolf"></a></td>
                                 <td class="is-first-project"><a href="#systems-fen" tabindex="-1" aria-label="Systems in FEN"></a>
                                 </td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -280,6 +288,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             <tr class="l-hardware" data-layer="hardware">
                                 <th scope="row"><a href="#hardware"><b>Hardware</b><small>boards · wiring ·
@@ -292,6 +301,7 @@
                                 <td></td>
                                 <td></td>
                                 <td><a href="#hardware-trtbench" tabindex="-1" aria-label="Hardware in trtbench"></a></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -436,6 +446,12 @@
                                         href="/wfpc/">See it</a> · <a href="https://github.com/SenorKey/WFPC"
                                         target="_blank" rel="noopener">Code</a></span>
                             </li>
+                            <li id="rec-freshpull" data-entry="freshpull">
+                                <b>Fresh Pull</b> <span class="rec-what">One-click browsing data cleaner for
+                                    Chrome</span>
+                                <span class="rec-more">JavaScript · Chrome extensions (Manifest V3) · <a
+                                        href="/fresh-pull/">See it</a></span>
+                            </li>
                             <li id="rec-tarella" data-entry="tarella">
                                 <b>Tarella Notes</b> <span class="rec-what">Native iOS application</span>
                                 <span class="rec-when">2024 – present</span>
@@ -570,6 +586,12 @@
                             <p>A free, open-source overlay for Windows. You drag a box over the reward names on
                                 screen and it highlights the best pick.</p>
                         </details>
+                        <details class="ev" id="interface-freshpull" data-entry="freshpull" data-lens="software" open>
+                            <summary><b>Fresh Pull</b> <span>Chrome extension</span></summary>
+                            <p>Its settings page has six time ranges and eight kinds of data, each with a note on what
+                                it removes and what it leaves alone. It saves as you change it, so there's no Save
+                                button to forget.</p>
+                        </details>
                         <details class="ev" id="interface-tarella" data-entry="tarella" data-lens="software" open>
                             <summary><b>Tarella Notes</b> <span>iOS app</span></summary>
                             <p>A native iOS app in SwiftUI. Notes group themselves by recency (Today, Last 7 Days,
@@ -600,11 +622,6 @@
                                 then worked with engineering and product to document the bugs and get them
                                 resolved.</p>
                         </details>
-                        <details class="ev" id="application-fen" data-entry="fen" data-lens="automation software"
-                            open>
-                            <summary><b>FEN</b> <span>this site</span></summary>
-                            <p>Fresh Pull is a Chrome extension that clears browsing data in one click.</p>
-                        </details>
                         <details class="ev" id="application-pbs" data-entry="pbs" data-lens="software" open>
                             <summary><b>Preside by Side</b> <span>comparison app</span></summary>
                             <p>A small Flask service takes reader suggestions for the page.</p>
@@ -622,6 +639,13 @@
                             <p>It captures a region of the screen, reads the item names with OCR and matches them
                                 against a known catalog. It ships as a code-signed Windows installer through GitHub
                                 releases.</p>
+                        </details>
+                        <details class="ev" id="application-freshpull" data-entry="freshpull"
+                            data-lens="automation software" open>
+                            <summary><b>Fresh Pull</b> <span>Chrome extension</span></summary>
+                            <p>One click on the toolbar icon clears whatever you picked and reloads your tab. It runs
+                                on Manifest V3 with two permissions, a strict content security policy, and a check on
+                                every saved setting before it's used.</p>
                         </details>
                         <details class="ev" id="application-tarella" data-entry="tarella" data-lens="software" open>
                             <summary><b>Tarella Notes</b> <span>iOS app</span></summary>
@@ -662,6 +686,11 @@
                         <details class="ev" id="data-wfpc" data-entry="wfpc" data-lens="automation software" open>
                             <summary><b>WFPC</b> <span>Windows desktop app</span></summary>
                             <p>It pulls live prices from the warframe.market API to work out the best pick.</p>
+                        </details>
+                        <details class="ev" id="data-freshpull" data-entry="freshpull" data-lens="software" open>
+                            <summary><b>Fresh Pull</b> <span>Chrome extension</span></summary>
+                            <p>It only talks to Chrome's own APIs. Your picks sync through chrome.storage.sync, and
+                                nothing gets sent anywhere else.</p>
                         </details>
                         <p class="layer-kit"><span>Also on this layer</span> SQL (SQLite) · REST API design and
                             integration · JSON/XML · webhooks · caching · rate limiting · Google Analytics 4 ·
@@ -893,7 +922,7 @@
 
     <a class="ask-fab" id="askFab" href="#ask" hidden data-track="ask: jump">Ask</a>
 
-    <script src="/hire-me/hire-me.js?v=20261116c" defer></script>
+    <script src="/hire-me/hire-me.js?v=20261117a" defer></script>
     <script src="/assets/js/beacon.js" defer></script>
 </body>
 

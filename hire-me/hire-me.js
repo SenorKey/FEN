@@ -384,11 +384,12 @@
     ceufast: ['ceufast'],
     centralreach: ['centralreach', 'scheduleai', 'noteguardai'],
     topgolf: ['topgolf'],
-    fen: ['frontendneeded', 'front end needed', 'fen ', 'this site', 'this page', 'match analysis', 'fresh pull', 'cadence'],
+    fen: ['frontendneeded', 'front end needed', 'fen ', 'this site', 'this page', 'match analysis', 'cadence'],
     pbs: ['preside by side'],
     chronicle: ['case chronicle'],
     trtbench: ['trtbench', 'tensorrt', 'yolov8'],
     wfpc: ['wfpc', 'warframe'],
+    freshpull: ['fresh pull', 'chrome extension', 'browsing data'],
     tarella: ['tarella']
   };
 
