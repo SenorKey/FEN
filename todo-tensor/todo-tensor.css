@@ -323,6 +323,15 @@ body.tt-free .tt-tray-node { cursor: pointer; }
   min-width: 272px;
 }
 
+/* An empty middle column keeps each name 7.5% of the line's length clear of
+   the midpoint (17 : 6 : 17). Being fr, it grows with the card, which still
+   sizes itself from the names. */
+.tt-card .tt-slider {
+  grid-template-columns: minmax(0, 17fr) minmax(0, 6fr) minmax(0, 17fr);
+  grid-template-areas: "left . right" "track track track";
+  column-gap: 0;
+}
+
 .tt-card:not(.is-plan) .tt-body > .tt-text,
 .tt-card:not(.is-plan) .tt-body > .tt-edit {
   width: 0;
