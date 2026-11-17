@@ -312,6 +312,178 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 
 .tt-card .tt-item { padding: 0; }
 
+/* ── The plan: the card opened out, in the middle of the scene ── */
+
+.tt-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 6px 0 -2px;
+}
+
+.tt-plan-btn,
+.tt-plan-tool {
+  padding: 5px 9px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tt-dim);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tt-plan-btn:hover,
+.tt-plan-tool:hover { color: var(--tt-ink); border-color: var(--tt-faint); }
+
+.tt-plan-btn:focus-visible,
+.tt-plan-tool:focus-visible { outline: none; color: var(--tt-ink); border-color: var(--tt-ink); }
+
+/* a plan is written: the button says so by being bright */
+.tt-plan-btn.has-plan { color: var(--tt-ink); border-color: var(--tt-faint); }
+.tt-plan-btn.has-plan::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin: 0 7px 1px 0;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: middle;
+}
+
+.tt-plan-bullets { letter-spacing: 0.08em; }
+
+.tt-card.is-plan {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, calc(100% - 24px));
+  max-width: none;
+  height: min(720px, calc(100% - 24px));
+  padding: 16px 16px 16px 8px;
+  border-color: var(--tt-faint);
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.55); /* the scene steps back */
+  animation: tt-plan-in 0.22s var(--tt-ease);
+}
+
+@keyframes tt-plan-in {
+  from { opacity: 0; scale: 0.97; }
+}
+
+.tt-card.is-plan > .tt-item { flex: none; }
+
+.tt-plan {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 14px 0 0 34px; /* lined up under the idea's words, past the check */
+  border-top: 1px solid var(--tt-rule);
+}
+
+.tt-plan-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 0 10px;
+}
+
+.tt-plan-title {
+  color: var(--tt-faint);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tt-plan-tools { display: flex; gap: 6px; }
+
+.tt-plan-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* how the save went: quiet while it goes well, full white when it hasn't */
+.tt-plan-save {
+  color: var(--tt-faint);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.4s, color 0.2s;
+}
+
+.tt-card-foot .tt-plan-save { color: var(--tt-dim); }
+.tt-plan-save.is-trouble { color: var(--tt-ink); }
+.tt-plan-save.is-gone { opacity: 0; }
+
+.tt-plan-view,
+.tt-plan-field {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-rule) transparent;
+  color: var(--tt-ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.tt-plan-view {
+  padding: 4px 6px 4px 0;
+  user-select: text;
+  -webkit-user-select: text;
+  overflow-wrap: anywhere;
+}
+
+.tt-plan-view.is-writable { cursor: text; }
+.tt-plan-view:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--tt-rule); border-radius: 6px; }
+
+.tt-plan-view p { margin: 0 0 0.9em; }
+.tt-plan-view ul { margin: 0 0 0.9em; padding: 0 0 0 1.2em; }
+.tt-plan-view li { margin: 0.15em 0; }
+.tt-plan-view li::marker { color: var(--tt-dim); }
+.tt-plan-view li.is-sub { margin-left: 1.3em; list-style-type: circle; }
+.tt-plan-view > :last-child { margin-bottom: 0; }
+
+.tt-plan-empty { color: var(--tt-faint); }
+
+.tt-plan-field {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 8px;
+  background: #050505;
+  resize: none;
+  tab-size: 2;
+  user-select: text;
+  -webkit-user-select: text;
+  transition: border-color 0.2s;
+}
+
+.tt-plan-field:focus { outline: none; border-color: var(--tt-faint); }
+.tt-plan-field::placeholder { color: var(--tt-faint); }
+
+.tt-plan-note {
+  flex: none;
+  margin: 10px 0 0;
+  color: var(--tt-faint);
+  font-size: 0.8rem;
+}
+
 /* ── Panel ── */
 
 .tt-panel {
@@ -818,6 +990,8 @@ body.tt-has-tray .tt-toast { bottom: 116px; }
   .tt-tray { width: calc(100% - 32px); bottom: 12px; }
   body.tt-has-tray .tt-toast { bottom: 24px; } /* the panel sheet is below the tray here */
   .tt-card { width: 240px; }
+  .tt-card.is-plan { width: calc(100% - 24px); padding: 12px 12px 12px 4px; }
+  .tt-plan { margin-left: 0; }
   .tt-grip { width: 26px; height: 30px; }
   .tt-remove { width: 30px; height: 30px; }
 }

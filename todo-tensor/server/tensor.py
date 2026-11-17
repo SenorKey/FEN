@@ -87,12 +87,13 @@ LOGIN_WINDOW_SEC = int(os.environ.get('LOGIN_WINDOW_SEC', '900'))
 MAX_PARAMS = 3
 MAX_ITEMS = 2000
 MAX_TEXT = 300
+MAX_PLAN = 20000      # letters in an idea's plan: pages of it
 MAX_POLE = 40
 MAX_ID = 64
 
 app = Flask(__name__)
 app.config.update(
-    MAX_CONTENT_LENGTH=1024 * 1024,                 # 1 MB: thousands of ideas
+    MAX_CONTENT_LENGTH=4 * 1024 * 1024,             # 4 MB: thousands of ideas, some with long plans
     SESSION_COOKIE_NAME='tt_owner',
     SESSION_COOKIE_PATH='/api/todo-tensor',         # sent to this API and nowhere else
     SESSION_COOKIE_HTTPONLY=True,                   # no script on any page can read it
@@ -123,6 +124,15 @@ def _word(v):
 
 def _id(v):
     return v if isinstance(v, str) and 0 < len(v) <= MAX_ID else None
+
+
+def _plan(v):
+    """An idea's plan: its lines kept as typed, line endings made plain,
+    trailing spaces and blank lines at either end dropped."""
+    if not isinstance(v, str):
+        return ''
+    lines = v.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    return '\n'.join(l.rstrip() for l in lines).strip('\n')[:MAX_PLAN]
 
 
 def clean(raw):
@@ -166,7 +176,14 @@ def clean(raw):
         for k, v in raw_scores.items():
             if _id(k) and _num(v):
                 scores[k] = max(-1.0, min(1.0, float(v)))
-        items.append({'id': iid, 'text': text.strip()[:MAX_TEXT], 'done': bool(x.get('done')), 'scores': scores})
+        item = {'id': iid, 'text': text.strip()[:MAX_TEXT], 'done': bool(x.get('done')), 'scores': scores}
+        plan = x.get('plan')
+        if plan is not None and not isinstance(plan, str):
+            raise ValueError('a plan must be text')
+        plan = _plan(plan)
+        if plan:
+            item['plan'] = plan   # left out when empty, so a list with no plans reads as before
+        items.append(item)
 
     return {'version': 2, 'params': params, 'items': items}
 
@@ -310,9 +327,11 @@ def get_list():
 
 @app.get('/session')
 def get_session():
+    # plans=True says this server keeps plans; a page talking to an older
+    # one (which would drop them unseen) does not offer to write any
     if is_owner():
-        return jsonify(owner=True, csrf=session.get('csrf'))
-    return jsonify(owner=False)
+        return jsonify(owner=True, csrf=session.get('csrf'), plans=True)
+    return jsonify(owner=False, plans=True)
 
 
 @app.post('/login')
@@ -333,7 +352,7 @@ def login():
     session['owner'] = True
     session['csrf'] = secrets.token_urlsafe(32)
     app.logger.info('owner signed in from %s', ip)
-    return jsonify(owner=True, csrf=session['csrf'])
+    return jsonify(owner=True, csrf=session['csrf'], plans=True)
 
 
 @app.post('/logout')

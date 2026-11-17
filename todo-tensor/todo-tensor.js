@@ -28,6 +28,9 @@
   const SAVE_MS = 600;                    // a pause this long after a change sends it
   const MAX_RANK = 3;
   const NEW_TEXT = 'New idea';
+  const MAX_PLAN = 20000;                 // letters in an idea's plan (server/tensor.py keeps the same)
+  const BULLET = '• ';
+  const BULLET_RE = /^(\s*)(?:•|-|\*)(?:\s+|$)/;   // a line that is a bullet point: "• ", "- " or "* "
 
   const FONT = '"Bricolage Grotesque", sans-serif';
   const FONT_LABEL = `13px ${FONT}`;
@@ -113,6 +116,12 @@
   let savedAt = null;      // when that revision was saved
   let fromServer = false;  // false: the server couldn't be reached and list.json is on show
   let toastTimer = 0;
+  let plansOk = false;     // the server keeps plans (an older one would drop them unseen)
+  let planId = null;       // the idea whose plan is open in the card: the card is large while it is
+  let planEdit = false;    // …and being written, not read
+  let planBefore = null;   // the plan as it was when opened, so closing knows whether anything changed
+  let planFlash = null;    // { id, timer }: the small card says how the save went, for a moment after closing
+  let saveTrouble = false; // the last save didn't reach the server
 
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
@@ -153,7 +162,9 @@
       if (x.scores && typeof x.scores === 'object' && !Array.isArray(x.scores)) {
         for (const k in x.scores) if (isNum(x.scores[k])) scores[k] = clamp(x.scores[k], -1, 1);
       }
-      items.push({ id, text: x.text.trim().slice(0, 300), done: !!x.done, scores });
+      const item = { id, text: x.text.trim().slice(0, 300), done: !!x.done, scores };
+      if (typeof x.plan === 'string' && x.plan.trim()) item.plan = x.plan.slice(0, MAX_PLAN);
+      items.push(item);
     }
     return { params, items };
   }
@@ -320,6 +331,7 @@
       r = { status: 0 };
     }
     saving = false;
+    saveTrouble = !r.ok;
     if (r.ok) {
       rev = r.data.rev;
       savedAt = r.data.saved_at;
@@ -1128,6 +1140,12 @@
   function setFocus(id, quiet) {
     if (id === focusId) return;
     focusId = id;
+    if (planId && planId !== id) {
+      // leaving an open plan for another idea or empty space: send what was typed now
+      if (lastSaved !== confirmed) push();
+      planId = null;
+      planEdit = false;
+    }
     for (const el of document.querySelectorAll('.tt-item.is-focus, .tt-tray-node.is-focus')) el.classList.remove('is-focus');
     if (id) {
       for (const el of document.querySelectorAll(`.tt-list [data-id="${CSS.escape(id)}"], .tt-tray-node[data-id="${CSS.escape(id)}"]`)) el.classList.add('is-focus');
@@ -1146,11 +1164,33 @@
   function renderCard() {
     const item = focusId && byId(focusId);
     cardKey = null;
-    if (!item) { card.hidden = true; card.textContent = ''; return; }
+    if (!item) {
+      planId = null;
+      planEdit = false;
+      card.hidden = true;
+      card.classList.remove('is-plan');
+      card.textContent = '';
+      return;
+    }
+    if (planId !== item.id) { planId = null; planEdit = false; }
+    if (planEdit && !canWritePlan()) planEdit = false;   // signed out while writing
+    // a redraw while the plan is being written puts the cursor back where it was
+    const old = card.querySelector('.tt-plan-field');
+    const caret = old && document.activeElement === old
+      ? { a: old.selectionStart, b: old.selectionEnd, top: old.scrollTop } : null;
     card.textContent = '';
+    card.classList.toggle('is-plan', !!planId);
     card.append(row(item, true));
+    if (planId) card.append(planPane(item));
+    else if (canPlan(item)) card.append(planFoot(item));
     card.hidden = false;
     positionCard();
+    const f = caret && card.querySelector('.tt-plan-field');
+    if (f) {
+      f.focus({ preventScroll: true });
+      f.setSelectionRange(caret.a, caret.b);
+      f.scrollTop = caret.top;
+    }
   }
 
   let cardKey = null;   // where the card was last put, so a still picture costs no layout
@@ -1158,6 +1198,15 @@
   function positionCard() {
     const n = nodes.get(focusId);
     if (!n) return;
+    if (planId) {
+      // opened out to its plan, the card sits in the middle of the scene and stays put
+      const key = `plan:${view.w}x${view.h}`;
+      if (key === cardKey) return;
+      cardKey = key;
+      card.style.setProperty('--x', `${Math.round(Math.max(12, (view.w - card.offsetWidth) / 2))}px`);
+      card.style.setProperty('--y', `${Math.round(Math.max(12, (view.h - card.offsetHeight) / 2))}px`);
+      return;
+    }
     const key = n.tray ? 'tray' : `${n.sx},${n.sy}`;
     if (key === cardKey) return;
     cardKey = key;
@@ -1180,6 +1229,314 @@
     y = clamp(y, 12, Math.max(12, view.h - ch - 12));
     card.style.setProperty('--x', `${Math.round(x)}px`);
     card.style.setProperty('--y', `${Math.round(y)}px`);
+  }
+
+  /* ── The plan: a long note on an idea, written in the card opened out ──
+     Plain text, kept as typed. A line that starts with "• " (or "- ", "* ")
+     reads as a bullet point, two or more spaces before it make it a sub-point,
+     and a blank line starts a new paragraph. */
+
+  // Visitors get the Plan button only where there is a plan to read. The
+  // owner gets it on every idea, unless the server is too old to keep plans.
+  const canWritePlan = () => editable && plansOk;
+  const canPlan = (item) => !!item.plan || canWritePlan();
+  const lineStart = (v, i) => (i <= 0 ? 0 : v.lastIndexOf('\n', i - 1) + 1);
+
+  function planButton(cls, label, title, fn) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = cls;
+    b.textContent = label;
+    if (title) b.title = title;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  // The card's foot while it is small: the way into the plan.
+  function planFoot(item) {
+    const foot = document.createElement('div');
+    foot.className = 'tt-card-foot';
+    const b = planButton('tt-plan-btn' + (item.plan ? ' has-plan' : ''), 'Plan',
+      item.plan ? 'Open the plan' : 'Write a plan', () => openPlan(item.id));
+    b.setAttribute('aria-expanded', 'false');
+    if (planFlash && planFlash.id === item.id) foot.append(planSaveNote());
+    foot.append(b);
+    return foot;
+  }
+
+  // "Saving…", then "Saved 10:17 AM", or why not: the plan's own word on
+  // the save, which the status line under the list says at more length.
+  function planSaveText() {
+    if (lastSaved === confirmed) {
+      const d = savedAt ? new Date(savedAt) : null;
+      return d && !isNaN(d) ? `Saved ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}` : 'Saved';
+    }
+    return saveTrouble ? 'Not saved yet · kept in this browser' : 'Saving…';
+  }
+
+  function planSaveNote() {
+    const n = document.createElement('span');
+    n.className = 'tt-plan-save';
+    n.setAttribute('role', 'status');
+    n.textContent = planSaveText();
+    n.classList.toggle('is-trouble', lastSaved !== confirmed && saveTrouble);
+    return n;
+  }
+
+  function showPlanSave() {
+    for (const n of card.querySelectorAll('.tt-plan-save')) {
+      n.textContent = planSaveText();
+      n.classList.toggle('is-trouble', lastSaved !== confirmed && saveTrouble);
+    }
+  }
+
+  // After closing a plan that changed, the note stays on the small card until
+  // the save has landed and a moment more; trouble keeps it there.
+  function flashPlanSave(id) {
+    if (planFlash) clearTimeout(planFlash.timer);
+    planFlash = { id, timer: 0 };
+    const fade = () => {
+      if (!planFlash || planFlash.id !== id) return;
+      if (lastSaved !== confirmed) { planFlash.timer = setTimeout(fade, 1000); return; }
+      const n = card.querySelector('.tt-plan-save');
+      if (n) n.classList.add('is-gone');
+      planFlash.timer = setTimeout(() => {
+        if (!planFlash || planFlash.id !== id) return;
+        planFlash = null;
+        const m = card.querySelector('.tt-card-foot .tt-plan-save');
+        if (m) m.remove();
+      }, 400);
+    };
+    planFlash.timer = setTimeout(fade, 2500);
+  }
+
+  function planPane(item) {
+    const writable = canWritePlan();
+    const pane = document.createElement('div');
+    pane.className = 'tt-plan';
+
+    const bar = document.createElement('div');
+    bar.className = 'tt-plan-bar';
+    const title = document.createElement('span');
+    title.className = 'tt-plan-title';
+    title.textContent = 'Plan';
+    const tools = document.createElement('div');
+    tools.className = 'tt-plan-tools';
+    if (planEdit) {
+      const bullets = planButton('tt-plan-tool tt-plan-bullets', '• List',
+        'Bullet points on these lines, or off again (Shift+Cmd+8)', toggleBullets);
+      bullets.addEventListener('pointerdown', (e) => e.preventDefault());   // the cursor stays in the text
+      tools.append(bullets);
+    } else if (writable) {
+      tools.append(planButton('tt-plan-tool tt-plan-edit', 'Edit', 'Write in the plan', () => setPlanEdit(true)));
+    }
+    const close = planButton('tt-plan-tool tt-plan-close', 'Close',
+      writable ? 'Save and go back to the small card (Esc)' : 'Back to the small card (Esc)', () => closePlan(true));
+    close.setAttribute('aria-expanded', 'true');
+    tools.append(close);
+    const head = document.createElement('div');
+    head.className = 'tt-plan-head';
+    head.append(title);
+    if (writable) head.append(planSaveNote());
+    bar.append(head, tools);
+    pane.append(bar);
+
+    if (planEdit) {
+      const f = document.createElement('textarea');
+      f.className = 'tt-plan-field';
+      f.maxLength = MAX_PLAN;
+      f.value = item.plan || '';
+      f.placeholder = 'Lay out the plan.\n\nStart a line with - for a bullet point.';
+      f.setAttribute('aria-label', `Plan for “${item.text}”`);
+      f.addEventListener('input', onPlanInput);
+      f.addEventListener('keydown', onPlanKey);
+      pane.append(f);
+    } else {
+      const v = document.createElement('div');
+      v.className = 'tt-plan-view';
+      if (item.plan) v.append(...planBlocks(item.plan));
+      else {
+        const p = document.createElement('p');
+        p.className = 'tt-plan-empty';
+        p.textContent = 'No plan yet.';
+        v.append(p);
+      }
+      if (writable) {
+        // a click on the words starts writing, unless it was to select some
+        v.classList.add('is-writable');
+        v.addEventListener('click', () => {
+          const sel = window.getSelection();
+          if (sel && !sel.isCollapsed) return;
+          setPlanEdit(true);
+        });
+      }
+      pane.append(v);
+    }
+
+    if (editable && !plansOk) {
+      const note = document.createElement('p');
+      note.className = 'tt-plan-note';
+      note.textContent = 'Plans can’t be written yet: the server needs updating first, or it would drop them.';
+      pane.append(note);
+    }
+    return pane;
+  }
+
+  // The plan as the page shows it: bullet lines gathered into lists, other
+  // lines into paragraphs. Text only, never markup.
+  function planBlocks(text) {
+    const out = [];
+    let ul = null, p = null;
+    for (const line of text.split('\n')) {
+      const m = line.match(BULLET_RE);
+      if (m) {
+        p = null;
+        const rest = line.slice(m[0].length);
+        if (!rest.trim()) continue;
+        if (!ul) { ul = document.createElement('ul'); out.push(ul); }
+        const li = document.createElement('li');
+        li.textContent = rest;
+        if (m[1].replace(/\t/g, '  ').length >= 2) li.className = 'is-sub';
+        ul.append(li);
+      } else if (!line.trim()) {
+        ul = p = null;
+      } else {
+        ul = null;
+        if (p) p.append(document.createElement('br'), line);
+        else { p = document.createElement('p'); p.textContent = line; out.push(p); }
+      }
+    }
+    return out;
+  }
+
+  function openPlan(id) {
+    const item = byId(id);
+    if (!item) return;
+    if (finishEdit) finishEdit();
+    planId = id;
+    planBefore = item.plan || '';
+    if (planFlash) { clearTimeout(planFlash.timer); planFlash = null; }
+    planEdit = canWritePlan() && !item.plan;   // nothing written yet: straight to the blank page
+    renderCard();
+    const f = card.querySelector(planEdit ? '.tt-plan-field' : '.tt-plan-view.is-writable, .tt-plan-close');
+    if (f) f.focus({ preventScroll: true });
+    announce(planEdit ? 'Plan opened. Type it out.' : 'Plan opened.');
+  }
+
+  // Closing saves: what was typed is already on its way (save() runs as you
+  // type), so a change still waiting out the pause is sent now, and the small
+  // card says when the server has it.
+  function closePlan(refocus) {
+    if (!planId) return;
+    const item = byId(planId);
+    const changed = !!item && canWritePlan() && (item.plan || '') !== planBefore;
+    planId = null;
+    planEdit = false;
+    planBefore = null;
+    if (changed) {
+      if (lastSaved !== confirmed) push();
+      flashPlanSave(item.id);
+      announce('Plan closed. Saving.');
+    }
+    renderCard();
+    const b = card.querySelector('.tt-plan-btn');
+    if (refocus && b) b.focus({ preventScroll: true });
+  }
+
+  function setPlanEdit(on) {
+    planEdit = on && canWritePlan();
+    renderCard();
+    if (planEdit) {
+      const f = card.querySelector('.tt-plan-field');
+      if (f) { f.focus({ preventScroll: true }); f.setSelectionRange(f.value.length, f.value.length); }
+    } else {
+      const b = card.querySelector('.tt-plan-edit, .tt-plan-close');
+      if (b) b.focus({ preventScroll: true });
+    }
+  }
+
+  // Every keystroke is kept; save() runs a burst of them together, and Cmd+Z
+  // outside the field takes back the whole stretch of writing at once.
+  function storePlan(v) {
+    const item = byId(planId);
+    if (!item || !canWritePlan()) return;
+    const t = v.slice(0, MAX_PLAN);
+    if (t.trim()) item.plan = t;
+    else delete item.plan;
+    save('plan:' + item.id);
+  }
+
+  // Typed in, so the field's own undo (Cmd+Z while writing) can take it back.
+  function insert(f, text) {
+    f.focus({ preventScroll: true });
+    const cmd = text ? ['insertText', text] : ['delete'];
+    let ok = false;
+    try { ok = document.execCommand(cmd[0], false, cmd[1]); } catch { ok = false; }
+    if (!ok) {
+      f.setRangeText(text, f.selectionStart, f.selectionEnd, 'end');
+      storePlan(f.value);
+    }
+  }
+
+  function onPlanInput(e) {
+    const f = e.target;
+    // "- " or "* " typed at the start of a line becomes a bullet point
+    if (e.inputType === 'insertText' && e.data === ' ') {
+      const i = f.selectionStart;
+      if (/^\s*[-*] $/.test(f.value.slice(lineStart(f.value, i), i))) {
+        f.setSelectionRange(i - 2, i);
+        insert(f, BULLET);
+        return;
+      }
+    }
+    storePlan(f.value);
+  }
+
+  function onPlanKey(e) {
+    const f = e.target;
+    const mod = e.metaKey || e.ctrlKey;
+    if (e.key === 'Escape' || (mod && e.key === 'Enter')) { e.preventDefault(); e.stopPropagation(); closePlan(true); return; }
+    if (mod && e.shiftKey && (e.key === '8' || e.key === '*' || e.code === 'Digit8')) { e.preventDefault(); toggleBullets(); return; }
+    if (e.key !== 'Enter' || e.shiftKey || e.altKey || mod || e.isComposing) return;
+    if (f.selectionStart !== f.selectionEnd) return;
+    // Enter on a bullet point starts the next one; on an empty one it ends the list
+    const v = f.value, i = f.selectionStart, a = lineStart(v, i);
+    const m = v.slice(a, i).match(BULLET_RE);
+    if (!m) return;
+    e.preventDefault();
+    let b = v.indexOf('\n', i);
+    if (b < 0) b = v.length;
+    if (!v.slice(a + m[0].length, b).trim()) {
+      f.setSelectionRange(a, b);
+      insert(f, '');
+    } else {
+      insert(f, '\n' + m[1] + BULLET);
+    }
+  }
+
+  // The • List button: every line the selection touches becomes a bullet
+  // point, or, if they all are already, a plain line again.
+  function toggleBullets() {
+    const f = card.querySelector('.tt-plan-field');
+    if (!f) return;
+    const v = f.value;
+    const s0 = f.selectionStart;
+    let s1 = f.selectionEnd;
+    if (s1 > s0 && v[s1 - 1] === '\n') s1 -= 1;   // a selection that ends at a line's start doesn't take that line
+    const a = lineStart(v, s0);
+    let b = v.indexOf('\n', s1);
+    if (b < 0) b = v.length;
+    const lines = v.slice(a, b).split('\n');
+    const filled = lines.filter((l) => l.trim());
+    const allBullets = filled.length > 0 && filled.every((l) => BULLET_RE.test(l));
+    const out = lines.map((l) => {
+      if (allBullets) return l.replace(BULLET_RE, '$1');
+      if (BULLET_RE.test(l) || (!l.trim() && lines.length > 1)) return l;
+      return l.replace(/^(\s*)/, `$1${BULLET}`);
+    }).join('\n');
+    f.setSelectionRange(a, b);
+    insert(f, out);
+    announce(allBullets ? 'Bullet points off' : 'Bullet points on');
   }
 
   /* ── Hover: a dot and its row light up together ── */
@@ -2153,6 +2510,7 @@
 
   // The status line, with buttons for whatever it asks of the owner.
   function setStatus(text, acts = []) {
+    showPlanSave();
     status.textContent = text;
     statusActs.textContent = '';
     for (const [label, fn] of acts) {
@@ -2308,6 +2666,7 @@
     signin.hidden = true;
     owner = true;
     csrf = r.data.csrf;
+    if (r.data.plans) plansOk = true;
     // start from what the server holds now, then turn the controls on
     const remote = await readRemote();
     if (!remote) { setStatus('Signed in, but the list couldn’t be loaded, so editing stays off. Reload to try again.'); ownerBtn.textContent = 'Sign out'; return; }
@@ -2345,7 +2704,8 @@
     const typing = t.matches('input, textarea, [role="slider"]');
     if (e.key === 'Escape') {
       if (typing) return;
-      if (focusId) { setFocus(null, true); kick(); }
+      if (planId) closePlan(true);
+      else if (focusId) { setFocus(null, true); kick(); }
       else if (rank === 0 && open) collapse();
       return;
     }
@@ -2384,6 +2744,7 @@
     }
     owner = !!(session && session.owner);
     csrf = owner ? session.csrf : null;
+    plansOk = !!(session && session.plans);
     editable = owner && fromServer;
     document.body.classList.toggle('tt-readonly', !editable);
     ownerBtn.textContent = owner ? 'Sign out' : 'Owner sign-in';
