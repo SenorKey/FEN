@@ -312,6 +312,23 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 
 .tt-card .tt-item { padding: 0; }
 
+/* The small card is as wide as its parameter names need to sit on one line
+   each (never narrower than 272px, never wider than the scene). Each name
+   keeps to its own half of the scale, short of the midpoint, as in the list;
+   the halves stay equal, so the card is twice the longer name wide, and names
+   wrap only when the scene can't give it that much. The idea's own words wrap
+   to whatever width that leaves, so only the names set it. */
+.tt-card:not(.is-plan) {
+  width: max-content;
+  min-width: 272px;
+}
+
+.tt-card:not(.is-plan) .tt-body > .tt-text,
+.tt-card:not(.is-plan) .tt-body > .tt-edit {
+  width: 0;
+  min-width: 100%;
+}
+
 /* ── The plan: the card opened out, in the middle of the scene ── */
 
 .tt-card-foot {
@@ -989,7 +1006,7 @@ body.tt-has-tray .tt-toast { bottom: 116px; }
   .tt-scene.has-tray .tt-mark { display: none; } /* the tray needs the whole width */
   .tt-tray { width: calc(100% - 32px); bottom: 12px; }
   body.tt-has-tray .tt-toast { bottom: 24px; } /* the panel sheet is below the tray here */
-  .tt-card { width: 240px; }
+  .tt-card:not(.is-plan) { min-width: 240px; }
   .tt-card.is-plan { width: calc(100% - 24px); padding: 12px 12px 12px 4px; }
   .tt-plan { margin-left: 0; }
   .tt-grip { width: 26px; height: 30px; }
