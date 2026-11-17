@@ -329,11 +329,12 @@
   /* ═══════════════════════════════════════════════
      THE PROBE
 
-     The assistant is Llama 3 behind /api/chat. What it knows is built here,
-     from the page: every line in the stack, the skills under each layer,
-     and the short version's rows, between the two halves of
-     HIRE_ME_PROMPT (sys-prompt.js). It is rebuilt on every question, which
-     costs nothing and means an edit to the page needs no second edit.
+     The assistant is Llama 3 behind /api/chat, which is server/chat.py and
+     not Ollama itself. The page sends only the conversation. What the model
+     knows is built on the server, from server/prompt.txt and this page's
+     own lines in index.html, so an edit to the page needs no second edit.
+     The model, its settings and the limits are the server's to choose; a
+     refusal comes back with a sentence to show (say), which is shown.
 
      The answer is streamed. Ollama sends one JSON object a line; the last
      one has done:true and the timings, which become the receipt under the
@@ -348,7 +349,6 @@
      ═══════════════════════════════════════════════ */
 
   const CHAT = '/api/chat';
-  const MODEL = 'llama3';
   const MODEL_NAME = 'Llama 3 on an RTX 2070 Super';
   const KEEP_TURNS = 6;              /* messages of the conversation sent back each time */
   const GIVE_UP_MS = 90000;
@@ -365,40 +365,6 @@
   let talk = [];
   let busy = false;
   let ctrl = null;
-
-  function pageNotes() {
-    const notes = [];
-
-    layers.forEach((sec) => {
-      notes.push('', `LAYER: ${tidy($('h2', sec).textContent)} (${tidy($('.layer-cap', sec).textContent)})`);
-      $$('.ev', sec).forEach((line) => {
-        notes.push(`- ${tidy($('summary b', line).textContent)}: ${tidy($('p', line).textContent)}`);
-      });
-      const kit = $('.layer-kit', sec);
-      if (kit) {
-        const copy = kit.cloneNode(true);
-        $$('span', copy).forEach((s) => s.remove());
-        notes.push(`Skills on this layer: ${tidy(copy.textContent)}`);
-      }
-    });
-
-    notes.push('', 'JOBS, EDUCATION AND PROJECTS, AS A LIST');
-    $$('.rec li').forEach((li) => {
-      const parts = [...li.children].map((c) => {
-        const copy = c.cloneNode(true);
-        $$('a', copy).forEach((a) => a.remove());
-        return tidy(copy.textContent).replace(/(\s*·)+\s*$/, '');
-      }).filter(Boolean);
-      notes.push(`- ${parts.join(' | ')}`);
-    });
-
-    return notes.join('\n');
-  }
-
-  const system = () => {
-    const p = window.HIRE_ME_PROMPT || { head: '', tail: '' };
-    return `${p.head}\n${pageNotes()}\n${p.tail}`;
-  };
 
   /* ── what an answer is about ── */
 
@@ -509,13 +475,14 @@
     const a = el('p', 'probe-a is-live');
     out.append(q, a);
 
-    const messages = [{ role: 'system', content: system() }].concat(talk, [{ role: 'user', content: question }]);
+    const messages = talk.concat([{ role: 'user', content: question }]);
 
     let text = '';
     let last = null;
     let firstAt = 0;
     let stopped = false;
     let failed = false;
+    let refusal = '';
     const began = performance.now();
 
     ctrl = new AbortController();
@@ -531,8 +498,7 @@
       if (piece) {
         if (!firstAt) { firstAt = performance.now(); receipt.textContent = ''; }
         text += piece;
-        a.textContent = text;
-        out.scrollTop = out.scrollHeight;
+        a.textContent = text;   /* the box stays on the first words; the reader scrolls */
       }
       if (obj.done) last = obj;
     };
@@ -549,17 +515,14 @@
       const res = await fetch(CHAT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL,
-          stream: true,
-          messages,
-          /* The notes are longer than the model's default window, and a
-             prompt that does not fit is cut without a word. */
-          options: { num_ctx: 8192, temperature: 0.3 }
-        }),
+        body: JSON.stringify({ messages }),
         signal: ctrl.signal
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        const err = new Error(`HTTP ${res.status}`);
+        try { err.say = (await res.json()).say; } catch (e) { /* Apache's own error page */ }
+        throw err;
+      }
 
       if (res.body && res.body.getReader) {
         const reader = res.body.getReader();
@@ -581,7 +544,7 @@
       }
     } catch (err) {
       if (err && err.name === 'AbortError') stopped = true;
-      else failed = true;
+      else { failed = true; refusal = (err && typeof err.say === 'string') ? err.say : ''; }
     } finally {
       clearTimeout(giveUp);
       clearTimeout(slow);
@@ -597,6 +560,14 @@
       a.remove();
       if (stopped && performance.now() - began < GIVE_UP_MS - 500) {
         receipt.textContent = 'Stopped.';
+      } else if (refusal) {
+        /* The server's sentence, with the email made a link like unreachable()'s. */
+        const mail = 'keypanzarella@gmail.com';
+        const [before, after] = refusal.split(mail);
+        const note = el('p', 'probe-note', before);
+        if (after !== undefined) note.append(Object.assign(el('a', null, mail), { href: `mailto:${mail}` }), after);
+        out.append(note);
+        receipt.textContent = '';
       } else {
         out.append(unreachable());
         receipt.textContent = '';
@@ -627,10 +598,10 @@
     }
     if (stopped) bits.push('stopped');
     else if (failed) bits.push('cut off');
+    else if (last && last.done_reason === 'length') bits.push('cut short');
     receipt.textContent = bits.join(' · ');
 
     lock(false);
-    out.scrollTop = 0;          /* it followed the last word while streaming; now show it from the first */
     track('hire_me_ask', { lens });
   }
 

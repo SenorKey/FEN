@@ -24,8 +24,16 @@ neither of them. So, beyond serving the repo:
        "broken"  answers 500
        "cut"     stops halfway and closes the connection
 
-   On each question it prints how long the page's system prompt was, which
-   is the number to watch against the model's context window.
+   The page no longer sends a system prompt (server/chat.py builds it), so
+   this stand-in never sees one.
+
+   To try the real thing instead, run server/chat.py locally and start this
+   with HIRE_ME_CHAT set to it; /api/chat is then forwarded there, streamed,
+   the way Apache forwards it in production:
+
+       ALLOWED_ORIGIN=http://localhost:8766 PYTHONDONTWRITEBYTECODE=1 \
+       OLLAMA_URL=http://127.0.0.1:11434 python3 hire-me/server/chat.py 8792
+       HIRE_ME_CHAT=http://127.0.0.1:8792 python3 hire-me/.claude/serve.py
 
 3. /api/suggest/* is forwarded to the suggestion service, the way Apache
    forwards it in production, so the three questions at the foot of the page
@@ -49,6 +57,7 @@ Run from the repo root:  python3 hire-me/.claude/serve.py
 import functools
 import http.server
 import json
+import os
 import pathlib
 import time
 import urllib.error
@@ -56,6 +65,7 @@ import urllib.request
 
 PORT = 8766
 SUGGEST_UPSTREAM = 'http://127.0.0.1:8793'
+CHAT_UPSTREAM = os.environ.get('HIRE_ME_CHAT', '').rstrip('/')
 ROOT = str(pathlib.Path(__file__).resolve().parents[2])
 
 REPLIES = [
@@ -110,7 +120,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == '/api/chat':
-            return self.chat()
+            return self.forward_chat() if CHAT_UPSTREAM else self.chat()
         if self.path.startswith('/api/suggest'):
             return self.forward()
         if self.path == '/api/event':
@@ -182,6 +192,43 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             })
         except (BrokenPipeError, ConnectionResetError):
             print('[chat] the page hung up (Stop pressed)', flush=True)
+
+    # -- the real chat front, as Apache would reach it -----------------------
+
+    def forward_chat(self):
+        req = urllib.request.Request(
+            CHAT_UPSTREAM + '/chat', data=self._body(), method='POST',
+            headers={
+                'Content-Type': 'application/json',
+                'Origin': self.headers.get('Origin', ''),
+                'X-Forwarded-For': self.client_address[0],
+            },
+        )
+        try:
+            r = urllib.request.urlopen(req, timeout=150)
+        except urllib.error.HTTPError as e:
+            out = e.read()
+            self.send_response(e.code)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(out)))
+            self.end_headers()
+            self.wfile.write(out)
+            return
+        except OSError:
+            return self._json(502, {'error': 'chat.py is not running locally'})
+        with r:
+            self.send_response(r.status)
+            self.send_header('Content-Type', r.headers.get('Content-Type', 'application/x-ndjson'))
+            self.end_headers()
+            try:
+                while True:
+                    chunk = r.read1(65536)
+                    if not chunk:
+                        break
+                    self.wfile.write(chunk)
+                    self.wfile.flush()
+            except (BrokenPipeError, ConnectionResetError):
+                print('[chat] the page hung up (Stop pressed)', flush=True)
 
     # -- the suggestion service, as Apache would reach it --------------------
 

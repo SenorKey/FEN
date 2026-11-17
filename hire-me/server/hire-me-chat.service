@@ -1,0 +1,34 @@
+# /etc/systemd/system/hire-me-chat.service
+[Unit]
+Description=Hire Me assistant - the only way in to Ollama from the web
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=simple
+# A throwaway user made by systemd at start. The service keeps nothing on
+# disk: it reads the repo and its optional config, and holds its limits in
+# memory.
+DynamicUser=yes
+# Read by systemd as root, so the file can be root-only (chmod 600). The
+# leading - means the service starts without it; every setting has a default.
+EnvironmentFile=-/etc/hire-me-chat/config.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+# Newer gunicorn keeps a control socket in $HOME; this user has no home it
+# can write, so point it at the service's own private /tmp.
+Environment=HOME=/tmp
+# One worker: the limits and the one-at-a-time queue live in memory.
+# Threads: one writing, a few waiting, the rest answering "busy" at once.
+# --timeout covers the longest answer (ANSWER_WALL_SEC is 150).
+ExecStart=/usr/bin/gunicorn --workers 1 --threads 8 --timeout 180 --bind 127.0.0.1:8792 --chdir /var/www/frontendneeded.com/hire-me/server chat:app
+Restart=on-failure
+RestartSec=5
+
+# Hardening: read-only everywhere, no home, no new privileges.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
