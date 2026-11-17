@@ -168,7 +168,7 @@ a { color: inherit; }
 .site-nav a {
   min-width: 24px;             /* with the padding, nothing in the bar is smaller than a fingertip */
   padding-block: 5px;
-  text-align: center;
+  text-align: left;
   color: rgba(29, 27, 23, 0.74);
   font-size: 0.78rem;
   font-weight: 500;
