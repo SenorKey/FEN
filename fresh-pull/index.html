@@ -5,15 +5,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="/fresh-pull/fresh-pull.css">
+  <link rel="stylesheet" href="/fresh-pull/fresh-pull.css?v=20261117a">
 
-  <meta name="description" content="Fresh Pull — one-click browsing data cleaner for Chrome.">
+  <meta name="description"
+    content="Fresh Pull clears your browsing data in one click. A free Chrome extension with two permissions, no servers and no tracking.">
   <link rel="canonical" href="https://frontendneeded.com/fresh-pull/">
+  <meta name="theme-color" content="#0b2a10">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://frontendneeded.com/fresh-pull/">
   <meta property="og:title" content="Fresh Pull">
-  <meta property="og:description" content="One-click browsing data cleaner for Chrome.">
+  <meta property="og:description" content="Clear your browsing data in one click. A free Chrome extension.">
   <meta property="og:image" content="https://frontendneeded.com/images/og-home.webp">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -29,6 +31,7 @@
     gtag('js', new Date());
     gtag('config', 'G-TVD9746XT1');
   </script>
+  <script src="/fresh-pull/fresh-pull.js?v=20261117b" defer></script>
 </head>
 
 <body>
@@ -39,81 +42,84 @@
       <span class="nav-dropdown-toggle" tabindex="0">Projects ›</span>
       <div class="nav-dropdown-menu">
         <a href="/case-chronicle">Case Chronicle</a>
+        <a href="/fresh-pull">Fresh Pull</a>
         <a href="/match-analysis-ad">Match Analysis</a>
         <a href="/preside-by-side-ad">Preside by Side</a>
         <a href="/tarella-notes">Tarella Notes</a>
         <a href="/wfpc">WF Price Checker</a>
       </div>
     </div>
-    <a class="nav-mark" href="/fresh-pull" title="Fresh Pull home" aria-label="Fresh Pull home">FP</a>
+    <a class="nav-mark nav-mark-drawn" href="/fresh-pull" title="Fresh Pull home" aria-label="Fresh Pull home"><img src="/fresh-pull/mark.png" alt="" width="24" height="24"></a>
     <a href="/hire-me">Hire Me</a>
   </nav>
 
-  <main id="main-content" class="gr-shell">
+  <main id="main-content" class="fp">
+    <div class="fp-hero">
 
-    <div class="gr-top">
-      <div class="accent-bar"></div>
-      <h1 class="page-title">Fresh Pull</h1>
-      <p class="page-subtitle">One-click browsing data cleaner for Chrome.</p>
+      <div class="fp-copy">
+        <p class="fp-kicker">Chrome extension <i>·</i> Free</p>
 
-      <div class="fp-logo-wrap">
-        <img src="/assets/images/fp-logo.webp" alt="Fresh Pull logo">
-      </div>
-    </div>
-
-    <div class="gr-bottom">
-      <div class="gr-left">
-
-        <h2 class="sub">No menus. No dialogs. Just clean.</h2>
-        <p class="body-text">Fresh Pull sits in your toolbar and clears your browsing data instantly. No menus, no
-          confirmation dialogs, no digging through Chrome settings. Click the icon, and it's done.</p>
-
-        <p class="body-text">Define your defaults once, and every click after that just works. Choose how far back to
-          clear (15 minutes to all time), pick exactly which data types you want wiped, and Fresh Pull remembers your
-          setup across sessions. A badge flashes a check mark on success and reloads your active tab so you're always
-          starting fresh.</p>
-
-        <h2 class="sub">How it works</h2>
-        <p class="body-text">Setup is a single options page: pick a time range, check the data types you want cleared,
-          and hit Save. That's it. From then on, clicking the pinned toolbar icon runs the clear immediately using those
-          saved defaults. No popups, no extra clicks.</p>
-
-        <p class="body-text">The time range buttons cover the most common needs: 15 minutes for a quick session wipe,
-          1 or 24 hours for a broader sweep, 7 or 30 days for a deeper clean, or all time if you want a full reset.
-          Data types are grouped with plain-language labels and short descriptions so you know exactly what you're
-          clearing before you commit. Each item has an expandable info panel explaining what gets deleted and, just as
-          importantly, what doesn't.</p>
-
-        <p class="body-text">A cookie warning appears automatically if you enable that option, since clearing cookies
-          logs you out of nearly every site. Clearing the download list only removes the entries from Chrome's downloads
-          page — the actual files on your disk are never touched.</p>
-
-        <p class="body-text">When you click the toolbar icon, Fresh Pull shows a brief ellipsis badge while the clear
-          runs, then switches to a check mark on success or an X if something went wrong. The badge clears itself after
-          two seconds and your active tab reloads clean.</p>
-
-        <h2 class="sub">Built with</h2>
-        <p class="body-text">The Chrome Extensions API — <code>browsingData</code>, <code>storage</code>,
-          <code>tabs</code>, and <code>alarms</code> — handles all data clearing and persistence. A hybrid
-          badge-clear strategy uses both <code>setTimeout</code> and <code>chrome.alarms</code> to handle service
-          worker sleep cycles gracefully. Settings are synced via <code>chrome.storage.sync</code> so your preferences
-          follow you across Chrome profiles.</p>
-
-        <div class="tag-list">
-          <span class="tag">chrome.browsingData</span>
-          <span class="tag">chrome.storage.sync</span>
-          <span class="tag">chrome.alarms</span>
-          <span class="tag">chrome.tabs</span>
-          <span class="tag">No servers</span>
-          <span class="tag">No tracking</span>
+        <div class="fp-title">
+          <img src="/assets/images/fp-logo.webp" alt="" width="92" height="92">
+          <h1>Fresh <span>Pull</span></h1>
         </div>
 
-      </div>
-      <div class="gr-right">
-        <p class="page-subtitle" style="text-align: center;"><i>Content coming soon!</i></p>
-      </div>
-    </div>
+        <p class="fp-lede">Clear your browsing data in one click. Pick what goes once, then click the icon any time
+          you want a fresh start.</p>
 
+        <ol class="fp-steps">
+          <li><b>Pick how far back.</b> Anywhere from the last 15 minutes to all time.</li>
+          <li><b>Pick what to clear.</b> Eight kinds of data, each with a note on what it removes and what it leaves
+            alone.</li>
+          <li><b>Click the icon.</b> It clears, shows a check mark, and reloads your tab.</li>
+        </ol>
+
+        <div class="fp-get">
+          <a class="fp-button" href="/fresh-pull/fresh-pull-2.1.0.zip" download data-track="fresh pull: download">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Download for Chrome
+          </a>
+          <p class="fp-version">Version 2.1 <i>·</i> 49 KB zip <i>·</i> Desktop Chrome 120 or newer</p>
+        </div>
+
+        <p class="fp-install">To install, unzip it, open <code>chrome://extensions</code>, turn on Developer mode,
+          then choose Load unpacked and pick the <code>fresh-pull</code> folder.</p>
+
+        <p class="fp-trust">It asks for two permissions, one to clear and one to remember your picks. No servers, no
+          tracking, and nothing loaded from the web.</p>
+      </div>
+
+      <!-- The one thing it does, small enough to try: a browser with some
+           data saved in it, and the toolbar icon to clear it. The numbers
+           are made up. -->
+      <figure class="fp-demo" aria-labelledby="fp-demo-cap">
+        <div class="fp-window">
+          <div class="fp-bar">
+            <span class="fp-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="fp-address">example.com</span>
+            <button class="fp-icon" type="button" aria-describedby="fp-demo-cap">
+              <img src="/fresh-pull/mark.png" alt="Fresh Pull" width="22" height="22">
+              <span class="fp-badge" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="fp-view">
+            <p class="fp-view-title">Saved in this browser</p>
+            <ul class="fp-stash">
+              <li><span>History</span><b><span class="n" data-n="214">214</span> pages</b></li>
+              <li><span>Cookies</span><b><span class="n" data-n="61">61</span> sites</b></li>
+              <li><span>Cache</span><b><span class="n" data-n="38">38</span> MB</b></li>
+              <li><span>Downloads list</span><b><span class="n" data-n="9">9</span> files</b></li>
+            </ul>
+            <p class="fp-status" role="status"></p>
+          </div>
+        </div>
+        <figcaption id="fp-demo-cap">Try it. Click the icon in the corner.</figcaption>
+      </figure>
+
+    </div>
   </main>
 
 </body>

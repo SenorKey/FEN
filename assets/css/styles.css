@@ -369,8 +369,9 @@ p.body-text+h3.sub {
 
 /* A project with a drawn mark has the drawing and no pill: an img in a
    nav-mark-drawn link, which carries its name in aria-label. Match
-   Analysis has one, its ball, and Preside by Side its flag, which is
-   26 tall so each of its thirteen stripes is two whole pixels. */
+   Analysis has one, its ball, Preside by Side its flag, which is
+   26 tall so each of its thirteen stripes is two whole pixels, and
+   Fresh Pull its toolbar icon. */
 .site-nav .nav-mark-drawn {
   height: 24px;
   padding: 0;
@@ -395,7 +396,6 @@ p.body-text+h3.sub {
    Trading has none: its page is built on its own branch. */
 .nav-mark[href="/tarella-notes"]      { --mark-ink: #c0687a; --mark-font: 'Playfair Display', Georgia, serif; }
 .nav-mark[href="/wfpc"]               { --mark-ink: #e2b12a; --mark-font: 'JetBrains Mono', ui-monospace, monospace; }
-.nav-mark[href="/fresh-pull"]         { --mark-ink: #4ecb66; }
 .nav-mark[href="/diet"]               { --mark-ink: #c27a4f; }
 .nav-mark[href="/trtbench"]           { --mark-ink: #76b900; --mark-font: 'JetBrains Mono', ui-monospace, monospace; }
 .nav-mark[href="/hire-me/"]           { --mark-ink: #ffffff; }
