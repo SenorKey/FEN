@@ -23,7 +23,7 @@
          The one face is preloaded because the name is set in it. -->
     <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-var.woff2" as="font" type="font/woff2"
         crossorigin>
-    <link rel="stylesheet" href="/hire-me/hire-me.css?v=20261116c">
+    <link rel="stylesheet" href="/hire-me/hire-me.css?v=20261118a">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- The table's dots arrive one row at a time, but only for someone who is
@@ -150,13 +150,15 @@
 
                 <!-- The cross-section. A real table: a column for each job and
                      project, a row for each layer, people at the top and copper at
-                     the bottom. Every filled cell links to the line further down
+                     the bottom. On a phone the stylesheet stands it on its side,
+                     so the layers run left to right and the names read upright,
+                     which is why the caption names no direction. Every filled
+                     cell links to the line further down
                      the page that backs it, and the script checks the two against
                      each other, so a dot cannot outlive its sentence. -->
                 <div class="matrix-wrap" id="matrix" tabindex="0" role="region" aria-labelledby="matrix-cap">
                     <table class="matrix">
-                        <caption id="matrix-cap">Where each job and project sits in the stack, from people at the
-                            top to hardware at the bottom.</caption>
+                        <caption id="matrix-cap">Where each job and project sits in the stack, from people to hardware.</caption>
                         <thead>
                             <tr>
                                 <td class="corner"></td>

@@ -1440,31 +1440,104 @@ a { color: inherit; }
   .lens { justify-content: space-between; gap: 0 12px; }
   .lens label span { font-size: 0.74rem; letter-spacing: 0.06em; }
 
-  /* The table, tighter. The small print under each layer's name goes. Ten
-     columns at 24px, the least a finger should be asked to hit, plus the
-     names: 328px, so a phone that wide or wider shows it all and a
-     narrower one scrolls it sideways with the layer names held still. */
-  .matrix { min-width: 328px; }
-
-  .matrix .corner,
-  .matrix tbody th { width: 88px; }
-
-  .matrix thead th { height: 132px; }
-  .matrix thead th a { min-width: 24px; justify-content: flex-start; font-size: 0.78rem; padding: 6px 2px; gap: 6px; }
-  .matrix thead th small { font-size: 0.66rem; }
-
-  .matrix tbody th {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    padding: 0 4px 0 12px;
+  /* The table, turned on its side, because a phone has height to spare
+     and no width. A table in vertical writing mode lays its rows out left
+     to right and its cells top to bottom, so each layer stands up as a
+     band and each job or project is a row with its name upright. Nothing
+     in the HTML or the script changes: it is the same table, still read
+     layer by layer, and the rules after this one only put the text back
+     the right way up. Eight bands and the names fit 320px. */
+  .matrix {
+    writing-mode: vertical-lr;
+    table-layout: auto;
+    min-width: 0;
   }
 
-  .matrix tbody th b { font-size: 0.64rem; letter-spacing: 0.06em; }
+  /* Widths, given row by row. Safari leaves a sideways table at its
+     narrowest whatever width the table itself is given (Chrome stretches
+     it), so each row says how wide it is instead: the names the page's
+     margin plus their longest ("CentralReach 2022", 132px with its
+     padding) and a few pixels to spare for the font, and each layer an
+     equal eighth of what the container has left. A longer name one day
+     would widen its column and the table would scroll sideways inside its
+     box, not break the page. */
+  .matrix-wrap {
+    container-type: inline-size;
+    --names: calc(var(--gut) + 8.5rem);
+  }
+
+  .matrix .corner,
+  .matrix thead th { width: var(--names); }
+
+  .matrix tbody th { width: calc((100cqw - var(--names)) / 8); }
+
+  /* ── a name, upright, down the left ──
+     In a vertical table "top" is the start of the block axis, which is
+     the left edge, so that is what ranges the names left. */
+  .matrix thead th {
+    height: auto;
+    padding: 0 6px 0 var(--gut);
+    vertical-align: top;
+  }
+
+  .matrix thead th a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 4px;
+    writing-mode: horizontal-tb;
+    rotate: none;
+    font-size: 0.82rem;
+  }
+
+  .matrix thead th small { font-size: 0.66rem; }
+
+  /* Jobs above, projects below, a rule between. */
+  .matrix .is-first-project {
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  }
+
+  /* ── a layer's name, set on its side along the top ──
+     line-height 0 because the spine sits on a line of the cell's own
+     text, and at the page's 1.55 that line is 25px wide, which would hold
+     every band at least that wide. The small print goes. */
+  .matrix tbody th {
+    padding: 12px 0 10px;
+    vertical-align: middle;
+    text-align: end;
+    line-height: 0;
+  }
+
+  .matrix tbody th a {
+    display: inline-block;
+    padding: 0;
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
+
+  .matrix tbody th b { font-size: 0.66rem; letter-spacing: 0.08em; white-space: nowrap; }
   .matrix tbody th small { display: none; }
 
-  .matrix td a { height: 40px; }
+  /* ── a cell ── the dot's link fills the whole square, and the speck in
+     an empty one is centred the same way, since neither a block nor auto
+     margins centre across a vertical cell. */
+  .matrix td { position: relative; height: 40px; }
+  .matrix td a { position: absolute; inset: 0; height: auto; }
   .matrix td a::before { width: 12px; height: 12px; margin: -6px 0 0 -6px; }
+
+  .matrix tbody td:empty::after {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -2px 0 0 -2px;
+  }
+
+  /* A layer the assistant drew on gets its rules down both sides now,
+     and the heavier mark across the top of its name. */
+  .matrix tr.is-lit > * { box-shadow: inset 3px 0 0 var(--halo), inset -3px 0 0 var(--halo); }
+  .matrix tr.is-lit > th { box-shadow: inset 0 6px 0 var(--halo), inset 3px 0 0 var(--halo), inset -3px 0 0 var(--halo); }
 
   .layer-grid,
   .record-grid { grid-template-columns: minmax(0, 1fr); }
@@ -1488,6 +1561,24 @@ a { color: inherit; }
   }
 
   .site-nav .nav-mark + a[href="/hire-me"] { margin-left: 0; }
+}
+
+/* The narrowest phones: the year goes under the name and the names come
+   down a size, so their column is as wide as "Preside by Side" rather
+   than "CentralReach 2022", and the bands keep the difference: 24px each
+   at 320, the least a finger should be asked to hit. */
+@media (width <= 360px) {
+  .matrix-wrap { --names: calc(var(--gut) + 7rem); }
+
+  .matrix thead th a {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1px;
+    font-size: 0.78rem;
+  }
+
+  .matrix thead th small { font-size: 0.62rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
