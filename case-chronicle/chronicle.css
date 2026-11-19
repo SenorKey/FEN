@@ -5284,6 +5284,25 @@ span.cr-cite { margin: 0; white-space: normal; }
   color: var(--ink-2);
 }
 
+/* A drawer that counts things out, as the Doe complaint's four claims
+   do. The reset takes away a list's indent, which is where its numbers
+   hang, so it is put back here. Each item opens on a name in bold. */
+.tl-x-list {
+  margin-top: 9px;
+  padding-left: 1.45em;
+  font-size: 0.93rem;
+  line-height: 1.62;
+  text-wrap: pretty;
+  color: var(--ink-2);
+}
+
+.tl-x-list li + li { margin-top: 6px; }
+.tl-x-list li::marker { color: var(--muted); }
+.tl-x-list b { font-weight: 600; color: var(--ink); }
+
+/* The paragraph after a list carries on from it, so it draws no rule. */
+.tl-x-list + .tl-x-t { margin-top: 10px; padding-top: 0; border-top: 0; }
+
 .tl-cite {
   margin-top: 13px;
   font-family: var(--mono);
