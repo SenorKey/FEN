@@ -44,8 +44,8 @@ VIEWS = [
     ('', 'Case page'),
     ('flow/', 'TLDR View'),
     ('chronology/', 'Chronological View'),
-    ('courtroom/', 'Courtroom View'),
     ('argument/', 'Argument View'),
+    ('courtroom/', 'Courtroom View'),
 ]
 
 # ── Shared with search.js: keep the two in step ──
