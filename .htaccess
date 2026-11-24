@@ -3,6 +3,12 @@ RewriteRule ^tarella-notes-privacy-policy/?$ https://www.frontendneeded.com/tare
 
 RewriteRule ^gallimaufry(/|$) - [R=404,L]
 
+# Case Chronicle: the Side by Side View became the Argument View on
+# 2026-11-24 and moved from side-by-side/ to argument/. Keep this, so
+# old links, bookmarks and search results still arrive. A path on the
+# same host, so it stays on whichever host was asked.
+RewriteRule ^case-chronicle/([a-z0-9-]+)/side-by-side(/.*)?$ /case-chronicle/$1/argument/ [R=301,L]
+
 ErrorDocument 404 /404.html
 
 <Files "READMESITE.html">

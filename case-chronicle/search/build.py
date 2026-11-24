@@ -14,8 +14,8 @@ page does not use these files at all: search.js reads the page it is
 on. The Restricted Section is left out on purpose, so the hub's search
 cannot give its door away.
 
-A passage is one card: a chronology entry, a flow card, a side-by-side
-question, a person in the courtroom, a glossary term, and so on. Text
+A passage is one card: a chronology entry, a flow card, a question in
+the Argument View, a person in the courtroom, a glossary term, and so on. Text
 that is in no card belongs to the nearest thing above it with an id.
 Each passage keeps a key that search.js can find again on the page:
 the card's id, or for a card with none, its class and its place among
@@ -45,7 +45,7 @@ VIEWS = [
     ('flow/', 'TLDR View'),
     ('chronology/', 'Chronological View'),
     ('courtroom/', 'Courtroom View'),
-    ('side-by-side/', 'Side by Side View'),
+    ('argument/', 'Argument View'),
 ]
 
 # ── Shared with search.js: keep the two in step ──

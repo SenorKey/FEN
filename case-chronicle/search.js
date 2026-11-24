@@ -13,8 +13,8 @@
    itself, so it downloads nothing. The Restricted Section has no box
    and is in no file: its door is not to be given away.
 
-   A result is a card: a chronology entry, a flow card, a question on
-   the side-by-side, a person in the courtroom, a glossary term. Choosing
+   A result is a card: a chronology entry, a flow card, a question in
+   the Argument View, a person in the courtroom, a glossary term. Choosing
    one goes to its page if it is not this one, opens whatever the card
    is shut inside (its drawer, its More, the glossary panel, the moment
    in the courtroom when that person is in the room), scrolls it into
