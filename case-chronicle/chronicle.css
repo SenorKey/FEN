@@ -3652,6 +3652,21 @@ span.cr-cite { margin: 0; white-space: normal; }
 .band-ledger { padding-bottom: 116px; }
 .band-notes { background: var(--bg-deep); }
 
+/* A view's first band starts close under its tabs. The tabs already
+   say which view this is, so there is no heading to give room to, and
+   every view starts the same distance down: the band's own padding, with
+   the margin the chronology's key and the argument's key carry dropped
+   where they open the band. Two classes, so the narrow-window padding at
+   the foot of this file does not win over it. */
+.masthead-view + .band { padding-top: 56px; }
+
+.masthead-view + .band .vh + .tl-key,
+.masthead-view + .band .vh + .ledger-head { margin-top: 0; }
+
+@media (width <= 900px) {
+  .masthead-view + .band { padding-top: 40px; }
+}
+
 /* ── Cards on a band ──
    Two sections lay cards of a lighter stock on a band: the case flow
    and the chronology. This is the stock, and the inks mixed for it.
@@ -3706,6 +3721,19 @@ span.cr-cite { margin: 0; white-space: normal; }
   text-transform: uppercase;
   color: var(--court);
   margin-bottom: 20px;
+}
+
+/* Said to a screen reader and not shown. The TLDR, chronology and
+   argument sections each have one heading, and it only repeated the
+   tab lit just above it, so it is kept for anyone moving through the
+   page by its headings and taken off the screen for everyone else. */
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .section-title {
@@ -5905,8 +5933,209 @@ span.cr-cite { margin: 0; white-space: normal; }
   }
 }
 
+/* ── a bookmark ──
+   A reader can keep one entry: a press on its mark keeps it, a press on
+   the same mark lets it go. The marks are drawn here and cannot be
+   pressed, so the script lays a button over each one, marks the kept
+   entry is-kept, and makes the button at the foot of the window that
+   goes back to it. Everything in this block is the script's, so none of
+   it shows without it.
+
+   The bookmark is in the page's own black, which is no side's ink and
+   not the court's, so it reads as the reader's mark and not the case's,
+   and it is the one dark thing among the page's controls. */
+
+/* Each button is centred on its mark. The marks' places are set with
+   the rail, the columns and the narrow rules; these follow them, and
+   move when they do. 30px across, a little more on a phone, so a mark
+   is easy to hit without the button reaching the cards. */
+.tl-pin {
+  position: absolute;
+  left: 50%;
+  top: calc(30px + 15px / 2);
+  z-index: 4;
+  width: 30px;
+  height: 30px;
+  translate: -50% -50%;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The first entry's button is in its card (the script says why), and
+   on a wide screen its mark rides the card's top edge, in the middle. */
+.tl-c > .tl-pin { top: -1px; }
+
+@media (width > 900px) {
+  .tl-court > .tl-pin { top: calc(12px + 1.5px); }
+  .tl-n > .tl-pin { top: 12px; }
+}
+
+@media (width <= 900px) {
+  .tl-pin { left: 8px; top: calc(27px + 13px / 2); width: 36px; height: 36px; }
+  .tl-court > .tl-pin { top: calc(28px + 13px / 2); }
+  .tl-court.is-key > .tl-pin { top: calc(28px + 17px / 2); }
+  .tl-n > .tl-pin { top: calc(28px + 11px / 2); }
+  .tl-c > .tl-pin { left: calc(-30.5px + 11px / 2); top: calc(18px + 11px / 2); }
+}
+
+/* The marks let a press through to the buttons under them. */
+.tl.js-pins .tl-ev::before,
+.tl.js-pins .tl-first > .tl-c::before { pointer-events: none; }
+
+.tl-pin:focus-visible { outline: 2px solid var(--ink); outline-offset: 0; }
+
+/* The kept mark wears a ring of black outside its collar and stands a
+   little larger; its card is outlined in the same black. Two classes
+   deep and after the rules for a card under the pointer, so it holds
+   while one is. */
+.tl .tl-ev.is-kept::before,
+.tl .tl-first.is-kept > .tl-c::before {
+  scale: 1.3;
+  box-shadow: 0 0 0 3px var(--bg-band), 0 0 0 5.5px var(--ink);
+}
+
+.tl .tl-ev.is-kept > .tl-c {
+  outline: 2px solid var(--ink);
+  outline-offset: 5px;
+}
+
+/* A mark under the pointer swells, to say it can be pressed. */
+@media (hover: hover) {
+  .tl .tl-ev:has(.tl-pin:hover)::before,
+  .tl .tl-first > .tl-c:has(> .tl-pin:hover)::before { scale: 1.45; }
+}
+
+/* The way back: the bottom of the window, in the middle, over the rail,
+   between Terms on the left and Back to top on the right. */
+.tl-bm {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 10px 14px 10px 13px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  box-shadow: 0 6px 22px rgba(23, 20, 15, 0.32);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: #fbf7ef;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  translate: -50% 8px;
+  transition: opacity 0.25s, translate 0.25s, visibility 0s 0.25s, background-color 0.2s;
+}
+
+.tl-bm.is-on {
+  opacity: 1;
+  visibility: visible;
+  translate: -50% 0;
+  transition: opacity 0.25s, translate 0.25s, visibility 0s, background-color 0.2s;
+}
+
+.tl-bm:hover,
+.tl-bm:focus-visible { background: color-mix(in oklab, var(--ink) 80%, var(--court)); }
+.tl-bm:focus-visible { outline: 2px solid var(--court); outline-offset: 3px; }
+
+.tl-bm-i { flex: none; width: 9px; height: 13px; fill: currentColor; }
+
+.tl-bm-d {
+  padding-left: 9px;
+  border-left: 1px solid rgba(251, 247, 239, 0.28);
+  color: rgba(251, 247, 239, 0.68);
+}
+
+.tl-bm-d:empty { display: none; }
+
+/* Kept the width of one arrow when there is none, so the button does
+   not shift sideways as the bookmark comes on screen and goes. */
+.tl-bm-a { display: inline-block; width: 1ch; text-align: center; }
+
+/* On a phone the corners' buttons leave no room between them, so it
+   stands on top of them. */
+@media (width <= 900px) {
+  .tl-bm { bottom: 78px; }
+}
+
+/* "Bookmarked!", over the mark and then gone. The script places it, and
+   moves the tip when the bubble has had to keep inside the window. */
+.tl-bm-pop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 7;
+  padding: 6px 11px 7px;
+  background: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fbf7ef;
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% calc(-100% - 16px);
+}
+
+.tl-bm-pop::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% + var(--tip, 0px));
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.tl-bm-pop.is-on { animation: tl-bm-pop 1.8s ease both; }
+
+@keyframes tl-bm-pop {
+  0% { opacity: 0; }
+  10%, 72% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* With movement allowed: the bubble rises out of the mark and drifts
+   off, the outline closes in on the card it has just been put round,
+   and it pulses once when the reader is brought back to it. */
+@media (prefers-reduced-motion: no-preference) {
+  .tl-bm-pop.is-on { animation: tl-bm-pop 1.8s ease both, tl-bm-rise 1.8s ease both; }
+  .tl .tl-ev.is-kept > .tl-c { animation: tl-kept 0.4s ease-out; }
+  .tl .tl-ev.is-found > .tl-c { animation: tl-found 1s ease-in-out; }
+}
+
+@keyframes tl-bm-rise {
+  0% { transform: translateY(8px) scale(0.9); }
+  12%, 72% { transform: none; }
+  100% { transform: translateY(-10px); }
+}
+
+@keyframes tl-kept {
+  from { outline-offset: 18px; outline-color: transparent; }
+}
+
+@keyframes tl-found {
+  0%, 50%, 100% { outline-offset: 5px; }
+  25%, 75% { outline-offset: 13px; }
+}
+
 /* On paper every card is open and nothing is a control, as in the flow. */
 @media print {
+  .tl-pin,
+  .tl-bm,
+  .tl-bm-pop { display: none; }
+  .tl .tl-ev.is-kept > .tl-c { outline: none; }
   .tl-key { position: static; }
   .tl::after { display: none; }
   .tl-c, .tl-mark-in, .tl-end-in { box-shadow: none; }

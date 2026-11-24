@@ -469,6 +469,227 @@
   read();
 })();
 
+/* ── chronology: a bookmark ──
+   A reader can leave one bookmark on the rail. A press on an entry's
+   mark keeps that entry, a press on the same mark lets it go, and a
+   press on another mark moves the bookmark there. While one is kept, a
+   button at the foot of the window goes back to it from anywhere on the
+   page, its arrow saying which way that is.
+
+   The marks are drawn by the stylesheet and cannot be pressed, so each
+   gets a real button laid over it, with no text of its own and a label
+   for anyone who cannot see it. All of it is made here, so a reader with
+   no JavaScript has no dead controls.
+
+   The bookmark is remembered in this browser, one per page, so it is
+   still there when the reader comes back. Storage can be refused (a
+   private window, blocked site data), and then it lasts as long as the
+   page does.
+
+   Case chronologies only: the Restricted Section's volumes share the
+   rail but are not given this. */
+
+(() => {
+  const tl = document.querySelector('.band-time .tl');
+  if (!tl || document.body.classList.contains('vol')) return;
+
+  const entries = [...tl.querySelectorAll('.tl-ev[id]:not(.tl-stub)')];
+  if (entries.length < 2) return;
+
+  const KEY = `cc-bookmark:${location.pathname}`;
+
+  const remembered = () => {
+    try { return localStorage.getItem(KEY); } catch { return null; }
+  };
+
+  const remember = (id) => {
+    try {
+      if (id) localStorage.setItem(KEY, id);
+      else localStorage.removeItem(KEY);
+    } catch { /* kept for this visit only, which is all that is lost */ }
+  };
+
+  const tidy = (s) => s.replace(/\s+/g, ' ').trim();
+
+  /* The date on an entry's card, without the ruling's stamp that shares
+     its line. */
+  function dateOf(ev) {
+    const line = ev.querySelector('.tl-date');
+    if (!line) return '';
+    const copy = line.cloneNode(true);
+    for (const chip of copy.querySelectorAll('.chip')) chip.remove();
+    return tidy(copy.textContent);
+  }
+
+  const headOf = (ev) => tidy(ev.querySelector('.tl-h')?.textContent || '');
+
+  const nameOf = (ev) => [headOf(ev), dateOf(ev)].filter(Boolean).join(', ') || 'this entry';
+
+  let kept = null;
+  const pins = new Map();
+
+  for (const ev of entries) {
+    const pin = document.createElement('button');
+    pin.type = 'button';
+    pin.className = 'tl-pin';
+    pin.title = 'Bookmark this';
+    pin.setAttribute('aria-pressed', 'false');
+    pin.setAttribute('aria-label', `Bookmark: ${nameOf(ev)}`);
+
+    /* On a phone the first entry's mark is drawn off its own card, below
+       the two sides' cards, so that is where its button goes: the card is
+       the one place in that row the stylesheet can find the mark from at
+       every width. */
+    const home = (ev.classList.contains('tl-first') && ev.querySelector(':scope > .tl-c')) || ev;
+    home.append(pin);
+    pins.set(ev, pin);
+
+    pin.addEventListener('click', () => keep(kept === ev ? null : ev, pin));
+  }
+
+  tl.classList.add('js-pins');
+
+  /* The way back. Dark, so it is found at a glance among the page's
+     pale controls, and it names the date it goes to. */
+  const go = document.createElement('button');
+  go.type = 'button';
+  go.className = 'tl-bm';
+  go.innerHTML =
+    '<svg class="tl-bm-i" viewBox="0 0 10 14" aria-hidden="true"><path d="M0 0h10v14L5 10.4 0 14z"/></svg>' +
+    '<span class="tl-bm-l">Bookmark</span>' +
+    '<span class="tl-bm-d"></span>' +
+    '<span class="tl-bm-a" aria-hidden="true"></span>';
+  document.body.append(go);
+
+  const goDate = go.querySelector('.tl-bm-d');
+  const goWay = go.querySelector('.tl-bm-a');
+
+  /* What a press on a mark did, said beside the mark and then gone. It
+     is a status region, so a screen reader hears the same words. It is
+     placed in the page and not the window, so it stays with its mark if
+     the reader scrolls while it is up. */
+  const pop = document.createElement('div');
+  pop.className = 'tl-bm-pop';
+  pop.setAttribute('role', 'status');
+  document.body.append(pop);
+
+  function say(text, pin) {
+    pop.textContent = text;
+    pop.classList.remove('is-on');
+
+    /* Centred over the mark, unless that would put it off the side of
+       the window, which on a phone it would: the rail is at the left
+       edge there. Its tip stays pointing at the mark either way. */
+    const r = pin.getBoundingClientRect();
+    const mid = r.left + r.width / 2;
+    const half = pop.offsetWidth / 2;
+    const x = Math.min(Math.max(mid, half + 10), document.documentElement.clientWidth - half - 10);
+
+    pop.style.left = `${x + scrollX}px`;
+    pop.style.top = `${r.top + scrollY}px`;
+    pop.style.setProperty('--tip', `${mid - x}px`);
+
+    void pop.offsetWidth;
+    pop.classList.add('is-on');
+  }
+
+  function keep(ev, from) {
+    if (kept) {
+      const was = pins.get(kept);
+      kept.classList.remove('is-kept', 'is-found');
+      was.setAttribute('aria-pressed', 'false');
+      was.title = 'Bookmark this';
+    }
+
+    kept = ev;
+    remember(ev?.id);
+    go.classList.toggle('is-on', !!ev);
+
+    if (ev) {
+      const pin = pins.get(ev);
+      ev.classList.add('is-kept');
+      pin.setAttribute('aria-pressed', 'true');
+      pin.title = 'Remove the bookmark';
+      goDate.textContent = dateOf(ev);
+      go.title = headOf(ev);
+      go.setAttribute('aria-label', `Go to your bookmark: ${nameOf(ev)}`);
+      aim();
+    }
+
+    if (from) say(ev ? 'Bookmarked!' : 'Bookmark removed', from);
+  }
+
+  /* Which way the bookmark is from here: up, down, or on screen. */
+  let ticking = false;
+
+  function aim() {
+    ticking = false;
+    if (!kept) return;
+    const r = (kept.querySelector(':scope > .tl-c') || kept).getBoundingClientRect();
+    const way = r.bottom < 100 ? 'up' : r.top > innerHeight - 70 ? 'down' : '';
+    goWay.textContent = way === 'up' ? '↑' : way === 'down' ? '↓' : '';
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!kept || ticking) return;
+    ticking = true;
+    requestAnimationFrame(aim);
+  }, { passive: true });
+
+  window.addEventListener('resize', aim);
+
+  /* Going back. The entry's own scroll margin lands it clear of the nav
+     and the bar, and the page's smooth scrolling is already off for a
+     reader who has asked for less movement. Focus goes to the entry's
+     mark, so the keyboard is where the eye is.
+
+     The outline pulses once on arrival, so it waits for the page to stop
+     moving: a long way back takes a couple of seconds. Quiet is judged
+     from the scroll events themselves rather than scrollend, which not
+     every browser sends. Whether the page has anywhere to go is worked
+     out first (it may already be there, or the entry may be too near the
+     end to come up any further), and if not it pulses at once, because a
+     browser can take a moment to start a smooth scroll and a wait for
+     the first one would only be a guess. */
+  go.addEventListener('click', () => {
+    if (!kept) return;
+    const ev = kept;
+    const root = document.documentElement;
+    const margin = parseFloat(getComputedStyle(ev).scrollMarginTop) || 0;
+    const goal = Math.min(Math.max(scrollY + ev.getBoundingClientRect().top - margin, 0),
+      root.scrollHeight - root.clientHeight);
+    const still = Math.abs(goal - scrollY) < 2;
+
+    let quiet = 0;
+    const last = setTimeout(flash, 4000);
+
+    function moved() {
+      clearTimeout(quiet);
+      quiet = setTimeout(flash, 160);
+    }
+
+    function flash() {
+      clearTimeout(quiet);
+      clearTimeout(last);
+      window.removeEventListener('scroll', moved);
+      if (kept !== ev) return;
+      ev.classList.remove('is-found');
+      void ev.offsetWidth;
+      ev.classList.add('is-found');
+    }
+
+    pins.get(ev).focus({ preventScroll: true });
+    if (still) { flash(); return; }
+
+    window.addEventListener('scroll', moved, { passive: true });
+    ev.scrollIntoView({ block: 'start' });
+  });
+
+  const saved = remembered();
+  const was = saved && document.getElementById(saved);
+  if (was && pins.has(was)) keep(was);
+})();
+
 /* ── exhibit wash: the parallax ──
    The two strips of recreated exhibits are translated at a fraction of
    the scroll, so the argument moves over evidence that lags behind it.
