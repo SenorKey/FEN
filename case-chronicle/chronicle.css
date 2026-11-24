@@ -746,6 +746,106 @@ body::after {
 
 .party :focus-visible { outline-color: var(--court); }
 
+/* ── the two sides, kept in view ──
+   The small copy of each card that stays in its margin once the card
+   has scrolled up under the chronology's color key: the side's word
+   and the name. chronicle.js makes it, places it and says when it
+   shows (--pk-x from the window's edge, --pk-top under the key, --pk-w
+   from the room in the margin). Pressed, it opens to the whole card,
+   as wide as the card it stands for, over the column if it has to be,
+   the way the glossary opens over the page. */
+.pk {
+  position: fixed;
+  top: var(--pk-top, 100px);
+  z-index: 20;
+  width: var(--pk-w, 168px);
+  border: 1px solid var(--tl-edge);
+  border-top: 3px solid var(--party);
+  border-radius: 3px;
+  background: var(--tl-card);
+  box-shadow: var(--tl-lift);
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -6px;
+  transition: opacity 0.2s ease, translate 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.pk.is-shown {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition: opacity 0.2s ease, translate 0.2s ease, visibility 0s;
+}
+
+.pk-p { --party: var(--p); --party-ink: var(--tl-p-ink); left: var(--pk-x, 14px); }
+.pk-d { --party: var(--d); --party-ink: var(--tl-d-ink); right: var(--pk-x, 14px); }
+
+.pk.is-open {
+  width: var(--pk-open-w, 300px);
+  max-height: calc(100vh - var(--pk-top, 100px) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.pk-b {
+  display: block;
+  width: 100%;
+  padding: 9px 12px 10px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pk-role {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--party-ink);
+}
+
+/* What the word means, as the card says it; only once it is open. */
+.pk-mean {
+  display: none;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--faint);
+}
+
+.pk.is-open .pk-mean { display: block; }
+
+.pk-name {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 40, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.pk.is-open .pk-b { padding: 13px 16px 4px; }
+.pk.is-open .pk-name { font-size: 1.3rem; }
+.pk-x { padding: 0 16px 15px; }
+.pk-x[hidden] { display: none; }
+
+.pk :focus-visible { outline-color: var(--court); }
+
+@media print {
+  .pk { display: none; }
+}
+
 /* Wide enough for a column down each side of the title. The cards go
    to the top corners, which is where the pools were, and the title
    block is set to the middle between them. The title is sized off its

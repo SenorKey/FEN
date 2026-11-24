@@ -49,6 +49,9 @@
     'input', 'textarea', 'select',
     '.tl-key', '.fix', '.cm', '.cr-days', '.gloss-b', '.crumb', '.row-n',
     '.to-top', '.sect-nav', '[aria-hidden="true"]', '.cs',
+    /* Page-made copies, not in the HTML build.py reads: the party cards
+       kept in view on the chronology (chronicle.js). */
+    '.pk',
   ].join(', ');
   const TITLE_SEL = 'h1, h2, h3, h4, dt, .cr-name, .tl-phase-l, .row-q';
   const META_SEL = '.tl-date, .cf-ban';

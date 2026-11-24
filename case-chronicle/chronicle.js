@@ -210,6 +210,151 @@
   for (const card of wired) card.classList.add('js-anim');
 })();
 
+/* ── the two sides, kept in view ──
+   On the chronology the two cards stand beside the first entry and are
+   soon gone, while the case runs on for a hundred entries. So once a
+   card has gone up under the color key, a small copy of it stays in
+   that side's margin, under the key: the side's word and its name, as
+   the filings give it. A press opens the copy to the whole card, which
+   is read where it is and shut again; nothing scrolls.
+
+   Only where the margins have room for it: from about 1380px wide,
+   where the key is stuck under the nav and there is a column's width
+   of margin beside the rail. Narrower, the margin is too thin for a
+   name and the key already says which side is which. It goes when the
+   key does, at the end of the chronology, riding up with it.
+
+   The copies are made here and nowhere else, so the cards stay the one
+   place a side is described. search.js leaves them out. Not in the
+   Restricted Section, whose volumes have their own dress. */
+
+(() => {
+  if (location.pathname.includes('/restricted-section/')) return;
+  const band = document.querySelector('.band-time');
+  const key = band?.querySelector('.tl-key');
+  const first = band?.querySelector('.tl-first');
+  const nav = document.querySelector('.site-nav');
+  if (!key || !first || !nav) return;
+  const cards = [...first.children].filter((el) => el.matches('.party'));
+  if (!cards.length) return;
+
+  const EDGE = 14;     /* clear of the window's edge and of the rail's column */
+  const GAP = 14;      /* under the key */
+  const MIN = 128;     /* narrower than this and a name will not sit */
+  const MAX = 210;
+  const OPEN_MIN = 280;
+  const OPEN_MAX = 330;
+
+  const text = (el) => el?.textContent.replace(/\s+/g, ' ').trim() || '';
+
+  const kept = cards.map((card) => {
+    const side = card.classList.contains('party-p') ? 'p' : 'd';
+    const roleEl = card.querySelector('.party-role');
+    const meaning = text(roleEl?.querySelector('span'));
+    const role = text(roleEl).replace(meaning, '').trim();
+
+    const box = document.createElement('div');
+    box.className = `pk pk-${side}`;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pk-b';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', `pk-${side}-x`);
+    const r = document.createElement('span');
+    r.className = 'pk-role';
+    r.textContent = role;
+    const m = document.createElement('span');
+    m.className = 'pk-mean';
+    m.textContent = meaning;
+    const n = document.createElement('span');
+    n.className = 'pk-name';
+    n.textContent = text(card.querySelector('.party-name'));
+    btn.append(r, m, n);
+
+    /* The rest of the card, copied as it stands. Its terms still open
+       the glossary: that is listened for on the whole page. */
+    const more = document.createElement('div');
+    more.className = 'pk-x';
+    more.id = `pk-${side}-x`;
+    more.hidden = true;
+    const what = card.querySelector('.party-what');
+    if (what) more.append(what.cloneNode(true));
+    const rest = card.querySelector('.party-x-in');
+    if (rest) for (const el of rest.children) more.append(el.cloneNode(true));
+    for (const el of more.querySelectorAll('[id]')) el.removeAttribute('id');
+
+    box.append(btn, more);
+    band.append(box);
+    return { card, side, box, btn, more };
+  });
+
+  function setOpen(k, open) {
+    k.box.classList.toggle('is-open', open);
+    k.btn.setAttribute('aria-expanded', open);
+    k.more.hidden = !open;
+  }
+
+  let wasShown = [];
+  function place() {
+    const navBottom = nav.getBoundingClientRect().bottom;
+    const bar = key.getBoundingClientRect();
+    const stuck = getComputedStyle(key).position === 'sticky'
+      && bar.top <= navBottom + 6 && bar.bottom > navBottom + 1;
+    const marginL = bar.left;
+    const marginR = innerWidth - bar.right;
+    const w = Math.min(MAX, Math.min(marginL, marginR) - 2 * EDGE);
+    const room = w >= MIN;
+
+    kept.forEach((k, i) => {
+      const c = k.card.getBoundingClientRect();
+      const show = stuck && room && c.bottom < bar.bottom + GAP;
+      if (show) {
+        /* In line with the card it stands for, as far as the margin
+           allows: the cards sit near the window's corners. */
+        const fromEdge = k.side === 'p' ? c.left : innerWidth - c.right;
+        const margin = k.side === 'p' ? marginL : marginR;
+        const x = Math.max(EDGE, Math.min(fromEdge, margin - w - EDGE));
+        k.box.style.setProperty('--pk-x', `${Math.round(x)}px`);
+        k.box.style.setProperty('--pk-top', `${Math.round(bar.bottom + GAP)}px`);
+        k.box.style.setProperty('--pk-w', `${Math.round(w)}px`);
+        k.box.style.setProperty('--pk-open-w', `${Math.round(Math.max(w, Math.min(OPEN_MAX, Math.max(OPEN_MIN, c.width))))}px`);
+      }
+      if (show !== wasShown[i]) {
+        k.box.classList.toggle('is-shown', show);
+        if (!show) setOpen(k, false);
+        wasShown[i] = show;
+      }
+    });
+  }
+
+  for (const k of kept) {
+    k.btn.addEventListener('click', () => setOpen(k, !k.box.classList.contains('is-open')));
+  }
+
+  /* A press outside shuts an open copy, and so does Escape. */
+  document.addEventListener('pointerdown', (e) => {
+    for (const k of kept) if (!k.box.contains(e.target)) setOpen(k, false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    for (const k of kept) {
+      if (!k.box.classList.contains('is-open')) continue;
+      const had = k.box.contains(document.activeElement);
+      setOpen(k, false);
+      if (had) k.btn.focus();
+    }
+  });
+
+  /* Straight from scroll, which a browser sends at most once a frame,
+     and again after anything that can move the first entry. */
+  addEventListener('scroll', place, { passive: true });
+  addEventListener('resize', place);
+  document.addEventListener('click', () => setTimeout(place, 0));
+  document.addEventListener('transitionend', place);
+  place();
+})();
+
 /* ── chronology: one more layer per card ──
    The detail ships open and the toggles ship hidden, so a reader with no
    JavaScript gets everything and no dead controls. This collapses them,
