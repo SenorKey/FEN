@@ -1847,6 +1847,10 @@
     shape(s, 'path', { d: 'M3 3l6 6M9 3 3 9', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6, 'stroke-linecap': 'round' });
   });
 
+  const pencilIcon = () => svg('0 0 12 12', 12, (s) => {
+    shape(s, 'path', { d: 'M8.1 2.2 9.8 3.9 4.3 9.4 2 10l.6-2.3zM7 3.3 8.7 5', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+  });
+
   const swapIcon = () => svg('0 0 14 14', 14, (s) => {
     shape(s, 'path', { d: 'M2 5h10M9 2l3 3-3 3M12 9H2m3-3L2 9l3 3', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
   });
@@ -2026,6 +2030,8 @@
     el.querySelector('.tt-check .tt-sr').textContent = `${editable || item.done ? 'Done' : 'Not done'}: ${item.text}`;
     const remove = el.querySelector('.tt-remove');
     if (remove) remove.setAttribute('aria-label', `Remove “${item.text}”`);
+    const pencil = el.querySelector('.tt-pencil');
+    if (pencil) pencil.setAttribute('aria-label', `Edit “${item.text}”`);
   }
 
   function row(item, isCard) {
@@ -2068,7 +2074,15 @@
     }
 
     el.append(check, body);
-    if (editable) el.append(iconButton('tt-remove', '', crossIcon));
+    if (editable) {
+      // the cross, and under it the pencil that edits the words
+      const acts = document.createElement('div');
+      acts.className = 'tt-actions';
+      const pencil = iconButton('tt-pencil', '', pencilIcon);
+      pencil.title = 'Edit';
+      acts.append(iconButton('tt-remove', '', crossIcon), pencil);
+      el.append(acts);
+    }
     describe(el, item);
     return el;
   }
@@ -2189,6 +2203,8 @@
       const el = text.closest('.tt-item');
       return el.parentElement === card ? startEdit(el) : showCard(el.dataset.id);
     }
+    const pencil = e.target.closest('.tt-pencil');
+    if (pencil) return startEdit(pencil.closest('.tt-item'), true);
     const remove = e.target.closest('.tt-remove');
     if (remove) {
       if (remove === asking) return removeItem(remove.closest('.tt-item').dataset.id);

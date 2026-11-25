@@ -876,11 +876,20 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 .tt-slider:focus-visible .tt-slider-track::before { background: var(--tt-faint); }
 .tt-item.is-done .tt-slider-thumb { background: transparent; box-shadow: inset 0 0 0 1px var(--tt-ink); }
 
-/* Remove: with a mouse, the control waits until the row is pointed at. */
+/* Remove and edit: the cross with the pencil under it, at the row's right end. */
+.tt-actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+/* With a mouse, the controls wait until the row is pointed at. */
 @media (hover: hover) {
-  .tt-list .tt-remove { opacity: 0; }
-  .tt-list .tt-item:hover .tt-remove,
-  .tt-list .tt-item:focus-within .tt-remove { opacity: 1; }
+  .tt-list .tt-actions .tt-icon { opacity: 0; }
+  .tt-list .tt-item:hover .tt-actions .tt-icon,
+  .tt-list .tt-item:focus-within .tt-actions .tt-icon { opacity: 1; }
   .tt-list .tt-remove.is-asking { opacity: 1; }
 }
 
@@ -1035,7 +1044,7 @@ body.tt-has-tray .tt-toast { bottom: 116px; }
   .tt-card.is-plan { width: calc(100% - 24px); padding: 12px 12px 12px 4px; }
   .tt-plan { margin-left: 0; }
   .tt-grip { width: 26px; height: 30px; }
-  .tt-remove { width: 30px; height: 30px; }
+  .tt-remove, .tt-pencil { width: 30px; height: 30px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
