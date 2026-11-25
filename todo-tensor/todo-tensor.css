@@ -706,14 +706,19 @@ body.tt-free .tt-tray-node { cursor: pointer; }
 .tt-filter:focus-visible { outline: none; color: var(--tt-ink); box-shadow: 0 0 0 1px var(--tt-ink); }
 .tt-filter[aria-checked="true"] { color: var(--tt-ink); border-color: var(--tt-ink); }
 
-/* the direction is always "on": it only says which way round */
-.tt-sort-dir { color: var(--tt-ink); }
-.tt-sort-dir svg { display: block; transition: transform 0.25s var(--tt-ease); }
-.tt-sort-dir.is-up svg { transform: scaleY(-1); }
+/* the direction is always "on": it names the side the list starts from */
+.tt-sort-dir {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: max-content;
+  color: var(--tt-ink);
+}
+.tt-sort-dir svg { flex: none; display: block; }
+.tt-sort-dir-word { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 
 .tt-sort {
-  flex: 1;
-  min-width: 0;
+  flex: none;
+  max-width: 60%;
   padding: 7px 28px 7px 10px;
   border: 1px solid var(--tt-rule);
   border-radius: 4px;

@@ -2242,8 +2242,9 @@
     try { localStorage.setItem(LENS, JSON.stringify(lens)); } catch { /* kept for this visit only */ }
   }
 
-  const arrowIcon = () => svg('0 0 12 12', 12, (sv) => {
-    shape(sv, 'path', { d: 'M6 2v8M2.8 6.8 6 10l3.2-3.2', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+  // up and down: the button turns the order round
+  const flipIcon = () => svg('0 0 12 12', 12, (sv) => {
+    shape(sv, 'path', { d: 'M4 10V2M1.8 4.2 4 2l2.2 2.2M8 2v8M5.8 7.8 8 10l2.2-2.2', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
   });
 
   const poleName = (p, side) => p[side] || (side === 'left' ? 'left end' : 'right end');
@@ -2252,9 +2253,9 @@
 
   function renderLens() {
     for (const b of filterBtns) b.setAttribute('aria-checked', String(b.dataset.filter === lens.filter));
-    const named = state.params.filter((p) => p.left || p.right);
-    const opts = [['mine', 'Your order'], ['added', 'Recently added'],
-      ...named.map((p) => [p.id, `${poleName(p, 'left')} → ${poleName(p, 'right')}`])];
+    // numbered as in the panel; a parameter with no names yet has nothing to sort by
+    const opts = [['mine', 'Your order'], ['added', 'Recently added']];
+    state.params.forEach((p, i) => { if (p.left || p.right) opts.push([p.id, `Parameter ${i + 1}`]); });
     const sig = JSON.stringify(opts);
     if (sig !== sortSig) {
       sortSig = sig;
@@ -2265,16 +2266,20 @@
     sortSel.value = kind === 'param' ? lens.sort : kind;
     sortDir.hidden = kind === 'mine';
     if (kind === 'mine') return;
+    // a parameter shows the side the list starts from: its right end when
+    // "desc" (the highest values), its left end otherwise
     const p = sortParam();
-    const words = kind === 'added'
-      ? (lens.desc ? 'Newest first' : 'Oldest first')
-      : (lens.desc ? 'Highest first' : 'Lowest first');
+    const [first, other] = kind === 'added'
+      ? (lens.desc ? ['Newest first', 'Oldest first'] : ['Oldest first', 'Newest first'])
+      : (lens.desc ? [poleName(p, 'right'), poleName(p, 'left')] : [poleName(p, 'left'), poleName(p, 'right')]);
+    const label = document.createElement('span');
+    label.className = 'tt-sort-dir-word';
+    label.textContent = first;
     sortDir.textContent = '';
-    sortDir.append(arrowIcon(), words);
-    sortDir.classList.toggle('is-up', !lens.desc);
-    sortDir.title = kind === 'added' ? 'Flip the order'
-      : `Highest is toward “${poleName(p, 'right')}”, lowest toward “${poleName(p, 'left')}”. Click to flip.`;
-    sortDir.setAttribute('aria-label', `${words}. Flip the order.`);
+    sortDir.append(flipIcon(), label);
+    const said = kind === 'added' ? first : `“${first}” first`;
+    sortDir.title = `${said}. Click for ${kind === 'added' ? other.toLowerCase() : `“${other}” first`}.`;
+    sortDir.setAttribute('aria-label', `${said}. Flip the order.`);
   }
 
   function applyLens(note) {
@@ -2295,14 +2300,14 @@
 
   sortSel.addEventListener('change', () => {
     lens.sort = sortSel.value;
-    lens.desc = true;   // a new sort starts highest (or newest) first
+    lens.desc = lens.sort === 'added';   // newest first; a parameter starts from its left end
     applyLens(`Sorted by ${sortSel.selectedOptions[0].textContent}`);
   });
 
   sortDir.addEventListener('click', () => {
     lens.desc = !lens.desc;
     applyLens();
-    announce(sortDir.textContent);
+    announce(sortDir.getAttribute('aria-label').replace('. Flip the order.', ''));
   });
 
   // A new idea is never done, so a "Done" filter would hide it the moment it is made.
