@@ -32,7 +32,7 @@ In the repo (`todo-tensor/server/`):
 
 | File | What it is |
 |---|---|
-| `tensor.py` | The service, plus the `hash-password`, `history`, `export` and `dev` commands |
+| `tensor.py` | The service, plus the `hash-password`, `history`, `export`, `date-ideas` and `dev` commands |
 | `requirements.txt` | `flask`, `gunicorn` |
 | `config.env.example` | Template for `/etc/todo-tensor/config.env` |
 | `todo-tensor.service` | systemd unit |
@@ -125,6 +125,15 @@ with a new one and restart.
 **Go back to an earlier version:** `export <rev>` prints it. Sign in on the
 page, copy that JSON somewhere safe, and paste its ideas back in; or stop
 the service and insert it as a new revision with `sqlite3`.
+
+**Date the older ideas (once, after deploying 2026-11-25's version):** the
+page's "Recently added" sort uses a date each new idea now carries. This gives
+the ideas made before that the time of the first saved version holding them,
+saved as a new version; reload the page afterwards.
+
+```bash
+sudo -u tensor env CONFIG_FILE=/etc/todo-tensor/config.env python3 todo-tensor/server/tensor.py date-ideas
+```
 
 **Refresh the fallback copy:** `list.json` is what visitors see while the
 service is down. Signed in, choose **Copy as JSON**, paste it over

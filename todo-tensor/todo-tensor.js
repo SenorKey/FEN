@@ -25,6 +25,7 @@
   const SEED = '/todo-tensor/list.json';
   const DRAFT = 'todo-tensor:draft';     // the owner's changes, kept here until the server has them
   const LEGACY = ['todo-tensor:v2', 'todo-tensor:v1'];   // lists saved in a browser before there was a server
+  const LENS = 'todo-tensor:lens';        // this browser's show/sort choice, a view only
   const SAVE_MS = 600;                    // a pause this long after a change sends it
   const MAX_RANK = 3;
   const NEW_TEXT = 'New idea';
@@ -91,6 +92,9 @@
   const form = $('tt-add');
   const input = $('tt-new');
   const count = $('tt-count');
+  const sortSel = $('tt-sort');
+  const sortDir = $('tt-sort-dir');
+  const filterBtns = [...document.querySelectorAll('.tt-filter[data-filter]')];
   const empty = $('tt-empty');
   const status = $('tt-status');
   const live = $('tt-live');
@@ -109,6 +113,16 @@
   let hoverId = null;      // a node id, or 'cell' over the closed point
   let face = null;         // 'xy' | 'xz' | 'yz' while the cube is seen square on
   let panelOpen = true;    // the panel starts open (shut on a phone, where it is a sheet over half the screen)
+  // what the list and scene show and in what order (Show and sort, below)
+  const lens = { filter: 'all', sort: 'mine', desc: true };
+  {
+    const v = readStore(LENS);
+    if (v && typeof v === 'object') {
+      if (['all', 'open', 'done'].includes(v.filter)) lens.filter = v.filter;
+      if (typeof v.sort === 'string' && v.sort) lens.sort = v.sort;
+      lens.desc = v.desc !== false;
+    }
+  }
   let booting = true;      // while the page is being set up, every move is instant
   let editable = false;    // signed in as the owner, with the server's copy loaded
   let owner = false;       // this browser holds the owner's sign-in
@@ -165,6 +179,7 @@
       }
       const item = { id, text: x.text.trim().slice(0, 300), done: !!x.done, scores };
       if (typeof x.plan === 'string' && x.plan.trim()) item.plan = x.plan.slice(0, MAX_PLAN);
+      if (typeof x.added === 'string' && !isNaN(Date.parse(x.added))) item.added = x.added.slice(0, 40);
       items.push(item);
     }
     return { params, items };
@@ -585,14 +600,17 @@
 
   function targets() {
     const out = new Map();
+    const hide = (it) => out.set(it.id, { to: null, tray: false, hidden: true });
     if (rank === 0) {
-      const n = state.items.length;
+      const shown = viewItems();   // the spiral starts from the top of the list as it is sorted
+      for (const it of state.items) if (!passes(it)) hide(it);
+      const n = shown.length;
       // a sunflower spiral: evenly packed, no physics needed. A short list
       // spreads wide enough for its labels, a long one packs tighter, and
       // the outer ring always stays inside the picture.
       let gap = clamp(420 / Math.sqrt(n + 1), CLUSTER_PX, CLUSTER_MAX);
       if (n > 1) gap = Math.max(10, Math.min(gap, (Math.min(view.avail, view.w - EDGE) / 2 - 40) / Math.sqrt(n - 1)));
-      state.items.forEach((it, i) => {
+      shown.forEach((it, i) => {
         let to = [0, 0, 0];
         if (open) {
           const r = (gap * Math.sqrt(i)) / view.S;
@@ -604,7 +622,8 @@
       return out;
     }
     const ps = shownParams();
-    const placed = state.items.filter(isPlaced);
+    for (const it of state.items) if (!passes(it)) hide(it);
+    const placed = state.items.filter((it) => passes(it) && isPlaced(it));
     const ys = rank === 1 ? swarm(placed.map((it) => it.scores[ps[0].id] * view.S), SWARM_R) : null;
     placed.forEach((it, i) => {
       out.set(it.id, {
@@ -633,8 +652,11 @@
     for (const [id, n] of nodes) {
       const t = tg.get(id);
       n.tray = t.tray;
-      if (n.tray) {
-        if (n.shown) { n.shown = false; fadeNode(n, 0); }
+      if (n.tray || t.hidden) {
+        if (n.shown) {
+          n.shown = false;
+          if (instant || booting) { cancel('a:' + n.id); n.alpha = 0; } else fadeNode(n, 0);
+        }
         continue;
       }
       n.to = t.to;
@@ -681,7 +703,7 @@
     const moving = running('motion');
     for (const [id, n] of nodes) {
       const t = tg.get(id);
-      if (!t || t.tray || !n.shown) continue;
+      if (!t || t.tray || t.hidden || !n.shown) continue;
       n.to = t.to;
       if (!moving) n.pos = t.to.slice();
     }
@@ -1720,7 +1742,8 @@
     if (!editable) return;
     const pos = unproject(x, y, 0).map((v) => clamp(v, -1, 1));
     if (rank <= 2) pos[2] = 0;
-    const item = { id: uid(), text: NEW_TEXT, done: false, scores: {} };
+    const item = { id: uid(), text: NEW_TEXT, done: false, scores: {}, added: new Date().toISOString() };
+    showAddedIdeas();
     shownParams().forEach((p, a) => { if (!(rank === 1 && a > 0)) item.scores[p.id] = round3(pos[a]); });
     state.items.unshift(item);
     commit({ dur: 400 });
@@ -2134,10 +2157,16 @@
   }
 
   function tally() {
+    const total = state.items.length;
     const done = state.items.filter((i) => i.done).length;
-    count.textContent = state.items.length ? `${done} of ${state.items.length} done` : '';
-    empty.hidden = state.items.length > 0;
-    empty.textContent = editable ? 'Nothing out here yet. Add the first idea above.' : 'Nothing here yet.';
+    const shown = state.items.filter(passes).length;
+    count.textContent = !total ? ''
+      : lens.filter === 'all' ? `${done} of ${total} done`
+      : `${shown} of ${total} shown`;
+    empty.hidden = shown > 0;
+    empty.textContent = total
+      ? (lens.filter === 'done' ? 'Nothing is done yet.' : 'Everything is done.')
+      : editable ? 'Nothing out here yet. Add the first idea above.' : 'Nothing here yet.';
   }
 
   // focus: { id, sel, host } of the control to put the cursor back on.
@@ -2146,7 +2175,9 @@
     if (finishEdit) finishEdit();
     syncNodes();
     list.textContent = '';
-    for (const item of state.items) list.append(row(item));
+    for (const item of viewItems()) list.append(row(item));
+    list.classList.toggle('is-fixed', !inOwnOrder());
+    renderLens();
     tally();
     renderCard();
     renderTray();
@@ -2170,6 +2201,117 @@
     requestAnimationFrame(() => { live.textContent = msg; });
   }
 
+  /* ── Show and sort: a view of the list, never saved to it ──
+     The filter takes ideas out of the list and the scene alike; the sort
+     orders the list (and the rank-0 spiral, from its middle out). */
+
+  const passes = (it) => lens.filter === 'all' || (lens.filter === 'done') === it.done;
+
+  // The parameter being sorted by, or null (a sort by one that is gone falls back to your order).
+  const sortParam = () => (lens.sort === 'mine' || lens.sort === 'added') ? null
+    : state.params.find((p) => p.id === lens.sort) || null;
+
+  const sortKind = () => lens.sort === 'added' ? 'added' : sortParam() ? 'param' : 'mine';
+
+  // Everything shown, in your own order: only then can rows be dragged.
+  const inOwnOrder = () => lens.filter === 'all' && sortKind() === 'mine';
+
+  // The ideas the filter lets through, in the chosen order. Ideas with no
+  // date count as the oldest; ideas with no value on the parameter go last
+  // either way round; ties keep your order.
+  function viewItems() {
+    const pos = new Map(state.items.map((it, i) => [it.id, i]));
+    const out = state.items.filter(passes);
+    const kind = sortKind();
+    if (kind === 'mine') return out;
+    const p = sortParam();
+    const key = kind === 'added'
+      ? (it) => { const t = Date.parse(it.added); return isNaN(t) ? -Infinity : t; }
+      : (it) => (isNum(it.scores[p.id]) ? it.scores[p.id] : null);
+    const sign = lens.desc ? -1 : 1;
+    return out.sort((a, b) => {
+      const ka = key(a), kb = key(b);
+      if (ka === null || kb === null) {
+        if (ka !== kb) return ka === null ? 1 : -1;
+      } else if (ka !== kb) return sign * (ka - kb);
+      return pos.get(a.id) - pos.get(b.id);
+    });
+  }
+
+  function storeLens() {
+    try { localStorage.setItem(LENS, JSON.stringify(lens)); } catch { /* kept for this visit only */ }
+  }
+
+  const arrowIcon = () => svg('0 0 12 12', 12, (sv) => {
+    shape(sv, 'path', { d: 'M6 2v8M2.8 6.8 6 10l3.2-3.2', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+  });
+
+  const poleName = (p, side) => p[side] || (side === 'left' ? 'left end' : 'right end');
+
+  let sortSig = '';   // the options last built, so a redraw leaves an open menu alone
+
+  function renderLens() {
+    for (const b of filterBtns) b.setAttribute('aria-checked', String(b.dataset.filter === lens.filter));
+    const named = state.params.filter((p) => p.left || p.right);
+    const opts = [['mine', 'Your order'], ['added', 'Recently added'],
+      ...named.map((p) => [p.id, `${poleName(p, 'left')} → ${poleName(p, 'right')}`])];
+    const sig = JSON.stringify(opts);
+    if (sig !== sortSig) {
+      sortSig = sig;
+      sortSel.textContent = '';
+      for (const [v, label] of opts) sortSel.append(new Option(label, v));
+    }
+    const kind = sortKind();
+    sortSel.value = kind === 'param' ? lens.sort : kind;
+    sortDir.hidden = kind === 'mine';
+    if (kind === 'mine') return;
+    const p = sortParam();
+    const words = kind === 'added'
+      ? (lens.desc ? 'Newest first' : 'Oldest first')
+      : (lens.desc ? 'Highest first' : 'Lowest first');
+    sortDir.textContent = '';
+    sortDir.append(arrowIcon(), words);
+    sortDir.classList.toggle('is-up', !lens.desc);
+    sortDir.title = kind === 'added' ? 'Flip the order'
+      : `Highest is toward “${poleName(p, 'right')}”, lowest toward “${poleName(p, 'left')}”. Click to flip.`;
+    sortDir.setAttribute('aria-label', `${words}. Flip the order.`);
+  }
+
+  function applyLens(note) {
+    storeLens();
+    if (focusId && !passes(byId(focusId) || {})) setFocus(null, true);
+    render();
+    relayout({ dur: 500 });
+    if (note) announce(note);
+  }
+
+  for (const b of filterBtns) {
+    b.addEventListener('click', () => {
+      if (lens.filter === b.dataset.filter) return;
+      lens.filter = b.dataset.filter;
+      applyLens(`Showing ${b.textContent.toLowerCase()}`);
+    });
+  }
+
+  sortSel.addEventListener('change', () => {
+    lens.sort = sortSel.value;
+    lens.desc = true;   // a new sort starts highest (or newest) first
+    applyLens(`Sorted by ${sortSel.selectedOptions[0].textContent}`);
+  });
+
+  sortDir.addEventListener('click', () => {
+    lens.desc = !lens.desc;
+    applyLens();
+    announce(sortDir.textContent);
+  });
+
+  // A new idea is never done, so a "Done" filter would hide it the moment it is made.
+  function showAddedIdeas() {
+    if (lens.filter !== 'done') return;
+    lens.filter = 'all';
+    storeLens();
+  }
+
   /* ── Add ── */
 
   form.addEventListener('submit', (e) => {
@@ -2177,7 +2319,8 @@
     if (!editable) return;
     const text = input.value.trim().slice(0, 300);
     if (!text) return;
-    state.items.unshift({ id: uid(), text, done: false, scores: {} });
+    state.items.unshift({ id: uid(), text, done: false, scores: {}, added: new Date().toISOString() });
+    showAddedIdeas();
     commit({ dur: 500 });
     input.value = '';
     announce(`Added “${text}”`);
@@ -2192,6 +2335,14 @@
     if (!item) return;
     item.done = e.target.checked;
     save();
+    if (!passes(item)) {
+      // the filter no longer shows it: it leaves the list and the scene
+      if (focusId === item.id) setFocus(null, true);
+      render();
+      relayout({ dur: 400 });
+      announce(`${item.done ? 'Done' : 'Not done'}: “${item.text}”, now hidden by the filter`);
+      return;
+    }
     render({ id: item.id, sel: '.tt-check input', host: el.parentElement === card ? 'card' : 'list' });
     kick();
   }
@@ -2433,7 +2584,7 @@
 
   list.addEventListener('keydown', (e) => {
     const grip = e.target.closest('.tt-grip');
-    if (!grip || !editable) return;
+    if (!grip || !editable || !inOwnOrder()) return;
     const d = e.key === 'ArrowUp' ? -1 : e.key === 'ArrowDown' ? 1 : 0;
     if (!d) return;
     e.preventDefault();
@@ -2457,7 +2608,7 @@
 
   list.addEventListener('pointerdown', (e) => {
     const grip = e.target.closest('.tt-grip');
-    if (!grip || rowDrag) return;
+    if (!grip || rowDrag || !inOwnOrder()) return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     e.preventDefault();
     const li = grip.closest('.tt-item');

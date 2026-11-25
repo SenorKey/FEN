@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="/assets/css/styles.css">
-  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261125d">
-  <script src="/todo-tensor/todo-tensor.js?v=20261125d" defer></script>
+  <link rel="stylesheet" href="/todo-tensor/todo-tensor.css?v=20261125e">
+  <script src="/todo-tensor/todo-tensor.js?v=20261125e" defer></script>
 
   <meta name="description"
     content="ToDo Tensor — Key's page ideas and plans as nodes in deep black space: one point at rank 0, a line at rank 1, a plane at rank 2, a cube at rank 3, along parameters you name yourself.">
@@ -122,6 +122,24 @@
             </svg>
           </button>
         </form>
+
+        <!-- What the list and the scene show, and in what order: a view only,
+             kept in this browser, never saved to the list. -->
+        <div id="tt-lens" class="tt-lens">
+          <div class="tt-lens-row">
+            <span class="tt-lens-label" id="tt-filter-label">Show</span>
+            <div class="tt-filters" role="radiogroup" aria-labelledby="tt-filter-label">
+              <button type="button" class="tt-filter" data-filter="all" role="radio" aria-checked="true">All</button>
+              <button type="button" class="tt-filter" data-filter="open" role="radio" aria-checked="false">Not done</button>
+              <button type="button" class="tt-filter" data-filter="done" role="radio" aria-checked="false">Done</button>
+            </div>
+          </div>
+          <div class="tt-lens-row">
+            <label class="tt-lens-label" for="tt-sort">Sort</label>
+            <select id="tt-sort" class="tt-sort"></select>
+            <button type="button" id="tt-sort-dir" class="tt-filter tt-sort-dir" hidden></button>
+          </div>
+        </div>
 
         <p id="tt-count" class="tt-count"></p>
         <ul id="tt-list" class="tt-list" aria-label="Ideas"></ul>

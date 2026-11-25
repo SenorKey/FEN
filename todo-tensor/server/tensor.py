@@ -135,6 +135,17 @@ def _plan(v):
     return '\n'.join(l.rstrip() for l in lines).strip('\n')[:MAX_PLAN]
 
 
+def _added(v):
+    """When an idea was added: an ISO 8601 time, or '' if it is not one."""
+    if not isinstance(v, str) or len(v) > 40:
+        return ''
+    try:
+        datetime.datetime.fromisoformat(v.replace('Z', '+00:00'))
+    except ValueError:
+        return ''
+    return v
+
+
 def clean(raw):
     """The list as the page keeps it, or ValueError. Mirrors clean() in
     todo-tensor.js, but refuses what is malformed instead of repairing it:
@@ -183,6 +194,9 @@ def clean(raw):
         plan = _plan(plan)
         if plan:
             item['plan'] = plan   # left out when empty, so a list with no plans reads as before
+        added = _added(x.get('added'))
+        if added:
+            item['added'] = added   # for "Recently added"; ideas from before it have none
         items.append(item)
 
     return {'version': 2, 'params': params, 'items': items}
@@ -441,6 +455,31 @@ def main(argv):
             sys.exit('No such revision.')
         print(json.dumps(json.loads(row['body']), ensure_ascii=False, indent=2))
         return
+    if cmd == 'date-ideas':
+        # Once, after this version is deployed: ideas made before ideas carried
+        # a date get the time of the first saved version that holds them, and
+        # the result is saved as a new version. Ideas older than the server
+        # all get its first day; "Recently added" keeps their list order.
+        with _db_lock, db() as conn:
+            first = {}
+            for r in conn.execute('SELECT saved_at, body FROM revisions ORDER BY rev'):
+                for it in json.loads(r['body']).get('items', []):
+                    if isinstance(it, dict):
+                        first.setdefault(it.get('id'), r['saved_at'])
+            row = current(conn)
+            lst = json.loads(row['body'])
+            n = 0
+            for it in lst['items']:
+                if not it.get('added') and it['id'] in first:
+                    it['added'] = first[it['id']]
+                    n += 1
+            if not n:
+                print('Every idea already has a date.')
+                return
+            cur = conn.execute('INSERT INTO revisions (saved_at, body) VALUES (?, ?)',
+                               (now_iso(), json.dumps(clean(lst), ensure_ascii=False)))
+        print(f'Dated {n} ideas; saved as revision {cur.lastrowid}. Reload the page.')
+        return
     if cmd == 'dev':
         port = int(os.environ.get('PORT', '8790'))
         DB_PATH = os.environ.get('TENSOR_DB', os.path.join(HERE, 'dev.db'))
@@ -451,7 +490,7 @@ def main(argv):
         init_db()
         _serve_dev(port)
         return
-    sys.exit('usage: tensor.py hash-password | history | export [rev] | dev')
+    sys.exit('usage: tensor.py hash-password | history | export [rev] | date-ideas | dev')
 
 
 if __name__ == '__main__':

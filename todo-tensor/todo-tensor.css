@@ -655,6 +655,86 @@ body.tt-free .tt-tray-node { cursor: pointer; }
   text-transform: uppercase;
 }
 
+/* ── Show and sort ── */
+
+.tt-lens {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--tt-rule);
+}
+
+.tt-lens-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tt-lens-label {
+  flex: none;
+  width: 48px;
+  color: var(--tt-faint);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.tt-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tt-filter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tt-faint);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tt-filter:hover { color: var(--tt-dim); }
+.tt-filter:focus-visible { outline: none; color: var(--tt-ink); box-shadow: 0 0 0 1px var(--tt-ink); }
+.tt-filter[aria-checked="true"] { color: var(--tt-ink); border-color: var(--tt-ink); }
+
+/* the direction is always "on": it only says which way round */
+.tt-sort-dir { color: var(--tt-ink); }
+.tt-sort-dir svg { display: block; transition: transform 0.25s var(--tt-ease); }
+.tt-sort-dir.is-up svg { transform: scaleY(-1); }
+
+.tt-sort {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 28px 7px 10px;
+  border: 1px solid var(--tt-rule);
+  border-radius: 4px;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23fff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+  color: var(--tt-ink);
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.tt-sort:hover { border-color: var(--tt-faint); }
+.tt-sort:focus-visible { outline: none; border-color: var(--tt-ink); }
+.tt-sort option { background: var(--tt-void); color: var(--tt-ink); }
+
+/* sorted or filtered, the list is not in its own order, so it cannot be rearranged */
+.tt-list.is-fixed .tt-grip { visibility: hidden; }
+
 /* ── List ── */
 
 .tt-list {
