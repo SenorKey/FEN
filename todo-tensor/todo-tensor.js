@@ -99,6 +99,7 @@
   const undoBtn = $('tt-undo');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = window.matchMedia('(hover: none)');   // a finger, so no keyboard pops up uninvited
+  const narrow = window.matchMedia('(max-width: 760px)');   // the panel is a sheet over the scene
 
 
   const state = { params: [], items: [] };
@@ -2002,7 +2003,8 @@
 
   /* ── Panel: the list ── */
 
-  function textButton(item) {
+  // In the list the words bring the idea's card up in the scene; on the card they edit.
+  function textButton(item, isCard) {
     if (!editable) {
       const t = document.createElement('p');
       t.className = 'tt-text is-static';
@@ -2013,7 +2015,7 @@
     b.type = 'button';
     b.className = 'tt-text';
     b.textContent = item.text;
-    b.title = 'Edit';
+    b.title = isCard ? 'Edit' : 'Show its card';
     return b;
   }
 
@@ -2056,7 +2058,7 @@
 
     const body = document.createElement('div');
     body.className = 'tt-body';
-    body.append(textButton(item));
+    body.append(textButton(item, isCard));
     const ps = shownParams();
     if (ps.length) {
       const sl = document.createElement('div');
@@ -2183,10 +2185,65 @@
   function onClick(e) {
     if (!editable) return;
     const text = e.target.closest('.tt-text');
-    if (text) return startEdit(text.closest('.tt-item'));
+    if (text) {
+      const el = text.closest('.tt-item');
+      return el.parentElement === card ? startEdit(el) : showCard(el.dataset.id);
+    }
     const remove = e.target.closest('.tt-remove');
-    if (remove) return removeItem(remove.closest('.tt-item').dataset.id);
+    if (remove) {
+      if (remove === asking) return removeItem(remove.closest('.tt-item').dataset.id);
+      return askRemove(remove);
+    }
   }
+
+  // A row picked in the list: its node in the scene opens its card, as if clicked there.
+  function showCard(id) {
+    if (!byId(id)) return;
+    if (rank === 0 && !open) bloom();
+    const t = trayNodes.querySelector(`.tt-tray-node[data-id="${CSS.escape(id)}"]`);
+    if (t && !tray.hidden) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (focusId === id) cardKey = null;   // already up: put it back beside its node
+    else setFocus(id);
+    if (narrow.matches) setPanel(false);   // on a phone the sheet would cover the card
+    kick();
+  }
+
+  /* Remove asks first: the cross turns into "Delete?", and only a second press removes. */
+
+  let asking = null;       // the remove button waiting for its second press
+  let askTimer = 0;
+
+  function askRemove(btn) {
+    stopAsking();
+    const item = byId(btn.closest('.tt-item').dataset.id);
+    if (!item) return;
+    asking = btn;
+    btn.classList.add('is-asking');
+    btn.textContent = 'Delete?';
+    btn.setAttribute('aria-label', `Delete “${item.text}”? Press again to delete, Escape to keep it.`);
+    btn.focus({ preventScroll: true });
+    askTimer = setTimeout(stopAsking, 4000);
+  }
+
+  function stopAsking() {
+    clearTimeout(askTimer);
+    const btn = asking;
+    asking = null;
+    if (!btn || !btn.isConnected) return;
+    btn.classList.remove('is-asking');
+    btn.textContent = '';
+    btn.append(crossIcon());
+    const item = byId(btn.closest('.tt-item').dataset.id);
+    if (item) btn.setAttribute('aria-label', `Remove “${item.text}”`);
+  }
+
+  // a press anywhere else, or Escape, keeps the idea
+  document.addEventListener('pointerdown', (e) => {
+    if (asking && !asking.contains(e.target)) stopAsking();
+  }, true);
+  document.addEventListener('keydown', (e) => {
+    if (asking && e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); const b = asking; stopAsking(); if (b.isConnected) b.focus(); }
+  }, true);
 
   for (const host of [list, card]) {
     host.addEventListener('change', onChange);
@@ -2228,7 +2285,7 @@
         save();
         describe(el, item);
       }
-      const b = textButton(item);
+      const b = textButton(item, el.parentElement === card);
       field.replaceWith(b);
       if (refocus) b.focus();
       if (changed) {
@@ -2250,6 +2307,7 @@
   }
 
   function removeItem(id) {
+    stopAsking();
     const i = indexOf(id);
     if (i < 0) return;
     const [item] = state.items.splice(i, 1);

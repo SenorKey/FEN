@@ -881,6 +881,22 @@ body.tt-free .tt-tray-node { cursor: pointer; }
   .tt-list .tt-remove { opacity: 0; }
   .tt-list .tt-item:hover .tt-remove,
   .tt-list .tt-item:focus-within .tt-remove { opacity: 1; }
+  .tt-list .tt-remove.is-asking { opacity: 1; }
+}
+
+/* The second press: the cross becomes a word, ink on black turned round. */
+.tt-remove.is-asking,
+.tt-remove.is-asking:hover,
+.tt-remove.is-asking:focus-visible {
+  width: auto;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--tt-ink);
+  color: var(--tt-void);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 /* Dragging a row */
