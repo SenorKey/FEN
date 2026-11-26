@@ -2,23 +2,8 @@
    Preside by Side — Styles
    ========================================================================== */
 
-/*
-   NOTE: .site-nav styles live in /assets/css/styles.css (shared across all
-   pages). The block below only overrides the font-family since this page
-   loads a different font stack than the home page. */
-.site-nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-}
-
-.site-nav,
-.site-nav a,
-.nav-dropdown-toggle,
-.nav-dropdown-menu a {
-    font-family: 'DM Sans', sans-serif;
-}
-
+/* A standalone page: no FEN site navbar sits above it, so nothing here
+   reserves room for one (the sticky mobile picker row pins at top: 0). */
 
 /* --------------------------------------------------------------------------
      Variables
@@ -84,8 +69,14 @@
     --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.25);
 
     /* Type */
-    --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
-    --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    /* Installed fonts only — no web fonts are downloaded. Headings get
+       Times New Roman (Georgia, then the device serif where it's missing);
+       body text gets the operating system's own UI font (San Francisco,
+       Segoe UI, Roboto). A deliberate choice: lighter and faster than
+       shipping Fraunces/IBM Plex, at the cost of varying a little by
+       platform. */
+    --font-display: 'Times New Roman', Georgia, serif;
+    --font-body: system-ui, -apple-system, sans-serif;
 
     /* Layout */
     --bar-height: 62px;
@@ -328,7 +319,6 @@ body {
     letter-spacing: -0.025em;
     margin: 0;
     color: var(--ink);
-    font-variation-settings: 'opsz' 144;
 }
 
 .site-title em {
@@ -336,7 +326,6 @@ body {
     font-weight: 500;
     font-size: 0.7em;
     color: var(--ink-dim);
-    font-variation-settings: 'opsz' 100;
     margin: 0 0.1em;
     display: inline-block;
     transform: translateY(-0.15em);
@@ -366,17 +355,16 @@ body {
      centered on its half of the page (25% / 75%) and vertically centered
      on the boundary itself via translate(-50%, -50%).
 
-     The visual badge (.picker-badge) looks like the old name-badge and
-     doubles as the dropdown trigger. The <select> overlays it at opacity:0
-     so any click on the badge falls through and opens the native picker.
+     The visual badge (.picker-badge) is a <button> that opens the
+     custom .picker-menu listbox below it.
 
-     Mobile: the row becomes sticky under the navbar (see media query).
+     Mobile: the row becomes sticky at the top of the viewport (see the
+     media query).
      -------------------------------------------------------------------------- */
 .picker-row {
     position: relative;
     height: 0;
-    /* Sit above the comparison's content (z:1–2) and the centerline (z:5),
-       but below the FEN navbar (z:50) so scroll-sticky nav still wins. */
+    /* Sit above the comparison's content (z:1–2) and the centerline (z:5). */
     z-index: 25;
 }
 
@@ -461,13 +449,13 @@ body.hydrated .picker-badge {
      Anchored below the badge via picker-cell (the cell uses
      translate(-50%, -50%) so top: 100% drops the menu out from the
      badge's bottom edge). Glass-dark sheet with a faint party-tinted
-     border to echo the badge it opened from.
+     border to echo the badge it opened from. Opening slides it down 4px
+     as it fades in.
      -------------------------------------------------------------------------- */
 .picker-menu {
     position: absolute;
     top: calc(100% + 10px);
-    left: 50%;
-    transform: translateX(-50%) translateY(-4px);
+    transform: translateY(-4px);
     width: max(720px, 100%);
     max-width: min(840px, calc(100vw - 32px));
     max-height: min(560px, calc(100vh - 180px));
@@ -507,26 +495,16 @@ body.hydrated .picker-badge {
     scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
 }
 
-/* With the wider 3-column menu, the centered popover overflows the
-   viewport — anchor each side's menu to the outer edge of its badge
-   so it opens inward instead. */
+/* The 3-column menu is wider than its badge, so a centered popover
+   would overflow the viewport — anchor each side's menu to the outer
+   edge of its badge so it opens inward instead. */
 .picker-cell[data-side="left"] .picker-menu {
     left: 0;
-    transform: translateX(0) translateY(-4px);
-}
-
-.picker-cell[data-side="left"] .picker-menu:not([hidden]) {
-    transform: translateX(0) translateY(0);
 }
 
 .picker-cell[data-side="right"] .picker-menu {
     left: auto;
     right: 0;
-    transform: translateX(0) translateY(-4px);
-}
-
-.picker-cell[data-side="right"] .picker-menu:not([hidden]) {
-    transform: translateX(0) translateY(0);
 }
 
 .picker-menu::-webkit-scrollbar {
@@ -542,7 +520,7 @@ body.hydrated .picker-badge {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
     transition:
         opacity 0.18s var(--ease-soft),
         transform 0.18s var(--ease-soft);
@@ -628,7 +606,6 @@ body.hydrated .picker-badge {
     color: var(--ink);
     text-align: left;
     font-family: var(--font-display);
-    font-variation-settings: 'opsz' 36;
     cursor: pointer;
     transition: background-color 0.12s var(--ease-soft), color 0.12s var(--ease-soft);
 }
@@ -729,7 +706,6 @@ body.hydrated .picker-badge {
     font-size: clamp(1.6rem, 3.2vw, 2.5rem);
     line-height: 1;
     letter-spacing: -0.02em;
-    font-variation-settings: 'opsz' 144;
     color: var(--ink);
 }
 
@@ -740,7 +716,6 @@ body.hydrated .picker-badge {
     font-size: 0.78rem;
     color: var(--ink-dim);
     margin-top: 6px;
-    font-variation-settings: 'opsz' 9;
 }
 
 .name-detail sup {
@@ -765,7 +740,7 @@ body.hydrated .picker-badge {
 }
 
 /* --------------------------------------------------------------------------
-     View toggle — "Your ratings" / "AI ratings".
+     View toggle — "Your ratings" / "Others' ratings" / "AI ratings".
 
      Sits on the centerline at the header/comparison boundary, between
      the two picker badges (which live at 25% / 75%). Same glass-dark
@@ -931,16 +906,22 @@ body.hydrated .view-caption {
 /* Background layers — gradient + pattern overlay.
 
    Pattern (stars vs stripes) is driven by --party-pattern, which travels
-   with the president via data-party. The radial-accent anchor stays bound
-   to the side (12% on the left, 88% on the right). */
+   with the president via data-party. The radial accent stays bound to
+   the side: --side-accent-x anchors it near the outer edge (12% across
+   on the left, 88% on the right). */
+.side-left {
+    --side-accent-x: 12%;
+}
+
+.side-right {
+    --side-accent-x: 88%;
+}
+
 .side-bg {
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-}
-
-.side-left .side-bg {
     background:
         linear-gradient(var(--party-pattern-veil, transparent), var(--party-pattern-veil, transparent)),
         var(--party-pattern) repeat,
@@ -949,20 +930,7 @@ body.hydrated .view-caption {
             var(--party-bg-2) 35%,
             var(--party-bg-3) 65%,
             var(--party-bg-4) 100%),
-        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
-    background-size: auto, var(--party-pattern-size, auto), auto, auto;
-}
-
-.side-right .side-bg {
-    background:
-        linear-gradient(var(--party-pattern-veil, transparent), var(--party-pattern-veil, transparent)),
-        var(--party-pattern) repeat,
-        linear-gradient(180deg,
-            var(--party-bg-1) 0%,
-            var(--party-bg-2) 35%,
-            var(--party-bg-3) 65%,
-            var(--party-bg-4) 100%),
-        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
+        radial-gradient(ellipse at var(--side-accent-x) 50%, rgba(var(--party-rgb), 0.25) 0%, transparent 55%);
     background-size: auto, var(--party-pattern-size, auto), auto, auto;
 }
 
@@ -972,28 +940,13 @@ body.hydrated .view-caption {
      3. The seal pattern (star + concentric rings).
      4. Pewter radial accent at the outer edge (matches party theming).
      5. Midnight gradient base.
-   Higher specificity than the generic .side-left / .side-right rules,
-   so it replaces them entirely for Washington. */
-.side-left[data-party="noparty"] .side-bg {
+   Replaces the generic layer stack above entirely for Washington. */
+.side[data-party="noparty"] .side-bg {
     background:
         radial-gradient(ellipse 70% 45% at 50% 0%, rgba(196, 210, 234, 0.10) 0%, transparent 70%),
         linear-gradient(90deg, transparent 0%, rgba(196, 210, 234, 0.035) 50%, transparent 100%),
         var(--party-pattern) repeat,
-        radial-gradient(ellipse at 12% 50%, rgba(var(--party-rgb), 0.28) 0%, transparent 55%),
-        linear-gradient(180deg,
-            var(--party-bg-1) 0%,
-            var(--party-bg-2) 35%,
-            var(--party-bg-3) 65%,
-            var(--party-bg-4) 100%);
-    background-size: auto, auto, var(--party-pattern-size, auto), auto, auto;
-}
-
-.side-right[data-party="noparty"] .side-bg {
-    background:
-        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(196, 210, 234, 0.10) 0%, transparent 70%),
-        linear-gradient(90deg, transparent 0%, rgba(196, 210, 234, 0.035) 50%, transparent 100%),
-        var(--party-pattern) repeat,
-        radial-gradient(ellipse at 88% 50%, rgba(var(--party-rgb), 0.28) 0%, transparent 55%),
+        radial-gradient(ellipse at var(--side-accent-x) 50%, rgba(var(--party-rgb), 0.28) 0%, transparent 55%),
         linear-gradient(180deg,
             var(--party-bg-1) 0%,
             var(--party-bg-2) 35%,
@@ -1141,7 +1094,6 @@ body[data-view="others"] .bar {
     letter-spacing: -0.005em;
     color: var(--ink);
     white-space: nowrap;
-    font-variation-settings: 'opsz' 36;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     flex-shrink: 0;
     transition: color 0.15s var(--ease-soft);
@@ -1321,7 +1273,6 @@ body[data-view="others"] .bar-fill {
     line-height: 1;
     color: var(--ink);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    font-variation-settings: 'opsz' 144;
     letter-spacing: -0.02em;
     opacity: 0;
     animation: fadeIn 0.5s var(--ease-soft) forwards;
@@ -1464,7 +1415,7 @@ body[data-view="others"] .side-right .bar:not([data-others-rated]) .bar-fill::be
 }
 
 body[data-view="user"] .bar:not([data-user-rated]) .bar-fill.is-previewing .rate-preview,
-body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-preview {
+body[data-view="user"] .bar:is([data-track-state="pending"], [data-track-state="saving"]):not([data-user-rated]) .rate-preview {
     opacity: 1;
 }
 
@@ -1480,7 +1431,6 @@ body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-preview {
     line-height: 1;
     color: var(--ink);
     letter-spacing: -0.02em;
-    font-variation-settings: 'opsz' 144;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -1515,13 +1465,14 @@ body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-preview {
     left: calc(var(--rail-base) + var(--pending-sev, 1) * var(--rail-step) - 1px);
 }
 
-body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-notch {
+body[data-view="user"] .bar:is([data-track-state="pending"], [data-track-state="saving"]):not([data-user-rated]) .rate-notch {
     opacity: 0.95;
 }
 
 /* Confirm / cancel chips — surface at the centerline end of the track
-   once a pending value exists. Dark glass so they read on top of the
-   preview fill's brightest end. */
+   while a value is parked (data-track-state "pending", or "saving" once
+   confirmed). Dark glass so they read on top of the preview fill's
+   brightest end. */
 .rate-actions {
     position: absolute;
     top: 50%;
@@ -1541,7 +1492,7 @@ body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-notch {
     flex-direction: row-reverse;
 }
 
-.bar.is-pending .rate-actions {
+body[data-view="user"] .bar:is([data-track-state="pending"], [data-track-state="saving"]) .rate-actions {
     display: flex;
     animation: ratingSubmitFade 0.18s var(--ease-soft);
 }
@@ -1604,8 +1555,8 @@ body[data-view="user"] .bar.is-pending:not([data-user-rated]) .rate-notch {
     outline-offset: 2px;
 }
 
-.bar.is-saving .rate-confirm,
-.bar.is-saving .rate-cancel {
+.bar[data-track-state="saving"] .rate-confirm,
+.bar[data-track-state="saving"] .rate-cancel {
     opacity: 0.55;
     cursor: wait;
     pointer-events: none;
@@ -1787,26 +1738,30 @@ body[data-view="others"] .others-votes {
 /* --------------------------------------------------------------------------
      Bar detail (expanded panel) — desktop inline, mobile modal
      -------------------------------------------------------------------------- */
+/* Shut, the panel is also visibility:hidden, which takes its links and
+   rating buttons out of the tab order and the accessibility tree (a
+   zero-height box alone leaves them focusable). The visibility flip waits
+   out the 0.5s collapse so the fade stays visible, and happens at once on
+   the way open. */
 .bar-detail {
     width: 100%;
     max-height: 0;
     overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
     transition:
         max-height 0.5s var(--ease-soft),
         margin-top 0.5s var(--ease-soft),
-        opacity 0.4s var(--ease-soft);
-    opacity: 0;
-}
-
-.bar-detail[hidden] {
-    display: block;
-    /* override [hidden] so we can animate */
+        opacity 0.4s var(--ease-soft),
+        visibility 0s linear 0.5s;
 }
 
 .bar.expanded .bar-detail {
     max-height: max-content;
     margin-top: 14px;
     opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
 }
 
 .bar-detail-inner {
@@ -1831,7 +1786,6 @@ body[data-view="others"] .others-votes {
     font-family: var(--font-display);
     font-weight: 900;
     font-size: 1.5rem;
-    font-variation-settings: 'opsz' 144;
     letter-spacing: -0.015em;
     margin: 0 0 12px;
     color: var(--ink);
@@ -1983,7 +1937,6 @@ body[data-view="others"] .others-votes {
     font-size: 1.18rem;
     font-weight: 900;
     letter-spacing: -0.025em;
-    font-variation-settings: 'opsz' 144;
     color: var(--ink);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 0, 0, 0.6);
 }
@@ -2198,7 +2151,6 @@ body[data-view="others"] .others-votes {
     font-weight: 900;
     font-size: 3.4rem;
     line-height: 1;
-    font-variation-settings: 'opsz' 144;
     margin: 0 0 6px;
     color: var(--party-glow, var(--ink));
 }
@@ -2257,7 +2209,6 @@ body[data-view="others"] .modal-severity[data-votes]::after {
     font-size: 1.85rem;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    font-variation-settings: 'opsz' 144;
     margin: 0 0 18px;
     color: var(--ink);
 }
@@ -2283,6 +2234,24 @@ body[data-view="others"] .modal-severity[data-votes]::after {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding-top: 18px;
     margin-top: 18px;
+}
+
+/* In the reader-rating view an unrated bar is itself the rating control
+   (hover, click, confirm), so its inline panel points back to it instead
+   of offering a second 1–10 scale beside the bar's Confirm chip. Once
+   the bar is rated the block returns, showing the thanks line and
+   "Change my rating". Desktop only in effect: on mobile inline panels
+   never open, and the modal's block isn't inside a .bar. */
+body[data-view="user"] .bar:not([data-user-rated]) .bar-rating > * {
+    display: none;
+}
+
+body[data-view="user"] .bar:not([data-user-rated]) .bar-rating::before {
+    content: 'To rate this, click the bar above where you think it lands, then confirm.';
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: var(--ink-faint);
 }
 
 .bar-rating-prompt {
@@ -2347,18 +2316,18 @@ body[data-view="others"] .modal-severity[data-votes]::after {
     opacity: 0.7;
 }
 
-/* Submit / thanks state machine.
-   The block has three logical states driven by class on .bar-rating:
-     (default)        idle           — scale visible, submit hidden, thanks hidden
-     .has-pending     pending        — scale visible, submit visible, thanks hidden
-     .is-submitted    submitted      — prompt/scale/submit hidden, thanks visible
-   CSS owns the visibility transitions; JS only flips classes. */
+/* Submit / thanks state machine, keyed off .bar-rating[data-state]
+   (written only by setRatingBlockState in the JS):
+     idle (or unset)  scale visible, submit hidden, thanks hidden
+     pending          scale visible, submit visible, thanks hidden
+     saving           as pending; JS disables the scale and submit
+     submitted        prompt/scale/submit hidden, thanks visible */
 .bar-rating-submit,
 .bar-rating-thanks {
     display: none;
 }
 
-.bar-rating.has-pending .bar-rating-submit {
+.bar-rating:is([data-state="pending"], [data-state="saving"]) .bar-rating-submit {
     display: inline-block;
     margin-top: 4px;
     animation: ratingSubmitFade 0.2s var(--ease-soft);
@@ -2400,13 +2369,13 @@ body[data-view="others"] .modal-severity[data-votes]::after {
 
 /* When submitted, the prompt + scale + submit all collapse so the
    thanks message visually replaces them in place. */
-.bar-rating.is-submitted .bar-rating-prompt,
-.bar-rating.is-submitted .bar-rating-scale,
-.bar-rating.is-submitted .bar-rating-submit {
+.bar-rating[data-state="submitted"] .bar-rating-prompt,
+.bar-rating[data-state="submitted"] .bar-rating-scale,
+.bar-rating[data-state="submitted"] .bar-rating-submit {
     display: none;
 }
 
-.bar-rating.is-submitted .bar-rating-thanks {
+.bar-rating[data-state="submitted"] .bar-rating-thanks {
     display: block;
     animation: ratingThanksFade 0.35s var(--ease-soft);
 }
@@ -2575,9 +2544,9 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         display: none;
     }
 
-    /* Picker row — becomes a sticky flex row under the navbar.
-       The figures are gone so this is the only persistent "who am I
-       looking at" anchor while scrolling through bars. */
+    /* Picker row — becomes a sticky flex row at the top. The portraits
+       are gone, so this is the only persistent "who am I looking at"
+       anchor while scrolling through bars. */
     .picker-row {
         position: sticky;
         top: 0;
@@ -2615,7 +2584,6 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         top: calc(100% + 8px);
         left: 0;
         right: 0;
-        transform: translateY(-4px);
         width: auto;
         max-width: none;
         max-height: min(70vh, calc(100vh - 140px));
@@ -2627,10 +2595,6 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         border-top: 1px solid rgba(255, 255, 255, 0.06);
         margin-top: 6px;
         padding-top: 6px;
-    }
-
-    .picker-menu:not([hidden]) {
-        transform: translateY(0);
     }
 
     .picker-badge {
@@ -2735,7 +2699,6 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         line-height: 1.15;
         color: var(--ink);
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-        font-variation-settings: 'opsz' 36;
         letter-spacing: -0.005em;
         /* Allow wrap so labels stay readable in full instead of being
            truncated with ellipsis. Clamp to 2 lines so a long label
@@ -2796,6 +2759,7 @@ body[data-view="others"] .modal-severity[data-votes]::after {
         max-height: 0;
         margin-top: 0;
         opacity: 0;
+        visibility: hidden;
     }
 
     /* Push centerline above sticky header on mobile so it stays visible */

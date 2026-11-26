@@ -205,7 +205,12 @@
                 </span>
                 <p class="rate-status" role="status" aria-live="polite"></p>
             </div>
-            <div class="bar-detail" hidden>
+            <!--
+              Shut until JS adds .expanded to the bar. CSS keeps a shut
+              panel visibility:hidden, so its links and buttons stay out
+              of the tab order while it's collapsed.
+            -->
+            <div class="bar-detail">
                 <div class="bar-detail-inner">
                     <h3 class="detail-title"></h3>
                     <p class="detail-description"></p>
@@ -226,21 +231,21 @@
                         <div class="bar-rating-scale" role="radiogroup" aria-label="Your severity rating, 1 to 10">
                         </div>
                         <!--
-                          Submit button — CSS hides it by default and reveals
-                          it when the .bar-rating element carries the
-                          has-pending state class (set by the click delegate
-                          when a 1–10 button is chosen). Deferring the POST
-                          to an explicit submit lets users click around
-                          freely without burning their per-(bar,IP) write cap.
+                          Submit button — CSS shows it only while the
+                          .bar-rating block's data-state is "pending" or
+                          "saving" (see setRatingBlockState in the JS).
+                          Deferring the POST to an explicit submit lets users
+                          click around freely without burning their
+                          per-(bar,IP) write cap.
                         -->
                         <button class="bar-rating-submit" type="button">Submit rating</button>
                         <!--
                           Thanks confirmation — replaces the prompt + scale +
-                          submit once the vote has actually landed (or when
-                          a stored vote is found on re-open). The "Change my
-                          rating" button reverts the block to the idle state
-                          so the scale is interactive again within the
-                          server-side daily edit cap.
+                          submit in the "submitted" state: once the vote has
+                          landed, or when a stored vote is found on re-open.
+                          The "Change my rating" button reverts the block to
+                          the idle state so the scale is interactive again
+                          within the server-side daily edit cap.
                         -->
                         <div class="bar-rating-thanks">
                             <p class="bar-rating-thanks-text"></p>
@@ -291,7 +296,7 @@
             <h2 class="modal-title" id="modal-title"></h2>
             <p class="modal-description" id="modal-description"></p>
             <div class="modal-sources">
-                <h4 class="sources-heading">Sources</h4>
+                <h3 class="sources-heading">Sources</h3>
                 <ol class="sources-list" id="modal-sources-list"></ol>
             </div>
             <!--

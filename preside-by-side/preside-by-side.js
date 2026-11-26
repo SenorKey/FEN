@@ -17,6 +17,12 @@
      down) — except unrated bars in the user view, where the bar is the
      rating control and the event label opens the panel instead.
    - Mobile:  bar click opens a native <dialog> modal.
+   - Interaction state lives in four small explicit state machines, each
+     with a single writer (search for the name):
+       .bar-rating[data-state]   setRatingBlockState  idle/pending/saving/submitted
+       .bar[data-track-state]    setTrackState        idle/pending/saving
+       expandedBar               setExpandedBar       the one open panel, or null
+       modalState                openModal/closeModal closed/opening/open/closing
    ========================================================================== */
 
 (function () {
@@ -47,9 +53,10 @@
                       "46th President" / "45th & 47th President".
                       Single number for one-term presidents, array for
                       non-consecutive multi-term cases.
-         party:       String — drives future color theming (not wired up
-                      yet; sides currently theme by .side-left / .side-right
-                      in CSS).
+         party:       String — the [data-party] theme for this president's
+                      side, picker badge and modal (see "Party theming" in
+                      the CSS), and the picker column they're listed under.
+         portrait:    String (optional) — masthead image; omit to show none.
 
        Bars (severity, title, shortLabel, description, sources) live in
        data/presidents/<id>.json and are fetched on demand via loadBars()
@@ -254,7 +261,7 @@
        Selection — which president is currently shown on each side. The
        pickers mutate this. These are the defaults; a matchup encoded in
        the URL (?left=<id>&right=<id>) overrides them on load — see
-       readSelectionFromUrl below.
+       readStateFromUrl below.
        -------------------------------------------------------------------------- */
     const selection = {
         left: 'biden',
@@ -262,34 +269,29 @@
     };
 
     /* --------------------------------------------------------------------------
-       URL persistence — a matchup can be shared or bookmarked via
-       ?left=<id>&right=<id> search params. On load we read them, ignoring
-       unknown ids and any pairing that would put the same president on
-       both sides (the picker forbids that, so the URL must too). On every
-       picker change syncSelectionToUrl writes the current selection back
-       with history.replaceState, keeping the address bar in sync without
-       stacking entries on the back button.
+       URL persistence — a matchup and view can be shared or bookmarked
+       via ?left=<id>&right=<id>&view=<mode>. readStateFromUrl (after the
+       view-mode block) reads them once; each picker change or view toggle
+       writes its part back through editUrlParams.
        -------------------------------------------------------------------------- */
-    (function readSelectionFromUrl() {
+    // Rewrite the query string in place: `edit` mutates the current params,
+    // and replaceState keeps the back button free of one entry per click.
+    function editUrlParams(edit) {
         const params = new URLSearchParams(window.location.search);
-        const left = params.get('left');
-        const right = params.get('right');
-        if (left && presidents[left]) selection.left = left;
-        // The right side may not duplicate whatever left just resolved to.
-        if (right && presidents[right] && right !== selection.left) {
-            selection.right = right;
-        }
-    })();
-
-    function syncSelectionToUrl() {
-        const params = new URLSearchParams(window.location.search);
-        params.set('left', selection.left);
-        params.set('right', selection.right);
+        edit(params);
+        const qs = params.toString();
         history.replaceState(
             null,
             '',
-            window.location.pathname + '?' + params.toString() + window.location.hash
+            window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
         );
+    }
+
+    function syncSelectionToUrl() {
+        editUrlParams(function (params) {
+            params.set('left', selection.left);
+            params.set('right', selection.right);
+        });
     }
 
     /* --------------------------------------------------------------------------
@@ -313,35 +315,42 @@
        every mode difference off; it's set here, before the first
        render, so bars never flash the wrong mode.
        -------------------------------------------------------------------------- */
+    const VIEW_MODES = ['user', 'others', 'ai'];
     let viewMode = 'user';
-    (function readViewFromUrl() {
-        const fromUrl = new URLSearchParams(window.location.search).get('view');
-        if (fromUrl === 'ai' || fromUrl === 'others') {
-            viewMode = fromUrl;
-        }
+
+    function syncViewToUrl() {
+        editUrlParams(function (params) {
+            if (viewMode === 'user') params.delete('view');
+            else params.set('view', viewMode);
+        });
+    }
+
+    // Read a shared link's matchup and view once, before the first render.
+    // Unknown ids are ignored, and so is a right side that repeats the left
+    // (the picker forbids that pairing, so the URL must too).
+    (function readStateFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const left = params.get('left');
+        const right = params.get('right');
+        const view = params.get('view');
+        if (left && presidents[left]) selection.left = left;
+        if (right && presidents[right] && right !== selection.left) selection.right = right;
+        if (VIEW_MODES.includes(view)) viewMode = view;
     })();
     document.body.dataset.view = viewMode;
 
-    function syncViewToUrl() {
-        const params = new URLSearchParams(window.location.search);
-        if (viewMode === 'user') params.delete('view');
-        else params.set('view', viewMode);
-        const qs = params.toString();
-        history.replaceState(
-            null,
-            '',
-            window.location.pathname + (qs ? '?' + qs : '') + window.location.hash
-        );
-    }
+    // The phone layout (inner labels, modal instead of inline panels,
+    // modal-only rating). Must match the CSS's `@media (max-width: 1000px)`.
+    const mql = window.matchMedia('(max-width: 1000px)');
+    const isMobile = () => mql.matches;
 
     /* --------------------------------------------------------------------------
        formatOrdinal — turn 46 into "46<sup>th</sup> President" or
        [45, 47] into "45<sup>th</sup> & 47<sup>th</sup> President".
 
-       Returns HTML (not plain text) because the styling of the suffix
-       relies on the <sup> tag — see `.name-detail sup` in styles.css.
-       Callers must use innerHTML, not textContent. The data is author-
-       controlled (defined above in this file), so this is safe.
+       Returns DOM nodes rather than an HTML string, so the badge fills via
+       replaceChildren() and no markup is ever parsed from data. The <sup>
+       carries the suffix styling (`.name-detail sup` in the CSS).
        -------------------------------------------------------------------------- */
     // Ordinal suffix for a number — 'st', 'nd', 'rd', or 'th'.
     // 11/12/13 are the special cases that don't follow the last-digit
@@ -356,13 +365,15 @@
     }
 
     function formatOrdinal(n) {
-        function fmt(num) {
-            return num + '<sup>' + ordinalSuffix(num) + '</sup>';
-        }
-        if (Array.isArray(n)) {
-            return n.map(fmt).join(' &amp; ') + ' President';
-        }
-        return fmt(n) + ' President';
+        const nodes = [];
+        [].concat(n).forEach(function (num, i) {
+            if (i > 0) nodes.push(' & ');
+            const sup = document.createElement('sup');
+            sup.textContent = ordinalSuffix(num);
+            nodes.push(String(num), sup);
+        });
+        nodes.push(' President');
+        return nodes;
     }
 
     /* --------------------------------------------------------------------------
@@ -552,70 +563,63 @@
        fixed-width strategy.
        -------------------------------------------------------------------------- */
     function applyLabelTightFit() {
-        const labels = document.querySelectorAll('.bar-label-outer');
-        if (!labels.length) return;
+        const labels = Array.from(document.querySelectorAll('.bar-label-outer'));
 
-        // Mobile uses inner labels, so any leftover .label-tight from a
-        // desktop session needs to be cleared (and it'd be a no-op
-        // anyway since outer labels are hidden).
-        const onMobile = mql.matches;
+        // Three phases so the browser lays the page out once, not once per
+        // label: reading a box straight after a style write forces a fresh
+        // layout, so all the resets go first, then all the measuring, then
+        // all the fitting.
+
+        // 1. Clear every earlier fit so each label measures at its natural
+        //    single-line size. On mobile that's all there is to do: outer
+        //    labels are hidden there in favor of inner ones.
+        labels.forEach(function (label) {
+            label.classList.remove('label-tight');
+            label.style.maxWidth = '';
+        });
+        if (isMobile()) return;
 
         const SAFETY = 8;       // breathing room past the viewport edge
         const GAP = 18;         // mirrors .bar-row { gap: 18px }
-        const BREATHING = 6;    // shave a few px off max-width so wrapped
-        // text doesn't kiss the edge
+        const BREATHING = 6;    // so wrapped text doesn't kiss the edge
+        const MIN_WIDTH = 40;   // narrower is unreadable even wrapped;
+        // line-clamp + ellipsis still keep the layout intact below it
         const vw = window.innerWidth;
 
-        labels.forEach(function (label) {
-            // Always reset before re-measuring; the previous render or
-            // a wider viewport may have applied .label-tight that no
-            // longer applies.
-            label.classList.remove('label-tight');
-            label.style.maxWidth = '';
-
-            if (onMobile) return;
-
+        // 2. Measure. The fill's entrance animation is a clip-path reveal
+        //    rather than a scaleX transform, so its layout box is honest at
+        //    every frame and getBoundingClientRect needs no correction.
+        const fits = labels.map(function (label) {
             const bar = label.closest('.bar');
-            if (!bar) return;
-            const fill = bar.querySelector('.bar-fill');
-            if (!fill) return;
-
-            const labelRect = label.getBoundingClientRect();
-            // The bar-fill's entrance animation is a clip-path reveal
-            // rather than a scaleX transform, so the element's layout
-            // box is honest at every frame of the animation. That means
-            // getBoundingClientRect reports the bar's true on-screen
-            // rect even on the very first paint, and we can read its
-            // edges directly without falling back to offsetLeft/
-            // offsetWidth + offsetParent gymnastics.
+            const fill = bar && bar.querySelector('.bar-fill');
+            if (!fill) return null;
             const fillRect = fill.getBoundingClientRect();
-            const fillLayoutLeft = fillRect.left;
-            const fillLayoutRight = fillRect.right;
-            const side = bar.dataset.side;
+            // Gutter between the viewport edge and the bar's outer edge.
+            const gutter = bar.dataset.side === 'left'
+                ? fillRect.left - GAP - SAFETY - BREATHING
+                : vw - fillRect.right - GAP - SAFETY - BREATHING;
+            // Wrap *before* the label gets cramped against the bar or
+            // clips past the viewport edge.
+            if (label.getBoundingClientRect().width <= gutter) return null;
+            return Math.max(gutter, MIN_WIDTH);
+        });
 
-            let availableOuter = 0;
-
-            if (side === 'left') {
-                // Label sits to the LEFT of the bar; gutter is from
-                // the viewport edge to the bar's left edge.
-                availableOuter = fillLayoutLeft - GAP - SAFETY - BREATHING;
-            } else {
-                // Label sits to the RIGHT of the bar; gutter is from
-                // the bar's right edge to the viewport edge.
-                availableOuter = vw - fillLayoutRight - GAP - SAFETY - BREATHING;
-            }
-
-            // Fire the tight fallback proactively whenever the label's
-            // natural single-line width exceeds the gutter, so labels
-            // wrap *before* they get visually cramped against the bar
-            // or clip past the viewport edge.
-            if (labelRect.width <= availableOuter) return;
-            if (availableOuter < 40) availableOuter = 40; // hard floor;
-            // anything narrower would be unreadable even wrapped, but
-            // line-clamp + ellipsis still saves us from breaking layout.
-
+        // 3. Apply.
+        labels.forEach(function (label, i) {
+            if (fits[i] == null) return;
             label.classList.add('label-tight');
-            label.style.maxWidth = availableOuter.toFixed(1) + 'px';
+            label.style.maxWidth = fits[i].toFixed(1) + 'px';
+        });
+    }
+
+    // Coalesce refit requests (resize drags, bar-width transitions ending
+    // on twenty bars at once) into one applyLabelTightFit per frame.
+    let labelFitFrame = 0;
+    function scheduleLabelFit() {
+        if (labelFitFrame) return;
+        labelFitFrame = requestAnimationFrame(function () {
+            labelFitFrame = 0;
+            applyLabelTightFit();
         });
     }
 
@@ -644,6 +648,11 @@
         // Clear immediately so the column doesn't keep showing the old
         // president's bars while the new president's JSON is in flight.
         container.replaceChildren();
+
+        // Start the community averages now, alongside the bars, rather than
+        // after them — they're independent requests, and chaining them cost
+        // every column a second round trip before the others view filled.
+        const ratingsReady = loadRatings(presidentId);
 
         loadBars(presidentId).then(function (bars) {
             // A newer render call superseded us — drop this result.
@@ -679,11 +688,10 @@
             // labels for this side. Cheap and idempotent.
             applyLabelTightFit();
 
-            // Community averages arrive on their own fetch (deduped +
-            // cached per president). Once they land, stamp this side's
-            // bars with their others-view width/number/order. The token
-            // check repeats because this resolves later than the bars.
-            loadRatings(presidentId).then(function () {
+            // Once the averages land (often already), stamp this side's bars
+            // with their others-view width/number/order. The token check
+            // repeats because this can resolve later than the bars.
+            ratingsReady.then(function () {
                 if (renderTokens[side] !== token) return;
                 applyOthersRatings(container, presidentId);
             });
@@ -739,9 +747,7 @@
         // textContent for plain strings (auto-escapes anything weird).
         if (nf) nf.textContent = president.firstName;
         if (ln) ln.textContent = president.lastName;
-        // innerHTML for the ordinal because formatOrdinal returns markup
-        // (sup tags). Safe because the input is author-controlled data.
-        if (nd) nd.innerHTML = formatOrdinal(president.ordinal);
+        if (nd) nd.replaceChildren(...formatOrdinal(president.ordinal));
         if (np) np.textContent = formatParty(president.party);
 
         // Rich, dynamic aria-label collapses what would otherwise be two
@@ -896,15 +902,8 @@
         const otherSide = side === 'left' ? 'right' : 'left';
         const disabledId = selection[otherSide];
         const currentId = selection[side];
-
-        // Drive the picker cell's border tint via data-party. The
-        // .picker-badge base rule reads rgba(var(--party-rgb), 0.45),
-        // so changing data-party on the cell recolors the border.
-        const cell = trigger.closest('.picker-cell');
-        const currentPresident = presidents[currentId];
-        if (cell && currentPresident) {
-            cell.dataset.party = currentPresident.party;
-        }
+        // (The cell's party tint is renderNameBadge's job; it always runs
+        // first for a side whose president changed.)
 
         // Bucket presidents by party in a single pass, then sort each
         // bucket by most recent ordinal first (largest at top).
@@ -1022,9 +1021,7 @@
     let openSide = null;
 
     function getEnabledOptions(menu) {
-        return Array.prototype.slice.call(
-            menu.querySelectorAll('.picker-option:not([aria-disabled="true"])')
-        );
+        return Array.from(menu.querySelectorAll('.picker-option:not([aria-disabled="true"])'));
     }
 
     function setActiveOption(menu, opt) {
@@ -1090,13 +1087,10 @@
         if (selection[side] === newId) return;     // no-op
         if (!presidents[newId]) return;            // defensive: unknown id
 
-        // renderSide() below detaches all bars on this side. Drop the
-        // reference so toggleExpand doesn't later call collapseBar on a
-        // ghost node and leak a transitionend listener.
-        if (currentlyExpanded && currentlyExpanded.dataset.side === side) {
-            currentlyExpanded.classList.remove('expanded');
-            currentlyExpanded = null;
-        }
+        // renderSide() below detaches all bars on this side, so let go of
+        // an open panel among them rather than keep a detached node as the
+        // "expanded" one.
+        if (expandedBar && expandedBar.dataset.side === side) setExpandedBar(null);
 
         selection[side] = newId;
         syncSelectionToUrl();
@@ -1207,45 +1201,8 @@
             closePicker(openSide);
             return;
         }
-        cancelAllPendingRatings();
+        document.querySelectorAll('.bar[data-track-state="pending"]').forEach(cancelPick);
     });
-
-    // Mobile-query setup hoisted above the initial render so
-    // applyLabelTightFit can read mql.matches on its very first call.
-    const MOBILE_QUERY = '(max-width: 1000px)';
-    const mql = window.matchMedia(MOBILE_QUERY);
-    const isMobile = () => mql.matches;
-
-    // Initial render. renderSide is async — it kicks off the per-president
-    // bars fetch and renders when it resolves. Both sides fire in parallel
-    // so the network requests overlap. Everything else (badges, portraits,
-    // pickers) reads from the synchronous metadata index and lands on the
-    // first paint. renderSide schedules its own applyLabelTightFit when
-    // its bars land, so no top-level call is needed here.
-    renderSide('left');
-    renderSide('right');
-    renderNameBadge('left');
-    renderNameBadge('right');
-    renderPortrait('left');
-    renderPortrait('right');
-    // Reveal the name badges now that they're populated. Done before
-    // the picker render so an error in renderPicker doesn't strand the
-    // badges in their pre-hydration hidden state — a half-broken page
-    // shouldn't leave the most prominent text invisible.
-    document.body.classList.add('hydrated');
-    renderPicker('left');
-    renderPicker('right');
-
-    /* --------------------------------------------------------------------------
-       Everything below is the original interaction code, unchanged.
-       -------------------------------------------------------------------------- */
-
-    // Modal elements (now a native <dialog>)
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalSeverity = document.getElementById('modal-severity');
-    const modalSourcesList = document.getElementById('modal-sources-list');
 
     /* --------------------------------------------------------------------------
        Reader severity ratings — same .bar-rating block lives in TWO
@@ -1272,32 +1229,40 @@
        -------------------------------------------------------------------------- */
     const RATINGS_ENDPOINT = '/api/ratings/';
     const RATE_ENDPOINT = '/api/rate';
-    const ratingsData = Object.create(null);     // pid -> { bar_id: {avg,count,sum} }
-    const ratingsLoading = Object.create(null);  // pid -> Promise
+    // Two views of one cache: ratingsData holds each president's averages
+    // once they've landed (read synchronously while rendering), and
+    // ratingsPromises holds the one request per president that fills it.
+    const ratingsData = Object.create(null);      // pid -> { bar_id: {avg,count,sum} }
+    const ratingsPromises = Object.create(null);  // pid -> Promise of the same map
 
     function loadRatings(pid) {
-        if (ratingsData[pid]) return Promise.resolve(ratingsData[pid]);
-        if (ratingsLoading[pid]) return ratingsLoading[pid];
-        const p = fetch(RATINGS_ENDPOINT + encodeURIComponent(pid), {
-            credentials: 'same-origin'
-        })
-            .then(function (r) { return r.ok ? r.json() : {}; })
-            .catch(function () { return {}; })
-            .then(function (data) {
-                // Server returns plain object; clone into a null-proto map
-                // so accidental prototype-name bar_ids ("constructor", etc.)
-                // can't trip lookups. Belt-and-suspenders — bar IDs come
-                // from a fixed alphabet that excludes those names.
-                const safe = Object.create(null);
-                if (data && typeof data === 'object') {
-                    Object.keys(data).forEach(function (k) { safe[k] = data[k]; });
-                }
-                ratingsData[pid] = safe;
-                delete ratingsLoading[pid];
-                return safe;
-            });
-        ratingsLoading[pid] = p;
-        return p;
+        if (!ratingsPromises[pid]) {
+            ratingsPromises[pid] = fetch(RATINGS_ENDPOINT + encodeURIComponent(pid), {
+                credentials: 'same-origin'
+            })
+                .then(function (r) { return r.ok ? r.json() : {}; })
+                .catch(function () { return {}; })
+                .then(function (data) {
+                    // Copy into a null-prototype map so a bar id spelled like
+                    // an Object.prototype key ("constructor") can't trip a
+                    // lookup. Belt-and-braces: real ids come from an alphabet
+                    // that can't spell those names.
+                    ratingsData[pid] = Object.assign(Object.create(null),
+                        data && typeof data === 'object' ? data : {});
+                    return ratingsData[pid];
+                });
+        }
+        return ratingsPromises[pid];
+    }
+
+    // The community entry for one bar, or null before it loads / with no votes.
+    function othersEntry(presidentId, barId) {
+        const map = ratingsData[presidentId];
+        return (map && barId && map[barId]) || null;
+    }
+
+    function votesLabel(count) {
+        return count + (count === 1 ? ' vote' : ' votes');
     }
 
     /* --------------------------------------------------------------------------
@@ -1400,49 +1365,66 @@
         scaleEl.appendChild(frag);
     }
 
-    function setRatingStatus(containerEl, text, kind) {
-        const statusEl = containerEl && containerEl.querySelector('.bar-rating-status');
+    // One status-line writer for every surface (rating blocks, bar tracks,
+    // the suggestion form): set the text and at most one is-<kind> class.
+    function setStatus(statusEl, text, kind) {
         if (!statusEl) return;
         statusEl.textContent = text || '';
         statusEl.classList.remove('is-error', 'is-success');
         if (kind) statusEl.classList.add('is-' + kind);
     }
 
-    function applyVoteHighlight(scaleEl, value) {
-        if (!scaleEl) return;
-        Array.prototype.forEach.call(scaleEl.children, function (btn) {
-            const v = parseInt(btn.dataset.value, 10);
-            btn.setAttribute('aria-checked', (value === v) ? 'true' : 'false');
-            btn.disabled = false;
+    function saveErrorText(err) {
+        return err && err.message
+            ? 'Couldn’t save — ' + err.message
+            : 'Couldn’t save — try again in a moment.';
+    }
+
+    /* --------------------------------------------------------------------------
+       Rating block state machine — one .bar-rating (a detail panel's or the
+       modal's) is always in exactly one state, held in its data-state
+       attribute. CSS keys every visibility change off that attribute; this
+       function is its only writer.
+
+         idle       scale live, nothing to submit; `vote` (the stored rating,
+                    or a re-pick of it) is highlighted, or nothing is
+         pending    the reader picked `vote`, which differs from what's
+                    stored; Submit shows
+         saving     POST in flight for `vote`; scale and Submit disabled
+         submitted  `vote` is stored; the thanks line replaces the scale
+
+         idle ──pick──▶ pending ──Submit──▶ saving ──ok──▶ submitted
+           ▲  ◀─re-pick stored─┘              │fail            │
+           │                                  ▼                │
+           │                     pending (error shown)         │
+           └────────────────────── Change my rating ◀──────────┘
+       -------------------------------------------------------------------------- */
+    function setRatingBlockState(containerEl, state, vote) {
+        const scaleEl = containerEl.querySelector('.bar-rating-scale');
+        const submitBtn = containerEl.querySelector('.bar-rating-submit');
+        const saving = state === 'saving';
+
+        containerEl.dataset.state = state;
+        containerEl._vote = vote == null ? null : vote;
+
+        Array.from(scaleEl.children).forEach(function (btn) {
+            btn.setAttribute('aria-checked', String(Number(btn.dataset.value) === vote));
+            btn.disabled = saving;
         });
-    }
+        if (submitBtn) submitBtn.disabled = saving;
 
-    // State machine — three logical states owned via classes on the
-    // .bar-rating container; CSS handles the visibility transitions.
-    //   'idle'       no pending selection, no thanks shown
-    //   'pending'    user has tapped a number, submit button visible
-    //   'submitted'  POST landed (or stored vote on re-open); thanks shown
-    function setRatingState(containerEl, state) {
-        if (!containerEl) return;
-        containerEl.classList.remove('has-pending', 'is-submitted');
-        if (state === 'pending') containerEl.classList.add('has-pending');
-        else if (state === 'submitted') containerEl.classList.add('is-submitted');
-    }
-
-    function updateThanksMessage(containerEl, rating) {
-        const txt = containerEl && containerEl.querySelector('.bar-rating-thanks-text');
-        if (!txt) return;
-        // innerHTML for the <strong> wrap around the user's number; the
-        // rating is a 1–10 integer parsed by JS, never a raw user string.
-        txt.innerHTML =
-            'Thanks — your rating of <strong>' + rating +
-            '</strong> has been recorded.';
+        if (state === 'submitted') {
+            const strong = document.createElement('strong');
+            strong.textContent = vote;
+            containerEl.querySelector('.bar-rating-thanks-text')
+                .replaceChildren('Thanks — your rating of ', strong, ' has been recorded.');
+        }
     }
 
     // Wire one .bar-rating container to a (president, bar). Called from
     // openModal for the modal's block and from renderBar for each inline
-    // panel's block. Idempotent — re-calling with a different bar swaps
-    // the data-* tags, resets pending state, and re-renders.
+    // panel's block. Re-calling with a different bar swaps the data-*
+    // tags and starts the block over from what's stored.
     function setupRatingUi(bar, presidentId, containerEl) {
         if (!containerEl || !bar) return;
         const scaleEl = containerEl.querySelector('.bar-rating-scale');
@@ -1451,21 +1433,10 @@
         ensureRatingButtons(scaleEl);
         scaleEl.dataset.presidentId = presidentId || '';
         scaleEl.dataset.barId = bar.id || '';
-
-        setRatingStatus(containerEl, '', null);
-        containerEl._pendingVote = null;
+        setStatus(containerEl.querySelector('.bar-rating-status'), '');
 
         const stored = getMyVote(bar.id);
-        // Highlight the stored value on the scale so a "Change my rating"
-        // toggle (or a quick state-transition glance) shows the user's
-        // current pick. New voters get no highlight.
-        applyVoteHighlight(scaleEl, stored);
-        if (stored != null) {
-            updateThanksMessage(containerEl, stored);
-            setRatingState(containerEl, 'submitted');
-        } else {
-            setRatingState(containerEl, 'idle');
-        }
+        setRatingBlockState(containerEl, stored != null ? 'submitted' : 'idle', stored);
     }
 
     function updateAverageOptimistic(presidentId, barId, oldVote, newVote) {
@@ -1521,7 +1492,7 @@
        -------------------------------------------------------------------------- */
     function applyOthersRatings(container, presidentId) {
         const map = ratingsData[presidentId] || {};
-        const nodes = Array.prototype.slice.call(container.querySelectorAll('.bar'));
+        const nodes = Array.from(container.querySelectorAll('.bar'));
         nodes.forEach(updateBarRatingState);
 
         const label = function (node) {
@@ -1539,57 +1510,54 @@
             node.style.setProperty('--order-others', i);
         });
 
-        // Widths just changed if the others view is active — re-fit the
-        // outer labels once the 0.55s width transition settles.
-        if (viewMode === 'others') setTimeout(applyLabelTightFit, 620);
+        // (Any width change re-fits the labels when its transition ends —
+        // see the transitionend listener near the resize handler.)
 
         // The modal could be sitting open on one of these bars showing
         // its em-dash placeholder; fill the number in now that we know.
-        if (modal.open) renderModalSeverity();
+        renderModalSeverity();
     }
 
-    // After a successful vote, mirror UI changes into every other
-    // .bar-rating block currently displaying the same bar — the modal
-    // and the bar's own inline panel can both reference the same id
-    // simultaneously. Each matching container snaps to the submitted
-    // state with the up-to-date thanks message and average line.
-    function syncAllSurfacesForBar(presidentId, barId) {
-        const scales = document.querySelectorAll(
-            '.bar-rating-scale[data-bar-id="' + barId + '"]'
-        );
-        const stored = getMyVote(barId);
-        Array.prototype.forEach.call(scales, function (scaleEl) {
+    // After a vote lands, bring every surface showing that bar up to
+    // date: each .bar-rating block on it (its inline panel and the modal
+    // can both be showing it) goes to 'submitted', and the bar itself
+    // re-resolves its width, number and marker. `vote` is passed in rather
+    // than re-read from localStorage so a browser that blocks storage
+    // still sees its vote acknowledged instead of a block stuck saving.
+    function syncAllSurfacesForBar(presidentId, barId, vote) {
+        const id = CSS.escape(barId);
+        document.querySelectorAll('.bar-rating-scale[data-bar-id="' + id + '"]').forEach(function (scaleEl) {
             // Skip scales pointing at a different president — rare but
             // possible if two presidents reference the same id string.
             if (scaleEl.dataset.presidentId !== presidentId) return;
             const container = scaleEl.closest('.bar-rating');
-            if (!container) return;
-            applyVoteHighlight(scaleEl, stored);
-            if (stored != null) {
-                updateThanksMessage(container, stored);
-                container._pendingVote = null;
-                setRatingState(container, 'submitted');
-            }
+            if (container) setRatingBlockState(container, 'submitted', vote);
         });
 
-        // The bar itself is a rating surface now too — refresh its
-        // rated/unrated state, displayed number, and AI-view marker so
-        // a vote cast in the detail panel or modal reshapes the bar.
-        const barNodes = document.querySelectorAll('.bar[data-bar-id="' + barId + '"]');
-        Array.prototype.forEach.call(barNodes, function (node) {
-            if (selection[node.dataset.side] !== presidentId) return;
-            updateBarRatingState(node);
+        document.querySelectorAll('.bar[data-bar-id="' + id + '"]').forEach(function (node) {
+            if (selection[node.dataset.side] === presidentId) updateBarRatingState(node);
         });
 
         // And the modal's big number, if it's open on this event.
-        if (modal.open && modal.dataset.barId === barId) {
-            renderModalSeverity();
-        }
+        if (modalBar && modalBar.id === barId) renderModalSeverity();
+    }
 
-        // A new rating changes a bar's width in the user view, which
-        // changes the outer label's available gutter. Re-fit once the
-        // width transition has settled; cheap and idempotent.
-        setTimeout(applyLabelTightFit, 620);
+    // POST a JSON body. Resolves on 2xx; otherwise throws an Error carrying
+    // the server's {"error": "..."} text when it sent one (e.g. "source must
+    // be a valid http(s) URL"), so callers can show something actionable.
+    async function postJson(url, body) {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        if (res.ok) return;
+        let serverMsg = '';
+        try {
+            const data = await res.json();
+            if (data && data.error) serverMsg = data.error;
+        } catch (_) { /* not JSON */ }
+        throw new Error(serverMsg || ('HTTP ' + res.status));
     }
 
     /* --------------------------------------------------------------------------
@@ -1602,56 +1570,116 @@
        -------------------------------------------------------------------------- */
     async function submitVote(presidentId, barId, newVote) {
         const oldVote = getMyVote(barId);
-        if (oldVote === newVote) {
-            // Nothing to commit — just make sure every surface agrees.
-            syncAllSurfacesForBar(presidentId, barId);
-            return;
+        if (oldVote !== newVote) {
+            await postJson(RATE_ENDPOINT, { president: presidentId, bar_id: barId, rating: newVote });
+            setMyVote(barId, newVote);
+            updateAverageOptimistic(presidentId, barId, oldVote, newVote);
         }
-        const res = await fetch(RATE_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                president: presidentId,
-                bar_id: barId,
-                rating: newVote
-            })
-        });
-        if (!res.ok) {
-            let serverMsg = '';
-            try {
-                const body = await res.json();
-                if (body && body.error) serverMsg = body.error;
-            } catch (_) { /* not JSON */ }
-            throw new Error(serverMsg || ('HTTP ' + res.status));
-        }
-        setMyVote(barId, newVote);
-        updateAverageOptimistic(presidentId, barId, oldVote, newVote);
-        syncAllSurfacesForBar(presidentId, barId);
+        // (An unchanged vote skips the POST; every surface still settles.)
+        syncAllSurfacesForBar(presidentId, barId, newVote);
     }
 
     /* --------------------------------------------------------------------------
        Bar-track rating — the default view's direct-manipulation flow.
 
-       State lives on each .bar node:
-         node._pendingSev        the clicked-but-unconfirmed 1–10 value
-         .is-pending (class)     confirm/cancel chips + notch visible
-         .is-saving  (class)     POST in flight; chips inert
-         data-user-rated (attr)  a stored vote exists; the fill is a real
-                                 bar again and clicks toggle the detail
+       While railActive(node), a bar's fill is a 1–10 rating track. Its
+       state machine lives in the bar's data-track-state attribute (CSS
+       keys the notch, preview and chips off it); setTrackState is its
+       only writer, and node._pendingSev is the value it's holding.
 
-       The fill's pointer handlers translate cursor X into a snapped
-       severity by inverting the same --bar-base/--bar-step width
-       formula CSS uses (read live from computed style so retuning the
-       chart geometry never desyncs the math).
+         idle     nothing parked; hovering previews (the fill's
+                  .is-previewing class is visual only, not a state)
+         pending  a value is parked: notch, confirm and cancel chips show
+         saving   the POST for the parked value is in flight; chips inert
+
+         idle ──click / arrows / Enter──▶ pending ──confirm──▶ saving
+           ▲          (re-pick: pending)    │                    │
+           └──── cancel / Esc / view or ────┘                    │
+           ▲     breakpoint change                               │
+           └──── ok: the bar is rated now, the track retires ◀───┤
+                 fail: back to pending, error shown  ◀───────────┘
+
+       Picking goes through pickOnTrack, which also opens the bar's detail
+       panel; cancelPick closes it again if the pick was what opened it.
+
+       Pointer X maps to a severity by inverting the CSS width formula,
+       with --bar-base/--bar-step read live from computed style so
+       retuning the chart geometry never desyncs the math.
        -------------------------------------------------------------------------- */
 
     // Is this bar currently acting as a rating track? All three guards
-    // matter: AI view shows finished bars, rated bars have graduated to
-    // normal bar behavior, and mobile rates through the modal's scale.
+    // matter: the other views show finished bars, rated bars have graduated
+    // to normal bar behavior, and mobile rates through the modal's scale.
     function railActive(node) {
         return viewMode === 'user' &&
             !node.hasAttribute('data-user-rated') &&
             !isMobile();
+    }
+
+    function setTrackState(node, state, sev) {
+        node.dataset.trackState = state;
+        node._pendingSev = state === 'idle' ? null : sev;
+        const fill = node.querySelector('.bar-fill');
+        if (state === 'idle') {
+            fill.classList.remove('is-previewing');
+        } else {
+            fill.style.setProperty('--pending-sev', sev);
+            setPreview(fill, sev);
+            node.querySelector('.rate-confirm').textContent = 'Confirm ' + sev;
+        }
+        if (state !== 'saving') setStatus(node.querySelector('.rate-status'), '');
+        updateRailAria(node);
+    }
+
+    // Park a pick on a bar's track and open the bar's detail panel, so the
+    // reader sees what the event was while deciding whether to confirm.
+    // Remembers whether it was the pick that opened the panel, so backing
+    // out of the pick can put the panel away again.
+    function pickOnTrack(node, sev) {
+        if (expandedBar !== node) {
+            setExpandedBar(node);
+            node._panelOpenedByPick = true;
+        }
+        setTrackState(node, 'pending', sev);
+    }
+
+    // Back out of a parked pick (the ✕ chip, Escape). The panel closes too
+    // if the pick opened it; one the reader opened from the label stays.
+    function cancelPick(node) {
+        if (node.dataset.trackState !== 'pending') return;
+        setTrackState(node, 'idle');
+        if (node._panelOpenedByPick && expandedBar === node) setExpandedBar(null);
+    }
+
+    // Drop every parked pick without touching panels — for a view change
+    // or breakpoint crossing, where the track itself stops being a track.
+    // A save already in flight finishes on its own.
+    function cancelAllPendingRatings() {
+        document.querySelectorAll('.bar[data-track-state="pending"]').forEach(function (node) {
+            setTrackState(node, 'idle');
+        });
+    }
+
+    async function confirmPendingRating(node) {
+        if (node.dataset.trackState !== 'pending') return;
+        const sev = node._pendingSev;
+        const bar = node._barData;
+        const presidentId = selection[node.dataset.side];
+        if (!bar || !bar.id || !presidentId) return;
+
+        setTrackState(node, 'saving', sev);
+        try {
+            // On success submitVote has already re-rendered this bar as
+            // rated (via syncAllSurfacesForBar); the track just retires.
+            await submitVote(presidentId, bar.id, sev);
+            setTrackState(node, 'idle');
+            // The panel stays open on the thanks line; it's the reader's now.
+            node._panelOpenedByPick = false;
+        } catch (err) {
+            // Keep the pick parked so the visitor can simply confirm again.
+            setTrackState(node, 'pending', sev);
+            setStatus(node.querySelector('.rate-status'), saveErrorText(err), 'error');
+        }
     }
 
     function severityFromPointer(node, fill, clientX) {
@@ -1662,130 +1690,80 @@
         const frac = node.dataset.side === 'left'
             ? (rect.right - clientX) / rect.width
             : (clientX - rect.left) / rect.width;
-        const styles = getComputedStyle(fill);
-        const base = parseFloat(styles.getPropertyValue('--bar-base')) || 13.33;
-        const step = parseFloat(styles.getPropertyValue('--bar-step')) || 6.67;
-        const trackMax = base + 10 * step;
-        const sev = Math.round((frac * trackMax - base) / step);
+        // The geometry constants only change at the breakpoint, so they're
+        // read once per hover (pointerenter clears the cache).
+        if (!node._trackGeom) {
+            const styles = getComputedStyle(fill);
+            node._trackGeom = {
+                base: parseFloat(styles.getPropertyValue('--bar-base')) || 13.33,
+                step: parseFloat(styles.getPropertyValue('--bar-step')) || 6.67
+            };
+        }
+        const { base, step } = node._trackGeom;
+        const sev = Math.round((frac * (base + 10 * step) - base) / step);
         return Math.min(10, Math.max(1, sev));
     }
 
+    // Show `sev` on the hover/pending preview, remembering what's shown so
+    // pointermove can skip writes that wouldn't change anything.
     function setPreview(fill, sev) {
+        fill._previewSev = sev;
         fill.style.setProperty('--preview-sev', sev);
-        const num = fill.querySelector('.rate-number');
-        if (num) num.textContent = sev;
-    }
-
-    function setRateStatus(node, text, kind) {
-        const el = node.querySelector('.rate-status');
-        if (!el) return;
-        el.textContent = text || '';
-        el.classList.remove('is-error');
-        if (kind) el.classList.add('is-' + kind);
-    }
-
-    function setPendingRating(node, sev) {
-        const fill = node.querySelector('.bar-fill');
-        if (!fill) return;
-        node._pendingSev = sev;
-        node.classList.add('is-pending');
-        fill.style.setProperty('--pending-sev', sev);
-        setPreview(fill, sev);
-        const confirmBtn = node.querySelector('.rate-confirm');
-        if (confirmBtn) confirmBtn.textContent = 'Confirm ' + sev;
-        setRateStatus(node, '', null);
-        updateRailAria(node);
-    }
-
-    function cancelPendingRating(node) {
-        node._pendingSev = null;
-        node.classList.remove('is-pending', 'is-saving');
-        const fill = node.querySelector('.bar-fill');
-        if (fill) fill.classList.remove('is-previewing');
-        setRateStatus(node, '', null);
-        updateRailAria(node);
-    }
-
-    function cancelAllPendingRatings() {
-        document.querySelectorAll('.bar.is-pending').forEach(cancelPendingRating);
-    }
-
-    async function confirmPendingRating(node) {
-        const sev = node._pendingSev;
-        if (!(sev >= 1 && sev <= 10)) return;
-        if (node.classList.contains('is-saving')) return;
-        const bar = node._barData;
-        const presidentId = selection[node.dataset.side];
-        if (!bar || !bar.id || !presidentId) return;
-
-        node.classList.add('is-saving');
-        try {
-            await submitVote(presidentId, bar.id, sev);
-            // submitVote → syncAllSurfacesForBar already flipped this
-            // node to its rated state; just retire the pending UI.
-            node._pendingSev = null;
-            node.classList.remove('is-pending', 'is-saving');
-            const fill = node.querySelector('.bar-fill');
-            if (fill) fill.classList.remove('is-previewing');
-            setRateStatus(node, '', null);
-        } catch (err) {
-            // Keep the pending state so the visitor can simply hit
-            // confirm again once the hiccup passes.
-            node.classList.remove('is-saving');
-            const msg = err && err.message
-                ? 'Couldn’t save — ' + err.message
-                : 'Couldn’t save — try again in a moment.';
-            setRateStatus(node, msg, 'error');
-        }
+        fill.querySelector('.rate-number').textContent = sev;
     }
 
     function wireRatingTrack(node, fill) {
+        fill.addEventListener('pointerenter', function () {
+            node._trackGeom = null;
+        });
+
         fill.addEventListener('pointermove', function (e) {
             if (!railActive(node)) return;
             const sev = severityFromPointer(node, fill, e.clientX);
             if (sev == null) return;
             fill.classList.add('is-previewing');
-            setPreview(fill, sev);
+            // Pointer events arrive far faster than the snapped value
+            // changes; skipping same-value writes keeps each move from
+            // dirtying style that the next move's measurement would then
+            // have to flush.
+            if (fill._previewSev !== sev) setPreview(fill, sev);
         });
 
         fill.addEventListener('pointerleave', function () {
             fill.classList.remove('is-previewing');
-            // With a pending pick, the preview snaps back to the clicked
-            // value instead of vanishing — the .is-pending CSS keeps it
-            // visible at that width.
-            if (node.classList.contains('is-pending') && node._pendingSev != null) {
-                setPreview(fill, node._pendingSev);
-            }
+            // With a pick parked, the preview snaps back to it instead of
+            // vanishing — the pending-state CSS keeps it visible.
+            if (node._pendingSev != null) setPreview(fill, node._pendingSev);
         });
 
-        // Slider-style keyboard support while the fill is a rating
-        // track. Enter/Space are intercepted here (preventDefault stops
-        // the button's synthetic click, whose coordinates would be
-        // garbage) — arrows nudge, Enter confirms, Escape backs out.
+        // Slider-style keyboard support while the fill is a rating track.
+        // Enter/Space are intercepted here (preventDefault stops the
+        // button's synthetic click, whose coordinates would be garbage) —
+        // arrows nudge, Enter confirms, Escape backs out.
         fill.addEventListener('keydown', function (e) {
-            if (!railActive(node)) return;
+            if (!railActive(node) || node.dataset.trackState === 'saving') return;
             const current = node._pendingSev;
             switch (e.key) {
                 case 'ArrowRight':
                 case 'ArrowUp':
                     e.preventDefault();
-                    setPendingRating(node, Math.min(10, (current == null ? 4 : current) + 1));
+                    pickOnTrack(node, Math.min(10, (current == null ? 4 : current) + 1));
                     break;
                 case 'ArrowLeft':
                 case 'ArrowDown':
                     e.preventDefault();
-                    setPendingRating(node, Math.max(1, (current == null ? 6 : current) - 1));
+                    pickOnTrack(node, Math.max(1, (current == null ? 6 : current) - 1));
                     break;
                 case 'Enter':
                 case ' ':
                     e.preventDefault();
                     if (current != null) confirmPendingRating(node);
-                    else setPendingRating(node, 5);
+                    else pickOnTrack(node, 5);
                     break;
                 case 'Escape':
                     if (current != null) {
                         e.preventDefault();
-                        cancelPendingRating(node);
+                        cancelPick(node);
                     }
                     break;
             }
@@ -1819,8 +1797,7 @@
         // averages are fine, the width calc() doesn't care) and
         // data-others-rated gates the rated/ghost-rail presentation the
         // same way data-user-rated does for the reader view.
-        const othersMap = ratingsData[selection[node.dataset.side]];
-        const others = (bar.id && othersMap) ? othersMap[bar.id] : null;
+        const others = othersEntry(selection[node.dataset.side], bar.id);
         if (others) {
             node.setAttribute('data-others-rated', '');
             fill.style.setProperty('--severity-others', others.avg);
@@ -1849,9 +1826,7 @@
         // on zero-vote rails. CSS shows it only in the others view.
         const votesTag = node.querySelector('.others-votes');
         if (votesTag) {
-            votesTag.textContent = others
-                ? others.count + (others.count === 1 ? ' vote' : ' votes')
-                : 'no ratings yet';
+            votesTag.textContent = others ? votesLabel(others.count) : 'no ratings yet';
         }
 
         // "you · n" marker for the AI view (CSS keeps it display:none
@@ -1895,142 +1870,124 @@
         }
     }
 
-    // One document-level click delegate covers every .bar-rating block
-    // — the modal sheet's and every inline panel's. It dispatches three
-    // distinct controls based on which element the user actually hit:
-    //   .bar-rating-btn      — pre-submit selection (no network)
-    //   .bar-rating-submit   — commits the pending pick (POST)
-    //   .bar-rating-change   — reverts a submitted block to scale-visible
-    document.addEventListener('click', async function (e) {
+    /* --------------------------------------------------------------------------
+       Rating block controls — one handler per control, all reached through
+       the document click delegate below so the modal's block and every
+       inline panel's block work without per-element listeners.
+       -------------------------------------------------------------------------- */
 
-        // --- Pre-submit number selection ----------------------------
-        const numBtn = e.target.closest('.bar-rating-btn');
-        if (numBtn && !numBtn.disabled) {
-            const scaleEl = numBtn.closest('.bar-rating-scale');
-            if (!scaleEl) return;
-            const container = scaleEl.closest('.bar-rating');
-            const newVote = parseInt(numBtn.dataset.value, 10);
-            if (!(newVote >= 1 && newVote <= 10)) return;
-            const barId = scaleEl.dataset.barId;
-            if (!barId) return;
+    // A 1–10 button: park the pick. Re-picking what's already stored has
+    // nothing to submit, so that goes back to idle.
+    function onRatingPick(numBtn) {
+        const container = numBtn.closest('.bar-rating');
+        const scaleEl = numBtn.closest('.bar-rating-scale');
+        const vote = Number(numBtn.dataset.value);
+        if (!container || !scaleEl || !scaleEl.dataset.barId) return;
+        if (container.dataset.state === 'saving') return;
 
-            container._pendingVote = newVote;
-            applyVoteHighlight(scaleEl, newVote);
-            setRatingStatus(container, '', null);
+        setStatus(container.querySelector('.bar-rating-status'), '');
+        const stored = getMyVote(scaleEl.dataset.barId);
+        setRatingBlockState(container, vote === stored ? 'idle' : 'pending', vote);
+    }
 
-            // Only show the submit button when the pending pick differs
-            // from what's already stored — re-clicking the user's prior
-            // value just goes back to idle (no committable change).
-            const stored = getMyVote(barId);
-            setRatingState(container, newVote === stored ? 'idle' : 'pending');
-            return;
+    // Submit: POST the parked pick. Success arrives via submitVote →
+    // syncAllSurfacesForBar, which moves this block (and any twin) to
+    // 'submitted'; failure parks the pick again with the reason shown.
+    async function onRatingSubmit(container) {
+        if (container.dataset.state !== 'pending') return;
+        const scaleEl = container.querySelector('.bar-rating-scale');
+        const presidentId = scaleEl.dataset.presidentId;
+        const barId = scaleEl.dataset.barId;
+        const vote = container._vote;
+        if (!presidentId || !barId) return;
+
+        const statusEl = container.querySelector('.bar-rating-status');
+        setStatus(statusEl, '');
+        setRatingBlockState(container, 'saving', vote);
+        try {
+            await submitVote(presidentId, barId, vote);
+        } catch (err) {
+            setRatingBlockState(container, 'pending', vote);
+            setStatus(statusEl, saveErrorText(err), 'error');
         }
+    }
 
-        // --- Submit pending pick ------------------------------------
-        const submitBtn = e.target.closest('.bar-rating-submit');
-        if (submitBtn && !submitBtn.disabled) {
-            const container = submitBtn.closest('.bar-rating');
-            if (!container) return;
-            const scaleEl = container.querySelector('.bar-rating-scale');
-            if (!scaleEl) return;
-            const newVote = container._pendingVote;
-            if (!(newVote >= 1 && newVote <= 10)) return;
-            const presidentId = scaleEl.dataset.presidentId;
-            const barId = scaleEl.dataset.barId;
-            if (!presidentId || !barId) return;
-
-            const oldVote = getMyVote(barId);
-            // If the pending pick already matches what's stored (e.g.
-            // user re-clicked their existing vote then submit, racing
-            // around the idle/pending boundary), skip the POST and just
-            // flip to submitted — the server would silent-success under
-            // the per-(bar,IP) write cap anyway.
-            if (oldVote === newVote) {
-                container._pendingVote = null;
-                updateThanksMessage(container, newVote);
-                setRatingState(container, 'submitted');
-                return;
-            }
-
-            submitBtn.disabled = true;
-            const scaleButtons = scaleEl.children;
-            Array.prototype.forEach.call(scaleButtons, function (b) { b.disabled = true; });
-            setRatingStatus(container, '', null);
-
-            try {
-                // Shared POST path (also used by the bar-track confirm
-                // flow). On success it persists the vote, nudges the
-                // cached average, and calls syncAllSurfacesForBar —
-                // which flips this container to 'submitted' too (it
-                // matches the selector), so no local state work needed.
-                await submitVote(presidentId, barId, newVote);
-            } catch (err) {
-                const msg = err && err.message
-                    ? 'Couldn’t save — ' + err.message
-                    : 'Couldn’t save — try again in a moment.';
-                setRatingStatus(container, msg, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                Array.prototype.forEach.call(scaleButtons, function (b) { b.disabled = false; });
-            }
-            return;
-        }
-
-        // --- Revert submitted → idle so the scale is interactive again
-        const changeBtn = e.target.closest('.bar-rating-change');
-        if (changeBtn) {
-            const container = changeBtn.closest('.bar-rating');
-            if (!container) return;
-            const scaleEl = container.querySelector('.bar-rating-scale');
-            const stored = scaleEl ? getMyVote(scaleEl.dataset.barId) : null;
-            container._pendingVote = null;
-            setRatingStatus(container, '', null);
-            applyVoteHighlight(scaleEl, stored);
-            setRatingState(container, 'idle');
-            return;
-        }
-    });
-
-    // Track currently expanded bar (desktop) so we can collapse it
-    let currentlyExpanded = null;
-    // Element that had focus before the modal opened, restored on close
-    let lastFocusedBeforeModal = null;
+    // "Change my rating": back to the live scale, the stored vote lit.
+    function onRatingChange(container) {
+        const scaleEl = container.querySelector('.bar-rating-scale');
+        setStatus(container.querySelector('.bar-rating-status'), '');
+        setRatingBlockState(container, 'idle', getMyVote(scaleEl.dataset.barId));
+    }
 
     /* --------------------------------------------------------------------------
-       Click handling — delegated from the document so dynamically-added bars
-       (e.g. from the future moderation queue) start working immediately
-       without needing to re-bind handlers.
+       Desktop: inline expansion. At most one bar's detail panel is open;
+       expandedBar is that bar (or null) and setExpandedBar its only
+       writer. CSS animates the panel open and shut off .bar.expanded, and
+       keeps a shut panel visibility:hidden, so its links and buttons stay
+       out of the tab order and the accessibility tree.
        -------------------------------------------------------------------------- */
-    document.addEventListener('click', (e) => {
-        // Confirm / cancel chips for a pending bar-track rating.
-        const confirmBtn = e.target.closest('.rate-confirm');
-        if (confirmBtn) {
-            const pendingBar = confirmBtn.closest('.bar');
-            if (pendingBar) confirmPendingRating(pendingBar);
-            return;
-        }
-        const cancelBtn = e.target.closest('.rate-cancel');
+    let expandedBar = null;
+
+    function setExpandedBar(bar) {
+        if (expandedBar === bar) return;
+        const previous = expandedBar;
+        expandedBar = bar;
+        if (previous) renderExpanded(previous, false);
+        if (bar) renderExpanded(bar, true);
+    }
+
+    function renderExpanded(bar, open) {
+        bar.classList.toggle('expanded', open);
+        // Whoever opens or shuts it next, the panel no longer belongs to a
+        // pick (pickOnTrack sets the flag again right after opening).
+        bar._panelOpenedByPick = false;
+        bar.querySelector('.bar-label-outer').setAttribute('aria-expanded', String(open));
+        // The fill's aria-expanded depends on whether it's a rating track
+        // right now; updateRailAria owns that call.
+        updateRailAria(bar);
+    }
+
+    function toggleExpand(bar) {
+        setExpandedBar(expandedBar === bar ? null : bar);
+    }
+
+    /* --------------------------------------------------------------------------
+       Click handling — one delegate on the document, so bars re-rendered by
+       a picker change work without re-binding anything.
+       -------------------------------------------------------------------------- */
+    document.addEventListener('click', function (e) {
+        const target = e.target;
+
+        // Rating blocks (inline panels and the modal).
+        const numBtn = target.closest('.bar-rating-btn');
+        if (numBtn) { if (!numBtn.disabled) onRatingPick(numBtn); return; }
+        const submitBtn = target.closest('.bar-rating-submit');
+        if (submitBtn) { onRatingSubmit(submitBtn.closest('.bar-rating')); return; }
+        const changeBtn = target.closest('.bar-rating-change');
+        if (changeBtn) { onRatingChange(changeBtn.closest('.bar-rating')); return; }
+
+        // Confirm / cancel chips for a parked bar-track rating.
+        const confirmBtn = target.closest('.rate-confirm');
+        if (confirmBtn) { confirmPendingRating(confirmBtn.closest('.bar')); return; }
+        const cancelBtn = target.closest('.rate-cancel');
         if (cancelBtn) {
-            const pendingBar = cancelBtn.closest('.bar');
-            if (pendingBar) cancelPendingRating(pendingBar);
+            cancelPick(cancelBtn.closest('.bar'));
             return;
         }
 
-        // Event-name label — opens the detail panel in every view, and
-        // is the only route to it for unrated bars in the rating view
-        // (where the fill below is busy being a rating control).
-        const labelBtn = e.target.closest('.bar-label-outer');
+        // Event-name label — opens the detail panel in every view, and is
+        // the only route to it for unrated bars in the rating view (where
+        // the fill is busy being a rating control).
+        const labelBtn = target.closest('.bar-label-outer');
         if (labelBtn) {
             const labelBar = labelBtn.closest('.bar');
-            if (!labelBar) return;
             if (isMobile()) openModal(labelBar);
             else toggleExpand(labelBar);
             return;
         }
 
-        const fill = e.target.closest('.bar-fill');
-        if (!fill) return;
-        const bar = fill.closest('.bar');
+        const fill = target.closest('.bar-fill');
+        const bar = fill && fill.closest('.bar');
         if (!bar) return;
 
         if (isMobile()) {
@@ -2038,15 +1995,15 @@
             return;
         }
 
-        // Default view, unrated: a click on the track parks a pending
-        // rating at the clicked position. Keyboard activations arrive
-        // as clicks with no usable coordinates (e.detail === 0) — the
-        // fill's keydown handler owns that path and already
-        // preventDefault()s, so the guard is belt-and-suspenders.
+        // Default view, unrated: a click on the track parks a rating at
+        // the clicked position and opens the event's details. Keyboard activations arrive as clicks with
+        // no usable coordinates (e.detail === 0) — the fill's keydown
+        // handler owns that path and already preventDefault()s, so the
+        // guard is belt-and-braces.
         if (railActive(bar)) {
-            if (e.detail === 0) return;
+            if (e.detail === 0 || bar.dataset.trackState === 'saving') return;
             const sev = severityFromPointer(bar, fill, e.clientX);
-            if (sev != null) setPendingRating(bar, sev);
+            if (sev != null) pickOnTrack(bar, sev);
             return;
         }
 
@@ -2054,66 +2011,36 @@
     });
 
     /* --------------------------------------------------------------------------
-       Desktop: inline expansion
+       Mobile: native <dialog> modal.
+
+       The dialog's lifecycle is explicit, because it has two asynchronous
+       edges (the slide-in starts a frame after showModal, and the dialog
+       only really closes once the slide-out has finished):
+
+         closed ──openModal──▶ opening ──next frame──▶ open
+           ▲                      │                     │
+           │                      └─────closeModal──────┤
+           │                                            ▼
+           └──── 'close' event ◀── slide-out done ── closing
+
+       A close requested while still 'opening' cancels the pending
+       slide-in, so the dialog can't be re-shown after the reader has
+       already dismissed it. The native 'close' event is the one place
+       that settles back to 'closed', whether our animated path closed the
+       dialog or the browser did on its own (Chrome closes it without a
+       cancelable 'cancel' event on a second Escape with no click between).
        -------------------------------------------------------------------------- */
-    function toggleExpand(bar) {
-        const fill = bar.querySelector('.bar-fill');
-        const detail = bar.querySelector('.bar-detail');
-        const isOpen = bar.classList.contains('expanded');
+    const modal = document.getElementById('modal');
+    const modalSheet = modal.querySelector('.modal-sheet');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalSeverity = document.getElementById('modal-severity');
+    const modalSourcesList = document.getElementById('modal-sources-list');
 
-        // Single-open behavior — collapse any other open bar first
-        if (currentlyExpanded && currentlyExpanded !== bar) {
-            collapseBar(currentlyExpanded);
-        }
-
-        if (isOpen) {
-            collapseBar(bar);
-            currentlyExpanded = null;
-        } else {
-            bar.classList.add('expanded');
-            fill.setAttribute('aria-expanded', 'true');
-            const labelBtn = bar.querySelector('.bar-label-outer');
-            if (labelBtn) labelBtn.setAttribute('aria-expanded', 'true');
-            // When the fill is acting as a rating track its expanded
-            // state belongs to the label button alone — strip the
-            // attribute we just set rather than fork the logic above.
-            updateRailAria(bar);
-            if (detail) detail.removeAttribute('hidden');
-            currentlyExpanded = bar;
-        }
-    }
-
-    function collapseBar(bar) {
-        const fill = bar.querySelector('.bar-fill');
-        const detail = bar.querySelector('.bar-detail');
-        bar.classList.remove('expanded');
-        fill.setAttribute('aria-expanded', 'false');
-        const labelBtn = bar.querySelector('.bar-label-outer');
-        if (labelBtn) labelBtn.setAttribute('aria-expanded', 'false');
-        updateRailAria(bar);
-
-        if (detail) {
-            // The detail has THREE concurrent transitions (max-height,
-            // margin-top, opacity). transitionend fires once per property,
-            // and opacity finishes first. Filter on propertyName so we
-            // wait for max-height to complete before re-hiding the element
-            // — and only THEN remove the listener. Previously the listener
-            // tore itself down on the first event regardless of property,
-            // so the [hidden] attribute often never got reapplied.
-            const onEnd = (e) => {
-                if (e.propertyName !== 'max-height') return;
-                detail.removeEventListener('transitionend', onEnd);
-                if (!bar.classList.contains('expanded')) {
-                    detail.setAttribute('hidden', '');
-                }
-            };
-            detail.addEventListener('transitionend', onEnd);
-        }
-    }
-
-    /* --------------------------------------------------------------------------
-       Mobile: native <dialog> modal
-       -------------------------------------------------------------------------- */
+    let modalState = 'closed';
+    let modalBar = null;          // the bar object the modal is showing
+    let modalPresidentId = null;  // ...and whose it is
+    let focusBeforeModal = null;  // restored when the dialog closes
 
     // The modal's headline number, per view. data-empty drives the
     // quiet placeholder styling; the ::before eyebrow ("Your severity" /
@@ -2121,188 +2048,142 @@
     // CSS, and data-votes feeds the others view's count suffix the same
     // way (CSS attr() — set here, rendered there).
     function renderModalSeverity() {
-        const bar = modal._severityBar;
+        const bar = modalBar;
         if (!bar) return;
-        modalSeverity.removeAttribute('data-votes');
+        let text = null;
+        let votes = null;
         if (viewMode === 'ai') {
-            modalSeverity.textContent = bar.severity;
-            modalSeverity.removeAttribute('data-empty');
-            return;
-        }
-        if (viewMode === 'others') {
-            const map = ratingsData[modal._severityPid];
-            const entry = (bar.id && map) ? map[bar.id] : null;
+            text = String(bar.severity);
+        } else if (viewMode === 'others') {
+            const entry = othersEntry(modalPresidentId, bar.id);
             if (entry) {
-                modalSeverity.textContent = entry.avg.toFixed(1);
-                modalSeverity.setAttribute('data-votes',
-                    entry.count + (entry.count === 1 ? ' vote' : ' votes'));
-                modalSeverity.removeAttribute('data-empty');
-            } else {
-                modalSeverity.textContent = '—';
-                modalSeverity.setAttribute('data-empty', '');
+                text = entry.avg.toFixed(1);
+                votes = votesLabel(entry.count);
             }
-            return;
-        }
-        const vote = bar.id ? getMyVote(bar.id) : null;
-        if (vote != null) {
-            modalSeverity.textContent = vote;
-            modalSeverity.removeAttribute('data-empty');
         } else {
-            modalSeverity.textContent = '—';
-            modalSeverity.setAttribute('data-empty', '');
+            const vote = bar.id ? getMyVote(bar.id) : null;
+            if (vote != null) text = String(vote);
         }
+        modalSeverity.textContent = text == null ? '—' : text;
+        modalSeverity.toggleAttribute('data-empty', text == null);
+        if (votes) modalSeverity.setAttribute('data-votes', votes);
+        else modalSeverity.removeAttribute('data-votes');
     }
 
     function openModal(barEl) {
-        // renderBar stashes the canonical bar object on the node, so we
-        // populate the modal straight from data rather than scraping it
-        // back out of the inline detail DOM. Keeps the two views
-        // decoupled — selectors on .detail-description / .sources-list
-        // can change without silently emptying the modal.
+        // renderBar stashes the canonical bar object on the node, so the
+        // modal fills straight from data rather than scraping the inline
+        // detail DOM — the two views stay decoupled.
         const bar = barEl._barData;
         if (!bar) return;
+        const presidentId = selection[barEl.dataset.side];
+        const president = presidents[presidentId];
 
-        // Drive the modal's color theme from the bar's president, not the
-        // bar's side. Means the modal sheet border + severity number both
-        // adopt the right party color whichever side opened it. Defensive
-        // empty string clears any stale value if the lookup ever fails.
-        const president = presidents[selection[barEl.dataset.side]];
+        // Theme from the bar's president, not its side, so the sheet
+        // border and number take the right party color either way.
         modal.dataset.party = president ? president.party : '';
+        modalBar = bar;
+        modalPresidentId = presidentId;
 
         modalTitle.textContent = bar.title;
         modalDescription.textContent = bar.description;
-        // The big number mirrors the active view: the AI score, the
-        // community average, or the visitor's own rating (an em-dash
-        // placeholder until they use the scale below — at which point
-        // syncAllSurfacesForBar calls renderModalSeverity again and the
-        // number fills in live). The president id rides along so the
-        // others branch can find the right ratings map.
-        modal.dataset.barId = bar.id || '';
-        modal._severityBar = bar;
-        modal._severityPid = selection[barEl.dataset.side];
+        // The big number mirrors the active view; syncAllSurfacesForBar
+        // re-renders it when a vote lands from the scale below.
         renderModalSeverity();
 
         modalSourcesList.replaceChildren();
         bar.sources.forEach((src) => appendSourceItem(modalSourcesList, src));
 
-        // Hydrate the reader-rating block: button highlight + thanks
-        // state from localStorage. Done after the other text populates
-        // so an exception in the ratings path doesn't strand the rest
+        // Last, so an exception in the ratings path can't strand the rest
         // of the modal half-populated.
-        setupRatingUi(
-            bar,
-            selection[barEl.dataset.side],
-            modal.querySelector('.bar-rating')
-        );
+        setupRatingUi(bar, presidentId, modal.querySelector('.bar-rating'));
 
-        // Capture focus so we can restore it when the modal closes
-        lastFocusedBeforeModal = document.activeElement;
-
-        modal.showModal();
-        // Trigger entrance animation on next frame — adding the class in the
-        // same frame as showModal() would skip the transition because the
-        // browser hasn't yet committed the dialog's "from" state.
-        requestAnimationFrame(() => modal.classList.add('is-open'));
+        if (!modal.open) {
+            focusBeforeModal = document.activeElement;
+            modal.showModal();
+        }
+        modalState = 'opening';
+        // Add the class a frame later: in the same frame as showModal() the
+        // browser hasn't committed the dialog's "from" state yet, so the
+        // slide-in transition would be skipped.
+        requestAnimationFrame(() => {
+            if (modalState !== 'opening') return;
+            modal.classList.add('is-open');
+            modalState = 'open';
+        });
     }
 
     function closeModal() {
+        if (modalState !== 'opening' && modalState !== 'open') return;
+        modalState = 'closing';
         modal.classList.remove('is-open');
 
-        // Wait for the slide-out to finish before actually closing the
-        // dialog — otherwise it snaps to display:none mid-frame and the
-        // exit animation is never seen. We listen to the sheet's own
-        // `transitionend` rather than a setTimeout tied to a hard-coded
-        // duration: if anyone tweaks the CSS `transition: transform 0.4s`
-        // value the JS keeps working automatically, with no hidden
-        // CSS↔JS coupling waiting to break.
-        const sheet = modal.querySelector('.modal-sheet');
-
-        const finalizeClose = () => {
-            if (modal.open) modal.close();
-            if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
-                lastFocusedBeforeModal.focus();
-            }
-            lastFocusedBeforeModal = null;
-        };
-
-        // Defensive fallback: if the sheet element is missing for any
-        // reason (markup change, etc.), close immediately rather than
-        // leaving the dialog stuck open waiting for an event that will
-        // never fire.
-        if (!sheet) {
-            finalizeClose();
-            return;
-        }
-
-        // `transitionend` fires once per animated property on the sheet.
-        // Filtering by `propertyName` — and by `e.target` so a bubbled
-        // event from a descendant element can't trigger close — is the
-        // same pattern used in `collapseBar` above. Without the filter
-        // we'd finalize on whichever property happens to finish first,
-        // which may not be the visible slide.
-        const onEnd = (e) => {
-            if (e.target !== sheet || e.propertyName !== 'transform') return;
-            sheet.removeEventListener('transitionend', onEnd);
-            finalizeClose();
-        };
-        sheet.addEventListener('transitionend', onEnd);
+        // Close once the slide-out the class change just started has run.
+        // getAnimations() brings style up to date first, so it already
+        // holds that transition — and holds nothing if there is none (a
+        // close before the slide-in began, or reduced motion), in which
+        // case the dialog closes at once instead of waiting for a
+        // transitionend that would never come. Tying this to the running
+        // animation, not a duration, keeps the CSS free to retime it.
+        const running = modalSheet.getAnimations().map((a) => a.finished);
+        Promise.allSettled(running).then(() => {
+            if (modalState === 'closing') modal.close();
+        });
     }
+
+    modal.addEventListener('close', () => {
+        modalState = 'closed';
+        modal.classList.remove('is-open');
+        modalBar = null;
+        modalPresidentId = null;
+        if (focusBeforeModal && typeof focusBeforeModal.focus === 'function') {
+            focusBeforeModal.focus();
+        }
+        focusBeforeModal = null;
+    });
 
     // Click on the backdrop (which bubbles to the dialog with target===dialog)
     // or on any element marked data-modal-close (the close button).
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-            return;
-        }
-        if (e.target.closest('[data-modal-close]')) {
-            closeModal();
-        }
+        if (e.target === modal || e.target.closest('[data-modal-close]')) closeModal();
     });
 
-    // ESC dismissal — <dialog> fires a `cancel` event before closing. We
-    // preventDefault so we can run our animated close path instead of the
-    // dialog snapping closed instantly.
+    // Escape fires 'cancel' before the dialog closes; take over so the
+    // sheet slides out instead of the dialog snapping shut.
     modal.addEventListener('cancel', (e) => {
         e.preventDefault();
         closeModal();
     });
 
     /* --------------------------------------------------------------------------
-       Breakpoint crossings — listen directly to matchMedia's `change` event
-       instead of polling resize. Fires only when the breakpoint is actually
-       crossed, no manual lastIsMobile tracking required.
+       Breakpoint crossings — matchMedia's `change` fires only when the
+       breakpoint is actually crossed.
        -------------------------------------------------------------------------- */
     mql.addEventListener('change', () => {
-        if (currentlyExpanded) {
-            collapseBar(currentlyExpanded);
-            currentlyExpanded = null;
-        }
-        if (modal.open) {
-            closeModal();
-        }
+        setExpandedBar(null);
+        closeModal();
         // The bar-track rating flow is desktop-only (mobile rates in
-        // the modal) — drop any half-made picks and re-resolve each
-        // fill's semantics for the new breakpoint.
+        // the modal) — drop any parked picks and re-resolve each fill's
+        // semantics for the new breakpoint.
         cancelAllPendingRatings();
         document.querySelectorAll('.bar').forEach(updateBarRatingState);
-        // Crossing the breakpoint flips outer/inner labels — clear or
-        // re-apply tight-fit accordingly.
+        // Crossing the breakpoint flips outer/inner labels.
         applyLabelTightFit();
     });
 
     /* --------------------------------------------------------------------------
-       Viewport resize — bar widths track viewport (they're %-based), so
-       a label that fit at 1600px may clip at 1100px. rAF-debounced so
-       drag-resize coalesces to one recompute per frame.
+       Label refits after geometry changes. Bar widths are %-based, so a
+       label that fit at 1600px may clip at 1100px; and a bar's width
+       animates (0.55s) when the view toggles, a rating lands, or the
+       averages arrive. Rather than guess that duration with a timer, refit
+       when a bar-fill's width transition actually ends — one listener for
+       all of them, coalesced to a frame.
        -------------------------------------------------------------------------- */
-    let resizeRaf = 0;
-    window.addEventListener('resize', () => {
-        if (resizeRaf) cancelAnimationFrame(resizeRaf);
-        resizeRaf = requestAnimationFrame(() => {
-            resizeRaf = 0;
-            applyLabelTightFit();
-        });
+    window.addEventListener('resize', scheduleLabelFit);
+    document.querySelector('.comparison').addEventListener('transitionend', (e) => {
+        if (e.propertyName === 'width' && e.target.classList.contains('bar-fill')) {
+            scheduleLabelFit();
+        }
     });
 
     /* --------------------------------------------------------------------------
@@ -2328,8 +2209,7 @@
     }
 
     function setViewMode(mode) {
-        if (mode !== 'user' && mode !== 'others' && mode !== 'ai') return;
-        if (viewMode === mode) return;
+        if (!VIEW_MODES.includes(mode) || viewMode === mode) return;
         // A half-made pick has no meaning in the AI view — clear before
         // the rails it lived on restyle out from under it.
         cancelAllPendingRatings();
@@ -2338,9 +2218,8 @@
         updateViewToggleUi();
         document.querySelectorAll('.bar').forEach(updateBarRatingState);
         syncViewToUrl();
-        // Bar widths animate between views (0.55s) — re-fit the outer
-        // labels once the geometry has settled.
-        setTimeout(applyLabelTightFit, 620);
+        // Widths animate to the new view; the transitionend listener
+        // re-fits the labels once they arrive.
     }
 
     document.querySelectorAll('.view-toggle-btn').forEach(function (btn) {
@@ -2348,9 +2227,6 @@
             setViewMode(btn.dataset.mode);
         });
     });
-    // The static markup defaults to the user view; reconcile in case
-    // ?view=ai overrode the default before render.
-    updateViewToggleUi();
 
     /* --------------------------------------------------------------------------
        Suggestion box — posts same-origin to /api/suggest.
@@ -2377,12 +2253,6 @@
         const defaultSubmitLabel = submitBtn.textContent;
         const invalidSubmitLabel = 'Fix link or clear it';
         let lastSubmitAt = 0;
-
-        function setStatus(text, kind) {
-            statusEl.textContent = text;
-            statusEl.classList.remove('is-error', 'is-success');
-            if (kind) statusEl.classList.add('is-' + kind);
-        }
 
         // Heuristic: value looks like a bare domain (e.g. "foo.com",
         // "www.nytimes.com/article") that's just missing the scheme.
@@ -2436,7 +2306,7 @@
             // Honeypot — real users leave this empty; if filled, silently
             // accept-and-discard so bots don't learn they were caught.
             if ((data.get('website') || '').toString().trim() !== '') {
-                setStatus('Sent. Thank you.', 'success');
+                setStatus(statusEl, 'Sent. Thank you.', 'success');
                 suggestForm.reset();
                 return;
             }
@@ -2447,7 +2317,7 @@
             const why = (data.get('why') || '').toString().trim();
 
             if (!president || !event) {
-                setStatus('President and Event are required.', 'error');
+                setStatus(statusEl, 'President and Event are required.', 'error');
                 return;
             }
 
@@ -2455,32 +2325,17 @@
             submitBtn.disabled = true;
             const originalLabel = submitBtn.textContent;
             submitBtn.textContent = 'Sending…';
-            setStatus('', null);
+            setStatus(statusEl, '', null);
 
             try {
-                const res = await fetch(SUGGEST_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ president, event, source, why, website: '' })
-                });
-                if (!res.ok) {
-                    // Surface the server's structured error message when present
-                    // (e.g. "source must be a valid http(s) URL") so the user can
-                    // self-correct instead of getting a generic "try again".
-                    let serverMsg = '';
-                    try {
-                        const body = await res.json();
-                        if (body && body.error) serverMsg = body.error;
-                    } catch (_) { /* not JSON; fall through to generic */ }
-                    throw new Error(serverMsg || ('HTTP ' + res.status));
-                }
-                setStatus('Sent. Thank you.', 'success');
+                await postJson(SUGGEST_ENDPOINT, { president, event, source, why, website: '' });
+                setStatus(statusEl, 'Sent. Thank you.', 'success');
                 suggestForm.reset();
             } catch (err) {
                 const msg = err && err.message
                     ? 'Could not send — ' + err.message
                     : 'Could not send — please try again in a moment.';
-                setStatus(msg, 'error');
+                setStatus(statusEl, msg, 'error');
                 lastSubmitAt = 0;
             } finally {
                 submitBtn.disabled = false;
@@ -2488,4 +2343,28 @@
             }
         });
     }
+
+    /* --------------------------------------------------------------------------
+       Boot — runs last, so every constant and cache above exists before
+       the first render reads it.
+
+       renderSide is async: it starts both presidents' fetches in parallel
+       and renders each column when its JSON lands (re-fitting labels
+       itself). Badges, portraits and pickers read the synchronous metadata
+       index and land on the first paint.
+       -------------------------------------------------------------------------- */
+    renderSide('left');
+    renderSide('right');
+    renderNameBadge('left');
+    renderNameBadge('right');
+    renderPortrait('left');
+    renderPortrait('right');
+    // Reveal the badges now that they're populated. Done before the picker
+    // render so an error there can't strand the most prominent text in its
+    // pre-hydration hidden state.
+    document.body.classList.add('hydrated');
+    renderPicker('left');
+    renderPicker('right');
+    // The static markup presses "Your ratings"; reconcile with ?view=.
+    updateViewToggleUi();
 })();
