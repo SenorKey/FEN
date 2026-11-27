@@ -76,6 +76,8 @@ Browser ──POST /api/suggest──> Apache ──proxy──> Python service 
 |---|---|
 | `suggest.py` | The Flask service. Routes: `POST /suggest`, `POST /rate`, `GET /ratings/<president>`. |
 | `backfill_bar_ids.py` | One-off (idempotent) script: assigns stable 10-char `id`s to bars in `data/presidents/*.json` so the ratings table has a stable foreign key. Re-run after authoring new bars. |
+| `quizzes.py` | The Case Chronicle quizzes: each quiz's question ids and reader types, in page order, and its `result_seed`. Read by `suggest.py` and `quiz_stats.py`. |
+| `quiz_stats.py` | Read-only quiz report: answers per question, labels awarded, runs, finish rate, readers, per day; `--csv answers\|results` dumps the rows. Run as `sudo -u preside python3 quiz_stats.py`. |
 | `requirements.txt` | `flask`, `gunicorn`, `requests`. |
 | `config.env.example` | Template for `/etc/preside-by-side/config.env`. |
 | `preside-by-side-suggest.service` | systemd unit. |

@@ -180,27 +180,10 @@ HIRE_ME_READER = {
 HIRE_ME_LENSES = ('automation', 'software', 'support', 'all')
 HIRE_ME_NOTE_MAX = 600
 
-# The Case Chronicle quizzes. Like the tables above, every value a quiz page
-# sends is one of a closed set, checked here, so the counts can only ever be
-# counts of questions and reader types the page really offers. A question id
-# is the data-q on its <section>, a type is the data-type in the list at the
-# end of the page. Changing either on the page means changing it here too, or
-# the service refuses it.
-#
-# Adding a quiz: a row here, keyed by the data-quiz on its .qz.
-QUIZZES = {
-    'doe-v-bonnell': {
-        'questions': frozenset({
-            'recorded', 'permission', 'revenge', 'posted', 'real-rose',
-            'minor', 'april-2022', 'sworn-later', 'log', 'credible',
-        }),
-        'types': frozenset({
-            'burnt-bridge', 'doe-fan', 'knower', 'destiny-fan', 'dgger',
-            'fence-sitter', 'made-for-you',
-        }),
-    },
-}
-QUIZ_CHOICES = ('yes', 'unsure', 'no')
+# The Case Chronicle quizzes: every question and reader type a quiz page may
+# send, in page order. They live in quizzes.py, beside this file, so that
+# quiz_stats.py reads the same list.
+from quizzes import QUIZZES, QUIZ_CHOICES  # noqa: E402
 
 # A run is one go at a quiz in one browser tab. The page makes up the id and
 # keeps it in sessionStorage; it lets an answer sent twice (a reload, a flaky
@@ -1813,11 +1796,18 @@ def quiz_result():
             (req['slug'],),
         ).fetchall()
 
-    counts, total = _quiz_counts(rows, sorted(req['quiz']['types']))
+    counts, total = _quiz_counts(rows, req['quiz']['types'])
     if cur.rowcount:
         msg = 'quiz: %s finished as %s (ip=%s)' % (req['slug'], label, req['ip_hash'][:8])
         (notify.info if QUIZ_LOG_TO_DISCORD else log.info)(msg)
-    if total < QUIZ_MIN_DISPLAY:
+    # ARTIFICIAL: result_seed made-up results per type (quizzes.py), added to
+    # the reply only, never stored. With a seed there is no 100%-of-one-reader
+    # to hide, so the share is sent from the first result on.
+    seed = req['quiz'].get('result_seed', 0)
+    if seed:
+        counts = {k: n + seed for k, n in counts.items()}
+        total += seed * len(counts)
+    elif total < QUIZ_MIN_DISPLAY:
         return jsonify(ok=True, total=total)
     return jsonify(ok=True, total=total, counts=counts)
 
