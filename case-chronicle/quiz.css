@@ -564,6 +564,105 @@
 
 .qz-act:focus-visible { outline: 2px solid var(--tl-card); outline-offset: -6px; }
 
+/* ── the reader type's picture ──
+   Each type can bring a drawing for the back of the end card: a
+   <template class="qz-art-src"> inside its entry in the page's list of
+   types, which quiz.js copies into the card when that type is the
+   reader's. What it draws is the page's business; this is only where
+   it may sit. Behind the card's words and in front of its paper: the
+   card makes a stacking context of its own and the drawing sits at -1
+   inside it. --foot keeps a drawing off the button strip.
+
+     --full   the whole card above the strip
+     --foot   a band along the bottom, with room made for it, so it
+              never runs behind the words
+     --side   a column down the right-hand side
+     --books  the hub's two open books, in the top corners */
+.qz-res { position: relative; isolation: isolate; --foot: 47px; }
+
+.qz-art {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.qz-art--full { top: 0; height: calc(100% - var(--foot)); }
+.qz-art--foot { bottom: var(--foot); height: 76px; }
+.qz-art--side { top: 0; right: 10px; left: auto; width: 214px; height: calc(100% - var(--foot)); }
+.qz-art--books { top: 0; height: 100%; }
+
+.qz-res:has(.qz-art--foot) .qz-acts { margin-top: 92px; }
+
+.qz-art--books::before,
+.qz-art--books::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 170px;
+  aspect-ratio: 4 / 3;
+  background: url('/case-chronicle/book-open.svg') center / contain no-repeat;
+  opacity: 0.3;
+}
+
+.qz-art--books::before { left: 0; translate: -18% -20%; rotate: -34deg; }
+.qz-art--books::after { right: 0; translate: 18% -20%; rotate: 34deg; }
+
+/* What may move in a drawing: sparks rising, and a chat whose lines
+   arrive one at a time. Each holds still for a reader who has asked
+   for less motion. */
+.qz-ember { animation: qz-ember linear infinite; }
+
+@keyframes qz-ember {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translateY(-420px); opacity: 0; }
+}
+
+.qz-chat { animation: qz-chat 40s steps(var(--rows)) infinite; }
+
+@keyframes qz-chat { to { transform: translateY(calc(var(--tile) * -1)); } }
+
+@media (width <= 620px) {
+  .qz-art--side { width: 150px; right: 4px; }
+  .qz-art--books::before,
+  .qz-art--books::after { width: 120px; opacity: 0.22; }
+}
+
+/* ── the way to the end ──
+   Next under the last question, "What kind of reader are you?", gets
+   a band of light that crosses its black every few seconds: Doe's red,
+   the brown, then Steven's blue. It runs over the strip's own colour
+   and under its words. */
+.qz-next-last {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.qz-next-last::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg,
+    transparent 0 30%,
+    color-mix(in oklab, var(--p) 75%, transparent) 40%,
+    color-mix(in oklab, var(--court) 75%, transparent) 50%,
+    color-mix(in oklab, var(--d) 85%, transparent) 60%,
+    transparent 70% 100%);
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  animation: qz-sweep 3.6s ease-in-out infinite;
+}
+
+@keyframes qz-sweep {
+  0%, 35% { background-position: 130% 0; }
+  85%, 100% { background-position: -30% 0; }
+}
+
 .band-quiz .sect-nav { margin-top: 56px; }
 
 /* ═══════════════════════════════════════════════
@@ -663,6 +762,12 @@
   .qz-bar-f,
   .qz-line-dot,
   .qz-line-n span { transition: none; }
+
+  .qz-ember,
+  .qz-chat,
+  .qz-next-last::after { animation: none; }
+
+  .qz-ember { opacity: 0.6; }
 }
 
 @media print {

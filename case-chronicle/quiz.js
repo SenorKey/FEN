@@ -48,7 +48,9 @@
      the end card         paintEnd(). data-state on .qz-end:
                             waiting   questions still to answer
                             result    a reader type, its line, the
-                                      distribution, and Take it again
+                                      distribution, Take it again,
+                                      and the type's picture behind
+                                      it, if the page gives it one
 
      how far the reader   reach(), kept with the run as "reached":
      has got              the furthest step opened. -1 before Start,
@@ -416,6 +418,7 @@
     return { type, tilt };
   }
 
+  const resCard = end.querySelector('.qz-res');
   const resH = end.querySelector('.qz-res-h');
   const resT = end.querySelector('.qz-res-t');
   const resLine = end.querySelector('.qz-line');
@@ -458,6 +461,8 @@
     resWait.hidden = done;
     again.hidden = !done;
 
+    resCard.querySelector(':scope > .qz-art')?.remove();
+
     if (!done) {
       resH.textContent = 'Your reader type';
       resT.replaceChildren();
@@ -467,6 +472,10 @@
     }
 
     const li = types.get(type);
+    /* The type's picture, from the template the page keeps in its
+       entry, goes first in the card so it sits behind the words. */
+    const art = li.querySelector('template.qz-art-src');
+    if (art) resCard.prepend(art.content.cloneNode(true));
     resH.textContent = li.querySelector('b').textContent;
     resT.replaceChildren(...[...li.querySelector('span').childNodes].map((n) => n.cloneNode(true)));
     resWait.replaceChildren();
