@@ -583,10 +583,23 @@
 
 .qz-art--full { top: 0; height: calc(100% - var(--foot)); }
 .qz-art--foot { bottom: var(--foot); height: 76px; }
-.qz-art--side { top: 0; right: 10px; left: auto; width: 214px; height: calc(100% - var(--foot)); }
+.qz-art--side { top: 0; right: var(--side-in); left: auto; width: var(--side-w); height: calc(100% - var(--foot)); }
 .qz-art--books { top: 0; height: 100%; }
 
+.qz-res { --side-w: 214px; --side-in: 10px; }
+
 .qz-res:has(.qz-art--foot) .qz-acts { margin-top: 92px; }
+
+/* A picture down the side takes that column from the words. All of
+   them, from the kicker down to Readers who landed here, keep to the
+   room left of the picture, ranged left, with a gap before it. The
+   card's own padding is already part of the way. */
+.qz-res:has(.qz-art--side) :is(.cf-k, .qz-res-h, .qz-res-t, .qz-line, .qz-dist) {
+  max-width: none;
+  margin-left: 0;
+  margin-right: calc(var(--side-w) + var(--side-in) - 26px + 24px);
+  text-align: left;
+}
 
 .qz-art--books::before,
 .qz-art--books::after {
@@ -617,8 +630,17 @@
 
 @keyframes qz-chat { to { transform: translateY(calc(var(--tile) * -1)); } }
 
+/* On a phone the column would leave the words too narrow to read, so
+   they take the card's width back and the picture steps further back
+   behind them instead. */
 @media (width <= 620px) {
-  .qz-art--side { width: 150px; right: 4px; }
+  .qz-res { --side-w: 150px; --side-in: 4px; }
+  .qz-art--side { opacity: 0.45; }
+  .qz-res:has(.qz-art--side) :is(.cf-k, .qz-res-h, .qz-res-t, .qz-line, .qz-dist) {
+    margin-right: 0;
+    text-align: center;
+  }
+  .qz-res:has(.qz-art--side) .qz-dist { text-align: left; }
   .qz-art--books::before,
   .qz-art--books::after { width: 120px; opacity: 0.22; }
 }
