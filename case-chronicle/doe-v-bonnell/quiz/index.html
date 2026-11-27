@@ -541,7 +541,15 @@
                          the middle with the court case knower, and are
                          told apart by how the answers got there. quiz.js
                          reads the names and lines from here, so this is
-                         the one place to reword them. -->
+                         the one place to reword them, plus the five
+                         names on the line itself.
+
+                         A data-type is the id the server counts under
+                         (QUIZZES in suggest.py) and the id quiz.js hands
+                         out, so changing one means changing all three,
+                         and moving quiz.js's ?v= so no reader runs an old
+                         copy against this list. A name alone can change
+                         here freely. -->
                     <section class="qz-end" id="qz-end" aria-labelledby="qz-end-h">
                         <article class="cf-card cf-c qz-res">
                             <p class="cf-k">What kind of reader you are</p>
@@ -550,7 +558,7 @@
                             <div class="qz-line" hidden aria-hidden="true">
                                 <div class="qz-line-bar"><span class="qz-line-dot"></span></div>
                                 <ol class="qz-line-l">
-                                    <li>Destiny hater</li>
+                                    <li>Burnt Bridge</li>
                                     <li>Doe fan</li>
                                     <li>Court case knower</li>
                                     <li>Destiny fan</li>
@@ -567,7 +575,7 @@
                         </article>
 
                         <ul class="qz-types" hidden>
-                            <li data-type="destiny-hater"><b>Destiny hater</b> <span>You came in with a side, and it&rsquo;s not Steven&rsquo;s.</span></li>
+                            <li data-type="burnt-bridge"><b>Burnt Bridge</b> <span>You came in with a side, and it&rsquo;s not Steven&rsquo;s.</span></li>
                             <li data-type="doe-fan"><b>Doe fan</b> <span>You lean Doe&rsquo;s way. Not all the way, but you lean.</span></li>
                             <li data-type="knower"><b>Court case knower</b> <span>You read the docket, or you might as well have.</span></li>
                             <li data-type="destiny-fan"><b>Destiny fan</b> <span>You lean Steven&rsquo;s way. Not all the way, but you lean.</span></li>
@@ -768,7 +776,7 @@
     </main>
 
     <script src="/case-chronicle/chronicle.js?v=20261126a" defer></script>
-    <script src="/case-chronicle/quiz.js?v=20261127a" defer></script>
+    <script src="/case-chronicle/quiz.js?v=20261127b" defer></script>
 </body>
 
 </html>

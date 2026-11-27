@@ -327,7 +327,7 @@
     let type;
     if (tilt >= STRONG) type = 'dgger';
     else if (tilt >= MILD) type = 'destiny-fan';
-    else if (tilt <= -STRONG) type = 'destiny-hater';
+    else if (tilt <= -STRONG) type = 'burnt-bridge';
     else if (tilt <= -MILD) type = 'doe-fan';
     else if (match >= KNOWER) type = 'knower';
     else if (unsure >= FENCE) type = 'fence-sitter';

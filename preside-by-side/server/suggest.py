@@ -195,7 +195,7 @@ QUIZZES = {
             'minor', 'april-2022', 'sworn-later', 'log', 'credible',
         }),
         'types': frozenset({
-            'destiny-hater', 'doe-fan', 'knower', 'destiny-fan', 'dgger',
+            'burnt-bridge', 'doe-fan', 'knower', 'destiny-fan', 'dgger',
             'fence-sitter', 'made-for-you',
         }),
     },
@@ -1088,6 +1088,12 @@ with db() as conn:
         """
     )
     conn.execute('CREATE INDEX IF NOT EXISTS idx_quiz_results_quiz ON quiz_results(quiz)')
+    # Reader types renamed on a quiz page keep their results. Doe's
+    # "destiny-hater" became "burnt-bridge" on 2026-11-27. Harmless to run
+    # on every start: once the rows are moved there is nothing to update.
+    for quiz, old, new in (('doe-v-bonnell', 'destiny-hater', 'burnt-bridge'),):
+        conn.execute('UPDATE quiz_results SET label=? WHERE quiz=? AND label=?',
+                     (new, quiz, old))
 
 
 app = Flask(__name__)
@@ -1721,9 +1727,12 @@ def _quiz_request(route):
 
 
 def _quiz_counts(rows, keys):
+    # Only what the quiz still offers is counted, so a row left under an
+    # id the page no longer has can't add to the total without a bar.
     counts = {k: 0 for k in keys}
     for r in rows:
-        counts[r['k']] = r['n']
+        if r['k'] in counts:
+            counts[r['k']] = r['n']
     return counts, sum(counts.values())
 
 
