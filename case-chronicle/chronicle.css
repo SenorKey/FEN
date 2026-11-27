@@ -507,6 +507,102 @@ body::after {
    same mark, spent. */
 .pip-closed { box-shadow: inset 0 0 0 1.5px var(--faint); }
 
+/* ── a case with a quiz ──
+   The facts come up under the paragraph with no line of their own, so
+   they read as part of the title block. Three classes, so the narrow-
+   window margins at the foot of this file do not win over them. */
+.masthead-case .docket-meta.docket-meta-up {
+  margin-top: 30px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* The way into the quiz: the quiz's own lighter card, a headline and one
+   line, the court's brown along the top edge where a rule used to be,
+   and a brown strip across its foot that goes black when the card is
+   pointed at. Square, like every other card here, not a pill. The
+   whole card is one link, to the first question, since the card is
+   already the quiz's introduction. */
+.mhq {
+  display: block;
+  margin-top: 34px;
+  padding: 22px 28px 0;
+  overflow: hidden;
+  border: 1px solid var(--tl-edge);
+  border-top: 3px solid var(--court);
+  border-radius: 3px;
+  background: var(--tl-card);
+  box-shadow: var(--tl-lift);
+  text-align: center;
+  text-decoration: none;
+  color: var(--ink);
+  transition: box-shadow 0.25s ease, translate 0.25s ease;
+}
+
+.mhq:hover { box-shadow: var(--tl-lift-up); translate: 0 -2px; }
+.mhq:focus-visible { outline: 2px solid var(--court); outline-offset: 4px; }
+
+.mhq-k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--court);
+}
+
+.mhq-h {
+  display: block;
+  margin: 6px 0;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 60, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+}
+
+.mhq-t {
+  display: block;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: rgba(23, 20, 15, 0.78);
+}
+
+.mhq-go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px -28px 0;
+  padding: 15px 18px 14px;
+  background: var(--court);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--tl-card);
+  transition: background-color 0.15s;
+}
+
+/* Brown at rest and black when pointed at: the other way round from
+   the quiz's own buttons, so the way in stands out on the masthead. */
+.mhq:hover .mhq-go,
+.mhq:focus-visible .mhq-go { background: var(--ink); }
+
+@media (width <= 620px) {
+  .mhq { padding: 20px 18px 0; }
+  .mhq-go { margin-inline: -18px; }
+}
+
+@media print {
+  .mhq { display: none; }
+}
+
 /* Nothing written here yet. No ring — it is not a state of the case, it
    is a state of this page. */
 .pip-soon { background: var(--rule); }

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- The Case Intuition Quiz for this case. Not one of the four views:
+         it is the door in front of them, so its masthead offers the four
+         views underneath without marking any as the current one.
+
+         chronicle.css gives it the Chronicle's stock, inks and cards, and
+         quiz.css lays out the questions. Both are shared, and nothing in
+         either names a case. Everything about this case, the questions,
+         the record's answers and which way a wrong answer leans, is in
+         this file. -->
+    <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261126a">
+    <link rel="stylesheet" href="/case-chronicle/quiz.css?v=20261126a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <meta name="description"
+        content="Ten yes-or-no questions about Doe v. Bonnell, answered from the court record, with how other readers answered each one.">
+    <link rel="canonical" href="https://frontendneeded.com/case-chronicle/doe-v-bonnell/quiz/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://frontendneeded.com/case-chronicle/doe-v-bonnell/quiz/">
+    <meta property="og:title" content="Doe v. Bonnell, the Case Intuition Quiz — Case Chronicle">
+    <meta property="og:description"
+        content="Ten yes-or-no questions about Doe v. Bonnell, answered from the court record, with how other readers answered each one.">
+    <meta property="og:image" content="https://frontendneeded.com/assets/images/og-case-chronicle.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Case Chronicle, beside five bound volumes standing on a shelf.">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <title>Doe v. Bonnell, the Case Intuition Quiz — Case Chronicle</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVD9746XT1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-TVD9746XT1');
+    </script>
+</head>
+
+<body data-case="doe-v-bonnell">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <nav class="site-nav">
+        <a href="/" class="nav-home">FEN</a>
+        <div class="nav-dropdown">
+            <span class="nav-dropdown-toggle" tabindex="0">Projects &rsaquo;</span>
+            <div class="nav-dropdown-menu">
+                <a href="/case-chronicle" class="active">Case Chronicle</a>
+                <a href="/fresh-pull">Fresh Pull</a>
+                <a href="/match-analysis-ad">Match Analysis</a>
+                <a href="/preside-by-side-ad">Preside by Side</a>
+                <a href="/tarella-notes">Tarella Notes</a>
+                <a href="/wfpc">WF Price Checker</a>
+            </div>
+        </div>
+        <a href="/my-kings-cadence">NFL</a>
+        <a href="/todo-tensor/">To-do</a>
+        <a class="nav-mark" href="/case-chronicle/" title="Case Chronicle home"><img src="/case-chronicle/mark.svg?v=20261020a" alt="Case Chronicle" width="46" height="27"></a>
+        <a href="/hire-me">Hire Me</a>
+    </nav>
+
+    <main id="main-content">
+
+        <header class="masthead masthead-view masthead-books" id="top">
+            <div class="wrap">
+                <p class="crumb"><a href="/case-chronicle/doe-v-bonnell/">&larr;&nbsp; Doe v. Bonnell</a></p>
+                <p class="eyebrow">United States District Court &middot; Southern District of Florida &middot; No.
+                    1:25-cv-20757-JB</p>
+                <h1 class="masthead-title">Doe <em>v.</em> Bonnell</h1>
+
+                <nav class="views" aria-label="Views of this case">
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/flow/">
+                        <span class="view-t">TLDR View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/chronology/">
+                        <span class="view-t">Chronological View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/argument/">
+                        <span class="view-t">Argument View</span>
+                    </a>
+                    <a class="view" href="/case-chronicle/doe-v-bonnell/courtroom/">
+                        <span class="view-t">Courtroom View</span>
+                    </a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- ═══════════════════════════════════════════════
+             The quiz
+
+             Ten questions, each a card with three answers under it on
+             lines, the way the TLDR View hangs its answers under a
+             question. Each answer is a radio button dressed as a card,
+             so the whole thing works with no JavaScript: picking one
+             opens the record's answer, and quiz.css does the rest.
+
+             The quiz grows down the page: answering a question opens
+             its explanation and puts the next question under it, and
+             nothing answered is taken away. Next is an ordinary link
+             (#q2, #q3, ...) that only scrolls down to it.
+
+             Per question, in its attributes:
+               data-q          the id the server counts answers under.
+                               Listed in suggest.py too. Change a
+                               question's wording enough to change what
+                               it asks and it needs a new id, or its
+                               reader numbers mix two questions.
+               data-record     what the record shows: yes, no, or open
+                               (not decided). On an open question,
+                               Unsure is the answer that matches, and a
+                               Yes or a No gets its own opening line.
+               data-lean-yes   which side a wrong Yes favors, and
+               data-lean-no    which side a wrong No favors: steven,
+                               doe, or nothing for neither. quiz.js
+                               works out the reader type from these.
+
+             The answer key is as of data-key on .qz, the date the
+             record was last reviewed. Change an answer when a ruling
+             lands, move data-key and the date in the intro with it.
+
+             quiz.js only adds what needs a server or arithmetic: how
+             other readers answered, the reader type at the end, and
+             locking an answer once it has been sent.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-tree band-quiz" id="quiz" aria-labelledby="quiz-h">
+            <div class="wrap">
+                <div class="qz" data-quiz="doe-v-bonnell" data-key="2026-10-07"
+                    data-strong="4" data-mild="2" data-knower="8" data-fence="3">
+
+                    <div class="qz-intro">
+                        <article class="cf-card cf-c qz-intro-card">
+                            <p class="cf-k">Case Intuition Quiz</p>
+                            <h2 class="qz-intro-h" id="quiz-h">Do you know what the record actually says?</h2>
+                            <p class="cf-b">Ten yes-or-no questions about Doe v. Bonnell, the kind that get argued on streams and in comment sections every week. Every answer comes from the court record, with the filing linked so you can check it yourself.</p>
+                            <p class="cf-b">After each one you&rsquo;ll see how other readers answered. At the end you&rsquo;ll find out what kind of reader you are.</p>
+                            <p class="qz-asof">Answers as of the public docket on <span class="mono">October 7, 2026</span></p>
+                            <a class="qz-go" href="#q1">Start <span aria-hidden="true">&darr;</span></a>
+                        </article>
+                    </div>
+
+                    <!-- ── 1 ── -->
+                    <section class="qz-q" id="q1" data-q="recorded" data-record="yes" data-lean-yes="" data-lean-no="doe" aria-labelledby="q1-h">
+                        <p class="qz-n">Question 1 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q1-h">Did Doe consent to the video being recorded?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 1</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q1" id="q1-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q1-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q1" id="q1-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q1-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q1" id="q1-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q1-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; Yes</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">Yes. The video was made in Miami on September&nbsp;12, 2020, and nobody in the case has ever said it was recorded without Doe&rsquo;s OK. Not Doe, not Steven, and not the court. In an order from October 2025 the court went out of its way to point that out, since it means the recording itself isn&rsquo;t part of the fight.</p>
+                                <p class="cf-b">So everything turns on what happened to the video afterward, which is the next question. The federal law Doe is suing under says that agreeing to be recorded doesn&rsquo;t count as agreeing to have it shared, so a yes here doesn&rsquo;t settle anything about what came after.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.142.0.pdf#page=5" target="_blank" rel="noopener" aria-label="ECF No. 142, opens the filing as a PDF">142</a> at&nbsp;5
+                                    &middot; <a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener">15 U.S.C. &sect;&nbsp;6851(b)(2)(A)</a></p>
+                            </article>
+                            <a class="qz-next" href="#q2">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 2 ── -->
+                    <section class="qz-q" id="q2" data-q="permission" data-record="no" data-lean-yes="steven" data-lean-no="" aria-labelledby="q2-h">
+                        <p class="qz-n">Question 2 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q2-h">Did Doe ever give Steven permission to distribute the video?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 2</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q2" id="q2-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q2-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q2" id="q2-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q2-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q2" id="q2-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q2-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No, and nobody in the case says she did, Steven included. At an <a class="term" href="#t-evidentiary-hearing" data-term="t-evidentiary-hearing" title="Evidentiary hearing: A hearing where witnesses actually testify and are cross-examined, rather than lawyers simply arguing.">evidentiary hearing</a> on June&nbsp;3, 2025, Steven agreed he has nothing in writing from Doe saying he could share it with other people. Asked whether he ever asked her before sending it to &ldquo;Rose,&rdquo; he said that if they talked about it, it would have been in person when they recorded it, and nothing after that he&rsquo;s aware of.</p>
+                                <p class="cf-b">What Steven argues is that it was implied. The two of them had spent about a year swapping explicit messages and videos of themselves, and in his sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> he says Doe never objected to him showing the video to his fianc&eacute;e at the time, &ldquo;or to anyone else.&rdquo; Doe agrees she didn&rsquo;t object to the fianc&eacute;e, but in her own declaration she says she &ldquo;was very clear that they should not be shared with anyone else.&rdquo; The trouble for that argument is the federal law itself. It says agreeing to be recorded doesn&rsquo;t count as agreeing to have it shared, and it defines consent as an &ldquo;affirmative, conscious, and voluntary&rdquo; OK, which not objecting isn&rsquo;t. The court hasn&rsquo;t ruled on consent yet.</p>
+                                <p class="cf-b">On her side, Doe points to a message she sent Steven in early 2020, before they ever met up, saying that if anyone asked about them having sex she would &ldquo;rather deny and keep that private between us.&rdquo;</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.90.0.pdf#page=83" target="_blank" rel="noopener" aria-label="ECF No. 90, the hearing transcript, opens at page 83">90</a> at 83:7&ndash;13, 90:13&ndash;18
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-1, opens the filing as a PDF">42-1</a> &para;&nbsp;7
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-1, opens the filing as a PDF">49-1</a> &para;&nbsp;7
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.21.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 21-1, opens the filing as a PDF">21-1</a> &para;&nbsp;4
+                                    &middot; <a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener">15 U.S.C. &sect;&nbsp;6851(a)(2), (b)(2)(A)</a></p>
+                            </article>
+                            <a class="qz-next" href="#q3">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 3 ── -->
+                    <section class="qz-q" id="q3" data-q="revenge" data-record="open" data-lean-yes="doe" data-lean-no="steven" aria-labelledby="q3-h">
+                        <p class="qz-n">Question 3 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q3-h">Was this revenge porn?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 3</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q3" id="q3-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q3-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q3" id="q3-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q3-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q3" id="q3-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q3-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the court. It hasn&rsquo;t decided either.</p>
+                                <p class="qz-v qz-v-open-yes">The court hasn&rsquo;t decided this one. In the broad sense a lot of people mean now, though, you&rsquo;re close.</p>
+                                <p class="qz-v qz-v-open-no">The court hasn&rsquo;t decided this one. In the everyday sense, though, you&rsquo;ve got a point.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-open">The court hasn&rsquo;t decided</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">It depends what you mean by it, and the part that counts in court hasn&rsquo;t been settled.</p>
+                                <p class="cf-b"><strong>What people usually mean by it.</strong> Someone, usually an ex, posting or spreading a partner&rsquo;s intimate images to humiliate them or get back at them. By that measure the record leans toward no:</p>
+                                <ul class="qz-ul">
+                                    <li>The two of them were friends, not exes getting back at each other. They were still working together on getting the video taken down in December 2024.</li>
+                                    <li>Steven sent the video privately to one person who asked for it. He never posted it anywhere public.</li>
+                                    <li>It reached the public through a stranger&rsquo;s leak.</li>
+                                    <li>Even Doe&rsquo;s own <a class="term" href="#t-complaint" data-term="t-complaint" title="Complaint: The document that starts a lawsuit and sets out what the plaintiff says happened. An amended complaint replaces it.">complaint</a> never says he did it to get back at her. It says he shared it on purpose, without her consent, and &ldquo;for no legitimate purpose.&rdquo;</li>
+                                </ul>
+                                <p class="cf-b">A lot of people now also use the term for any intimate video shared without consent, whatever the reason. By that broader meaning the record is closer to yes, since Steven admits he sent it and doesn&rsquo;t say she ever told him he could. That split is why many groups that work on this now say &ldquo;nonconsensual intimate images&rdquo; instead.</p>
+                                <p class="cf-b"><strong>What the law says.</strong> No law in this case uses the words &ldquo;revenge porn&rdquo;:</p>
+                                <ul class="qz-ul">
+                                    <li>The federal law doesn&rsquo;t care about motive at all. It only asks whether someone shared the image knowing, or not caring, that the person in it hadn&rsquo;t agreed. It also didn&rsquo;t exist yet in April 2022.</li>
+                                    <li>Florida&rsquo;s law, the way it read when Steven sent the video, only covered sharing done &ldquo;with the intent of causing substantial emotional distress&rdquo; to the person in the image. That&rsquo;s about as close as the law gets to &ldquo;revenge.&rdquo; Florida dropped that part in 2025, but the law as it read back then is the one that applies to what was done back then.</li>
+                                </ul>
+                                <p class="cf-b">Whether Steven broke either law is exactly what the court hasn&rsquo;t decided yet.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf#page=11" target="_blank" rel="noopener" aria-label="ECF No. 120, the amended complaint, opens the filing as a PDF">120</a> &para;&para;&nbsp;51&ndash;53
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.51.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 51-3, opens the filing as a PDF">51-3</a>
+                                    &middot; <a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener">15 U.S.C. &sect;&nbsp;6851(b)(1)(A)</a>
+                                    &middot; <a class="cite-doc" href="https://www.flsenate.gov/Laws/Statutes/2022/784.049" target="_blank" rel="noopener">Fla. Stat. &sect;&nbsp;784.049(2)(c) (2022)</a></p>
+                            </article>
+                            <a class="qz-next" href="#q4">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 4 ── -->
+                    <section class="qz-q" id="q4" data-q="posted" data-record="no" data-lean-yes="doe" data-lean-no="" aria-labelledby="q4-h">
+                        <p class="qz-n">Question 4 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q4-h">Did Steven post the video online himself?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 4</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q4" id="q4-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q4-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q4" id="q4-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q4-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q4" id="q4-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q4-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No. Steven sent the video privately, over Discord, to one account. It went public on November&nbsp;29, 2024, when someone posting as &ldquo;SoloTinyLeaks&rdquo; put up a cache of 29 of Steven&rsquo;s private files on a forum, and this video was one of them. From there it spread to porn sites with both of their screen names in the captions. Neither of them agreed to any of that.</p>
+                                <p class="cf-b">Doe&rsquo;s side is that Steven made the leak possible. Her complaint says he shared his videos through Google Drive links that anyone with the link could open, and that the leaker said that&rsquo;s where the videos came from. Steven says the leak happened without his knowledge or consent, and in the weeks after it he was hunting down site contacts and sending takedown requests, with Doe sending him more links to go after.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.42.8.pdf" target="_blank" rel="noopener" aria-label="ECF No. 42-8, opens the filing as a PDF">42-8</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.52.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 52-3, opens the filing as a PDF">52-3</a>
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf#page=3" target="_blank" rel="noopener" aria-label="ECF No. 120, the amended complaint, opens the filing as a PDF">120</a> &para;&para;&nbsp;13, 16&ndash;17, 26
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.51.3.pdf" target="_blank" rel="noopener" aria-label="ECF No. 51-3, opens the filing as a PDF">51-3</a></p>
+                            </article>
+                            <a class="qz-next" href="#q5">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 5 ── -->
+                    <section class="qz-q" id="q5" data-q="real-rose" data-record="no" data-lean-yes="" data-lean-no="" aria-labelledby="q5-h">
+                        <p class="qz-n">Question 5 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q5-h">Was Steven ever speaking to the real &ldquo;Rose&rdquo;?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 5</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q5" id="q5-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q5-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q5" id="q5-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q5-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q5" id="q5-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q5-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No. Steven says &ldquo;Rose&rdquo; introduced herself as a college student. In October 2025 the real woman whose identity the account used gave a <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> in Illinois. She said she never messaged Steven, never saw the video, and didn&rsquo;t even know who Doe was. Asked whether Steven had basically been catfished by her boyfriend at the time, she said yes.</p>
+                                <p class="cf-b">She said that boyfriend was a man she met online who told her he lived in Chicago, and later told her he actually lived in Oxford, England. That&rsquo;s why the screenshots from that chat show dates the way they&rsquo;re written in the UK, day first, and that ended up mattering a lot for the question of when Steven sent the video.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.213.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 213, opens the filing as a PDF">213</a> &para;&nbsp;2
+                                    &middot; Dep. Tr. (Oct 23, 2025) <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.12.pdf#page=5" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 212-12, opens at page 18">18:16&ndash;24</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.12.pdf#page=11" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 212-12, opens at page 67">67:13&ndash;68:21</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.12.pdf#page=13" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 212-12, opens at page 79">79:22&ndash;80:7</a>, ECF No. 212-12</p>
+                            </article>
+                            <a class="qz-next" href="#q6">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 6 ── -->
+                    <section class="qz-q" id="q6" data-q="minor" data-record="no" data-lean-yes="doe" data-lean-no="" aria-labelledby="q6-h">
+                        <p class="qz-n">Question 6 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q6-h">Did Steven knowingly send the video to a minor?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 6</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q6" id="q6-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q6-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q6" id="q6-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q6-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q6" id="q6-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q6-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No, on both halves. Steven believed he was talking to a college student. And the person actually running the account was that boyfriend from the last question, who the account&rsquo;s real owner said was 21 when she met him in November 2021. Doe&rsquo;s own complaint described &ldquo;Rose&rdquo; as &ldquo;a 19-year old woman.&rdquo;</p>
+                                <p class="cf-b">So where does the minor claim come from? The account was pretending to be a real girl, and she testified she was 17 when she met that man. In October 2025, three weeks before her deposition, Doe&rsquo;s lawyers wrote in a footnote that the person Steven sent the video to was a minor, going off a redacted driving record. The deposition then showed the person on the other end was the man, not her.</p>
+                                <p class="cf-b">Doe&rsquo;s side never filed a correction. Steven asked the court to punish them for it under <a class="term" href="#t-rule-11" data-term="t-rule-11" title="Rule 11: The rule requiring that filings have a factual basis. A Rule 11 motion says the other side asserted something it could not support.">Rule 11</a>, and in April 2026 the court turned that down without prejudice, which leaves either side free to file again. He has also asked that a jury never hear the claim, in a <a class="term" href="#t-motion-in-limine" data-term="t-motion-in-limine" title="Motion in limine: Filed before trial to decide what a jury will and will not be allowed to hear.">motion in limine</a> that&rsquo;s still undecided.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.213.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 213, opens the filing as a PDF">213</a> &para;&nbsp;2
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf#page=3" target="_blank" rel="noopener" aria-label="ECF No. 120, the amended complaint, opens the filing as a PDF">120</a> &para;&nbsp;12
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.0.pdf#page=7" target="_blank" rel="noopener" aria-label="ECF No. 139, opens the filing as a PDF">139</a> at 7 n.2, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.139.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 139-2, opens the filing as a PDF">139-2</a>
+                                    &middot; Dep. Tr. (Oct 23, 2025) <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.12.pdf#page=5" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 212-12, opens at page 18">18:16&ndash;19</a>, ECF No. 212-12
+                                    &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.183.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 183, opens the filing as a PDF">183</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=240&amp;entry_lte=240" target="_blank" rel="noopener" aria-label="ECF No. 240, opens the docket entry">240</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.224.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 224, opens the filing as a PDF">224</a></p>
+                            </article>
+                            <a class="qz-next" href="#q7">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 7 ── -->
+                    <section class="qz-q" id="q7" data-q="april-2022" data-record="no" data-lean-yes="doe" data-lean-no="" aria-labelledby="q7-h">
+                        <p class="qz-n">Question 7 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q7-h">Can Steven be sued under federal law just for sending the video in April 2022?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 7</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q7" id="q7-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q7-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q7" id="q7-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q7-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q7" id="q7-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q7-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No. The federal law Doe is suing under started on October&nbsp;1, 2022, and a law normally isn&rsquo;t <a class="term" href="#t-retroactive" data-term="t-retroactive" title="Retroactive: Whether a law reaches conduct from before it existed. Usually it does not, unless Congress clearly said so.">retroactive</a>, meaning it doesn&rsquo;t reach back to things done before it existed. Steven sent the video to &ldquo;Rose&rdquo; on April&nbsp;9, 2022, and Doe agreed to that date in May 2026, so that send happened about six months too early to count by itself.</p>
+                                <p class="cf-b">This federal law doesn&rsquo;t make anything a crime, either. It&rsquo;s the kind of law that lets someone sue. And Florida&rsquo;s own law was already in force in April 2022, so Doe&rsquo;s three Florida claims don&rsquo;t depend on this date. They&rsquo;re only in federal court because of the federal claim, though, so if that one goes, the judge will most likely leave them for a Florida court.</p>
+                                <p class="cf-b">That&rsquo;s why Doe&rsquo;s federal claim now rides on one of two other routes. One is the November 2023 send in the next question. The other is her argument that the link Steven sent in April 2022 stayed open after the law started, and that leaving it open counts as sharing it after October&nbsp;1, 2022. The court hasn&rsquo;t ruled on either one.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    <a class="cite-doc" href="https://www.law.cornell.edu/uscode/text/15/6851" target="_blank" rel="noopener">15 U.S.C. &sect;&nbsp;6851</a>
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.247.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 247, opens the filing as a PDF">247</a> at 1, 3, 20
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.120.0.pdf#page=11" target="_blank" rel="noopener" aria-label="ECF No. 120, the amended complaint, opens the filing as a PDF">120</a> &para;&nbsp;45
+                                    &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132, opens the filing as a PDF">132</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.210.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 210, opens the filing as a PDF">210</a></p>
+                            </article>
+                            <a class="qz-next" href="#q8">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 8 ── -->
+                    <section class="qz-q" id="q8" data-q="sworn-later" data-record="yes" data-lean-yes="" data-lean-no="steven" aria-labelledby="q8-h">
+                        <p class="qz-n">Question 8 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q8-h">Has anyone sworn that Steven sent them the video after the law took effect?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 8</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q8" id="q8-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q8-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q8" id="q8-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q8-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q8" id="q8-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q8-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; Yes</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">Yes. A woman known in the case as &ldquo;Abbymc&rdquo; signed a sworn <a class="term" href="#t-declaration" data-term="t-declaration" title="Declaration: A written statement signed under penalty of perjury. It counts as evidence without the witness appearing in person.">declaration</a> in May 2025 saying Steven sent her the video through a Google Drive link in November 2023, and that she recognized Doe in it. That&rsquo;s well after the law started, so if it&rsquo;s true, it&rsquo;s enough for Doe&rsquo;s federal claim on its own.</p>
+                                <p class="cf-b">Steven has denied it from the start, and the declaration came with no message, link or file to back it up. There is a message she sent a friend on the morning of November&nbsp;3, 2023, at 10:41 a.m., saying Steven had just sent her another video. Steven&rsquo;s own log puts the only links he sent her that day at 2:39 p.m., which looks like a four hour gap. But at his <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> he said he wasn&rsquo;t sure what time zone the log uses, and if it&rsquo;s universal time, 2:39 p.m. would be 10:39 a.m. in Miami, two minutes before her message.</p>
+                                <p class="cf-b">When Steven&rsquo;s side served her with a <a class="term" href="#t-subpoena" data-term="t-subpoena" title="Subpoena: A court order compelling someone who is not a party to hand over documents or give testimony.">subpoena</a> for more, she handed over nothing, and a second declaration from her showed up after the deadline for gathering evidence had passed. Whether to believe her is one of the things the court still has to decide.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.49.2.pdf" target="_blank" rel="noopener" aria-label="ECF No. 49-2, opens the filing as a PDF">49-2</a>
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.86.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 86-1, opens the filing as a PDF">86-1</a>
+                                    &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=222" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 305-1, opens at page 221">221:3&ndash;13</a>, ECF No. 305-1
+                                    &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.212.10.pdf" target="_blank" rel="noopener" aria-label="ECF No. 212-10, opens the filing as a PDF">212-10</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.249.1.pdf" target="_blank" rel="noopener" aria-label="ECF No. 249-1, opens the filing as a PDF">249-1</a></p>
+                            </article>
+                            <a class="qz-next" href="#q9">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 9 ── -->
+                    <section class="qz-q" id="q9" data-q="log" data-record="yes" data-lean-yes="" data-lean-no="steven" aria-labelledby="q9-h">
+                        <p class="qz-n">Question 9 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q9-h">Did Steven leave anything out of a sworn record he gave the court?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 9</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q9" id="q9-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q9-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q9" id="q9-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q9-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q9" id="q9-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q9-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; Yes</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">Yes, and Steven admits it. On September&nbsp;19, 2025, he filed a log and swore it was a true and correct record of everything he&rsquo;d sent Abbymc. His own chat thread with her, which he handed over in the case, shows him sending two Google Drive links that aren&rsquo;t on that log. He says leaving them off was an accident.</p>
+                                <p class="cf-b">It matters because about ten days earlier Steven said on stream, &ldquo;I&rsquo;m artificially creating a file by reconstructing a log of stuff.&rdquo; Doe&rsquo;s side says that&rsquo;s the log he filed. Steven says he doesn&rsquo;t remember which file the stream was about, and that the merging he described only lined up timestamps and didn&rsquo;t change any message.</p>
+                                <p class="cf-b">All of this is in Doe&rsquo;s <a class="term" href="#t-spoliation" data-term="t-spoliation" title="Spoliation: Destroying or losing evidence you were obliged to keep. The duty starts once you know a lawsuit is coming.">spoliation</a> motion, which asks the court to punish Steven for getting rid of evidence he was supposed to keep. The court held a hearing on it on October&nbsp;2, 2026, and hasn&rsquo;t ruled. Until it does, nobody has found that Steven destroyed anything.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.132.6.pdf" target="_blank" rel="noopener" aria-label="ECF No. 132-6, opens the filing as a PDF">132-6</a>
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.262.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 262, opens the filing as a PDF">262</a>
+                                    &middot; ECF Nos. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.271.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 271, opens the filing as a PDF">271</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.272.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 272, opens the filing as a PDF">272</a>
+                                    &middot; Dep. Tr. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=306" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 305-1, opens at page 305">305:8&ndash;307:19</a>, <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.305.1.pdf#page=315" target="_blank" rel="noopener" aria-label="Deposition transcript, ECF No. 305-1, opens at page 314">314:5&ndash;318:9</a>, ECF No. 305-1
+                                    &middot; ECF Nos. <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=306&amp;entry_lte=306" target="_blank" rel="noopener" aria-label="ECF No. 306, opens the docket entry">306</a>, <a class="cite-doc" href="https://www.courtlistener.com/docket/69650487/doe-v-bonnell/?entry_gte=309&amp;entry_lte=309" target="_blank" rel="noopener" aria-label="ECF No. 309, opens the docket entry">309</a></p>
+                            </article>
+                            <a class="qz-next" href="#q10">Next question <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── 10 ── -->
+                    <section class="qz-q" id="q10" data-q="credible" data-record="no" data-lean-yes="steven" data-lean-no="" aria-labelledby="q10-h">
+                        <p class="qz-n">Question 10 of 10</p>
+                        <article class="cf-card cf-c cf-q qz-card">
+                            <h2 class="cf-h" id="q10-h">Has a judge found Doe not credible?</h2>
+                        </article>
+                        <fieldset class="qz-pick">
+                            <legend class="vh">Your answer to question 10</legend>
+                            <div class="qz-opts">
+                                <input class="qz-r" type="radio" name="q10" id="q10-yes" value="yes">
+                                <label class="qz-opt qz-opt-yes" for="q10-yes">Yes</label>
+                                <input class="qz-r" type="radio" name="q10" id="q10-unsure" value="unsure">
+                                <label class="qz-opt qz-opt-unsure" for="q10-unsure">Unsure</label>
+                                <input class="qz-r" type="radio" name="q10" id="q10-no" value="no">
+                                <label class="qz-opt qz-opt-no" for="q10-no">No</label>
+                            </div>
+                        </fieldset>
+                        <div class="qz-x">
+                            <article class="cf-card qz-ans" aria-live="polite">
+                                <p class="qz-v qz-v-match">Same as the record.</p>
+                                <p class="qz-v qz-v-miss">The record says otherwise.</p>
+                                <p class="qz-v qz-v-unsure">Fair, but the record does answer this one.</p>
+                                <p class="cf-stamp"><span class="cf-st cf-st-done">The record shows &middot; No</span></p>
+                                <div class="qz-crowd" hidden></div>
+                                <p class="cf-b">No. No judge has said Doe isn&rsquo;t believable. The one time a judge has said anything about believing her was in October 2025, when <a class="term" href="#t-magistrate-judge" data-term="t-magistrate-judge" title="Magistrate judge: A judge who handles pre-trial matters. On some questions they recommend, and the district judge decides.">Magistrate Judge</a> Edwin Torres turned down her request for an <a class="term" href="#t-injunction" data-term="t-injunction" title="Injunction: A court order to do something or to stop doing it. A temporary restraining order is the emergency version, and a preliminary injunction lasts while the case goes on. Neither decides who is right.">injunction</a>. He wrote that he didn&rsquo;t doubt her testimony that she&rsquo;s distraught over all of this, and called it &ldquo;fully credible in this regard.&rdquo;</p>
+                                <p class="cf-b">That&rsquo;s about how this has affected her, not a ruling on what happened. It&rsquo;s true Doe has lost most of what she&rsquo;s asked for so far, but mostly over how and when she asked, like waiting five months after the leak to ask for an injunction, or asking for an order limiting what Steven could say about the case, which the court said went too far. None of those rulings says her account is untrue, and what actually happened is still undecided.</p>
+                                <p class="qz-src"><span class="qz-src-l">Sources</span>
+                                    ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.143.0.pdf#page=10" target="_blank" rel="noopener" aria-label="ECF No. 143, opens the filing as a PDF at page 10">143</a> at 10, 12
+                                    &middot; ECF No. <a class="cite-doc" href="https://archive.org/download/gov.uscourts.flsd.684111/gov.uscourts.flsd.684111.223.0.pdf" target="_blank" rel="noopener" aria-label="ECF No. 223, opens the filing as a PDF">223</a></p>
+                            </article>
+                            <a class="qz-next" href="#qz-end">What kind of reader are you? <span aria-hidden="true">&darr;</span></a>
+                        </div>
+                    </section>
+
+                    <!-- ── the end ──
+                         The reader type. Worked out by quiz.js from the
+                         answers, so with no JavaScript this card says so
+                         and points into the case instead.
+
+                         The seven types, in the order of the line drawn
+                         under the result: Doe's side on the left and
+                         Steven's on the right, as everywhere else in the
+                         Chronicle. Fence sitter and the last one sit in
+                         the middle with the court case knower, and are
+                         told apart by how the answers got there. quiz.js
+                         reads the names and lines from here, so this is
+                         the one place to reword them. -->
+                    <section class="qz-end" id="qz-end" aria-labelledby="qz-end-h">
+                        <article class="cf-card cf-c qz-res">
+                            <p class="cf-k">What kind of reader you are</p>
+                            <h2 class="qz-res-h" id="qz-end-h">Your reader type</h2>
+                            <p class="qz-res-t" hidden></p>
+                            <div class="qz-line" hidden aria-hidden="true">
+                                <div class="qz-line-bar"><span class="qz-line-dot"></span></div>
+                                <ol class="qz-line-l">
+                                    <li>Destiny hater</li>
+                                    <li>Doe fan</li>
+                                    <li>Court case knower</li>
+                                    <li>Destiny fan</li>
+                                    <li>DGGer</li>
+                                </ol>
+                            </div>
+                            <div class="qz-dist" hidden></div>
+                            <p class="qz-res-wait" hidden></p>
+                            <noscript><p class="cf-b qz-res-ns">Your reader type is worked out by a small script, and scripts are switched off here. Every answer and source above still stands, and the case itself is one click away.</p></noscript>
+                            <div class="qz-acts">
+                                <button class="qz-act qz-again" type="button" hidden>Take it again</button>
+                                <a class="qz-act qz-act-main" href="/case-chronicle/doe-v-bonnell/">Read the case <span aria-hidden="true">&rarr;</span></a>
+                            </div>
+                        </article>
+
+                        <ul class="qz-types" hidden>
+                            <li data-type="destiny-hater"><b>Destiny hater</b> <span>You came in with a side, and it&rsquo;s not Steven&rsquo;s.</span></li>
+                            <li data-type="doe-fan"><b>Doe fan</b> <span>You lean Doe&rsquo;s way. Not all the way, but you lean.</span></li>
+                            <li data-type="knower"><b>Court case knower</b> <span>You read the docket, or you might as well have.</span></li>
+                            <li data-type="destiny-fan"><b>Destiny fan</b> <span>You lean Steven&rsquo;s way. Not all the way, but you lean.</span></li>
+                            <li data-type="dgger"><b>DGGer</b> <span>You came in with a side, and your side has its own chat.</span></li>
+                            <li data-type="fence-sitter"><b>Fence sitter</b> <span>You&rsquo;d rather not say. To be fair, on a couple of these neither would the court.</span></li>
+                            <li data-type="made-for-you"><b>Case Chronicle was made for you tbh&hellip;</b> <span>Strong opinions, no team. The <a href="/case-chronicle/doe-v-bonnell/flow/">TLDR View</a> has some news for you.</span></li>
+                        </ul>
+                    </section>
+
+                </div>
+
+                <div class="sect-nav">
+                    <a class="sect-nav-b sect-nav-prev" href="/case-chronicle/doe-v-bonnell/" aria-label="Back to the case page for Doe v. Bonnell">
+                        <span class="sect-nav-a" aria-hidden="true">&larr;</span>
+                        <span class="sect-nav-l">Back to</span>
+                        <span class="sect-nav-t">the case</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════
+             Notes
+
+             The case page's notes, copied whole with the
+             corrections form, so a reader who thinks an answer
+             here is wrong can say so from this page. It still
+             files against the case, from data-case on <body>.
+             Change the notes on the case page, its four views
+             and this page together.
+             ═══════════════════════════════════════════════ -->
+        <section class="band band-notes" id="notes" aria-labelledby="notes-h">
+            <div class="wrap">
+                <p class="kicker">Notes</p>
+                <h2 class="section-title" id="notes-h">How this was made, and what it leaves out</h2>
+
+                <div class="notes-grid">
+                    <div class="note">
+                        <h3>Source</h3>
+                        <p>Built from the complete public <a class="term" href="#t-docket" data-term="t-docket" title="Docket: The court’s numbered list of everything filed in a case. Entry 42 is the forty-second thing filed.">docket</a>, 311 entries as of October 7, 2026, as
+                            archived by the Free Law Project from PACER. Every characterization here comes from a
+                            filing, an <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibit</a>, or a signed order.</p>
+                        <p>Every docket number in a citation opens that filing, in the archive it came from.
+                            The court&rsquo;s <a class="term" href="#t-paperless-order" data-term="t-paperless-order" title="Paperless order: A short ruling typed straight onto the docket. It has no document behind it, so its citation opens the docket entry instead.">paperless orders</a> have no document behind them, so those
+                            open the docket entry itself. Deposition citations open the transcript at the page cited.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What is sealed</h3>
+                        <p>A great deal. The plaintiff&rsquo;s legal name, several witness identities, three of the four
+                            <a class="term" href="#t-deposition" data-term="t-deposition" title="Deposition: Sworn question-and-answer, out of court, recorded by a court reporter. Lawyers for both sides attend; there is no judge.">deposition</a> <a class="term" href="#t-transcript" data-term="t-transcript" title="Transcript: The word-for-word record of a hearing or a deposition. Cited by page and line, so 55:7 means page 55, line 7.">transcripts</a> and many <a class="term" href="#t-exhibit" data-term="t-exhibit" title="Exhibit: A document, screenshot or record attached to a filing as proof of something asserted in it.">exhibits</a> were never filed publicly. The defendant&rsquo;s transcript reached the docket in September 2026, redacted. Some of what each side
+                            relies on cannot be read by anyone outside the case.</p>
+                    </div>
+                    <div class="note">
+                        <h3>Names</h3>
+                        <p>The plaintiff sued under a pseudonym and the court granted it. Non-party witnesses appear
+                            here only by the screen names already used in public filings. The explicit material quoted
+                            in the record is described, not reproduced.</p>
+                    </div>
+                    <div class="note">
+                        <h3>What this is not</h3>
+                        <p>Not legal advice, not a finding, and not a verdict. Allegations are allegations. No court has
+                            resolved the central factual dispute, and the two motions that could have were still
+                            pending when this record ends.</p>
+                    </div>
+                </div>
+
+
+                <!-- Corrections intake. Posts to /api/suggest/case, which is the
+                     same service and the same gates as the Preside by Side
+                     form: origin allowlist, per-IP and global rate limits, and
+                     a honeypot that is hidden with CSS rather than type=hidden
+                     so naive bots still fill it. -->
+                <div class="fix">
+                    <h3 class="fix-h">Tell me what I got wrong</h3>
+                    <p class="fix-n">If something here is <strong>missed</strong>, <strong>misrepresented</strong> or
+                        <strong>unfairly portrayed</strong>, let me know. Point me at a filing or record and I will verify it
+                        on my end. I actively look to correct, improve and remain unbiased.</p>
+
+                    <form class="fix-form" id="fix-form" novalidate>
+                        <fieldset class="fix-kind">
+                            <legend>Type of issue</legend>
+                            <label><input type="radio" name="kind" value="missed" checked><span>Missed</span></label>
+                            <label><input type="radio" name="kind" value="misrepresented"><span>Misrepresented</span></label>
+                            <label><input type="radio" name="kind" value="unfairly portrayed"><span>Unfairly portrayed</span></label>
+                        </fieldset>
+
+                        <textarea class="fix-in fix-detail" name="detail" rows="4" maxlength="1500" required
+                            aria-label="What this page gets wrong"
+                            placeholder="Describe the issue. Reference publicly accessible information if you can."></textarea>
+
+                        <input type="url" class="fix-in" name="source" maxlength="500"
+                            aria-label="Link to the filing (optional)"
+                            placeholder="Link to a filing, if you have one &mdash; optional">
+
+                        <!-- Honeypot: real readers leave this empty, most bots fill
+                             every field they can see. -->
+                        <div class="fix-hp" aria-hidden="true">
+                            <label>Leave this field empty
+                                <input type="text" name="website" tabindex="-1" autocomplete="off">
+                            </label>
+                        </div>
+
+                        <!-- Disabled until chronicle.js turns it on. A form with no
+                             action is not inert: without the script a press, or
+                             Enter in the link field, would send everything typed
+                             here to this page's own address in the query string.
+                             Disabled, neither does anything, and the line beside
+                             the button says why. -->
+                        <div class="fix-foot">
+                            <button type="submit" class="fix-send" disabled>Send correction</button>
+                            <p class="fix-status" id="fix-status" role="status" aria-live="polite"></p>
+                            <noscript><p class="fix-status">This form needs JavaScript to send, and it is switched off here.</p></noscript>
+                        </div>
+                    </form>
+
+                    <p class="fix-p">No account, no name, no email. The submission stores what you typed, your
+                        address and your browser string, to make abuse traceable and for nothing else.</p>
+                </div>
+
+                <p class="notes-updated">Record reviewed through <span class="mono">October 7, 2026</span>. Nothing filed
+                    after that date is reflected here.</p>
+            </div>
+        </section>
+
+        <footer class="page-foot">
+            <div class="wrap">
+                <p><a href="/">frontendneeded.com</a></p>
+                <p class="foot-cite">Doe v. Bonnell II, No. 1:25-cv-20757-JB (S.D. Fla.)</p>
+            </div>
+        </footer>
+
+        <!-- The glossary, the same one the TLDR View carries. -->
+        <details class="gloss">
+            <summary class="gloss-b" aria-label="Terms, a plain-English glossary">
+                <span class="gloss-b-i" aria-hidden="true">?</span>
+                <span class="gloss-b-l">Terms</span>
+            </summary>
+            <div class="gloss-p" role="group" aria-label="Plain-English glossary">
+                <p class="gloss-h">Plain English</p>
+                <p class="gloss-n">Words this page uses because the court uses them. Nothing here is
+                    special to this case.</p>
+
+                <p class="gloss-s">The paperwork</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-docket">Docket</dt><dd>The court&rsquo;s numbered list of everything filed in a case.
+                        Entry 42 is the forty-second thing filed.</dd></div>
+                    <div><dt id="t-ecf-no">ECF No.</dt><dd>How a filing is cited: its docket number. A number after a dash,
+                        like 42-4, is an attachment to it &mdash; usually an exhibit.</dd></div>
+                    <div><dt id="t-complaint">Complaint</dt><dd>The document that starts a lawsuit and sets out what the
+                        plaintiff says happened. An <em>amended complaint</em> replaces it.</dd></div>
+                    <div><dt id="t-declaration">Declaration</dt><dd>A written statement signed under penalty of perjury. It
+                        counts as evidence without the witness appearing in person.</dd></div>
+                    <div><dt id="t-exhibit">Exhibit</dt><dd>A document, screenshot or record attached to a filing as proof
+                        of something asserted in it.</dd></div>
+                    <div><dt id="t-transcript">Transcript</dt><dd>The word-for-word record of a hearing or a deposition. Cited
+                        by page and line, so 55:7 means page 55, line 7.</dd></div>
+                </dl>
+
+                <p class="gloss-s">How a case moves</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion">Motion</dt><dd>A formal request that the court do something. The other side
+                        files an <em>opposition</em>; the moving side may then file a <em>reply</em>.</dd></div>
+                    <div><dt id="t-discovery">Discovery</dt><dd>The stage where each side must hand over relevant evidence to
+                        the other. It has a deadline, and missing it matters.</dd></div>
+                    <div><dt id="t-deposition">Deposition</dt><dd>Sworn question-and-answer, out of court, recorded by a court
+                        reporter. Lawyers for both sides attend; there is no judge.</dd></div>
+                    <div><dt id="t-subpoena">Subpoena</dt><dd>A court order compelling someone who is not a party to hand
+                        over documents or give testimony.</dd></div>
+                    <div><dt id="t-evidentiary-hearing">Evidentiary hearing</dt><dd>A hearing where witnesses actually testify and are
+                        cross-examined, rather than lawyers simply arguing.</dd></div>
+                    <div><dt id="t-injunction">Injunction</dt><dd>A court order to do something or to stop doing
+                        it. A <em>temporary restraining order</em> is the emergency version, and a
+                        <em>preliminary injunction</em> lasts while the case goes on. Neither decides who is right.</dd></div>
+                    <div><dt id="t-magistrate-judge">Magistrate judge</dt><dd>A judge who handles pre-trial matters. On some
+                        questions they recommend, and the district judge decides.</dd></div>
+                    <div><dt id="t-paperless-order">Paperless order</dt><dd>A short ruling typed straight onto the docket. It has no
+                        document behind it, so its citation opens the docket entry instead.</dd></div>
+                </dl>
+
+                <p class="gloss-s">The motions that can end things</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-motion-in-limine">Motion in limine</dt><dd>Filed before trial to decide what a jury will and will
+                        not be allowed to hear.</dd></div>
+                    <div><dt id="t-spoliation">Spoliation</dt><dd>Destroying or losing evidence you were obliged to keep. The
+                        duty starts once you know a lawsuit is coming.</dd></div>
+                    <div><dt id="t-rule-11">Rule 11</dt><dd>The rule requiring that filings have a factual basis. A Rule 11
+                        motion says the other side asserted something it could not support.</dd></div>
+                </dl>
+
+                <p class="gloss-s">Tests the court applies</p>
+                <dl class="gloss-l">
+                    <div><dt id="t-retroactive">Retroactive</dt><dd>Whether a law reaches conduct from before it existed.
+                        Usually it does not, unless Congress clearly said so.</dd></div>
+                </dl>
+            </div>
+        </details>
+
+    </main>
+
+    <script src="/case-chronicle/chronicle.js?v=20261126a" defer></script>
+    <script src="/case-chronicle/quiz.js?v=20261126a" defer></script>
+</body>
+
+</html>

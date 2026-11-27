@@ -5,6 +5,10 @@ Preside by Side — suggestion intake service.
 POST /suggest      (JSON) -> append to SQLite queue, post Discord embed.
 POST /suggest/case (JSON) -> corrections intake for the Case Chronicle.
 POST /suggest/hire-me (JSON) -> the three questions at the foot of /hire-me/.
+POST /suggest/quiz/answer (JSON) -> one answer on a Case Chronicle quiz;
+                             replies with how every reader has answered it.
+POST /suggest/quiz/result (JSON) -> the reader type a finished quiz came to;
+                             replies with how every finished quiz came out.
 
 Run under systemd; see preside-by-side-suggest.service. Apache reverse-
 proxies /api/suggest on the public site to this service on localhost.
@@ -175,6 +179,53 @@ HIRE_ME_READER = {
 # answer: an unknown value is dropped rather than refused.
 HIRE_ME_LENSES = ('automation', 'software', 'support', 'all')
 HIRE_ME_NOTE_MAX = 600
+
+# The Case Chronicle quizzes. Like the tables above, every value a quiz page
+# sends is one of a closed set, checked here, so the counts can only ever be
+# counts of questions and reader types the page really offers. A question id
+# is the data-q on its <section>, a type is the data-type in the list at the
+# end of the page. Changing either on the page means changing it here too, or
+# the service refuses it.
+#
+# Adding a quiz: a row here, keyed by the data-quiz on its .qz.
+QUIZZES = {
+    'doe-v-bonnell': {
+        'questions': frozenset({
+            'recorded', 'permission', 'revenge', 'posted', 'real-rose',
+            'minor', 'april-2022', 'sworn-later', 'log', 'credible',
+        }),
+        'types': frozenset({
+            'destiny-hater', 'doe-fan', 'knower', 'destiny-fan', 'dgger',
+            'fence-sitter', 'made-for-you',
+        }),
+    },
+}
+QUIZ_CHOICES = ('yes', 'unsure', 'no')
+
+# A run is one go at a quiz in one browser tab. The page makes up the id and
+# keeps it in sessionStorage; it lets an answer sent twice (a reload, a flaky
+# connection) count once, while a reader who takes it again counts again.
+_QUIZ_RUN_RE = re.compile(r'^[0-9a-f]{16,32}$')
+# The date the page's answer key is as of, kept with each answer so numbers
+# from before a ruling changed an answer can be told from those after.
+_QUIZ_KEY_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
+
+# Fewer answers than this and the reply carries the total only, not the
+# split, so the first handful of readers don't read as "100% said yes".
+QUIZ_MIN_DISPLAY = int(os.environ.get('QUIZ_MIN_DISPLAY', '25'))
+# One full quiz is eleven requests (ten answers and a result), and a reload
+# sends a run's answers again, so the per-IP ceiling leaves room for a
+# reader who reloads and retakes a good deal: a household behind one
+# address included.
+QUIZ_IP_MAX = int(os.environ.get('QUIZ_IP_MAX', '400'))
+QUIZ_IP_WINDOW_SEC = int(os.environ.get('QUIZ_IP_WINDOW_SEC', '86400'))
+QUIZ_GLOBAL_MAX = int(os.environ.get('QUIZ_GLOBAL_MAX', '600'))
+QUIZ_GLOBAL_WINDOW_SEC = int(os.environ.get('QUIZ_GLOBAL_WINDOW_SEC', '60'))
+# Each finished quiz is a line in the alerts channel, the way each rating
+# is. Answers never are: ten lines a reader would bury everything else.
+QUIZ_LOG_TO_DISCORD = os.environ.get(
+    'QUIZ_LOG_TO_DISCORD', '1'
+).strip().lower() not in ('0', 'false', 'no', '')
 
 # What /suggest/doe means. The Chronicle's first page shipped on that route
 # and may still be in a cache or a bookmark somewhere, so it keeps working
@@ -501,6 +552,11 @@ _rating_rate_lock = threading.Lock()
 _rating_ip_buckets = {}      # ip -> deque[float]
 _rating_global_bucket = deque()
 
+# Quiz rate-limit state, apart from both of the above for the same reason.
+_quiz_rate_lock = threading.Lock()
+_quiz_ip_buckets = {}        # ip_hash -> deque[float]
+_quiz_global_bucket = deque()
+
 # Per-bar burst tracker. Each entry holds a deque of (ts, ip_hash) tuples
 # for recent votes on that bar, and a `suppress_until` timestamp; while
 # suppress_until is in the future, every incoming vote on that bar lands
@@ -776,6 +832,36 @@ def rating_rate_limit_check(ip_hash):
     return True, None
 
 
+def quiz_rate_limit_check(ip_hash):
+    """Two-gate check for the quiz routes, the shape of the rating one with
+    its own buckets and windows. Returns (ok, reason)."""
+    now = time.monotonic()
+    with _quiz_rate_lock:
+        gcut = now - QUIZ_GLOBAL_WINDOW_SEC
+        while _quiz_global_bucket and _quiz_global_bucket[0] < gcut:
+            _quiz_global_bucket.popleft()
+        if len(_quiz_global_bucket) >= QUIZ_GLOBAL_MAX:
+            return False, 'global'
+
+        if ip_hash:
+            icut = now - QUIZ_IP_WINDOW_SEC
+            bucket = _quiz_ip_buckets.get(ip_hash)
+            if bucket is None:
+                bucket = deque()
+                _quiz_ip_buckets[ip_hash] = bucket
+            while bucket and bucket[0] < icut:
+                bucket.popleft()
+            if len(bucket) >= QUIZ_IP_MAX:
+                return False, 'ip'
+            bucket.append(now)
+            if len(_quiz_ip_buckets) > 4096:
+                for k in [k for k, v in _quiz_ip_buckets.items() if not v]:
+                    del _quiz_ip_buckets[k]
+
+        _quiz_global_bucket.append(now)
+    return True, None
+
+
 def note_rating_and_check_burst(bar_id, ip_hash):
     """Record this vote on the per-bar burst tracker. Returns
     (quarantined, fired_alert). `quarantined` is True if the bar is
@@ -954,6 +1040,44 @@ with db() as conn:
     )
     conn.execute('CREATE INDEX IF NOT EXISTS idx_history_bar_time ON ratings_history(bar_id, happened_at)')
     conn.execute('CREATE INDEX IF NOT EXISTS idx_history_president_time ON ratings_history(president, happened_at)')
+
+    # Case Chronicle quizzes. One row per answer per run, and one row per
+    # finished run, so a run sending the same answer twice is still one row.
+    # key_version is the date the page's answer key was as of; it is not
+    # part of what is counted, because what readers believed does not change
+    # when a ruling does, but it is there to split the numbers by if a
+    # question's wording ever has to change under the same id.
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS quiz_answers (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            received_at  TEXT NOT NULL,
+            quiz         TEXT NOT NULL,
+            key_version  TEXT,
+            run          TEXT NOT NULL,
+            question     TEXT NOT NULL,
+            choice       TEXT NOT NULL CHECK(choice IN ('yes','unsure','no')),
+            ip_hash      TEXT NOT NULL,
+            UNIQUE(quiz, run, question)
+        )
+        """
+    )
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_quiz_answers_q ON quiz_answers(quiz, question)')
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS quiz_results (
+            id           INTEGER PRIMARY KEY AUTOINCREMENT,
+            received_at  TEXT NOT NULL,
+            quiz         TEXT NOT NULL,
+            key_version  TEXT,
+            run          TEXT NOT NULL,
+            label        TEXT NOT NULL,
+            ip_hash      TEXT NOT NULL,
+            UNIQUE(quiz, run)
+        )
+        """
+    )
+    conn.execute('CREATE INDEX IF NOT EXISTS idx_quiz_results_quiz ON quiz_results(quiz)')
 
 
 app = Flask(__name__)
@@ -1539,6 +1663,144 @@ def ratings(president):
         for r in rows
     }
     return jsonify(out)
+
+
+def _quiz_request(route):
+    """The gates both quiz routes share, in the order /rate keeps them:
+    origin, then the rate limit, then the body. Returns (req, None) with
+    the checked fields, or (None, response) to send back as it is."""
+    origin = request.headers.get('Origin', '')
+    if origin not in ALLOWED_ORIGINS:
+        probe_ip = get_client_ip()
+        log.info('%s: rejected bad origin %r ip=%r', route, origin, probe_ip)
+        if note_origin_rejection(probe_ip):
+            notify.warning(
+                'probe alert: %d+ origin rejections from %s in last hour '
+                '(latest origin=%r)',
+                ORIGIN_REJECT_THRESHOLD, probe_ip, origin[:120],
+            )
+        abort(403)
+
+    ip_hash = hash_ip(get_client_ip())
+    ok, reason = quiz_rate_limit_check(ip_hash)
+    if not ok:
+        log.info('%s: rate limited (%s) ip=%s', route, reason, ip_hash[:8])
+        if reason == 'global':
+            notify.warning(
+                'quiz global rate limit tripped (cap=%d/%ds)',
+                QUIZ_GLOBAL_MAX, QUIZ_GLOBAL_WINDOW_SEC,
+            )
+        return None, (jsonify(ok=False, error='too many requests — try again later'), 429)
+
+    data = json_body()
+    slug = clean_input(data.get('quiz'))
+    quiz = QUIZZES.get(slug)
+    if quiz is None:
+        return None, (jsonify(ok=False, error='unknown quiz'), 400)
+    run = clean_input(data.get('run'))
+    if not _QUIZ_RUN_RE.match(run):
+        return None, (jsonify(ok=False, error='invalid run'), 400)
+    # Context, not an answer: a key that is not a date is dropped rather
+    # than refused, the way /hire-me treats an unknown lens.
+    key = clean_input(data.get('v'))
+    if not _QUIZ_KEY_RE.match(key):
+        key = None
+
+    return {'slug': slug, 'quiz': quiz, 'run': run, 'key': key,
+            'ip_hash': ip_hash, 'data': data}, None
+
+
+def _quiz_counts(rows, keys):
+    counts = {k: 0 for k in keys}
+    for r in rows:
+        counts[r['k']] = r['n']
+    return counts, sum(counts.values())
+
+
+@app.route('/suggest/quiz/answer', methods=['POST'])
+def quiz_answer():
+    """Count one answer and say how every reader has answered.
+
+    Body: {"quiz": "<slug>", "run": "<hex>", "q": "<question id>",
+           "choice": "yes"|"unsure"|"no", "v": "<YYYY-MM-DD>"}
+
+    Returns {"ok": true, "total": n} and, once n reaches QUIZ_MIN_DISPLAY,
+    "counts": {"yes": a, "unsure": b, "no": c}. The reader's own answer is
+    in the numbers. A run that has already answered the question gets the
+    numbers and changes nothing: its first answer is the one that counts.
+    """
+    req, err = _quiz_request('quiz/answer')
+    if err:
+        return err
+
+    q = clean_input(req['data'].get('q'))
+    choice = clean_input(req['data'].get('choice'))
+    if q not in req['quiz']['questions']:
+        return jsonify(ok=False, error='unknown question'), 400
+    if choice not in QUIZ_CHOICES:
+        return jsonify(ok=False, error='choice must be yes, unsure or no'), 400
+
+    with db() as conn:
+        cur = conn.execute(
+            'INSERT OR IGNORE INTO quiz_answers '
+            '(received_at, quiz, key_version, run, question, choice, ip_hash) '
+            'VALUES (?,?,?,?,?,?,?)',
+            (now_utc_iso(), req['slug'], req['key'], req['run'], q, choice, req['ip_hash']),
+        )
+        rows = conn.execute(
+            'SELECT choice AS k, COUNT(*) AS n FROM quiz_answers '
+            'WHERE quiz=? AND question=? GROUP BY choice',
+            (req['slug'], q),
+        ).fetchall()
+
+    counts, total = _quiz_counts(rows, QUIZ_CHOICES)
+    log.info('quiz answer: %s/%s %s (%s) ip=%s', req['slug'], q, choice,
+             'new' if cur.rowcount else 'repeat', req['ip_hash'][:8])
+    if total < QUIZ_MIN_DISPLAY:
+        return jsonify(ok=True, total=total)
+    return jsonify(ok=True, total=total, counts=counts)
+
+
+@app.route('/suggest/quiz/result', methods=['POST'])
+def quiz_result():
+    """Count the reader type a finished run came to, and say how every
+    finished run has come out.
+
+    Body: {"quiz": "<slug>", "run": "<hex>", "label": "<type>", "v": ...}
+
+    The type is worked out on the page and taken as sent. It is checked
+    against the quiz's own list, so the worst a forged one can do is add
+    one to a real type, which is no more than taking the quiz again does.
+    Same reply shape as /suggest/quiz/answer, counts keyed by type.
+    """
+    req, err = _quiz_request('quiz/result')
+    if err:
+        return err
+
+    label = clean_input(req['data'].get('label'))
+    if label not in req['quiz']['types']:
+        return jsonify(ok=False, error='unknown reader type'), 400
+
+    with db() as conn:
+        cur = conn.execute(
+            'INSERT OR IGNORE INTO quiz_results '
+            '(received_at, quiz, key_version, run, label, ip_hash) '
+            'VALUES (?,?,?,?,?,?)',
+            (now_utc_iso(), req['slug'], req['key'], req['run'], label, req['ip_hash']),
+        )
+        rows = conn.execute(
+            'SELECT label AS k, COUNT(*) AS n FROM quiz_results '
+            'WHERE quiz=? GROUP BY label',
+            (req['slug'],),
+        ).fetchall()
+
+    counts, total = _quiz_counts(rows, sorted(req['quiz']['types']))
+    if cur.rowcount:
+        msg = 'quiz: %s finished as %s (ip=%s)' % (req['slug'], label, req['ip_hash'][:8])
+        (notify.info if QUIZ_LOG_TO_DISCORD else log.info)(msg)
+    if total < QUIZ_MIN_DISPLAY:
+        return jsonify(ok=True, total=total)
+    return jsonify(ok=True, total=total, counts=counts)
 
 
 def post_to_discord(sid, president, event, source, why):

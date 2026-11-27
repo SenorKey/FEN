@@ -1,0 +1,640 @@
+/* ═══════════════════════════════════════════════
+   Case Intuition Quiz
+
+   Loaded after chronicle.css by a case's quiz page, and by nothing
+   else. It borrows the TLDR View's parts, the question card (cf-card
+   cf-c cf-q), the stamp (cf-st) and the explanation text (cf-b), and
+   adds what a quiz needs on top of them.
+
+   Everything here works with no JavaScript. An answer is a radio
+   button dressed as a card, and the rest is selectors:
+
+     .qz-q:has(.qz-r:checked)      a question that has been answered
+     .qz-q[data-record=…]           what the record shows on it
+
+   so picking an answer opens the record's answer and the line that
+   fits the pick, and puts the next question under it. The page only
+   ever grows: nothing is swapped out, and Next scrolls down.
+   A browser too old for :has() gets every question and every
+   explanation written out at once, which reads as a plain list.
+
+   quiz.js adds only what needs a server or arithmetic: the reader
+   numbers under each answer and the reader type at the end.
+   ═══════════════════════════════════════════════ */
+
+.band-quiz { padding: 56px 0 72px; }
+
+.qz {
+  --qz-drop: 18px;
+  --qz-gap: 12px;
+  --qz-line: var(--tl-n-line);
+  --qz-ink: var(--ink);
+
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* A question takes the reader to its own top, under the nav. */
+.qz-q,
+.qz-end { scroll-margin-top: 64px; }
+
+/* Down the page, each question hangs from the one before on a short
+   line, the way the TLDR View joins its cards. */
+.qz-q,
+.qz-end { margin-top: 14px; }
+
+.qz-intro + .qz-q { margin-top: 44px; }
+
+.qz-q:not(:first-of-type)::before,
+.qz-end::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 34px;
+  margin: 0 auto 14px;
+  background: var(--qz-line);
+}
+
+/* ── the way in ── */
+
+.qz-intro-card {
+  padding: 26px 30px 0;
+  overflow: hidden;
+}
+
+.qz-intro-h {
+  margin: 4px 0 6px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 60, 'SOFT' 0, 'WONK' 0;
+  font-size: clamp(1.5rem, 3.6vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.016em;
+  text-wrap: balance;
+}
+
+.qz-intro-card .cf-b { max-width: 34em; margin-inline: auto; }
+
+.qz-asof {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* The two buttons that move the reader on, Start and Next. Links,
+   because moving on is going somewhere: #q1, #q2 and so on.
+
+   Neither is a pill. Everything else in the Chronicle is a sheet or a
+   card with square corners, so each is the foot of its card instead:
+   a black strip the full width of the card, the whole of it the thing
+   to press, browning when it is pointed at. Start closes the card it
+   is in. Next hangs flush under the explanation it follows, so the two
+   read as one card. */
+.qz-go,
+.qz-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 18px 14px;
+  background: var(--qz-ink);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--tl-card);
+  transition: background-color 0.15s, translate 0.15s;
+}
+
+.qz-go { margin: 22px -30px 0; }
+
+.qz-go:hover,
+.qz-go:focus-visible,
+.qz-next:hover,
+.qz-next:focus-visible { background: var(--court); }
+
+/* The ring goes inside the strip, in the card's own colour, since the
+   strip runs to the card's edge. */
+.qz-go:focus-visible,
+.qz-next:focus-visible { outline: 2px solid var(--tl-card); outline-offset: -6px; }
+
+/* ── a question ── */
+
+.qz-q { padding-top: 8px; }
+
+.qz-n {
+  margin-bottom: 12px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--tl-c-ink);
+}
+
+.qz-card { padding: 24px 26px 22px; }
+
+.qz-card .cf-h {
+  font-size: clamp(1.3rem, 3.2vw, 1.62rem);
+  line-height: 1.2;
+}
+
+/* ── the three answers ──
+   Hung under the question on lines, the way the TLDR View hangs its
+   answers: a stem down from the card, a bar across, and a drop to the
+   top of each answer. All three are pale until one is picked, and
+   then the stem and the way to the pick go dark. */
+
+.qz-pick {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.qz-opts {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--qz-gap);
+  padding-top: calc(var(--qz-drop) * 2);
+}
+
+/* The stem, from the bottom of the card to the bar. */
+.qz-opts::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: var(--qz-drop);
+  translate: -1px 0;
+  background: var(--qz-line);
+}
+
+/* The bar, from the middle of the first answer to the middle of the
+   last. A column is a third of what the two gaps leave, so its middle
+   is a sixth of that in from each side. */
+.qz-opts::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--qz-drop) - 1px);
+  left: calc((100% - var(--qz-gap) * 2) / 6);
+  right: calc((100% - var(--qz-gap) * 2) / 6);
+  height: 2px;
+  background: var(--qz-line);
+}
+
+/* The radio itself is off the screen but still the thing that is
+   focused and pressed, so the keyboard and a screen reader get a
+   real group of three. */
+.qz-r {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.qz-opt {
+  position: relative;
+  display: block;
+  padding: 15px 8px 14px;
+  border: 1.5px solid color-mix(in oklab, var(--ink) 22%, var(--tl-card));
+  border-radius: 3px;
+  background: var(--tl-card);
+  box-shadow: var(--tl-lift);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.25s, opacity 0.2s;
+}
+
+/* The drop from the bar to this answer. */
+.qz-opt::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 2px;
+  height: calc(var(--qz-drop) + 1.5px);
+  translate: -1px 0;
+  background: var(--qz-line);
+}
+
+@media (hover: hover) {
+  .qz-opt:hover { box-shadow: var(--tl-lift-up); border-color: var(--ink); }
+}
+
+.qz-r:focus-visible + .qz-opt { outline: 2px solid var(--court); outline-offset: 3px; }
+
+/* The pick: filled in the ink, with the way to it inked too. */
+.qz-r:checked + .qz-opt {
+  border-color: var(--qz-ink);
+  background: var(--qz-ink);
+  color: var(--tl-card);
+}
+
+.qz-r:checked + .qz-opt::before { background: var(--qz-ink); }
+
+/* Once one is picked the other two step back. quiz.js also disables
+   them, because the answer has been counted by then. */
+.qz-r:disabled + .qz-opt { cursor: default; }
+
+/* ── what the record shows, on the answers ──
+   After a pick, the answer the record gives is tagged under its card
+   in the court's ink, so a reader sees both at once: what they said,
+   filled, and what the record says, tagged. On a question the court
+   has not decided, the tag sits under Unsure. The words of the tag
+   are decoration: the stamp in the explanation says the same thing
+   in text. */
+.qz-opt::after {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  translate: -50% 0;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: var(--court);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  color: var(--tl-card);
+}
+
+/* ── the explanation ── */
+
+.qz-x { padding-top: 34px; text-align: center; }
+
+.qz-ans {
+  padding: 20px 26px 18px;
+  text-align: center;
+}
+
+/* One line to open it, chosen by what was picked against what the
+   record shows. */
+.qz-v {
+  display: none;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 30, 'SOFT' 0, 'WONK' 0;
+  font-size: 1.16rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.qz-ans .cf-stamp { margin-top: 8px; margin-bottom: 4px; }
+.qz-ans .cf-b { margin-top: 12px; }
+.qz-ans .cf-b strong { font-weight: 600; color: var(--ink); }
+
+/* A list inside an explanation, for points that stand side by side. */
+.qz-ul {
+  margin: 8px 0 0;
+  padding-left: 1.25em;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  text-align: left;
+  text-wrap: pretty;
+  color: rgba(23, 20, 15, 0.84);
+}
+
+.qz-ul li + li { margin-top: 0.4em; }
+.qz-ul li::marker { color: var(--court); }
+
+.qz-src {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule-soft);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 1.75;
+  text-align: left;
+  color: var(--faint);
+}
+
+.qz-src-l {
+  margin-right: 8px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tl-c-ink);
+}
+
+.qz-x .qz-ans { border-radius: 3px 3px 0 0; }
+
+.qz-next {
+  border-radius: 0 0 3px 3px;
+  box-shadow: var(--tl-lift);
+}
+
+/* ── how other readers answered ──
+   Filled in by quiz.js once the answer has been sent: one row per
+   answer, a bar and a share, the reader's own row inked. */
+.qz-crowd {
+  margin: 14px auto 2px;
+  max-width: 420px;
+  padding: 12px 14px 10px;
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--court) 7%, var(--tl-card));
+  text-align: left;
+}
+
+.qz-crowd-h {
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--tl-c-ink);
+}
+
+.qz-bars { display: grid; gap: 6px; }
+
+.qz-bar {
+  display: grid;
+  grid-template-columns: 4.6em minmax(0, 1fr) 3.2em;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.qz-bar-k { text-transform: uppercase; }
+.qz-bar-n { text-align: right; font-variant-numeric: tabular-nums; }
+
+.qz-bar-t {
+  height: 8px;
+  border-radius: 1px;
+  background: color-mix(in oklab, var(--ink) 9%, var(--tl-card));
+  overflow: hidden;
+}
+
+.qz-bar-f {
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--ink) 36%, var(--tl-card));
+  transition: width 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.qz-bar.is-you { color: var(--ink); font-weight: 600; }
+.qz-bar.is-you .qz-bar-f { background: var(--ink); }
+
+.qz-crowd-n {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+/* ── the end ── */
+
+.qz-res {
+  padding: 26px 26px 0;
+  overflow: hidden;
+}
+
+.qz-res-h {
+  margin: 2px 0 6px;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 96, 'SOFT' 0, 'WONK' 1;
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.qz-res-t {
+  max-width: 30em;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.qz-res-t a { color: inherit; }
+
+.qz-res-wait {
+  margin-top: 10px;
+  font-size: 0.93rem;
+  color: var(--muted);
+}
+
+.qz-res-wait a { color: inherit; }
+
+.qz-res-ns { text-align: center; }
+
+/* The line from one end of the argument to the other: Doe's side on
+   the left in her ink, Steven's on the right in his, and the reader a
+   dot on it. */
+.qz-line { margin: 26px auto 4px; max-width: 560px; }
+
+.qz-line-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 1px;
+  background: linear-gradient(90deg,
+    var(--p) 0%,
+    color-mix(in oklab, var(--p) 30%, var(--tl-card)) 34%,
+    var(--court) 50%,
+    color-mix(in oklab, var(--d) 30%, var(--tl-card)) 66%,
+    var(--d) 100%);
+}
+
+.qz-line-dot {
+  position: absolute;
+  top: 50%;
+  left: var(--at, 50%);
+  width: 18px;
+  height: 18px;
+  translate: -50% -50%;
+  border: 3px solid var(--tl-card);
+  border-radius: 50%;
+  background: var(--ink);
+  box-shadow: 0 0 0 1.5px var(--ink), 0 4px 10px -3px rgba(23, 20, 15, 0.5);
+  transition: left 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Fence sitter and the last type sit in the middle without having
+   earned it, so their dot is hollow. */
+.qz-line.is-hollow .qz-line-dot { background: var(--tl-card); }
+
+.qz-line-l {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0 8px;
+  margin-top: 12px;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.qz-line-l li:first-child { text-align: left; color: var(--tl-p-ink); }
+.qz-line-l li:last-child { text-align: right; color: var(--tl-d-ink); }
+
+/* How everyone else landed, one row per type. */
+.qz-dist {
+  margin: 24px auto 0;
+  max-width: 460px;
+  text-align: left;
+}
+
+.qz-dist .qz-bar { grid-template-columns: minmax(0, 11em) minmax(0, 1fr) 3.2em; }
+.qz-dist .qz-bar-k { text-transform: none; letter-spacing: 0.02em; }
+
+/* The end card's foot, the same strip as Start, split in two once
+   there is a type to take again: the second go on the left in the
+   card's tint, the way on into the case on the right in black. */
+.qz-acts {
+  display: flex;
+  margin: 26px -26px 0;
+  border-top: 1px solid var(--tl-edge);
+}
+
+.qz-act {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 14px 14px;
+  border: 0;
+  border-radius: 0;
+  background: color-mix(in oklab, var(--court) 9%, var(--tl-card));
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.qz-act-main { background: var(--ink); color: var(--tl-card); }
+
+.qz-act:hover,
+.qz-act:focus-visible { background: var(--court); color: var(--tl-card); }
+
+.qz-act:focus-visible { outline: 2px solid var(--tl-card); outline-offset: -6px; }
+
+.band-quiz .sect-nav { margin-top: 56px; }
+
+/* ═══════════════════════════════════════════════
+   What shows when
+
+   All of it behind :has(), so a browser without it shows everything
+   and hides nothing.
+   ═══════════════════════════════════════════════ */
+
+@supports selector(:has(a)) {
+
+  /* ── after a pick ── */
+
+  .qz-x { display: none; }
+  .qz-q:has(.qz-r:checked) .qz-x { display: block; }
+
+  .qz-opts:has(.qz-r:checked)::before { background: var(--qz-ink); }
+
+  /* Dimmed by their own colours rather than by opacity, which would
+     take the record's tag under one of them down with it. */
+  .qz-opts:has(.qz-r:checked) .qz-r:not(:checked) + .qz-opt {
+    border-color: color-mix(in oklab, var(--ink) 11%, var(--tl-card));
+    box-shadow: none;
+    color: var(--faint);
+  }
+
+  .qz-q[data-record="yes"]:has(.qz-r:checked) .qz-opt-yes::after,
+  .qz-q[data-record="no"]:has(.qz-r:checked) .qz-opt-no::after { content: 'The record'; }
+  .qz-q[data-record="open"]:has(.qz-r:checked) .qz-opt-unsure::after { content: 'Undecided'; }
+
+  /* The tag hangs under the answers, so the answers make room for it
+     once there is one. */
+  .qz-q:has(.qz-r:checked) .qz-opts { padding-bottom: 22px; }
+
+  /* The opening line: the record and the pick agree, disagree, or the
+     reader passed on a question the record does answer. On a question
+     the court has not decided, Unsure agrees with it, and a Yes or a No
+     each get a line of their own, since each is right in some sense. */
+  .qz-q[data-record="yes"]:has(.qz-r[value="yes"]:checked) .qz-v-match,
+  .qz-q[data-record="no"]:has(.qz-r[value="no"]:checked) .qz-v-match,
+  .qz-q[data-record="open"]:has(.qz-r[value="unsure"]:checked) .qz-v-match,
+  .qz-q[data-record="yes"]:has(.qz-r[value="no"]:checked) .qz-v-miss,
+  .qz-q[data-record="no"]:has(.qz-r[value="yes"]:checked) .qz-v-miss,
+  .qz-q:not([data-record="open"]):has(.qz-r[value="unsure"]:checked) .qz-v-unsure,
+  .qz-q[data-record="open"]:has(.qz-r[value="yes"]:checked) .qz-v-open-yes,
+  .qz-q[data-record="open"]:has(.qz-r[value="no"]:checked) .qz-v-open-no { display: block; }
+
+  /* ── which questions show ──
+     The quiz grows down the page. The way in and the first question
+     show from the start, and answering a question opens its
+     explanation and puts the next question under it, so everything
+     already answered stays where it was. Next only scrolls down to
+     what is already there. The end shows once the last is answered. */
+
+  .qz-q,
+  .qz-end { display: none; }
+
+  .qz :is(
+    .qz-q:first-of-type,
+    .qz-q:has(.qz-r:checked),
+    .qz-q:has(.qz-r:checked) + .qz-q,
+    .qz-q:has(.qz-r:checked) + .qz-end
+  ) { display: block; }
+}
+
+/* ── narrow ── */
+
+@media (width <= 620px) {
+  .band-quiz { padding: 36px 0 56px; }
+
+  .qz { --qz-gap: 8px; }
+
+  .qz-card { padding: 20px 16px 18px; }
+  .qz-ans { padding: 18px 16px 16px; }
+  .qz-intro-card { padding: 22px 18px 0; }
+  .qz-go { margin-inline: -18px; }
+  .qz-res { padding: 22px 16px 0; }
+  .qz-acts { margin-inline: -16px; }
+
+  .qz-opt { padding: 14px 4px 13px; font-size: 0.74rem; letter-spacing: 0.1em; }
+
+  .qz-line-l { font-size: 0.52rem; letter-spacing: 0.04em; }
+  .qz-dist .qz-bar { grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) 3em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qz-bar-f,
+  .qz-line-dot { transition: none; }
+}
+
+@media print {
+  .qz-go,
+  .qz-next,
+  .qz-acts { display: none; }
+}

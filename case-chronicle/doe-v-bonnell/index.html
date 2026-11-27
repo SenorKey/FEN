@@ -21,7 +21,7 @@
          far fewer words, and preloading both would have them competing. -->
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261124c">
+    <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261126a">
 
     <!-- IBM Plex Sans takes the body and JetBrains Mono the docket citations,
          dates and labels, in one request. The display face is Fraunces, which
@@ -280,7 +280,11 @@
                         community they were a part of. In court, almost all of it turns on one date,
                         <strong>October 1, 2022</strong>, when the federal law Doe is suing under took effect.</p>
 
-                    <dl class="docket-meta">
+                    <!-- The facts sit up with the title and the paragraph
+                         rather than under a line of their own. Under them,
+                         the way into the quiz, the quiz's own card:
+                         chronicle.css, "a case with a quiz". -->
+                    <dl class="docket-meta docket-meta-up">
                         <div>
                             <dt>Filed</dt>
                             <dd>Feb 18, 2025</dd>
@@ -298,6 +302,13 @@
                             <dd><span class="pip pip-open"></span>Undecided</dd>
                         </div>
                     </dl>
+
+                    <a class="mhq" href="/case-chronicle/doe-v-bonnell/quiz/#q1">
+                        <span class="mhq-k">Case Intuition Quiz</span>
+                        <span class="mhq-h">Do you know what the record actually says?</span>
+                        <span class="mhq-t">Ten yes-or-no questions, answered from the court record.</span>
+                        <span class="mhq-go">Take the 10 questions <span aria-hidden="true">&rarr;</span></span>
+                    </a>
                 </div>
 
                 <!-- The two sides. A card each: who they are, and what

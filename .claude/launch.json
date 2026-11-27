@@ -15,6 +15,23 @@
       "autoPort": false
     },
     {
+      "name": "chronicle-api",
+      "runtimeExecutable": "/usr/bin/env",
+      "runtimeArgs": [
+        "CONFIG_FILE=/dev/null",
+        "DISCORD_WEBHOOK_URL=http://127.0.0.1:9/local-test",
+        "DB_PATH=/tmp/chronicle-api-test.db",
+        "LISTEN_PORT=8788",
+        "ALLOWED_ORIGIN=http://localhost:8732",
+        "RATING_IP_HASH_SECRET=local-test-only",
+        "QUIZ_MIN_DISPLAY=3",
+        "status-station/server/.venv/bin/python",
+        "preside-by-side/server/suggest.py"
+      ],
+      "port": 8788,
+      "autoPort": false
+    },
+    {
       "name": "status-station",
       "runtimeExecutable": "status-station/server/.venv/bin/python",
       "runtimeArgs": ["status-station/server/station.py"],
