@@ -726,6 +726,16 @@ def note_origin_rejection(ip):
             bucket.popleft()
         bucket.append(now)
 
+        # Opportunistic GC mirroring rate_limit_check — keeps both
+        # dicts from growing unboundedly with one-shot visitors. A bucket
+        # only empties when its own IP comes back, so ones whose newest
+        # entry is already outside the window go too. Run before the
+        # early returns below, or it would only run when an alert fires.
+        if len(_origin_buckets) > 1024:
+            for k in [k for k, v in _origin_buckets.items() if not v or v[-1] < cutoff]:
+                del _origin_buckets[k]
+                _origin_alerted.pop(k, None)
+
         if len(bucket) < ORIGIN_REJECT_THRESHOLD:
             return False
 
@@ -733,13 +743,6 @@ def note_origin_rejection(ip):
         if last_alert >= cutoff:
             return False  # already alerted within the current window
         _origin_alerted[ip] = now
-
-        # Opportunistic GC mirroring rate_limit_check — keeps both
-        # dicts from growing unboundedly with one-shot visitors.
-        if len(_origin_buckets) > 1024:
-            for k in [k for k, v in _origin_buckets.items() if not v]:
-                del _origin_buckets[k]
-                _origin_alerted.pop(k, None)
         return True
 
 
@@ -774,10 +777,12 @@ def rate_limit_check(ip):
             if len(bucket) >= RATE_LIMIT_MAX:
                 return False, 'ip'
             bucket.append(now)
-            # Opportunistic GC: drop any other empty buckets we happen to see.
-            # Keeps the dict from growing unboundedly with one-shot visitors.
+            # Opportunistic GC: drop empty buckets, and ones whose newest
+            # entry is already outside the window (a bucket only empties
+            # when its own IP comes back). Keeps the dict from growing
+            # unboundedly with one-shot visitors.
             if len(_rate_buckets) > 1024:
-                for k in [k for k, v in _rate_buckets.items() if not v]:
+                for k in [k for k, v in _rate_buckets.items() if not v or v[-1] < ip_cutoff]:
                     del _rate_buckets[k]
 
         # Both gates passed (or IP unknown with global headroom). Record the
@@ -824,8 +829,10 @@ def rating_rate_limit_check(ip_hash):
             if len(bucket) >= RATING_IP_MAX:
                 return False, 'ip'
             bucket.append(now)
+            # Also drop buckets whose newest hit is past the window: a
+            # bucket only empties when its own address comes back.
             if len(_rating_ip_buckets) > 4096:
-                for k in [k for k, v in _rating_ip_buckets.items() if not v]:
+                for k in [k for k, v in _rating_ip_buckets.items() if not v or v[-1] < icut]:
                     del _rating_ip_buckets[k]
 
         _rating_global_bucket.append(now)
@@ -854,8 +861,11 @@ def quiz_rate_limit_check(ip_hash):
             if len(bucket) >= QUIZ_IP_MAX:
                 return False, 'ip'
             bucket.append(now)
+            # A bucket only empties when its own address comes back, so
+            # one-time visitors would never be pruned: drop any whose
+            # newest hit is already outside the window as well.
             if len(_quiz_ip_buckets) > 4096:
-                for k in [k for k, v in _quiz_ip_buckets.items() if not v]:
+                for k in [k for k, v in _quiz_ip_buckets.items() if not v or v[-1] < icut]:
                     del _quiz_ip_buckets[k]
 
         _quiz_global_bucket.append(now)
