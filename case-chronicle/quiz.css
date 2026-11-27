@@ -438,14 +438,6 @@
 
 .qz-res-t a { color: inherit; }
 
-.qz-res-wait {
-  margin-top: 10px;
-  font-size: 0.93rem;
-  color: var(--muted);
-}
-
-.qz-res-wait a { color: inherit; }
-
 .qz-res-ns { text-align: center; }
 
 /* The line from one end of the argument to the other: Doe's side on

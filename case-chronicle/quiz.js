@@ -13,12 +13,15 @@
        same (the other types are never named)
 
    It also locks a question once its answer has been sent, so the
-   numbers count first answers rather than second thoughts.
+   numbers count first answers rather than second thoughts, and it
+   paces the quiz: Start opens the first question, and each Next the
+   step after.
 
    Everything about the case is read from the page: the questions and
    what the record shows on each from their attributes, the seven
-   reader types and their lines from the list at the end. Nothing here
-   names a case, so another case's quiz page can load this as it is.
+   reader types, their lines and their pictures from the list at the
+   end. Nothing here names a case, so another case's quiz page can load
+   this as it is.
 
    A run is one go at the quiz in one tab: an id made up here and kept
    in sessionStorage with the answers, so a reload carries on where it
@@ -30,61 +33,64 @@
    Each of these has one function that writes it, and nothing else
    touches the parts it owns:
 
-     the run              load() from sessionStorage, newRun(), and
-                          answer(). sessionStorage is the truth; the
-                          two variables below are a copy of it.
+     the run              load() from sessionStorage, newRun(), answer()
+                          and reach(). sessionStorage is the truth; the
+                          variables below are a copy of it. "reached"
+                          is the furthest step opened: -1 before Start,
+                          0 for question 1, up to the number of
+                          questions for the end card. It never passes a
+                          question not yet answered.
+
+     what shows           setMode(), data-mode on .qz, one of:
+                            intro   the way in and nothing else, on
+                                    arriving from a link, even with a
+                                    run saved
+                            quiz    every step up to reached, marked
+                                    .is-open for quiz.css
+                          Start moves to quiz. So does a reload or the
+                          Back button, for a run already begun.
 
      a numbers panel      paint(). Both the panel under an answer
      (.qz-crowd, and      and Readers who landed here. data-state says
       .qz-dist)           which it is in:
+                            (none)  never asked: asked for once it is
+                                    on screen with something to count
                             off       hidden, nothing in it
                             counting  "Counting…" while the reply
                                       is on its way
                             few       the service answered, but
                                       with too few readers to split
                             split     the bars
-                          A failed request goes back to off.
+                          A failed request goes back to off, and is not
+                          asked again until the page is loaded again.
 
      the end card         paintEnd(). data-state on .qz-end:
-                            waiting   questions still to answer
-                            result    a reader type, its line, the
-                                      distribution, Take it again,
-                                      and the type's picture behind
-                                      it, if the page gives it one
+                            empty   nothing worked out yet
+                            result  data-type names the reader type:
+                                    its line, its dot, its picture,
+                                    Readers who landed here and
+                                    Take it again
+                          The result is worked out, drawn and sent to
+                          the service when the card is opened, not
+                          before, so it is only ever counted for a
+                          reader who has seen it.
 
-     how far the reader   reach(), kept with the run as "reached":
-     has got              the furthest step opened. -1 before Start,
-                          0 for question 1, up to the number of
-                          questions for the end card. Every step up
-                          to it is .is-open, and quiz.css shows only
-                          those. Start opens question 1, and a step
-                          after that opens when the reader presses
-                          Next under the one before: never by itself,
-                          and never past a question not yet answered.
-
-     whether this visit   started, in memory only. Until it is true
-     has started          only the way in shows, whatever the run
-                          has reached. Start sets it. So does coming
-                          back by a reload or the Back button to a run
-                          already begun; arriving from a link, even
-                          with answers saved, does not, so the reader
-                          lands on the way in and Start picks up where
-                          they left off.
-
-   A reply from the service is drawn only if the run that asked is
-   still the run (current()), so an answer sent before Take it again,
-   or before the Back button brought this page back, can't draw over
-   what the reader is doing now.
+   The service is only asked about what is on screen: an answer's
+   numbers once its question is open, the result once the end card is.
+   A reply is drawn only if the run that asked is still the run
+   (current()), so one sent before Take it again, or before the Back
+   button brought this page back, can't draw over what the reader is
+   doing now.
    ═══════════════════════════════════════════════ */
 
 (() => {
   const root = document.querySelector('.qz');
   if (!root) return;
-  /* From here quiz.css leaves which steps show to .is-open. The page
-     set .is-js already, before question 1 was drawn; ready tells it
-     this file has run, so it keeps the mark. */
+  /* quiz.css leaves which steps show to .is-open from here. The page
+     set .is-js already, before question 1 was drawn, and takes it off
+     again at load unless data-ready says this file got all the way to
+     its end; that is set last. */
   root.classList.add('is-js');
-  root.dataset.ready = '1';
 
   const QUIZ = root.dataset.quiz;
   const KEY = root.dataset.key || '';
@@ -98,8 +104,6 @@
 
   const CHOICES = ['yes', 'unsure', 'no'];
   const WORDS = { yes: 'Yes', unsure: 'Unsure', no: 'No' };
-  const NUMBERS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six',
-    'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 
   const questions = [...root.querySelectorAll('.qz-q')];
   const ids = new Set(questions.map((q) => q.dataset.q));
@@ -110,8 +114,16 @@
   const types = new Map(
     [...root.querySelectorAll('.qz-types [data-type]')].map((li) => [li.dataset.type, li])
   );
+  const go = root.querySelector('.qz-go');
 
-  const all = NUMBERS[questions.length] || String(questions.length);
+  const resCard = end.querySelector('.qz-res');
+  const resH = end.querySelector('.qz-res-h');
+  const resT = end.querySelector('.qz-res-t');
+  const resLine = end.querySelector('.qz-line');
+  const resDist = end.querySelector('.qz-dist');
+  const again = end.querySelector('.qz-again');
+  /* Where Next on the last question puts the keyboard. */
+  resH.tabIndex = -1;
 
   /* One quiet line for a screen reader, said once per pick: the
      opening line and the record's answer. The explanation itself is
@@ -133,7 +145,9 @@
   let run = '';
   let answers = {};
   let reached = -1;
-  let started = false;
+  let mode = 'intro';
+
+  const isAnswered = (q) => Boolean(answers[q.dataset.q]);
 
   /* Read the run from sessionStorage. An answer is kept only if it is
      to a question on this page and is one of the three choices, so
@@ -150,7 +164,7 @@
     for (const [id, choice] of Object.entries(saved)) {
       if (ids.has(id) && CHOICES.includes(choice)) answers[id] = choice;
     }
-    const answered = questions.map((q) => Boolean(answers[q.dataset.q]));
+    const answered = questions.map(isAnswered);
     const firstOpen = answered.indexOf(false) === -1 ? questions.length : answered.indexOf(false);
     const lastDone = answered.lastIndexOf(true);
     const savedReach = Number.parseInt(store.get('reached'), 10);
@@ -168,22 +182,43 @@
     store.set('reached', '-1');
   }
 
-  /* The one writer for how far the reader has got, and for which
-     steps show: none before this visit has started. */
+  function answer(id, choice) {
+    answers[id] = choice;
+    store.set('answers', JSON.stringify(answers));
+  }
+
+  /* Is what sessionStorage holds the run this page is showing? */
+  const unchanged = () => store.get('run') === run && store.get('answers') === JSON.stringify(answers);
+
+  /* For a reply: is the run that asked still the one on the page? */
+  const current = (asked) => asked === run;
+
+  /* ── what shows ── */
+
+  /* The one writer for which steps are open. Opening a step also asks
+     the service for what it shows (show()). */
+  function paintSteps() {
+    steps.forEach((el, i) => el.classList.toggle('is-open', mode === 'quiz' && i <= reached));
+    if (mode === 'quiz') steps.slice(0, reached + 1).forEach(show);
+    /* Start says where it will take the reader. */
+    go.firstChild.nodeValue = reached < 0 ? 'Start ' : reached >= questions.length ? 'See your result ' : 'Continue ';
+  }
+
   function reach(n) {
     reached = n;
     store.set('reached', String(n));
-    steps.forEach((el, i) => el.classList.toggle('is-open', started && i <= n));
+    paintSteps();
+  }
+
+  function setMode(m) {
+    mode = m;
+    root.dataset.mode = m;
+    paintSteps();
   }
 
   /* How the reader came to this page: 'navigate' for a link, a typed
      address or a bookmark, 'reload', or 'back_forward'. */
   const arrival = () => performance.getEntriesByType?.('navigation')[0]?.type || 'navigate';
-
-  function answer(id, choice) {
-    answers[id] = choice;
-    store.set('answers', JSON.stringify(answers));
-  }
 
   /* Move the page so a step starts just under the nav: a question by
      its "Question 3 of 10" line, the end card by its top. The page's
@@ -193,8 +228,12 @@
     (step === end ? end : step.querySelector('.qz-n')).scrollIntoView({ block: 'start' });
   }
 
-  /* For a reply: is the run that asked still the one on the page? */
-  const current = (asked) => asked === run;
+  /* The keyboard goes with the reader: to a question's answer, or its
+     first answer if it has none yet, or to the reader type's name. */
+  function focusOn(step) {
+    const to = step === end ? resH : (step.querySelector('.qz-r:checked') || step.querySelector('.qz-r'));
+    to.focus({ preventScroll: true });
+  }
 
   /* ── the service ──
      The service decides when there are enough answers to show a split,
@@ -261,11 +300,13 @@
     return p;
   }
 
-  /* The one writer for a numbers panel. */
+  /* The one writer for a numbers panel. 'new' takes it back to never
+     asked, with no data-state at all. */
   function paint(el, state, { title = '', text = '', rows = null, you = null } = {}) {
-    el.dataset.state = state;
-    el.hidden = state === 'off';
-    if (state === 'off') { el.replaceChildren(); return; }
+    if (state === 'new') el.removeAttribute('data-state');
+    else el.dataset.state = state;
+    el.hidden = state === 'off' || state === 'new';
+    if (el.hidden) { el.replaceChildren(); return; }
     const head = document.createElement('p');
     head.className = 'qz-crowd-h';
     head.textContent = title;
@@ -274,6 +315,14 @@
   }
 
   const readers = (n) => `${n.toLocaleString('en-US')} ${n === 1 ? 'reader' : 'readers'} so far`;
+
+  /* What an open step asks the service for, once: an answered
+     question its numbers, the end card its result. */
+  function show(step) {
+    if (step === end) { if (questions.every(isAnswered)) showResult(); return; }
+    const crowd = step.querySelector('.qz-crowd');
+    if (isAnswered(step) && !crowd.dataset.state) count(step, answers[step.dataset.q]);
+  }
 
   /* ── a question ── */
 
@@ -286,7 +335,7 @@
 
   function unlock(q) {
     for (const r of q.querySelectorAll('.qz-r')) { r.checked = false; r.disabled = false; }
-    paint(q.querySelector('.qz-crowd'), 'off');
+    paint(q.querySelector('.qz-crowd'), 'new');
   }
 
   /* Which opening line quiz.css shows for this pick, worked out the
@@ -342,12 +391,11 @@
   for (const q of questions) {
     q.addEventListener('change', (e) => {
       const r = e.target.closest('.qz-r');
-      if (!r || !r.checked || answers[q.dataset.q]) return;
+      if (!r || !r.checked || isAnswered(q)) return;
       answer(q.dataset.q, r.value);
       lock(q, r.value);
       say(q, r.value);
       count(q, r.value);
-      settle();
       /* Up to the top with the question, so the record's answer under
          it and Next at its foot are in view with as little scrolling
          as the screen allows. */
@@ -356,19 +404,15 @@
 
     /* Next opens the step after this one and takes the reader to it.
        The link's own jump is replaced, because the step it points at
-       is not on the page until it is opened. The keyboard goes with
-       the reader: to the answers of the next question, or to the
-       reader type's name on the end card. */
+       is not on the page until it is opened. */
     q.querySelector('.qz-next')?.addEventListener('click', (e) => {
-      if (!answers[q.dataset.q]) return;
+      if (!isAnswered(q)) return;
       e.preventDefault();
-      const i = questions.indexOf(q);
-      const next = steps[i + 1];
-      reach(Math.max(reached, i + 1));
+      const next = steps[questions.indexOf(q) + 1];
+      reach(Math.max(reached, steps.indexOf(next)));
       history.replaceState(null, '', `#${next.id}`);
       goTo(next);
-      const to = next === end ? resH : (next.querySelector('.qz-r:checked') || next.querySelector('.qz-r'));
-      to.focus({ preventScroll: true });
+      focusOn(next);
     });
 
     /* An arrow key in a group of radios moves and ticks at once, and a
@@ -377,7 +421,7 @@
        move, and Space picks, the way a click does. */
     q.addEventListener('keydown', (e) => {
       const r = e.target.closest('.qz-r');
-      if (!r || answers[q.dataset.q]) return;
+      if (!r || isAnswered(q)) return;
       const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
       if (!step || e.altKey || e.ctrlKey || e.metaKey) return;
       e.preventDefault();
@@ -418,67 +462,33 @@
     return { type, tilt };
   }
 
-  const resCard = end.querySelector('.qz-res');
-  const resH = end.querySelector('.qz-res-h');
-  const resT = end.querySelector('.qz-res-t');
-  const resLine = end.querySelector('.qz-line');
-  const resDist = end.querySelector('.qz-dist');
-  const resWait = end.querySelector('.qz-res-wait');
-  const again = end.querySelector('.qz-again');
-  /* Where Next on the last question puts the keyboard. */
-  resH.tabIndex = -1;
-
-  function link(q, text) {
-    const a = document.createElement('a');
-    a.href = `#${q.id}`;
-    a.textContent = text;
-    return a;
-  }
-
-  /* What the wait line says: where to start, or which are left. */
-  function waitText(left) {
-    if (left.length === questions.length) {
-      return [`Answer all ${all} to see your reader type. `, link(left[0], 'Start with question 1'), '.'];
-    }
-    const out = [left.length === 1
-      ? 'Answer the last question to see your reader type. Still to go: '
-      : `Answer all ${all} to see your reader type. Still to go: `];
-    left.forEach((q, i) => {
-      if (i) out.push(i === left.length - 1 ? ' and ' : ', ');
-      out.push(link(q, `question ${questions.indexOf(q) + 1}`));
-    });
-    out.push('.');
-    return out;
-  }
-
   /* The one writer for the end card. Each state sets every part, so
-     nothing from the other state is left showing. */
-  function paintEnd(state, { left = [], type = '', tilt = 0 } = {}) {
-    end.dataset.state = state;
+     nothing from the other is left showing. */
+  function paintEnd(state, { type = '', tilt = 0 } = {}) {
     const done = state === 'result';
+    end.dataset.state = state;
+    if (done) end.dataset.type = type;
+    else end.removeAttribute('data-type');
     resT.hidden = !done;
     resLine.hidden = !done;
-    resWait.hidden = done;
     again.hidden = !done;
-
     resCard.querySelector(':scope > .qz-art')?.remove();
 
     if (!done) {
       resH.textContent = 'Your reader type';
       resT.replaceChildren();
-      resWait.replaceChildren(...waitText(left));
-      paint(resDist, 'off');
+      paint(resDist, 'new');
       return;
     }
 
     const li = types.get(type);
+    const name = li.querySelector('b').textContent;
     /* The type's picture, from the template the page keeps in its
        entry, goes first in the card so it sits behind the words. */
     const art = li.querySelector('template.qz-art-src');
     if (art) resCard.prepend(art.content.cloneNode(true));
-    resH.textContent = li.querySelector('b').textContent;
+    resH.textContent = name;
     resT.replaceChildren(...[...li.querySelector('span').childNodes].map((n) => n.cloneNode(true)));
-    resWait.replaceChildren();
 
     /* The dot, and under it the reader's type and no other: what else
        there is to be is left for them to wonder about. Inked for the
@@ -486,8 +496,17 @@
     const at = 50 + Math.max(-5, Math.min(5, tilt)) * 10;
     resLine.style.setProperty('--at', `${at}%`);
     resLine.dataset.side = tilt <= -MILD ? 'doe' : tilt >= MILD ? 'steven' : '';
-    resLine.querySelector('.qz-line-n span').textContent = li.querySelector('b').textContent;
+    resLine.querySelector('.qz-line-n span').textContent = name;
     resLine.classList.toggle('is-hollow', type === 'fence-sitter' || type === 'made-for-you');
+  }
+
+  /* Worked out, drawn and sent when the end card opens; a card already
+     showing this run's type is left as it is. */
+  function showResult() {
+    const { type, tilt } = typeOf();
+    if (end.dataset.type === type) return;
+    paintEnd('result', { type, tilt });
+    distribution(type);
   }
 
   const LANDED = 'Readers who landed here';
@@ -521,85 +540,73 @@
     });
   }
 
-  /* The type last drawn, so answering doesn't post the result twice. */
-  let shown = null;
-
-  function settle() {
-    const left = questions.filter((q) => !answers[q.dataset.q]);
-    if (left.length) { shown = null; paintEnd('waiting', { left }); return; }
-
-    const { type, tilt } = typeOf();
-    if (shown === type) return;
-    shown = type;
-    paintEnd('result', { type, tilt });
-    distribution(type);
-  }
-
   /* Start opens question 1 and takes the reader to it. Until then the
      way in is all there is, so a reader arriving from a link reads it
      before anything moves. A reader with a run already begun gets back
      everything they had opened, and is taken to the furthest of it. */
-  root.querySelector('.qz-go')?.addEventListener('click', (e) => {
+  go.addEventListener('click', (e) => {
     e.preventDefault();
-    started = true;
-    reach(Math.max(reached, 0));
+    reached = Math.max(reached, 0);
+    store.set('reached', String(reached));
+    setMode('quiz');
     const to = steps[reached];
     history.replaceState(null, '', `#${to.id}`);
     goTo(to);
-    (to === end ? resH : (to.querySelector('.qz-r:checked') || to.querySelector('.qz-r'))).focus({ preventScroll: true });
+    focusOn(to);
   });
 
   again.addEventListener('click', () => {
     newRun();
-    reach(0);
-    shown = null;
+    paintEnd('empty');
     questions.forEach(unlock);
     status.textContent = '';
-    settle();
+    reach(0);
     /* Back up to the first question, which is all that shows now. The
        button has just hidden itself, so the keyboard goes to the first
        answer rather than to the top of the page. */
     history.replaceState(null, '', location.pathname + location.search);
     goTo(questions[0]);
-    questions[0].querySelector('.qz-r').focus({ preventScroll: true });
+    focusOn(questions[0]);
   });
 
   /* ── on the way in ──
      The browser may put back radios it remembers from before a reload
      or from the back button, and those may not be this run's. The run
-     is what counts, so the page is made to agree with it. An answer
-     put back from the run is sent again: the service already has it,
-     so it counts nothing twice, and it sends the totals back to draw.
-
-     A page the Back button brings back whole still has the run it had
-     when it was left, and the tab may have started another since, on
-     a later visit to this page. So the run is read again first. */
-  function restore(fromCache) {
+     is what counts, so the page is made to agree with it, and each
+     panel goes back to never asked: what is on screen asks again (the
+     service already has the answers, so nothing counts twice), and
+     what is not waits until it is. */
+  function restore(arrivedBy) {
     load();
-    /* A page the Back button brings back whole keeps the visit it had. */
-    if (!fromCache) started = reached >= 0 && arrival() !== 'navigate';
-    reach(reached);
     for (const q of questions) {
       const choice = answers[q.dataset.q];
-      if (choice) {
-        lock(q, choice);
-        count(q, choice);
-      } else {
-        unlock(q);
-      }
+      if (choice) lock(q, choice); else unlock(q);
+      paint(q.querySelector('.qz-crowd'), 'new');
     }
-    shown = null;
-    settle();
+    paintEnd('empty');
+    setMode(reached >= 0 && arrivedBy !== 'navigate' ? 'quiz' : 'intro');
   }
 
-  restore();
+  restore(arrival());
+
   /* A link straight to a question, before this visit has started,
-     points at something not on the page yet. The browser may
-     already have moved toward it, so the link's target is dropped and
-     the reader is put back at the top, with the way in. */
-  if (!started && steps.some((el) => `#${el.id}` === location.hash)) {
+     points at something not on the page yet. The browser may already
+     have moved toward it, so the link's target is dropped and the
+     reader is put back at the top, with the way in. */
+  if (mode === 'intro' && steps.some((el) => `#${el.id}` === location.hash)) {
     history.replaceState(null, '', location.pathname + location.search);
     scrollTo({ top: 0, behavior: 'instant' });
   }
-  window.addEventListener('pageshow', (e) => { if (e.persisted) restore(true); });
+
+  /* A page the Back button brings back whole is just as it was left,
+     unless the tab has moved on to another run since, on a later visit
+     to this page. Only then is it brought up to date, keeping what it
+     was showing. */
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && !unchanged()) restore(mode === 'quiz' ? 'back_forward' : 'navigate');
+  });
+
+  /* Last, so the page only keeps quiz.js in charge if all of the above
+     ran. */
+  root.dataset.ready = '1';
 })();
