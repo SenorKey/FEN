@@ -108,7 +108,7 @@
   text-transform: uppercase;
   text-decoration: none;
   color: var(--tl-card);
-  transition: background-color 0.15s, translate 0.15s;
+  transition: background-color 0.15s;
 }
 
 .qz-go { margin: 22px -30px 0; }
@@ -235,8 +235,11 @@
   background: var(--qz-line);
 }
 
+/* Only an answer that can still be picked lifts. Once quiz.js has
+   locked a question the other two are disabled, and a lift would say
+   they can still be pressed. */
 @media (hover: hover) {
-  .qz-opt:hover { box-shadow: var(--tl-lift-up); border-color: var(--ink); }
+  .qz-r:enabled + .qz-opt:hover { box-shadow: var(--tl-lift-up); border-color: var(--ink); }
 }
 
 .qz-r:focus-visible + .qz-opt { outline: 2px solid var(--court); outline-offset: 3px; }
