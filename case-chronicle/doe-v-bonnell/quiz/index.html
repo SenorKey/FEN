@@ -17,7 +17,7 @@
     <link rel="preload" href="/assets/fonts/Fraunces-var.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="stylesheet" href="/case-chronicle/chronicle.css?v=20261126a">
-    <link rel="stylesheet" href="/case-chronicle/quiz.css?v=20261127a">
+    <link rel="stylesheet" href="/case-chronicle/quiz.css?v=20261127e">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,9 +112,12 @@
              opens the record's answer, and quiz.css does the rest.
 
              The quiz grows down the page: answering a question opens
-             its explanation and puts the next question under it, and
-             nothing answered is taken away. Next is an ordinary link
-             (#q2, #q3, ...) that only scrolls down to it.
+             its explanation, and nothing answered is taken away. With
+             quiz.js the first question opens only when Start is
+             pressed, the next one only when Next is, and at the end the
+             reader type likewise, and the page moves to each.
+             Without it, Next is an ordinary link (#q2, #q3, ...) to a
+             question that opened as soon as the one before was answered.
 
              Per question, in its attributes:
                data-q          the id the server counts answers under.
@@ -143,6 +146,12 @@
             <div class="wrap">
                 <div class="qz" data-quiz="doe-v-bonnell" data-key="2026-10-07"
                     data-strong="4" data-mild="2" data-knower="8" data-fence="3">
+                    <!-- Marks the quiz as run by quiz.js before question 1
+                         is drawn, so it never flashes up before Start is
+                         pressed. If quiz.js has not run by the time the
+                         page has loaded, the mark comes off and the quiz
+                         works the way it does with no JavaScript. -->
+                    <script>(function (q) { q.classList.add('is-js'); addEventListener('load', function () { if (!q.dataset.ready) q.classList.remove('is-js'); }); })(document.currentScript.parentElement);</script>
 
                     <div class="qz-intro">
                         <article class="cf-card cf-c qz-intro-card">
@@ -541,11 +550,15 @@
                          the middle with the court case knower, and are
                          told apart by how the answers got there. quiz.js
                          reads the names and lines from here, so this is
-                         the one place to reword them, plus the five
-                         names on the line itself.
+                         the one place to reword them.
+
+                         The reader is only ever shown the type they got:
+                         its name under their dot on the line, and its
+                         share of finished quizzes. Not knowing what else
+                         there is to get is part of it.
 
                          A data-type is the id the server counts under
-                         (QUIZZES in suggest.py) and the id quiz.js hands
+                         (quizzes.py beside suggest.py) and the id quiz.js hands
                          out, so changing one means changing all three,
                          and moving quiz.js's ?v= so no reader runs an old
                          copy against this list. A name alone can change
@@ -557,13 +570,7 @@
                             <p class="qz-res-t" hidden></p>
                             <div class="qz-line" hidden aria-hidden="true">
                                 <div class="qz-line-bar"><span class="qz-line-dot"></span></div>
-                                <ol class="qz-line-l">
-                                    <li>Burnt Bridge</li>
-                                    <li>Doe fan</li>
-                                    <li>Court case knower</li>
-                                    <li>Destiny fan</li>
-                                    <li>DGGer</li>
-                                </ol>
+                                <p class="qz-line-n"><span></span></p>
                             </div>
                             <div class="qz-dist" hidden></div>
                             <p class="qz-res-wait" hidden></p>
@@ -776,7 +783,7 @@
     </main>
 
     <script src="/case-chronicle/chronicle.js?v=20261126a" defer></script>
-    <script src="/case-chronicle/quiz.js?v=20261127b" defer></script>
+    <script src="/case-chronicle/quiz.js?v=20261127g" defer></script>
 </body>
 
 </html>

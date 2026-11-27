@@ -13,8 +13,9 @@
      .qz-q[data-record=…]           what the record shows on it
 
    so picking an answer opens the record's answer and the line that
-   fits the pick, and puts the next question under it. The page only
-   ever grows: nothing is swapped out, and Next scrolls down.
+   fits the pick. The page only ever grows: nothing is swapped out.
+   With quiz.js the next question opens when Next is pressed; without
+   it, it opens under the answer straight away and Next scrolls to it.
    A browser too old for :has() gets every question and every
    explanation written out at once, which reads as a plain list.
 
@@ -482,24 +483,41 @@
    earned it, so their dot is hollow. */
 .qz-line.is-hollow .qz-line-dot { background: var(--tl-card); }
 
-.qz-line-l {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0 8px;
+/* The reader's own type, named under their dot and nowhere else on the
+   line: what the other types are is left a mystery. --at is set on
+   .qz-line by quiz.js and read by the dot and the name alike.
+
+   The name starts at the dot and is pulled back by the same share of
+   its own width as the dot is along the line, so it sits centred under
+   a dot in the middle and slides inward toward either end, never past
+   the end of the line. In the ink of the side the reader leans to. */
+.qz-line-n {
+  position: relative;
+  height: 1.3em;
   margin-top: 12px;
-  list-style: none;
   font-family: var(--mono);
-  font-size: 0.58rem;
+  font-size: 0.62rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.3;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--ink-2);
 }
 
-.qz-line-l li:first-child { text-align: left; color: var(--tl-p-ink); }
-.qz-line-l li:last-child { text-align: right; color: var(--tl-d-ink); }
+.qz-line-n span {
+  position: absolute;
+  top: 0;
+  left: var(--at, 50%);
+  translate: calc(var(--at, 50%) * -1) 0;
+  white-space: nowrap;
+  transition: left 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), translate 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
 
-/* How everyone else landed, one row per type. */
+.qz-line[data-side="doe"] .qz-line-n { color: var(--tl-p-ink); }
+.qz-line[data-side="steven"] .qz-line-n { color: var(--tl-d-ink); }
+
+/* How the reader's own type is shared among finished quizzes: one row,
+   theirs. */
 .qz-dist {
   margin: 24px auto 0;
   max-width: 460px;
@@ -594,22 +612,32 @@
   .qz-q[data-record="open"]:has(.qz-r[value="no"]:checked) .qz-v-open-no { display: block; }
 
   /* ── which questions show ──
-     The quiz grows down the page. The way in and the first question
-     show from the start, and answering a question opens its
-     explanation and puts the next question under it, so everything
-     already answered stays where it was. Next only scrolls down to
-     what is already there. The end shows once the last is answered. */
+     The quiz grows down the page, and nothing answered is ever taken
+     away. The way in shows from the start.
+
+     With quiz.js (.qz.is-js), the first question shows only once the
+     reader presses Start, each next one only once they press Next, and
+     the reader type only once they press it under the last: quiz.js
+     marks each one it has opened .is-open. Without it, the first
+     question shows from the start, answering a question puts the next
+     one under it straight away, and Next only scrolls down to it. */
 
   .qz-q,
   .qz-end { display: none; }
 
-  .qz :is(
-    .qz-q:first-of-type,
+  .qz:not(.is-js) .qz-q:first-of-type,
+  .qz.is-js :is(.qz-q, .qz-end).is-open,
+  .qz:not(.is-js) :is(
     .qz-q:has(.qz-r:checked),
     .qz-q:has(.qz-r:checked) + .qz-q,
     .qz-q:has(.qz-r:checked) + .qz-end
   ) { display: block; }
 }
+
+/* Where the page stops when it moves to a question: its "Question 3
+   of 10" line just under the nav, so the question, the answers and as
+   much of the explanation as fits are all in view. */
+.qz-n { scroll-margin-top: 72px; }
 
 /* ── narrow ── */
 
@@ -627,13 +655,14 @@
 
   .qz-opt { padding: 14px 4px 13px; font-size: 0.74rem; letter-spacing: 0.1em; }
 
-  .qz-line-l { font-size: 0.52rem; letter-spacing: 0.04em; }
+  .qz-line-n { font-size: 0.56rem; letter-spacing: 0.05em; }
   .qz-dist .qz-bar { grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) 3em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .qz-bar-f,
-  .qz-line-dot { transition: none; }
+  .qz-line-dot,
+  .qz-line-n span { transition: none; }
 }
 
 @media print {

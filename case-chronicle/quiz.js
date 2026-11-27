@@ -9,7 +9,8 @@
        behind /api/suggest/quiz/answer, which counts it and sends the
        totals back, and those are drawn under the explanation
      - the reader type at the end, worked out from the picks against
-       what the record shows, and how everyone else's came out
+       what the record shows, and how many readers came out the
+       same (the other types are never named)
 
    It also locks a question once its answer has been sent, so the
    numbers count first answers rather than second thoughts.
@@ -34,7 +35,7 @@
                           two variables below are a copy of it.
 
      a numbers panel      paint(). Both the panel under an answer
-     (.qz-crowd, and      and How everyone landed. data-state says
+     (.qz-crowd, and      and Readers who landed here. data-state says
       .qz-dist)           which it is in:
                             off       hidden, nothing in it
                             counting  "Counting…" while the reply
@@ -49,6 +50,25 @@
                             result    a reader type, its line, the
                                       distribution, and Take it again
 
+     how far the reader   reach(), kept with the run as "reached":
+     has got              the furthest step opened. -1 before Start,
+                          0 for question 1, up to the number of
+                          questions for the end card. Every step up
+                          to it is .is-open, and quiz.css shows only
+                          those. Start opens question 1, and a step
+                          after that opens when the reader presses
+                          Next under the one before: never by itself,
+                          and never past a question not yet answered.
+
+     whether this visit   started, in memory only. Until it is true
+     has started          only the way in shows, whatever the run
+                          has reached. Start sets it. So does coming
+                          back by a reload or the Back button to a run
+                          already begun; arriving from a link, even
+                          with answers saved, does not, so the reader
+                          lands on the way in and Start picks up where
+                          they left off.
+
    A reply from the service is drawn only if the run that asked is
    still the run (current()), so an answer sent before Take it again,
    or before the Back button brought this page back, can't draw over
@@ -58,6 +78,11 @@
 (() => {
   const root = document.querySelector('.qz');
   if (!root) return;
+  /* From here quiz.css leaves which steps show to .is-open. The page
+     set .is-js already, before question 1 was drawn; ready tells it
+     this file has run, so it keeps the mark. */
+  root.classList.add('is-js');
+  root.dataset.ready = '1';
 
   const QUIZ = root.dataset.quiz;
   const KEY = root.dataset.key || '';
@@ -77,6 +102,9 @@
   const questions = [...root.querySelectorAll('.qz-q')];
   const ids = new Set(questions.map((q) => q.dataset.q));
   const end = root.querySelector('.qz-end');
+  /* The steps the reader goes through, in order: each question, then
+     the end card. */
+  const steps = [...questions, end];
   const types = new Map(
     [...root.querySelectorAll('.qz-types [data-type]')].map((li) => [li.dataset.type, li])
   );
@@ -102,11 +130,15 @@
 
   let run = '';
   let answers = {};
+  let reached = -1;
+  let started = false;
 
   /* Read the run from sessionStorage. An answer is kept only if it is
      to a question on this page and is one of the three choices, so
      something left from an older version of the page can't lock a
-     question nobody has answered. */
+     question nobody has answered. How far the reader had got is kept
+     between every question answered and the first one not, whatever
+     was saved. */
   function load() {
     run = store.get('run') || '';
     if (!/^[0-9a-f]{24}$/.test(run)) { newRun(); return; }
@@ -116,6 +148,11 @@
     for (const [id, choice] of Object.entries(saved)) {
       if (ids.has(id) && CHOICES.includes(choice)) answers[id] = choice;
     }
+    const answered = questions.map((q) => Boolean(answers[q.dataset.q]));
+    const firstOpen = answered.indexOf(false) === -1 ? questions.length : answered.indexOf(false);
+    const lastDone = answered.lastIndexOf(true);
+    const savedReach = Number.parseInt(store.get('reached'), 10);
+    reached = Math.min(Math.max(Number.isNaN(savedReach) ? -1 : savedReach, lastDone), firstOpen);
   }
 
   function newRun() {
@@ -123,13 +160,35 @@
     crypto.getRandomValues(b);
     run = [...b].map((x) => x.toString(16).padStart(2, '0')).join('');
     answers = {};
+    reached = -1;
     store.set('run', run);
     store.set('answers', '{}');
+    store.set('reached', '-1');
   }
+
+  /* The one writer for how far the reader has got, and for which
+     steps show: none before this visit has started. */
+  function reach(n) {
+    reached = n;
+    store.set('reached', String(n));
+    steps.forEach((el, i) => el.classList.toggle('is-open', started && i <= n));
+  }
+
+  /* How the reader came to this page: 'navigate' for a link, a typed
+     address or a bookmark, 'reload', or 'back_forward'. */
+  const arrival = () => performance.getEntriesByType?.('navigation')[0]?.type || 'navigate';
 
   function answer(id, choice) {
     answers[id] = choice;
     store.set('answers', JSON.stringify(answers));
+  }
+
+  /* Move the page so a step starts just under the nav: a question by
+     its "Question 3 of 10" line, the end card by its top. The page's
+     own scroll-behavior makes it glide, or jump for a reader who has
+     asked for less motion. */
+  function goTo(step) {
+    (step === end ? end : step.querySelector('.qz-n')).scrollIntoView({ block: 'start' });
   }
 
   /* For a reply: is the run that asked still the one on the page? */
@@ -287,6 +346,27 @@
       say(q, r.value);
       count(q, r.value);
       settle();
+      /* Up to the top with the question, so the record's answer under
+         it and Next at its foot are in view with as little scrolling
+         as the screen allows. */
+      goTo(q);
+    });
+
+    /* Next opens the step after this one and takes the reader to it.
+       The link's own jump is replaced, because the step it points at
+       is not on the page until it is opened. The keyboard goes with
+       the reader: to the answers of the next question, or to the
+       reader type's name on the end card. */
+    q.querySelector('.qz-next')?.addEventListener('click', (e) => {
+      if (!answers[q.dataset.q]) return;
+      e.preventDefault();
+      const i = questions.indexOf(q);
+      const next = steps[i + 1];
+      reach(Math.max(reached, i + 1));
+      history.replaceState(null, '', `#${next.id}`);
+      goTo(next);
+      const to = next === end ? resH : (next.querySelector('.qz-r:checked') || next.querySelector('.qz-r'));
+      to.focus({ preventScroll: true });
     });
 
     /* An arrow key in a group of radios moves and ticks at once, and a
@@ -342,6 +422,8 @@
   const resDist = end.querySelector('.qz-dist');
   const resWait = end.querySelector('.qz-res-wait');
   const again = end.querySelector('.qz-again');
+  /* Where Next on the last question puts the keyboard. */
+  resH.tabIndex = -1;
 
   function link(q, text) {
     const a = document.createElement('a');
@@ -389,12 +471,17 @@
     resT.replaceChildren(...[...li.querySelector('span').childNodes].map((n) => n.cloneNode(true)));
     resWait.replaceChildren();
 
+    /* The dot, and under it the reader's type and no other: what else
+       there is to be is left for them to wonder about. Inked for the
+       side they lean to, if they lean enough to be called for it. */
     const at = 50 + Math.max(-5, Math.min(5, tilt)) * 10;
-    resLine.querySelector('.qz-line-dot').style.setProperty('--at', `${at}%`);
+    resLine.style.setProperty('--at', `${at}%`);
+    resLine.dataset.side = tilt <= -MILD ? 'doe' : tilt >= MILD ? 'steven' : '';
+    resLine.querySelector('.qz-line-n span').textContent = li.querySelector('b').textContent;
     resLine.classList.toggle('is-hollow', type === 'fence-sitter' || type === 'made-for-you');
   }
 
-  const LANDED = 'How everyone landed';
+  const LANDED = 'Readers who landed here';
 
   async function distribution(type) {
     const asked = run;
@@ -411,16 +498,17 @@
 
     const total = reply.total || 0;
     if (!reply.counts) {
-      paint(resDist, 'few', { title: LANDED, text: 'Not enough finished quizzes yet to show how everyone else landed.' });
+      paint(resDist, 'few', { title: LANDED, text: 'Not enough finished quizzes yet to say how many readers landed here.' });
       return;
     }
-    const keys = [...types.keys()];
-    const pct = shares(reply.counts, keys);
+    /* One row, the reader's own: its share of every finished quiz. The
+       other types stay unnamed, as on the line. */
+    const pct = shares(reply.counts, [...types.keys()]);
     paint(resDist, 'split', {
       title: LANDED,
-      rows: keys.map((k) => ({ key: k, label: types.get(k).querySelector('b').textContent, pct: pct[k] })),
+      rows: [{ key: type, label: types.get(type).querySelector('b').textContent, pct: pct[type] }],
       you: type,
-      text: `${total.toLocaleString('en-US')} finished ${total === 1 ? 'quiz' : 'quizzes'} so far`,
+      text: `of ${total.toLocaleString('en-US')} finished ${total === 1 ? 'quiz' : 'quizzes'} so far`,
     });
   }
 
@@ -438,19 +526,32 @@
     distribution(type);
   }
 
+  /* Start opens question 1 and takes the reader to it. Until then the
+     way in is all there is, so a reader arriving from a link reads it
+     before anything moves. A reader with a run already begun gets back
+     everything they had opened, and is taken to the furthest of it. */
+  root.querySelector('.qz-go')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    started = true;
+    reach(Math.max(reached, 0));
+    const to = steps[reached];
+    history.replaceState(null, '', `#${to.id}`);
+    goTo(to);
+    (to === end ? resH : (to.querySelector('.qz-r:checked') || to.querySelector('.qz-r'))).focus({ preventScroll: true });
+  });
+
   again.addEventListener('click', () => {
     newRun();
+    reach(0);
     shown = null;
     questions.forEach(unlock);
     status.textContent = '';
     settle();
     /* Back up to the first question, which is all that shows now. The
-       address is cleared rather than set to #q1, which it may already
-       be, and setting it again would not move the page. The button
-       has just hidden itself, so the keyboard goes to the first
+       button has just hidden itself, so the keyboard goes to the first
        answer rather than to the top of the page. */
     history.replaceState(null, '', location.pathname + location.search);
-    questions[0].scrollIntoView({ block: 'start' });
+    goTo(questions[0]);
     questions[0].querySelector('.qz-r').focus({ preventScroll: true });
   });
 
@@ -464,8 +565,11 @@
      A page the Back button brings back whole still has the run it had
      when it was left, and the tab may have started another since, on
      a later visit to this page. So the run is read again first. */
-  function restore() {
+  function restore(fromCache) {
     load();
+    /* A page the Back button brings back whole keeps the visit it had. */
+    if (!fromCache) started = reached >= 0 && arrival() !== 'navigate';
+    reach(reached);
     for (const q of questions) {
       const choice = answers[q.dataset.q];
       if (choice) {
@@ -480,5 +584,13 @@
   }
 
   restore();
-  window.addEventListener('pageshow', (e) => { if (e.persisted) restore(); });
+  /* A link straight to a question, before this visit has started,
+     points at something not on the page yet. The browser may
+     already have moved toward it, so the link's target is dropped and
+     the reader is put back at the top, with the way in. */
+  if (!started && steps.some((el) => `#${el.id}` === location.hash)) {
+    history.replaceState(null, '', location.pathname + location.search);
+    scrollTo({ top: 0, behavior: 'instant' });
+  }
+  window.addEventListener('pageshow', (e) => { if (e.persisted) restore(true); });
 })();
